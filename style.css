@@ -1122,6 +1122,17 @@ header p {
   color: #ffffff;
 }
 
+/* Étiquette « portée » en mode toucher-toucher. Volontairement très marquée :
+   c'est le seul indice qui dit à l'élève qu'un mot attend d'être posé, et il
+   doit rester lisible du coin de l'œil pendant qu'il vise une zone. */
+.dnd-item.selected {
+  background: var(--color-current);
+  color: #ffffff;
+  border-color: var(--color-current);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 20px rgba(var(--color-current-rgb), 0.35);
+}
+
 .dnd-item.dragging {
   opacity: 0.5;
   cursor: grabbing;
@@ -1163,6 +1174,21 @@ header p {
   padding: 8px 0;
 }
 
+/* --dnd-board-w porte la largeur réelle de l'image, mesurée en JS
+   (dndSyncBoardMetrics). Les zones de dépôt s'y réfèrent pour suivre l'image
+   quand elle rétrécit : figées à 150px, elles occupaient 15 % de l'image du jeu 4
+   mais 26 % de celle du jeu 2, et devenaient ingérables dès que la barre de
+   Chrome réduisait la hauteur de fenêtre.
+   Surtout pas container-type ici : la containment interdirait au plateau de
+   tirer sa largeur de l'image, et il s'effondrerait à zéro. */
+/* Empêche la page de défiler derrière une modale ouverte, sur l'accueil comme
+   sur les pages Practice : au doigt, le geste de défilement partait sur
+   l'arrière-plan dès qu'on touchait à côté du contenu, ce qui donnait
+   l'impression que la modale décrochait. */
+body.modal-is-open {
+  overflow: hidden;
+}
+
 .dnd-board {
   position: relative;
   display: inline-block;
@@ -1187,8 +1213,11 @@ header p {
 .dnd-zone {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 150px;
-  height: 48px;
+  /* Proportionnel à l'image, avec un plancher pour rester touchable au doigt
+     et un plafond pour ne pas devenir énorme sur grand écran. La valeur de repli
+     sert le temps que la mesure arrive. */
+  width: clamp(88px, calc(var(--dnd-board-w, 900px) * 0.17), 175px);
+  height: clamp(30px, calc(var(--dnd-board-w, 900px) * 0.055), 52px);
   background: transparent;
   border: none;
   border-radius: 12px;
@@ -1225,7 +1254,9 @@ header p {
 .dnd-zone.correct .dnd-zone-text {
   font-weight: 700;
   color: var(--color-emerald);
-  font-size: 0.95rem;
+  /* Suit la zone, sinon un texte figé déborderait d'une zone rétrécie. */
+  font-size: clamp(0.62rem, calc(var(--dnd-board-w, 900px) * 0.017), 0.95rem);
+  line-height: 1.15;
   padding: 0 !important;
   margin: 0 !important;
   display: inline-block;
@@ -1538,7 +1569,9 @@ header p {
 /* Card item (3D flip effect) */
 .memory-card {
   perspective: 1000px;
-  width: 135px;
+  /* Taille calculée par memorySyncCardSize selon la place disponible ; 135px
+     n'est plus qu'un repli avant ce calcul. */
+  width: var(--memory-card-size, 135px);
   aspect-ratio: 1 / 1;
   cursor: pointer;
   user-select: none;
@@ -1784,7 +1817,10 @@ header p {
   display: flex;
   flex-direction: column;
   padding: 16px 24px;
-  overflow: hidden;
+  /* Filet de sécurité : avec hidden, un écran trop bas pour satisfaire les
+     planchers des bacs et de la pioche coupait le contenu sans le moindre
+     signal — un bouton pouvait disparaître. Un défilement est le moindre mal. */
+  overflow-y: auto;
   gap: 16px;
 }
 
@@ -1840,7 +1876,13 @@ header p {
   position: relative;
   display: flex;
   flex: 1;
-  min-height: 0;
+  /* Plancher, et non 0 : avec min-height:0 les bacs se laissaient écraser
+     jusqu'à disparaître, absorbant toute la compression avant que la pioche ne
+     cède le moindre pixel. L'élève ne voyait donc plus où sa carte atterrissait.
+     Ce plancher inverse l'ordre : c'est la pioche qui rétrécit d'abord.
+     Sans risque pour un grand nombre de cartes, chaque bac ayant son propre
+     défilement interne. */
+  min-height: 170px;
 }
 
 /* Colonnes / Bacs de Tri (Upper Zone) */
@@ -1904,6 +1946,20 @@ header p {
 }
 
 /* Elements inside Columns */
+/* Carte « portée » en mode toucher-toucher. Très marquée à dessein : c'est le
+   seul indice qui dit à l'élève qu'une carte attend d'être déplacée. */
+.sorting-bin-item.selected {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: #ffffff;
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(var(--color-current-rgb), 0.35);
+}
+
+.sorting-bin-item.selected span {
+  color: #ffffff;
+}
+
 .sorting-bin-item {
   position: relative;
   padding: 6px 6px 6px 16px;
@@ -2036,20 +2092,39 @@ header p {
 
 /* Pioche / Deck (Central Zone) */
 .sorting-deck-container {
-  height: 190px;
-  flex-shrink: 0;
+  /* Base de 190px mais compressible : figée, elle ne rendait jamais de place et
+     les bacs se retrouvaient écrasés à quelques pixels sur un écran bas —
+     l'élève ne voyait plus où sa carte allait atterrir. Le plancher garde la
+     carte active confortablement lisible. */
+  /* La pioche épouse sa carte au lieu de lui imposer une hauteur : une carte
+     texte de trois lignes débordait sinon par le haut et par le bas. Elle ne se
+     comprime pas non plus — mieux vaut un léger défilement de la modale, qui
+     reste atteignable, qu'un texte tronqué.
+     Le plancher évite qu'une carte d'un seul mot ne réduise la bande à rien. */
+  flex: 0 0 auto;
+  min-height: 104px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f8fafc;
   border-radius: 18px;
   border: 1px solid rgba(17, 36, 72, 0.06);
-  padding: 12px;
+  /* 6px et non 12 : chaque pixel rendu ici agrandit d'autant l'image. */
+  padding: 6px;
+  /* La bande grise cesse de courir sur toute la largeur pour une seule carte. */
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
 }
 
 .sorting-deck {
   width: 100%;
   max-width: 260px;
+  /* Conteneur intermédiaire : il relaie la hauteur de la pioche à la carte tout
+     en gardant une carte texte compacte et centrée. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sorting-card {
@@ -2077,19 +2152,42 @@ header p {
   white-space: normal;
 }
 
+/* Carte image : elle prend toute la hauteur de la pioche, ce qui donne à
+   l'image un cadre de hauteur connue. Sans ça, l'image restait bloquée à 140px
+   et débordait de la pioche dès que celle-ci se comprimait. Réservé aux cartes
+   image, une carte texte devant rester compacte. */
+.sorting-card.has-image {
+  /* Marges réduites au strict nécessaire : chaque pixel rendu ici agrandit
+     d'autant l'image. */
+  padding: 5px;
+  cursor: zoom-in;
+}
+
+/* Hauteur fixe plutôt qu'un pourcentage : la pioche étant désormais dimensionnée
+   par sa carte, un pourcentage serait circulaire et l'image s'effondrerait.
+   150px tient dans la bande sans la faire déborder, et reste nettement plus
+   grand qu'avant — le clic plein écran couvre le reste. */
 .sorting-card img {
   max-width: 100%;
-  max-height: 140px;
+  max-height: 150px;
   object-fit: contain;
   border-radius: 8px;
 }
 
 /* Choice Buttons Zone */
+/* Colonnes de largeur égale, calée sur le libellé le plus long : « Cause » à
+   côté de « Consequence » donnait un centrage bancal.
+   Grille plutôt que flex, et largeur au contenu : combinés, ils font que chaque
+   colonne adopte la largeur du plus large des libellés, sans avoir à figer une
+   valeur — le nombre de catégories varie d'un jeu à l'autre. */
 .sorting-choice-buttons {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   gap: 12px;
-  justify-content: center;
-  margin-bottom: 4px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 4px;
 }
 
 .sorting-choice-btn {

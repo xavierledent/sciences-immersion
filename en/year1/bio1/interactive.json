@@ -2,7 +2,6 @@
   "multipleChoice": [
     {
       "quizTitle": "Ecosystem Basics",
-      "instructions": "Read each question carefully and select the best answer. You can only choose one option per question.",
       "questions": [
         {
           "question": "What is the correct ecological formula for an ecosystem?",
@@ -80,7 +79,6 @@
     },
     {
       "quizTitle": "Ecosystem Dynamics",
-      "instructions": "Read each question carefully and select the best answer. You can only choose one option per question.",
       "questions": [
         {
           "question": "Why is a complex food web much more stable than a single, straight food chain?",

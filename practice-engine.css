@@ -63,6 +63,9 @@
       padding: 0 25px 25px;
     }
 
+    /* body.modal-is-open est défini dans style.css : la règle est partagée avec
+       la modale de sélection de l'accueil. */
+
     .modal-actions-group {
       display: flex;
       align-items: center;
@@ -764,8 +767,62 @@
        screen on click. Deliberately in px, never vh: vh units are zoom-invariant,
        so a vh-sized diagram would stay the same physical size when a student
        zooms in to read small labels, while everything around it grew. */
+    /* ===== Image élastique =====
+       Plutôt qu'une hauteur figée (230px) ou une fraction d'écran arbitraire
+       (30vh), l'image absorbe l'espace qui reste une fois que la barre a/b/c,
+       l'énoncé, la zone de réponse et les boutons ont pris le leur. Elle s'adapte
+       donc à la barre de Chrome sur Chromebook, à la présence ou non de
+       sous-questions et à la longueur de l'énoncé — ce qu'une valeur fixe ne
+       peut pas faire.
+       Contrepartie assumée : le zoom navigateur ne l'agrandit plus. La lecture
+       fine passe par le clic plein écran (2,5×), qui existe pour ça. */
+    #exercise-modal.has-answer-box .modal-body {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    /* Seule l'image doit céder du terrain : sans ceci, flex rétrécirait aussi
+       les cadres de texte et la zone de réponse. */
+    #exercise-modal.has-answer-box .modal-body > * {
+      flex-shrink: 0;
+    }
+
+    /* Conteneur unique de l'image : il porte à la fois l'élasticité et l'ancrage
+       de l'infobulle. Regroupé ici volontairement — deux règles séparées pour ce
+       même sélecteur finiraient par se contredire sans qu'on s'en aperçoive.
+       Le plancher de 60px n'est pas un choix esthétique mais un garde-fou : il
+       évite que l'image ne disparaisse totalement sur un écran très bas. */
+    #exercise-modal.has-answer-box .exercise-image-wrap {
+      /* Le conteneur épouse simplement l'image : c'est syncExerciseImageHeight,
+         en JS, qui calcule la place disponible et l'impose à l'image en pixels.
+         Plus d'étirement ni d'object-fit ici — ils donnaient à l'image une boîte
+         plus grande qu'elle, dont seuls les coins transparents étaient
+         arrondis. */
+      /* Pas de rétrécissement : la hauteur est décidée en JS, le conteneur doit
+         simplement épouser l'image. Autoriser flex à le comprimer le rendait
+         plus court qu'elle, et comme il la centre, elle débordait en haut comme
+         en bas et se faisait couper par le bord de la modale.
+         Si le calcul est légèrement optimiste, on obtient un petit défilement —
+         nettement préférable à une image tronquée. */
+      flex: 0 0 auto;
+      min-height: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      margin: 0 auto 16px;
+    }
+
+    /* Dimensions libres : le plafond de hauteur est posé en JS. La largeur suit
+       alors les proportions, la boîte épouse exactement l'image, et l'arrondi
+       porte donc sur ses vrais coins. */
     #exercise-modal.has-answer-box .exercise-image {
-      max-height: 230px;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      min-height: 0;
     }
 
     #exercise-modal.has-answer-box .exercise-text,
@@ -799,15 +856,6 @@
       cursor: zoom-in;
     }
 
-    /* Wrapper hugs the picture so the hint anchors to the image itself rather
-       than to the full body width. */
-    #exercise-modal.has-answer-box .exercise-image-wrap {
-      position: relative;
-      width: fit-content;
-      max-width: 100%;
-      margin: 0 auto 16px;
-    }
-
     #exercise-modal.has-answer-box .exercise-image-wrap .exercise-image {
       margin: 0;
     }
@@ -815,7 +863,9 @@
     /* Same look as the fill-in-the-blanks word glosses (chapter colour, same
        radius, shadow and fade) — but anchored just inside the bottom of the
        picture instead of above it, since the image sits at the very top of a
-       scrollable body where a tooltip above would be clipped. */
+       scrollable body where a tooltip above would be clipped.
+       Depuis que le conteneur occupe toute la largeur (voir plus haut), l'info-
+       bulle est centrée sur cette largeur et non plus collée à l'image. */
     #exercise-modal.has-answer-box .exercise-image-wrap[data-hint]::after {
       content: attr(data-hint);
       position: absolute;
@@ -1142,6 +1192,30 @@
 
     .qcm-modal-card.qcm-has-image .qcm-question-image {
       margin: 4px auto;
+    }
+
+    /* ===== Image élastique du QCM =====
+       Même principe que dans la modale d'exercice : la zone de contenu devient
+       une pile verticale où seule l'image cède du terrain, pour que la question
+       et ses options restent visibles sans défilement. Le défilement est
+       conservé comme filet si un énoncé très long dépasse malgré tout. */
+    .qcm-scroll-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .qcm-scroll-content > * {
+      flex-shrink: 0;
+    }
+
+    .qcm-scroll-content > .qcm-question-image {
+      flex: 0 1 auto;
+      min-height: 70px;
+    }
+
+    /* Le clic ouvre la visionneuse plein écran (voir renderQCM). */
+    .qcm-question-image {
+      cursor: zoom-in;
     }
 
     .qcm-modal-card.qcm-has-image .qcm-question {

@@ -2,7 +2,6 @@
   "multipleChoice": [
     {
       "quizTitle": "Ecosysteem basisbegrippen",
-      "instructions": "Lees elke vraag aandachtig en kies het beste antwoord. Je kunt maar één optie per vraag kiezen.",
       "questions": [
         {
           "question": "Wat is de juiste ecologische formule voor een ecosysteem?",
@@ -80,7 +79,6 @@
     },
     {
       "quizTitle": "Ecosysteemdynamiek",
-      "instructions": "Lees elke vraag aandachtig en kies het beste antwoord. Je kunt maar één optie per vraag kiezen.",
       "questions": [
         {
           "question": "Waarom is een complex voedselweb veel stabieler dan een enkele, rechte voedselketen?",

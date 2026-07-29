@@ -101,6 +101,11 @@
   min-height: 280px;
   perspective: 1200px;
   cursor: pointer;
+  /* La carte porte role="button" : sur écran tactile, le navigateur la couvre
+     donc d'un voile gris à chaque appui, y compris quand on vise le bouton
+     Listen à l'intérieur. On neutralise ce voile et on donne au bouton son
+     propre retour visuel, localisé (voir .flashcard-listen-btn:active). */
+  -webkit-tap-highlight-color: transparent;
   border: 3px solid rgba(31, 181, 214, 0.22);
   border-radius: 28px;
   overflow: hidden;
@@ -200,6 +205,15 @@
   background: rgba(var(--color-current-rgb), 0.08);
   outline: none;
   transform: translateY(-1px);
+}
+
+/* Remplace le voile gris supprimé plus haut : un retour immédiat et limité au
+   bouton, utile au tactile où il n'y a pas de survol et où la synthèse vocale
+   met un instant à démarrer. */
+.flashcard-listen-btn:active {
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.22);
+  transform: scale(0.95);
 }
 
 .flashcard-label {

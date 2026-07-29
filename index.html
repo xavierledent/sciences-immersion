@@ -295,23 +295,26 @@
         });
 
         modalOverlay.classList.add('modal-open');
+        // Empêche la page de défiler derrière la modale, comme sur les pages
+        // Practice.
+        document.body.classList.add('modal-is-open');
       }
 
       function closeChapterMenu() {
         modalOverlay.classList.remove('modal-open');
+        document.body.classList.remove('modal-is-open');
       }
 
+      // Fermeture par la croix ou par Échap uniquement : le clic à côté a été
+      // retiré, un appui malheureux renvoyait l'élève à l'accueil.
       modalClose.addEventListener('click', event => {
         event.stopPropagation();
         closeChapterMenu();
       });
-      modalOverlay.addEventListener('click', event => {
-        if (event.target === modalOverlay) {
-          closeChapterMenu();
-        }
-      });
       document.addEventListener('keydown', event => {
-        if (event.key === 'Escape' && !modalOverlay.hidden) {
+        // L'état réel est porté par la classe : cette modale n'utilise pas
+        // l'attribut hidden, que l'ancienne condition testait sans effet.
+        if (event.key === 'Escape' && modalOverlay.classList.contains('modal-open')) {
           closeChapterMenu();
         }
       });

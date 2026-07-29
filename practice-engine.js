@@ -294,6 +294,56 @@
 
     // setRichText / richText come from rich-text.js, loaded before this engine.
 
+    /* Calcule la place restante pour l'image et la lui impose en pixels.
+       Une valeur en pixels plutôt qu'un étirement CSS : l'étirement donnait à
+       l'image une boîte plus large qu'elle, où object-fit la redessinait plus
+       petite — d'où des angles droits, l'arrondi restant sur les coins
+       transparents de la boîte. Ici la boîte épouse l'image.
+       On raisonne sur la hauteur maximale que la modale PEUT atteindre (90vh) et
+       non sur sa hauteur actuelle, qui épouse son contenu : sinon l'image se
+       réduirait alors qu'il reste de la place. */
+    function syncExerciseImageHeight() {
+      if (!exerciseImageWrap || !modalOverlay.classList.contains('modal-open')) return;
+      if (exerciseImageHost.style.display === 'none') return;
+
+      const card = modalOverlay.querySelector('.modal-card');
+      const header = modalOverlay.querySelector('.modal-header');
+      const body = modalOverlay.querySelector('.modal-body');
+      if (!card || !header || !body) return;
+
+      const bodyStyle = getComputedStyle(body);
+      const bodyMax = window.innerHeight * 0.9
+        - header.offsetHeight
+        - parseFloat(bodyStyle.paddingTop) - parseFloat(bodyStyle.paddingBottom);
+
+      let used = 0;
+      Array.from(body.children).forEach(child => {
+        if (child === exerciseImageWrap) return;
+        const cs = getComputedStyle(child);
+        if (cs.display === 'none') return;
+        used += child.offsetHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom);
+      });
+
+      const wrapStyle = getComputedStyle(exerciseImageWrap);
+      used += parseFloat(wrapStyle.marginTop) + parseFloat(wrapStyle.marginBottom);
+
+      // Petite marge de sécurité : les bordures et arrondis de la carte ne sont
+      // pas comptés ci-dessus.
+      const available = bodyMax - used - 12;
+      exerciseImage.style.maxHeight = Math.max(60, Math.min(280, available)) + 'px';
+
+      /* Le calcul ci-dessus reste une estimation : il ignore les bordures, les
+         marges fusionnées et les arrondis. On mesure donc le débordement réel et
+         on rend cette hauteur à l'image. Mesurer vaut mieux que d'ajuster une
+         marge au jugé, et la boucle ne peut pas s'emballer — une seule passe,
+         bornée par le plancher. */
+      const overflow = body.scrollHeight - body.clientHeight;
+      if (overflow > 0) {
+        const shown = exerciseImage.getBoundingClientRect().height;
+        exerciseImage.style.maxHeight = Math.max(60, shown - overflow) + 'px';
+      }
+    }
+
     // Returns the exercise's questions array when it uses the multi-sub-question format, else null.
     function getExerciseQuestions(exerciseItem) {
       return (exerciseItem && Array.isArray(exerciseItem.questions) && exerciseItem.questions.length) ? exerciseItem.questions : null;
@@ -525,7 +575,11 @@
 
       if (exerciseItem.image) {
         exerciseImage.src = `assets/${exerciseItem.image}`;
-        exerciseImageHost.style.display = 'block';
+        // Chaîne vide et non 'block' : on efface le style en ligne pour rendre
+        // la main à la feuille de style, qui met le conteneur en disposition
+        // flexible. Un 'block' en ligne l'emportait et supprimait à la fois le
+        // centrage et l'étirement qui adapte l'image à la hauteur disponible.
+        exerciseImageHost.style.display = '';
       } else {
         exerciseImageHost.style.display = 'none';
       }
@@ -546,6 +600,9 @@
       applyToggleState();
 
       renderExerciseSteps();
+      // Après le rendu : la place restante dépend de ce qui vient d'être affiché
+      // (barre a/b/c, longueur de l'énoncé, zone de réponse ou non).
+      syncExerciseImageHeight();
     }
 
     // Sub-question navigation ("a/b/c" style), only shown when an exercise has more than one question.
@@ -807,14 +864,8 @@
         exerciseRecallImg.title = L.enlargeHint;
         exerciseRecallImg.addEventListener('click', () => openImageLightbox(exerciseRecallImg.src, exerciseRecallImg.alt));
       }
-      // Scoped to the lightbox being open so it never swallows Escape from
-      // anything else on the page.
-      document.addEventListener('keydown', event => {
-        if (event.key === 'Escape' && imageLightbox && imageLightbox.classList.contains('is-open')) {
-          event.stopPropagation();
-          closeImageLightbox();
-        }
-      });
+      // La touche Échap est gérée en un seul endroit, dans bindEvents : deux
+      // écouteurs sur document ne peuvent pas s'ignorer proprement l'un l'autre.
       // Lets the shared stylesheet reserve room for the a/b/c markers only on
       // pages that actually opted into the answer box.
       modalOverlay.classList.add('has-answer-box');
@@ -854,9 +905,63 @@
         openModal(levelKey);
       });
 
+      // Fermeture par la croix uniquement : un appui à côté de la modale est vite
+      // arrivé au doigt, et il faisait perdre l'exercice en cours. Les cinq
+      // modales de jeux fonctionnaient déjà ainsi.
       modalClose.addEventListener('click', closeModal);
-      modalOverlay.addEventListener('click', event => {
-        if (event.target === modalOverlay) closeModal();
+
+      /* Verrou de défilement de l'arrière-plan.
+         Observé plutôt qu'appelé depuis chaque fonction d'ouverture et de
+         fermeture : il y en a quatorze, et il aurait suffi d'en oublier une pour
+         laisser la page bloquée après la fermeture d'une modale — un bug bien
+         plus déroutant que celui qu'on corrige. Ici, n'importe quel changement
+         d'état est capté, quelle qu'en soit l'origine. */
+      const overlays = document.querySelectorAll('.modal-overlay');
+
+      function updateBodyScrollLock() {
+        const anyOpen = Array.from(overlays).some(o => o.classList.contains('modal-open'));
+        document.body.classList.toggle('modal-is-open', anyOpen);
+      }
+
+      const lockObserver = new MutationObserver(updateBodyScrollLock);
+      overlays.forEach(o => lockObserver.observe(o, { attributes: true, attributeFilter: ['class'] }));
+
+      // Le plateau du glisser-déposer se remesure au redimensionnement, sinon
+      // les zones garderaient la taille calculée à l'ouverture.
+      window.addEventListener('resize', dndSyncBoardMetrics);
+      window.addEventListener('resize', syncExerciseImageHeight);
+      window.addEventListener('resize', memorySyncCardSize);
+      // L'image ne connaît ses proportions qu'une fois chargée.
+      if (exerciseImage) exerciseImage.addEventListener('load', syncExerciseImageHeight);
+
+      /* Échap ferme ce qui est ouvert. Aucun risque de fermeture accidentelle
+         au doigt, contrairement au clic à côté qu'on vient de retirer, et c'est
+         le réflexe attendu au clavier.
+         Un seul écouteur pour les sept modales et la visionneuse : deux
+         écouteurs sur document ne peuvent pas se céder la priorité proprement.
+         On appelle les fonctions de fermeture existantes plutôt que de retirer
+         la classe, pour ne pas court-circuiter leur nettoyage. */
+      const MODAL_CLOSERS = [
+        ['exercise-modal', closeModal],
+        ['interactive-modal', closeInteractiveModal],
+        ['qcm-modal', closeQCMModal],
+        ['fitb-modal', closeFitbModal],
+        ['dnd-modal', closeDndModal],
+        ['memory-modal', closeMemoryModal],
+        ['sorting-modal', closeSortingModal]
+      ];
+
+      document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        // La visionneuse se superpose aux modales : elle se ferme en premier.
+        if (imageLightbox && imageLightbox.classList.contains('is-open')) {
+          closeImageLightbox();
+          return;
+        }
+        for (const [id, close] of MODAL_CLOSERS) {
+          const el = document.getElementById(id);
+          if (el && el.classList.contains('modal-open')) { close(); return; }
+        }
       });
 
       btnStatementEn.addEventListener('click', () => handleStatementMode('en'));
@@ -944,35 +1049,18 @@
         }
       });
 
+      // Même règle que la modale d'exercice : seule la croix ferme.
       interactiveModalClose.addEventListener('click', closeInteractiveModal);
-      interactiveModalOverlay.addEventListener('click', event => {
-        if (event.target === interactiveModalOverlay) closeInteractiveModal();
-      });
 
       document.getElementById('dnd-modal-close').addEventListener('click', closeDndModal);
-      document.getElementById('dnd-modal').addEventListener('click', event => {
-        if (event.target === document.getElementById('dnd-modal')) closeDndModal();
-      });
 
       document.getElementById('memory-modal-close').addEventListener('click', closeMemoryModal);
-      document.getElementById('memory-modal').addEventListener('click', event => {
-        if (event.target === document.getElementById('memory-modal')) closeMemoryModal();
-      });
 
       document.getElementById('sorting-modal-close').addEventListener('click', closeSortingModal);
-      document.getElementById('sorting-modal').addEventListener('click', event => {
-        if (event.target === document.getElementById('sorting-modal')) closeSortingModal();
-      });
 
       document.getElementById('qcm-modal-close').addEventListener('click', closeQCMModal);
-      document.getElementById('qcm-modal').addEventListener('click', event => {
-        if (event.target === document.getElementById('qcm-modal')) closeQCMModal();
-      });
 
       document.getElementById('fitb-modal-close').addEventListener('click', closeFitbModal);
-      document.getElementById('fitb-modal').addEventListener('click', event => {
-        if (event.target === document.getElementById('fitb-modal')) closeFitbModal();
-      });
 
       document.getElementById('btn-check-sorting').addEventListener('click', handleSortingActionClick);
 
@@ -1155,6 +1243,15 @@
       htmlStr += '<button id="qcm-action-btn" class="qcm-action-btn" ' + actionDisabled + '>' + actionText + '</button>';
 
       qcmContent.innerHTML = htmlStr;
+
+      // Même visionneuse que les exercices classiques : l'image reste petite
+      // dans la modale pour laisser la place aux options, la lecture fine se
+      // fait en plein écran.
+      const qcmImg = qcmContent.querySelector('.qcm-question-image');
+      if (qcmImg) {
+        qcmImg.title = L.enlargeHint;
+        qcmImg.addEventListener('click', () => openImageLightbox(qcmImg.src, qcmImg.alt));
+      }
 
       const optionsContainer = document.getElementById('qcm-options-container');
       const actionBtn = document.getElementById('qcm-action-btn');
@@ -1712,19 +1809,17 @@
 
       // Load background image
       const bgImg = document.getElementById('dnd-bg-image');
-      const dndBoardContainer = document.querySelector('.dnd-board-container');
-      function fitDndImage() {
-        if (dndBoardContainer && dndBoardContainer.clientHeight > 0) {
-          bgImg.style.maxHeight = dndBoardContainer.clientHeight + 'px';
-        }
-      }
-      bgImg.onload = fitDndImage;
+      bgImg.onload = dndSyncBoardMetrics;
       bgImg.src = exercise.backgroundImage;
-      if (bgImg.complete) fitDndImage();
+      if (bgImg.complete) dndSyncBoardMetrics();
 
       // Reset reservoir
       const reservoir = document.getElementById('dnd-reservoir');
       reservoir.innerHTML = '';
+      // L'étiquette sélectionnée vient d'être détruite avec le réservoir : sans
+      // ceci, la référence survivrait et le prochain appui sur une zone
+      // placerait un mot du jeu précédent.
+      dndClearSelection();
       
       // Shuffle reservoir items
       const items = shuffleArray(exercise.reservoirItems || []);
@@ -1741,6 +1836,16 @@
         });
         itemEl.addEventListener('dragend', () => {
           itemEl.classList.remove('dragging');
+        });
+
+        // Toucher-toucher : un appui sélectionne l'étiquette, un second appui
+        // sur la même la désélectionne. Le repère visuel est indispensable,
+        // sinon l'élève ne sait pas qu'il « porte » quelque chose.
+        itemEl.addEventListener('click', () => {
+          if (dndSelectedItem === itemEl) { dndClearSelection(); return; }
+          dndClearSelection();
+          dndSelectedItem = itemEl;
+          itemEl.classList.add('selected');
         });
 
         reservoir.appendChild(itemEl);
@@ -1781,58 +1886,97 @@
         zoneEl.addEventListener('drop', event => {
           event.preventDefault();
           zoneEl.classList.remove('hovered');
-          
-          if (zoneEl.classList.contains('correct')) return;
+          dndTryPlace(zoneEl, zone, event.dataTransfer.getData('text/plain'), exercise, reservoir);
+        });
 
-          const droppedText = event.dataTransfer.getData('text/plain');
-          
-          if (droppedText === zone.acceptedText) {
-            // Correct match! Bounce the zone and flash a checkmark that fades away.
-            zoneEl.classList.add('correct', 'just-placed');
-            zoneEl.innerHTML = `<span class='dnd-zone-text'>${droppedText}</span><span class='dnd-zone-tick'>✓</span>`;
-            setTimeout(() => {
-              zoneEl.classList.remove('just-placed');
-              const tick = zoneEl.querySelector('.dnd-zone-tick');
-              if (tick) tick.remove();
-            }, 700);
-
-            // If hideOnSuccess is true, remove from reservoir
-            if (exercise.hideOnSuccess) {
-              const itemsInReservoir = reservoir.querySelectorAll('.dnd-item');
-              for (let item of itemsInReservoir) {
-                if (item.textContent === droppedText) {
-                  item.remove();
-                  break;
-                }
-              }
-            }
-
-            // Check if exercise is completed
-            checkDndCompletion(exercise);
-          } else {
-            // Incorrect match!
-            zoneEl.classList.add('incorrect');
-            setTimeout(() => {
-              zoneEl.classList.remove('incorrect');
-            }, 1000);
-
-            // Red ephemeral feedback on the dragged item
-            const items = reservoir.querySelectorAll('.dnd-item');
-            items.forEach(item => {
-              if (item.textContent === droppedText) {
-                item.classList.add('shake-error');
-                setTimeout(() => item.classList.remove('shake-error'), 1000);
-              }
-            });
-
-            dndMistakeCount++;
-            const mistakesEl = document.getElementById('dnd-stat-mistakes');
-            if (mistakesEl) mistakesEl.textContent = dndMistakeCount;
-          }
+        // Second voie, pour le tactile : l'API de glisser HTML5 ci-dessus ne se
+        // déclenche jamais au doigt. On touche l'étiquette puis la zone.
+        // Le clic fonctionne aussi à la souris, sans gêner le glisser — un
+        // glisser ne produit pas de clic.
+        zoneEl.addEventListener('click', () => {
+          if (!dndSelectedItem) return;
+          const text = dndSelectedItem.textContent;
+          dndClearSelection();
+          dndTryPlace(zoneEl, zone, text, exercise, reservoir);
         });
 
         board.appendChild(zoneEl);
       });
+    }
+
+    /* Cale l'image dans la hauteur disponible, puis publie sa largeur réelle
+       dans --dnd-board-w pour que les zones de dépôt s'y proportionnent (voir
+       .dnd-zone dans style.css).
+       Mesuré en JS plutôt qu'avec container-type : la containment interdirait au
+       plateau de tirer sa largeur de l'image, et il disparaîtrait. */
+    function dndSyncBoardMetrics() {
+      const bgImg = document.getElementById('dnd-bg-image');
+      const board = document.getElementById('dnd-board');
+      const container = document.querySelector('.dnd-board-container');
+      if (!bgImg || !board) return;
+
+      if (container && container.clientHeight > 0) {
+        bgImg.style.maxHeight = container.clientHeight + 'px';
+      }
+      // Lu après le calage en hauteur : la largeur en dépend.
+      const width = bgImg.getBoundingClientRect().width;
+      if (width > 0) board.style.setProperty('--dnd-board-w', width + 'px');
+    }
+
+    // Étiquette actuellement « portée » par l'élève en mode toucher-toucher.
+    let dndSelectedItem = null;
+
+    function dndClearSelection() {
+      if (dndSelectedItem) dndSelectedItem.classList.remove('selected');
+      dndSelectedItem = null;
+    }
+
+    /* Seul point d'entrée du placement, partagé par le glisser et le toucher :
+       une divergence entre les deux voies produirait des règles de jeu
+       différentes selon l'appareil. */
+    function dndTryPlace(zoneEl, zone, text, exercise, reservoir) {
+      if (!text || zoneEl.classList.contains('correct')) return;
+
+      if (text === zone.acceptedText) {
+        // Correct match! Bounce the zone and flash a checkmark that fades away.
+        zoneEl.classList.add('correct', 'just-placed');
+        zoneEl.innerHTML = `<span class='dnd-zone-text'>${text}</span><span class='dnd-zone-tick'>✓</span>`;
+        setTimeout(() => {
+          zoneEl.classList.remove('just-placed');
+          const tick = zoneEl.querySelector('.dnd-zone-tick');
+          if (tick) tick.remove();
+        }, 700);
+
+        // If hideOnSuccess is true, remove from reservoir
+        if (exercise.hideOnSuccess) {
+          const itemsInReservoir = reservoir.querySelectorAll('.dnd-item');
+          for (let item of itemsInReservoir) {
+            if (item.textContent === text) {
+              item.remove();
+              break;
+            }
+          }
+        }
+
+        checkDndCompletion(exercise);
+      } else {
+        zoneEl.classList.add('incorrect');
+        setTimeout(() => {
+          zoneEl.classList.remove('incorrect');
+        }, 1000);
+
+        const items = reservoir.querySelectorAll('.dnd-item');
+        items.forEach(item => {
+          if (item.textContent === text) {
+            item.classList.add('shake-error');
+            setTimeout(() => item.classList.remove('shake-error'), 1000);
+          }
+        });
+
+        dndMistakeCount++;
+        const mistakesEl = document.getElementById('dnd-stat-mistakes');
+        if (mistakesEl) mistakesEl.textContent = dndMistakeCount;
+      }
     }
 
     function checkDndCompletion(exercise) {
@@ -1997,6 +2141,37 @@
       loadMemoryExercise(0);
     }
 
+    /* Adapte la taille des cartes à la place disponible.
+       Elles étaient figées à 135px : au-delà de deux rangées, la grille
+       débordait et devait être défilée — ce qui vide le jeu de son sens, puisque
+       mémoriser suppose de voir toutes les cartes en même temps.
+       On retient la plus contraignante des deux dimensions, largeur ou hauteur,
+       pour que la grille tienne toujours entièrement. */
+    function memorySyncCardSize() {
+      const container = document.querySelector('.memory-grid-container');
+      const grid = document.getElementById('memory-grid');
+      if (!container || !grid) return;
+
+      const count = grid.querySelectorAll('.memory-card').length;
+      if (!count) return;
+      const cols = Number(grid.dataset.cols) || Math.ceil(Math.sqrt(count));
+      const rows = Math.ceil(count / cols);
+
+      const cs = getComputedStyle(container);
+      const usableW = container.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const usableH = container.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      const gap = window.innerWidth <= 640 ? 10 : 16;
+
+      const byWidth = (usableW - (cols - 1) * gap) / cols;
+      const byHeight = (usableH - (rows - 1) * gap) / rows;
+      // Plafond à 135px : la taille d'origine, pour ne pas obtenir des cartes
+      // démesurées sur grand écran.
+      const size = Math.max(56, Math.min(135, Math.floor(Math.min(byWidth, byHeight))));
+
+      grid.style.setProperty('--memory-card-size', size + 'px');
+      grid.style.maxWidth = `${cols * size + (cols - 1) * gap}px`;
+    }
+
     function closeMemoryModal() {
       document.getElementById('memory-modal').classList.remove('modal-open');
       // Reset any active timers or selections
@@ -2109,8 +2284,9 @@
         const minCols = Math.ceil(n / maxRows);
         bestCols = Math.min(maxCols, Math.max(minCols, Math.ceil(Math.sqrt(n))));
       }
-      const cardGap = window.innerWidth <= 640 ? 10 : 16;
-      grid.style.maxWidth = `${bestCols * 135 + (bestCols - 1) * cardGap}px`;
+      // La largeur définitive est posée par memorySyncCardSize, une fois la
+      // taille des cartes connue.
+      grid.dataset.cols = String(bestCols);
 
       combinedCards.forEach(cardData => {
         const card = document.createElement('div');
@@ -2142,6 +2318,10 @@
 
         grid.appendChild(card);
       });
+
+      // Une fois les cartes en place : leur nombre et la place disponible sont
+      // alors connus.
+      memorySyncCardSize();
     }
 
     function handleMemoryCardClick(card) {
@@ -2394,28 +2574,58 @@
         bin.addEventListener('drop', event => {
           event.preventDefault();
           bin.classList.remove('drop-hover');
-          const sourceCategory = event.dataTransfer.getData('source-bin-category');
-          const itemId = event.dataTransfer.getData('sorting-item-id');
-          if (!sourceCategory || !itemId || sourceCategory === cat) return;
-          const itemIndex = sortingSelections[sourceCategory].findIndex(i => String(i.id) === itemId);
-          if (itemIndex === -1) return;
-          const [movedItem] = sortingSelections[sourceCategory].splice(itemIndex, 1);
-          sortingSelections[cat].push(movedItem);
-          renderSortingBinContent(sourceCategory);
-          renderSortingBinContent(cat);
-          if (sortingIsChecked) {
-            sortingIsChecked = false;
-            document.getElementById('btn-check-sorting').textContent = L.checkCategories;
-          }
+          sortingMoveItem(
+            event.dataTransfer.getData('source-bin-category'),
+            event.dataTransfer.getData('sorting-item-id'),
+            cat
+          );
+        });
+
+        // Voie tactile : l'API de glisser HTML5 ne se déclenche pas au doigt.
+        // On touche la carte, puis le bac de destination.
+        bin.addEventListener('click', () => {
+          if (!sortingSelectedItem) return;
+          const { category, id } = sortingSelectedItem;
+          sortingClearSelection();
+          sortingMoveItem(category, id, cat);
         });
 
         binsContainer.appendChild(bin);
       });
 
       // Populate and shuffle Deck
+      // Les bacs viennent d'être reconstruits : toute sélection en cours pointe
+      // sur une carte du jeu précédent.
+      sortingClearSelection();
       sortingDeckItems = shuffleArray(exercise.items.map(item => ({ ...item })));
       renderSortingDeck();
       renderSortingChoiceButtons(exercise.categories);
+    }
+
+    // Carte « portée » par l'élève en mode toucher-toucher.
+    let sortingSelectedItem = null;
+
+    function sortingClearSelection() {
+      if (sortingSelectedItem && sortingSelectedItem.el) sortingSelectedItem.el.classList.remove('selected');
+      sortingSelectedItem = null;
+    }
+
+    /* Seul point d'entrée du déplacement d'une carte entre deux bacs, partagé
+       par le glisser et le toucher : deux copies finiraient par diverger. */
+    function sortingMoveItem(sourceCategory, itemId, targetCategory) {
+      if (!sourceCategory || !itemId || sourceCategory === targetCategory) return;
+      const itemIndex = sortingSelections[sourceCategory].findIndex(i => String(i.id) === itemId);
+      if (itemIndex === -1) return;
+      const [movedItem] = sortingSelections[sourceCategory].splice(itemIndex, 1);
+      sortingSelections[targetCategory].push(movedItem);
+      // Les deux bacs sont reconstruits : la carte sélectionnée n'existe plus.
+      sortingClearSelection();
+      renderSortingBinContent(sourceCategory);
+      renderSortingBinContent(targetCategory);
+      if (sortingIsChecked) {
+        sortingIsChecked = false;
+        document.getElementById('btn-check-sorting').textContent = L.checkCategories;
+      }
     }
 
     function renderSortingDeck() {
@@ -2435,7 +2645,15 @@
       card.className = 'sorting-card';
       
       if (activeItem.type === 'image') {
+        // La classe permet au CSS de ne faire occuper toute la hauteur de la
+        // pioche qu'aux cartes image : une carte texte doit rester compacte.
+        card.classList.add('has-image');
         card.innerHTML = `<img src="${activeItem.content}" alt="Sorting Image" />`;
+        // La pioche doit rester basse pour laisser voir les bacs : l'image y est
+        // donc forcément petite. Le clic plein écran compense, comme ailleurs.
+        const deckImg = card.querySelector('img');
+        deckImg.title = L.enlargeHint;
+        card.addEventListener('click', () => openImageLightbox(deckImg.src, deckImg.alt));
       } else {
         card.innerHTML = `<span>${activeItem.content}</span>`;
       }
@@ -2507,6 +2725,16 @@
           });
           itemEl.addEventListener('dragend', () => {
             itemEl.classList.remove('dragging');
+          });
+
+          // Sélection au toucher. Réservée aux cartes non verrouillées : une
+          // carte déjà validée ne doit pas pouvoir être déplacée.
+          itemEl.addEventListener('click', event => {
+            event.stopPropagation(); // sinon le clic remonte au bac et repose la carte au même endroit
+            if (sortingSelectedItem && sortingSelectedItem.el === itemEl) { sortingClearSelection(); return; }
+            sortingClearSelection();
+            sortingSelectedItem = { id: String(item.id), category, el: itemEl };
+            itemEl.classList.add('selected');
           });
         }
         binContent.appendChild(itemEl);
