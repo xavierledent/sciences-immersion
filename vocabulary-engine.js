@@ -179,7 +179,10 @@ function showLoadError(message) {
 
 async function loadVocabulary() {
   try {
-    const response = await fetch('./vocabulary.json');
+    // Cache-buster, comme practice-engine.js : GitHub Pages sert les fichiers
+    // avec 10 minutes de durée de vie, et les élèves verraient sinon l'ancien
+    // contenu après une correction faite depuis l'outil admin.
+    const response = await fetch('./vocabulary.json?v=' + Date.now());
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     vocabularyData = await response.json();
     initializeCards(currentMode);

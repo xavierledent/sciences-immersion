@@ -3,7 +3,10 @@
   // each chapter loads its own explorations.json without any inline config.
   async function loadExplorations() {
     try {
-      const response = await fetch('./explorations.json');
+      // Cache-buster, comme practice-engine.js : GitHub Pages sert les fichiers
+      // avec 10 minutes de durée de vie, et les élèves verraient sinon l'ancien
+      // contenu après une correction faite depuis l'outil admin.
+      const response = await fetch('./explorations.json?v=' + Date.now());
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
 
