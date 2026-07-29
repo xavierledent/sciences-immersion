@@ -459,11 +459,27 @@
       margin-bottom: 8px;
     }
 
+    /* Étirement plutôt qu'alignement en haut : les deux cadres prennent la
+       hauteur du plus long, sinon la réponse la plus courte laisse un décrochage
+       visible entre les deux colonnes. */
     .answer-compare.is-comparing {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
-      align-items: start;
+      align-items: stretch;
+    }
+
+    /* Chaque colonne devient une pile verticale pour que son cadre puisse
+       occuper la hauteur restante sous l'en-tête. La colonne de gauche est
+       traitée plus bas, là où elle passe de masquée à visible. */
+    .answer-compare.is-comparing .answer-compare-corr {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .answer-compare.is-comparing .student-answer-echo,
+    .answer-compare.is-comparing .exercise-text {
+      flex: 1;
     }
 
     .answer-compare.is-comparing .answer-compare-label {
@@ -474,8 +490,11 @@
       display: none;
     }
 
+    /* flex, et non block : cette règle vient après celle qui met les colonnes en
+       pile verticale, elle l'écraserait donc et le cadre ne s'étirerait plus. */
     .answer-compare.is-comparing .answer-compare-mine {
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Slate rather than the near-black body colour: it belongs to the column it
