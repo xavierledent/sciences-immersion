@@ -17,7 +17,7 @@
   },
   "fichesOutils": {
     "title": "Fiches outils",
-    "basePath": "/assets/Fiches Outils/",
+    "basePath": "../../../assets/Fiches outils",
     "description": "Les fiches outils sont là pour vous aider à devenir plus autonomes. Ce ne sont pas des leçons à apprendre par cœur, mais des guides pratiques à consulter dès que vous avez un doute.",
     "items": [
       {
