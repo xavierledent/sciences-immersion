@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <title>Practice &mdash; Bio 2 : Human reproduction and prevention</title>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='../../../style.css'>
+  <link rel='stylesheet' href='../../../practice-engine.css'>
+</head>
+
+<body class='subject-bio'>
+  <main class='page subject-bio'>
+    <header>
+      <div class="header-top">
+        <div>
+          <span class='topic-chip'>Practice • English immersion • Year 1</span>
+          <h1>Bio 2 : Human reproduction and prevention</h1>
+          <p>Train your skills with progressive exercise levels, in both languages. Have fun while learning with interactive
+            exercises.</p>
+        </div>
+        <img src="../../../assets/Friends pra.jpg" alt="Practice illustration" />
+      </div>
+    </header>
+
+    <section class='note-box'>
+      <p></p>
+    </section>
+
+    <section class='practice-grid'>
+      <article class='exercise-card'>
+        <div>
+          <h3>Exercises</h3>
+          <div class='exercise-actions' id='level-buttons'>
+            <button type='button' class='resource-button' data-level='level1'>Level 1 💡</button>
+            <button type='button' class='resource-button' data-level='level2'>Level 2 💡💡</button>
+            <button type='button' class='resource-button' data-level='level3'>Level 3 💡💡💡</button>
+          </div>
+        </div>
+        <div class='note-box' style='margin-top: 24px;'>
+          <p>Select a level to start practicing at your own pace.<br />You can click on any picture to open it full screen.</p>
+        </div>
+      </article>
+
+      <article class='interactive-card'>
+        <div>
+          <h3>Interactive exercises</h3>
+          <div class='exercise-actions' id='interactive-buttons'>
+            <button type='button' class='resource-button' data-type='multipleChoice'>Multiple choice question</button>
+            <button type='button' class='resource-button' data-type='dragAndDrop'>Drag and drop</button>
+            <button type='button' class='resource-button' data-type='fillBlanks'>Fill in the blanks</button>
+            <button type='button' class='resource-button' data-type='matchPairs'>Match the pairs</button>
+            <button type='button' class='resource-button' data-type='sorting'>Sorting challenge</button>
+          </div>
+        </div>
+        <div class='note-box' style='margin-top: 24px;'>
+          <p>Choose a game mode to test your skills differently</p>
+        </div>
+      </article>
+    </section>
+
+    <section>
+      <div class="chapter-nav" id="chapter-nav"></div>
+    </section>
+  </main>
+
+  <div class='modal-overlay' id='exercise-modal'>
+    <div class='modal-card exercise-modal' role='dialog' aria-modal='true' aria-labelledby='exercise-modal-title'>
+      <div class='modal-card-inner'>
+        <div class='modal-header'>
+          <button type='button' class='modal-close' id='exercise-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p id='exercise-modal-subtitle' style='margin:0;color:var(--color-muted);font-size:0.95rem;'>Level 1</p>
+            <h2 id='exercise-modal-title'>Exercise 1</h2>
+          </div>
+          <div id='exercises-pagination'></div>
+          <div class='language-buttons'>
+            <button type='button' class='toggle-button active' id='btn-statement-en'>Question EN</button>
+            <button type='button' class='toggle-button' id='btn-statement-fr'><span class='toggle-fill' id='statement-fr-fill'></span><span class='toggle-label' id='statement-fr-label'>Question FR</span></button>
+          </div>
+        </div>
+
+        <div class='modal-body'>
+          <div id='exercise-image-wrap' class='exercise-image-wrap'>
+            <img id='exercise-image' class='exercise-image' alt='Illustration de l’exercice' src='' />
+          </div>
+          <div id='exercise-recall' class='exercise-recall'>
+            <img id='exercise-recall-img' class='exercise-recall-img' alt='' />
+            <p id='exercise-recall-text' class='exercise-recall-text'></p>
+          </div>
+          <div id='exercise-subquestion-nav' class='hidden'></div>
+          <div class='answer-compare' id='answer-compare'>
+            <div class='answer-compare-mine'>
+              <div class='answer-compare-label' id='answer-compare-mine-label'>Your answer</div>
+              <div class='student-answer-echo' id='student-answer-echo'></div>
+            </div>
+            <div class='answer-compare-corr'>
+              <div class='correction-buttons'>
+                <button type='button' class='toggle-button active' id='btn-correction-en'>Correction EN</button>
+                <button type='button' class='toggle-button' id='btn-correction-fr'><span class='toggle-fill' id='correction-fr-fill'></span><span class='toggle-label' id='correction-fr-label'>Correction FR</span></button>
+              </div>
+              <div id='exercise-text' class='exercise-text'>Chargement de l'exercice...</div>
+            </div>
+          </div>
+          <div class='student-answer' id='student-answer'>
+            <textarea id='student-answer-input' class='student-answer-input' rows='2'></textarea>
+            <div class='student-answer-bar'>
+              <span class='student-answer-saved' id='student-answer-saved' aria-live='polite'></span>
+              <button type='button' class='student-answer-check' id='btn-check-answer'>Check my answer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='modal-overlay' id='interactive-modal'>
+    <div class='modal-card exercise-modal' role='dialog' aria-modal='true' aria-labelledby='interactive-modal-title'>
+      <div class='modal-card-inner'>
+        <div class='modal-header'>
+          <div style='flex: 1;'>
+            <p id='interactive-modal-subtitle' style='margin:0;color:var(--color-muted);font-size:0.95rem;'>Interactive
+            </p>
+            <h2 id='interactive-modal-title'>Exercise Type</h2>
+          </div>
+          <div style='flex: 1; display: flex; justify-content: flex-end;'>
+            <button type='button' class='modal-close' id='interactive-modal-close' aria-label='Close'>×</button>
+          </div>
+        </div>
+
+        <div class='modal-body'>
+          <div id='interactive-text' class='exercise-text'>Chargement de l'exercice...</div>
+          <div class='modal-footer'>
+            <p class="pagination-label">Select a quiz:</p>
+            <div id='interactive-pagination'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOUTE NOUVELLE MODALE dédiée au jeu de Drag-and-Drop (Glisser-Déposer) -->
+  <div class='modal-overlay dnd-large-modal-overlay' id='dnd-modal'>
+    <div class='modal-card dnd-modal-card' role='dialog' aria-modal='true' aria-labelledby='dnd-modal-title'>
+      <div class='modal-card-inner dnd-modal-card-inner'>
+        <div class='modal-header dnd-modal-header'>
+          <h2 id='dnd-modal-title' class='game-modal-title'>Drag and Drop Challenge</h2>
+          <button type='button' class='modal-close' id='dnd-modal-close' aria-label='Close'>×</button>
+        </div>
+
+        <div class='modal-body dnd-modal-body'>
+          <!-- Instructions optionnelles -->
+          <div id='dnd-instructions' class='dnd-instructions-text' style='display: none;'></div>
+          <!-- Réservoir d'étiquettes en haut -->
+          <div class='dnd-reservoir' id='dnd-reservoir'>
+            <!-- Les étiquettes de mots seront injectées ici -->
+          </div>
+
+          <!-- Plateau de jeu (Image de fond + zones cibles) -->
+          <div class='dnd-board-container'>
+            <div class='dnd-board' id='dnd-board'>
+              <img id='dnd-bg-image' src='' alt='Ecosystem Board' />
+              <!-- Les zones de drop cibles seront injectées ici de manière absolue -->
+            </div>
+          </div>
+
+          <!-- Zone de navigation et de choix des jeux en bas -->
+          <div class='modal-footer dnd-footer'>
+            <p class="pagination-label">Select a game:</p>
+            <div class='dnd-pagination' id='dnd-pagination'>
+              <!-- Les boutons numérotés [ Game 1 ] [ Game 2 ]... seront injectés ici -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOUTE NOUVELLE MODALE dédiée au jeu de Memory (Match the pairs) -->
+  <div class='modal-overlay memory-large-modal-overlay' id='memory-modal'>
+    <div class='modal-card memory-modal-card' role='dialog' aria-modal='true' aria-labelledby='memory-modal-title'>
+      <div class='modal-card-inner memory-modal-card-inner'>
+        <div class='modal-header memory-modal-header'>
+          <h2 id='memory-modal-title' class='game-modal-title'>Match the Pairs</h2>
+          <button type='button' class='modal-close' id='memory-modal-close' aria-label='Close'>×</button>
+        </div>
+
+        <div class='modal-body memory-modal-body'>
+          <!-- Instructions optionnelles -->
+          <div id='memory-instructions' class='memory-instructions-text' style='display: none;'></div>
+          <!-- Grille de cartes de memory -->
+          <div class='memory-grid-container'>
+            <div class='memory-grid' id='memory-grid'>
+              <!-- Les cartes seront injectées ici par JS -->
+            </div>
+          </div>
+
+          <!-- Zone de navigation en bas -->
+          <div class='modal-footer memory-footer'>
+            <p class="pagination-label">Select a game:</p>
+            <div class='memory-pagination' id='memory-pagination'>
+              <!-- Boutons de pagination des jeux (Game 1, Game 2, etc.) -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOUTE NOUVELLE MODALE dédiée au jeu de Tri (Sorting challenge) -->
+  <div class='modal-overlay sorting-large-modal-overlay' id='sorting-modal'>
+    <div class='modal-card sorting-modal-card' role='dialog' aria-modal='true' aria-labelledby='sorting-modal-title'>
+      <div class='modal-card-inner sorting-modal-card-inner'>
+        <div class='modal-header sorting-modal-header'>
+          <h2 id='sorting-modal-title' class='game-modal-title'>Sorting Challenge</h2>
+          <button type='button' class='modal-close' id='sorting-modal-close' aria-label='Close'>×</button>
+        </div>
+
+        <div class='modal-body sorting-modal-body'>
+          <!-- Zone supérieure : Les colonnes (bacs) côte à côte -->
+          <div class='sorting-bins-wrapper'>
+            <div class='sorting-bins-container' id='sorting-bins-container'>
+              <!-- Les bacs/colonnes de tri seront injectées ici dynamiquement -->
+            </div>
+          </div>
+
+          <!-- Zone centrale : La pioche / carte active à trier -->
+          <div class='sorting-deck-container'>
+            <div class='sorting-deck' id='sorting-deck'>
+              <!-- La carte active à trier sera injectée ici -->
+            </div>
+          </div>
+
+          <!-- Zone des boutons de choix de tri (un bouton par catégorie) -->
+          <div class='sorting-choice-buttons' id='sorting-choice-buttons'>
+            <!-- Les boutons de catégorie seront injectés ici par JS -->
+          </div>
+
+          <!-- Zone du bouton de vérification final (au milieu, désactivé tant qu'il reste des cartes) -->
+          <div class='sorting-action-container'>
+            <button type='button' class='sorting-action-btn' id='btn-check-sorting' disabled>Check Categories</button>
+          </div>
+
+          <!-- Zone de navigation en bas -->
+          <div class='modal-footer sorting-footer'>
+            <p class="pagination-label">Select a game:</p>
+            <div class='sorting-pagination' id='sorting-pagination'>
+              <!-- Boutons de pagination des jeux (Game 1, Game 2, etc.) -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dedicated large modal for Fill in the Blanks -->
+  <div class='modal-overlay fitb-large-modal-overlay' id='fitb-modal'>
+    <div class='modal-card fitb-modal-card' role='dialog' aria-modal='true' aria-labelledby='fitb-modal-title'>
+      <div class='modal-card-inner fitb-modal-card-inner'>
+        <div class='modal-header fitb-modal-header'>
+          <h2 id='fitb-modal-title' class='game-modal-title'>Fill in the Blanks</h2>
+          <button type='button' class='modal-close' id='fitb-modal-close' aria-label='Close'>×</button>
+        </div>
+        <div class='modal-body fitb-modal-body'>
+          <div id='fitb-instructions-container' class='fitb-instructions-text' style='display: none;'></div>
+          <div id='fitb-quiz-image-container' class='fitb-quiz-image-container' style='display: none;'></div>
+          <div id='fitb-content' class='fitb-scroll-content'></div>
+          <div class='modal-footer fitb-footer'>
+            <p class="pagination-label">Select a text:</p>
+            <div id='fitb-pagination'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dedicated large modal for Multiple Choice Quiz -->
+  <div class='modal-overlay qcm-large-modal-overlay' id='qcm-modal'>
+    <div class='modal-card qcm-modal-card' role='dialog' aria-modal='true' aria-labelledby='qcm-modal-title'>
+      <div class='modal-card-inner qcm-modal-card-inner'>
+        <div class='modal-header qcm-modal-header'>
+          <h2 id='qcm-modal-title' class='game-modal-title'>Multiple Choice Quiz</h2>
+          <button type='button' class='modal-close' id='qcm-modal-close' aria-label='Close'>×</button>
+        </div>
+        <div class='modal-body qcm-modal-body'>
+          <div id='qcm-instructions-container' class='qcm-instructions-text' style='display: none;'></div>
+          <div id='qcm-content' class='qcm-scroll-content'></div>
+          <div class='modal-footer qcm-footer'>
+            <p class="pagination-label">Select a quiz:</p>
+            <div id='qcm-pagination'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src='../../../rich-text.js'></script>
+  <script src='../../../practice-engine.js'></script>
+  <script src='../../../chapter-nav.js'></script>
+</body>
+
+</html>

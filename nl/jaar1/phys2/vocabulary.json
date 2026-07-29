@@ -1,0 +1,152 @@
+[
+  {
+    "english": "Toestand van materie",
+    "french": "État de la matière",
+    "definitionEnglish": "Een van de verschillende fysische vormen die materie kan aannemen, namelijk vast, vloeibaar of gasvormig.",
+    "definitionFrench": "Une des formes physiques distinctes que la matière peut prendre, à savoir solide, liquide ou gazeux."
+  },
+  {
+    "english": "Samendrukbaarheid",
+    "french": "Compressibilité",
+    "definitionEnglish": "De mate waarin het volume van een stof afneemt onder invloed van druk.",
+    "definitionFrench": "La capacité d'une substance à diminuer de volume sous l'effet d'une pression."
+  },
+  {
+    "english": "Deeltjesmodel",
+    "french": "Modèle particulaire",
+    "definitionEnglish": "Een wetenschappelijk model dat materie beschrijft als opgebouwd uit piepkleine, onzichtbare deeltjes die voortdurend in beweging zijn.",
+    "definitionFrench": "Un modèle scientifique qui décrit la matière comme étant constituée de minuscules grains ou particules invisibles en mouvement constant."
+  },
+  {
+    "english": "Dicht opeengepakt",
+    "french": "Très serrées",
+    "definitionEnglish": "Extreem dicht bij elkaar geplaatst, met heel weinig of geen ruimte tussen de deeltjes.",
+    "definitionFrench": "Disposées de manière extrêmement rapprochée avec très peu ou pas d'espace entre les particules."
+  },
+  {
+    "english": "Ver uit elkaar",
+    "french": "Très éloignées",
+    "definitionEnglish": "Gescheiden door een grote afstand, met veel lege ruimte tussen de deeltjes.",
+    "definitionFrench": "Séparées par une grande distance, laissant un espace vide conséquent entre les particules."
+  },
+  {
+    "english": "Sterk gebonden",
+    "french": "Fortement liées",
+    "definitionEnglish": "Bijeengehouden door krachtige aantrekkingskrachten die verhinderen dat de deeltjes zich van elkaar verwijderen.",
+    "definitionFrench": "Maintenues ensemble par des forces d'attraction puissantes qui empêchent les particules de s'éloigner les unes des autres."
+  },
+  {
+    "english": "Vrij om te glijden",
+    "french": "Libres de glisser",
+    "definitionEnglish": "In staat om vlot langs elkaar te bewegen terwijl ze nauw contact behouden, typisch voor de vloeibare toestand.",
+    "definitionFrench": "Capables de se déplacer les unes par rapport aux autres tout en restant en contact étroit, ce qui est typique de l'état liquide."
+  },
+  {
+    "english": "Wanordelijk",
+    "french": "Désordonné",
+    "definitionEnglish": "Gerangschikt zonder een regelmatig, vast of herhalend geometrisch patroon.",
+    "definitionFrench": "Disposé de manière aléatoire, sans structure géométrique régulière ou fixe."
+  },
+  {
+    "english": "Vorm",
+    "french": "Forme",
+    "definitionEnglish": "De uiterlijke vorm, contouren of omtrek van een voorwerp.",
+    "definitionFrench": "L'apparence externe, les contours ou la configuration d'un objet."
+  },
+  {
+    "english": "Injectiespuit",
+    "french": "Seringue",
+    "definitionEnglish": "Een toestel bestaande uit een zuiger die nauw in een buis past, gebruikt bij experimenten om gassen samen te drukken of op te sluiten.",
+    "definitionFrench": "Un dispositif composé d'un piston s'insérant étroitement dans un tube, utilisé en expérience pour comprimer ou piéger des gaz."
+  },
+  {
+    "english": "Zuiger",
+    "french": "Piston",
+    "definitionEnglish": "Het beweegbare onderdeel binnenin een injectiespuit of cilinder dat druk uitoefent op een vloeistof of gas.",
+    "definitionFrench": "La partie mobile à l'intérieur d'une seringue ou d'un cylindre qui exerce une pression sur un fluide."
+  },
+  {
+    "english": "Schikking",
+    "french": "Agencement",
+    "definitionEnglish": "De specifieke manier waarop deeltjes georganiseerd of verspreid zijn in een materiaal.",
+    "definitionFrench": "La manière spécifique dont les particules sont organisées ou espacées dans un matériau."
+  },
+  {
+    "english": "Stromen",
+    "french": "Couler",
+    "definitionEnglish": "Vloeiend en gelijkmatig bewegen, een kenmerk van vloeistoffen en gassen.",
+    "definitionFrench": "Se déplacer de manière fluide et continue, une caractéristique propre aux liquides et aux gaz."
+  },
+  {
+    "english": "Aantrekkingskrachten",
+    "french": "Forces d'attraction",
+    "definitionEnglish": "Onzichtbare fysische krachten die deeltjes naar elkaar toe trekken en op hun plaats houden.",
+    "definitionFrench": "Forces physiques invisibles qui attirent les particules les unes vers les autres et les maintiennent ensemble."
+  },
+  {
+    "english": "Warmte",
+    "french": "Chaleur",
+    "definitionEnglish": "De overdracht van thermische energie van een warmer voorwerp of systeem naar een kouder voorwerp of systeem.",
+    "definitionFrench": "Le transfert d'énergie thermique d'un objet ou système plus chaud vers un autre plus froid."
+  },
+  {
+    "english": "Beweging (agitatie)",
+    "french": "Agitation",
+    "definitionEnglish": "De snelle, willekeurige en voortdurende thermische beweging van microscopische deeltjes.",
+    "definitionFrench": "Le mouvement thermique rapide, désordonné et continu des particules microscopiques."
+  },
+  {
+    "english": "Vriespunt",
+    "french": "Point de congélation",
+    "definitionEnglish": "De temperatuur waarbij een vloeistof overgaat in een vaste stof.",
+    "definitionFrench": "La température à laquelle un liquide se solidifie et passe à l'état solide."
+  },
+  {
+    "english": "Kookpunt",
+    "french": "Point d'ébullition",
+    "definitionEnglish": "De temperatuur waarbij een vloeistof snel overgaat in een gas of damp.",
+    "definitionFrench": "La température à laquelle un liquide passe rapidement à l'état de gaz ou de vapeur."
+  },
+  {
+    "english": "Smelten",
+    "french": "Fusion",
+    "definitionEnglish": "Het fysische proces van toestandsverandering van een vaste stof naar een vloeistof onder invloed van warmte.",
+    "definitionFrench": "Le processus physique de changement d'état d'un solide vers un liquide sous l'effet de la chaleur."
+  },
+  {
+    "english": "Verdamping",
+    "french": "Vaporisation",
+    "definitionEnglish": "De toestandsverandering van een vloeistof naar een gas, waaronder verdamping en koken.",
+    "definitionFrench": "Le changement d'état d'un liquide vers un gaz, englobant l'évaporation et l'ébullition."
+  },
+  {
+    "english": "Depositie",
+    "french": "Sublimation inverse",
+    "definitionEnglish": "De rechtstreekse toestandsverandering van een gas naar een vaste stof, zonder de vloeibare fase te doorlopen.",
+    "definitionFrench": "Le changement d'état direct d'un gaz vers un solide, sans passer par la phase liquide."
+  },
+  {
+    "english": "Temperatuurplateau",
+    "french": "Palier de température",
+    "definitionEnglish": "Een periode tijdens een toestandsverandering waarin de temperatuur constant blijft ondanks voortdurende verwarming of afkoeling.",
+    "definitionFrench": "Une période durant un changement d'état où la température reste stable malgré un apport ou une perte continue de chaleur."
+  },
+  {
+    "english": "Thermische uitzetting",
+    "french": "Dilatation thermique",
+    "definitionEnglish": "De toename van het volume of de grootte van een stof wanneer de temperatuur stijgt.",
+    "definitionFrench": "L'augmentation de volume ou de taille d'une substance lorsque sa température augmente."
+  },
+  {
+    "english": "Thermische inkrimping",
+    "french": "Contraction thermique",
+    "definitionEnglish": "De afname van het volume of de grootte van een stof wanneer de temperatuur daalt.",
+    "definitionFrench": "La diminution de volume ou de taille d'une substance lorsque sa température baisse."
+  },
+  {
+    "english": "Stijgen",
+    "french": "Augmenter",
+    "definitionEnglish": "Toenemen of hoger worden, zoals de temperatuur of een volume.",
+    "definitionFrench": "Monter ou s'élever, comme le niveau de la température ou d'un volume."
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "exercisesPage": {
+    "title": "Oefenen en Training",
+    "leftCard": {
+      "title": "Oefeningen",
+      "level1": "Level 1",
+      "level2": "Level 2",
+      "level3": "Level 3"
+    },
+    "rightCard": {
+      "title": "Interactieve oefeningen",
+      "status": "Binnenkort beschikbaar..."
+    }
+  },
+  "level1": [],
+  "level2": [],
+  "level3": []
+}

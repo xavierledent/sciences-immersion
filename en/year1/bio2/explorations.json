@@ -1,0 +1,34 @@
+{
+  "documentation": {
+    "title": "Documentation",
+    "basePath": "PDF",
+    "items": [
+      {
+        "title": "Brochure HPV",
+        "description": "Brochure d'information médicale en français destinée aux patients concernant l'infection par le HPV",
+        "file": "HPV-patient-brochure-BE-NON-01446-FR.pdf"
+      },
+      {
+        "title": "Les secrets des jumeaux",
+        "description": "Une découverte simple et illustrée des mécanismes biologiques et génétiques qui différencient les vrais des faux jumeaux.",
+        "file": "Les secrets des jumeaux.pdf"
+      }
+    ]
+  },
+  "liensUtiles": {
+    "title": "Liens utiles",
+    "basePath": "",
+    "items": [
+      {
+        "title": "Contraception",
+        "description": "Plateforme d'information permettant d'explorer, de comparer et de choisir différentes méthodes de contraception adaptées à ses besoins.",
+        "url": "https://www.mescontraceptifs.be/"
+      },
+      {
+        "title": "Centre planning familial dinant",
+        "description": "Le planning familial est un service médical et social. Il vous aide pour toutes les questions liées à la sexualité, à la contraception, et à la vie de couple.",
+        "url": "https://www.sofelia.be/nos-centres/cpf-dinant/"
+      }
+    ]
+  }
+}

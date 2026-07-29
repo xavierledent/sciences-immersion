@@ -1,0 +1,635 @@
+{
+  "exercisesPage": {
+    "title": "Practice and Training",
+    "leftCard": {
+      "title": "Exercises",
+      "level1": "Level 1",
+      "level2": "Level 2",
+      "level3": "Level 3"
+    },
+    "rightCard": {
+      "title": "Interactive exercises",
+      "status": "Coming soon..."
+    }
+  },
+  "level1": [
+    {
+      "id": 1,
+      "title": "Individual - Definition",
+      "image": null,
+      "en": "Define, in your own words, what an \"individual\" is in ecology.",
+      "fr": "Définis, avec tes propres mots, ce qu'est un \"individu\" en écologie.",
+      "corr_en": "An individual is a single, unique living organism.",
+      "corr_fr": "Un individu est un seul être vivant, unique."
+    },
+    {
+      "id": 2,
+      "title": "Pond Ecosystem — Spot the Factors",
+      "image": "frog waterlily.jpg",
+      "en": "Look at the picture. \nName two biotic factors and two abiotic factors you can see.",
+      "fr": "Observe l'image. \nCite deux facteurs biotiques et deux facteurs abiotiques visibles.",
+      "corr_en": "Biotic: frogs, water lilies \nAbiotic: water, rocks/sun",
+      "corr_fr": "Biotiques : grenouilles, nénuphars\nAbiotiques : eau, rochers/soleil"
+    },
+    {
+      "id": 3,
+      "title": "Population - Definition",
+      "image": null,
+      "en": "Define, in your own words, what a \"population\" is.",
+      "fr": "Définis, avec tes propres mots, ce qu'est une \"population\".",
+      "corr_en": "A population is a group of individuals of the same species living in the same area.",
+      "corr_fr": "Une population est un groupe d'individus de la même espèce vivant dans la même zone."
+    },
+    {
+      "id": 4,
+      "title": "Reading a Food Web Diagram",
+      "image": "desert food web.jpg",
+      "questions": [
+        {
+          "en": "Name one producer shown in the diagram.",
+          "fr": "Nomme un producteur présent sur le schéma",
+          "corr_en": "Cactus / Grass",
+          "corr_fr": "Cactus / Herbe"
+        },
+        {
+          "en": "Name one decomposer shown in the diagram.",
+          "fr": "Nomme un décomposeur présent sur le schéma.",
+          "corr_en": "Bacteria",
+          "corr_fr": "Bactéries"
+        },
+        {
+          "en": "What does an arrow mean in this diagram?",
+          "fr": "Que signifie une flèche sur ce schéma ?",
+          "corr_en": "The arrow means \"is eaten by\".",
+          "corr_fr": "La flèche signifie \"est mangé par\"."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Species — Recognition",
+      "image": null,
+      "en": "Two toads cannot make babies together. What does this tell you about the two toads?",
+      "fr": "Deux crapauds ne peuvent pas se reproduire ensemble. Que peux-tu en déduire ?",
+      "corr_en": "They belong to two different species.",
+      "corr_fr": "Ils appartiennent à deux espèces différentes."
+    },
+    {
+      "id": 6,
+      "title": "Decomposers at work",
+      "image": "Fungus dead log.jpg",
+      "en": "What is the ecological role of the organism shown in the picture?",
+      "fr": "Quel est le rôle écologique de l'organisme présent sur l'image ?",
+      "corr_en": "It is a decomposer: it breaks down dead organic matter into mineral matter.",
+      "corr_fr": "C'est un décomposeur : il transforme la matière organique morte en matière minérale."
+    },
+    {
+      "id": 7,
+      "title": "The Ecosystem Equation",
+      "image": null,
+      "en": "Fill in : \nEcosystem = ……………………… + ………………………",
+      "fr": "Complète : \nÉcosystème = ……………………… + ………………………",
+      "corr_en": "Ecosystem = biotope + biocenosis",
+      "corr_fr": "Écosystème = biotope + biocénose"
+    },
+    {
+      "id": 8,
+      "title": "The Peppered Moth — Observation",
+      "image": "biston betularia.jpg",
+      "en": "Describe what you observe in the picture (color of the moths and the bark).",
+      "fr": "Décris ce que tu observes sur l'image (couleur des papillons et de l'écorce).",
+      "corr_en": "There are two colour forms of the same moth species: a light one and a dark one, resting on tree bark.",
+      "corr_fr": "On observe deux formes de couleur du même papillon : une claire et une foncée, posées sur l'écorce."
+    },
+    {
+      "id": 9,
+      "title": "Biotic vs Abiotic Factors",
+      "image": null,
+      "en": "Give one example of a biotic factor and one example of an abiotic factor.",
+      "fr": "Donne un exemple de facteur biotique et un exemple de facteur abiotique.",
+      "corr_en": "Biotic factor example: a fish. Abiotic factor example: temperature (any living thing / any non-living element is accepted).",
+      "corr_fr": "Facteur biotique : un poisson. Facteur abiotique : la température (toute réponse cohérente est acceptée)."
+    },
+    {
+      "id": 10,
+      "title": "Bee and Flower — Interaction",
+      "image": "bee flower.jpg",
+      "en": "Which type of interaction is shown in the picture: predation, mutualism, or competition?",
+      "fr": "Quel type d'interaction est représenté sur l'image : prédation, mutualisme ou compétition ?",
+      "corr_en": "Mutualism: the bee gets nectar and the flower gets pollinated.",
+      "corr_fr": "Mutualisme : l'abeille récolte du nectar et la fleur est pollinisée."
+    },
+    {
+      "id": 11,
+      "title": "Fauna vs Flora",
+      "image": null,
+      "en": "What is the difference between fauna and flora?",
+      "fr": "Quelle est la différence entre la faune et la flore ?",
+      "corr_en": "Fauna is all the animals of an area; flora is all the plants of an area.",
+      "corr_fr": "La faune regroupe tous les animaux d'un lieu ; la flore regroupe toutes les plantes."
+    },
+    {
+      "id": 12,
+      "title": "Lichen — A Special Partnership",
+      "image": "lichen.jpg",
+      "en": "What is the name of the extreme relationship where two species absolutely need each other to survive, like the lichen in the picture?",
+      "fr": "Comment appelle-t-on la relation extrême où deux espèces ont absolument besoin l'une de l'autre pour survivre, comme le lichen sur l'image ?",
+      "corr_en": "Symbiosis.",
+      "corr_fr": "La symbiose."
+    },
+    {
+      "id": 13,
+      "title": "Organic vs Mineral Matter",
+      "image": null,
+      "en": "What is the difference between organic matter and mineral matter?",
+      "fr": "Quelle est la différence entre matière organique et matière minérale ?",
+      "corr_en": "Organic matter comes from living things (even dead); mineral matter is non-living matter (nutrients, water, air).",
+      "corr_fr": "La matière organique provient des êtres vivants (même morts) ; la matière minérale est non-vivante (nutriments, eau, air)."
+    },
+    {
+      "id": 14,
+      "title": "Golf Course Biodiversity",
+      "image": "golf course.jpg",
+      "en": "Looking at the picture, would you expect this environment to have high or low biodiversity? Give one reason.",
+      "fr": "En observant l'image, penses-tu que cet environnement a une biodiversité élevée ou faible ? Donne une raison.",
+      "corr_en": "Low biodiversity: it is mostly a single type of grass, with very few other plant or animal species.",
+      "corr_fr": "Faible biodiversité : il s'agit presque uniquement d'un seul type de gazon, avec très peu d'autres espèces végétales ou animales."
+    },
+    {
+      "id": 15,
+      "title": "The Three Ecological Roles",
+      "image": null,
+      "en": "Name the three ecological roles found in a food cycle.",
+      "fr": "Cite les trois rôles écologiques présents dans un cycle de la matière.",
+      "corr_en": "Producers, consumers, decomposers.",
+      "corr_fr": "Producteurs, consommateurs, décomposeurs."
+    },
+    {
+      "id": 16,
+      "title": "Lion and Zebra",
+      "image": "lion zebra.jpg",
+      "en": "Name the type of interaction shown, and say which animal is the predator.",
+      "fr": "Nomme le type d'interaction représenté, et précise quel animal est le prédateur.",
+      "corr_en": "Predation; the lion is the predator.",
+      "corr_fr": "La prédation ; le lion est le prédateur."
+    },
+    {
+      "id": 17,
+      "title": "Biodiversity — Definition",
+      "image": null,
+      "en": "Give the definition of \"biodiversity\" in your own words.",
+      "fr": "Donne la définition de \"biodiversité\" avec tes propres mots.",
+      "corr_en": "Biodiversity is the variety of life: diversity of ecosystems, of species, and of individuals within a species.",
+      "corr_fr": "La biodiversité est la variété du vivant : diversité des écosystèmes, des espèces, et des individus au sein d'une espèce."
+    },
+    {
+      "id": 18,
+      "title": "Sunny vs Shady Zone",
+      "image": "forest_zones_sunny_vs_shade.png",
+      "en": "Which zone would you expect to be more humid and cooler: Zone A or Zone B?",
+      "fr": "Quelle zone est probablement plus humide et plus fraîche : la Zone A ou la Zone B ?",
+      "corr_en": "Zone B (deep shade): less sunlight means lower temperature and higher humidity.",
+      "corr_fr": "La Zone B (ombre profonde) : moins de soleil signifie une température plus basse et une humidité plus élevée."
+    },
+    {
+      "id": 19,
+      "title": "Food Web vs Food Chain — Stability",
+      "image": null,
+      "en": "True or false, and correct if false: \"A food web is less stable than a food chain.\"",
+      "fr": "Vrai ou faux, corrige si faux : \"Un réseau trophique est moins stable qu'une chaîne alimentaire.\"",
+      "corr_en": "False. A food web is more stable, because if one species disappears, the others usually have alternative food sources.",
+      "corr_fr": "Faux. Un réseau trophique est plus stable, car si une espèce disparaît, les autres ont généralement des sources de nourriture alternatives."
+    },
+    {
+      "id": 20,
+      "title": "Remora and Shark",
+      "image": "remora.jpg",
+      "en": "The remora fish eats the shark's leftover food scraps, and the shark is not affected. Name this type of interaction.",
+      "fr": "Le poisson rémora mange les restes de nourriture du requin, et le requin n'est pas affecté. Nomme ce type d'interaction.",
+      "corr_en": "Commensalism (+ / 0).",
+      "corr_fr": "Le commensalisme (+ / 0)."
+    }
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Food chain stability",
+      "image": null,
+      "en": "Explain the consequences on a food chain if a primary consumer completely disappears.",
+      "fr": "Expliquez les conséquences sur un une chaine alimentaire si un consommateur primaire disparaît complètement.",
+      "corr_en": "The producers will overgrow, and secondary consumers will face starvation or must adapt their diet.",
+      "corr_fr": "Les producteurs vont surmultiplier, et les consommateurs secondaires risquent la famine ou devront adapter leur régime alimentaire."
+    },
+    {
+      "id": 2,
+      "title": "Analyzing a food web",
+      "image": "food_web_diagram.png",
+      "questions": [
+        {
+          "en": "Which apex predator preys upon the deer?",
+          "fr": "Quel superprédateur a pour proie le cerf ?",
+          "corr_en": "The mountain lion.",
+          "corr_fr": "Le lion de montagne (le puma)."
+        },
+        {
+          "en": "Which organisms are the prey of the insect-eating bird?",
+          "fr": "Quelles organismes sont les proies de l'oiseau insectivore ?",
+          "corr_en": "The grasshopper.",
+          "corr_fr": "La sauterelle."
+        },
+        {
+          "en": "The shrew is a prey for which three predators?",
+          "fr": "La musaraigne est la proie de quels trois prédateurs ?",
+          "corr_en": "The hawk, the snake, and the mountain lion.",
+          "corr_fr": "Le faucon, le serpent et le lion de montagne."
+        },
+        {
+          "en": "If the hawk is the predator, name two of its preys shown in the diagram.",
+          "fr": "Si le faucon est le prédateur, nomme deux de ses proies visibles sur le schéma.",
+          "corr_en": "The squirrel and the shrew.",
+          "corr_fr": "L'écureuil et la musaraigne."
+        },
+        {
+          "en": "Which organisms at the bottom of the diagram act as decomposers in this ecosystem?",
+          "fr": "Quels organismes au bas du schéma agissent comme des décomposeurs dans cet écosystème ?",
+          "corr_en": "Fungi and bacteria.",
+          "corr_fr": "Les champignons (fungi) et les bactéries."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Population vs Species",
+      "image": null,
+      "en": "Explain, with an example, the difference between a population and a species.",
+      "fr": "Explique, avec un exemple, la différence entre une population et une espèce.",
+      "corr_en": "A species is all individuals that can reproduce together (e.g. all foxes in the world); a population is only those living in the same area at the same time (e.g. the foxes of one forest).",
+      "corr_fr": "Une espèce regroupe tous les individus capables de se reproduire ensemble (ex. tous les renards du monde) ; une population regroupe uniquement ceux vivant au même endroit, en même temps (ex. les renards d'une même forêt)."
+    },
+    {
+      "id": 4,
+      "title": "Field Data — Comparing Zone A and B",
+      "image": "field_data_sheet.png",
+      "questions": [
+        {
+          "en": "Based on the table, which zone has the highest biodiversity?",
+          "fr": "D'après le tableau, quelle zone possède la plus grande biodiversité ?",
+          "corr_en": "Zone B, with 11 species compared to 6 in Zone A.",
+          "corr_fr": "La Zone B, avec 11 espèces contre 6 en Zone A."
+        },
+        {
+          "en": "Which abiotic factor best explains why mosses and ferns prefer Zone B?",
+          "fr": "Quel facteur abiotique explique le mieux pourquoi les mousses et les fougères préfèrent la Zone B ?",
+          "corr_en": "Humidity: mosses and ferns need moisture to survive, and Zone B is moist while Zone A is dry.",
+          "corr_fr": "L'humidité : les mousses et les fougères ont besoin d'humidité pour survivre, or la Zone B est humide alors que la Zone A est sèche."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "The Role of Decomposers",
+      "image": null,
+      "en": "Explain, in a few sentences, the role of decomposers in the food cycle.",
+      "fr": "Explique, en quelques phrases, le rôle des décomposeurs dans le cycle de la matière.",
+      "corr_en": "Decomposers (fungi, bacteria, earthworms) break down dead organic matter and transform it back into mineral matter, which returns to the soil and can be reused by producers.",
+      "corr_fr": "Les décomposeurs (champignons, bactéries, vers de terre) transforment la matière organique morte en matière minérale, qui retourne dans le sol et peut être réutilisée par les producteurs."
+    },
+    {
+      "id": 6,
+      "title": "Meadow vs Golf Course",
+      "image": "meadow golf.jpg",
+      "en": "Compare the two pictures. Which place likely has higher biodiversity, and why?",
+      "fr": "Compare les deux images. Quel endroit possède probablement une biodiversité plus élevée, et pourquoi ?",
+      "corr_en": "The wildflower meadow: it contains many different plant species, which attract a variety of insects, unlike the golf course which is mostly a single type of grass.",
+      "corr_fr": "La prairie fleurie : elle contient de nombreuses espèces végétales différentes, qui attirent une grande variété d'insectes, contrairement au golf qui n'est presque qu'un seul type de gazon."
+    },
+    {
+      "id": 7,
+      "title": "Competing Oaks",
+      "image": null,
+      "en": "Name this interaction and justify: \"Two oak trees growing close together both fight for sunlight.\"",
+      "fr": "Nomme cette interaction et justifie : \"Deux chênes qui poussent l'un près de l'autre se disputent tous les deux la lumière.\"",
+      "corr_en": "Competition (- / -): both organisms are harmed because they fight for the same limited resource (light).",
+      "corr_fr": "La compétition (- / -) : les deux organismes sont désavantagés car ils se disputent la même ressource limitée (la lumière)."
+    },
+    {
+      "id": 8,
+      "title": "Coding the Interaction",
+      "image": "lion zebra.jpg",
+      "en": "Identify the interaction and explain, using the vocabulary from the course, why it is coded (+ / -).",
+      "fr": "Identifie l'interaction et explique, avec le vocabulaire du cours, pourquoi elle est codée (+ / -).",
+      "corr_en": "Predation: the lion (predator) benefits by getting food (+), while the zebra (prey) is killed, so it is harmed (-).",
+      "corr_fr": "La prédation : le lion (prédateur) en profite en obtenant de la nourriture (+), tandis que la zèbre (proie) est tuée, donc désavantagée (-)."
+    },
+    {
+      "id": 9,
+      "title": "A Forest Without Pollinators",
+      "image": null,
+      "en": "Explain what would happen to a forest's plants if all pollinating insects suddenly disappeared.",
+      "fr": "Explique ce qui arriverait aux plantes d'une forêt si tous les insectes pollinisateurs disparaissaient soudainement.",
+      "corr_en": "Many flowering plants would not be pollinated, so they could not reproduce; their population would decrease, which would also affect the animals that depend on these plants for food.",
+      "corr_fr": "De nombreuses plantes à fleurs ne seraient plus pollinisées et ne pourraient plus se reproduire ; leur population diminuerait, ce qui affecterait aussi les animaux qui dépendent de ces plantes pour se nourrir."
+    },
+    {
+      "id": 10,
+      "title": "Commensalism vs Mutualism",
+      "image": "remora.jpg",
+      "en": "Explain why this interaction is called commensalism and not mutualism.",
+      "fr": "Explique pourquoi cette interaction s'appelle du commensalisme et non du mutualisme.",
+      "corr_en": "It is commensalism because only the remora benefits (it eats leftover scraps); the shark is neither helped nor harmed (0), whereas mutualism requires both species to benefit.",
+      "corr_fr": "C'est du commensalisme car seul le rémora en profite (il mange les restes) ; le requin n'est ni aidé ni désavantagé (0), alors que le mutualisme nécessite un bénéfice pour les deux espèces."
+    },
+    {
+      "id": 11,
+      "title": "Natural Selection",
+      "image": null,
+      "en": "Using the peppered moth example, explain in your own words what \"natural selection\" means.",
+      "fr": "À partir de l'exemple du papillon du bouleau, explique avec tes propres mots ce que signifie \"sélection naturelle\".",
+      "corr_en": "Natural selection is the process by which individuals best adapted to their environment (e.g. the moth colour that best matches the tree bark) survive and reproduce more, while less adapted individuals are more likely to be eaten and disappear.",
+      "corr_fr": "La sélection naturelle est le processus par lequel les individus les mieux adaptés à leur environnement (ex. la couleur du papillon qui correspond le mieux à l'écorce) survivent et se reproduisent davantage, tandis que les individus moins adaptés sont plus facilement mangés et disparaissent."
+    },
+    {
+      "id": 12,
+      "title": "Clownfish and Anemone",
+      "image": "clownfish.jpg",
+      "en": "Explain what each organism gains from this relationship.",
+      "fr": "Explique ce que chaque organisme gagne dans cette relation.",
+      "corr_en": "The clownfish gets protection from predators among the anemone's tentacles; the anemone gets cleaned and can also benefit from food scraps and improved water circulation brought by the fish.",
+      "corr_fr": "Le poisson-clown est protégé des prédateurs grâce aux tentacules de l'anémone ; l'anémone est nettoyée et profite aussi des restes de nourriture et d'une meilleure circulation de l'eau apportée par le poisson."
+    },
+    {
+      "id": 13,
+      "title": "Biotope vs Biocenosis",
+      "image": null,
+      "en": "Explain the difference between biotope and biocenosis using an example from a forest.",
+      "fr": "Explique la différence entre biotope et biocénose à l'aide d'un exemple pris dans une forêt.",
+      "corr_en": "The biotope is the physical, non-living environment (soil, temperature, water); the biocenosis is all the living organisms interacting there (trees, insects, birds). Together they form the ecosystem.",
+      "corr_fr": "Le biotope est le milieu physique non-vivant (sol, température, eau) ; la biocénose regroupe tous les êtres vivants qui y interagissent (arbres, insectes, oiseaux). Ensemble, ils forment l'écosystème."
+    },
+    {
+      "id": 14,
+      "title": "The Matter Cycle",
+      "image": "forest_matter_cycle.png",
+      "en": "Using the diagram, explain what would happen to the cycle if the decomposer step disappeared.",
+      "fr": "À l'aide du schéma, explique ce qui arriverait au cycle si l'étape \"décomposeur\" disparaissait.",
+      "corr_en": "Dead organic matter would no longer be transformed into mineral matter; the soil would become poor in nutrients, and producers would struggle to grow, breaking the whole cycle.",
+      "corr_fr": "La matière organique morte ne serait plus transformée en matière minérale ; le sol s'appauvrirait en nutriments, et les producteurs auraient du mal à pousser, ce qui romprait tout le cycle."
+    },
+    {
+      "id": 15,
+      "title": "Where Did the Dead Leaves Go",
+      "image": null,
+      "en": "During the field trip, no decomposers seemed visible under some rocks. Explain why the forest floor was not covered in meters of dead leaves anyway.",
+      "fr": "Lors du field trip, aucun décomposeur ne semblait visible sous certaines pierres. Explique pourquoi le sol de la forêt n'était pourtant pas recouvert de mètres de feuilles mortes.",
+      "corr_en": "Decomposers are present in the soil (even if not always visible), constantly breaking down dead leaves into mineral matter, which prevents organic matter from piling up.",
+      "corr_fr": "Les décomposeurs sont bien présents dans le sol (même s'ils ne sont pas toujours visibles), et transforment en continu les feuilles mortes en matière minérale, ce qui empêche l'accumulation de matière organique."
+    },
+    {
+      "id": 16,
+      "title": "Predicting Life in Sun and Shade",
+      "image": "shade suny.jpg",
+      "en": "Predict, based on the pictures, in which zone you would find more flying insects and wildflowers, and explain why.",
+      "fr": "Prédis, à partir des images, dans quelle zone tu trouverais davantage d'insectes volants et de fleurs sauvages, et explique pourquoi.",
+      "corr_en": "In the sunny clearing: flowering plants need more light to grow and produce flowers, which then attract pollinating insects like bees and butterflies.",
+      "corr_fr": "Dans la clairière ensoleillée : les plantes à fleurs ont besoin de plus de lumière pour pousser et fleurir, ce qui attire ensuite les insectes pollinisateurs comme les abeilles et les papillons."
+    },
+    {
+      "id": 17,
+      "title": "Symbiosis",
+      "image": null,
+      "en": "Give an example of symbiosis (other than the ones seen in class) and explain why it is different from ordinary mutualism.",
+      "fr": "Donne un exemple de symbiose (différent de ceux vus en classe) et explique en quoi il diffère d'un simple mutualisme.",
+      "corr_en": "Any valid example (e.g. termites and the bacteria in their gut digesting wood). Symbiosis is an extreme, obligatory relationship where the two species cannot survive apart, unlike ordinary mutualism where cooperation is beneficial but not vital.",
+      "corr_fr": "Tout exemple valable (ex. les termites et les bactéries de leur intestin qui digèrent le bois). La symbiose est une relation extrême et obligatoire où les deux espèces ne peuvent pas survivre l'une sans l'autre, contrairement à un mutualisme ordinaire, bénéfique mais non vital."
+    },
+    {
+      "id": 18,
+      "title": "Lichen",
+      "image": "lichen.jpg",
+      "en": "A lichen is actually made of a fungus and an alga living together. Explain why we call this symbiosis rather than simple mutualism.",
+      "fr": "Un lichen est en réalité composé d'un champignon et d'une algue vivant ensemble. Explique pourquoi on parle de symbiose plutôt que de simple mutualisme.",
+      "corr_en": "Because the fungus and the alga absolutely cannot survive separately in that environment: the alga produces food through photosynthesis and the fungus provides protection and water, making the relationship obligatory.",
+      "corr_fr": "Parce que le champignon et l'algue ne peuvent absolument pas survivre séparément dans ce milieu : l'algue produit de la nourriture par photosynthèse et le champignon apporte protection et eau, ce qui rend la relation obligatoire."
+    },
+    {
+      "id": 19,
+      "title": "Tick and Dog",
+      "image": null,
+      "en": "A tick lives on a dog and feeds on its blood. Identify the interaction and explain the effect on each organism.",
+      "fr": "Une tique vit sur un chien et se nourrit de son sang. Identifie l'interaction et explique l'effet sur chaque organisme.",
+      "corr_en": "Parasitism (+ / -): the tick benefits (it gets food), the dog is harmed (it loses blood and may get diseases), but the dog is usually not killed immediately.",
+      "corr_fr": "Le parasitisme (+ / -) : la tique en profite (elle se nourrit), le chien est désavantagé (il perd du sang et peut contracter des maladies), mais il n'est généralement pas tué immédiatement."
+    },
+    {
+      "id": 20,
+      "title": "Camouflage Before the Industrial Revolution",
+      "image": "moth.jpg",
+      "en": "Before the Industrial Revolution, tree bark was pale. Using the picture, explain which moth colour was best camouflaged, and why.",
+      "fr": "Avant la Révolution industrielle, l'écorce des arbres était claire. À l'aide de l'image, explique quelle couleur de papillon était la mieux camouflée, et pourquoi.",
+      "corr_en": "The light-coloured moth, because it blended in with the pale bark and was harder for birds to spot and eat.",
+      "corr_fr": "Le papillon clair, car il se confondait avec l'écorce claire et était plus difficile à repérer et à manger par les oiseaux."
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "A Forest Without Decomposers",
+      "image": null,
+      "en": "In a forest ecosystem, a disease suddenly eliminates most of the decomposers in the soil. Predict and explain the long-term impact on producers.",
+      "fr": "Dans un écosystème forestier, une maladie élimine soudainement la majeure partie des décomposeurs du sol. Prédis et explique l'impact à long terme sur les producteurs.",
+      "corr_en": "Without decomposers, dead organic matter is no longer transformed into mineral matter. The soil becomes poor in nutrients, which severely limits the growth of producers over time.",
+      "corr_fr": "Sans décomposeurs, la matière organique morte n'est plus transformée en matière minérale. Le sol s'appauvrit en nutriments, ce qui limite fortement la croissance des producteurs à long terme."
+    },
+    {
+      "id": 2,
+      "title": "The Wolf, the Deer and the Forest",
+      "image": "ardennes_forest_food_web.png",
+      "questions": [
+        {
+          "en": "Using the food web, predict what would happen to the deer population if the wolf disappeared again.",
+          "fr": "À l'aide du réseau trophique, prédis ce qui arriverait à la population de cerfs si le loup disparaissait à nouveau.",
+          "corr_en": "The deer population would grow uncontrolled, since its main predator is gone; deer would overgraze young trees, which could damage forest regeneration.",
+          "corr_fr": "La population de cerfs augmenterait sans contrôle, en l'absence de son principal prédateur ; les cerfs surpâtureraient les jeunes arbres, ce qui pourrait nuire à la régénération de la forêt."
+        },
+        {
+          "en": "Explain why the forest food web is more resilient than a simple food chain if a disease strikes the oak trees.",
+          "fr": "Explique pourquoi le réseau trophique de la forêt est plus résilient qu'une simple chaîne alimentaire si une maladie touche les chênes.",
+          "corr_en": "Herbivores that ate oak leaves/acorns can shift to other plant species available in the web, so the impact is absorbed rather than breaking the whole chain of feeding relationships.",
+          "corr_fr": "Les herbivores qui mangeaient des feuilles/glands de chêne peuvent se tourner vers d'autres espèces végétales du réseau, l'impact est ainsi absorbé au lieu de rompre toute la chaîne alimentaire."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Trophic Cascades",
+      "image": null,
+      "en": "Explain how the disappearance of a single predator species can trigger a \"trophic cascade\" affecting even the plants of an ecosystem.",
+      "fr": "Explique comment la disparition d'une seule espèce de prédateur peut déclencher une \"cascade trophique\" affectant même les plantes d'un écosystème.",
+      "corr_en": "Without the predator, herbivore populations grow uncontrolled and overgraze the vegetation; this reduces plant cover, which in turn affects the soil, water cycle, and every other species depending on those plants — the effect cascades down the whole food web.",
+      "corr_fr": "Sans le prédateur, les populations d'herbivores augmentent sans contrôle et surpâturent la végétation ; la couverture végétale diminue, ce qui affecte à son tour le sol, le cycle de l'eau, et toutes les autres espèces dépendant de ces plantes — l'effet se propage dans tout le réseau trophique."
+    },
+    {
+      "id": 4,
+      "title": "Reading a Predator-Prey Graph",
+      "image": "deer_wolf_population.png",
+      "en": "Analyse the graph and explain the relationship between the two population curves.",
+      "fr": "Analyse le graphique et explique la relation entre les deux courbes de population.",
+      "corr_en": "As the deer population grows too large, it likely overgrazes its food source and crashes; the wolf population then follows this trend with a delay, since wolves depend on deer as prey — this is a predator-prey cycle.",
+      "corr_fr": "Lorsque la population de cerfs devient trop importante, elle épuise probablement sa source de nourriture et s'effondre ; la population de loups suit alors cette tendance avec un décalage, car les loups dépendent des cerfs comme proies — il s'agit d'un cycle proie-prédateur."
+    },
+    {
+      "id": 5,
+      "title": "Competition vs Predation — Which Is Worse?",
+      "image": null,
+      "en": "Is competition between two bird species for nesting sites more or less damaging to biodiversity than predation? Justify using the vocabulary of the course",
+      "fr": "La compétition entre deux espèces d'oiseaux pour des sites de nidification est-elle plus ou moins dommageable pour la biodiversité que la prédation ? Justifie avec le vocabulaire du cours.",
+      "corr_en": "Both answers can be justified. Competition (- / -) harms both species without eliminating individuals directly, so it can gradually reduce populations; predation (+ / -) harms only the prey but is a natural, often necessary regulation. A good answer compares the reversibility and scale of each effect on population size.",
+      "corr_fr": "Les deux réponses peuvent être justifiées. La compétition (- / -) désavantage les deux espèces sans éliminer directement des individus, ce qui peut réduire progressivement les populations ; la prédation (+ / -) ne nuit qu'à la proie mais constitue une régulation naturelle, souvent nécessaire. Une bonne réponse compare la réversibilité et l'ampleur de l'effet sur la taille des populations."
+    },
+    {
+      "id": 6,
+      "title": "The Peppered Moth — Before and After",
+      "image": "biston betularia.jpg",
+      "questions": [
+        {
+          "en": "During the Industrial Revolution, which moth colour was favoured by natural selection, and why?",
+          "fr": "Pendant la Révolution industrielle, quelle couleur de papillon a été favorisée par la sélection naturelle, et pourquoi ?",
+          "corr_en": "The dark morph, because soot had darkened the tree trunks, so dark moths were better camouflaged from birds.",
+          "corr_fr": "La forme foncée, car la suie avait noirci les troncs d'arbres, rendant les papillons foncés mieux camouflés face aux oiseaux."
+        },
+        {
+          "en": "Predict what would happen to the moth population today if air pollution decreased and tree bark became pale again.",
+          "fr": "Prédis ce qui arriverait à la population de papillons aujourd'hui si la pollution de l'air diminuait et que l'écorce redevenait claire.",
+          "corr_en": "The light-coloured moths would again be better camouflaged and survive more, so over generations the light form would become dominant again — natural selection reversing direction.",
+          "corr_fr": "Les papillons clairs seraient à nouveau mieux camouflés et survivraient davantage, donc au fil des générations la forme claire redeviendrait dominante — la sélection naturelle s'inverserait."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Earthworms and Soil Fertility",
+      "image": null,
+      "en": "A new disease kills all the earthworms in a garden. Predict the consequences on soil fertility and plant growth, using the concepts of organic and mineral matter.",
+      "fr": "Une nouvelle maladie tue tous les vers de terre d'un jardin. Prédis les conséquences sur la fertilité du sol et la croissance des plantes, en utilisant les notions de matière organique et minérale.",
+      "corr_en": "Earthworms are important decomposers; without them, organic matter (dead leaves, roots) breaks down more slowly, less mineral matter is released into the soil, and plants receive fewer nutrients, which reduces their growth.",
+      "corr_fr": "Les vers de terre sont d'importants décomposeurs ; sans eux, la matière organique (feuilles mortes, racines) se décompose plus lentement, moins de matière minérale est libérée dans le sol, et les plantes reçoivent moins de nutriments, ce qui limite leur croissance."
+    },
+    {
+      "id": 8,
+      "title": "Analysing Field Data — Zone A vs B",
+      "image": "field_data_sheet level 3.png",
+      "en": "Which single physical factor most likely limits biodiversity the most in Zone A? Propose a hypothesis and describe how you would test it in the field.",
+      "fr": "Quel facteur physique unique limite le plus probablement la biodiversité en Zone A ? Propose une hypothèse et décris comment tu la testerais sur le terrain.",
+      "corr_en": "Likely humidity (or high temperature causing dryness). Hypothesis: low humidity limits the number of species that can survive in Zone A. Test: measure humidity and species count in several sunny and shaded spots, keeping other factors as constant as possible, and compare the results.",
+      "corr_fr": "Probablement l'humidité (ou une température élevée causant la sécheresse). Hypothèse : la faible humidité limite le nombre d'espèces pouvant survivre en Zone A. Test : mesurer l'humidité et le nombre d'espèces dans plusieurs zones ensoleillées et ombragées, en gardant les autres facteurs aussi constants que possible, puis comparer les résultats."
+    },
+    {
+      "id": 9,
+      "title": "Food Web as a Scientific Model",
+      "image": null,
+      "en": "Explain why a food web is considered a better \"scientific model\" than a food chain, and mention one limitation that models in general always have.",
+      "fr": "Explique pourquoi un réseau trophique est considéré comme un meilleur \"modèle scientifique\" qu'une chaîne alimentaire, et cite une limite que possèdent tous les modèles en général.",
+      "corr_en": "A food web better represents reality because real ecosystems have many interconnected feeding relationships, not a single line. However, like any model, it is a simplification of reality and cannot include every single interaction or species that truly exists.",
+      "corr_fr": "Un réseau trophique représente mieux la réalité car les écosystèmes réels comportent de nombreuses relations alimentaires interconnectées, pas une simple ligne. Cependant, comme tout modèle, il reste une simplification de la réalité et ne peut pas inclure toutes les interactions ou espèces réellement présentes."
+    },
+    {
+      "id": 10,
+      "title": "Hidden Biodiversity",
+      "image": "meadow golf.jpg",
+      "en": "The golf course looks \"green and alive\", yet scientists say it likely has lower biodiversity than the meadow. Explain why visible greenery can be misleading, and mention a level of biodiversity that is often invisible.",
+      "fr": "Le golf paraît \"vert et vivant\", pourtant les scientifiques disent qu'il a probablement une biodiversité plus faible que la prairie. Explique pourquoi la verdure visible peut être trompeuse, et cite un niveau de biodiversité souvent invisible.",
+      "corr_en": "A golf course is mostly a single grass species, so despite looking green it has very low species diversity; biodiversity also exists at the level of the soil (microorganisms, fungi, insects), which is invisible at first glance but is usually much richer under a natural meadow than under intensively maintained grass.",
+      "corr_fr": "Un golf est presque uniquement composé d'une seule espèce de gazon ; malgré son aspect vert, sa diversité d'espèces est très faible. La biodiversité existe aussi au niveau du sol (micro-organismes, champignons, insectes), invisible à première vue, mais généralement bien plus riche sous une prairie naturelle que sous un gazon entretenu intensivement."
+    },
+    {
+      "id": 11,
+      "title": "Natural Selection in a Changing Climate",
+      "image": null,
+      "en": "Explain both a positive and a negative impact that natural selection can have on biodiversity in a changing climate.",
+      "fr": "Explique un impact positif et un impact négatif que la sélection naturelle peut avoir sur la biodiversité dans un climat changeant.",
+      "corr_en": "Positive: natural selection allows some individuals better adapted to new conditions (e.g. heat resistance) to survive and pass on their traits, helping the species persist. Negative: if the environment changes too fast, many species may not have the genetic variety needed to adapt in time, leading to a loss of biodiversity.",
+      "corr_fr": "Positif : la sélection naturelle permet aux individus les mieux adaptés aux nouvelles conditions (ex. résistance à la chaleur) de survivre et de transmettre leurs caractéristiques, aidant l'espèce à perdurer. Négatif : si l'environnement change trop vite, de nombreuses espèces n'ont pas assez de variété génétique pour s'adapter à temps, ce qui entraîne une perte de biodiversité."
+    },
+    {
+      "id": 12,
+      "title": "Light Levels and Biodiversity",
+      "image": "forest_light_biodiversity_gradient.png",
+      "en": "Using the diagram, predict at which level biodiversity is likely to be highest, and justify your answer using abiotic factors.",
+      "fr": "À l'aide du schéma, prédis à quel niveau la biodiversité est probablement la plus élevée, et justifie ta réponse avec des facteurs abiotiques.",
+      "corr_en": "Answers may vary with justification; a common answer is the canopy/edge zones with intermediate to high light, since many plants need light for photosynthesis, which then supports more herbivores and their predators — light availability directly shapes where producers, and therefore the rest of the food web, can thrive.",
+      "corr_fr": "Les réponses peuvent varier si elles sont justifiées ; une réponse fréquente est la canopée/les zones de lisière avec une lumière intermédiaire à forte, car de nombreuses plantes ont besoin de lumière pour la photosynthèse, ce qui soutient ensuite davantage d'herbivores et leurs prédateurs — la disponibilité en lumière détermine directement où les producteurs, et donc le reste du réseau trophique, peuvent prospérer."
+    },
+    {
+      "id": 13,
+      "title": "Design an Experiment — Decomposition Speed",
+      "image": null,
+      "en": "Design a simple experiment (hypothesis + variable to test) to find out why litter decomposes faster in one zone of a forest than in another.",
+      "fr": "Conçois une expérience simple (hypothèse + variable à tester) pour découvrir pourquoi la litière se décompose plus vite dans une zone d'une forêt que dans une autre.",
+      "corr_en": "Hypothesis: humidity speeds up decomposition. Test: place identical leaf samples in both zones, keep all other conditions similar, measure the mass or state of decomposition after a fixed time, and compare — only changing humidity/zone as the variable.",
+      "corr_fr": "Hypothèse : l'humidité accélère la décomposition. Test : placer des échantillons de feuilles identiques dans les deux zones, garder les autres conditions similaires, mesurer la masse ou l'état de décomposition après un temps fixe, et comparer — en ne faisant varier que l'humidité/la zone."
+    },
+    {
+      "id": 14,
+      "title": "After Deforestation",
+      "image": "deforastation.jpg",
+      "en": "Predict the long-term consequences for the local biocenosis and biotope if the deforested area shown never regrows.",
+      "fr": "Prédis les conséquences à long terme pour la biocénose et le biotope locaux si la zone déforestée montrée sur l'image ne repousse jamais.",
+      "corr_en": "Without trees, the biotope changes drastically: less shade, higher temperature, drier soil, more erosion. This new biotope can no longer support the original biocenosis (forest species lose their habitat and food sources), leading to a loss of biodiversity and a completely different, poorer ecosystem.",
+      "corr_fr": "Sans arbres, le biotope change radicalement : moins d'ombre, température plus élevée, sol plus sec, davantage d'érosion. Ce nouveau biotope ne peut plus soutenir la biocénose d'origine (les espèces forestières perdent leur habitat et leurs sources de nourriture), entraînant une perte de biodiversité et un écosystème complètement différent et appauvri."
+    },
+    {
+      "id": 15,
+      "title": "The Wolf's Return in the Ardennes",
+      "image": null,
+      "en": "\"The grey wolf has naturally returned to the forests of the Belgian Ardennes.\" Explain why the return of the wolf can rebalance the deer population, and how this illustrates natural selection.",
+      "fr": "\"Le loup gris est naturellement revenu dans les forêts de l'Ardenne belge.\" Explique pourquoi le retour du loup peut rééquilibrer la population de cerfs, et en quoi cela illustre la sélection naturelle.",
+      "corr_en": "Without wolves, the deer population grows uncontrolled and overgrazes the forest. The return of the wolf limits this population by preferentially hunting the weakest, sick, or oldest individuals: this is natural selection, since the best-adapted deer (fast, healthy) survive more and reproduce more.",
+      "corr_fr": "Sans loup, la population de cerfs augmente sans contrôle et surpâture la forêt. Le retour du loup limite cette population en chassant en priorité les individus les plus faibles, malades ou âgés : c'est la sélection naturelle, car les cerfs les mieux adaptés (rapides, en bonne santé) survivent davantage et se reproduisent."
+    },
+    {
+      "id": 16,
+      "title": "Soil With and Without Decomposers",
+      "image": "soil_with_without_decomposers.png",
+      "en": "Compare the two soils and predict, 10 years later, the consequence for the forest above each one.",
+      "fr": "Compare les deux sols et prédis, 10 ans plus tard, la conséquence pour la forêt qui se trouve au-dessus de chacun.",
+      "corr_en": "The soil with decomposers stays rich in mineral matter, supporting healthy tree growth. The soil without decomposers accumulates undecomposed organic matter but stays poor in mineral nutrients, so trees would grow weaker and the forest could gradually decline.",
+      "corr_fr": "Le sol avec décomposeurs reste riche en matière minérale, ce qui favorise une croissance saine des arbres. Le sol sans décomposeurs accumule de la matière organique non décomposée mais reste pauvre en nutriments minéraux : les arbres pousseraient plus faiblement et la forêt pourrait décliner progressivement."
+    },
+    {
+      "id": 17,
+      "title": "Tracing the Matter of a Wolf's Prey",
+      "image": null,
+      "en": "Explain the full journey of matter when a wolf leaves the remains of its prey on the forest floor, using the words \"organic matter\", \"decomposers\" and \"mineral matter\".",
+      "fr": "Explique le trajet complet de la matière lorsqu'un loup abandonne les restes de sa proie sur le sol de la forêt, en utilisant les mots \"matière organique\", \"décomposeurs\" et \"matière minérale\".",
+      "corr_en": "The remains are organic matter; decomposers (fungi, bacteria, earthworms) break them down, transforming the organic matter into mineral matter, which enriches the soil and can then be reused by producers such as trees.",
+      "corr_fr": "Les restes constituent de la matière organique ; les décomposeurs (champignons, bactéries, vers de terre) la transforment en matière minérale, ce qui enrichit le sol et peut ensuite être réutilisé par les producteurs comme les arbres."
+    },
+    {
+      "id": 18,
+      "title": "Clownfish and Anemone",
+      "image": "clownfish.jpg",
+      "en": "Explain what would happen to both organisms if they were forcibly separated, and use this to justify why some scientists consider this relationship close to symbiosis.",
+      "fr": "Explique ce qui arriverait aux deux organismes s'ils étaient séparés de force, et utilise cela pour justifier pourquoi certains scientifiques considèrent cette relation proche de la symbiose.",
+      "corr_en": "Without the anemone, the clownfish would lose its main protection from predators and would be more vulnerable; without the fish, the anemone would lose the cleaning, food scraps, and water circulation benefits, and could become more exposed to certain predators. Since both suffer a real disadvantage when separated, the relationship goes beyond simple mutualism and approaches obligatory symbiosis for the fish especially.",
+      "corr_fr": "Sans l'anémone, le poisson-clown perdrait sa principale protection contre les prédateurs et serait plus vulnérable ; sans le poisson, l'anémone perdrait le nettoyage, les restes de nourriture et la circulation d'eau apportés, et pourrait être plus exposée à certains prédateurs. Comme les deux subissent un réel désavantage lorsqu'ils sont séparés, la relation dépasse le simple mutualisme et se rapproche d'une symbiose obligatoire, surtout pour le poisson."
+    },
+    {
+      "id": 19,
+      "title": "Pesticides and the Food Web",
+      "image": null,
+      "en": "If pesticides killed most pollinating insects in a region, predict the consequences across several trophic levels, from producers to top consumers.",
+      "fr": "Si des pesticides tuaient la majorité des insectes pollinisateurs d'une région, prédis les conséquences à travers plusieurs niveaux trophiques, des producteurs jusqu'aux consommateurs de haut niveau.",
+      "corr_en": "Flowering plants (producers) would reproduce less and decline; herbivores that depend on these plants would have less food and their populations would drop; predators that eat those herbivores would then also struggle to find food, so the effect would spread up the whole food web.",
+      "corr_fr": "Les plantes à fleurs (producteurs) se reproduiraient moins et déclineraient ; les herbivores qui en dépendent auraient moins de nourriture et leurs populations chuteraient ; les prédateurs qui mangent ces herbivores auraient alors aussi du mal à se nourrir, l'effet se propageant dans tout le réseau trophique."
+    },
+    {
+      "id": 20,
+      "title": "Why Predation Benefits the Prey Species",
+      "image": "lion zebra.jpg",
+      "en": "Explain why predation, even though it kills individuals, is generally considered beneficial for the prey species as a whole over time.",
+      "fr": "Explique pourquoi la prédation, même si elle tue des individus, est généralement considérée comme bénéfique pour l'espèce proie dans son ensemble sur le long terme.",
+      "corr_en": "Predators tend to catch the weakest, sickest, or slowest individuals; this acts as natural selection, removing less-adapted individuals and leaving the strongest to reproduce, which improves the overall health and adaptation of the prey population, and also prevents the prey population from growing too large and depleting its own food resources.",
+      "corr_fr": "Les prédateurs capturent en priorité les individus les plus faibles, malades ou lents ; cela agit comme une sélection naturelle, éliminant les individus les moins adaptés et laissant les plus forts se reproduire, ce qui améliore la santé et l'adaptation globale de la population de proies, tout en évitant que celle-ci ne devienne trop nombreuse et n'épuise ses propres ressources alimentaires."
+    }
+  ]
+}

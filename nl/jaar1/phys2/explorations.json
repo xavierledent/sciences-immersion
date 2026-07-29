@@ -1,0 +1,33 @@
+{
+  "documentation": {
+    "title": "Documentation",
+    "basePath": "PDF",
+    "items": [
+      {
+        "title": "Le plasma",
+        "description": "Au-delà des gaz, la découverte d'un état fluide surchauffé et ionisé qui compose la majorité de notre Univers.",
+        "file": "EXPLO 1 - Le plasma, 4e état de la matière.pdf"
+      },
+      {
+        "title": "Cuisine moléculaire",
+        "description": "Quand la science s'invite aux fourneaux pour métamorphoser les textures et bousculer nos habitudes gustatives.",
+        "file": "EXPLO 2 - Cuisine moleculaire.pdf"
+      },
+      {
+        "title": "Dilatation des structures",
+        "description": "Le défi physique et architectural des grands monuments qui s'allongent et se contractent au fil des saisons.",
+        "file": "EXPLO 3 - Dilatation thermique des structures.pdf"
+      },
+      {
+        "title": "Ebullition et pression atmosphérique",
+        "description": "Pourquoi l'eau ne bout pas partout à la même température selon l'altitude ou les conditions de pression.",
+        "file": "EXPLO 4 - Ebullition et pression atmospherique.pdf"
+      }
+    ]
+  },
+  "liensUtiles": {
+    "title": "Liens utiles",
+    "basePath": "",
+    "items": []
+  }
+}

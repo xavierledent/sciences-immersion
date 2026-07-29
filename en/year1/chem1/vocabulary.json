@@ -1,0 +1,182 @@
+[
+  {
+    "english": "Raw materials",
+    "french": "Matières premières",
+    "definitionEnglish": "Basic materials from which a product is made.",
+    "definitionFrench": "Matériaux de base à partir desquels un produit est fabriqué."
+  },
+  {
+    "english": "Soil",
+    "french": "Sol",
+    "definitionEnglish": "The top layer of the earth's surface, thin, dark, and full of life and organic matter.",
+    "definitionFrench": "La couche supérieure de la surface de la Terre, mince, foncée, et pleine de vie et de matière organique."
+  },
+  {
+    "english": "Organic matter",
+    "french": "Matière organique",
+    "definitionEnglish": "Matter composed of organic compounds that come from the remains of organisms such as plants and animals.",
+    "definitionFrench": "Matière composée de composés organiques provenant de restes d'organismes tels que les plantes et les animaux."
+  },
+  {
+    "english": "Subsoil",
+    "french": "Sous-sol",
+    "definitionEnglish": "The layer of bed rock and mineral materials underneath the surface soil.",
+    "definitionFrench": "La couche de roche solide et de matériaux minéraux située sous le sol de surface."
+  },
+  {
+    "english": "Rocks",
+    "french": "Roches",
+    "definitionEnglish": "Solid mineral material forming part of the surface of the earth and other similar planets.",
+    "definitionFrench": "Matériau minéral solide formant une partie de la surface de la terre et d'autres planètes similaires."
+  },
+  {
+    "english": "Minerals",
+    "french": "Minéraux",
+    "definitionEnglish": "Solid, naturally occurring inorganic substances with a definite chemical composition.",
+    "definitionFrench": "Substances inorganiques solides et naturelles ayant une composition chimique définie."
+  },
+  {
+    "english": "Material list",
+    "french": "Liste du matériel",
+    "definitionEnglish": "A list of equipment, tools, or substances needed to perform a scientific experiment.",
+    "definitionFrench": "Une liste d'équipements, d'outils ou de substances nécessaires pour réaliser une expérience scientifique."
+  },
+  {
+    "english": "Procedure",
+    "french": "Procédure / Protocole",
+    "definitionEnglish": "A series of actions or steps conducted in a certain order to perform an experiment.",
+    "definitionFrench": "Une série d'actions ou d'étapes menées dans un ordre précis pour réaliser une expérience."
+  },
+  {
+    "english": "Laboratory report",
+    "french": "Rapport de laboratoire",
+    "definitionEnglish": "A document that describes and analyzes a scientific experiment.",
+    "definitionFrench": "Un document qui décrit et analyse une expérience scientifique."
+  },
+  {
+    "english": "Natural resource",
+    "french": "Ressource naturelle",
+    "definitionEnglish": "Materials or substances such as minerals, forests, water, and fertile land that occur in nature.",
+    "definitionFrench": "Matériaux ou substances tels que les minéraux, les forêts, l'eau et les terres fertiles qui se trouvent dans la nature."
+  },
+  {
+    "english": "Fossil fuels",
+    "french": "Combustibles fossiles",
+    "definitionEnglish": "Natural fuels such as coal or gas, formed in the geological past from the remains of living organisms.",
+    "definitionFrench": "Combustibles naturels comme le charbon ou le gaz, formés dans le passé géologique à partir de restes d'organismes vivants."
+  },
+  {
+    "english": "Petroleum oil",
+    "french": "Pétrole",
+    "definitionEnglish": "A liquid fossil fuel found underground that can be refined into gasoline and other products.",
+    "definitionFrench": "Un combustible fossile liquide trouvé sous terre qui peut être raffiné en essence et autres produits."
+  },
+  {
+    "english": "Natural gas",
+    "french": "Gaz naturel",
+    "definitionEnglish": "Flammable gas, consisting largely of methane, occurring naturally underground.",
+    "definitionFrench": "Gaz inflammable, composé principalement de méthane, présent naturellement sous terre."
+  },
+  {
+    "english": "Coal",
+    "french": "Charbon",
+    "definitionEnglish": "A combustible black or dark brown rock consisting mainly of carbonised plant matter, found underground.",
+    "definitionFrench": "Une roche combustible noire ou brune composée principalement de matière végétale carbonisée, trouvée sous terre."
+  },
+  {
+    "english": "Renewable resources",
+    "french": "Ressources renouvelables",
+    "definitionEnglish": "Resources that can be replenished naturally over a short period of time.",
+    "definitionFrench": "Ressources qui peuvent se reconstituer naturellement sur une courte période."
+  },
+  {
+    "english": "Non-renewable resources",
+    "french": "Ressources non-renouvelables",
+    "definitionEnglish": "Resources that exist in finite quantities and cannot be replaced easily once they are used up.",
+    "definitionFrench": "Ressources qui existent en quantités limitées et ne peuvent pas être remplacées facilement une fois épuisées."
+  },
+  {
+    "english": "Ores",
+    "french": "Minéraux / Minerais",
+    "definitionEnglish": "Rocks or sediments that contain valuable minerals, typically metals, that can be mined.",
+    "definitionFrench": "Roches ou sédiments contenant des minéraux précieux, généralement des métaux, qui peuvent être extraits."
+  },
+  {
+    "english": "Luster",
+    "french": "Éclat",
+    "definitionEnglish": "The way light interacts with the surface of a crystal, mineral, or rock.",
+    "definitionFrench": "La façon dont la lumière interagit avec la surface d'un cristal, d'un minéral ou d'une roche."
+  },
+  {
+    "english": "Electrical conductivity",
+    "french": "Conductivité électrique",
+    "definitionEnglish": "The measure of a material's ability to conduct an electric current.",
+    "definitionFrench": "La mesure de la capacité d'un matériau à conduire un courant électrique."
+  },
+  {
+    "english": "Thermal conductivity",
+    "french": "Conductivité thermique",
+    "definitionEnglish": "The property of a material to conduct or transfer heat.",
+    "definitionFrench": "La propriété d'un matériau à conduire ou transférer la chaleur."
+  },
+  {
+    "english": "Malleability",
+    "french": "Malléabilité",
+    "definitionEnglish": "The quality of something that can be shaped into something else without breaking, especially metals.",
+    "definitionFrench": "La qualité de ce qui peut être façonné ou déformé sans se casser, en particulier les métaux."
+  },
+  {
+    "english": "Magnetism",
+    "french": "Magnétisme",
+    "definitionEnglish": "A physical phenomenon produced by the motion of electric charge, resulting in attractive and repulsive forces.",
+    "definitionFrench": "Un phénomène physique produit par le mouvement de charges électriques, entraînant des forces d'attraction et de répulsion."
+  },
+  {
+    "english": "Copper",
+    "french": "Cuivre",
+    "definitionEnglish": "A red-brown metal that is an excellent conductor of electricity and heat.",
+    "definitionFrench": "Un métaux rouge-brun qui est un excellent conducteur d'électricité et de chaleur."
+  },
+  {
+    "english": "Iron",
+    "french": "Fer",
+    "definitionEnglish": "A strong, magnetic, silver-gray metal widely used for structural and manufacturing purposes.",
+    "definitionFrench": "Un métal gris-argenté, solide et magnétique, largement utilisé pour les structures et la fabrication."
+  },
+  {
+    "english": "Lifecycle",
+    "french": "Cycle de vie",
+    "definitionEnglish": "The series of changes or stages in the life of a product, from raw materials to final disposal.",
+    "definitionFrench": "La série de changements ou d'étapes dans la vie d'un produit, de l'extraction des matières premières jusqu'à son élimination finale."
+  },
+  {
+    "english": "Manufacturing",
+    "french": "Fabrication",
+    "definitionEnglish": "The making of articles or products on a large scale using machinery.",
+    "definitionFrench": "La production d'articles ou de produits à grande échelle à l'aide de machines."
+  },
+  {
+    "english": "Disposal",
+    "french": "Élimination / Fin de vie",
+    "definitionEnglish": "The action or process of throwing away or getting rid of a product at the end of its use.",
+    "definitionFrench": "L'action ou le processus de jeter ou de se débarrasser d'un produit à la fin de son utilisation."
+  },
+  {
+    "english": "Recycling",
+    "french": "Recyclage",
+    "definitionEnglish": "The process of converting waste materials into new materials and objects.",
+    "definitionFrench": "Le processus de conversion des déchets en nouveaux matériaux et objets."
+  },
+  {
+    "english": "Biodegradable",
+    "french": "Biodégradable",
+    "definitionEnglish": "Capable of being decomposed by bacteria or other living organisms.",
+    "definitionFrench": "Capable d'être décomposé par des bactéries ou d'autres organismes vivants."
+  },
+  {
+    "english": "Waste sorting",
+    "french": "Tri des déchets",
+    "definitionEnglish": "The process by which waste is separated into different elements for proper treatment or recycling.",
+    "definitionFrench": "Le processus par lequel les déchets sont séparés en différents éléments pour un traitement ou un recyclage approprié."
+  }
+]

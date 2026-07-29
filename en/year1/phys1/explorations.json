@@ -1,0 +1,28 @@
+{
+  "documentation": {
+    "title": "Documentation",
+    "basePath": "PDF",
+    "items": [
+      {
+        "title": "Réseau électrique",
+        "description": "Du lieu de production jusqu'au consommateur, le voyage de l'électricité à travers les lignes haute et basse tension.",
+        "file": "EXPLO 1 - Réseau électrique.pdf"
+      },
+      {
+        "title": "Batteries",
+        "description": "Le fonctionnement chimique et les composants clés qui permettent de stocker et de libérer l'énergie à volonté.",
+        "file": "EXPLO 2 - Batteries.pdf"
+      },
+      {
+        "title": "Effet photovoltaïque",
+        "description": "La conversion physique de la lumière du soleil en courant électrique au cœur des cellules de silicium.",
+        "file": "EXPLO 3 - Effet photovoltaïque.pdf"
+      }
+    ]
+  },
+  "liensUtiles": {
+    "title": "Liens utiles",
+    "basePath": "",
+    "items": []
+  }
+}

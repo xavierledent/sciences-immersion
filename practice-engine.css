@@ -1,0 +1,1457 @@
+    .practice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 24px;
+      margin-bottom: 48px;
+    }
+
+    .exercise-card,
+    .interactive-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 520px;
+      padding: 24px;
+      border-radius: 28px;
+      background: var(--color-surface);
+      box-shadow: var(--color-shadow);
+      border: 1px solid rgba(17, 36, 72, 0.08);
+    }
+
+    .exercise-actions {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .exercise-actions .resource-button {
+      width: 100%;
+      min-height: 4rem;
+      font-size: 1rem;
+      padding: 0 18px;
+    }
+
+    .interactive-card .coming-soon {
+      display: grid;
+      place-items: center;
+      flex: 1;
+      color: var(--color-muted);
+      font-size: 1.05rem;
+      text-align: center;
+    }
+
+    #exercise-modal .modal-card {
+      width: 90vw;
+      max-width: 1100px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    #exercise-modal .modal-card-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+    #exercise-modal .modal-body {
+      overflow-y: auto;
+      flex: 1;
+      padding: 0 25px 25px;
+    }
+
+    .modal-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: 20px;
+    }
+
+    .modal-close {
+      position: static !important;
+      margin: 0;
+      cursor: pointer;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(17, 36, 72, 0.12);
+      background: #ffffff;
+      color: var(--color-text);
+      font-size: 1.35rem;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 18px rgba(17, 36, 72, 0.12);
+    }
+
+    .modal-close:hover,
+    .modal-close:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+      border-color: rgba(29, 179, 212, 0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 25px 25px 10px 25px;
+    }
+
+    /* Exercise modal only: title row (subtitle left, title centered) then the
+       language toggle below, instead of one cramped row. The close button is
+       taken out of this flow entirely (absolute, anchored to the card corner). */
+    #exercise-modal .modal-header {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+      padding: 25px 25px 10px 25px;
+    }
+
+    /* Leaves room on the right so the title/subtitle never run under the
+       absolutely-positioned close button; padded symmetrically so the
+       centered title stays visually centered on the header, not just the box. */
+    .modal-header-titles {
+      padding: 0 56px;
+    }
+
+    .modal-header-titles p {
+      text-align: center;
+    }
+
+    #exercise-modal .modal-header-titles h2 {
+      text-align: center;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    /* Shared by every game modal (QCM, DnD, Memory, Sorting, FITB): takes the
+       remaining header width so the title centers on the whole bar rather than
+       just the space left of the close button. */
+    .game-modal-title {
+      flex: 1;
+      text-align: center;
+    }
+
+    #exercise-modal .modal-close,
+    #dnd-modal .modal-close,
+    #memory-modal .modal-close,
+    #sorting-modal .modal-close,
+    #qcm-modal .modal-close,
+    #fitb-modal .modal-close {
+      position: absolute !important;
+      top: 18px;
+      right: 18px;
+    }
+
+    .language-buttons {
+      margin: 0 auto;
+    }
+
+    .language-buttons,
+    .correction-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      width: 460px;
+      max-width: 100%;
+    }
+
+    .correction-buttons {
+      margin: 18px auto 0;
+    }
+
+    .toggle-button {
+      position: relative;
+      border: 1px solid rgba(17, 36, 72, 0.12);
+      border-radius: 999px;
+      padding: 12px 16px;
+      background: rgba(var(--color-current-rgb), 0.12);
+      color: var(--color-text);
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: background var(--transition), border-color var(--transition), color var(--transition);
+    }
+
+    .toggle-button.active {
+      background: var(--color-current);
+      border-color: rgba(var(--color-current-rgb), 0.35);
+      color: #ffffff;
+    }
+
+    /* Drains from full to empty over the FR lock duration (see lockFrButtons in
+       practice-engine.js). Sits behind the label, shows how long is left without
+       a ticking number that would change the button's width. */
+    .toggle-fill {
+      position: absolute;
+      inset: 0;
+      background: rgba(var(--color-current-rgb), 0.35);
+      transform: scaleX(0);
+      transform-origin: left;
+      pointer-events: none;
+    }
+
+    .toggle-label {
+      position: relative;
+      z-index: 1;
+    }
+
+    .toggle-button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .exercise-image {
+      width: auto;
+      max-width: 100%;
+      max-height: 280px;
+      object-fit: contain;
+      border-radius: 20px;
+      background: transparent;
+      display: block;
+      margin: 0 auto 16px;
+    }
+
+    .exercise-text {
+      padding: 20px;
+      border-radius: 22px;
+      background: rgba(var(--color-current-rgb), 0.05);
+      border: 1px solid rgba(var(--color-current-rgb), 0.18);
+      color: var(--color-text);
+      line-height: 1.7;
+      min-height: 140px;
+      white-space: pre-line;
+      text-align: justify;
+    }
+
+    /* Same rule as .exercise-text above, for the game modals: a real line break
+       typed in the admin tool must survive to the screen instead of collapsing
+       into a space. Deliberately limited to these containers — each holds
+       teacher text and nothing else, so no template indentation can turn into
+       stray blank lines. */
+    .qcm-question,
+    .fitb-text,
+    .qcm-instructions-text,
+    .fitb-instructions-text,
+    .dnd-instructions-text,
+    .memory-instructions-text,
+    .sorting-instructions-text {
+      white-space: pre-line;
+    }
+
+    #exercises-pagination {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    #exercises-pagination .exercise-step {
+      width: 40px;
+      height: 40px;
+      font-size: 0.82rem;
+      border-radius: 10px;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .exercise-pager {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .exercise-pager-numbers {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .exercise-pager-ellipsis {
+      color: var(--color-muted);
+      font-weight: 700;
+      padding: 0 2px;
+    }
+
+    .exercise-pager-arrow {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border: 1px solid rgba(var(--color-current-rgb), 0.28);
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--color-current);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(var(--color-current-rgb), 0.12);
+      transition: transform var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .exercise-pager-arrow:hover:not(:disabled),
+    .exercise-pager-arrow:focus-visible:not(:disabled) {
+      transform: translateY(-1px);
+      outline: none;
+      border-color: rgba(var(--color-current-rgb), 0.4);
+      background: rgba(var(--color-current-rgb), 0.08);
+    }
+
+    .exercise-pager-arrow:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .exercise-pager-goto {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+
+    .exercise-pager-goto input {
+      width: 64px;
+      height: 36px;
+      padding: 0 8px;
+      border: 1px solid rgba(17, 36, 72, 0.15);
+      border-radius: 8px;
+      font: inherit;
+      font-size: 0.9rem;
+      color: var(--color-text);
+      text-align: center;
+    }
+
+    .exercise-pager-goto input:focus-visible {
+      outline: none;
+      border-color: var(--color-current);
+      box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.15);
+    }
+
+    .exercise-pager-goto input.invalid {
+      border-color: #e0555f;
+    }
+
+    .exercise-pager-goto-btn {
+      height: 36px;
+      flex-shrink: 0;
+      padding: 0 14px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: var(--color-current);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .exercise-pager-goto-btn:hover,
+    .exercise-pager-goto-btn:focus-visible {
+      outline: none;
+      transform: translateY(-1px);
+      background: var(--color-current-dark);
+    }
+
+    .exercise-pager-goto-error {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      white-space: nowrap;
+      background: #e0555f;
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 6px;
+      box-shadow: 0 6px 14px rgba(224, 85, 95, 0.3);
+      z-index: 2;
+    }
+
+    @media (max-width: 640px) {
+      #exercises-pagination {
+        gap: 10px;
+      }
+      .exercise-pager-goto {
+        width: 100%;
+      }
+    }
+
+    #interactive-pagination,
+    #qcm-pagination,
+    #fitb-pagination {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .pagination-label {
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      text-align: left;
+      margin-bottom: 6px;
+      margin-top: 14px;
+    }
+
+    #interactive-pagination .exercise-step,
+    #qcm-pagination .exercise-step,
+    #fitb-pagination .exercise-step {
+      width: auto;
+      aspect-ratio: auto;
+      padding: 10px 16px;
+    }
+
+    #exercise-subquestion-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    #exercise-subquestion-nav.hidden {
+      display: none;
+    }
+
+    #exercise-subquestion-nav .exercise-step {
+      width: auto;
+      aspect-ratio: auto;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+    }
+
+    /* ===== Student answer box =====
+       Two panels must be told apart at a glance, before reading their labels:
+       the student's own answer borrows the site-wide navy (--color-text, the
+       same tone as the index cards), while the correction keeps the chapter
+       colour (--color-current) already used by .exercise-text and .toggle-button. */
+    .answer-compare {
+      display: block;
+    }
+
+    /* Caption, not a control: it sits at button height opposite two real
+       buttons, so it is kept deliberately lighter and widely tracked — the
+       small-caps-and-spaced convention for a field label — instead of the bold
+       dark treatment that would read as a disabled button. */
+    .answer-compare-label {
+      display: none;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .answer-compare.is-comparing {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    .answer-compare.is-comparing .answer-compare-label {
+      display: block;
+    }
+
+    .answer-compare-mine {
+      display: none;
+    }
+
+    .answer-compare.is-comparing .answer-compare-mine {
+      display: block;
+    }
+
+    /* Slate rather than the near-black body colour: it belongs to the column it
+       heads (same family as its border and wash) and steps back from the text
+       the student actually needs to read. */
+    .answer-compare-mine .answer-compare-label {
+      color: var(--color-slate);
+    }
+
+    /* Same surface as the input the student typed into (white + slate border),
+       so the answer looks like it simply moved across rather than changing
+       nature. Radius stays at 22px to line up with the correction panel beside
+       it — the two are seen side by side, the input never is. */
+    .student-answer-echo {
+      padding: 20px;
+      border-radius: 22px;
+      background: rgba(var(--color-slate-rgb), 0.10);
+      border: 1.5px solid rgba(var(--color-slate-rgb), 0.55);
+      box-shadow: 0 6px 16px rgba(17, 36, 72, 0.07);
+      color: var(--color-text);
+      line-height: 1.7;
+      min-height: 140px;
+      white-space: pre-line;
+      text-align: justify;
+    }
+
+    .student-answer-echo.is-empty {
+      color: var(--color-muted);
+      font-style: italic;
+    }
+
+    .student-answer {
+      margin-top: 16px;
+    }
+
+    /* In the comparison the textarea goes away but its button row stays: the
+       button becomes "Edit my answer", the only way back now that the statement
+       toggles re-language the recalled question instead of switching screens. */
+    #exercise-modal.has-answer-box.is-comparing .student-answer-input {
+      display: none;
+    }
+
+    #exercise-modal.has-answer-box.is-comparing .student-answer-bar {
+      margin-top: 0;
+    }
+
+    /* The correction toggles now head their own column, directly above the panel
+       they control, instead of sitting at the bottom of the modal separated from
+       it by the navigation button. As a column heading they are scaled down from
+       the full-size header toggles: sized to their text and centred over the
+       panel, echoing the label opposite. */
+    #exercise-modal.has-answer-box.is-comparing .answer-compare {
+      --compare-head-h: 36px;
+    }
+
+    #exercise-modal.has-answer-box.is-comparing .answer-compare-corr .correction-buttons {
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 auto 8px;
+      gap: 8px;
+    }
+
+    #exercise-modal.has-answer-box.is-comparing .answer-compare-corr .toggle-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--compare-head-h);
+      padding: 0 16px;
+      font-size: 0.85rem;
+    }
+
+    /* The left column heads with plain text where the right one heads with
+       buttons. Both are pinned to the same height variable so the two panels
+       always start on the same line, whatever the font renders at. */
+    #exercise-modal.has-answer-box.is-comparing .answer-compare-mine .answer-compare-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--compare-head-h);
+      margin-bottom: 8px;
+    }
+
+    /* A very light slate wash rather than a neutral grey field: same blue-grey
+       family as the index language/year cards, so the area reads as the
+       student's own space on every chapter, never the chapter colour. */
+    /* The native resize grip is the one raw-looking control left in this modal.
+       Removed rather than restyled (::-webkit-resizer is Blink-only and still
+       coarse), and replaced by auto-growing: the box follows the answer up to a
+       ceiling, past which it scrolls internally instead of pushing the modal. */
+    .student-answer-input {
+      width: 100%;
+      resize: none;
+      min-height: 80px;
+      max-height: 170px;
+      overflow-y: auto;
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1.5px solid rgba(var(--color-slate-rgb), 0.55);
+      background: rgba(var(--color-slate-rgb), 0.10);
+      box-shadow: 0 6px 16px rgba(17, 36, 72, 0.07);
+      color: var(--color-text);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .student-answer-input::placeholder {
+      color: rgba(19, 36, 61, 0.42);
+    }
+
+    /* Deliberately slate, not the chapter colour: the writing area must read as
+       the student's own space on every chapter, distinct from the chapter-tinted
+       question and correction panels. */
+    .student-answer-input:focus {
+      outline: none;
+      border-color: var(--color-slate);
+      box-shadow: 0 0 0 3px rgba(var(--color-slate-rgb), 0.22), 0 6px 16px rgba(17, 36, 72, 0.07);
+    }
+
+    /* The button is centred on the full width; the "Saved" flag is taken out of
+       the flow so it cannot push the button off-centre when it appears. */
+    .student-answer-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .student-answer-saved {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .student-answer-saved.is-visible {
+      opacity: 1;
+    }
+
+    /* The primary action of the screen: solid fill rather than the pale tint used
+       by the inactive toggles, which read as disabled. Slate rather than the
+       chapter colour, to stay in the student's own colour family like the
+       writing area it belongs to. */
+    .student-answer-check {
+      border: 1px solid var(--color-slate);
+      border-radius: 999px;
+      padding: 12px 26px;
+      background: var(--color-slate);
+      color: #ffffff;
+      font-weight: 700;
+      font-family: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(var(--color-slate-rgb), 0.28);
+      transition: background var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+
+    .student-answer-check:hover {
+      background: #3d5470;
+      border-color: #3d5470;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(var(--color-slate-rgb), 0.34);
+    }
+
+    .student-answer-check:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 16px rgba(var(--color-slate-rgb), 0.28);
+    }
+
+    /* Condensed reminder replacing the full-size image while comparing, so the
+       comparison view stays roughly as tall as the question view. */
+    .exercise-recall {
+      display: none;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      border-radius: 16px;
+      background: rgba(17, 36, 72, 0.04);
+      border: 1px solid rgba(17, 36, 72, 0.1);
+    }
+
+    .exercise-recall.is-visible {
+      display: flex;
+    }
+
+    .exercise-recall-img {
+      height: 52px;
+      width: 52px;
+      object-fit: cover;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Without an image the strip is text only, so the clamp can be looser: the
+       statement is the sole thing being recalled and should stay readable. */
+    .exercise-recall.is-textonly .exercise-recall-text {
+      -webkit-line-clamp: 4;
+    }
+
+    .exercise-recall-text {
+      margin: 0;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--color-muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Discreet "already attempted" marker. Informational only — never a score.
+       On the pager it means "at least one part answered"; on the a/b/c nav it is
+       per sub-question. */
+    #exercises-pagination .exercise-step,
+    #exercise-subquestion-nav .exercise-step {
+      position: relative;
+    }
+
+    #exercises-pagination .exercise-step.has-answer::after,
+    #exercise-subquestion-nav .exercise-step.has-answer::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(19, 36, 61, 0.45);
+    }
+
+    #exercises-pagination .exercise-step.active.has-answer::after,
+    #exercise-subquestion-nav .exercise-step.active.has-answer::after {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    /* The a/b/c pills are short pills, not squares: without extra room the dot
+       would sit on the letter. Scoped to pages that opted into the answer box so
+       chapters without it keep their current pill shape. */
+    #exercise-modal.has-answer-box #exercise-subquestion-nav .exercise-step {
+      padding-bottom: 15px;
+    }
+
+    @media (max-width: 480px) {
+      .answer-compare.is-comparing {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* ===== Fitting the exercise modal on short screens =====
+       Everything below is scoped to .has-answer-box, i.e. only the chapters that
+       opted into the answer box, so the other chapters keep their current layout.
+
+       Target case: Chromebook-style screens that are wide but short (1366x768).
+       The modal is capped at 90vh, the header eats ~190px, so the body only has
+       ~500px — while the stacked image + question alone asked for ~490px. */
+
+    /* Kept smaller than the shared 280px now that the picture can be opened full
+       screen on click. Deliberately in px, never vh: vh units are zoom-invariant,
+       so a vh-sized diagram would stay the same physical size when a student
+       zooms in to read small labels, while everything around it grew. */
+    #exercise-modal.has-answer-box .exercise-image {
+      max-height: 230px;
+    }
+
+    #exercise-modal.has-answer-box .exercise-text,
+    #exercise-modal.has-answer-box .student-answer-echo {
+      min-height: 0;
+      padding: 16px 18px;
+    }
+
+    /* Side by side, the two panels should still line up rather than jitter with
+       the length of each answer. */
+    #exercise-modal.has-answer-box.is-comparing .exercise-text,
+    #exercise-modal.has-answer-box.is-comparing .student-answer-echo {
+      min-height: 120px;
+    }
+
+    #exercise-modal.has-answer-box #exercise-subquestion-nav {
+      margin-bottom: 12px;
+    }
+
+    /* The correction is reached through "Check my answer" only: showing the
+       EN/FR correction toggles next to the question would invite skipping the
+       writing step. They reappear with the comparison, where switching the
+       correction language is the point. Reclaims ~62px in question mode too. */
+    #exercise-modal.has-answer-box:not(.is-comparing) .correction-buttons {
+      display: none;
+    }
+
+    /* Click-to-enlarge. Above the modal overlays, which sit at z-index 100. */
+    #exercise-modal.has-answer-box .exercise-image,
+    #exercise-modal.has-answer-box .exercise-recall-img {
+      cursor: zoom-in;
+    }
+
+    /* Wrapper hugs the picture so the hint anchors to the image itself rather
+       than to the full body width. */
+    #exercise-modal.has-answer-box .exercise-image-wrap {
+      position: relative;
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 auto 16px;
+    }
+
+    #exercise-modal.has-answer-box .exercise-image-wrap .exercise-image {
+      margin: 0;
+    }
+
+    /* Same look as the fill-in-the-blanks word glosses (chapter colour, same
+       radius, shadow and fade) — but anchored just inside the bottom of the
+       picture instead of above it, since the image sits at the very top of a
+       scrollable body where a tooltip above would be clipped. */
+    #exercise-modal.has-answer-box .exercise-image-wrap[data-hint]::after {
+      content: attr(data-hint);
+      position: absolute;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%) translateY(6px);
+      background: var(--color-current);
+      color: var(--color-current-text, #ffffff);
+      font-family: var(--font-family, 'Poppins', sans-serif);
+      font-size: 0.85rem;
+      font-weight: 500;
+      line-height: 1.4;
+      white-space: nowrap;
+      max-width: 92%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(var(--color-current-rgb), 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 20;
+    }
+
+    #exercise-modal.has-answer-box .exercise-image-wrap[data-hint]:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .image-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(17, 36, 72, 0.85);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+
+    .image-lightbox.is-open {
+      display: flex;
+    }
+
+    /* An <img> only ever shrinks to fit max-width/max-height — it never grows past
+       its natural size. Small diagrams (the food web is 715x455) were therefore
+       shown at roughly their in-modal size, leaving the screen unused. The
+       min-height forces them up to 2.5x the 230px used inside the modal, while
+       max-height still caps pictures that are already larger. object-fit keeps
+       the ratio safe if both constraints ever fight. */
+    .image-lightbox-img {
+      width: auto;
+      height: auto;
+      min-height: min(575px, 92vh);
+      max-width: 96vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Tightens the header stack (subtitle + title, pager, language toggles) to
+       hand ~23px back to the body without changing its structure. */
+    #exercise-modal.has-answer-box .modal-header {
+      gap: 10px;
+      padding-top: 14px;
+    }
+
+    #exercise-modal.has-answer-box .modal-header h2 {
+      font-size: 1.22rem;
+    }
+
+    /* QCM Specific Styles */
+    .qcm-progress-container {
+      width: 100%;
+      height: 6px;
+      background: rgba(17, 36, 72, 0.08);
+      border-radius: 4px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .qcm-progress-bar {
+      height: 100%;
+      background: var(--color-current);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .qcm-question-image {
+      display: block;
+      margin: 8px auto;
+      max-width: 100%;
+      max-height: 225px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .qcm-question {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--color-text);
+    }
+    .qcm-options {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .qcm-option {
+      padding: 12px 18px;
+      border: 2px solid rgba(17, 36, 72, 0.1);
+      border-radius: 16px;
+      background: #ffffff;
+      color: var(--color-text);
+      font-size: 1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+    }
+    .qcm-option:hover:not(:disabled) {
+      border-color: rgba(var(--color-current-rgb), 0.4);
+      background: rgba(var(--color-current-rgb), 0.04);
+      transform: translateY(-1px);
+    }
+    .qcm-option.selected {
+      border-color: var(--color-current);
+      background: rgba(var(--color-current-rgb), 0.1);
+    }
+    .qcm-option.correct {
+      border-color: #0ca37f;
+      background: rgba(12, 163, 127, 0.1);
+      color: #097d61;
+      font-weight: 600;
+    }
+    .qcm-option.wrong {
+      border-color: #d99bb0;
+      background: rgba(217, 155, 176, 0.12);
+      color: #8a5866;
+    }
+    .qcm-gentle-feedback {
+      margin: -4px 0 14px;
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      font-style: italic;
+    }
+    .qcm-progress-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .qcm-progress-row .qcm-progress-container {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    .qcm-streak-pips {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .qcm-streak-pips-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-current-dark);
+      margin-right: 2px;
+      white-space: nowrap;
+    }
+    .qcm-streak-pip {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(17, 36, 72, 0.12);
+      flex-shrink: 0;
+    }
+    .qcm-streak-pip.filled {
+      background: var(--color-current);
+    }
+    .qcm-action-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      border: none;
+      background: var(--color-current);
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .qcm-action-btn:hover:not(:disabled) {
+      background: var(--color-current-dark);
+      transform: translateY(-2px);
+    }
+    .qcm-action-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .qcm-score-screen {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .qcm-score-screen h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+    .qcm-score-screen p {
+      font-size: 1.2rem;
+      color: var(--color-muted);
+    }
+    .qcm-rank-badge {
+      font-size: 2.6rem;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .qcm-score-screen .qcm-rank-label {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--color-current-dark);
+      margin-top: -4px;
+    }
+    .qcm-score-screen .qcm-best-note {
+      font-size: 0.95rem;
+      color: var(--color-muted);
+      margin-top: 10px;
+    }
+    .qcm-score-screen .qcm-best-note-new {
+      color: var(--color-current-dark);
+      font-weight: 700;
+    }
+
+    /* QCM Large Modal */
+    .qcm-large-modal-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(17, 36, 72, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+    }
+
+    .qcm-large-modal-overlay.modal-open {
+      display: grid;
+    }
+
+    .qcm-modal-card {
+      width: 90vw;
+      height: 96vh;
+      max-width: 1100px;
+      background: var(--color-surface);
+      box-shadow: var(--color-shadow);
+      border-radius: var(--radius);
+      border: 1px solid rgba(17, 36, 72, 0.1);
+      overflow: hidden;
+    }
+
+    .qcm-modal-card-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .qcm-modal-header {
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .qcm-modal-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .qcm-instructions-text {
+      padding: 8px 24px 0;
+      font-size: 0.95rem;
+      color: #8a94a6;
+      font-weight: 400;
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+
+    .qcm-scroll-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 24px;
+      min-height: 0;
+    }
+
+    .qcm-footer {
+      padding: 8px 24px 12px;
+      border-top: 1px solid rgba(17, 36, 72, 0.06);
+      flex-shrink: 0;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-modal-header {
+      padding: 6px 24px;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-instructions-text {
+      padding: 4px 24px 0;
+      line-height: 1.35;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-scroll-content {
+      padding: 8px 24px;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-progress-row {
+      margin-bottom: 8px;
+    }
+    .qcm-modal-card.qcm-has-image .qcm-progress-row .qcm-progress-container {
+      margin-bottom: 0;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-question-image {
+      margin: 4px auto;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-question {
+      margin-bottom: 8px;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-options {
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-option {
+      padding: 7px 18px;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-footer {
+      padding: 4px 24px 6px;
+    }
+
+    /* Fill in the Blanks Large Modal */
+    .fitb-large-modal-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(17, 36, 72, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+    }
+
+    .fitb-large-modal-overlay.modal-open {
+      display: grid;
+    }
+
+    .fitb-modal-card {
+      width: 90vw;
+      height: 90vh;
+      max-width: 1100px;
+      background: var(--color-surface);
+      box-shadow: var(--color-shadow);
+      border-radius: var(--radius);
+      border: 1px solid rgba(17, 36, 72, 0.1);
+      overflow: hidden;
+    }
+
+    .fitb-modal-card-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .fitb-modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .fitb-modal-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .fitb-quiz-image-container {
+      flex-shrink: 0;
+      padding: 20px 24px 0;
+    }
+
+    .fitb-quiz-image-container img {
+      display: block;
+      width: 100%;
+      max-height: 26vh;
+      object-fit: contain;
+      border-radius: 16px;
+    }
+
+    .fitb-instructions-text {
+      padding: 12px 24px 0;
+      font-size: 0.95rem;
+      color: #8a94a6;
+      font-weight: 400;
+      line-height: 1.6;
+      flex-shrink: 0;
+    }
+
+    .fitb-scroll-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      min-height: 0;
+    }
+
+    .fitb-footer {
+      padding: 12px 24px 16px;
+      border-top: 1px solid rgba(17, 36, 72, 0.06);
+      flex-shrink: 0;
+    }
+
+    /* Fill in the Blanks Specific Styles */
+    .fitb-stats-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 48px;
+      padding: 8px 16px;
+      border-radius: 12px;
+      background: rgba(17, 36, 72, 0.03);
+      margin-bottom: 20px;
+    }
+    .fitb-stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--color-text);
+    }
+    .fitb-stat-icon {
+      font-size: 1rem;
+    }
+    .fitb-stat-result {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .fitb-result-badge {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--color-current-dark);
+    }
+    .fitb-result-note {
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+    .fitb-blank-wrap {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .fitb-blank-wrap.just-correct {
+      animation: fitb-pop 0.4s ease;
+    }
+    @keyframes fitb-pop {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .fitb-blank-tick {
+      position: absolute;
+      top: -10px;
+      right: -6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--color-emerald);
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fitb-tick-pop 0.7s ease forwards;
+    }
+    @keyframes fitb-tick-pop {
+      0% { opacity: 0; transform: scale(0.4); }
+      30% { opacity: 1; transform: scale(1.15); }
+      55% { transform: scale(1); }
+      75% { opacity: 1; }
+      100% { opacity: 0; transform: scale(0.9); }
+    }
+    .fitb-text {
+      font-size: 1.15rem;
+      line-height: 2.2;
+      color: var(--color-text);
+      margin-bottom: 30px;
+    }
+    .fitb-tools-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .fitb-speak-btn {
+      flex-shrink: 0;
+      border: 1px solid rgba(17, 36, 72, 0.15);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: var(--color-surface);
+      color: var(--color-current-dark);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .fitb-speak-btn:hover {
+      border-color: var(--color-current);
+      background: rgba(var(--color-current-rgb), 0.08);
+    }
+    .fitb-speak-btn.active {
+      background: var(--color-current);
+      border-color: var(--color-current);
+      color: var(--color-current-text, #ffffff);
+    }
+    .fitb-gloss-hint {
+      margin: 0;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--color-muted);
+    }
+    .fitb-gloss {
+      position: relative;
+      text-decoration: underline dotted var(--color-current);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      cursor: help;
+    }
+    .fitb-gloss::after {
+      content: attr(data-translation);
+      position: absolute;
+      left: 50%;
+      bottom: 100%;
+      transform: translateX(-50%) translateY(-6px);
+      background: var(--color-current);
+      color: var(--color-current-text, #ffffff);
+      font-family: var(--font-family, 'Poppins', sans-serif);
+      font-size: 0.85rem;
+      font-weight: 500;
+      line-height: 1.4;
+      white-space: nowrap;
+      padding: 6px 10px;
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(var(--color-current-rgb), 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 20;
+    }
+    .fitb-gloss:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-10px);
+    }
+    .fitb-select {
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 6px 12px;
+      margin: 0 4px;
+      border: 2px solid rgba(17, 36, 72, 0.1);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all var(--transition);
+      outline: none;
+    }
+    .fitb-select:focus {
+      border-color: var(--color-current);
+      box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+    }
+    .fitb-select.correct {
+      border-color: #0ca37f;
+      background: rgba(12, 163, 127, 0.1);
+      color: #097d61;
+      font-weight: 600;
+    }
+    .fitb-select.wrong {
+      border-color: #d4527a;
+      background: rgba(212, 82, 122, 0.1);
+      color: #a83d5e;
+    }
+    .fitb-select:disabled {
+      cursor: not-allowed;
+      opacity: 0.9;
+    }
+    .fitb-action-button {
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      border: none;
+      background: var(--color-current);
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .fitb-action-button:hover {
+      background: var(--color-current-dark);
+      transform: translateY(-2px);
+    }
+
+    .exercise-step {
+      width: calc((100% - 90px) / 10);
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      border: 1px solid rgba(17, 36, 72, 0.12);
+      background: #ffffff;
+      color: var(--color-text);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .exercise-step.active {
+      background: var(--color-current);
+      color: #ffffff;
+      border-color: rgba(var(--color-current-rgb), 0.35);
+    }
+
+    .exercise-step:hover {
+      transform: translateY(-1px);
+    }
+
+    .modal-footer {
+      margin-top: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .practice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .exercise-step {
+        width: calc((100% - 40px) / 5);
+      }
+    }

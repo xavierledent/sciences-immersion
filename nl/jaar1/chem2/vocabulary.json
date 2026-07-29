@@ -1,0 +1,122 @@
+[
+  {
+    "english": "Zuivere stof",
+    "french": "Corps pur",
+    "definitionEnglish": "Een vorm van materie die een constante chemische samenstelling heeft en overal dezelfde eigenschappen vertoont.",
+    "definitionFrench": "Une forme de matière qui a une composition chimique constante et des propriétés identiques dans tout son ensemble."
+  },
+  {
+    "english": "Mengsel",
+    "french": "Mélange",
+    "definitionEnglish": "Een materiaal dat bestaat uit twee of meer verschillende chemische stoffen die niet chemisch met elkaar verbonden zijn.",
+    "definitionFrench": "Une association de deux ou plusieurs substances chimiques différentes qui ne sont pas liées chimiquement."
+  },
+  {
+    "english": "Heterogeen mengsel",
+    "french": "Mélange hétérogène",
+    "definitionEnglish": "Een mengsel waarvan je de verschillende bestanddelen met het blote oog kan onderscheiden en dat uit meerdere afzonderlijke fasen bestaat.",
+    "definitionFrench": "Un mélange dont on peut distinguer les différents constituants à l'œil nu et qui comporte plusieurs phases distinctes."
+  },
+  {
+    "english": "Homogeen mengsel",
+    "french": "Mélange homogène",
+    "definitionEnglish": "Een mengsel met een gelijkmatig uiterlijk en samenstelling in zijn geheel, waarbij je de afzonderlijke bestanddelen niet kan onderscheiden.",
+    "definitionFrench": "Un mélange qui présente une apparence et une composition uniformes, dans lequel on ne peut pas distinguer les différents constituants à l'œil nu."
+  },
+  {
+    "english": "Oplossing",
+    "french": "Solution",
+    "definitionEnglish": "Een specifiek type homogeen mengsel dat bestaat uit twee of meer stoffen, waarbij een opgeloste stof in een oplosmiddel is opgelost.",
+    "definitionFrench": "Un type spécifique de mélange homogène liquide ou gazeux formé par la dissolution d'un soluté dans un solvant."
+  },
+  {
+    "english": "Oplosmiddel",
+    "french": "Solvant",
+    "definitionEnglish": "De stof, meestal een vloeistof, die een opgeloste stof oplost, waardoor een oplossing ontstaat.",
+    "definitionFrench": "La substance, généralement liquide, qui a la propriété de dissoudre un soluté pour former une solution."
+  },
+  {
+    "english": "Opgeloste stof",
+    "french": "Soluté",
+    "definitionEnglish": "De stof die in een oplosmiddel wordt opgelost om een homogene oplossing te vormen.",
+    "definitionFrench": "La substance qui est dissoute dans un solvant pour former une solution uniforme."
+  },
+  {
+    "english": "Molecule",
+    "french": "Molécule",
+    "definitionEnglish": "Het kleinste afzonderlijke deeltje van een stof dat nog alle chemische eigenschappen van die stof behoudt.",
+    "definitionFrench": "La plus petite particule individuelle d'une substance qui conserve l'ensemble des propriétés chimiques de cette substance."
+  },
+  {
+    "english": "Wetenschappelijk model",
+    "french": "Modèle scientifique",
+    "definitionEnglish": "Een vereenvoudigde voorstelling van een complexe werkelijkheid, gebruikt om wetenschappelijke verschijnselen te beschrijven, te verklaren of te voorspellen.",
+    "definitionFrench": "Une représentation simplifiée d'une réalité complexe utilisée pour décrire, expliquer ou prédire des phénomènes scientifiques."
+  },
+  {
+    "english": "Scheidingstechnieken",
+    "french": "Techniques de séparation",
+    "definitionEnglish": "Fysische methoden die gebruikt worden om de verschillende bestanddelen of stoffen van een mengsel van elkaar te scheiden.",
+    "definitionFrench": "Méthodes physiques utilisées pour isoler les différents constituants ou substances d'un mélange."
+  },
+  {
+    "english": "Sorteren met de hand",
+    "french": "Tri à la main",
+    "definitionEnglish": "Een manuele scheidingstechniek die gebruikt wordt om grotere, zichtbare vaste stoffen van elkaar te scheiden.",
+    "definitionFrench": "Une technique de séparation manuelle utilisée pour séparer des solides grossiers ou visibles les uns des autres."
+  },
+  {
+    "english": "Zeven",
+    "french": "Tamisage",
+    "definitionEnglish": "Een scheidingsmethode die een zeef gebruikt om grotere vaste deeltjes van kleinere te scheiden.",
+    "definitionFrench": "Une méthode de séparation qui utilise un tamis ou une grille pour séparer les particules solides de tailles différentes."
+  },
+  {
+    "english": "Filtratie",
+    "french": "Filtration",
+    "definitionEnglish": "Een mechanische of fysische bewerking die gebruikt wordt om onoplosbare vaste stoffen van een vloeistof te scheiden door ze door een poreus medium te laten stromen.",
+    "definitionFrench": "Une opération mécanique ou physique qui permet de séparer les solides insolubles d'un liquide en le passant à travers un milieu poreux."
+  },
+  {
+    "english": "Onoplosbare vaste stoffen",
+    "french": "Solides insolubles",
+    "definitionEnglish": "Vaste bestanddelen die niet kunnen oplossen in een bepaalde vloeistof of een bepaald oplosmiddel.",
+    "definitionFrench": "Des composants solides qui ne peuvent pas se dissoudre dans un liquide ou un solvant donné."
+  },
+  {
+    "english": "Verdamping",
+    "french": "Évaporation",
+    "definitionEnglish": "Een proces waarbij een vloeistof verandert in een gas, vaak gebruikt om een opgeloste vaste stof van zijn vloeibare oplosmiddel te scheiden.",
+    "definitionFrench": "Le processus par lequel un liquide se transforme en gaz, souvent utilisé pour récupérer un solide dissous en éliminant son solvant liquide."
+  },
+  {
+    "english": "Distillatie",
+    "french": "Distillation",
+    "definitionEnglish": "Een scheidingstechniek gebaseerd op verschillen in kookpunt, waarbij een vloeibaar mengsel verdampt en vervolgens condenseert.",
+    "definitionFrench": "Une technique de séparation de constituants d'un mélange liquide, basée sur la différence de leurs températures d'ébullition, par vaporisation suivie d'une condensation."
+  },
+  {
+    "english": "Kookpunt",
+    "french": "Température d'ébullition",
+    "definitionEnglish": "De specifieke temperatuur waarbij een vloeistof verandert in damp of gas onder een gegeven druk.",
+    "definitionFrench": "La température précise à laquelle un liquide passe de l'état liquide à l'état gazeux pour une pression donnée."
+  },
+  {
+    "english": "Damp",
+    "french": "Vapeur",
+    "definitionEnglish": "De gasvormige toestand van een stof die normaal vast of vloeibaar is bij kamertemperatuur.",
+    "definitionFrench": "L'état gazeux d'une substance qui est normalement sous forme solide ou liquide dans les conditions ordinaires de température."
+  },
+  {
+    "english": "Condensor",
+    "french": "Condenseur",
+    "definitionEnglish": "Een koelbuis of toestel dat gebruikt wordt om damp af te koelen en opnieuw in een vloeibare toestand te brengen tijdens een distillatie.",
+    "definitionFrench": "Un tube de refroidissement ou un appareil utilisé pour refroidir les vapeurs et les liquéfier à nouveau lors d'une distillation."
+  },
+  {
+    "english": "Kolf / Fles",
+    "french": "Flacon / Ballon",
+    "definitionEnglish": "Een glazen recipiënt met een smalle hals, gebruikt in wetenschappelijke laboratoria om vloeistoffen te bewaren, te mengen of aan de kook te brengen.",
+    "definitionFrench": "Un récipient en verre à col étroit utilisé dans les laboratoires scientifiques pour contenir, mélanger ou faire bouillir des liquides."
+  }
+]

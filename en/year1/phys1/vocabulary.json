@@ -1,0 +1,158 @@
+[
+  {
+    "english": "Energy source",
+    "french": "Source d'énergie",
+    "definitionEnglish": "A natural resource or material that humans use to extract, capture, or produce usable energy.",
+    "definitionFrench": "Une ressource ou un matériau naturel que les humains utilisent pour extraire, capter ou produire de l'énergie utilisable."
+  },
+  {
+    "english": "Renewable resources",
+    "french": "Ressources renouvelables",
+    "definitionEnglish": "Natural resources that depend on permanent natural phenomena or materials that regenerate quickly and naturally.",
+    "definitionFrench": "Des ressources naturelles qui dépendent de phénomènes naturels permanents ou de matériaux qui se régénèrent rapidement et naturellement."
+  },
+  {
+    "english": "Non-renewable resources",
+    "french": "Ressources non-renouvelables",
+    "definitionEnglish": "Natural resources present in limited amounts on Earth that take millions of years to form and cannot be replaced quickly once depleted.",
+    "definitionFrench": "Des ressources naturelles présentes en quantité limitée sur Terre qui mettent des millions d'années à se former et ne peuvent pas être renouvelées rapidement une fois épuisées."
+  },
+  {
+    "english": "Uranium",
+    "french": "Uranium",
+    "definitionEnglish": "A heavy, radioactive chemical element found underground, used as a fuel in nuclear power plants.",
+    "definitionFrench": "Un élément chimique radioactif lourd présent dans le sous-sol, utilisé comme combustible dans les centrales nucléaires."
+  },
+  {
+    "english": "Geothermal energy",
+    "french": "Géothermie",
+    "definitionEnglish": "Energy derived from the natural heat stored deep within the Earth's crust.",
+    "definitionFrench": "Énergie provenant de la chaleur naturelle stockée dans les profondeurs de la croûte terrestre."
+  },
+  {
+    "english": "Biomass",
+    "french": "Biomasse",
+    "definitionEnglish": "Organic matter from plants and animals, such as wood or agricultural waste, used as a renewable source of energy.",
+    "definitionFrench": "Matière organique d'origine végétale ou animale, comme le bois ou les déchets agricoles, utilisée comme source d'énergie renouvelable."
+  },
+  {
+    "english": "Chemical energy",
+    "french": "Énergie chimique",
+    "definitionEnglish": "Energy stored in the bonds of chemical compounds, such as those found in food, wood, coal, or oil, which can be released during a reaction.",
+    "definitionFrench": "Énergie stockée dans les liaisons des composés chimiques (comme dans le bois, le charbon ou le pétrole) et libérée lors d'une réaction."
+  },
+  {
+    "english": "Mechanical energy",
+    "french": "Énergie mécanique",
+    "definitionEnglish": "The energy possessed by an object due to its motion (kinetic) or its position (potential).",
+    "definitionFrench": "L'énergie possédée par un objet en raison de son mouvement (cinétique) ou de sa position (potentielle)."
+  },
+  {
+    "english": "Thermal energy",
+    "french": "Énergie thermique",
+    "definitionEnglish": "The internal energy of a system due to the kinetic energy and motion of its particles, commonly felt as heat.",
+    "definitionFrench": "L'énergie interne d'un système liée au mouvement de ses particules, communément ressentie sous forme de chaleur."
+  },
+  {
+    "english": "Electrical energy",
+    "french": "Énergie électrique",
+    "definitionEnglish": "The kinetic energy caused by the movement of electrons through a conductor or electrical circuit.",
+    "definitionFrench": "L'énergie cinétique provoquée par le déplacement des électrons à travers un conducteur ou un circuit électrique."
+  },
+  {
+    "english": "Nuclear energy",
+    "french": "Énergie nucléaire",
+    "definitionEnglish": "The energy released during nuclear fission or fusion, especially when splitting the nucleus of an atom like uranium.",
+    "definitionFrench": "L'énergie libérée lors de la fission ou de la fusion nucléaire, en particulier lors de la division du noyau d'un atome comme l'uranium."
+  },
+  {
+    "english": "Energy transformation",
+    "french": "Transformation d'énergie",
+    "definitionEnglish": "The physical process of changing energy from one form into another form.",
+    "definitionFrench": "Le processus physique par lequel l'énergie passe d'une forme à une autre forme."
+  },
+  {
+    "english": "Energy flow diagram",
+    "french": "Diagramme de flux d'énergie",
+    "definitionEnglish": "A visual scientific model using shapes and arrows to show how energy is transferred and transformed through a system.",
+    "definitionFrench": "Un modèle scientifique visuel utilisant des formes et des flèches pour montrer comment l'énergie est transférée et transformée à travers un système."
+  },
+  {
+    "english": "Energy loss",
+    "french": "Perte d'énergie",
+    "definitionEnglish": "The part of input energy that is transformed during a process into an unusable form, usually thermal energy dissipated into the environment.",
+    "definitionFrench": "La partie de l'énergie initiale qui se transforme au cours d'un processus en une forme inutilisable, généralement de l'énergie thermique dissipée dans l'environnement."
+  },
+  {
+    "english": "Energy storage",
+    "french": "Stockage d'énergie",
+    "definitionEnglish": "The process of capturing and trapping energy inside a specific system to be saved and used at a later time.",
+    "definitionFrench": "Le processus consistant à capturer et à piéger l'énergie à l'intérieur d'un système spécifique pour la conserver et l'utiliser plus tard."
+  },
+  {
+    "english": "Reservoir",
+    "french": "Réservoir d'énergie",
+    "definitionEnglish": "A component, object, or system designed to contain, accumulate, and hold stored energy until it is needed.",
+    "definitionFrench": "Un composant, un objet ou un système conçu pour contenir, accumuler et renfermer de l'énergie stockée jusqu'à ce qu'elle soit nécessaire."
+  },
+  {
+    "english": "Dam",
+    "french": "Barrage",
+    "definitionEnglish": "A large barrier built across a river to block and trap water high up, creating a reservoir to store mechanical energy.",
+    "definitionFrench": "Une grande barrière construite en travers d'un cours d'eau pour bloquer et retenir l'eau en hauteur, créant un réservoir pour stocker de l'énergie mécanique."
+  },
+  {
+    "english": "Blackout",
+    "french": "Panne d'électricité générale",
+    "definitionEnglish": "A complete loss of electrical power supply affecting a large geographical area or an entire country.",
+    "definitionFrench": "Une perte totale d'alimentation en électricité affectant une grande zone géographique ou un pays entier."
+  },
+  {
+    "english": "Power plant",
+    "french": "Centrale électrique",
+    "definitionEnglish": "An industrial facility designed to generate electricity on a large scale from various energy sources.",
+    "definitionFrench": "Une installation industrielle conçue pour générer de l'électricité à grande échelle à partir de différentes sources d'énergie."
+  },
+  {
+    "english": "Turbine",
+    "french": "Turbine",
+    "definitionEnglish": "A machine with blades that is forced to spin by a moving fluid, converting fluid flow into mechanical energy.",
+    "definitionFrench": "Une machine munie de pales que le mouvement d'un fluide force à tourner, convertissant le flux du fluide en énergie mécanique."
+  },
+  {
+    "english": "Generator",
+    "french": "Générateur",
+    "definitionEnglish": "A machine mechanically connected to a turbine that transforms mechanical energy (movement) into electrical energy.",
+    "definitionFrench": "Une machine raccordée mécaniquement à une turbine qui transforme l'énergie mécanique (le mouvement) en énergie électrique."
+  },
+  {
+    "english": "Steam",
+    "french": "Vapeur",
+    "definitionEnglish": "Vaporized water produced under high pressure by boiling water, often used in power plants to spin giant turbines.",
+    "definitionFrench": "De l'eau vaporisée produite sous haute pression en faisant bouillir de l'eau, souvent utilisée dans les centrales pour faire tourner des turbines."
+  },
+  {
+    "english": "Wind turbine",
+    "french": "Éolienne",
+    "definitionEnglish": "A modern tower structure equipped with spinning blades that uses the kinetic movement of the wind to produce electricity.",
+    "definitionFrench": "Une structure moderne en forme de tour équipée de pales rotatives qui utilise le mouvement cinétique du vent pour produire de l'électricité."
+  },
+  {
+    "english": "Gas power plant",
+    "french": "Centrale au gaz",
+    "definitionEnglish": "A thermal power station that burns natural gas to generate electricity.",
+    "definitionFrench": "Une centrale thermique qui brûle du gaz naturel pour générer de l'électricité."
+  },
+  {
+    "english": "Nuclear plant",
+    "french": "Centrale nucléaire",
+    "definitionEnglish": "A thermal power station in which the heat source is a nuclear reactor utilizing uranium fuel.",
+    "definitionFrench": "Une centrale thermique dont la source de chaleur est un réacteur nucléaire utilisant de l'uranium comme combustible."
+  },
+  {
+    "english": "Hydroelectric power plant",
+    "french": "Centrale hydroélectrique",
+    "definitionEnglish": "A power station that uses the gravitational force of falling or flowing water to generate electricity.",
+    "definitionFrench": "Une centrale qui utilise la force de l'eau en mouvement ou en chute pour générer de l'électricité"
+  }
+]

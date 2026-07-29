@@ -1,0 +1,1207 @@
+{
+  "multipleChoice": [
+    {
+      "quizTitle": "Ecosysteem basisbegrippen",
+      "instructions": "Lees elke vraag aandachtig en kies het beste antwoord. Je kunt maar één optie per vraag kiezen.",
+      "questions": [
+        {
+          "question": "Wat is de juiste ecologische formule voor een ecosysteem?",
+          "options": [
+            "Ecosysteem = Biotoop + Biocenose",
+            "Ecosysteem = Individu + Populatie",
+            "Ecosysteem = Organische stof + Minerale stof"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Temperatuur, water, bodem en wind zijn voorbeelden van welk type factoren?",
+          "options": [
+            "Abiotische factoren",
+            "Biotische factoren",
+            "Biocenosefactoren"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Alle kikkers van dezelfde soort die samen in één vijver leven, vormen een:",
+          "options": [
+            "Populatie",
+            "Individu",
+            "Biotoop"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welke term beschrijft een enkele, rechte lijn die toont wie wie eet in een ecosysteem?",
+          "options": [
+            "Voedselketen",
+            "Voedselweb",
+            "Kringloop van de stof"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Planten worden \"producenten\" genoemd omdat ze zonlicht gebruiken om het volgende om te zetten:",
+          "options": [
+            "Minerale stof in organische stof",
+            "Organische stof in minerale stof",
+            "Reducenten in consumenten"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Eén enkele waterleliplant die in een vijver leeft, wordt gedefinieerd als een:",
+          "options": [
+            "Individu",
+            "Populatie",
+            "Biocenose"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Pad en kikker kunnen samen geen jongen krijgen. Dit betekent dat ze tot een verschillende ... behoren:",
+          "options": [
+            "Soort",
+            "Populatie",
+            "Biotoop"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Alle levende organismen (dieren, planten, schimmels) die samen interageren in een bos, vormen de:",
+          "options": [
+            "Biocenose",
+            "Biotoop",
+            "Abiotische factor"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Ecosysteemdynamiek",
+      "instructions": "Lees elke vraag aandachtig en kies het beste antwoord. Je kunt maar één optie per vraag kiezen.",
+      "questions": [
+        {
+          "question": "Waarom is een complex voedselweb veel stabieler dan een enkele, rechte voedselketen?",
+          "options": [
+            "Omdat, als één soort verdwijnt, dieren meestal alternatieve voedselbronnen hebben.",
+            "Omdat producenten onderaan sneller groeien wanneer er meer ketens zijn.",
+            "Omdat het reducenten verhindert organische stof terug om te zetten in mineralen."
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Een regenworm breekt gevallen dode bladeren af in de bosbodem. Wat is zijn ecologische rol en welke omzetting van stof vindt plaats?",
+          "options": [
+            "Reducent; zet dode organische stof om in minerale stof",
+            "Consument; zet minerale stof om in organische stof",
+            "Producent; zet organische stof om in minerale stof"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Tijdens de Industriële Revolutie raakten witte berkenstammen bedekt met zwart roet. Donkere vlinders overleefden beter omdat vogels ze moeilijker zagen. Dit is een voorbeeld van:",
+          "options": [
+            "Natuurlijke selectie",
+            "Mutualisme",
+            "Commensalisme"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Twee hoge bomen die vlak naast elkaar groeien, strijden om hetzelfde beperkte zonlicht te bemachtigen. Wat voor interactie is dit?",
+          "options": [
+            "Competitie (-/-)",
+            "Parasitisme (+/-)",
+            "Commensalisme (+/0)"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Een zuigvis reist vastgehecht aan een haai om voedselresten te eten. De haai ondervindt hier geen enkele invloed van en merkt het niet op. Welke code en naam representeren deze interactie?",
+          "options": [
+            "(+/0) Commensalisme",
+            "(+/+) Mutualisme",
+            "(+/-) Predatie"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Een lintworm leeft in het spijsverteringsstelsel van een kat, neemt zijn voedingsstoffen op en verzwakt het dier. Deze relatie is:",
+          "options": [
+            "Parasitisme (+/-)",
+            "Competitie (-/-)",
+            "Symbiose"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Wanneer twee verschillende soorten samenleven in een extreme, zeer nauwe relatie en elkaar absoluut nodig hebben om te overleven (zoals korstmos of koraal), noemen wetenschappers dit:",
+          "options": [
+            "Symbiose",
+            "Commensalisme",
+            "Predatie"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Als een mysterieus virus alle reducenten (bacteriën, schimmels, wormen) volledig van de aarde zou wegvagen, wat is dan het uiteindelijke gevolg?",
+          "options": [
+            "Dode organische stof zal zich opstapelen en de continue kringloop van de stof zal stoppen.",
+            "Dieren (consumenten) zullen rechtstreeks minerale stof beginnen om te zetten.",
+            "Planten (producenten) zullen meer organische stof maken met enkel zonlicht."
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Ecologische relaties",
+      "image": "assets/QCM test.jpg",
+      "instructions": "Bekijk de afbeelding hierboven aandachtig, en beantwoord dan de vragen hieronder.",
+      "questions": [
+        {
+          "question": "Welke van deze afbeeldingen toont \"Parasitisme\"?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "4",
+            "5"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welke van deze afbeeldingen toont \"Predatie\"?",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welke van deze afbeeldingen toont \"Competitie\"?",
+          "options": [
+            "3",
+            "1",
+            "2",
+            "4",
+            "5"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welke van deze afbeeldingen toont \"Samenwerking\"?",
+          "options": [
+            "5",
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Weet je nog welke ecologische relatie te zien was op afbeelding 4?",
+          "image": null,
+          "options": [
+            "Commensalisme",
+            "Parasitisme",
+            "Mutualisme",
+            "Predatie",
+            "Competitie"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "quizTitle": "Ecosysteemvergelijking",
+      "text": "Een ecosysteem bestaat uit een niet-levend deel dat de [blank0] wordt genoemd, en een levende gemeenschap die de [blank1] wordt genoemd. Alles interageert samen.",
+      "blanks": [
+        {
+          "options": [
+            "Biotoop",
+            "Biocenose",
+            "Soort"
+          ],
+          "correctAnswer": "Biotoop"
+        },
+        {
+          "options": [
+            "Biocenose",
+            "Abiotisch",
+            "Individu"
+          ],
+          "correctAnswer": "Biocenose"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Kringloop van de stof",
+      "text": "Een [blank0] is een complex functioneel systeem dat gevormd wordt door de interactie tussen een niet-levende fysieke omgeving, de [blank1] genoemd, en de gemeenschap van alle levende organismen die er wonen, de [blank2] genoemd. Binnen deze omgeving vormen voedingsrelaties een onderling verbonden [blank3] waardoor energie stroomt. Ten slotte spelen, wanneer organismen sterven, [blank4] een sleutelrol bij het recycleren van dode organische stof terug in de bodem.",
+      "blanks": [
+        {
+          "options": [
+            "ecosysteem",
+            "individu",
+            "biotoop"
+          ],
+          "correctAnswer": "ecosysteem"
+        },
+        {
+          "options": [
+            "biotoop",
+            "voedselweb",
+            "biotische factor"
+          ],
+          "correctAnswer": "biotoop"
+        },
+        {
+          "options": [
+            "biocenose",
+            "soort",
+            "populatie"
+          ],
+          "correctAnswer": "biocenose"
+        },
+        {
+          "options": [
+            "voedselweb",
+            "abiotische factor",
+            "kringloop van mineralen"
+          ],
+          "correctAnswer": "voedselweb"
+        },
+        {
+          "options": [
+            "reducenten",
+            "producenten",
+            "consumenten"
+          ],
+          "correctAnswer": "reducenten"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Ziekte onder reducenten",
+      "text": "Een ziekte doodt 90% van de reducenten in een bos. Dode bladeren en dode dieren worden niet langer omgezet in [blank0]. De [blank1] heeft nu minder voedingsstoffen. Hierdoor groeien [blank2] trager. Er is minder voedsel voor de [blank3] bovenaan de voedselketen.",
+      "blanks": [
+        {
+          "options": [
+            "minerale stof",
+            "organische stof",
+            "biocenose"
+          ],
+          "correctAnswer": "minerale stof"
+        },
+        {
+          "options": [
+            "biotoop",
+            "biocenose",
+            "populatie"
+          ],
+          "correctAnswer": "biotoop"
+        },
+        {
+          "options": [
+            "producenten",
+            "predatoren",
+            "reducenten",
+            "consumenten"
+          ],
+          "correctAnswer": "producenten"
+        },
+        {
+          "options": [
+            "consumenten",
+            "biotoop",
+            "soort",
+            "producenten"
+          ],
+          "correctAnswer": "consumenten"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "ziekte",
+          "translation": "maladie"
+        }
+      ]
+    },
+    {
+      "quizTitle": "De terugkeer van de wolf",
+      "text": "Wolven keren terug naar een Belgisch bos. Ze jagen op de zwakste [blank0]. Er zijn nu minder herten, waardoor jonge bomen weer kunnen groeien. Een [blank1] kan [blank2] veranderen zonder ze rechtstreeks op te eten. Wetenschappers noemen dit een indirecte [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "herten",
+            "vossen",
+            "wolven"
+          ],
+          "correctAnswer": "herten"
+        },
+        {
+          "options": [
+            "predator",
+            "reducent",
+            "producent",
+            "prooi"
+          ],
+          "correctAnswer": "predator"
+        },
+        {
+          "options": [
+            "planten",
+            "rotsen",
+            "water"
+          ],
+          "correctAnswer": "planten"
+        },
+        {
+          "options": [
+            "interactie",
+            "voedselketen",
+            "biotoop"
+          ],
+          "correctAnswer": "interactie"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "zwakste",
+          "translation": "le plus faible"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Vossen en konijnen in een tuin",
+      "text": "Er zijn te veel vossen in een tuin. Jagers doden de meeste ervan. Nu zijn er meer [blank0]. Ze eten bijna al het [blank1] op. De bodem wordt leeg en droog. Dit toont aan dat het verwijderen van één [blank2] een hele [blank3] kan veranderen.",
+      "blanks": [
+        {
+          "options": [
+            "konijnen",
+            "wortelen",
+            "gras"
+          ],
+          "correctAnswer": "konijnen"
+        },
+        {
+          "options": [
+            "gras",
+            "vossen",
+            "muizen"
+          ],
+          "correctAnswer": "gras"
+        },
+        {
+          "options": [
+            "predator",
+            "prooi",
+            "producent"
+          ],
+          "correctAnswer": "predator"
+        },
+        {
+          "options": [
+            "ecosysteem",
+            "biotoop",
+            "populatie"
+          ],
+          "correctAnswer": "ecosysteem"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "jagers",
+          "translation": "chasseurs"
+        },
+        {
+          "word": "bodem",
+          "translation": "le sol"
+        },
+        {
+          "word": "leeg",
+          "translation": "vide"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Zeeotters en het kelpwoud",
+      "text": "Langs de Pacifische kust jagen zeeotters op zee-egels, en zee-egels grazen op reuzenkelp, een zeewier dat dichte onderwaterwouden vormt. In de 19e eeuw werd de populatie zeeotters door jagers bijna volledig uitgeroeid voor hun vacht. Zonder deze [blank0] explodeerde de [blank1]populatie. Deze zee-egels overbegraasden vervolgens het kelpwoud, en het ecosysteem stortte in tot een kale, rotsachtige zeebodem. Mariene biologen noemen de zeeotter een [blank2], omdat het verdwijnen ervan effecten veroorzaakte doorheen het hele voedselweb, ook al interageert de otter nooit rechtstreeks met [blank3]. Dit voorbeeld toont aan dat het beschermen van één enkele soort essentieel kan zijn om een heel [blank4] te behouden.",
+      "blanks": [
+        {
+          "options": [
+            "predator",
+            "prooi",
+            "reducent"
+          ],
+          "correctAnswer": "predator"
+        },
+        {
+          "options": [
+            "zee-egel",
+            "kelp",
+            "otter"
+          ],
+          "correctAnswer": "zee-egel"
+        },
+        {
+          "options": [
+            "sleutelsoort",
+            "producent",
+            "biotoop"
+          ],
+          "correctAnswer": "sleutelsoort"
+        },
+        {
+          "options": [
+            "kelp",
+            "rotsen",
+            "water"
+          ],
+          "correctAnswer": "kelp"
+        },
+        {
+          "options": [
+            "ecosysteem",
+            "populatie",
+            "individu"
+          ],
+          "correctAnswer": "ecosysteem"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "kelp",
+          "translation": "algue géante"
+        },
+        {
+          "word": "zee-egel",
+          "translation": "oursin"
+        },
+        {
+          "word": "grazen",
+          "translation": "brouter"
+        },
+        {
+          "word": "uitgeroeid",
+          "translation": "exterminé"
+        },
+        {
+          "word": "sleutelsoort",
+          "translation": "espèce clé"
+        },
+        {
+          "word": "kale",
+          "translation": "stérile"
+        },
+        {
+          "word": "zeebodem",
+          "translation": "fond marin"
+        },
+        {
+          "word": "vacht",
+          "translation": "fourrure"
+        },
+        {
+          "word": "overbegraasden",
+          "translation": "surpâturé"
+        },
+        {
+          "word": "veroorzaakte",
+          "translation": "déclenché"
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "quizTitle": "Ecologische interacties",
+      "backgroundImage": "assets/DnD 2.jpg",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Predatie",
+        "Mutualisme",
+        "Competitie",
+        "Commensalisme",
+        "Parasitisme"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 22.28,
+          "y_pourcent": 24.26,
+          "acceptedText": "Predatie"
+        },
+        {
+          "x_pourcent": 72.81,
+          "y_pourcent": 25.98,
+          "acceptedText": "Mutualisme"
+        },
+        {
+          "x_pourcent": 22.63,
+          "y_pourcent": 75.25,
+          "acceptedText": "Commensalisme"
+        },
+        {
+          "x_pourcent": 73.51,
+          "y_pourcent": 74.51,
+          "acceptedText": "Parasitisme"
+        }
+      ]
+    },
+    {
+      "quizTitle": "De kringloop van de stof",
+      "backgroundImage": "assets/DnD 1.jpg",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Biocenose",
+        "Biotoop",
+        "Producent",
+        "Consument",
+        "Reducent",
+        "Organische stof",
+        "Minerale stof"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 45.96,
+          "y_pourcent": 22.92,
+          "acceptedText": "Biotoop"
+        },
+        {
+          "x_pourcent": 45.96,
+          "y_pourcent": 48.07,
+          "acceptedText": "Biocenose"
+        },
+        {
+          "x_pourcent": 84.98,
+          "y_pourcent": 22.72,
+          "acceptedText": "Minerale stof"
+        },
+        {
+          "x_pourcent": 84.98,
+          "y_pourcent": 35.09,
+          "acceptedText": "Organische stof"
+        },
+        {
+          "x_pourcent": 69.06,
+          "y_pourcent": 52.13,
+          "acceptedText": "Producent"
+        },
+        {
+          "x_pourcent": 44.37,
+          "y_pourcent": 75.25,
+          "acceptedText": "Consument"
+        },
+        {
+          "x_pourcent": 20.93,
+          "y_pourcent": 51.93,
+          "acceptedText": "Reducent"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Organisatieniveaus",
+      "backgroundImage": "assets/DnD 3.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Kies het juiste organisatieniveau voor elke trap van de piramide.",
+      "reservoirItems": [
+        "Individu",
+        "Populatie",
+        "Biocenose",
+        "Ecosysteem",
+        "Biotoop",
+        "Molecule"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 86,
+          "acceptedText": "Individu"
+        },
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 68.05,
+          "acceptedText": "Populatie"
+        },
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 48.92,
+          "acceptedText": "Biocenose"
+        },
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 25.05,
+          "acceptedText": "Ecosysteem"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Trofische niveaus en rollen",
+      "backgroundImage": "assets/DnD 4.jpg",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Producent",
+        "Primaire consument",
+        "Secundaire consument",
+        "Tertiaire consument",
+        "Reducenten",
+        "Biotoop"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 62.01,
+          "y_pourcent": 33.99,
+          "acceptedText": "Tertiaire consument"
+        },
+        {
+          "x_pourcent": 62.01,
+          "y_pourcent": 49.02,
+          "acceptedText": "Secundaire consument"
+        },
+        {
+          "x_pourcent": 62.01,
+          "y_pourcent": 64.94,
+          "acceptedText": "Primaire consument"
+        },
+        {
+          "x_pourcent": 62.01,
+          "y_pourcent": 81.04,
+          "acceptedText": "Producent"
+        },
+        {
+          "x_pourcent": 25,
+          "y_pourcent": 37.03,
+          "acceptedText": "Reducenten"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Woordenschat levende wezens",
+      "backgroundImage": "assets/vocabulary animals.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Vind het juiste Nederlandse woord voor elk levend wezen op deze afbeelding",
+      "reservoirItems": [
+        "Vos",
+        "Konijn",
+        "Wortel",
+        "Gras",
+        "Graan",
+        "Muis",
+        "Uil",
+        "Sprinkhaan",
+        "Vogel"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 18.48,
+          "y_pourcent": 15.75,
+          "acceptedText": "Vos"
+        },
+        {
+          "x_pourcent": 9.39,
+          "y_pourcent": 52.3,
+          "acceptedText": "Konijn"
+        },
+        {
+          "x_pourcent": 16.54,
+          "y_pourcent": 83.59,
+          "acceptedText": "Wortel"
+        },
+        {
+          "x_pourcent": 51.42,
+          "y_pourcent": 80.31,
+          "acceptedText": "Gras"
+        },
+        {
+          "x_pourcent": 81.22,
+          "y_pourcent": 82.49,
+          "acceptedText": "Graan"
+        },
+        {
+          "x_pourcent": 41.88,
+          "y_pourcent": 51.64,
+          "acceptedText": "Muis"
+        },
+        {
+          "x_pourcent": 56.78,
+          "y_pourcent": 12.69,
+          "acceptedText": "Uil"
+        },
+        {
+          "x_pourcent": 68.55,
+          "y_pourcent": 52.08,
+          "acceptedText": "Sprinkhaan"
+        },
+        {
+          "x_pourcent": 87.33,
+          "y_pourcent": 33.04,
+          "acceptedText": "Vogel"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "quizTitle": "Zoek de paren - Ecologische rollen",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Producent"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Planten"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Consument"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Dieren"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Reducent"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Bacteriën & schimmels"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Biotoop"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Niet-levende omgeving"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Biocenose"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Levende gemeenschap"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Ecosysteem"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Biotoop + Biocenose"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Zoek de paren - Organisatieniveaus",
+      "instructions": "Koppel de afbeelding aan het juiste organisatieniveau.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP ind.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Individu"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP pop.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Populatie"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP eco.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Ecosysteem"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP bio.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Biotoop"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Ecologische rollen",
+      "instructions": "Koppel elk levend wezen aan zijn trofisch niveau",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "🌳 Eik"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Producent"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "🦌 Hert"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Primaire consument"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "🐺 Wolf"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Secundaire consument"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "🍄 Schimmel"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Reducent"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "quizTitle": "Sorteeruitdaging - Ecologische factoren",
+      "categories": [
+        "Biotische factoren",
+        "Abiotische factoren"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Biotische factoren",
+          "type": "text",
+          "content": "Planten"
+        },
+        {
+          "id": 2,
+          "category": "Biotische factoren",
+          "type": "text",
+          "content": "Dieren"
+        },
+        {
+          "id": 3,
+          "category": "Biotische factoren",
+          "type": "text",
+          "content": "Schimmels"
+        },
+        {
+          "id": 4,
+          "category": "Abiotische factoren",
+          "type": "text",
+          "content": "Temperatuur"
+        },
+        {
+          "id": 5,
+          "category": "Abiotische factoren",
+          "type": "text",
+          "content": "Water"
+        },
+        {
+          "id": 6,
+          "category": "Abiotische factoren",
+          "type": "text",
+          "content": "Zonlicht"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Sorteeruitdaging - Autotrofen versus heterotrofen",
+      "categories": [
+        "Autotrofen",
+        "Heterotrofen"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Autotrofen",
+          "type": "image",
+          "content": "assets/SG1.jpg"
+        },
+        {
+          "id": 2,
+          "category": "Autotrofen",
+          "type": "image",
+          "content": "assets/SG2.jpg"
+        },
+        {
+          "id": 3,
+          "category": "Autotrofen",
+          "type": "image",
+          "content": "assets/SG3.jpg"
+        },
+        {
+          "id": 4,
+          "category": "Heterotrofen",
+          "type": "image",
+          "content": "assets/SG4.jpg"
+        },
+        {
+          "id": 5,
+          "category": "Heterotrofen",
+          "type": "image",
+          "content": "assets/SG5.jpg"
+        },
+        {
+          "id": 6,
+          "category": "Heterotrofen",
+          "type": "image",
+          "content": "assets/SG6.jpg"
+        },
+        {
+          "id": 7,
+          "category": "Heterotrofen",
+          "type": "image",
+          "content": "assets/SG7.jpg"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Organische versus minerale stof",
+      "categories": [
+        "Organische stof",
+        "Minerale stof"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Organische stof",
+          "type": "text",
+          "content": "Dode bladeren"
+        },
+        {
+          "id": 2,
+          "category": "Organische stof",
+          "type": "text",
+          "content": "Uitwerpselen"
+        },
+        {
+          "id": 3,
+          "category": "Organische stof",
+          "type": "text",
+          "content": "Kadaver"
+        },
+        {
+          "id": 4,
+          "category": "Organische stof",
+          "type": "text",
+          "content": "Boomstammen"
+        },
+        {
+          "id": 5,
+          "category": "Minerale stof",
+          "type": "text",
+          "content": "Water"
+        },
+        {
+          "id": 6,
+          "category": "Minerale stof",
+          "type": "text",
+          "content": "Lucht"
+        },
+        {
+          "id": 7,
+          "category": "Minerale stof",
+          "type": "text",
+          "content": "Rotsen"
+        },
+        {
+          "id": 8,
+          "category": "Minerale stof",
+          "type": "text",
+          "content": "Voedingsstoffen"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Trofische niveaus",
+      "categories": [
+        "Producenten",
+        "Consumenten",
+        "Reducenten"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Producenten",
+          "type": "text",
+          "content": "🌳 Eik"
+        },
+        {
+          "id": 2,
+          "category": "Producenten",
+          "type": "text",
+          "content": "🌾 Gras"
+        },
+        {
+          "id": 3,
+          "category": "Producenten",
+          "type": "text",
+          "content": "🌿 Varens"
+        },
+        {
+          "id": 4,
+          "category": "Producenten",
+          "type": "text",
+          "content": "🪷 Waterlelie"
+        },
+        {
+          "id": 5,
+          "category": "Consumenten",
+          "type": "text",
+          "content": "🦌 Hert"
+        },
+        {
+          "id": 6,
+          "category": "Consumenten",
+          "type": "text",
+          "content": "🐗 Wild zwijn"
+        },
+        {
+          "id": 7,
+          "category": "Consumenten",
+          "type": "text",
+          "content": "🐺 Wolf"
+        },
+        {
+          "id": 8,
+          "category": "Consumenten",
+          "type": "text",
+          "content": "🦉 Uil"
+        },
+        {
+          "id": 9,
+          "category": "Consumenten",
+          "type": "text",
+          "content": "🐭 Muis"
+        },
+        {
+          "id": 10,
+          "category": "Reducenten",
+          "type": "text",
+          "content": "🍄 Schimmels"
+        },
+        {
+          "id": 11,
+          "category": "Reducenten",
+          "type": "text",
+          "content": "🪱 Regenwormen"
+        },
+        {
+          "id": 12,
+          "category": "Reducenten",
+          "type": "text",
+          "content": "🦠 Bodembacteriën"
+        }
+      ]
+    },
+    {
+      "quizTitle": "De terugkeer van de wolf — Oorzaak of gevolg?",
+      "instructions": "De grijze wolf keerde op natuurlijke wijze terug naar de bossen van de Belgische Ardennen, nadat hij meer dan een eeuw verdwenen was. Zijn terugkeer veranderde het hele voedselweb. Lees elke kaart hieronder en beslis: is het iets wat de wolf rechtstreeks doet, of is het een gevolg dat daarna optreedt?",
+      "categories": [
+        "Oorzaak",
+        "Gevolg"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Oorzaak",
+          "type": "text",
+          "content": "De wolf jaagt op zwakke, oude of zieke herten"
+        },
+        {
+          "id": 2,
+          "category": "Oorzaak",
+          "type": "text",
+          "content": "De wolf laat prooiresten op de grond achter"
+        },
+        {
+          "id": 3,
+          "category": "Oorzaak",
+          "type": "text",
+          "content": "De wolf concurreert met vossen om kleine prooien"
+        },
+        {
+          "id": 4,
+          "category": "Gevolg",
+          "type": "text",
+          "content": "De hertenpopulatie wordt kleiner"
+        },
+        {
+          "id": 5,
+          "category": "Gevolg",
+          "type": "text",
+          "content": "Jonge bomen worden niet langer overbegraasd"
+        },
+        {
+          "id": 6,
+          "category": "Gevolg",
+          "type": "text",
+          "content": "De overblijvende hertenpopulatie wordt gezonder"
+        }
+      ]
+    }
+  ]
+}

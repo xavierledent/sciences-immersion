@@ -1,0 +1,2182 @@
+:root {
+  --color-bg: #eef7ff;
+  --color-surface: #ffffff;
+  --color-text: #13243d;
+  --color-muted: #5d728f;
+  --color-emerald: #0ca37f;
+  --color-cyan: #1db3d4;
+  --color-violet: #7e4dd9;
+  --color-rose: #d4527a;
+  --color-bio: #62B5AA;
+  --color-physics: #8B7BB5;
+  --color-chemistry: #D4A030;
+  --color-slate: #4a6483;
+  /* Channels exposed separately so slate can be used at partial opacity, the
+     same pattern as --color-current-rgb. */
+  --color-slate-rgb: 74, 100, 131;
+  --color-shadow: 0 22px 42px rgba(17, 36, 72, 0.12);
+  --radius: 28px;
+  --transition: 220ms ease;
+  --font-family: 'Poppins', sans-serif;
+  /* Subject-aware color tokens (overridden per subject class below) */
+  --color-current: var(--color-bio);
+  --color-current-rgb: 98, 181, 170;
+  --color-current-dark: #4f9588;
+  --color-current-darker: #33786F;
+  --color-current-darkest: #23524b;
+  --color-current-text: #ffffff;
+}
+
+.subject-chemistry {
+  --color-current: var(--color-chemistry);
+  --color-current-rgb: 212, 160, 48;
+  --color-current-dark: #a87a20;
+  --color-current-darker: #866222;
+  --color-current-darkest: #6b4e14;
+  --color-current-text: #ffffff;
+}
+
+.subject-physics {
+  --color-current: var(--color-physics);
+  --color-current-rgb: 139, 123, 181;
+  --color-current-dark: #6e5fa0;
+  --color-current-darker: #584c80;
+  --color-current-darkest: #463d66;
+  --color-current-text: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-family);
+  background: linear-gradient(180deg, #f7fbff 0%, #eef7ff 100%);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+main.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 22px 48px;
+}
+
+header {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.header-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 20px;
+  align-items: center;
+}
+
+.header-top img {
+  width: 100%;
+  min-height: 220px;
+  border-radius: 30px;
+  object-fit: cover;
+  box-shadow: var(--color-shadow);
+}
+
+.page > header:not(.header-top) {
+  text-align: center;
+  align-items: center;
+}
+
+.page > header:not(.header-top) .topic-chip {
+  margin-inline: auto;
+}
+
+.site-badge,
+.topic-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(29, 179, 212, 0.12);
+  color: var(--color-cyan);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* Home page only: solid fill + white text, same treatment as the selected
+   language/year cards below it — .topic-chip (used on every chapter page)
+   keeps the original pale style untouched. */
+.site-badge {
+  background: var(--color-slate);
+  color: #ffffff;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.35rem, 3vw, 3.4rem);
+  line-height: 1.03;
+}
+
+.site-badge + h1,
+.topic-chip + h1 {
+  margin-top: 14px;
+}
+
+.subtitle,
+.mode-help,
+.card-counter,
+.note-box p,
+.notes li,
+.section-card p,
+.chapter-card p {
+  color: var(--color-muted);
+}
+
+p,
+li {
+  text-align: justify;
+  overflow-wrap: break-word;
+}
+
+header p {
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 760px;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.selector-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 26px;
+}
+
+.choice-row {
+  display: grid;
+  gap: 14px;
+}
+
+/* Without this, the "hidden" attribute JS sets on step rows can silently lose
+   to the "display: grid" above (a well-known CSS gotcha: any author display
+   rule for an element overrides the browser's default [hidden] styling). */
+.choice-row[hidden] {
+  display: none;
+}
+
+.choice-row h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.choice-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+/* Language/year pickers: same fixed width for all 4 buttons instead of
+   full-width grid cells — their text is short, so stretching them like the
+   chapter cards below (which keep the grid above) looks disproportionate.
+   The width is sized to comfortably fit "Nederlandse immersie" (the longest
+   label) plus the selected-state checkmark, so nothing is cramped. */
+#language-list,
+#year-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+#language-list .choice-card,
+#year-list .choice-card {
+  flex: 0 0 auto;
+  width: 280px;
+  padding: 22px 40px 22px 18px;
+  text-align: center;
+}
+
+/* Remove the default trailing margin so the flex vertical-centering above
+   lands the text glyphs on the card's true center — matching the checkmark
+   badge, which is centered on that same true 50% mark. */
+#language-list .choice-card h3,
+#year-list .choice-card h3 {
+  margin: 0;
+}
+
+.choice-card,
+.chapter-card,
+.section-card,
+.flashcard-face {
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.choice-card,
+.chapter-card,
+.section-card {
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  padding: 22px 18px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.choice-card {
+  position: relative;
+  justify-content: center;
+}
+
+.choice-check {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.choice-card:hover,
+.chapter-card:hover,
+.section-card:hover,
+.choice-card:focus-visible,
+.chapter-card:focus-visible,
+.section-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(29, 179, 212, 0.3);
+  outline: none;
+  box-shadow: 0 24px 50px rgba(17, 36, 72, 0.16);
+}
+
+.choice-card.active,
+.chapter-card.active,
+.section-card.active {
+  border-color: rgba(12, 163, 127, 0.35);
+  box-shadow: 0 20px 46px rgba(12, 163, 127, 0.18);
+}
+
+/* Choice cards (language / year pickers) need a much clearer "selected" state
+   than the generic subtle tint above, since the student must pick one before
+   anything else appears — same filled-pill + white text logic as the rest of
+   the site, but in a soft slate blue (same family as the navy title text)
+   rather than the emerald used for bio elsewhere, to avoid implying a subject. */
+.choice-card.active {
+  background: var(--color-slate);
+  border-color: var(--color-slate);
+  box-shadow: 0 20px 46px rgba(74, 100, 131, 0.28);
+}
+
+.choice-card.active h3 {
+  color: #ffffff;
+}
+
+.choice-card.active .choice-check {
+  background: #ffffff;
+  color: var(--color-slate);
+  display: flex;
+}
+
+.chapter-card {
+  gap: 16px;
+}
+
+.chapter-card-copy {
+  display: grid;
+  gap: 12px;
+}
+
+.chapter-card h3,
+.choice-card h3,
+.section-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+/* Reserve space for 2 lines so the paragraph below always starts at the same
+   height, whether the chapter title wraps to 1 or 2 lines */
+.chapter-card-copy h3 {
+  line-height: 1.3;
+  min-height: 2.6em;
+}
+
+.chapter-go-button,
+.nav-button,
+.button,
+.section-card a,
+.mode-button,
+.icon-button {
+  border: none;
+  font: inherit;
+}
+
+.chapter-go-button,
+.nav-button,
+.button,
+.section-card a {
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: transform var(--transition), background var(--transition), border-color var(--transition);
+}
+
+.chapter-go-button,
+.section-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cyan);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.chapter-go-button:hover,
+.chapter-go-button:focus-visible,
+.section-card a:hover,
+.section-card a:focus-visible {
+  transform: translateY(-2px);
+  background: #1692af;
+  outline: none;
+}
+
+  .subject-bio .chapter-go-button,
+  .subject-bio .section-card a {
+    background: var(--color-bio);
+  }
+
+  .subject-bio .chapter-go-button:hover,
+  .subject-bio .section-card a:hover {
+    background: #4f9588;
+  }
+
+  .subject-physics .chapter-go-button,
+  .subject-physics .section-card a {
+    background: var(--color-physics);
+  }
+
+  .subject-physics .chapter-go-button:hover,
+  .subject-physics .section-card a:hover {
+    background: #6e5fa0;
+  }
+
+  .subject-chemistry .chapter-go-button,
+  .subject-chemistry .section-card a {
+    background: var(--color-chemistry);
+    color: #ffffff;
+  }
+
+  .subject-chemistry .chapter-go-button:hover,
+  .subject-chemistry .section-card a:hover {
+    background: #a87a20;
+  }
+
+  .chapter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .chapter-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 700;
+    border: 1.5px solid var(--color-current-dark);
+    text-decoration: none;
+    transition: transform var(--transition), background var(--transition), border-color var(--transition);
+    background: #ffffff;
+    color: var(--color-current-dark);
+  }
+
+  .chapter-nav-btn:hover,
+  .chapter-nav-btn:focus-visible {
+    transform: translateY(-2px);
+    background: rgba(var(--color-current-rgb), 0.08);
+    outline: none;
+  }
+
+  .section-card p {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .section-card .resource-list {
+    margin-top: 18px;
+  }
+
+  .section-card .resource-list li {
+    display: grid;
+    gap: 10px;
+  }
+
+  .section-card .resource-list li p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 100%;
+    word-break: break-word;
+  }
+
+  .video-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 18px;
+    row-gap: 12px;
+  }
+
+  .video-item {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+  }
+
+  .video-item iframe {
+    width: 100%;
+    min-height: 250px;
+    border: 1px solid rgba(17, 36, 72, 0.08);
+    border-radius: 18px;
+  }
+
+  .video-meta {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+  }
+
+  .video-meta strong {
+    text-align: center;
+    display: block;
+  }
+
+  .resource-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .resource-list li {
+    min-width: 0;
+  }
+
+  .resource-list li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    min-height: 3.5rem;
+    height: auto;
+    padding-block: 10px;
+    gap: 8px;
+    color: var(--color-current-text);
+    text-decoration: none;
+    border: 1px solid rgba(17, 36, 72, 0.12);
+    padding: 0 14px;
+    border-radius: 16px;
+      font-size: 0.9rem;
+    background: var(--color-current);
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  }
+
+  .resource-list li a:hover,
+  .resource-list li a:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(var(--color-current-rgb), 0.4);
+    box-shadow: 0 14px 32px rgba(var(--color-current-rgb), 0.12);
+    background: var(--color-current-dark);
+    outline: none;
+  }
+
+  .card-grid {
+    display: grid;
+    gap: 22px;
+  }
+
+  /* ── Explorations: two visually separate cards, rows kept aligned across
+     both via CSS subgrid — row N sizes to the taller of the two items at
+     that position, in either card, regardless of text length on either side.
+     The row count is dynamic (depends on how many items load), so JS sets
+     grid-template-rows on .explorations-grid itself (see loadExplorations()). ── */
+  .explorations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .explorations-card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: 1 / -1;
+    row-gap: 20px;
+    background: var(--color-surface);
+    border: 1px solid rgba(17, 36, 72, 0.08);
+    border-radius: var(--radius);
+    box-shadow: var(--color-shadow);
+    padding: 22px 18px;
+  }
+
+  .explorations-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    text-align: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(17, 36, 72, 0.07);
+  }
+
+  .exp-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-self: start;
+  }
+
+  .exp-cell p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* Outbound-link cue, added only on "Liens utiles" buttons via JS */
+  .exp-external-icon {
+    margin-left: 4px;
+  }
+
+/* Practice and Resources page card titles */
+.exercise-card h3,
+.interactive-card h3,
+.card-grid .section-card h3 {
+  text-align: center;
+}
+
+  #documentation-card .resource-list,
+  #liens-utiles-card .resource-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  #documentation-card .resource-list li,
+  #liens-utiles-card .resource-list li {
+    display: grid;
+    gap: 10px;
+  }
+
+  #documentation-card .resource-list li p,
+  #liens-utiles-card .resource-list li p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .card-grid .full-width {
+    grid-column: 1 / -1;
+  }
+
+  .split-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 0;
+    background: transparent;
+  }
+
+  .split-card-half {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px;
+    border: 1px solid rgba(17, 36, 72, 0.08);
+    border-radius: 24px;
+    background: #ffffff;
+  }
+
+  .split-card-half h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .split-card-half p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .resource-button-row {
+    margin-top: 18px;
+  }
+
+  .resource-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 3.5rem;
+    gap: 8px;
+    color: var(--color-current-text);
+    text-decoration: none;
+    border: 1px solid rgba(17, 36, 72, 0.12);
+    padding: 0 14px;
+    border-radius: 16px;
+    background: var(--color-current);
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+  }
+
+  .resource-button:hover,
+  .resource-button:focus-visible {
+    transform: translateY(-2px);
+    background: var(--color-current-dark);
+    color: var(--color-current-text);
+    outline: none;
+  }
+
+  @media (min-width: 900px) {
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+    }
+  }
+
+  .section-card {
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  #chapter-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 14px;
+    grid-auto-flow: row;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    place-items: center;
+    /* make overlay opaque to avoid text overlap behind the modal */
+    background: rgba(255, 255, 255, 0.96);
+    padding: 24px;
+    z-index: 50;
+  }
+
+  .modal-overlay.modal-open {
+    display: grid;
+  }
+
+  .modal-card {
+    width: min(100%, 620px);
+    border: 1px solid rgba(17, 36, 72, 0.1);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    padding: 28px 24px;
+    position: relative;
+  }
+
+  .modal-card-inner {
+    display: grid;
+    gap: 18px;
+  }
+
+  #chapter-modal-title {
+    text-align: center;
+  }
+
+  .modal-card.subject-bio {
+    border-color: rgba(98, 181, 170, 0.34);
+  }
+
+  .modal-card.subject-physics {
+    border-color: rgba(139, 123, 181, 0.34);
+  }
+
+  .modal-card.subject-chemistry {
+    border-color: rgba(231, 195, 96, 0.34);
+  }
+
+  .modal-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-self: center;
+    gap: 0.4rem;
+    margin-top: 22px;
+    margin-bottom: 1rem;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .modal-card.subject-bio .modal-chip {
+    background: rgba(98, 181, 170, 0.16);
+    color: var(--color-bio);
+  }
+
+  .modal-card.subject-physics .modal-chip {
+    background: rgba(139, 123, 181, 0.16);
+    color: var(--color-physics);
+  }
+
+  .modal-card.subject-chemistry .modal-chip {
+    background: rgba(231, 195, 96, 0.16);
+    color: var(--color-chemistry);
+  }
+
+  #chapter-list {
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    grid-auto-flow: row;
+  }
+
+  .modal-close {
+    position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(17, 36, 72, 0.12);
+  background: #ffffff;
+  color: var(--color-text);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover,
+.modal-close:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+  border-color: rgba(29, 179, 212, 0.3);
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+/* Fallback / Default emerald styles */
+.modal-grid .section-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 120px;
+  text-decoration: none;
+  color: var(--color-emerald);
+  border: 2px solid rgba(12, 163, 127, 0.6);
+  font-size: 1.4rem;
+  font-weight: 700;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-grid .section-card:hover,
+.modal-grid .section-card:focus-visible {
+  transform: translateY(-5px);
+  background-color: var(--color-emerald);
+  color: #ffffff;
+  border-color: var(--color-emerald);
+  box-shadow: 0 24px 50px rgba(12, 163, 127, 0.25);
+  outline: none;
+}
+
+/* Subject Bio (Green) overrides */
+.modal-card.subject-bio .modal-grid .section-card {
+  color: var(--color-bio);
+  border-color: rgba(98, 181, 170, 0.65);
+}
+.modal-card.subject-bio .modal-grid .section-card:hover,
+.modal-card.subject-bio .modal-grid .section-card:focus-visible {
+  background-color: var(--color-bio);
+  color: #ffffff;
+  border-color: var(--color-bio);
+  box-shadow: 0 24px 50px rgba(98, 181, 170, 0.25);
+}
+
+/* Subject Physics (Purple/Violet) overrides */
+.modal-card.subject-physics .modal-grid .section-card {
+  color: var(--color-physics);
+  border-color: rgba(139, 123, 181, 0.65);
+}
+.modal-card.subject-physics .modal-grid .section-card:hover,
+.modal-card.subject-physics .modal-grid .section-card:focus-visible {
+  background-color: var(--color-physics);
+  color: #ffffff;
+  border-color: var(--color-physics);
+  box-shadow: 0 24px 50px rgba(139, 123, 181, 0.25);
+}
+
+/* Subject Chemistry (Yellow/Orange) overrides */
+.modal-card.subject-chemistry .modal-grid .section-card {
+  color: var(--color-chemistry);
+  border-color: rgba(231, 195, 96, 0.65);
+}
+.modal-card.subject-chemistry .modal-grid .section-card:hover,
+.modal-card.subject-chemistry .modal-grid .section-card:focus-visible {
+  background-color: var(--color-chemistry);
+  color: #ffffff;
+  border-color: var(--color-chemistry);
+  box-shadow: 0 24px 50px rgba(231, 195, 96, 0.25);
+}
+
+.friends-card {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 18px;
+  align-items: center;
+  margin-top: 24px;
+  padding: 22px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(17, 36, 72, 0.08);
+}
+
+.friends-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 18px 35px rgba(17, 36, 72, 0.12);
+}
+
+.friends-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+}
+
+.friends-card p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.empty-message {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: rgba(29, 179, 212, 0.08);
+  color: var(--color-text);
+  font-size: 1rem;
+  border: 1px solid rgba(29, 179, 212, 0.18);
+}
+
+.button {
+  background: var(--color-violet);
+  color: #fff;
+  box-shadow: 0 16px 32px rgba(125, 81, 215, 0.16);
+}
+
+.button:hover,
+.button:focus-visible {
+  transform: translateY(-2px);
+  background: #6339b2;
+  outline: none;
+}
+
+.icon-button {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 181, 214, 0.28);
+  background: #fff;
+  color: var(--color-cyan);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 14px 26px rgba(31, 181, 214, 0.12);
+  margin-top: 0;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  transform: translateY(-2px);
+  outline: none;
+  border-color: var(--color-cyan);
+  background: rgba(31, 181, 214, 0.08);
+}
+
+.notes {
+  margin-top: 34px;
+  padding: 24px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(31, 181, 214, 0.14);
+  background: #fff;
+  color: var(--color-muted);
+  box-shadow: 0 14px 32px rgba(16, 47, 91, 0.06);
+}
+
+.notes h2 {
+  margin: 0 0 14px;
+  font-size: 1.15rem;
+  color: var(--color-text);
+}
+
+.notes ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.notes li {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+
+.subject-bio {
+  border-left: 6px solid var(--color-bio);
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  background: linear-gradient(180deg, rgba(98, 181, 170, 0.12) 0%, var(--color-surface) 100%);
+}
+
+.subject-physics {
+  border-left: 6px solid var(--color-physics);
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  background: linear-gradient(180deg, rgba(139, 123, 181, 0.12) 0%, var(--color-surface) 100%);
+}
+
+.subject-chemistry {
+  border-left: 6px solid var(--color-chemistry);
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  background: linear-gradient(180deg, rgba(231, 195, 96, 0.12) 0%, var(--color-surface) 100%);
+}
+
+.subject-bio .topic-chip {
+  background: rgba(98, 181, 170, 0.16);
+  color: var(--color-bio);
+}
+
+.subject-physics .topic-chip {
+  background: rgba(139, 123, 181, 0.16);
+  color: var(--color-physics);
+}
+
+.subject-chemistry .topic-chip {
+  background: rgba(231, 195, 96, 0.16);
+  color: var(--color-chemistry);
+}
+
+@media (max-width: 640px) {
+  main.page {
+    padding: 24px 16px 40px;
+  }
+
+  .header-top {
+    grid-template-columns: 1fr;
+  }
+
+  .choice-card,
+  .chapter-card,
+  .section-card {
+    padding: 18px;
+  }
+}
+
+/* Drag and Drop dedicated modal (90% width and height) */
+.dnd-large-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 16px;
+  z-index: 100;
+}
+
+.dnd-large-modal-overlay.modal-open {
+  display: grid;
+}
+
+.dnd-modal-card {
+  width: 95vw;
+  height: 95vh;
+  max-width: 1500px;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dnd-modal-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dnd-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dnd-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  overflow: hidden;
+  gap: 16px;
+}
+
+/* Reservoir of labels */
+.dnd-reservoir {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(var(--color-current-rgb), 0.05);
+  border: 1px dashed rgba(var(--color-current-rgb), 0.2);
+  min-height: 70px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dnd-item {
+  padding: 10px 20px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-current);
+  border-radius: 12px;
+  cursor: grab;
+  font-weight: 600;
+  color: var(--color-text);
+  box-shadow: 0 4px 10px rgba(var(--color-current-rgb), 0.08);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+  user-select: none;
+}
+
+.dnd-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(var(--color-current-rgb), 0.15);
+  background-color: var(--color-current);
+  border-color: var(--color-current);
+  color: #ffffff;
+}
+
+.dnd-item.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.dnd-item.shake-error {
+  animation: dnd-shake 0.5s ease-in-out;
+  background: rgba(212, 82, 122, 0.1);
+  border-color: var(--color-rose);
+  color: var(--color-rose);
+}
+
+@keyframes dnd-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Instructions text (optional) */
+.dnd-instructions-text {
+  font-size: 0.95rem;
+  color: #8a94a6;
+  font-weight: 400;
+  line-height: 1.5;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Board of the game */
+.dnd-board-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: 18px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.dnd-board {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#dnd-bg-image,
+.dnd-board img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 12px;
+  user-select: none;
+}
+
+/* Drop targets */
+.dnd-zone {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 48px;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+  transition: all 0.3s ease;
+  z-index: 5;
+  cursor: default;
+}
+
+.dnd-zone-placeholder {
+  display: none;
+}
+
+.dnd-zone.hovered {
+  background: rgba(var(--color-current-rgb), 0.1);
+  border: 1.5px dashed var(--color-current);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.dnd-zone.correct {
+  background: var(--color-surface);
+  border: 2px solid var(--color-emerald);
+  box-shadow: 0 4px 12px rgba(12, 163, 127, 0.2);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.dnd-zone.correct .dnd-zone-text {
+  font-weight: 700;
+  color: var(--color-emerald);
+  font-size: 0.95rem;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-block;
+  text-align: center;
+}
+
+.dnd-zone.incorrect {
+  background: rgba(212, 82, 122, 0.1);
+  border-color: var(--color-rose);
+  animation: dnd-shake 0.5s ease-in-out;
+}
+
+/* Footer & Navigation */
+.dnd-footer {
+  padding: 14px 0 6px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.dnd-select-game-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dnd-pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.dnd-pagination .exercise-step {
+  font-weight: 700;
+  font-size: 1rem;
+  width: auto;
+  height: 44px;
+  padding: 10px 24px;
+  white-space: nowrap;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+.dnd-pagination .exercise-step:hover {
+  background: rgba(var(--color-current-rgb), 0.05);
+  border-color: var(--color-current);
+}
+
+.dnd-pagination .exercise-step.active {
+  background: var(--color-current);
+  border-color: rgba(12, 163, 127, 0.35);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
+}
+
+/* Stopwatch + mistake counter, live during the attempt; badge/records appear here once solved */
+.dnd-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(17, 36, 72, 0.03);
+  flex-shrink: 0;
+}
+
+.dnd-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.dnd-stat-icon {
+  font-size: 1rem;
+}
+
+.dnd-stat-result {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.dnd-result-badge {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-current-dark, var(--color-text));
+}
+
+.dnd-result-note {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* Shared by drag & drop and memory: hides the live ticking timer (opt-in via the
+   pill button below), while mistakes/moves stay visible. Default state is hidden,
+   so the element starts collapsed until JS explicitly reveals it (avoids a flash). */
+.live-timer-display {
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Equal-width digits so the ticking seconds don't shift neighboring buttons */
+.live-timer-value {
+  font-variant-numeric: tabular-nums;
+  min-width: 2.4em;
+  display: inline-block;
+}
+
+/* Shared by drag & drop and memory: a light passive badge for read-only stats
+   (errors, moves), distinct from the actionable .timer-toggle-btn pill. */
+.stat-badge {
+  background: rgba(17, 36, 72, 0.05);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.timer-toggle-btn {
+  border: 1px solid rgba(17, 36, 72, 0.15);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.timer-toggle-btn:hover {
+  border-color: var(--color-current);
+  color: var(--color-current-dark);
+}
+
+.timer-toggle-btn.active {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: #ffffff;
+}
+
+/* Bounce feedback on the zone + a checkmark that pops in and fades away */
+.dnd-zone.just-placed {
+  animation: dnd-pop 0.4s ease;
+}
+
+@keyframes dnd-pop {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  40% { transform: translate(-50%, -50%) scale(1.18); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.dnd-zone-tick {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: dnd-tick-pop 0.7s ease forwards;
+}
+
+@keyframes dnd-tick-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 1; transform: scale(1.15); }
+  55% { transform: scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Memory Match the Pairs dedicated modal (90% width and height) */
+.memory-large-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 16px;
+  z-index: 100;
+}
+
+.memory-large-modal-overlay.modal-open {
+  display: grid;
+}
+
+.memory-modal-card {
+  width: 90vw;
+  height: 90vh;
+  max-width: 1400px;
+  max-height: 900px;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.memory-modal-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.memory-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.memory-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  overflow: hidden;
+  gap: 16px;
+}
+
+/* Instructions text (optional) */
+.memory-instructions-text {
+  font-size: 0.95rem;
+  color: #8a94a6;
+  font-weight: 400;
+  line-height: 1.5;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Stopwatch + move counter, live during the attempt; streak pips appear once >= 2 matches in a row */
+.memory-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(17, 36, 72, 0.03);
+  flex-shrink: 0;
+}
+
+.memory-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.memory-stat-icon {
+  font-size: 1rem;
+}
+
+/* Grille de cartes */
+.memory-grid-container {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  background: #f8fafc;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.06);
+  padding: 20px;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  align-content: center;
+}
+
+@media (max-width: 640px) {
+  .memory-grid {
+    gap: 10px;
+  }
+}
+
+/* Card item (3D flip effect) */
+.memory-card {
+  perspective: 1000px;
+  width: 135px;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  user-select: none;
+}
+
+.memory-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.memory-card.flipped .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card-front,
+.memory-card-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(17, 36, 72, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Card Front (Face cachée) - deux tons de la couleur du sujet (bio/chimie/physique) */
+.memory-card-front.card-side-A {
+  background: var(--color-current);
+  border: 2px solid var(--color-current-dark);
+}
+
+.memory-card-front.card-side-B {
+  background: var(--color-current-darker);
+  border: 2px solid var(--color-current-darkest);
+}
+
+.memory-card-backpattern {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+/* Card Back (Face visible) - Appearance "nette" */
+.memory-card-back {
+  background: #ffffff;
+  color: var(--color-text);
+  transform: rotateY(180deg);
+  border: 2px solid rgba(17, 36, 72, 0.08);
+  padding: 8px;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+  box-sizing: border-box;
+}
+
+/* Image cards go edge-to-edge (no padding) so the photo's own corners land
+   exactly on the card's rounded clip boundary instead of floating square
+   inside a padded gap. Text cards keep their padding untouched. */
+.memory-card-back.card-has-image {
+  padding: 0;
+}
+
+.memory-card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.memory-card-back span {
+  font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+  font-weight: 600;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+  hyphens: auto;
+  text-align: center;
+}
+
+/* Match states */
+.memory-card.correct .memory-card-back,
+.memory-card.incorrect .memory-card-back {
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+  pointer-events: none;
+}
+
+.memory-card.correct .memory-card-back span,
+.memory-card.incorrect .memory-card-back span {
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+  hyphens: auto;
+}
+
+.memory-card.correct .memory-card-back {
+  border: 3px solid var(--color-emerald) !important;
+  box-shadow: 0 4px 16px rgba(12, 163, 127, 0.3) !important;
+}
+
+.memory-card.incorrect .memory-card-back {
+  border: 3px solid var(--color-rose) !important;
+  box-shadow: 0 4px 16px rgba(212, 82, 122, 0.3) !important;
+  animation: dnd-shake 0.5s ease-in-out;
+}
+
+/* Bounce feedback on a matched pair + a checkmark that pops in and fades away */
+.memory-card.just-matched {
+  animation: memory-pop 0.4s ease;
+}
+
+@keyframes memory-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.memory-card-tick {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: memory-tick-pop 0.7s ease forwards;
+  z-index: 2;
+}
+
+@keyframes memory-tick-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 1; transform: scale(1.15); }
+  55% { transform: scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Footer & Navigation */
+.memory-footer {
+  padding: 14px 0 6px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.memory-pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.memory-pagination .exercise-step {
+  font-weight: 700;
+  font-size: 1rem;
+  width: auto;
+  height: 44px;
+  padding: 10px 24px;
+  white-space: nowrap;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+.memory-pagination .exercise-step:hover {
+  background: rgba(var(--color-current-rgb), 0.05);
+  border-color: var(--color-current);
+}
+
+.memory-pagination .exercise-step.active {
+  background: var(--color-current);
+  border-color: rgba(12, 163, 127, 0.35);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
+}
+
+/* Sorting Challenge dedicated modal (90% width and height) */
+.sorting-large-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(17, 36, 72, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+}
+
+.sorting-large-modal-overlay.modal-open {
+  display: grid;
+}
+
+.sorting-modal-card {
+  width: 95vw;
+  height: 95vh;
+  max-width: 1500px;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sorting-modal-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sorting-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.sorting-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  overflow: hidden;
+  gap: 16px;
+}
+
+/* Mistake counter, live during the attempt; badge/record appear here once solved */
+.sorting-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(17, 36, 72, 0.03);
+  flex-shrink: 0;
+}
+
+.sorting-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.sorting-stat-icon {
+  font-size: 1rem;
+}
+
+.sorting-result-badge {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-current-dark);
+}
+
+.sorting-result-note {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* Instructions text (optional) */
+.sorting-instructions-text {
+  font-size: 0.95rem;
+  color: #8a94a6;
+  font-weight: 400;
+  line-height: 1.5;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Wrapper around the bins so the victory overlay survives the bins-container being cleared/rebuilt on each exercise load */
+.sorting-bins-wrapper {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Colonnes / Bacs de Tri (Upper Zone) */
+.sorting-bins-container {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.sorting-bin {
+  flex: 1;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(17, 36, 72, 0.08);
+  border-radius: 18px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.sorting-bin-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  align-content: start;
+}
+
+.sorting-bin-content.image-cards {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Custom Scrollbar inside Bins */
+.sorting-bin::-webkit-scrollbar {
+  width: 6px;
+}
+.sorting-bin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sorting-bin::-webkit-scrollbar-thumb {
+  background: rgba(17, 36, 72, 0.12);
+  border-radius: 4px;
+}
+.sorting-bin::-webkit-scrollbar-thumb:hover {
+  background: rgba(17, 36, 72, 0.22);
+}
+
+.sorting-bin-header {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-align: center;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.06);
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+}
+
+/* Elements inside Columns */
+.sorting-bin-item {
+  position: relative;
+  padding: 6px 6px 6px 16px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1.5px solid rgba(17, 36, 72, 0.1);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(17, 36, 72, 0.04);
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sorting-bin-item img {
+  max-width: 100%;
+  max-height: 58px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+/* Discreet "grip" hint so it's clear a placed card can still be dragged —
+   works on touch too, unlike the hover-only lift below. Hidden once locked
+   (correct/incorrect) since the item stops being draggable at that point. */
+.sorting-bin-item::after {
+  content: '⠿';
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.65rem;
+  line-height: 1;
+  color: rgba(17, 36, 72, 0.3);
+  pointer-events: none;
+}
+
+.sorting-bin-item:hover:not(.correct):not(.incorrect) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(17, 36, 72, 0.12);
+}
+
+.sorting-bin-item.dragging {
+  opacity: 0.35;
+  cursor: grabbing;
+}
+
+.sorting-bin-item.correct,
+.sorting-bin-item.incorrect {
+  cursor: default;
+}
+
+.sorting-bin-item.correct::after,
+.sorting-bin-item.incorrect::after {
+  content: none;
+}
+
+.sorting-bin.drop-hover {
+  background: rgba(var(--color-current-rgb), 0.06);
+  box-shadow: 0 0 0 2px var(--color-current);
+}
+
+/* Verify statuses inside columns */
+.sorting-bin-item.correct {
+  background: rgba(12, 163, 127, 0.1) !important;
+  border-color: var(--color-emerald) !important;
+  color: #097d61;
+}
+
+.sorting-bin-item.incorrect {
+  background: rgba(212, 82, 122, 0.1) !important;
+  border-color: var(--color-rose) !important;
+  color: #a83d5e;
+}
+
+/* Bounce feedback on a correctly sorted item + a checkmark that pops in and fades away */
+.sorting-bin-item.just-correct {
+  animation: sorting-pop 0.4s ease;
+}
+
+@keyframes sorting-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.sorting-item-tick {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: sorting-tick-pop 0.7s ease forwards;
+  z-index: 2;
+}
+
+@keyframes sorting-tick-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 1; transform: scale(1.15); }
+  55% { transform: scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Deck hidden when all cards placed */
+.sorting-modal-body.all-placed .sorting-deck-container {
+  display: none;
+}
+
+.sorting-modal-body.all-placed .sorting-bins-container {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.sorting-modal-body.all-placed .sorting-bin {
+  height: auto;
+  overflow-y: visible;
+}
+
+/* Pioche / Deck (Central Zone) */
+.sorting-deck-container {
+  height: 190px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.06);
+  padding: 12px;
+}
+
+.sorting-deck {
+  width: 100%;
+  max-width: 260px;
+}
+
+.sorting-card {
+  background: #ffffff;
+  border: 2.5px solid var(--color-current);
+  border-radius: 16px;
+  padding: 16px;
+  width: 100%;
+  height: auto;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(var(--color-current-rgb), 0.15);
+  transition: transform 0.3s;
+  overflow: hidden;
+}
+
+.sorting-card span {
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  font-weight: 600;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.sorting-card img {
+  max-width: 100%;
+  max-height: 140px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Choice Buttons Zone */
+.sorting-choice-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.sorting-choice-btn {
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1.5px solid var(--color-current);
+  background: #ffffff;
+  color: var(--color-current);
+  transition: all 0.2s ease;
+}
+
+.sorting-choice-btn:hover {
+  background: var(--color-current);
+  color: #ffffff;
+}
+
+/* Check / Action Button Zone */
+.sorting-action-container {
+  display: flex;
+  justify-content: center;
+}
+
+.sorting-action-btn {
+  width: min(100%, 400px);
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: var(--color-current);
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition);
+}
+
+.sorting-action-btn:hover:not(:disabled) {
+  background: var(--color-current-dark);
+  transform: translateY(-2px);
+}
+
+.sorting-action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Footer & Navigation */
+.sorting-footer {
+  padding: 14px 0 6px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sorting-pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.sorting-pagination .exercise-step {
+  font-weight: 700;
+  font-size: 1rem;
+  width: auto;
+  height: 44px;
+  padding: 10px 24px;
+  white-space: nowrap;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+.sorting-pagination .exercise-step:hover {
+  background: rgba(var(--color-current-rgb), 0.05);
+  border-color: var(--color-current);
+}
+
+.sorting-pagination .exercise-step.active {
+  background: var(--color-current);
+  border-color: rgba(12, 163, 127, 0.35);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
+}

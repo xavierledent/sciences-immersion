@@ -1,0 +1,23 @@
+{
+  "documentation": {
+    "title": "Documentation",
+    "basePath": "PDF",
+    "items": [
+      {
+        "title": "Voyage du pétrole",
+        "description": "De la formation géologique au raffinage, le parcours de l'or noir et ses applications quotidiennes.",
+        "file": "EXPLO 1 - Voyage du pétrole.pdf"
+      },
+      {
+        "title": "Mine urbaine",
+        "description": "Le recyclage des déchets électroniques, une mine de métaux précieux au cœur de l'économie circulaire.",
+        "file": "EXPLO 2 - Mine urbaine.pdf"
+      }
+    ]
+  },
+  "liensUtiles": {
+    "title": "Liens utiles",
+    "basePath": "",
+    "items": []
+  }
+}

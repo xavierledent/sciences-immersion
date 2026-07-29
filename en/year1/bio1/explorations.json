@@ -1,0 +1,34 @@
+{
+  "documentation": {
+    "title": "Documentation",
+    "basePath": "PDF",
+    "items": [
+      {
+        "title": "Les secrets de la forêt primaire",
+        "description": "Découvrez le fonctionnement des rares forêts jamais touchées par l'homme.",
+        "file": "EXPLO 1 - Forêt primaire.pdf"
+      },
+      {
+        "title": "Le rôle caché des champignons",
+        "description": "Une plongée dans le réseau d'échange souterrain des arbres (le Wood Wide Web).",
+        "file": "EXPLO 2 - Champignons.pdf"
+      }
+    ]
+  },
+  "liensUtiles": {
+    "title": "Liens utiles",
+    "basePath": "",
+    "items": [
+      {
+        "title": "C'est quoi la biodiversité ? - Lumni",
+        "description": "Une page web pour comprendre ce qu'est la biodiversité, son importance et les menaces qui pèsent sur elle.",
+        "url": "https://www.lumni.fr/article/c-est-quoi-la-biodiversite"
+      },
+      {
+        "title": "Simulation de la sélection naturelle - PhET",
+        "description": "Une simulation interactive pour comprendre comment la sélection naturelle agit sur les populations au fil du temps.",
+        "url": "https://phet.colorado.edu/sims/html/natural-selection/latest/natural-selection_all.html?locale=fr"
+      }
+    ]
+  }
+}

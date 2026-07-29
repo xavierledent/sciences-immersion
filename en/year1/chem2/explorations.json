@@ -1,0 +1,28 @@
+{
+  "documentation": {
+    "title": "Documentation",
+    "basePath": "PDF",
+    "items": [
+      {
+        "title": "Recyclage et économie circulaire",
+        "description": "Les étapes clés de la revalorisation des déchets pour rompre avec le modèle linéaire du « tout jeter ».",
+        "file": "EXPLO 1 - Recyclage et economie circulaire.pdf"
+      },
+      {
+        "title": "Eau potable",
+        "description": "Du captage naturel aux robinets, le parcours technologique et sanitaire de l'épuration de l'eau.",
+        "file": "EXPLO 2 - Eau potable.pdf"
+      },
+      {
+        "title": "Biocarburants",
+        "description": "La transformation de la biomasse végétale et des déchets organiques en alternatives énergétiques au pétrole.",
+        "file": "EXPLO 3 - Biocarburants.pdf"
+      }
+    ]
+  },
+  "liensUtiles": {
+    "title": "Liens utiles",
+    "basePath": "",
+    "items": []
+  }
+}

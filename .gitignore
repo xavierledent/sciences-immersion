@@ -1,0 +1,5 @@
+# Teacher-only admin tools — never pushed online
+Admin/
+
+# Local tooling settings, specific to this machine
+.claude/

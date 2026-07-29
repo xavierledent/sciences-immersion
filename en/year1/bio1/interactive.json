@@ -1,0 +1,1207 @@
+{
+  "multipleChoice": [
+    {
+      "quizTitle": "Ecosystem Basics",
+      "instructions": "Read each question carefully and select the best answer. You can only choose one option per question.",
+      "questions": [
+        {
+          "question": "What is the correct ecological formula for an ecosystem?",
+          "options": [
+            "Ecosystem = Biotope + Biocenosis",
+            "Ecosystem = Individual + Population",
+            "Ecosystem = Organic matter + Mineral matter"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Temperature, water, soil, and wind are examples of which type of factors?",
+          "options": [
+            "Abiotic factors",
+            "Biotic factors",
+            "Biocenosis factors"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "All the frogs of the same species living together in a single pond form a:",
+          "options": [
+            "Population",
+            "Individual",
+            "Biotope"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which term describes a single, straight line that shows who eats whom in an ecosystem?",
+          "options": [
+            "Food chain",
+            "Food web",
+            "Food cycle"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Plants are called \"producers\" because they use sunlight to transform:",
+          "options": [
+            "Mineral matter into organic matter",
+            "Organic matter into mineral matter",
+            "Decomposers into consumers"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "One single water lily plant living in a pond is defined as a(n):",
+          "options": [
+            "Individual",
+            "Population",
+            "Biocenosis"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Toad and frog cannot make babies together. This means that they belong to a different:",
+          "options": [
+            "Species",
+            "Population",
+            "Biotope"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "All the living organisms (animals, plants, fungi) interacting together in a forest form the:",
+          "options": [
+            "Biocenosis",
+            "Biotope",
+            "Abiotic factor"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Ecosystem Dynamics",
+      "instructions": "Read each question carefully and select the best answer. You can only choose one option per question.",
+      "questions": [
+        {
+          "question": "Why is a complex food web much more stable than a single, straight food chain?",
+          "options": [
+            "Because if one species disappears, animals usually have alternative food sources.",
+            "Because producers at the bottom grow faster when there are more chains.",
+            "Because it prevents decomposers from transforming organic matter back into minerals."
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "An earthworm breaks down fallen dead leaves in a forest soil. What is its ecological role and matter transformation?",
+          "options": [
+            "Decomposer; transforms dead organic matter into mineral matter",
+            "Consumer; transforms mineral matter into organic matter",
+            "Producer; transforms organic matter into mineral matter"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "During the Industrial Revolution, white birch tree trunks became covered in black soot. Darker moths survived better because birds couldn't see them easily. This is an example of:",
+          "options": [
+            "Natural selection",
+            "Mutualism",
+            "Commensalism"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Two tall trees growing right next to each other are fighting to capture the same limited sunlight. What kind of interaction is this?",
+          "options": [
+            "Competition (-/-)",
+            "Parasitism (+/-)",
+            "Commensalism (+/0)"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "A remora fish travels attached to a shark to eat leftover food scraps. The shark is completely unaffected and does not notice. What code and name represent this interaction?",
+          "options": [
+            "(+/0) Commensalism",
+            "(+/+) Mutualism",
+            "(+/-) Predation"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "A tapeworm lives inside a cat's digestive system, absorbing its nutrients and weakening the animal. This relationship is:",
+          "options": [
+            "Parasitism (+/-)",
+            "Competition (-/-)",
+            "Symbiosis"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "When two different species live together in an extreme, very close relationship and absolutely need each other to survive (like lichen or coral), scientists call this:",
+          "options": [
+            "Symbiosis",
+            "Commensalism",
+            "Predation"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "If a mysterious virus completely eliminates all decomposers (bacteria, fungi, worms) from Earth, what is the ultimate consequence?",
+          "options": [
+            "Dead organic matter will pile up and the continuous cycle of matter will stop.",
+            "Animals (consumers) will start transforming mineral matter directly.",
+            "Plants (producers) will make more organic matter using only sunlight."
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Ecological relationships",
+      "image": "assets/QCM test.jpg",
+      "instructions": "Look at the image above carefully, then answer the questions below.",
+      "questions": [
+        {
+          "question": "Which of these pictures shows \"Parasitism\"?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "4",
+            "5"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which of these pictures shows \"Predation\"?",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which of these pictures shows \"Competition\"?",
+          "options": [
+            "3",
+            "1",
+            "2",
+            "4",
+            "5"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which of these pictures shows \"Cooperation\"?",
+          "options": [
+            "5",
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Do you remember, which ecological relationship was shown in picture 4 ?",
+          "image": null,
+          "options": [
+            "Commensalism",
+            "Parasitism",
+            "Mutualism",
+            "Predation",
+            "Competition"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "quizTitle": "Ecosystem equation",
+      "text": "An ecosystem is composed of a non-living part called the [blank0], and a living community called the [blank1]. Everything interacts together.",
+      "blanks": [
+        {
+          "options": [
+            "Biotope",
+            "Biocenosis",
+            "Species"
+          ],
+          "correctAnswer": "Biotope"
+        },
+        {
+          "options": [
+            "Biocenosis",
+            "Abiotic",
+            "Individual"
+          ],
+          "correctAnswer": "Biocenosis"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Food cycle",
+      "text": "An [blank0] is a complex functional system formed by the interaction between a non-living physical environment, called the [blank1], and the community of all living organisms that inhabit it, called the [blank2]. Within this environment, feeding relationships form an interconnected [blank3] through which energy flows. Finally, when organisms die, [blank4] play a key role in recycling dead organic matter back into the soil.",
+      "blanks": [
+        {
+          "options": [
+            "ecosystem",
+            "individual",
+            "biotope"
+          ],
+          "correctAnswer": "ecosystem"
+        },
+        {
+          "options": [
+            "biotope",
+            "food web",
+            "biotic factor"
+          ],
+          "correctAnswer": "biotope"
+        },
+        {
+          "options": [
+            "biocenosis",
+            "species",
+            "population"
+          ],
+          "correctAnswer": "biocenosis"
+        },
+        {
+          "options": [
+            "food web",
+            "abiotic factor",
+            "mineral cycle"
+          ],
+          "correctAnswer": "food web"
+        },
+        {
+          "options": [
+            "decomposers",
+            "producers",
+            "consumers"
+          ],
+          "correctAnswer": "decomposers"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Disease among decomposers",
+      "text": "A disease kills 90% of the decomposers in a forest. Dead leaves and dead animals stop turning into [blank0]. The [blank1] has fewer nutrients now. Because of this, [blank2] grow more slowly. There is less food for the [blank3] at the top of the food chain.",
+      "blanks": [
+        {
+          "options": [
+            "mineral matter",
+            "organic matter",
+            "biocenosis"
+          ],
+          "correctAnswer": "mineral matter"
+        },
+        {
+          "options": [
+            "biotope",
+            "biocenosis",
+            "population"
+          ],
+          "correctAnswer": "biotope"
+        },
+        {
+          "options": [
+            "producers",
+            "predators",
+            "decomposers",
+            "consumers"
+          ],
+          "correctAnswer": "producers"
+        },
+        {
+          "options": [
+            "consumers",
+            "biotope",
+            "species",
+            "producers"
+          ],
+          "correctAnswer": "consumers"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "disease",
+          "translation": "maladie"
+        }
+      ]
+    },
+    {
+      "quizTitle": "The wolf's return",
+      "text": "Wolves come back to a Belgian forest. They hunt the weakest [blank0]. There are fewer deer now, so young trees can grow again. A [blank1] can change [blank2] without eating them directly. Scientists call this an indirect [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "deer",
+            "foxes",
+            "wolves"
+          ],
+          "correctAnswer": "deer"
+        },
+        {
+          "options": [
+            "predator",
+            "decomposer",
+            "producer",
+            "prey"
+          ],
+          "correctAnswer": "predator"
+        },
+        {
+          "options": [
+            "plants",
+            "rocks",
+            "water"
+          ],
+          "correctAnswer": "plants"
+        },
+        {
+          "options": [
+            "interaction",
+            "food chain",
+            "biotope"
+          ],
+          "correctAnswer": "interaction"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "weakest",
+          "translation": "le plus faible"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Foxes and rabbits in a garden",
+      "text": "There are too many foxes in a garden. Hunters kill most of them. Now there are more [blank0]. They eat almost all the [blank1]. The soil becomes empty and dry. This shows that removing one [blank2] can change a whole [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "rabbits",
+            "carrots",
+            "grass"
+          ],
+          "correctAnswer": "rabbits"
+        },
+        {
+          "options": [
+            "grass",
+            "foxes",
+            "mice"
+          ],
+          "correctAnswer": "grass"
+        },
+        {
+          "options": [
+            "predator",
+            "prey",
+            "producer"
+          ],
+          "correctAnswer": "predator"
+        },
+        {
+          "options": [
+            "ecosystem",
+            "biotope",
+            "population"
+          ],
+          "correctAnswer": "ecosystem"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "hunters",
+          "translation": "chasseurs"
+        },
+        {
+          "word": "soil",
+          "translation": "le sol"
+        },
+        {
+          "word": "empty",
+          "translation": "vide"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Sea otters and the kelp forest",
+      "text": "Along the Pacific coast, sea otters hunt sea urchins, and sea urchins graze on giant kelp, a seaweed that forms dense underwater forests. In the 19th century, hunters nearly wiped out the sea otter population for their fur. Without this [blank0], the [blank1] population exploded. These urchins then overgrazed the kelp forest, and the ecosystem collapsed into a barren, rocky seafloor. Marine biologists call the sea otter a [blank2], because its disappearance triggered effects across the entire food web, even though otters never directly interact with [blank3]. This example shows that protecting a single species can be essential to preserve an entire [blank4].",
+      "blanks": [
+        {
+          "options": [
+            "predator",
+            "prey",
+            "decomposer"
+          ],
+          "correctAnswer": "predator"
+        },
+        {
+          "options": [
+            "sea urchin",
+            "kelp",
+            "otter"
+          ],
+          "correctAnswer": "sea urchin"
+        },
+        {
+          "options": [
+            "keystone species",
+            "producer",
+            "biotope"
+          ],
+          "correctAnswer": "keystone species"
+        },
+        {
+          "options": [
+            "kelp",
+            "rocks",
+            "water"
+          ],
+          "correctAnswer": "kelp"
+        },
+        {
+          "options": [
+            "ecosystem",
+            "population",
+            "individual"
+          ],
+          "correctAnswer": "ecosystem"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "kelp",
+          "translation": "algue géante"
+        },
+        {
+          "word": "sea urchin",
+          "translation": "oursin"
+        },
+        {
+          "word": "graze",
+          "translation": "brouter"
+        },
+        {
+          "word": "wiped out",
+          "translation": "exterminé"
+        },
+        {
+          "word": "keystone species",
+          "translation": "espèce clé"
+        },
+        {
+          "word": "barren",
+          "translation": "stérile"
+        },
+        {
+          "word": "seafloor",
+          "translation": "fond marin"
+        },
+        {
+          "word": "fur",
+          "translation": "fourrure"
+        },
+        {
+          "word": "overgrazed",
+          "translation": "surpâturé"
+        },
+        {
+          "word": "triggered",
+          "translation": "déclenché"
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "quizTitle": "Ecological Interactions",
+      "backgroundImage": "assets/DnD 2.jpg",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Predation",
+        "Mutualism",
+        "Competition",
+        "Commensalism",
+        "Parasitism"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 22.28,
+          "y_pourcent": 24.26,
+          "acceptedText": "Predation"
+        },
+        {
+          "x_pourcent": 72.81,
+          "y_pourcent": 25.98,
+          "acceptedText": "Mutualism"
+        },
+        {
+          "x_pourcent": 22.63,
+          "y_pourcent": 75.25,
+          "acceptedText": "Commensalism"
+        },
+        {
+          "x_pourcent": 73.51,
+          "y_pourcent": 74.51,
+          "acceptedText": "Parasitism"
+        }
+      ]
+    },
+    {
+      "quizTitle": "The Food Cycle",
+      "backgroundImage": "assets/DnD 1.jpg",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Biocenosis",
+        "Biotope",
+        "Producer",
+        "Consumer",
+        "Decomposer",
+        "Organic matter",
+        "Mineral matter"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 45.96,
+          "y_pourcent": 22.92,
+          "acceptedText": "Biotope"
+        },
+        {
+          "x_pourcent": 45.96,
+          "y_pourcent": 48.07,
+          "acceptedText": "Biocenosis"
+        },
+        {
+          "x_pourcent": 84.98,
+          "y_pourcent": 22.72,
+          "acceptedText": "Mineral matter"
+        },
+        {
+          "x_pourcent": 84.98,
+          "y_pourcent": 35.09,
+          "acceptedText": "Organic matter"
+        },
+        {
+          "x_pourcent": 69.06,
+          "y_pourcent": 52.13,
+          "acceptedText": "Producer"
+        },
+        {
+          "x_pourcent": 44.37,
+          "y_pourcent": 75.25,
+          "acceptedText": "Consumer"
+        },
+        {
+          "x_pourcent": 20.93,
+          "y_pourcent": 51.93,
+          "acceptedText": "Decomposer"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Levels of Organization",
+      "backgroundImage": "assets/DnD 3.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Choose the correct level of organization for each stage of the pyramid.",
+      "reservoirItems": [
+        "Individual",
+        "Population",
+        "Biocenosis",
+        "Ecosystem",
+        "Biotope",
+        "Molecule"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 86,
+          "acceptedText": "Individual"
+        },
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 68.05,
+          "acceptedText": "Population"
+        },
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 48.92,
+          "acceptedText": "Biocenosis"
+        },
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 25.05,
+          "acceptedText": "Ecosystem"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Trophic levels & roles",
+      "backgroundImage": "assets/DnD 4.jpg",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Producer",
+        "Primary Consumer",
+        "Secondary Consumer",
+        "Tertiary Consumer",
+        "Decomposers",
+        "Biotope"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 62.01,
+          "y_pourcent": 33.99,
+          "acceptedText": "Tertiary Consumer"
+        },
+        {
+          "x_pourcent": 62.01,
+          "y_pourcent": 49.02,
+          "acceptedText": "Secondary Consumer"
+        },
+        {
+          "x_pourcent": 62.01,
+          "y_pourcent": 64.94,
+          "acceptedText": "Primary Consumer"
+        },
+        {
+          "x_pourcent": 62.01,
+          "y_pourcent": 81.04,
+          "acceptedText": "Producer"
+        },
+        {
+          "x_pourcent": 25,
+          "y_pourcent": 37.03,
+          "acceptedText": "Decomposers"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Living beings vocabulary",
+      "backgroundImage": "assets/vocabulary animals.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Find the correct english word for each living being of this picture",
+      "reservoirItems": [
+        "Fox",
+        "Rabbit",
+        "Carrot",
+        "Grass",
+        "Grain",
+        "Mouse",
+        "Owl",
+        "Grasshopper",
+        "Bird"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 18.48,
+          "y_pourcent": 15.75,
+          "acceptedText": "Fox"
+        },
+        {
+          "x_pourcent": 9.39,
+          "y_pourcent": 52.3,
+          "acceptedText": "Rabbit"
+        },
+        {
+          "x_pourcent": 16.54,
+          "y_pourcent": 83.59,
+          "acceptedText": "Carrot"
+        },
+        {
+          "x_pourcent": 51.42,
+          "y_pourcent": 80.31,
+          "acceptedText": "Grass"
+        },
+        {
+          "x_pourcent": 81.22,
+          "y_pourcent": 82.49,
+          "acceptedText": "Grain"
+        },
+        {
+          "x_pourcent": 41.88,
+          "y_pourcent": 51.64,
+          "acceptedText": "Mouse"
+        },
+        {
+          "x_pourcent": 56.78,
+          "y_pourcent": 12.69,
+          "acceptedText": "Owl"
+        },
+        {
+          "x_pourcent": 68.55,
+          "y_pourcent": 52.08,
+          "acceptedText": "Grasshopper"
+        },
+        {
+          "x_pourcent": 87.33,
+          "y_pourcent": 33.04,
+          "acceptedText": "Bird"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "quizTitle": "Match the Pairs - Ecosystem Roles",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Producer"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Plants"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Consumer"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Animals"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Decomposer"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Bacteria & Fungi"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Biotope"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Non-living environment"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Biocenosis"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Living community"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Ecosystem"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Biotope + Biocenosis"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Match the pairs - Levels of Organization",
+      "instructions": "Match the picture with the correct level of organization.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP ind.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Individual"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP pop.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Population"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP eco.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Ecosystem"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP bio.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Biotope"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Ecological roles",
+      "instructions": "Match every living being with its trophic level",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "🌳 Oak tree"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Producer"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "🦌 Deer"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Primary consumer"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "🐺 Wolf"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Secondary consumer"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "🍄 Fungus"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Decomposer"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "quizTitle": "Sorting Challenge - Ecological Factors",
+      "categories": [
+        "Biotic factors",
+        "Abiotic factors"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Biotic factors",
+          "type": "text",
+          "content": "Plants"
+        },
+        {
+          "id": 2,
+          "category": "Biotic factors",
+          "type": "text",
+          "content": "Animals"
+        },
+        {
+          "id": 3,
+          "category": "Biotic factors",
+          "type": "text",
+          "content": "Fungi"
+        },
+        {
+          "id": 4,
+          "category": "Abiotic factors",
+          "type": "text",
+          "content": "Temperature"
+        },
+        {
+          "id": 5,
+          "category": "Abiotic factors",
+          "type": "text",
+          "content": "Water"
+        },
+        {
+          "id": 6,
+          "category": "Abiotic factors",
+          "type": "text",
+          "content": "Sunlight"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Sorting Challenge - Autotrophs vs Heterotrophs",
+      "categories": [
+        "Autotrophs",
+        "Heterotrophs"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Autotrophs",
+          "type": "image",
+          "content": "assets/SG1.jpg"
+        },
+        {
+          "id": 2,
+          "category": "Autotrophs",
+          "type": "image",
+          "content": "assets/SG2.jpg"
+        },
+        {
+          "id": 3,
+          "category": "Autotrophs",
+          "type": "image",
+          "content": "assets/SG3.jpg"
+        },
+        {
+          "id": 4,
+          "category": "Heterotrophs",
+          "type": "image",
+          "content": "assets/SG4.jpg"
+        },
+        {
+          "id": 5,
+          "category": "Heterotrophs",
+          "type": "image",
+          "content": "assets/SG5.jpg"
+        },
+        {
+          "id": 6,
+          "category": "Heterotrophs",
+          "type": "image",
+          "content": "assets/SG6.jpg"
+        },
+        {
+          "id": 7,
+          "category": "Heterotrophs",
+          "type": "image",
+          "content": "assets/SG7.jpg"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Organic vs Mineral matter",
+      "categories": [
+        "Organic Matter",
+        "Mineral Matter"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Organic Matter",
+          "type": "text",
+          "content": "Dead leaves"
+        },
+        {
+          "id": 2,
+          "category": "Organic Matter",
+          "type": "text",
+          "content": "Feces"
+        },
+        {
+          "id": 3,
+          "category": "Organic Matter",
+          "type": "text",
+          "content": "Corpse"
+        },
+        {
+          "id": 4,
+          "category": "Organic Matter",
+          "type": "text",
+          "content": "Logs"
+        },
+        {
+          "id": 5,
+          "category": "Mineral Matter",
+          "type": "text",
+          "content": "Water"
+        },
+        {
+          "id": 6,
+          "category": "Mineral Matter",
+          "type": "text",
+          "content": "Air"
+        },
+        {
+          "id": 7,
+          "category": "Mineral Matter",
+          "type": "text",
+          "content": "Rocks"
+        },
+        {
+          "id": 8,
+          "category": "Mineral Matter",
+          "type": "text",
+          "content": "Nutrients"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Trophic levels",
+      "categories": [
+        "Producers",
+        "Consumers",
+        "Decomposers"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Producers",
+          "type": "text",
+          "content": "🌳 Oak Tree"
+        },
+        {
+          "id": 2,
+          "category": "Producers",
+          "type": "text",
+          "content": "🌾 Grass"
+        },
+        {
+          "id": 3,
+          "category": "Producers",
+          "type": "text",
+          "content": "🌿 Ferns"
+        },
+        {
+          "id": 4,
+          "category": "Producers",
+          "type": "text",
+          "content": "🪷 Water Lily"
+        },
+        {
+          "id": 5,
+          "category": "Consumers",
+          "type": "text",
+          "content": "🦌 Deer"
+        },
+        {
+          "id": 6,
+          "category": "Consumers",
+          "type": "text",
+          "content": "🐗 Wild Boar"
+        },
+        {
+          "id": 7,
+          "category": "Consumers",
+          "type": "text",
+          "content": "🐺 Wolf"
+        },
+        {
+          "id": 8,
+          "category": "Consumers",
+          "type": "text",
+          "content": "🦉 Owl"
+        },
+        {
+          "id": 9,
+          "category": "Consumers",
+          "type": "text",
+          "content": "🐭 Mouse"
+        },
+        {
+          "id": 10,
+          "category": "Decomposers",
+          "type": "text",
+          "content": "🍄 Fungi"
+        },
+        {
+          "id": 11,
+          "category": "Decomposers",
+          "type": "text",
+          "content": "🪱 Earthworms"
+        },
+        {
+          "id": 12,
+          "category": "Decomposers",
+          "type": "text",
+          "content": "🦠 Soil Bacteria"
+        }
+      ]
+    },
+    {
+      "quizTitle": "The wolf's return — Cause or Consequence?",
+      "instructions": "The grey wolf naturally came back to the forests of the Belgian Ardenne after disappearing for more than a century. Its return changed the whole food web. Read each card below and decide: is it something the wolf directly does, or is it a consequence that happens afterwards?",
+      "categories": [
+        "Cause",
+        "Consequence"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Cause",
+          "type": "text",
+          "content": "The wolf hunts weak, old or sick deer"
+        },
+        {
+          "id": 2,
+          "category": "Cause",
+          "type": "text",
+          "content": "The wolf leaves prey remains on the ground"
+        },
+        {
+          "id": 3,
+          "category": "Cause",
+          "type": "text",
+          "content": "The wolf competes with foxes for small prey"
+        },
+        {
+          "id": 4,
+          "category": "Consequence",
+          "type": "text",
+          "content": "The deer population becomes smaller"
+        },
+        {
+          "id": 5,
+          "category": "Consequence",
+          "type": "text",
+          "content": "Young trees are no longer overgrazed"
+        },
+        {
+          "id": 6,
+          "category": "Consequence",
+          "type": "text",
+          "content": "The remaining deer population becomes healthier"
+        }
+      ]
+    }
+  ]
+}

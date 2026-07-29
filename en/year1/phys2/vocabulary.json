@@ -1,0 +1,152 @@
+[
+  {
+    "english": "State of matter",
+    "french": "État de la matière",
+    "definitionEnglish": "One of the distinct physical forms that matter can take, such as solid, liquid, or gas.",
+    "definitionFrench": "Une des formes physiques distinctes que la matière peut prendre, à savoir solide, liquide ou gazeux."
+  },
+  {
+    "english": "Compressibility",
+    "french": "Compressibilité",
+    "definitionEnglish": "The measure of how much the volume of a matter decreases under pressure.",
+    "definitionFrench": "La capacité d'une substance à diminuer de volume sous l'effet d'une pression."
+  },
+  {
+    "english": "Particle model",
+    "french": "Modèle particulaire",
+    "definitionEnglish": "A scientific model that describes matter as being made up of tiny, continuous particles or grains in constant motion.",
+    "definitionFrench": "Un modèle scientifique qui décrit la matière comme étant constituée de minuscules grains ou particules invisibles en mouvement constant."
+  },
+  {
+    "english": "Tightly packed",
+    "french": "Très serrées",
+    "definitionEnglish": "Arranged extremely close together with very little or no space between particles.",
+    "definitionFrench": "Disposées de manière extrêmement rapprochée avec très peu ou pas d'espace entre les particules."
+  },
+  {
+    "english": "Far apart",
+    "french": "Très éloignées",
+    "definitionEnglish": "Separated by a large distance with substantial empty space between particles.",
+    "definitionFrench": "Séparées par une grande distance, laissant un espace vide conséquent entre les particules."
+  },
+  {
+    "english": "Strongly bound",
+    "french": "Fortement liées",
+    "definitionEnglish": "Held together by powerful forces of attraction that prevent particles from moving away from each other.",
+    "definitionFrench": "Maintenues ensemble par des forces d'attraction puissantes qui empêchent les particules de s'éloigner les unes des autres."
+  },
+  {
+    "english": "Free to slide",
+    "french": "Libres de glisser",
+    "definitionEnglish": "Able to move past one another smoothly while remaining in close contact, typical of the liquid state.",
+    "definitionFrench": "Capables de se déplacer les unes par rapport aux autres tout en restant en contact étroit, ce qui est typique de l'état liquide."
+  },
+  {
+    "english": "Disordered",
+    "french": "Désordonné",
+    "definitionEnglish": "Arranged without a regular, fixed, or repeating geometric pattern.",
+    "definitionFrench": "Disposé de manière aléatoire, sans structure géométrique régulière ou fixe."
+  },
+  {
+    "english": "Shape",
+    "french": "Forme",
+    "definitionEnglish": "The external form, contours, or outline of an object.",
+    "definitionFrench": "L'apparence externe, les contours ou la configuration d'un objet."
+  },
+  {
+    "english": "Syringe",
+    "french": "Seringue",
+    "definitionEnglish": "A device consisting of a plunger fitting tightly in a tube, used in experiments to compress or trap gases.",
+    "definitionFrench": "Un dispositif composé d'un piston s'insérant étroitement dans un tube, utilisé en expérience pour comprimer ou piéger des gaz."
+  },
+  {
+    "english": "Piston",
+    "french": "Piston",
+    "definitionEnglish": "The movable part inside a syringe or cylinder that presses against a fluid.",
+    "definitionFrench": "La partie mobile à l'intérieur d'une seringue ou d'un cylindre qui exerce une pression sur un fluide."
+  },
+  {
+    "english": "Arrangement",
+    "french": "Agencement",
+    "definitionEnglish": "The specific way in which particles are organized or spaced out in a material.",
+    "definitionFrench": "La manière spécifique dont les particules sont organisées ou espacées dans un matériau."
+  },
+  {
+    "english": "To flow",
+    "french": "Couler",
+    "definitionEnglish": "To move or run smoothly in a stream, characteristic of liquids and gases.",
+    "definitionFrench": "Se déplacer de manière fluide et continue, une caractéristique propre aux liquides et aux gaz."
+  },
+  {
+    "english": "Attraction forces",
+    "french": "Forces d'attraction",
+    "definitionEnglish": "Invisible physical forces that pull particles together and hold them in place.",
+    "definitionFrench": "Forces physiques invisibles qui attirent les particules les unes vers les autres et les maintiennent ensemble."
+  },
+  {
+    "english": "Heat",
+    "french": "Chaleur",
+    "definitionEnglish": "The transfer of thermal energy from a warmer object or system to a cooler one.",
+    "definitionFrench": "Le transfert d'énergie thermique d'un objet ou système plus chaud vers un autre plus froid."
+  },
+  {
+    "english": "Agitation",
+    "french": "Agitation",
+    "definitionEnglish": "The rapid, random, and continuous thermal motion of microscopic particles.",
+    "definitionFrench": "Le mouvement thermique rapide, désordonné et continu des particules microscopiques."
+  },
+  {
+    "english": "Freezing point",
+    "french": "Point de congélation",
+    "definitionEnglish": "The temperature at which a liquid turns into a solid.",
+    "definitionFrench": "La température à laquelle un liquide se solidifie et passe à l'état solide."
+  },
+  {
+    "english": "Boiling point",
+    "french": "Point d'ébullition",
+    "definitionEnglish": "The temperature at which a liquid rapidly changes into a gas or vapour.",
+    "definitionFrench": "La température à laquelle un liquide passe rapidement à l'état de gaz ou de vapeur."
+  },
+  {
+    "english": "Melting",
+    "french": "Fusion",
+    "definitionEnglish": "The physical process of change of state from a solid to a liquid when heat is added.",
+    "definitionFrench": "Le processus physique de changement d'état d'un solide vers un liquide sous l'effet de la chaleur."
+  },
+  {
+    "english": "Vaporization",
+    "french": "Vaporisation",
+    "definitionEnglish": "The change of state from a liquid to a gas, which includes evaporation and boiling.",
+    "definitionFrench": "Le changement d'état d'un liquide vers un gaz, englobant l'évaporation et l'ébullition."
+  },
+  {
+    "english": "Deposition",
+    "french": "Sublimation inverse",
+    "definitionEnglish": "The direct change of state from a gas into a solid, skipping the liquid phase.",
+    "definitionFrench": "Le changement d'état direct d'un gaz vers un solide, sans passer par la phase liquide."
+  },
+  {
+    "english": "Temperature plateau",
+    "french": "Palier de température",
+    "definitionEnglish": "A period during a change of state where the temperature remains constant despite continued heating or cooling.",
+    "definitionFrench": "Une période durant un changement d'état où la température reste stable malgré un apport ou une perte continue de chaleur."
+  },
+  {
+    "english": "Thermal expansion",
+    "french": "Dilatation thermique",
+    "definitionEnglish": "The increase in volume or size of a substance when its temperature rises.",
+    "definitionFrench": "L'augmentation de volume ou de taille d'une substance lorsque sa température augmente."
+  },
+  {
+    "english": "Thermal contraction",
+    "french": "Contraction thermique",
+    "definitionEnglish": "The decrease in volume or size of a substance when its temperature drops.",
+    "definitionFrench": "La diminution de volume ou de taille d'une substance lorsque sa température baisse."
+  },
+  {
+    "english": "To rise",
+    "french": "Augmenter",
+    "definitionEnglish": "To go up or increase in value, such as temperature or volume.",
+    "definitionFrench": "Monter ou s'élever, comme le niveau de la température ou d'un volume."
+  }
+]

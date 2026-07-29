@@ -1,0 +1,635 @@
+{
+  "exercisesPage": {
+    "title": "Oefenen en Training",
+    "leftCard": {
+      "title": "Oefeningen",
+      "level1": "Level 1",
+      "level2": "Level 2",
+      "level3": "Level 3"
+    },
+    "rightCard": {
+      "title": "Interactieve oefeningen",
+      "status": "Binnenkort beschikbaar..."
+    }
+  },
+  "level1": [
+    {
+      "id": 1,
+      "title": "Individu - Definitie",
+      "image": null,
+      "en": "Definieer, met je eigen woorden, wat een \"individu\" is in de ecologie.",
+      "fr": "Définis, avec tes propres mots, ce qu'est un \"individu\" en écologie.",
+      "corr_en": "Een individu is één enkel, uniek levend organisme.",
+      "corr_fr": "Un individu est un seul être vivant, unique."
+    },
+    {
+      "id": 2,
+      "title": "Vijverecosysteem — Zoek de factoren",
+      "image": "frog waterlily.jpg",
+      "en": "Bekijk de afbeelding. \nNoem twee biotische factoren en twee abiotische factoren die je ziet.",
+      "fr": "Observe l'image. \nCite deux facteurs biotiques et deux facteurs abiotiques visibles.",
+      "corr_en": "Biotisch: kikkers, waterlelies \nAbiotisch: water, rotsen/zon",
+      "corr_fr": "Biotiques : grenouilles, nénuphars\nAbiotiques : eau, rochers/soleil"
+    },
+    {
+      "id": 3,
+      "title": "Populatie - Definitie",
+      "image": null,
+      "en": "Definieer, met je eigen woorden, wat een \"populatie\" is.",
+      "fr": "Définis, avec tes propres mots, ce qu'est une \"population\".",
+      "corr_en": "Een populatie is een groep individuen van dezelfde soort die in hetzelfde gebied leven.",
+      "corr_fr": "Une population est un groupe d'individus de la même espèce vivant dans la même zone."
+    },
+    {
+      "id": 4,
+      "title": "Een voedselweb-schema lezen",
+      "image": "desert food web.jpg",
+      "questions": [
+        {
+          "en": "Noem één producent die op het schema te zien is.",
+          "fr": "Nomme un producteur présent sur le schéma",
+          "corr_en": "Cactus / Gras",
+          "corr_fr": "Cactus / Herbe"
+        },
+        {
+          "en": "Noem één reducent die op het schema te zien is.",
+          "fr": "Nomme un décomposeur présent sur le schéma.",
+          "corr_en": "Bacteriën",
+          "corr_fr": "Bactéries"
+        },
+        {
+          "en": "Wat betekent een pijl op dit schema?",
+          "fr": "Que signifie une flèche sur ce schéma ?",
+          "corr_en": "De pijl betekent \"wordt gegeten door\".",
+          "corr_fr": "La flèche signifie \"est mangé par\"."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Soort — Herkenning",
+      "image": null,
+      "en": "Twee padden kunnen samen geen jongen krijgen. Wat vertelt dit je over de twee padden?",
+      "fr": "Deux crapauds ne peuvent pas se reproduire ensemble. Que peux-tu en déduire ?",
+      "corr_en": "Ze behoren tot twee verschillende soorten.",
+      "corr_fr": "Ils appartiennent à deux espèces différentes."
+    },
+    {
+      "id": 6,
+      "title": "Reducenten aan het werk",
+      "image": "Fungus dead log.jpg",
+      "en": "Wat is de ecologische rol van het organisme op de afbeelding?",
+      "fr": "Quel est le rôle écologique de l'organisme présent sur l'image ?",
+      "corr_en": "Het is een reducent: het breekt dode organische stof af tot minerale stof.",
+      "corr_fr": "C'est un décomposeur : il transforme la matière organique morte en matière minérale."
+    },
+    {
+      "id": 7,
+      "title": "De ecosysteemvergelijking",
+      "image": null,
+      "en": "Vul aan: \nEcosysteem = ……………………… + ………………………",
+      "fr": "Complète : \nÉcosystème = ……………………… + ………………………",
+      "corr_en": "Ecosysteem = biotoop + biocenose",
+      "corr_fr": "Écosystème = biotope + biocénose"
+    },
+    {
+      "id": 8,
+      "title": "De berkenspanner — Observatie",
+      "image": "biston betularia.jpg",
+      "en": "Beschrijf wat je op de afbeelding ziet (kleur van de vlinders en de schors).",
+      "fr": "Décris ce que tu observes sur l'image (couleur des papillons et de l'écorce).",
+      "corr_en": "Er zijn twee kleurvormen van dezelfde vlindersoort: een lichte en een donkere, rustend op boomschors.",
+      "corr_fr": "On observe deux formes de couleur du même papillon : une claire et une foncée, posées sur l'écorce."
+    },
+    {
+      "id": 9,
+      "title": "Biotische versus abiotische factoren",
+      "image": null,
+      "en": "Geef één voorbeeld van een biotische factor en één voorbeeld van een abiotische factor.",
+      "fr": "Donne un exemple de facteur biotique et un exemple de facteur abiotique.",
+      "corr_en": "Voorbeeld biotische factor: een vis. Voorbeeld abiotische factor: de temperatuur (elk levend wezen / elk niet-levend element wordt aanvaard).",
+      "corr_fr": "Facteur biotique : un poisson. Facteur abiotique : la température (toute réponse cohérente est acceptée)."
+    },
+    {
+      "id": 10,
+      "title": "Bij en bloem — Interactie",
+      "image": "bee flower.jpg",
+      "en": "Welk type interactie is te zien op de afbeelding: predatie, mutualisme of competitie?",
+      "fr": "Quel type d'interaction est représenté sur l'image : prédation, mutualisme ou compétition ?",
+      "corr_en": "Mutualisme: de bij krijgt nectar en de bloem wordt bestoven.",
+      "corr_fr": "Mutualisme : l'abeille récolte du nectar et la fleur est pollinisée."
+    },
+    {
+      "id": 11,
+      "title": "Fauna versus flora",
+      "image": null,
+      "en": "Wat is het verschil tussen fauna en flora?",
+      "fr": "Quelle est la différence entre la faune et la flore ?",
+      "corr_en": "Fauna omvat alle dieren van een gebied; flora omvat alle planten van een gebied.",
+      "corr_fr": "La faune regroupe tous les animaux d'un lieu ; la flore regroupe toutes les plantes."
+    },
+    {
+      "id": 12,
+      "title": "Korstmos — Een bijzondere samenwerking",
+      "image": "lichen.jpg",
+      "en": "Hoe noem je de extreme relatie waarbij twee soorten elkaar absoluut nodig hebben om te overleven, zoals het korstmos op de afbeelding?",
+      "fr": "Comment appelle-t-on la relation extrême où deux espèces ont absolument besoin l'une de l'autre pour survivre, comme le lichen sur l'image ?",
+      "corr_en": "Symbiose.",
+      "corr_fr": "La symbiose."
+    },
+    {
+      "id": 13,
+      "title": "Organische versus minerale stof",
+      "image": null,
+      "en": "Wat is het verschil tussen organische stof en minerale stof?",
+      "fr": "Quelle est la différence entre matière organique et matière minérale ?",
+      "corr_en": "Organische stof komt van levende wezens (ook dode); minerale stof is niet-levende stof (voedingsstoffen, water, lucht).",
+      "corr_fr": "La matière organique provient des êtres vivants (même morts) ; la matière minérale est non-vivante (nutriments, eau, air)."
+    },
+    {
+      "id": 14,
+      "title": "Biodiversiteit op een golfterrein",
+      "image": "golf course.jpg",
+      "en": "Verwacht je, gezien de afbeelding, dat deze omgeving een hoge of lage biodiversiteit heeft? Geef één reden.",
+      "fr": "En observant l'image, penses-tu que cet environnement a une biodiversité élevée ou faible ? Donne une raison.",
+      "corr_en": "Lage biodiversiteit: het bestaat vooral uit één soort gras, met heel weinig andere planten- of diersoorten.",
+      "corr_fr": "Faible biodiversité : il s'agit presque uniquement d'un seul type de gazon, avec très peu d'autres espèces végétales ou animales."
+    },
+    {
+      "id": 15,
+      "title": "De drie ecologische rollen",
+      "image": null,
+      "en": "Noem de drie ecologische rollen binnen een kringloop van de stof.",
+      "fr": "Cite les trois rôles écologiques présents dans un cycle de la matière.",
+      "corr_en": "Producenten, consumenten, reducenten.",
+      "corr_fr": "Producteurs, consommateurs, décomposeurs."
+    },
+    {
+      "id": 16,
+      "title": "Leeuw en zebra",
+      "image": "lion zebra.jpg",
+      "en": "Noem het type interactie dat te zien is, en zeg welk dier de predator is.",
+      "fr": "Nomme le type d'interaction représenté, et précise quel animal est le prédateur.",
+      "corr_en": "Predatie; de leeuw is de predator.",
+      "corr_fr": "La prédation ; le lion est le prédateur."
+    },
+    {
+      "id": 17,
+      "title": "Biodiversiteit — Definitie",
+      "image": null,
+      "en": "Geef de definitie van \"biodiversiteit\" met je eigen woorden.",
+      "fr": "Donne la définition de \"biodiversité\" avec tes propres mots.",
+      "corr_en": "Biodiversiteit is de verscheidenheid aan leven: diversiteit van ecosystemen, van soorten, en van individuen binnen een soort.",
+      "corr_fr": "La biodiversité est la variété du vivant : diversité des écosystèmes, des espèces, et des individus au sein d'une espèce."
+    },
+    {
+      "id": 18,
+      "title": "Zonnige versus schaduwrijke zone",
+      "image": "forest_zones_sunny_vs_shade.png",
+      "en": "Welke zone verwacht je vochtiger en kouder: Zone A of Zone B?",
+      "fr": "Quelle zone est probablement plus humide et plus fraîche : la Zone A ou la Zone B ?",
+      "corr_en": "Zone B (diepe schaduw): minder zonlicht betekent een lagere temperatuur en hogere vochtigheid.",
+      "corr_fr": "La Zone B (ombre profonde) : moins de soleil signifie une température plus basse et une humidité plus élevée."
+    },
+    {
+      "id": 19,
+      "title": "Voedselweb versus voedselketen — Stabiliteit",
+      "image": null,
+      "en": "Waar of niet waar, en verbeter indien niet waar: \"Een voedselweb is minder stabiel dan een voedselketen.\"",
+      "fr": "Vrai ou faux, corrige si faux : \"Un réseau trophique est moins stable qu'une chaîne alimentaire.\"",
+      "corr_en": "Niet waar. Een voedselweb is stabieler, want als één soort verdwijnt, hebben de andere meestal alternatieve voedselbronnen.",
+      "corr_fr": "Faux. Un réseau trophique est plus stable, car si une espèce disparaît, les autres ont généralement des sources de nourriture alternatives."
+    },
+    {
+      "id": 20,
+      "title": "Zuigvis en haai",
+      "image": "remora.jpg",
+      "en": "De zuigvis eet de voedselresten van de haai, en de haai ondervindt hier geen invloed van. Noem dit type interactie.",
+      "fr": "Le poisson rémora mange les restes de nourriture du requin, et le requin n'est pas affecté. Nomme ce type d'interaction.",
+      "corr_en": "Commensalisme (+ / 0).",
+      "corr_fr": "Le commensalisme (+ / 0)."
+    }
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Stabiliteit van een voedselketen",
+      "image": null,
+      "en": "Leg de gevolgen uit voor een voedselketen als een primaire consument volledig verdwijnt.",
+      "fr": "Expliquez les conséquences sur un une chaine alimentaire si un consommateur primaire disparaît complètement.",
+      "corr_en": "De producenten zullen zich overmatig ontwikkelen, en secundaire consumenten zullen honger lijden of hun dieet moeten aanpassen.",
+      "corr_fr": "Les producteurs vont surmultiplier, et les consommateurs secondaires risquent la famine ou devront adapter leur régime alimentaire."
+    },
+    {
+      "id": 2,
+      "title": "Een voedselweb analyseren",
+      "image": "food_web_diagram.png",
+      "questions": [
+        {
+          "en": "Welke toppredator jaagt op het hert?",
+          "fr": "Quel superprédateur a pour proie le cerf ?",
+          "corr_en": "De poema (bergleeuw).",
+          "corr_fr": "Le lion de montagne (le puma)."
+        },
+        {
+          "en": "Welke organismen zijn de prooi van de insecteneter (vogel)?",
+          "fr": "Quelles organismes sont les proies de l'oiseau insectivore ?",
+          "corr_en": "De sprinkhaan.",
+          "corr_fr": "La sauterelle."
+        },
+        {
+          "en": "De spitsmuis is de prooi van welke drie predatoren?",
+          "fr": "La musaraigne est la proie de quels trois prédateurs ?",
+          "corr_en": "De havik, de slang en de poema.",
+          "corr_fr": "Le faucon, le serpent et le lion de montagne."
+        },
+        {
+          "en": "Als de havik de predator is, noem dan twee van zijn prooien die op het schema te zien zijn.",
+          "fr": "Si le faucon est le prédateur, nomme deux de ses proies visibles sur le schéma.",
+          "corr_en": "De eekhoorn en de spitsmuis.",
+          "corr_fr": "L'écureuil et la musaraigne."
+        },
+        {
+          "en": "Welke organismen onderaan het schema fungeren als reducenten in dit ecosysteem?",
+          "fr": "Quels organismes au bas du schéma agissent comme des décomposeurs dans cet écosystème ?",
+          "corr_en": "Schimmels en bacteriën.",
+          "corr_fr": "Les champignons (fungi) et les bactéries."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Populatie versus soort",
+      "image": null,
+      "en": "Leg, met een voorbeeld, het verschil uit tussen een populatie en een soort.",
+      "fr": "Explique, avec un exemple, la différence entre une population et une espèce.",
+      "corr_en": "Een soort omvat alle individuen die zich samen kunnen voortplanten (bv. alle vossen ter wereld); een populatie omvat enkel diegenen die op hetzelfde moment in hetzelfde gebied leven (bv. de vossen van één bos).",
+      "corr_fr": "Une espèce regroupe tous les individus capables de se reproduire ensemble (ex. tous les renards du monde) ; une population regroupe uniquement ceux vivant au même endroit, en même temps (ex. les renards d'une même forêt)."
+    },
+    {
+      "id": 4,
+      "title": "Terreingegevens — Zone A en B vergelijken",
+      "image": "field_data_sheet.png",
+      "questions": [
+        {
+          "en": "Welke zone heeft, volgens de tabel, de hoogste biodiversiteit?",
+          "fr": "D'après le tableau, quelle zone possède la plus grande biodiversité ?",
+          "corr_en": "Zone B, met 11 soorten tegenover 6 in Zone A.",
+          "corr_fr": "La Zone B, avec 11 espèces contre 6 en Zone A."
+        },
+        {
+          "en": "Welke abiotische factor verklaart het best waarom mossen en varens Zone B verkiezen?",
+          "fr": "Quel facteur abiotique explique le mieux pourquoi les mousses et les fougères préfèrent la Zone B ?",
+          "corr_en": "Vochtigheid: mossen en varens hebben vocht nodig om te overleven, en Zone B is vochtig terwijl Zone A droog is.",
+          "corr_fr": "L'humidité : les mousses et les fougères ont besoin d'humidité pour survivre, or la Zone B est humide alors que la Zone A est sèche."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "De rol van reducenten",
+      "image": null,
+      "en": "Leg in enkele zinnen de rol van reducenten uit in de kringloop van de stof.",
+      "fr": "Explique, en quelques phrases, le rôle des décomposeurs dans le cycle de la matière.",
+      "corr_en": "Reducenten (schimmels, bacteriën, regenwormen) breken dode organische stof af en zetten ze om in minerale stof, die terug in de bodem komt en opnieuw gebruikt kan worden door producenten.",
+      "corr_fr": "Les décomposeurs (champignons, bactéries, vers de terre) transforment la matière organique morte en matière minérale, qui retourne dans le sol et peut être réutilisée par les producteurs."
+    },
+    {
+      "id": 6,
+      "title": "Weide versus golfterrein",
+      "image": "meadow golf.jpg",
+      "en": "Vergelijk de twee afbeeldingen. Welke plaats heeft waarschijnlijk een hogere biodiversiteit, en waarom?",
+      "fr": "Compare les deux images. Quel endroit possède probablement une biodiversité plus élevée, et pourquoi ?",
+      "corr_en": "De bloemenweide: ze bevat veel verschillende plantensoorten, die diverse insecten aantrekken, in tegenstelling tot het golfterrein dat vooral uit één soort gras bestaat.",
+      "corr_fr": "La prairie fleurie : elle contient de nombreuses espèces végétales différentes, qui attirent une grande variété d'insectes, contrairement au golf qui n'est presque qu'un seul type de gazon."
+    },
+    {
+      "id": 7,
+      "title": "Concurrerende eiken",
+      "image": null,
+      "en": "Noem deze interactie en verantwoord: \"Twee eiken die dicht bij elkaar groeien, strijden beide om zonlicht.\"",
+      "fr": "Nomme cette interaction et justifie : \"Deux chênes qui poussent l'un près de l'autre se disputent tous les deux la lumière.\"",
+      "corr_en": "Competitie (- / -): beide organismen ondervinden nadeel omdat ze strijden om dezelfde beperkte hulpbron (licht).",
+      "corr_fr": "La compétition (- / -) : les deux organismes sont désavantagés car ils se disputent la même ressource limitée (la lumière)."
+    },
+    {
+      "id": 8,
+      "title": "De interactie coderen",
+      "image": "lion zebra.jpg",
+      "en": "Identificeer de interactie en leg, met de woordenschat van de les, uit waarom ze gecodeerd wordt als (+ / -).",
+      "fr": "Identifie l'interaction et explique, avec le vocabulaire du cours, pourquoi elle est codée (+ / -).",
+      "corr_en": "Predatie: de leeuw (predator) heeft er voordeel bij door voedsel te krijgen (+), terwijl de zebra (prooi) gedood wordt, en dus nadeel ondervindt (-).",
+      "corr_fr": "La prédation : le lion (prédateur) en profite en obtenant de la nourriture (+), tandis que la zèbre (proie) est tuée, donc désavantagée (-)."
+    },
+    {
+      "id": 9,
+      "title": "Een bos zonder bestuivers",
+      "image": null,
+      "en": "Leg uit wat er zou gebeuren met de planten van een bos als alle bestuivende insecten plots zouden verdwijnen.",
+      "fr": "Explique ce qui arriverait aux plantes d'une forêt si tous les insectes pollinisateurs disparaissaient soudainement.",
+      "corr_en": "Veel bloeiende planten zouden niet bestoven worden en zich dus niet kunnen voortplanten; hun populatie zou afnemen, wat ook gevolgen zou hebben voor de dieren die van deze planten afhankelijk zijn voor hun voedsel.",
+      "corr_fr": "De nombreuses plantes à fleurs ne seraient plus pollinisées et ne pourraient plus se reproduire ; leur population diminuerait, ce qui affecterait aussi les animaux qui dépendent de ces plantes pour se nourrir."
+    },
+    {
+      "id": 10,
+      "title": "Commensalisme versus mutualisme",
+      "image": "remora.jpg",
+      "en": "Leg uit waarom deze interactie commensalisme wordt genoemd en geen mutualisme.",
+      "fr": "Explique pourquoi cette interaction s'appelle du commensalisme et non du mutualisme.",
+      "corr_en": "Het is commensalisme omdat enkel de zuigvis er voordeel bij heeft (hij eet de voedselresten); de haai wordt noch geholpen, noch benadeeld (0), terwijl mutualisme vereist dat beide soorten er voordeel bij hebben.",
+      "corr_fr": "C'est du commensalisme car seul le rémora en profite (il mange les restes) ; le requin n'est ni aidé ni désavantagé (0), alors que le mutualisme nécessite un bénéfice pour les deux espèces."
+    },
+    {
+      "id": 11,
+      "title": "Natuurlijke selectie",
+      "image": null,
+      "en": "Leg, aan de hand van het voorbeeld van de berkenspanner, met je eigen woorden uit wat \"natuurlijke selectie\" betekent.",
+      "fr": "À partir de l'exemple du papillon du bouleau, explique avec tes propres mots ce que signifie \"sélection naturelle\".",
+      "corr_en": "Natuurlijke selectie is het proces waarbij individuen die het best aangepast zijn aan hun omgeving (bv. de vlinderkleur die het best overeenkomt met de boomschors) meer overleven en zich meer voortplanten, terwijl minder aangepaste individuen vaker gegeten worden en verdwijnen.",
+      "corr_fr": "La sélection naturelle est le processus par lequel les individus les mieux adaptés à leur environnement (ex. la couleur du papillon qui correspond le mieux à l'écorce) survivent et se reproduisent davantage, tandis que les individus moins adaptés sont plus facilement mangés et disparaissent."
+    },
+    {
+      "id": 12,
+      "title": "Clownvis en zeeanemoon",
+      "image": "clownfish.jpg",
+      "en": "Leg uit wat elk organisme uit deze relatie haalt.",
+      "fr": "Explique ce que chaque organisme gagne dans cette relation.",
+      "corr_en": "De clownvis krijgt bescherming tegen predatoren tussen de tentakels van de anemoon; de anemoon wordt schoongemaakt en profiteert ook van voedselresten en een betere waterstroming dankzij de vis.",
+      "corr_fr": "Le poisson-clown est protégé des prédateurs grâce aux tentacules de l'anémone ; l'anémone est nettoyée et profite aussi des restes de nourriture et d'une meilleure circulation de l'eau apportée par le poisson."
+    },
+    {
+      "id": 13,
+      "title": "Biotoop versus biocenose",
+      "image": null,
+      "en": "Leg het verschil uit tussen biotoop en biocenose aan de hand van een voorbeeld uit een bos.",
+      "fr": "Explique la différence entre biotope et biocénose à l'aide d'un exemple pris dans une forêt.",
+      "corr_en": "De biotoop is de fysieke, niet-levende omgeving (bodem, temperatuur, water); de biocenose omvat alle levende organismen die er met elkaar interageren (bomen, insecten, vogels). Samen vormen ze het ecosysteem.",
+      "corr_fr": "Le biotope est le milieu physique non-vivant (sol, température, eau) ; la biocénose regroupe tous les êtres vivants qui y interagissent (arbres, insectes, oiseaux). Ensemble, ils forment l'écosystème."
+    },
+    {
+      "id": 14,
+      "title": "De kringloop van de stof",
+      "image": "forest_matter_cycle.png",
+      "en": "Leg, aan de hand van het schema, uit wat er met de kringloop zou gebeuren als de stap \"reducent\" zou verdwijnen.",
+      "fr": "À l'aide du schéma, explique ce qui arriverait au cycle si l'étape \"décomposeur\" disparaissait.",
+      "corr_en": "Dode organische stof zou niet langer omgezet worden in minerale stof; de bodem zou arm worden aan voedingsstoffen, en producenten zouden moeilijk kunnen groeien, waardoor de hele kringloop verbroken zou worden.",
+      "corr_fr": "La matière organique morte ne serait plus transformée en matière minérale ; le sol s'appauvrirait en nutriments, et les producteurs auraient du mal à pousser, ce qui romprait tout le cycle."
+    },
+    {
+      "id": 15,
+      "title": "Waar zijn de dode bladeren gebleven",
+      "image": null,
+      "en": "Tijdens de veldtocht leken er onder sommige stenen geen reducenten zichtbaar. Leg uit waarom de bosbodem toch niet bedekt was met meters dode bladeren.",
+      "fr": "Lors du field trip, aucun décomposeur ne semblait visible sous certaines pierres. Explique pourquoi le sol de la forêt n'était pourtant pas recouvert de mètres de feuilles mortes.",
+      "corr_en": "Reducenten zijn aanwezig in de bodem (ook al zijn ze niet altijd zichtbaar) en breken voortdurend dode bladeren af tot minerale stof, wat voorkomt dat organische stof zich ophoopt.",
+      "corr_fr": "Les décomposeurs sont bien présents dans le sol (même s'ils ne sont pas toujours visibles), et transforment en continu les feuilles mortes en matière minérale, ce qui empêche l'accumulation de matière organique."
+    },
+    {
+      "id": 16,
+      "title": "Leven in zon en schaduw voorspellen",
+      "image": "shade suny.jpg",
+      "en": "Voorspel, op basis van de afbeeldingen, in welke zone je meer vliegende insecten en wilde bloemen zou vinden, en leg uit waarom.",
+      "fr": "Prédis, à partir des images, dans quelle zone tu trouverais davantage d'insectes volants et de fleurs sauvages, et explique pourquoi.",
+      "corr_en": "In de zonnige open plek: bloeiende planten hebben meer licht nodig om te groeien en te bloeien, wat vervolgens bestuivende insecten zoals bijen en vlinders aantrekt.",
+      "corr_fr": "Dans la clairière ensoleillée : les plantes à fleurs ont besoin de plus de lumière pour pousser et fleurir, ce qui attire ensuite les insectes pollinisateurs comme les abeilles et les papillons."
+    },
+    {
+      "id": 17,
+      "title": "Symbiose",
+      "image": null,
+      "en": "Geef een voorbeeld van symbiose (anders dan de voorbeelden uit de les) en leg uit waarom het verschilt van gewoon mutualisme.",
+      "fr": "Donne un exemple de symbiose (différent de ceux vus en classe) et explique en quoi il diffère d'un simple mutualisme.",
+      "corr_en": "Elk geldig voorbeeld (bv. termieten en de bacteriën in hun darm die hout verteren). Symbiose is een extreme, verplichte relatie waarbij de twee soorten niet zonder elkaar kunnen overleven, in tegenstelling tot gewoon mutualisme waarbij samenwerking voordelig is maar niet essentieel.",
+      "corr_fr": "Tout exemple valable (ex. les termites et les bactéries de leur intestin qui digèrent le bois). La symbiose est une relation extrême et obligatoire où les deux espèces ne peuvent pas survivre l'une sans l'autre, contrairement à un mutualisme ordinaire, bénéfique mais non vital."
+    },
+    {
+      "id": 18,
+      "title": "Korstmos",
+      "image": "lichen.jpg",
+      "en": "Een korstmos bestaat eigenlijk uit een schimmel en een alg die samenleven. Leg uit waarom we dit symbiose noemen en geen gewoon mutualisme.",
+      "fr": "Un lichen est en réalité composé d'un champignon et d'une algue vivant ensemble. Explique pourquoi on parle de symbiose plutôt que de simple mutualisme.",
+      "corr_en": "Omdat de schimmel en de alg in die omgeving absoluut niet apart kunnen overleven: de alg produceert voedsel via fotosynthese en de schimmel biedt bescherming en water, wat de relatie verplicht maakt.",
+      "corr_fr": "Parce que le champignon et l'algue ne peuvent absolument pas survivre séparément dans ce milieu : l'algue produit de la nourriture par photosynthèse et le champignon apporte protection et eau, ce qui rend la relation obligatoire."
+    },
+    {
+      "id": 19,
+      "title": "Teek en hond",
+      "image": null,
+      "en": "Een teek leeft op een hond en voedt zich met zijn bloed. Identificeer de interactie en leg het effect op elk organisme uit.",
+      "fr": "Une tique vit sur un chien et se nourrit de son sang. Identifie l'interaction et explique l'effet sur chaque organisme.",
+      "corr_en": "Parasitisme (+ / -): de teek heeft er voordeel bij (hij krijgt voedsel), de hond ondervindt nadeel (hij verliest bloed en kan ziektes oplopen), maar de hond wordt meestal niet meteen gedood.",
+      "corr_fr": "Le parasitisme (+ / -) : la tique en profite (elle se nourrit), le chien est désavantagé (il perd du sang et peut contracter des maladies), mais il n'est généralement pas tué immédiatement."
+    },
+    {
+      "id": 20,
+      "title": "Camouflage vóór de Industriële Revolutie",
+      "image": "moth.jpg",
+      "en": "Vóór de Industriële Revolutie was boomschors licht van kleur. Leg, aan de hand van de afbeelding, uit welke vlinderkleur het best gecamoufleerd was, en waarom.",
+      "fr": "Avant la Révolution industrielle, l'écorce des arbres était claire. À l'aide de l'image, explique quelle couleur de papillon était la mieux camouflée, et pourquoi.",
+      "corr_en": "De lichtgekleurde vlinder, omdat hij opging in de lichte schors en moeilijker te zien en te eten was voor vogels.",
+      "corr_fr": "Le papillon clair, car il se confondait avec l'écorce claire et était plus difficile à repérer et à manger par les oiseaux."
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "Een bos zonder reducenten",
+      "image": null,
+      "en": "In een bosecosysteem elimineert een ziekte plots het grootste deel van de reducenten in de bodem. Voorspel en verklaar de langetermijngevolgen voor de producenten.",
+      "fr": "Dans un écosystème forestier, une maladie élimine soudainement la majeure partie des décomposeurs du sol. Prédis et explique l'impact à long terme sur les producteurs.",
+      "corr_en": "Zonder reducenten wordt dode organische stof niet meer omgezet in minerale stof. De bodem wordt arm aan voedingsstoffen, wat de groei van producenten op termijn sterk beperkt.",
+      "corr_fr": "Sans décomposeurs, la matière organique morte n'est plus transformée en matière minérale. Le sol s'appauvrit en nutriments, ce qui limite fortement la croissance des producteurs à long terme."
+    },
+    {
+      "id": 2,
+      "title": "De wolf, het hert en het bos",
+      "image": "ardennes_forest_food_web.png",
+      "questions": [
+        {
+          "en": "Voorspel, aan de hand van het voedselweb, wat er met de hertenpopulatie zou gebeuren als de wolf opnieuw zou verdwijnen.",
+          "fr": "À l'aide du réseau trophique, prédis ce qui arriverait à la population de cerfs si le loup disparaissait à nouveau.",
+          "corr_en": "De hertenpopulatie zou ongecontroleerd groeien, aangezien haar belangrijkste predator verdwenen is; herten zouden jonge bomen overbegrazen, wat de bosverjonging zou kunnen schaden.",
+          "corr_fr": "La population de cerfs augmenterait sans contrôle, en l'absence de son principal prédateur ; les cerfs surpâtureraient les jeunes arbres, ce qui pourrait nuire à la régénération de la forêt."
+        },
+        {
+          "en": "Leg uit waarom het voedselweb van het bos veerkrachtiger is dan een eenvoudige voedselketen als een ziekte de eiken treft.",
+          "fr": "Explique pourquoi le réseau trophique de la forêt est plus résilient qu'une simple chaîne alimentaire si une maladie touche les chênes.",
+          "corr_en": "Herbivoren die eikenbladeren/eikels aten, kunnen overschakelen naar andere plantensoorten binnen het web, waardoor de impact wordt opgevangen in plaats van de hele keten van voedingsrelaties te verbreken.",
+          "corr_fr": "Les herbivores qui mangeaient des feuilles/glands de chêne peuvent se tourner vers d'autres espèces végétales du réseau, l'impact est ainsi absorbé au lieu de rompre toute la chaîne alimentaire."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Trofische cascades",
+      "image": null,
+      "en": "Leg uit hoe het verdwijnen van één enkele predatorsoort een \"trofische cascade\" kan veroorzaken die zelfs de planten van een ecosysteem beïnvloedt.",
+      "fr": "Explique comment la disparition d'une seule espèce de prédateur peut déclencher une \"cascade trophique\" affectant même les plantes d'un écosystème.",
+      "corr_en": "Zonder de predator groeien herbivorenpopulaties ongecontroleerd en overbegrazen ze de vegetatie; dit vermindert de plantenbedekking, wat op zijn beurt de bodem, de watercyclus en alle andere soorten die van deze planten afhankelijk zijn, beïnvloedt — het effect verspreidt zich als een cascade doorheen het hele voedselweb.",
+      "corr_fr": "Sans le prédateur, les populations d'herbivores augmentent sans contrôle et surpâturent la végétation ; la couverture végétale diminue, ce qui affecte à son tour le sol, le cycle de l'eau, et toutes les autres espèces dépendant de ces plantes — l'effet se propage dans tout le réseau trophique."
+    },
+    {
+      "id": 4,
+      "title": "Een predator-prooigrafiek lezen",
+      "image": "deer_wolf_population.png",
+      "en": "Analyseer de grafiek en leg de relatie tussen de twee populatiecurves uit.",
+      "fr": "Analyse le graphique et explique la relation entre les deux courbes de population.",
+      "corr_en": "Wanneer de hertenpopulatie te groot wordt, put ze waarschijnlijk haar voedselbron uit en stort ze in; de wolvenpopulatie volgt deze trend dan met vertraging, aangezien wolven afhankelijk zijn van herten als prooi — dit is een predator-prooicyclus.",
+      "corr_fr": "Lorsque la population de cerfs devient trop importante, elle épuise probablement sa source de nourriture et s'effondre ; la population de loups suit alors cette tendance avec un décalage, car les loups dépendent des cerfs comme proies — il s'agit d'un cycle proie-prédateur."
+    },
+    {
+      "id": 5,
+      "title": "Competitie versus predatie — Wat is erger?",
+      "image": null,
+      "en": "Is competitie tussen twee vogelsoorten om nestplaatsen schadelijker of minder schadelijk voor de biodiversiteit dan predatie? Verantwoord met de woordenschat van de les.",
+      "fr": "La compétition entre deux espèces d'oiseaux pour des sites de nidification est-elle plus ou moins dommageable pour la biodiversité que la prédation ? Justifie avec le vocabulaire du cours.",
+      "corr_en": "Beide antwoorden kunnen verantwoord worden. Competitie (- / -) benadeelt beide soorten zonder individuen rechtstreeks te elimineren, waardoor populaties geleidelijk kunnen afnemen; predatie (+ / -) benadeelt enkel de prooi, maar vormt een natuurlijke, vaak noodzakelijke regulering. Een goed antwoord vergelijkt de omkeerbaarheid en de omvang van elk effect op de populatiegrootte.",
+      "corr_fr": "Les deux réponses peuvent être justifiées. La compétition (- / -) désavantage les deux espèces sans éliminer directement des individus, ce qui peut réduire progressivement les populations ; la prédation (+ / -) ne nuit qu'à la proie mais constitue une régulation naturelle, souvent nécessaire. Une bonne réponse compare la réversibilité et l'ampleur de l'effet sur la taille des populations."
+    },
+    {
+      "id": 6,
+      "title": "De berkenspanner — Voor en na",
+      "image": "biston betularia.jpg",
+      "questions": [
+        {
+          "en": "Welke vlinderkleur werd tijdens de Industriële Revolutie bevoordeeld door natuurlijke selectie, en waarom?",
+          "fr": "Pendant la Révolution industrielle, quelle couleur de papillon a été favorisée par la sélection naturelle, et pourquoi ?",
+          "corr_en": "De donkere vorm, omdat roet de boomstammen donkerder had gemaakt, waardoor donkere vlinders beter gecamoufleerd waren voor vogels.",
+          "corr_fr": "La forme foncée, car la suie avait noirci les troncs d'arbres, rendant les papillons foncés mieux camouflés face aux oiseaux."
+        },
+        {
+          "en": "Voorspel wat er vandaag met de vlinderpopulatie zou gebeuren als de luchtvervuiling zou afnemen en de boomschors weer licht zou worden.",
+          "fr": "Prédis ce qui arriverait à la population de papillons aujourd'hui si la pollution de l'air diminuait et que l'écorce redevenait claire.",
+          "corr_en": "De lichtgekleurde vlinders zouden opnieuw beter gecamoufleerd zijn en meer overleven, waardoor de lichte vorm over generaties heen opnieuw dominant zou worden — natuurlijke selectie die van richting verandert.",
+          "corr_fr": "Les papillons clairs seraient à nouveau mieux camouflés et survivraient davantage, donc au fil des générations la forme claire redeviendrait dominante — la sélection naturelle s'inverserait."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Regenwormen en bodemvruchtbaarheid",
+      "image": null,
+      "en": "Een nieuwe ziekte doodt alle regenwormen in een tuin. Voorspel de gevolgen voor de bodemvruchtbaarheid en de plantengroei, met gebruik van de begrippen organische en minerale stof.",
+      "fr": "Une nouvelle maladie tue tous les vers de terre d'un jardin. Prédis les conséquences sur la fertilité du sol et la croissance des plantes, en utilisant les notions de matière organique et minérale.",
+      "corr_en": "Regenwormen zijn belangrijke reducenten; zonder hen breekt organische stof (dode bladeren, wortels) trager af, komt er minder minerale stof in de bodem vrij, en krijgen planten minder voedingsstoffen, wat hun groei beperkt.",
+      "corr_fr": "Les vers de terre sont d'importants décomposeurs ; sans eux, la matière organique (feuilles mortes, racines) se décompose plus lentement, moins de matière minérale est libérée dans le sol, et les plantes reçoivent moins de nutriments, ce qui limite leur croissance."
+    },
+    {
+      "id": 8,
+      "title": "Terreingegevens analyseren — Zone A versus B",
+      "image": "field_data_sheet level 3.png",
+      "en": "Welke ene fysieke factor beperkt de biodiversiteit in Zone A waarschijnlijk het meest? Stel een hypothese voor en beschrijf hoe je ze op het terrein zou testen.",
+      "fr": "Quel facteur physique unique limite le plus probablement la biodiversité en Zone A ? Propose une hypothèse et décris comment tu la testerais sur le terrain.",
+      "corr_en": "Waarschijnlijk de vochtigheid (of een hoge temperatuur die droogte veroorzaakt). Hypothese: lage vochtigheid beperkt het aantal soorten dat in Zone A kan overleven. Test: meet de vochtigheid en het aantal soorten op verschillende zonnige en schaduwrijke plekken, houd de andere factoren zo constant mogelijk, en vergelijk de resultaten.",
+      "corr_fr": "Probablement l'humidité (ou une température élevée causant la sécheresse). Hypothèse : la faible humidité limite le nombre d'espèces pouvant survivre en Zone A. Test : mesurer l'humidité et le nombre d'espèces dans plusieurs zones ensoleillées et ombragées, en gardant les autres facteurs aussi constants que possible, puis comparer les résultats."
+    },
+    {
+      "id": 9,
+      "title": "Voedselweb als wetenschappelijk model",
+      "image": null,
+      "en": "Leg uit waarom een voedselweb beschouwd wordt als een beter \"wetenschappelijk model\" dan een voedselketen, en vermeld één beperking die modellen in het algemeen altijd hebben.",
+      "fr": "Explique pourquoi un réseau trophique est considéré comme un meilleur \"modèle scientifique\" qu'une chaîne alimentaire, et cite une limite que possèdent tous les modèles en général.",
+      "corr_en": "Een voedselweb geeft de werkelijkheid beter weer, omdat echte ecosystemen veel onderling verbonden voedingsrelaties hebben, geen enkele rechte lijn. Zoals elk model blijft het echter een vereenvoudiging van de werkelijkheid en kan het niet elke interactie of soort die werkelijk bestaat, bevatten.",
+      "corr_fr": "Un réseau trophique représente mieux la réalité car les écosystèmes réels comportent de nombreuses relations alimentaires interconnectées, pas une simple ligne. Cependant, comme tout modèle, il reste une simplification de la réalité et ne peut pas inclure toutes les interactions ou espèces réellement présentes."
+    },
+    {
+      "id": 10,
+      "title": "Verborgen biodiversiteit",
+      "image": "meadow golf.jpg",
+      "en": "Het golfterrein oogt \"groen en levendig\", toch zeggen wetenschappers dat het waarschijnlijk een lagere biodiversiteit heeft dan de weide. Leg uit waarom zichtbaar groen misleidend kan zijn, en vermeld een niveau van biodiversiteit dat vaak onzichtbaar is.",
+      "fr": "Le golf paraît \"vert et vivant\", pourtant les scientifiques disent qu'il a probablement une biodiversité plus faible que la prairie. Explique pourquoi la verdure visible peut être trompeuse, et cite un niveau de biodiversité souvent invisible.",
+      "corr_en": "Een golfterrein bestaat vooral uit één grassoort; ondanks het groene uitzicht is de soortendiversiteit dus erg laag. Biodiversiteit bestaat ook op het niveau van de bodem (micro-organismen, schimmels, insecten), die op het eerste gezicht onzichtbaar is, maar meestal veel rijker onder een natuurlijke weide dan onder intensief onderhouden gras.",
+      "corr_fr": "Un golf est presque uniquement composé d'une seule espèce de gazon ; malgré son aspect vert, sa diversité d'espèces est très faible. La biodiversité existe aussi au niveau du sol (micro-organismes, champignons, insectes), invisible à première vue, mais généralement bien plus riche sous une prairie naturelle que sous un gazon entretenu intensivement."
+    },
+    {
+      "id": 11,
+      "title": "Natuurlijke selectie in een veranderend klimaat",
+      "image": null,
+      "en": "Leg zowel een positief als een negatief effect uit dat natuurlijke selectie kan hebben op de biodiversiteit in een veranderend klimaat.",
+      "fr": "Explique un impact positif et un impact négatif que la sélection naturelle peut avoir sur la biodiversité dans un climat changeant.",
+      "corr_en": "Positief: natuurlijke selectie zorgt ervoor dat sommige individuen die beter aangepast zijn aan nieuwe omstandigheden (bv. hittebestendigheid) overleven en hun kenmerken doorgeven, waardoor de soort blijft voortbestaan. Negatief: als de omgeving te snel verandert, hebben veel soorten mogelijk niet genoeg genetische variatie om zich tijdig aan te passen, wat leidt tot een verlies aan biodiversiteit.",
+      "corr_fr": "Positif : la sélection naturelle permet aux individus les mieux adaptés aux nouvelles conditions (ex. résistance à la chaleur) de survivre et de transmettre leurs caractéristiques, aidant l'espèce à perdurer. Négatif : si l'environnement change trop vite, de nombreuses espèces n'ont pas assez de variété génétique pour s'adapter à temps, ce qui entraîne une perte de biodiversité."
+    },
+    {
+      "id": 12,
+      "title": "Lichtniveaus en biodiversiteit",
+      "image": "forest_light_biodiversity_gradient.png",
+      "en": "Voorspel, aan de hand van het schema, op welk niveau de biodiversiteit waarschijnlijk het hoogst is, en verantwoord je antwoord met abiotische factoren.",
+      "fr": "À l'aide du schéma, prédis à quel niveau la biodiversité est probablement la plus élevée, et justifie ta réponse avec des facteurs abiotiques.",
+      "corr_en": "Antwoorden kunnen variëren als ze verantwoord zijn; een veelvoorkomend antwoord is de kroonlaag/randzones met matig tot veel licht, aangezien veel planten licht nodig hebben voor fotosynthese, wat op zijn beurt meer herbivoren en hun predatoren ondersteunt — de beschikbaarheid van licht bepaalt rechtstreeks waar producenten, en dus de rest van het voedselweb, kunnen gedijen.",
+      "corr_fr": "Les réponses peuvent varier si elles sont justifiées ; une réponse fréquente est la canopée/les zones de lisière avec une lumière intermédiaire à forte, car de nombreuses plantes ont besoin de lumière pour la photosynthèse, ce qui soutient ensuite davantage d'herbivores et leurs prédateurs — la disponibilité en lumière détermine directement où les producteurs, et donc le reste du réseau trophique, peuvent prospérer."
+    },
+    {
+      "id": 13,
+      "title": "Ontwerp een experiment — Afbraaksnelheid",
+      "image": null,
+      "en": "Ontwerp een eenvoudig experiment (hypothese + te testen variabele) om te achterhalen waarom strooisel sneller afbreekt in de ene zone van een bos dan in de andere.",
+      "fr": "Conçois une expérience simple (hypothèse + variable à tester) pour découvrir pourquoi la litière se décompose plus vite dans une zone d'une forêt que dans une autre.",
+      "corr_en": "Hypothese: vochtigheid versnelt de afbraak. Test: plaats identieke bladstalen in beide zones, houd alle andere omstandigheden gelijk, meet de massa of de afbraaktoestand na een vaste tijd, en vergelijk — waarbij enkel de vochtigheid/zone als variabele verandert.",
+      "corr_fr": "Hypothèse : l'humidité accélère la décomposition. Test : placer des échantillons de feuilles identiques dans les deux zones, garder les autres conditions similaires, mesurer la masse ou l'état de décomposition après un temps fixe, et comparer — en ne faisant varier que l'humidité/la zone."
+    },
+    {
+      "id": 14,
+      "title": "Na ontbossing",
+      "image": "deforastation.jpg",
+      "en": "Voorspel de langetermijngevolgen voor de lokale biocenose en biotoop als het ontboste gebied op de afbeelding nooit meer aangroeit.",
+      "fr": "Prédis les conséquences à long terme pour la biocénose et le biotope locaux si la zone déforestée montrée sur l'image ne repousse jamais.",
+      "corr_en": "Zonder bomen verandert de biotoop drastisch: minder schaduw, hogere temperatuur, drogere bodem, meer erosie. Deze nieuwe biotoop kan de oorspronkelijke biocenose niet langer ondersteunen (bossoorten verliezen hun habitat en voedselbronnen), wat leidt tot een verlies aan biodiversiteit en een volledig ander, armer ecosysteem.",
+      "corr_fr": "Sans arbres, le biotope change radicalement : moins d'ombre, température plus élevée, sol plus sec, davantage d'érosion. Ce nouveau biotope ne peut plus soutenir la biocénose d'origine (les espèces forestières perdent leur habitat et leurs sources de nourriture), entraînant une perte de biodiversité et un écosystème complètement différent et appauvri."
+    },
+    {
+      "id": 15,
+      "title": "De terugkeer van de wolf in de Ardennen",
+      "image": null,
+      "en": "\"De grijze wolf is op natuurlijke wijze teruggekeerd naar de bossen van de Belgische Ardennen.\" Leg uit waarom de terugkeer van de wolf de hertenpopulatie opnieuw in evenwicht kan brengen, en hoe dit natuurlijke selectie illustreert.",
+      "fr": "\"Le loup gris est naturellement revenu dans les forêts de l'Ardenne belge.\" Explique pourquoi le retour du loup peut rééquilibrer la population de cerfs, et en quoi cela illustre la sélection naturelle.",
+      "corr_en": "Zonder wolven groeit de hertenpopulatie ongecontroleerd en overbegraast ze het bos. De terugkeer van de wolf beperkt deze populatie door bij voorkeur de zwakste, zieke of oudste dieren te bejagen: dit is natuurlijke selectie, aangezien de best aangepaste herten (snel, gezond) meer overleven en zich meer voortplanten.",
+      "corr_fr": "Sans loup, la population de cerfs augmente sans contrôle et surpâture la forêt. Le retour du loup limite cette population en chassant en priorité les individus les plus faibles, malades ou âgés : c'est la sélection naturelle, car les cerfs les mieux adaptés (rapides, en bonne santé) survivent davantage et se reproduisent."
+    },
+    {
+      "id": 16,
+      "title": "Bodem met en zonder reducenten",
+      "image": "soil_with_without_decomposers.png",
+      "en": "Vergelijk de twee bodems en voorspel, 10 jaar later, het gevolg voor het bos dat zich boven elk ervan bevindt.",
+      "fr": "Compare les deux sols et prédis, 10 ans plus tard, la conséquence pour la forêt qui se trouve au-dessus de chacun.",
+      "corr_en": "De bodem met reducenten blijft rijk aan minerale stof, wat een gezonde boomgroei ondersteunt. De bodem zonder reducenten hoopt onafgebroken organische stof op maar blijft arm aan minerale voedingsstoffen, waardoor bomen zwakker zouden groeien en het bos geleidelijk zou achteruitgaan.",
+      "corr_fr": "Le sol avec décomposeurs reste riche en matière minérale, ce qui favorise une croissance saine des arbres. Le sol sans décomposeurs accumule de la matière organique non décomposée mais reste pauvre en nutriments minéraux : les arbres pousseraient plus faiblement et la forêt pourrait décliner progressivement."
+    },
+    {
+      "id": 17,
+      "title": "De stof van een wolvenprooi volgen",
+      "image": null,
+      "en": "Leg het volledige traject van de stof uit wanneer een wolf de resten van zijn prooi achterlaat op de bosbodem, met gebruik van de woorden \"organische stof\", \"reducenten\" en \"minerale stof\".",
+      "fr": "Explique le trajet complet de la matière lorsqu'un loup abandonne les restes de sa proie sur le sol de la forêt, en utilisant les mots \"matière organique\", \"décomposeurs\" et \"matière minérale\".",
+      "corr_en": "De resten zijn organische stof; reducenten (schimmels, bacteriën, regenwormen) breken ze af en zetten de organische stof om in minerale stof, die de bodem verrijkt en vervolgens opnieuw gebruikt kan worden door producenten zoals bomen.",
+      "corr_fr": "Les restes constituent de la matière organique ; les décomposeurs (champignons, bactéries, vers de terre) la transforment en matière minérale, ce qui enrichit le sol et peut ensuite être réutilisé par les producteurs comme les arbres."
+    },
+    {
+      "id": 18,
+      "title": "Clownvis en zeeanemoon",
+      "image": "clownfish.jpg",
+      "en": "Leg uit wat er met beide organismen zou gebeuren als ze gedwongen gescheiden zouden worden, en gebruik dit om te verantwoorden waarom sommige wetenschappers deze relatie dicht bij symbiose vinden aanleunen.",
+      "fr": "Explique ce qui arriverait aux deux organismes s'ils étaient séparés de force, et utilise cela pour justifier pourquoi certains scientifiques considèrent cette relation proche de la symbiose.",
+      "corr_en": "Zonder de anemoon zou de clownvis zijn belangrijkste bescherming tegen predatoren verliezen en kwetsbaarder worden; zonder de vis zou de anemoon de voordelen van reiniging, voedselresten en waterstroming verliezen, en meer blootgesteld kunnen worden aan bepaalde predatoren. Omdat beide een reëel nadeel ondervinden wanneer ze gescheiden worden, overstijgt de relatie eenvoudig mutualisme en benadert ze een verplichte symbiose, vooral voor de vis.",
+      "corr_fr": "Sans l'anémone, le poisson-clown perdrait sa principale protection contre les prédateurs et serait plus vulnérable ; sans le poisson, l'anémone perdrait le nettoyage, les restes de nourriture et la circulation d'eau apportés, et pourrait être plus exposée à certains prédateurs. Comme les deux subissent un réel désavantage lorsqu'ils sont séparés, la relation dépasse le simple mutualisme et se rapproche d'une symbiose obligatoire, surtout pour le poisson."
+    },
+    {
+      "id": 19,
+      "title": "Pesticiden en het voedselweb",
+      "image": null,
+      "en": "Als pesticiden de meeste bestuivende insecten in een regio zouden doden, voorspel dan de gevolgen doorheen verschillende trofische niveaus, van producenten tot topconsumenten.",
+      "fr": "Si des pesticides tuaient la majorité des insectes pollinisateurs d'une région, prédis les conséquences à travers plusieurs niveaux trophiques, des producteurs jusqu'aux consommateurs de haut niveau.",
+      "corr_en": "Bloeiende planten (producenten) zouden minder voortplanten en achteruitgaan; herbivoren die van deze planten afhankelijk zijn, zouden minder voedsel hebben en hun populaties zouden dalen; predatoren die deze herbivoren eten, zouden dan ook moeite hebben om voedsel te vinden, waardoor het effect zich doorheen het hele voedselweb zou verspreiden.",
+      "corr_fr": "Les plantes à fleurs (producteurs) se reproduiraient moins et déclineraient ; les herbivores qui en dépendent auraient moins de nourriture et leurs populations chuteraient ; les prédateurs qui mangent ces herbivores auraient alors aussi du mal à se nourrir, l'effet se propageant dans tout le réseau trophique."
+    },
+    {
+      "id": 20,
+      "title": "Waarom predatie de prooisoort ten goede komt",
+      "image": "lion zebra.jpg",
+      "en": "Leg uit waarom predatie, ook al doodt ze individuen, over het algemeen als gunstig wordt beschouwd voor de prooisoort als geheel op lange termijn.",
+      "fr": "Explique pourquoi la prédation, même si elle tue des individus, est généralement considérée comme bénéfique pour l'espèce proie dans son ensemble sur le long terme.",
+      "corr_en": "Predatoren vangen doorgaans de zwakste, ziekste of traagste individuen; dit werkt als natuurlijke selectie, waarbij minder aangepaste individuen verdwijnen en de sterkste zich voortplanten, wat de algemene gezondheid en aanpassing van de prooipopulatie verbetert, en ook voorkomt dat de prooipopulatie te groot wordt en haar eigen voedselbronnen uitput.",
+      "corr_fr": "Les prédateurs capturent en priorité les individus les plus faibles, malades ou lents ; cela agit comme une sélection naturelle, éliminant les individus les moins adaptés et laissant les plus forts se reproduire, ce qui améliore la santé et l'adaptation globale de la population de proies, tout en évitant que celle-ci ne devienne trop nombreuse et n'épuise ses propres ressources alimentaires."
+    }
+  ]
+}

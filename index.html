@@ -1,0 +1,408 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sciences Immersion | Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="page">
+    <header>
+      <div class="header-top">
+        <div>
+          <span class="site-badge">Sciences en immersion</span>
+          <h1>Bienvenue dans ton espace de sciences</h1>
+          <p class="subtitle">Sélectionne ta langue, puis ton année, puis le chapitre. Chaque chapitre ouvre une fenêtre
+            de choix vers Vocabulary, Practice, Resources ou Explorations.</p>
+        </div>
+        <img src="assets/Friends.jpg" alt="Mes amis" />
+      </div>
+    </header>
+
+    <section class="selector-grid">
+      <div class="choice-row" id="language-row">
+        <h2>1. Choisis ta langue d'immersion</h2>
+        <div class="choice-list" id="language-list"></div>
+      </div>
+
+      <div class="choice-row" id="year-row" hidden>
+        <h2>2. Choisis ton année</h2>
+        <div class="choice-list" id="year-list"></div>
+      </div>
+
+      <div class="choice-row" id="chapter-row" hidden>
+        <h2>3. Choisis un chapitre</h2>
+        <div class="choice-list" id="chapter-list"></div>
+      </div>
+    </section>
+
+    <section class="note-box">
+      <p>Les pages <strong>Vocabulary</strong>, <strong>Practice</strong>, <strong>Resources</strong> et
+        <strong>Explorations</strong> sont déjà créées dans l'arborescence. Choisis un chapitre, puis sélectionne la
+        section souhaitée dans la fenêtre qui s'ouvre.
+      </p>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="chapter-modal">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="chapter-modal-title">
+      <button type="button" class="modal-close" id="chapter-modal-close" aria-label="Close menu">×</button>
+      <div class="modal-card-inner">
+        <div class="modal-chip" id="chapter-modal-chip">Subject</div>
+        <h2 id="chapter-modal-title">Choose a section</h2>
+        <div class="modal-grid" id="chapter-modal-options"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const siteData = {
+        languages: [
+          {
+            code: 'en',
+            label: 'English immersion',
+            subtitle: 'Anglais + français',
+            chapters: {
+              year1: [
+                { folder: 'bio1', title: 'Bio 1 : Ecosystems' },
+                { folder: 'chem1', title: 'Chemistry 1 : Natural resources and raw materials' },
+                { folder: 'phys1', title: 'Physics 1 : Natural energy resources' },
+                { folder: 'chem2', title: 'Chemistry 2 : Mixtures and pure substances' },
+                { folder: 'phys2', title: 'Physics 2 : Energy, expansion and changes of state' },
+                { folder: 'bio2', title: 'Bio 2 : Human reproduction and prevention' }
+              ],
+              year2: []
+            }
+          },
+          {
+            code: 'nl',
+            label: 'Nederlandse immersie',
+            subtitle: 'Nederlands + Frans',
+            chapters: {
+              year1: [
+                { folder: 'bio1', title: 'Bio 1 : Ecosystemen' },
+                { folder: 'chem1', title: 'Chemie 1 : Natuurlijke hulpbronnen en grondstoffen' },
+                { folder: 'phys1', title: 'Fysica 1 : Natuurlijke energiebronnen' },
+                { folder: 'chem2', title: 'Chemie 2 : Mengsels en zuivere stoffen' },
+                { folder: 'phys2', title: 'Fysica 2 : Energie, uitzetting en faseovergangen' },
+                { folder: 'bio2', title: 'Bio 2 : Voortplanting en preventie' }
+              ],
+              year2: []
+            }
+          }
+        ],
+        years: [
+          { code: 'year1', label_en: 'Year 1', label_nl: 'Jaar 1', folder_en: 'year1', folder_nl: 'jaar1', subtitle_en: '1ère secondaire', subtitle_nl: '1e secundair' },
+          { code: 'year2', label_en: 'Year 2', label_nl: 'Jaar 2', folder_en: 'year2', folder_nl: 'jaar2', subtitle_en: '2ème secondaire', subtitle_nl: '2e secundair' }
+        ],
+        sections: [
+          { key: 'vocabulary', label_en: 'Vocabulary', label_nl: 'Woordenschat' },
+          { key: 'practice', label_en: 'Practice', label_nl: 'Oefeningen' },
+          { key: 'resources', label_en: 'Resources', label_nl: 'Hulpbronnen' },
+          { key: 'explorations', label_en: 'Explorations', label_nl: 'Exploraties' }
+        ]
+      };
+
+      const uiText = {
+        en: {
+          title: 'Bienvenue dans ton espace de sciences',
+          subtitle: 'Sélectionne ta langue, puis ton année, puis le chapitre. Chaque chapitre ouvre une fenêtre de choix vers Vocabulary, Practice, Resources ou Explorations.',
+          step1: "1. Choisis ta langue d'immersion",
+          step2: '2. Choisis ton année',
+          step3: '3. Choisis un chapitre',
+          note: 'Chaque chapitre regroupe des fiches de révision, des listes de vocabulaire immersif et des exercices variés. Progressez à votre rythme et testez régulièrement vos connaissances pour ancrer vos acquis !'
+        },
+        nl: {
+          title: 'Welkom in je wetenschapsruimte',
+          subtitle: 'Selecteer je taal, daarna je jaar en daarna het hoofdstuk. Elk hoofdstuk opent een venster met Vocabulary, Oefeningen, Hulpbronnen en Exploraties.',
+          step1: '1. Kies je moedertaal',
+          step2: '2. Kies je jaar',
+          step3: '3. Kies een hoofdstuk',
+          note: 'De pagina’s Vocabulary, Oefeningen, Hulpbronnen en Exploraties zijn al gemaakt in de mappen. Kies een hoofdstuk en selecteer daarna de sectie in het venster.'
+        }
+      };
+
+      const languageList = document.getElementById('language-list');
+      const yearRow = document.getElementById('year-row');
+      const yearList = document.getElementById('year-list');
+      const chapterRow = document.getElementById('chapter-row');
+      const chapterList = document.getElementById('chapter-list');
+      const modalOverlay = document.getElementById('chapter-modal');
+      const modalOptions = document.getElementById('chapter-modal-options');
+      const modalTitle = document.getElementById('chapter-modal-title');
+      const modalCard = document.querySelector('.modal-card');
+      const modalChip = document.getElementById('chapter-modal-chip');
+      const modalClose = document.getElementById('chapter-modal-close');
+      const titleHeading = document.querySelector('h1');
+      const subtitleParagraph = document.querySelector('.subtitle');
+      const step1Heading = document.querySelector('#language-row h2');
+      const step2Heading = document.querySelector('#year-row h2');
+      const step3Heading = document.querySelector('#chapter-row h2');
+      const noteParagraph = document.querySelector('.note-box p');
+
+      let selectedLanguage = null;
+      let selectedYear = null;
+      let selectedChapter = null;
+
+      function updateUITexts() {
+        // Page chrome (title, subtitle, step headings, footer note) always stays in
+        // French, regardless of the chosen immersion track — only the chapter cards
+        // themselves (their title, drawn from that track's own data) switch language.
+        const text = uiText.en;
+        titleHeading.textContent = text.title;
+        subtitleParagraph.textContent = text.subtitle;
+        step1Heading.textContent = text.step1;
+        step2Heading.textContent = text.step2;
+        step3Heading.textContent = text.step3;
+        noteParagraph.textContent = text.note;
+      }
+
+      function getYearLabel(year) {
+        return selectedLanguage && selectedLanguage.code === 'nl' ? year.label_nl : year.label_en;
+      }
+
+      // The URL folder segment (e.g. "year1" vs "jaar1") is language-specific and
+      // distinct from `year.code`, which stays a fixed internal key ("year1") used
+      // to look up siteData.languages[].chapters and to remember the selection.
+      function getYearFolder(year) {
+        return selectedLanguage && selectedLanguage.code === 'nl' ? year.folder_nl : year.folder_en;
+      }
+
+      function getSectionLabel(section) {
+        return selectedLanguage && selectedLanguage.code === 'nl' ? section.label_nl : section.label_en;
+      }
+
+      function getSubjectClass(chapterFolder) {
+        if (chapterFolder.includes('bio')) {
+          return 'subject-bio';
+        }
+        if (chapterFolder.includes('chemistry') || chapterFolder.includes('chemie') || chapterFolder.includes('chem')) {
+          return 'subject-chemistry';
+        }
+        if (chapterFolder.includes('physics') || chapterFolder.includes('fysica') || chapterFolder.includes('phys')) {
+          return 'subject-physics';
+        }
+        return '';
+      }
+
+      function getSubjectLabel(chapterFolder) {
+        if (chapterFolder.includes('bio')) {
+          return selectedLanguage && selectedLanguage.code === 'nl' ? 'Biologie' : 'Biology';
+        }
+        if (chapterFolder.includes('chemistry') || chapterFolder.includes('chemie') || chapterFolder.includes('chem')) {
+          return selectedLanguage && selectedLanguage.code === 'nl' ? 'Chemie' : 'Chemistry';
+        }
+        if (chapterFolder.includes('physics') || chapterFolder.includes('fysica') || chapterFolder.includes('phys')) {
+          return selectedLanguage && selectedLanguage.code === 'nl' ? 'Fysica' : 'Physics';
+        }
+        return '';
+      }
+
+      function saveSelections() {
+        if (selectedLanguage) {
+          sessionStorage.setItem('selectedLanguage', selectedLanguage.code);
+        } else {
+          sessionStorage.removeItem('selectedLanguage');
+        }
+        if (selectedYear) {
+          sessionStorage.setItem('selectedYear', selectedYear.code);
+        } else {
+          sessionStorage.removeItem('selectedYear');
+        }
+      }
+
+      function loadSavedSelections() {
+        // Clear any older persistent choices so selection restarts on a new visit
+        try {
+          localStorage.removeItem('selectedLanguage');
+          localStorage.removeItem('selectedYear');
+        } catch (e) {
+          // ignore
+        }
+
+        const savedLanguageCode = sessionStorage.getItem('selectedLanguage');
+        const savedYearCode = sessionStorage.getItem('selectedYear');
+        const savedLanguage = siteData.languages.find(lang => lang.code === savedLanguageCode);
+        const savedYear = siteData.years.find(year => year.code === savedYearCode);
+
+        if (savedLanguage) {
+          selectedLanguage = savedLanguage;
+          updateUITexts(selectedLanguage.code);
+          yearRow.hidden = false;
+        } else {
+          updateUITexts('en');
+        }
+
+        renderLanguages();
+
+        if (savedYear && selectedLanguage && selectedLanguage.chapters[savedYear.code] && selectedLanguage.chapters[savedYear.code].length > 0) {
+          selectedYear = savedYear;
+          chapterRow.hidden = false;
+          renderYears();
+          renderChapters();
+        } else if (selectedLanguage) {
+          renderYears();
+        }
+      }
+
+      function getChapterOrder(chapter) {
+        let subjectIndex = 3;
+        if (chapter.folder.includes('bio')) subjectIndex = 0;
+        else if (chapter.folder.includes('chemistry') || chapter.folder.includes('chemie') || chapter.folder.includes('chem')) subjectIndex = 1;
+        else if (chapter.folder.includes('physics') || chapter.folder.includes('fysica') || chapter.folder.includes('phys')) subjectIndex = 2;
+
+        const match = chapter.title.match(/(\d+)/);
+        const chapterNumber = match ? parseInt(match[1], 10) : 1;
+        const rowIndex = chapterNumber === 1 ? 0 : 1;
+        return rowIndex * 3 + subjectIndex;
+      }
+
+      function createChoiceCard(item, onClick) {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'choice-card';
+        card.innerHTML = `<span class="choice-check">&check;</span><h3>${item.label}</h3>`;
+        card.addEventListener('click', () => onClick(item, card));
+        return card;
+      }
+
+      function openChapterMenu(chapter) {
+        selectedChapter = chapter;
+        const chapterName = chapter.title;
+        modalTitle.textContent = selectedLanguage.code === 'nl'
+          ? `Kies een sectie voor ${chapterName}`
+          : `Choose a section for ${chapterName}`;
+
+        modalCard.classList.remove('subject-bio', 'subject-chemistry', 'subject-physics');
+        modalCard.classList.add(getSubjectClass(chapter.folder));
+        modalChip.textContent = getSubjectLabel(chapter.folder);
+
+        modalOptions.innerHTML = '';
+        siteData.sections.forEach(section => {
+          const card = document.createElement('a');
+          card.className = 'section-card';
+          card.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/${section.key}.html`;
+          const label = getSectionLabel(section);
+          card.textContent = label;
+          modalOptions.appendChild(card);
+        });
+
+        modalOverlay.classList.add('modal-open');
+      }
+
+      function closeChapterMenu() {
+        modalOverlay.classList.remove('modal-open');
+      }
+
+      modalClose.addEventListener('click', event => {
+        event.stopPropagation();
+        closeChapterMenu();
+      });
+      modalOverlay.addEventListener('click', event => {
+        if (event.target === modalOverlay) {
+          closeChapterMenu();
+        }
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !modalOverlay.hidden) {
+          closeChapterMenu();
+        }
+      });
+
+      function renderLanguages() {
+        languageList.innerHTML = '';
+        siteData.languages.forEach(language => {
+          const card = createChoiceCard(language, (lang) => {
+            selectedLanguage = lang;
+            selectedYear = null;
+            selectedChapter = null;
+            document.querySelectorAll('#language-list .choice-card').forEach(el => el.classList.remove('active'));
+            card.classList.add('active');
+            updateUITexts(lang.code);
+            yearRow.hidden = false;
+            chapterRow.hidden = true;
+            chapterList.innerHTML = '';
+            saveSelections();
+            renderYears();
+          });
+          if (selectedLanguage && selectedLanguage.code === language.code) {
+            card.classList.add('active');
+          }
+          languageList.appendChild(card);
+        });
+      }
+
+      function renderYears() {
+        yearList.innerHTML = '';
+        siteData.years.forEach(year => {
+          const label = getYearLabel(year);
+          const card = createChoiceCard({ label }, () => {
+            selectedYear = year;
+            selectedChapter = null;
+            document.querySelectorAll('#year-list .choice-card').forEach(el => el.classList.remove('active'));
+            card.classList.add('active');
+            chapterRow.hidden = false;
+            saveSelections();
+            renderChapters();
+          });
+          if (selectedYear && selectedYear.code === year.code) {
+            card.classList.add('active');
+          }
+          yearList.appendChild(card);
+        });
+      }
+
+      function renderChapters() {
+        chapterList.innerHTML = '';
+        if (!selectedLanguage || !selectedYear) {
+          chapterRow.hidden = true;
+          return;
+        }
+
+        const chapters = (selectedLanguage.chapters[selectedYear.code] || []).slice().sort((a, b) => getChapterOrder(a) - getChapterOrder(b));
+        if (chapters.length === 0) {
+          chapterRow.hidden = false;
+          const emptyMessage = document.createElement('p');
+          emptyMessage.className = 'empty-message';
+          emptyMessage.textContent = selectedLanguage.code === 'nl'
+            ? 'Er zijn nog geen hoofdstukken voor dit jaar.'
+            : 'There are no chapters yet for this year.';
+          chapterList.appendChild(emptyMessage);
+          return;
+        }
+
+        chapters.forEach(chapter => {
+          const subjectClass = getSubjectClass(chapter.folder);
+          const card = document.createElement('article');
+          card.className = `chapter-card ${subjectClass}`;
+          card.innerHTML = `
+            <div class="chapter-card-copy">
+              <h3>${chapter.title}</h3>
+              <p>${selectedLanguage.code === 'nl' ? 'Kies een sectie in het venster.' : 'Choose a section in the window.'}</p>
+            </div>
+            <button type="button" class="chapter-go-button">Go</button>
+          `;
+
+          const chapterButton = card.querySelector('.chapter-go-button');
+          chapterButton.addEventListener('click', event => {
+            event.stopPropagation();
+            openChapterMenu(chapter);
+          });
+
+          chapterList.appendChild(card);
+        });
+      }
+
+      loadSavedSelections();
+    });
+  </script>
+</body>
+
+</html>

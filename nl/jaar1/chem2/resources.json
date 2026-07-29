@@ -1,0 +1,84 @@
+{
+  "videos": {
+    "title": "Vidéos",
+    "basePath": "https://www.youtube.com/embed/",
+    "items": []
+  },
+  "fichesOutils": {
+    "title": "Fiches outils",
+    "basePath": "/assets/Fiches Outils/",
+    "description": "Les fiches outils sont là pour vous aider à devenir plus autonomes. Ce ne sont pas des leçons à apprendre par cœur, mais des guides pratiques à consulter dès que vous avez un doute.",
+    "items": [
+      {
+        "label": "La démarche scientifique",
+        "file": "FO1 - La démarche scientifique.pdf"
+      },
+      {
+        "label": "Fait, Jugement, Hypothèse",
+        "file": "FO2 - Fait,Jugement,Hypothèse.pdf"
+      },
+      {
+        "label": "Rapport de laboratoire",
+        "file": "FO3 - Rapport de laboratoire.pdf"
+      },
+      {
+        "label": "Les types de graphiques",
+        "file": "FO4 - Les types de graphiques.pdf"
+      },
+      {
+        "label": "Graphique circulaire",
+        "file": "FO5a - Graphique circulaire.pdf"
+      },
+      {
+        "label": "Histogramme",
+        "file": "FO5b - Histogramme.pdf"
+      },
+      {
+        "label": "Graphique évolutif",
+        "file": "FO5c - Graphique évolutif.pdf"
+      },
+      {
+        "label": "Classement dichotomique",
+        "file": "FO6 - Classement dichotomique.pdf"
+      },
+      {
+        "label": "Grandeurs physiques",
+        "file": "FO7 - Grandeurs physiques.pdf"
+      },
+      {
+        "label": "Abaques",
+        "file": "FO8 - Abaques.pdf"
+      }
+    ]
+  },
+  "ficheAutoEvaluation": {
+    "title": "Fiche d'autoévaluation",
+    "basePath": "PDF",
+    "items": [
+      {
+        "title": "Consignes",
+        "file": "FE consignes.pdf",
+        "description": "Téléchargez la fiche d’autoévaluation pour vérifier vos connaissances sur Chimie 2. N'oubliez pas de lire les consignes pour travailler efficacement"
+      },
+      {
+        "title": "FE chimie 2 : Mélanges et corps purs",
+        "file": "FE chimie2.pdf"
+      }
+    ]
+  },
+  "mindmap": {
+    "title": "Modèle de Mindmap",
+    "basePath": "../../../assets",
+    "items": [
+      {
+        "title": "Modèle général",
+        "file": "MM général.pdf",
+        "description": "Téléchargez ces modèles pour organiser visuellement vos idées et réviser le chapitre. Tous les modèles sont présents en format portrait et paysage. Tu peux les imprimer pour travailler sur papier, ou les importer sur Canva si tu désires travailler de manière numérique."
+      },
+      {
+        "title": "Modèles \"Mélanges et corps purs\"",
+        "file": "MM chem2.pdf"
+      }
+    ]
+  }
+}

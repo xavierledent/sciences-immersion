@@ -1,0 +1,158 @@
+[
+  {
+    "english": "Energiebron",
+    "french": "Source d'énergie",
+    "definitionEnglish": "Een natuurlijke hulpbron of materiaal die mensen gebruiken om bruikbare energie te winnen, op te vangen of te produceren.",
+    "definitionFrench": "Une ressource ou un matériau naturel que les humains utilisent pour extraire, capter ou produire de l'énergie utilisable."
+  },
+  {
+    "english": "Hernieuwbare hulpbronnen",
+    "french": "Ressources renouvelables",
+    "definitionEnglish": "Natuurlijke hulpbronnen die afhankelijk zijn van permanente natuurlijke verschijnselen of materialen die zich snel en op natuurlijke wijze vernieuwen.",
+    "definitionFrench": "Des ressources naturelles qui dépendent de phénomènes naturels permanents ou de matériaux qui se régénèrent rapidement et naturellement."
+  },
+  {
+    "english": "Niet-hernieuwbare hulpbronnen",
+    "french": "Ressources non-renouvelables",
+    "definitionEnglish": "Natuurlijke hulpbronnen die in beperkte hoeveelheid op Aarde aanwezig zijn, miljoenen jaren nodig hebben om te ontstaan en niet snel kunnen worden aangevuld eens ze uitgeput zijn.",
+    "definitionFrench": "Des ressources naturelles présentes en quantité limitée sur Terre qui mettent des millions d'années à se former et ne peuvent pas être renouvelées rapidement une fois épuisées."
+  },
+  {
+    "english": "Uranium",
+    "french": "Uranium",
+    "definitionEnglish": "Een zwaar, radioactief scheikundig element dat in de ondergrond voorkomt en als brandstof in kerncentrales wordt gebruikt.",
+    "definitionFrench": "Un élément chimique radioactif lourd présent dans le sous-sol, utilisé comme combustible dans les centrales nucléaires."
+  },
+  {
+    "english": "Geothermische energie",
+    "french": "Géothermie",
+    "definitionEnglish": "Energie die afkomstig is van de natuurlijke warmte die diep in de aardkorst is opgeslagen.",
+    "definitionFrench": "Énergie provenant de la chaleur naturelle stockée dans les profondeurs de la croûte terrestre."
+  },
+  {
+    "english": "Biomassa",
+    "french": "Biomasse",
+    "definitionEnglish": "Organisch materiaal van planten en dieren, zoals hout of landbouwafval, gebruikt als hernieuwbare energiebron.",
+    "definitionFrench": "Matière organique d'origine végétale ou animale, comme le bois ou les déchets agricoles, utilisée comme source d'énergie renouvelable."
+  },
+  {
+    "english": "Chemische energie",
+    "french": "Énergie chimique",
+    "definitionEnglish": "Energie die opgeslagen zit in de bindingen van chemische verbindingen, zoals in voedsel, hout, steenkool of aardolie, en die tijdens een reactie kan vrijkomen.",
+    "definitionFrench": "Énergie stockée dans les liaisons des composés chimiques (comme dans le bois, le charbon ou le pétrole) et libérée lors d'une réaction."
+  },
+  {
+    "english": "Mechanische energie",
+    "french": "Énergie mécanique",
+    "definitionEnglish": "De energie die een voorwerp bezit door zijn beweging (kinetisch) of door zijn positie (potentieel).",
+    "definitionFrench": "L'énergie possédée par un objet en raison de son mouvement (cinétique) ou de sa position (potentielle)."
+  },
+  {
+    "english": "Thermische energie",
+    "french": "Énergie thermique",
+    "definitionEnglish": "De inwendige energie van een systeem door de kinetische energie en beweging van zijn deeltjes, meestal ervaren als warmte.",
+    "definitionFrench": "L'énergie interne d'un système liée au mouvement de ses particules, communément ressentie sous forme de chaleur."
+  },
+  {
+    "english": "Elektrische energie",
+    "french": "Énergie électrique",
+    "definitionEnglish": "De kinetische energie veroorzaakt door de beweging van elektronen doorheen een geleider of elektrisch circuit.",
+    "definitionFrench": "L'énergie cinétique provoquée par le déplacement des électrons à travers un conducteur ou un circuit électrique."
+  },
+  {
+    "english": "Kernenergie",
+    "french": "Énergie nucléaire",
+    "definitionEnglish": "De energie die vrijkomt bij kernsplijting of kernfusie, vooral bij het splitsen van de kern van een atoom zoals uranium.",
+    "definitionFrench": "L'énergie libérée lors de la fission ou de la fusion nucléaire, en particulier lors de la division du noyau d'un atome comme l'uranium."
+  },
+  {
+    "english": "Energieomzetting",
+    "french": "Transformation d'énergie",
+    "definitionEnglish": "Het fysische proces waarbij energie van de ene vorm in een andere vorm wordt omgezet.",
+    "definitionFrench": "Le processus physique par lequel l'énergie passe d'une forme à une autre forme."
+  },
+  {
+    "english": "Energiestroomdiagram",
+    "french": "Diagramme de flux d'énergie",
+    "definitionEnglish": "Een visueel wetenschappelijk model dat vormen en pijlen gebruikt om te tonen hoe energie doorheen een systeem wordt overgedragen en omgezet.",
+    "definitionFrench": "Un modèle scientifique visuel utilisant des formes et des flèches pour montrer comment l'énergie est transférée et transformée à travers un système."
+  },
+  {
+    "english": "Energieverlies",
+    "french": "Perte d'énergie",
+    "definitionEnglish": "Het deel van de toegevoerde energie dat tijdens een proces wordt omgezet in een onbruikbare vorm, meestal thermische energie die in de omgeving verloren gaat.",
+    "definitionFrench": "La partie de l'énergie initiale qui se transforme au cours d'un processus en une forme inutilisable, généralement de l'énergie thermique dissipée dans l'environnement."
+  },
+  {
+    "english": "Energieopslag",
+    "french": "Stockage d'énergie",
+    "definitionEnglish": "Het proces waarbij energie wordt opgevangen en vastgehouden binnen een specifiek systeem om later bewaard en gebruikt te worden.",
+    "definitionFrench": "Le processus consistant à capturer et à piéger l'énergie à l'intérieur d'un système spécifique pour la conserver et l'utiliser plus tard."
+  },
+  {
+    "english": "Reservoir",
+    "french": "Réservoir d'énergie",
+    "definitionEnglish": "Een onderdeel, voorwerp of systeem dat ontworpen is om opgeslagen energie te bevatten, te verzamelen en vast te houden tot ze nodig is.",
+    "definitionFrench": "Un composant, un objet ou un système conçu pour contenir, accumuler et renfermer de l'énergie stockée jusqu'à ce qu'elle soit nécessaire."
+  },
+  {
+    "english": "Dam",
+    "french": "Barrage",
+    "definitionEnglish": "Een grote barrière die dwars over een rivier wordt gebouwd om water hoog op te stuwen en vast te houden, waardoor een reservoir ontstaat om mechanische energie op te slaan.",
+    "definitionFrench": "Une grande barrière construite en travers d'un cours d'eau pour bloquer et retenir l'eau en hauteur, créant un réservoir pour stocker de l'énergie mécanique."
+  },
+  {
+    "english": "Stroompanne",
+    "french": "Panne d'électricité générale",
+    "definitionEnglish": "Een volledige uitval van de elektriciteitsvoorziening die een groot geografisch gebied of een heel land treft.",
+    "definitionFrench": "Une perte totale d'alimentation en électricité affectant une grande zone géographique ou un pays entier."
+  },
+  {
+    "english": "Elektriciteitscentrale",
+    "french": "Centrale électrique",
+    "definitionEnglish": "Een industriële installatie die ontworpen is om op grote schaal elektriciteit op te wekken uit verschillende energiebronnen.",
+    "definitionFrench": "Une installation industrielle conçue pour générer de l'électricité à grande échelle à partir de différentes sources d'énergie."
+  },
+  {
+    "english": "Turbine",
+    "french": "Turbine",
+    "definitionEnglish": "Een machine met bladen die door een bewegende vloeistof of gas aan het draaien wordt gebracht, waarbij de stroming wordt omgezet in mechanische energie.",
+    "definitionFrench": "Une machine munie de pales que le mouvement d'un fluide force à tourner, convertissant le flux du fluide en énergie mécanique."
+  },
+  {
+    "english": "Generator",
+    "french": "Générateur",
+    "definitionEnglish": "Een machine die mechanisch verbonden is met een turbine en mechanische energie (beweging) omzet in elektrische energie.",
+    "definitionFrench": "Une machine raccordée mécaniquement à une turbine qui transforme l'énergie mécanique (le mouvement) en énergie électrique."
+  },
+  {
+    "english": "Stoom",
+    "french": "Vapeur",
+    "definitionEnglish": "Verdampt water dat onder hoge druk wordt geproduceerd door water aan de kook te brengen, vaak gebruikt in centrales om enorme turbines te laten draaien.",
+    "definitionFrench": "De l'eau vaporisée produite sous haute pression en faisant bouillir de l'eau, souvent utilisée dans les centrales pour faire tourner des turbines."
+  },
+  {
+    "english": "Windturbine",
+    "french": "Éolienne",
+    "definitionEnglish": "Een moderne torenconstructie uitgerust met draaiende bladen die de kinetische beweging van de wind gebruikt om elektriciteit te produceren.",
+    "definitionFrench": "Une structure moderne en forme de tour équipée de pales rotatives qui utilise le mouvement cinétique du vent pour produire de l'électricité."
+  },
+  {
+    "english": "Gascentrale",
+    "french": "Centrale au gaz",
+    "definitionEnglish": "Een thermische centrale die aardgas verbrandt om elektriciteit op te wekken.",
+    "definitionFrench": "Une centrale thermique qui brûle du gaz naturel pour générer de l'électricité."
+  },
+  {
+    "english": "Kerncentrale",
+    "french": "Centrale nucléaire",
+    "definitionEnglish": "Een thermische centrale waarbij de warmtebron een kernreactor is die uraniumbrandstof gebruikt.",
+    "definitionFrench": "Une centrale thermique dont la source de chaleur est un réacteur nucléaire utilisant de l'uranium comme combustible."
+  },
+  {
+    "english": "Waterkrachtcentrale",
+    "french": "Centrale hydroélectrique",
+    "definitionEnglish": "Een centrale die de zwaartekracht van vallend of stromend water gebruikt om elektriciteit op te wekken.",
+    "definitionFrench": "Une centrale qui utilise la force de l'eau en mouvement ou en chute pour générer de l'électricité"
+  }
+]

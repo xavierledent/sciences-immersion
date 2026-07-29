@@ -1,0 +1,122 @@
+[
+  {
+    "english": "Pure substance",
+    "french": "Corps pur",
+    "definitionEnglish": "A form of matter that has a constant chemical composition and continuous, identical properties throughout.",
+    "definitionFrench": "Une forme de matière qui a une composition chimique constante et des propriétés identiques dans tout son ensemble."
+  },
+  {
+    "english": "Mixture",
+    "french": "Mélange",
+    "definitionEnglish": "A material made up of two or more different chemical substances which are not chemically bonded.",
+    "definitionFrench": "Une association de deux ou plusieurs substances chimiques différentes qui ne sont pas liées chimiquement."
+  },
+  {
+    "english": "Heterogeneous mixture",
+    "french": "Mélange hétérogène",
+    "definitionEnglish": "A mixture in which the various components can be visually distinguished with the naked eye and remain in separate phases.",
+    "definitionFrench": "Un mélange dont on peut distinguer les différents constituants à l'œil nu et qui comporte plusieurs phases distinctes."
+  },
+  {
+    "english": "Homogeneous mixture",
+    "french": "Mélange homogène",
+    "definitionEnglish": "A mixture that has a uniform appearance and composition throughout, where individual components cannot be seen.",
+    "definitionFrench": "Un mélange qui présente une apparence et une composition uniformes, dans lequel on ne peut pas distinguer les différents constituants à l'œil nu."
+  },
+  {
+    "english": "Solution",
+    "french": "Solution",
+    "definitionEnglish": "A specific type of homogeneous mixture composed of two or more substances, where a solute is dissolved in a solvent.",
+    "definitionFrench": "Un type spécifique de mélange homogène liquide ou gazeux formé par la dissolution d'un soluté dans un solvant."
+  },
+  {
+    "english": "Solvent",
+    "french": "Solvant",
+    "definitionEnglish": "The substance, usually a liquid, that dissolves a solute, resulting in a solution.",
+    "definitionFrench": "La substance, généralement liquide, qui a la propriété de dissoudre un soluté pour former une solution."
+  },
+  {
+    "english": "Solute",
+    "french": "Soluté",
+    "definitionEnglish": "The substance that is dissolved in a solvent to form a uniform solution.",
+    "definitionFrench": "La substance qui est dissoute dans un solvant pour former une solution uniforme."
+  },
+  {
+    "english": "Molecule",
+    "french": "Molécule",
+    "definitionEnglish": "The smallest individual particle of a substance that still keeps all the chemical properties of that substance.",
+    "definitionFrench": "La plus petite particule individuelle d'une substance qui conserve l'ensemble des propriétés chimiques de cette substance."
+  },
+  {
+    "english": "Scientific model",
+    "french": "Modèle scientifique",
+    "definitionEnglish": "A simplified representation of a complex reality used to describe, explain, or predict scientific phenomena.",
+    "definitionFrench": "Une représentation simplifiée d'une réalité complexe utilisée pour décrire, expliquer ou prédire des phénomènes scientifiques."
+  },
+  {
+    "english": "Separation techniques",
+    "french": "Techniques de séparation",
+    "definitionEnglish": "Physical methods used to isolate the different components or substances within a mixture.",
+    "definitionFrench": "Méthodes physiques utilisées pour isoler les différents constituants ou substances d'un mélange."
+  },
+  {
+    "english": "Sorting by hand",
+    "french": "Tri à la main",
+    "definitionEnglish": "A manual separation technique used to divide larger visible solids from each other.",
+    "definitionFrench": "Une technique de séparation manuelle utilisée pour séparer des solides grossiers ou visibles les uns des autres."
+  },
+  {
+    "english": "Sifting",
+    "french": "Tamisage",
+    "definitionEnglish": "A separation method that uses a mesh or sieve to separate larger solid particles from smaller ones.",
+    "definitionFrench": "Une méthode de séparation qui utilise un tamis ou une grille pour séparer les particules solides de tailles différentes."
+  },
+  {
+    "english": "Filtration",
+    "french": "Filtration",
+    "definitionEnglish": "A mechanical or physical operation which is used for the separation of insoluble solids from a liquid by passing it through a porous medium.",
+    "definitionFrench": "Une opération mécanique ou physique qui permet de séparer les solides insolubles d'un liquide en le passant à travers un milieu poreux."
+  },
+  {
+    "english": "Insoluble solids",
+    "french": "Solides insolubles",
+    "definitionEnglish": "Solid components that cannot be dissolved in a specific liquid or solvent.",
+    "definitionFrench": "Des composants solides qui ne peuvent pas se dissoudre dans un liquide ou un solvant donné."
+  },
+  {
+    "english": "Evaporation",
+    "french": "Évaporation",
+    "definitionEnglish": "A process where a liquid changes into a gas, often used to separate a dissolved solid from its liquid solvent.",
+    "definitionFrench": "Le processus par lequel un liquide se transforme en gaz, souvent utilisé pour récupérer un solide dissous en éliminant son solvant liquide."
+  },
+  {
+    "english": "Distillation",
+    "french": "Distillation",
+    "definitionEnglish": "A separation technique based on differences in boiling points, involving vaporization of a liquid mixture followed by condensation.",
+    "definitionFrench": "Une technique de séparation de constituants d'un mélange liquide, basée sur la différence de leurs températures d'ébullition, par vaporisation suivie d'une condensation."
+  },
+  {
+    "english": "Boiling point",
+    "french": "Température d'ébullition",
+    "definitionEnglish": "The specific temperature at which a liquid changes into a vapour or gas under a given pressure.",
+    "definitionFrench": "La température précise à laquelle un liquide passe de l'état liquide à l'état gazeux pour une pression donnée."
+  },
+  {
+    "english": "Vapour",
+    "french": "Vapeur",
+    "definitionEnglish": "The gaseous state of a substance that is normally a solid or liquid at room temperature.",
+    "definitionFrench": "L'état gazeux d'une substance qui est normalement sous forme solide ou liquide dans les conditions ordinaires de température."
+  },
+  {
+    "english": "Condenser",
+    "french": "Condenseur",
+    "definitionEnglish": "A cooling tube or apparatus used to cool down vapours and turn them back into a liquid state during distillation.",
+    "definitionFrench": "Un tube de refroidissement ou un appareil utilisé pour refroidir les vapeurs et les liquéfier à nouveau lors d'une distillation."
+  },
+  {
+    "english": "Flask",
+    "french": "Flacon / Ballon",
+    "definitionEnglish": "A glass container with a narrow neck used in scientific laboratories to hold, mix, or boil liquids.",
+    "definitionFrench": "Un récipient en verre à col étroit utilisé dans les laboratoires scientifiques pour contenir, mélanger ou faire bouillir des liquides."
+  }
+]

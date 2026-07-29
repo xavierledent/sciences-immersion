@@ -1,0 +1,212 @@
+[
+  {
+    "english": "Individual / Organism",
+    "french": "Un individu / Un organisme",
+    "definitionEnglish": "A single living thing or organism in an ecosystem.",
+    "definitionFrench": "Un seul être vivant ou organisme dans un écosystème."
+  },
+  {
+    "english": "Population",
+    "french": "Une population",
+    "definitionEnglish": "A group of individuals of the same species living in the same area.",
+    "definitionFrench": "Un groupe d'individus de la même espèce vivant dans la même zone."
+  },
+  {
+    "english": "Species",
+    "french": "Une espèce",
+    "definitionEnglish": "A group of organisms that can interbreed and produce fertile offspring.",
+    "definitionFrench": "Un groupe d'organismes pouvant se reproduire entre eux et donner des descendants fertiles."
+  },
+  {
+    "english": "Biocenosis / Biotic factors",
+    "french": "La biocénose / Les facteurs biotiques",
+    "definitionEnglish": "All living organisms in an ecosystem and their interactions.",
+    "definitionFrench": "Tous les organismes vivants d'un écosystème et leurs interactions."
+  },
+  {
+    "english": "Biotope / Abiotic factors",
+    "french": "Le biotope / Les facteurs abiotiques",
+    "definitionEnglish": "The non-living part of an ecosystem such as soil, water, and climate.",
+    "definitionFrench": "La partie non vivante d'un écosystème, comme le sol, l'eau et le climat."
+  },
+  {
+    "english": "Ecosystem",
+    "french": "Un écosystème",
+    "definitionEnglish": "A biological community and its physical environment functioning together.",
+    "definitionFrench": "Une communauté biologique et son environnement physique qui fonctionnent ensemble."
+  },
+  {
+    "english": "Fauna & Flora",
+    "french": "La faune et la flore",
+    "definitionEnglish": "The animals and plants that live in a particular ecosystem.",
+    "definitionFrench": "Les animaux et les plantes qui vivent dans un écosystème particulier."
+  },
+  {
+    "english": "Environment",
+    "french": "L'environnement / Le milieu de vie",
+    "definitionEnglish": "The surroundings or conditions in which an organism lives.",
+    "definitionFrench": "Les conditions et le milieu dans lesquels un organisme vit."
+  },
+  {
+    "english": "Food chain",
+    "french": "Une chaîne alimentaire",
+    "definitionEnglish": "A sequence of organisms each dependent on the next as a source of food.",
+    "definitionFrench": "Une suite d'organismes dépendant les uns des autres comme source de nourriture."
+  },
+  {
+    "english": "Food web",
+    "french": "Un réseau trophique",
+    "definitionEnglish": "A network of interconnected food chains within an ecosystem.",
+    "definitionFrench": "Un réseau de chaînes alimentaires connectées au sein d'un écosystème."
+  },
+  {
+    "english": "Producer",
+    "french": "Un producteur",
+    "definitionEnglish": "An organism, like a plant, that makes its own food using sunlight.",
+    "definitionFrench": "Un organisme, comme une plante, qui fabrique sa propre nourriture grâce à la lumière du soleil."
+  },
+  {
+    "english": "Consumer",
+    "french": "Un consommateur",
+    "definitionEnglish": "An organism that obtains energy by eating other living things.",
+    "definitionFrench": "Un organisme qui obtient de l'énergie en mangeant d'autres êtres vivants."
+  },
+  {
+    "english": "Decomposer",
+    "french": "Un décomposeur",
+    "definitionEnglish": "An organism that breaks down dead material and recycles nutrients.",
+    "definitionFrench": "Un organisme qui décompose les matières mortes et recycle les nutriments."
+  },
+  {
+    "english": "Organic matter",
+    "french": "La matière organique",
+    "definitionEnglish": "Material that comes from living organisms, such as leaves or dead plants.",
+    "definitionFrench": "Des matières provenant d'organismes vivants, comme des feuilles ou des plantes mortes."
+  },
+  {
+    "english": "Mineral matter",
+    "french": "La matière minérale",
+    "definitionEnglish": "Non-living material in the environment such as rocks and minerals.",
+    "definitionFrench": "Des matières non vivantes dans l'environnement, comme des roches et des minéraux."
+  },
+  {
+    "english": "Food cycle / Cycle of matter",
+    "french": "Le cycle de la matière",
+    "definitionEnglish": "The way nutrients and matter move through an ecosystem.",
+    "definitionFrench": "La façon dont les nutriments et la matière circulent dans un écosystème."
+  },
+  {
+    "english": "Scientific model",
+    "french": "Un modèle scientifique",
+    "definitionEnglish": "A simplified representation used to explain how something works.",
+    "definitionFrench": "Une représentation simplifiée utilisée pour expliquer comment quelque chose fonctionne."
+  },
+  {
+    "english": "Interaction",
+    "french": "Une interaction",
+    "definitionEnglish": "A relationship between organisms in an ecosystem.",
+    "definitionFrench": "Une relation entre des organismes dans un écosystème."
+  },
+  {
+    "english": "Predation",
+    "french": "La prédation",
+    "definitionEnglish": "When one organism hunts and eats another organism.",
+    "definitionFrench": "Lorsque un organisme chasse et mange un autre organisme."
+  },
+  {
+    "english": "Predator & Prey",
+    "french": "Un prédateur et une proie",
+    "definitionEnglish": "A relationship where one animal hunts and the other is hunted.",
+    "definitionFrench": "Une relation où un animal chasse et l'autre est chassé."
+  },
+  {
+    "english": "Parasitism",
+    "french": "Le parasitisme",
+    "definitionEnglish": "A relationship where one organism benefits and the other is harmed.",
+    "definitionFrench": "Une relation où un organisme bénéficie et l'autre est blessé."
+  },
+  {
+    "english": "Host",
+    "french": "Un hôte",
+    "definitionEnglish": "An organism that provides shelter or nutrients for another organism.",
+    "definitionFrench": "Un organisme qui fournit un abri ou des nutriments à un autre organisme."
+  },
+  {
+    "english": "Competition",
+    "french": "La compétition",
+    "definitionEnglish": "When organisms fight for the same resources like food or space.",
+    "definitionFrench": "Lorsque des organismes se disputent les mêmes ressources comme la nourriture ou l'espace."
+  },
+  {
+    "english": "Mutualism",
+    "french": "Le mutualisme",
+    "definitionEnglish": "A relationship where both organisms benefit from living together.",
+    "definitionFrench": "Une relation où les deux organismes bénéficient de vivre ensemble."
+  },
+  {
+    "english": "Commensalism",
+    "french": "Le commensalisme",
+    "definitionEnglish": "A relationship where one organism benefits and the other is unaffected.",
+    "definitionFrench": "Une relation où un organisme en bénéficie et l'autre n'est pas affecté."
+  },
+  {
+    "english": "Symbiosis",
+    "french": "La symbiose",
+    "definitionEnglish": "A close and long-term interaction between different species.",
+    "definitionFrench": "Une interaction étroite et durable entre différentes espèces."
+  },
+  {
+    "english": "Biodiversity",
+    "french": "La biodiversité",
+    "definitionEnglish": "The variety of life found in an ecosystem.",
+    "definitionFrench": "La diversité de la vie présente dans un écosystème."
+  },
+  {
+    "english": "Natural selection",
+    "french": "La sélection naturelle",
+    "definitionEnglish": "The process by which organisms better adapted to their environment survive.",
+    "definitionFrench": "Le processus par lequel les organismes mieux adaptés à leur environnement survivent."
+  },
+  {
+    "english": "Wild boar",
+    "french": "Un sanglier",
+    "definitionEnglish": "A wild pig that lives in forests and fields.",
+    "definitionFrench": "Un cochon sauvage qui vit dans les forêts et les champs."
+  },
+  {
+    "english": "Deer",
+    "french": "Un cerf",
+    "definitionEnglish": "A grazing animal with antlers often found in woodlands.",
+    "definitionFrench": "Un animal herbivore avec des bois souvent trouvé dans les bois."
+  },
+  {
+    "english": "Wolf",
+    "french": "Un loup",
+    "definitionEnglish": "A carnivorous animal that hunts in packs.",
+    "definitionFrench": "Un animal carnivore qui chasse en meute."
+  },
+  {
+    "english": "Earthworm",
+    "french": "Un ver de terre",
+    "definitionEnglish": "A soil-dwelling creature that helps decompose organic material.",
+    "definitionFrench": "Une créature du sol qui aide à décomposer la matière organique."
+  },
+  {
+    "english": "Fungus (plural: Fungi)",
+    "french": "Un champignon (des champignons)",
+    "definitionEnglish": "A group of organisms that decompose organic matter and release nutrients.",
+    "definitionFrench": "Un groupe d'organismes qui décomposent la matière organique et libèrent des nutriments."
+  },
+  {
+    "english": "Toad",
+    "french": "Un crapaud",
+    "definitionEnglish": "A hopping amphibian with dry, bumpy skin.",
+    "definitionFrench": "Un amphibien sautillant à la peau sèche et bosselée."
+  },
+  {
+    "english": "Water lily",
+    "french": "Un nénuphar",
+    "definitionEnglish": "A floating aquatic plant with large leaves and flowers.",
+    "definitionFrench": "Une plante aquatique flottante avec de grandes feuilles et des fleurs."
+  }
+]
