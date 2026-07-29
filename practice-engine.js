@@ -50,6 +50,7 @@
         newBestMoves: 'New best: fewest moves!',
         newBestTime: 'New best time!',
         errors: 'Errors:',
+        sortingHint: 'Tap a box, or drag the card into it.',
         correct: 'Correct:',
         moves: 'Moves:',
         showTimer: 'Show timer',
@@ -111,6 +112,7 @@
         newBestMoves: 'Nieuw record: minste zetten!',
         newBestTime: 'Nieuwe snelste tijd!',
         errors: 'Fouten:',
+        sortingHint: 'Tik op een vak, of sleep de kaart erin.',
         correct: 'Juist:',
         moves: 'Zetten:',
         showTimer: 'Toon timer',
@@ -2505,7 +2507,6 @@
 
       // Update title
       document.getElementById('sorting-modal-title').textContent = exercise.quizTitle || 'Sorting Challenge';
-      document.getElementById('sorting-choice-buttons').style.display = '';
 
       // Show/hide instructions (element created on first use, then reused)
       const sortingModalBody = document.querySelector('.sorting-modal-body');
@@ -2526,16 +2527,42 @@
 
       // Reset the mistake counter for this attempt
       sortingMistakeCount = 0;
+      /* La bande d'erreurs pleine largeur a disparu : le compteur se loge dans
+         l'espace laissé libre à droite de la pioche, à hauteur de la carte que
+         l'élève est en train de classer. Ne reste comme bande que le résultat de
+         fin de partie, masqué tant qu'il n'y a rien à annoncer. */
       let sortingStatsBar = document.getElementById('sorting-stats-bar');
       if (sortingStatsBar) sortingStatsBar.remove();
       sortingStatsBar = document.createElement('div');
       sortingStatsBar.className = 'sorting-stats-bar';
       sortingStatsBar.id = 'sorting-stats-bar';
-      sortingStatsBar.innerHTML = `
-        <div class="sorting-stat"><span class="sorting-stat-icon">❌</span>${L.errors} <span id="sorting-stat-mistakes">0</span></div>
-        <div class="dnd-stat-result" id="sorting-stat-result"></div>
-      `;
+      sortingStatsBar.style.display = 'none';
+      sortingStatsBar.innerHTML = `<div class="dnd-stat-result" id="sorting-stat-result"></div>`;
       sortingInstr.after(sortingStatsBar);
+
+      /* Consigne à gauche de la carte, compteur à droite : la bande de la pioche
+         est la seule zone où l'espace latéral est perdu, et ces deux éléments y
+         encadrent la carte sans rien coûter en hauteur. La consigne, elle, doit
+         bien être écrite quelque part — rien n'annonce autrement qu'on peut
+         aussi bien toucher un bac que glisser la carte dedans. */
+      const deckContainer = document.querySelector('.sorting-deck-container');
+      let deckHint = document.getElementById('sorting-deck-hint');
+      if (!deckHint) {
+        deckHint = document.createElement('p');
+        deckHint.id = 'sorting-deck-hint';
+        deckHint.className = 'sorting-deck-hint';
+        deckContainer.prepend(deckHint);
+      }
+      deckHint.textContent = L.sortingHint;
+
+      let deckStat = document.getElementById('sorting-deck-stat');
+      if (!deckStat) {
+        deckStat = document.createElement('div');
+        deckStat.id = 'sorting-deck-stat';
+        deckStat.className = 'sorting-deck-stat';
+        deckContainer.appendChild(deckStat);
+      }
+      deckStat.innerHTML = `<span class="sorting-stat-icon">❌</span>${L.errors} <span id="sorting-stat-mistakes">0</span>`;
 
       // Reset state
       sortingIsChecked = false;
@@ -2561,7 +2588,10 @@
         `;
 
         bin.addEventListener('dragover', event => {
-          if (event.dataTransfer.types.includes('sorting-item-id')) {
+          // Deux origines acceptées : une carte déjà classée qu'on déplace, ou
+          // la carte active de la pioche qu'on vient déposer.
+          const types = event.dataTransfer.types;
+          if (types.includes('sorting-item-id') || types.includes('sorting-deck-card')) {
             event.preventDefault();
             bin.classList.add('drop-hover');
           }
@@ -2574,6 +2604,10 @@
         bin.addEventListener('drop', event => {
           event.preventDefault();
           bin.classList.remove('drop-hover');
+          if (event.dataTransfer.getData('sorting-deck-card')) {
+            if (sortingDeckItems.length) handleSortItem(cat);
+            return;
+          }
           sortingMoveItem(
             event.dataTransfer.getData('source-bin-category'),
             event.dataTransfer.getData('sorting-item-id'),
@@ -2581,13 +2615,20 @@
           );
         });
 
-        // Voie tactile : l'API de glisser HTML5 ne se déclenche pas au doigt.
-        // On touche la carte, puis le bac de destination.
+        /* Le bac est la cible unique de toute l'interaction : on désigne
+           l'endroit plutôt qu'une étiquette qui le représente. Il remplace la
+           rangée de boutons de catégorie et vaut aussi bien au doigt qu'à la
+           souris, l'API de glisser HTML5 ne se déclenchant pas au tactile. */
         bin.addEventListener('click', () => {
-          if (!sortingSelectedItem) return;
-          const { category, id } = sortingSelectedItem;
-          sortingClearSelection();
-          sortingMoveItem(category, id, cat);
+          // Priorité au déplacement d'une carte déjà placée : si l'élève en a
+          // sélectionné une, c'est elle qu'il veut bouger, pas la suivante.
+          if (sortingSelectedItem) {
+            const { category, id } = sortingSelectedItem;
+            sortingClearSelection();
+            sortingMoveItem(category, id, cat);
+            return;
+          }
+          if (sortingDeckItems.length) handleSortItem(cat);
         });
 
         binsContainer.appendChild(bin);
@@ -2599,7 +2640,6 @@
       sortingClearSelection();
       sortingDeckItems = shuffleArray(exercise.items.map(item => ({ ...item })));
       renderSortingDeck();
-      renderSortingChoiceButtons(exercise.categories);
     }
 
     // Carte « portée » par l'élève en mode toucher-toucher.
@@ -2657,26 +2697,24 @@
       } else {
         card.innerHTML = `<span>${activeItem.content}</span>`;
       }
+
+      // Glisser vers un bac : c'est le geste attendu à la souris, désormais que
+      // les boutons de catégorie ont disparu. Un type de données distinct permet
+      // au bac de reconnaître une carte venant de la pioche.
+      card.draggable = true;
+      card.addEventListener('dragstart', event => {
+        event.dataTransfer.setData('sorting-deck-card', '1');
+        card.classList.add('dragging');
+      });
+      card.addEventListener('dragend', () => card.classList.remove('dragging'));
+
       deck.appendChild(card);
     }
 
-    function renderSortingChoiceButtons(categories) {
-      const btnContainer = document.getElementById('sorting-choice-buttons');
-      btnContainer.innerHTML = '';
-
-      if (sortingDeckItems.length === 0) return;
-
-      categories.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'sorting-choice-btn';
-        btn.textContent = cat;
-        btn.addEventListener('click', () => {
-          handleSortItem(cat);
-        });
-        btnContainer.appendChild(btn);
-      });
-    }
+    /* renderSortingChoiceButtons a été supprimée : les bacs sont devenus la
+       cible directe du placement, au clic comme au glisser. Le conteneur
+       #sorting-choice-buttons subsiste dans les pages mais reste vide et masqué
+       par le CSS. */
 
     function handleSortItem(category) {
       if (sortingDeckItems.length === 0) return;
@@ -2688,11 +2726,6 @@
       // Render updated bin and deck
       renderSortingBinContent(category);
       renderSortingDeck();
-      
-      // Update choice buttons
-      const sortingExercises = interactiveData.sorting || [];
-      const exercise = sortingExercises[currentSortingExerciseIndex];
-      renderSortingChoiceButtons(exercise.categories);
     }
 
     function renderSortingBinContent(category) {
@@ -2730,6 +2763,11 @@
           // Sélection au toucher. Réservée aux cartes non verrouillées : une
           // carte déjà validée ne doit pas pouvoir être déplacée.
           itemEl.addEventListener('click', event => {
+            /* Tant que la pioche n'est pas vide, c'est la carte active que
+               l'élève place : le clic doit atteindre le bac même s'il tombe sur
+               une carte déjà posée. Viser entre les cartes d'un bac bien rempli
+               relève sinon de l'adresse, pas du raisonnement. */
+            if (sortingDeckItems.length) return;
             event.stopPropagation(); // sinon le clic remonte au bac et repose la carte au même endroit
             if (sortingSelectedItem && sortingSelectedItem.el === itemEl) { sortingClearSelection(); return; }
             sortingClearSelection();
@@ -2794,7 +2832,6 @@
           checkBtn.textContent = L.tryAgain;
         } else {
           // Win!
-          document.getElementById('sorting-choice-buttons').style.display = 'none';
           checkBtn.style.display = 'none';
 
           const rank = getSortingRank(sortingMistakeCount);
@@ -2811,6 +2848,9 @@
               <span class="sorting-result-badge">${rank.emoji} ${rank.label}</span>
               ${note ? `<span class="sorting-result-note">${note}</span>` : ''}
             `;
+            // La bande n'existe que pour ce moment-là : on la révèle maintenant.
+            const bar = document.getElementById('sorting-stats-bar');
+            if (bar) bar.style.display = '';
           }
           triggerDndConfetti();
         }
@@ -2848,7 +2888,6 @@
 
         // Re-render components
         renderSortingDeck();
-        renderSortingChoiceButtons(exercise.categories);
       }
     }
 

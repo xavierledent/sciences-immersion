@@ -2074,9 +2074,27 @@ body.modal-is-open {
   100% { opacity: 0; transform: scale(0.9); }
 }
 
-/* Deck hidden when all cards placed */
-.sorting-modal-body.all-placed .sorting-deck-container {
+/* Une fois toutes les cartes placées, la pioche disparaît — mais pas le
+   compteur d'erreurs, qu'elle hébergeait : c'est justement à la vérification
+   qu'il compte. Le conteneur survit donc, réduit à cette seule ligne, et le
+   compteur revient au centre puisque plus rien ne l'y gêne. */
+.sorting-modal-body.all-placed .sorting-deck {
   display: none;
+}
+
+.sorting-modal-body.all-placed .sorting-deck-container {
+  min-height: 0;
+}
+
+/* Plus de carte à placer : la consigne n'a plus d'objet et le compteur, seul
+   rescapé de la bande, se recentre. */
+.sorting-modal-body.all-placed .sorting-deck-hint {
+  display: none;
+}
+
+.sorting-modal-body.all-placed .sorting-deck-stat {
+  flex: 0 0 auto;
+  justify-content: center;
 }
 
 .sorting-modal-body.all-placed .sorting-bins-container {
@@ -2106,25 +2124,73 @@ body.modal-is-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f8fafc;
-  border-radius: 18px;
-  border: 1px solid rgba(17, 36, 72, 0.06);
-  /* 6px et non 12 : chaque pixel rendu ici agrandit d'autant l'image. */
-  padding: 6px;
-  /* La bande grise cesse de courir sur toute la largeur pour une seule carte. */
+  /* Pleine largeur et sans habillage : le fond gris est passé sur .sorting-deck,
+     ce qui libère les marges gauche et droite. Trois colonnes en flux — consigne,
+     carte, compteur — plutôt que des éléments positionnés en absolu : les deux
+     satellites ont la même base souple, ce qui garde la carte centrée, et ils se
+     serrent contre elle au lieu de fuir vers les bords de la modale, où l'œil ne
+     les suit plus. Rien n'étant sorti du flux, la bande ne peut pas non plus se
+     retrouver avec une hauteur nulle. */
   width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
+  gap: 12px;
 }
 
+.sorting-deck-hint,
+.sorting-deck-stat {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Chacun se plaque contre la carte : la consigne par la droite, le compteur par
+   la gauche. */
+.sorting-deck-hint {
+  justify-content: flex-end;
+  text-align: right;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  color: rgba(17, 36, 72, 0.55);
+}
+
+.sorting-deck-stat {
+  justify-content: flex-start;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+/* Sur petit écran les trois colonnes ne tiennent plus côte à côte : la consigne
+   passe au-dessus, le compteur en dessous. */
+@media (max-width: 640px) {
+  .sorting-deck-container {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .sorting-deck-hint,
+  .sorting-deck-stat {
+    flex: 1 0 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* Porte désormais l'habillage gris, que le conteneur lui a cédé pour libérer
+   ses marges. */
 .sorting-deck {
   width: 100%;
-  max-width: 260px;
-  /* Conteneur intermédiaire : il relaie la hauteur de la pioche à la carte tout
-     en gardant une carte texte compacte et centrée. */
+  max-width: 420px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #f8fafc;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.06);
+  padding: 6px;
 }
 
 .sorting-card {
@@ -2142,6 +2208,12 @@ body.modal-is-open {
   box-shadow: 0 6px 16px rgba(var(--color-current-rgb), 0.15);
   transition: transform 0.3s;
   overflow: hidden;
+  /* La carte est saisissable : le curseur le dit avant que l'élève n'essaie. */
+  cursor: grab;
+}
+
+.sorting-card:active {
+  cursor: grabbing;
 }
 
 .sorting-card span {
@@ -2175,19 +2247,10 @@ body.modal-is-open {
 }
 
 /* Choice Buttons Zone */
-/* Colonnes de largeur égale, calée sur le libellé le plus long : « Cause » à
-   côté de « Consequence » donnait un centrage bancal.
-   Grille plutôt que flex, et largeur au contenu : combinés, ils font que chaque
-   colonne adopte la largeur du plus large des libellés, sans avoir à figer une
-   valeur — le nombre de catégories varie d'un jeu à l'autre. */
+/* Les bacs sont devenus la cible directe du placement : cette rangée n'a plus
+   d'objet. Le conteneur reste dans les pages mais n'est plus alimenté. */
 .sorting-choice-buttons {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: 12px;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 auto 4px;
+  display: none;
 }
 
 .sorting-choice-btn {
@@ -2210,6 +2273,29 @@ body.modal-is-open {
 .sorting-action-container {
   display: flex;
   justify-content: center;
+}
+
+/* Le bouton de validation ne s'affiche que lorsqu'il sert. Il occupait sa bande
+   pendant toute la phase de tri, désactivé — c'est-à-dire précisément quand la
+   place manquait. Quand il devient utile, la pioche a disparu et lui a déjà
+   cédé sa hauteur : sa bande ne coûte alors plus rien. */
+.sorting-modal-body:not(.all-placed) .sorting-action-container {
+  display: none;
+}
+
+/* Indice de découvrabilité : tant qu'une carte attend d'être classée, les bacs
+   se signalent comme cibles. Sans ce repère, rien ne dirait à l'élève qu'il
+   doit toucher un bac — un bouton nommé « Cause » le disait, pas une colonne
+   silencieuse. */
+.sorting-modal-body:not(.all-placed) .sorting-bin {
+  cursor: pointer;
+  border-color: rgba(var(--color-current-rgb), 0.35);
+  background: rgba(var(--color-current-rgb), 0.03);
+}
+
+.sorting-modal-body:not(.all-placed) .sorting-bin:hover {
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
 }
 
 .sorting-action-btn {
