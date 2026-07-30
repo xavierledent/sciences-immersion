@@ -155,6 +155,219 @@
       right: 18px;
     }
 
+    /* Miroir exact de la croix, à gauche de l'en-tête : le titre se centrant sur
+       toute la barre, les deux boutons l'encadrent sans le décaler. Même gabarit
+       que la croix pour que la symétrie tienne au pixel. */
+    .modal-fullscreen {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      cursor: pointer;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(17, 36, 72, 0.12);
+      background: #ffffff;
+      color: var(--color-text);
+      font-size: 1.2rem;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 18px rgba(17, 36, 72, 0.12);
+    }
+
+    .modal-fullscreen:hover,
+    .modal-fullscreen:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+      border-color: rgba(29, 179, 212, 0.3);
+    }
+
+    /* Le même bouton fait entrer et sortir : c'est son remplissage qui dit dans
+       quel état on se trouve. */
+    .modal-fullscreen.is-fullscreen {
+      background: var(--color-current);
+      border-color: var(--color-current);
+      color: #ffffff;
+    }
+
+    /* Une seule règle pour les cinq jeux : leurs cartes sont toutes bâties de la
+       même façon, une hauteur fixe en vh plafonnée en pixels. En plein écran ces
+       plafonds n'ont plus lieu d'être, et le liseré arrondi n'aurait plus de sens
+       collé aux bords de l'écran. Le jeu prend l'écran, littéralement. */
+    /* La feuille de style du navigateur impose déjà à tout élément en plein
+       écran width/height 100% et max-width/max-height none, le tout en
+       !important : inutile de les redire ici, et impossible de les contredire.
+       Ne restent que l'habillage, qu'elle ne touche pas. */
+    .modal-card:fullscreen {
+      border: none;
+      border-radius: 0;
+      background: var(--color-surface);
+    }
+
+    /* Le QCM et les textes à trous sont les deux modales où l'on lit des phrases,
+       et une ligne de 2000px sur un grand écran est pénible à suivre — l'œil perd
+       le début de la ligne suivante.
+       C'est le contenu qu'on plafonne, et non la carte : le !important de la
+       feuille du navigateur rend cette dernière inatteignable. La carte occupe
+       donc bien tout l'écran, seul le texte reste dans une colonne lisible.
+       Sans effet sur un Chromebook, dont l'écran fait déjà moins que ce plafond. */
+    .fitb-modal-card:fullscreen .fitb-modal-card-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Même principe pour les exercices classiques : c'est le contenu qu'on
+       plafonne, la carte étant hors d'atteinte. */
+    #exercise-modal .modal-card:fullscreen .modal-card-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* L'écran de correction met deux colonnes côte à côte : 1100px leur en
+       donnerait 540 chacune, plus étroites qu'en fenêtré. On desserre. */
+    #exercise-modal.is-comparing .modal-card:fullscreen .modal-card-inner {
+      max-width: 1500px;
+    }
+
+    /* Le contenu ne pend plus depuis le haut avec tout le vide en dessous : deux
+       cales invisibles l'encadrent et se partagent l'espace libre, une part
+       au-dessus pour trois en dessous. Le bloc se pose donc nettement plus haut
+       que le milieu — un centrage géométrique le laissait bas, l'en-tête de
+       250px décalant tout vers le bas, et l'œil place de toute façon le centre
+       plus haut que la géométrie.
+       Le rapport 1/3 est le seul réglage à toucher pour monter ou descendre.
+
+       Des cales plutôt qu'un rembourrage : un padding serait déduit de l'espace
+       disponible par syncExerciseImageHeight et rognerait l'image d'autant. Ces
+       cales ont une base nulle et ne prennent que du libre — s'il n'en reste
+       pas, elles n'existent pas. C'est aussi ce qui rend la règle inoffensive
+       dès qu'une image est présente : l'image ayant absorbé tout l'espace, les
+       cales tombent à zéro et rien ne bouge.
+       Et si le contenu déborde, elles valent zéro également : le haut reste donc
+       atteignable au défilement, sans avoir besoin du mot-clé « safe ». */
+    /* Premier palier : le plein écran, quelle que soit la taille de l'écran.
+       Passer en plein écran rend une centaine de pixels même sur un Chromebook ;
+       en dépenser une part en lisibilité est un bon usage, d'autant que l'écran
+       de correction n'a pas de grande image à nourrir — la question rappelée n'y
+       est qu'une vignette de 52px. */
+    #exercise-modal .modal-card:fullscreen .exercise-text,
+    #exercise-modal .modal-card:fullscreen .student-answer-input,
+    #exercise-modal .modal-card:fullscreen .student-answer-echo {
+      font-size: 1.15rem;
+    }
+
+    #exercise-modal .modal-card:fullscreen .student-answer-input {
+      max-height: 200px;
+    }
+
+    /* Le rappel de la question suit le mouvement en gardant son cran d'écart :
+       il reste secondaire par rapport aux deux panneaux qu'on compare, mais il
+       cesse d'être le plus petit texte de l'écran alors qu'il donne son sens à
+       tout le reste.
+       Sa troncature se desserre aussi : trois lignes se justifiaient quand la
+       place manquait, mais en plein écran une question un peu longue serait
+       coupée net devant 300px de vide. */
+    #exercise-modal .modal-card:fullscreen .exercise-recall-text {
+      font-size: 1rem;
+      -webkit-line-clamp: 6;
+    }
+
+    /* Le rappel remonte au-dessus de la cale haute, donc contre les boutons de
+       langue qui le commandent : il forme avec eux la zone « question », et
+       l'espace libre s'ouvre désormais entre cette zone et celle de la réponse,
+       au lieu de séparer les boutons de la question qu'ils pilotent.
+       Sans effet hors de l'écran de correction, où le rappel est masqué. */
+    #exercise-modal .modal-card:fullscreen .exercise-recall {
+      order: -1;
+    }
+
+    #exercise-modal.has-answer-box .modal-card:fullscreen .modal-body::before,
+    #exercise-modal.has-answer-box .modal-card:fullscreen .modal-body::after {
+      content: '';
+      flex-basis: 0;
+      flex-shrink: 0;
+    }
+
+    #exercise-modal.has-answer-box .modal-card:fullscreen .modal-body::before {
+      flex-grow: 1;
+    }
+
+    #exercise-modal.has-answer-box .modal-card:fullscreen .modal-body::after {
+      flex-grow: 3;
+    }
+
+    /* Sur un grand écran, le blanc autour du texte à trous ne vient pas d'une
+       colonne trop étroite mais d'un texte trop petit pour l'écran : à 1,15rem,
+       la ligne de 1100px porte ~120 caractères, loin au-dessus des 45 à 75 que
+       demande une lecture confortable. Agrandir la police remplit l'espace et
+       rapproche la longueur de ligne du confortable, au lieu de l'en éloigner.
+       Le seuil de 1400px met le Chromebook hors de portée : son écran fait 1093px
+       en pixels CSS, la colonne y est déjà pleine, et grossir le texte n'y
+       ferait qu'ajouter du défilement. */
+    @media (min-width: 1400px) {
+      .fitb-modal-card:fullscreen .fitb-text {
+        font-size: 1.6rem;
+      }
+
+      /* Les listes déroulantes sont dans le fil du texte : les laisser à 1rem
+         les ferait paraître rabougries au milieu de mots bien plus grands. */
+      .fitb-modal-card:fullscreen .fitb-select {
+        font-size: 1.4rem;
+      }
+
+      /* Le QCM part des mêmes tailles — 1,15rem pour l'énoncé, 1rem pour les
+         réponses — et souffre du même mal dans sa colonne plafonnée. */
+      .qcm-modal-card:fullscreen .qcm-question {
+        font-size: 1.6rem;
+      }
+
+      .qcm-modal-card:fullscreen .qcm-option {
+        font-size: 1.4rem;
+      }
+
+      /* Exercices classiques : l'énoncé, la réponse de l'élève et son écho dans
+         la comparaison montent ensemble — la colonne de gauche et celle de droite
+         doivent se lire au même calibre, sans quoi la comparaison suggérerait une
+         hiérarchie entre les deux. Les boutons et la pagination ne bougent pas :
+         ce sont des commandes, pas de la lecture. */
+      #exercise-modal .modal-card:fullscreen .exercise-text,
+      #exercise-modal .modal-card:fullscreen .student-answer-input,
+      #exercise-modal .modal-card:fullscreen .student-answer-echo {
+        font-size: 1.4rem;
+      }
+
+      /* Le rappel monte au même rythme, pour conserver le rapport de 1 à 1,2 qui
+         existe entre lui et les panneaux depuis toujours. */
+      #exercise-modal .modal-card:fullscreen .exercise-recall-text {
+        font-size: 1.2rem;
+      }
+
+      /* Le plafond de la zone de réponse est exprimé en pixels, mais ce qu'il
+         doit garder constant, c'est un nombre de lignes : c'est lui qui dit à
+         l'élève quelle longueur de réponse on attend. À 1,4rem une ligne fait
+         ~36px au lieu de ~24 ; sans ce relèvement, le cadre passerait de six
+         lignes à quatre au moment même où l'écran s'agrandit. */
+      #exercise-modal .modal-card:fullscreen .student-answer-input {
+        min-height: 110px;
+        max-height: 250px;
+      }
+    }
+
+    /* Côté QCM, on plafonne les éléments de texte un par un plutôt que la
+       colonne entière : l'image, elle, n'a aucune raison d'être bridée par une
+       largeur de lecture. Enfermée dans les 1100px, elle laissait du vide des
+       deux côtés *et* au-dessus et en dessous, puisqu'à proportions conservées
+       une largeur bridée borne aussi la hauteur. */
+    .qcm-modal-card:fullscreen .qcm-scroll-content > *:not(.qcm-question-image) {
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+
     .language-buttons {
       margin: 0 auto;
     }
@@ -402,14 +615,6 @@
       justify-content: flex-start;
       gap: 10px;
       margin-top: 4px;
-    }
-
-    .pagination-label {
-      font-size: 0.9rem;
-      color: var(--color-muted);
-      text-align: left;
-      margin-bottom: 6px;
-      margin-top: 14px;
     }
 
     #interactive-pagination .exercise-step,
@@ -891,7 +1096,15 @@
       z-index: 20;
     }
 
-    #exercise-modal.has-answer-box .exercise-image-wrap[data-hint]:hover::after {
+    /* Le survol ne compte que sur l'image, pas sur toute la bande : le conteneur
+       occupe 100% de la largeur alors que l'image n'en occupe que le centre, et
+       l'infobulle se déclenchait donc bien loin de la photo.
+       C'est le déclencheur qu'on déplace, pas la boîte : l'infobulle reste
+       ancrée au conteneur, déjà centrée au bon endroit, et la mise en page n'est
+       pas touchée — ce qui compte pour ce conteneur-là.
+       Un <img> étant un élément remplacé, il ne peut pas porter de
+       pseudo-élément : d'où le détour par :has(). */
+    #exercise-modal.has-answer-box .exercise-image-wrap[data-hint]:has(.exercise-image:hover)::after {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
@@ -1208,9 +1421,17 @@
       flex-shrink: 0;
     }
 
+    /* L'image ne fait pas que céder du terrain, elle prend aussi celui qui reste :
+       un plafond fixe de 225px la laissait minuscule en plein écran, où l'espace
+       libre est justement ce qu'on est allé chercher. Les autres enfants de la
+       pile ont flex-shrink: 0, elle ne leur prend donc rien.
+       object-fit: contain agrandit l'image jusqu'à remplir sa boîte, à
+       proportions conservées — contrairement à scale-down, qui ne dépasse jamais
+       la taille native. */
     .qcm-scroll-content > .qcm-question-image {
-      flex: 0 1 auto;
+      flex: 1 1 auto;
       min-height: 70px;
+      max-height: none;
     }
 
     /* Le clic ouvre la visionneuse plein écran (voir renderQCM). */
@@ -1397,6 +1618,11 @@
       line-height: 2.2;
       color: var(--color-text);
       margin-bottom: 30px;
+      /* Les listes déroulantes étant toutes ramenées à la même largeur par
+         fitbSyncSelectWidths, la justification n'a plus à composer avec des
+         trous de tailles inégales. La dernière ligne reste en drapeau, comme il
+         se doit. */
+      text-align: justify;
     }
     .fitb-tools-row {
       display: flex;

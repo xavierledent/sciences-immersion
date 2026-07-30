@@ -14,10 +14,9 @@
         contentNotAvailable: 'Content not available.',
         correctionNotAvailable: 'Correction not available.',
         exerciseUnderConstruction: 'Exercise is under construction...',
-        selectQuiz: 'Select a quiz:',
-        selectText: 'Select a text:',
-        selectGame: 'Select a game:',
         goTo: 'Go to:',
+        fullscreenEnter: 'Full screen',
+        fullscreenExit: 'Leave full screen',
         go: 'Go',
         enterNumberBetween: n => `Enter a number between 1 and ${n}`,
         prevExerciseAria: 'Previous exercise',
@@ -76,10 +75,9 @@
         contentNotAvailable: 'Inhoud niet beschikbaar.',
         correctionNotAvailable: 'Correctie niet beschikbaar.',
         exerciseUnderConstruction: 'Deze oefening is nog in opbouw...',
-        selectQuiz: 'Kies een quiz:',
-        selectText: 'Kies een tekst:',
-        selectGame: 'Kies een spel:',
         goTo: 'Ga naar:',
+        fullscreenEnter: 'Volledig scherm',
+        fullscreenExit: 'Volledig scherm verlaten',
         go: 'Ga',
         enterNumberBetween: n => `Voer een getal in tussen 1 en ${n}`,
         prevExerciseAria: 'Vorige oefening',
@@ -313,8 +311,21 @@
       const body = modalOverlay.querySelector('.modal-body');
       if (!card || !header || !body) return;
 
+      /* Deux régimes, assumés comme tels.
+         En fenêtré la carte épouse son contenu sous un plafond de 90vh : la
+         mesurer serait circulaire, puisque sa hauteur dépend de l'image dont on
+         cherche justement la hauteur. On raisonne donc sur ce qu'elle PEUT
+         atteindre, d'où le 0,9 — reflet en dur du max-height: 90vh du CSS.
+         En plein écran, la feuille du navigateur lui impose 100% : sa hauteur est
+         définie, indépendante du contenu, et la mesure devient à la fois possible
+         et exacte. */
+      const isFullscreen = document.fullscreenElement === card;
+      const cardMax = isFullscreen
+        ? card.getBoundingClientRect().height
+        : window.innerHeight * 0.9;
+
       const bodyStyle = getComputedStyle(body);
-      const bodyMax = window.innerHeight * 0.9
+      const bodyMax = cardMax
         - header.offsetHeight
         - parseFloat(bodyStyle.paddingTop) - parseFloat(bodyStyle.paddingBottom);
 
@@ -331,8 +342,15 @@
 
       // Petite marge de sécurité : les bordures et arrondis de la carte ne sont
       // pas comptés ci-dessus.
+      /* Le plafond de 280px n'a jamais mordu tant que la place manquait ; en
+         plein écran il deviendrait la seule contrainte active et annulerait tout
+         le bénéfice. Il tombe donc là, et là seulement.
+         L'image ne dépassera pas sa taille naturelle pour autant : on ne pose
+         qu'un maximum, jamais une taille. Une photo de 400px de haut s'arrêtera
+         à 400px, nette, plutôt que d'être étirée. */
       const available = bodyMax - used - 12;
-      exerciseImage.style.maxHeight = Math.max(60, Math.min(280, available)) + 'px';
+      const ceiling = isFullscreen ? Infinity : 280;
+      exerciseImage.style.maxHeight = Math.max(60, Math.min(ceiling, available)) + 'px';
 
       /* Le calcul ci-dessus reste une estimation : il ignore les bordures, les
          marges fusionnées et les arrondis. On mesure donc le débordement réel et
@@ -830,6 +848,14 @@
        relying on browser zoom. Built lazily in JS so no chapter needs new markup. */
     let imageLightbox = null;
 
+    /* En plein écran, le navigateur ne rend que le sous-arbre de l'élément
+       affiché. Tout ce qui doit se superposer au jeu — la visionneuse d'images,
+       les confettis de victoire — doit donc y être hébergé, sans quoi il existe
+       mais reste invisible. Hors plein écran, le corps de page fait l'affaire. */
+    function overlayHost() {
+      return document.fullscreenElement || document.body;
+    }
+
     function ensureImageLightbox() {
       if (imageLightbox) return imageLightbox;
       imageLightbox = document.createElement('div');
@@ -843,6 +869,8 @@
     function openImageLightbox(src, alt) {
       if (!src) return;
       const box = ensureImageLightbox();
+      // Réattachée à chaque ouverture : le plein écran a pu changer d'hôte.
+      overlayHost().appendChild(box);
       const img = box.querySelector('.image-lightbox-img');
       img.src = src;
       img.alt = alt || '';
@@ -923,6 +951,16 @@
       function updateBodyScrollLock() {
         const anyOpen = Array.from(overlays).some(o => o.classList.contains('modal-open'));
         document.body.classList.toggle('modal-is-open', anyOpen);
+
+        /* Fermer une modale affichée en plein écran laisserait l'élève devant un
+           plein écran vide, l'élément affiché étant la carte qu'on vient de
+           masquer. On le capte ici plutôt que dans les sept fonctions de
+           fermeture : le même observateur voit déjà passer tous les changements
+           d'état, quelle qu'en soit l'origine. */
+        const full = document.fullscreenElement;
+        if (full && !full.closest('.modal-overlay.modal-open')) {
+          document.exitFullscreen().catch(() => {});
+        }
       }
 
       const lockObserver = new MutationObserver(updateBodyScrollLock);
@@ -933,6 +971,13 @@
       window.addEventListener('resize', dndSyncBoardMetrics);
       window.addEventListener('resize', syncExerciseImageHeight);
       window.addEventListener('resize', memorySyncCardSize);
+      /* La taille du texte à trous change au passage en plein écran sur grand
+         écran : les listes doivent se remesurer, la largeur d'hier ne vaut plus. */
+      window.addEventListener('resize', fitbSyncSelectWidths);
+      /* La zone de réponse grandit avec le texte saisi jusqu'à un plafond, et sa
+         hauteur est posée en pixels : le changement de taille de police en plein
+         écran la rend caduque. */
+      window.addEventListener('resize', autoGrowAnswer);
       // L'image ne connaît ses proportions qu'une fois chargée.
       if (exerciseImage) exerciseImage.addEventListener('load', syncExerciseImageHeight);
 
@@ -955,11 +1000,18 @@
 
       document.addEventListener('keydown', event => {
         if (event.key !== 'Escape') return;
-        // La visionneuse se superpose aux modales : elle se ferme en premier.
+        /* La visionneuse se superpose à tout le reste : elle se ferme en premier,
+           y compris en plein écran. Si le navigateur consomme la touche pour en
+           sortir, l'événement ne nous parvient pas et la visionneuse reste
+           ouverte au retour — mais un clic n'importe où la referme. */
         if (imageLightbox && imageLightbox.classList.contains('is-open')) {
           closeImageLightbox();
           return;
         }
+        /* En plein écran, Échap en sort — c'est le navigateur qui s'en charge.
+           Fermer la modale par-dessus renverrait l'élève à la page d'exercices
+           alors qu'il ne demandait qu'à revenir à la fenêtre. */
+        if (document.fullscreenElement) return;
         for (const [id, close] of MODAL_CLOSERS) {
           const el = document.getElementById(id);
           if (el && el.classList.contains('modal-open')) { close(); return; }
@@ -1056,6 +1108,69 @@
 
       document.getElementById('dnd-modal-close').addEventListener('click', closeDndModal);
 
+      /* Plein écran réel des jeux. C'est de loin ce qui rend le plus de place :
+         on récupère la barre d'onglets et les favoris du navigateur, qu'une
+         modale ne peut pas atteindre autrement. Le bouton ne fait que rendre le
+         geste accessible à l'élève qui ne connaît pas la touche dédiée du
+         Chromebook — et il l'appelle, là où une touche ne se devine pas.
+         C'est la carte qui passe en plein écran, pas la surcouche : elle occupe
+         alors l'écran entier, sans le cadre blanc qui rappelait qu'une page
+         existe derrière. Le gain n'est pas tant en pixels (5% sur chaque axe,
+         soit ~11% de surface) qu'en attention. */
+      const fullscreenButtons = document.querySelectorAll('.modal-fullscreen');
+
+      function syncFullscreenButtons() {
+        fullscreenButtons.forEach(btn => {
+          // Chaque bouton ne reflète que sa propre modale : deux jeux ne sont
+          // jamais ouverts ensemble, mais l'état doit rester juste au cas où.
+          const isFull = document.fullscreenElement === btn.closest('.modal-card');
+          /* L'état passe par une classe et non par un second glyphe : les
+             caractères « sortir du plein écran » sont mal couverts par les
+             polices et donneraient un carré vide sur certaines machines. */
+          btn.classList.toggle('is-fullscreen', isFull);
+          const label = isFull ? L.fullscreenExit : L.fullscreenEnter;
+          btn.title = label;
+          btn.setAttribute('aria-label', label);
+        });
+      }
+
+      fullscreenButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+            return;
+          }
+          // Le bouton trouve sa propre modale : rien à câbler à l'ajout d'un jeu.
+          const card = btn.closest('.modal-card');
+          if (card && card.requestFullscreen) {
+            // Le navigateur peut refuser (réglage, iframe) : l'échec ne doit pas
+            // remonter dans la console de l'élève.
+            card.requestFullscreen().catch(() => {});
+          }
+        });
+      });
+
+      /* L'état ne se déduit pas du clic : la touche dédiée du Chromebook et
+         Échap sortent du plein écran sans passer par le bouton.
+         Les jeux qui mesurent leurs éléments (plateau, cartes du memory) sont
+         déjà rebranchés sur le redimensionnement, que le plein écran provoque. */
+      document.addEventListener('fullscreenchange', () => {
+        syncFullscreenButtons();
+        /* Basculer pendant qu'une visionneuse est ouverte ou que les confettis
+           tombent : les surcouches changent d'hôte pour rester visibles. */
+        const host = overlayHost();
+        if (imageLightbox) host.appendChild(imageLightbox);
+        document.querySelectorAll('.confetti-canvas').forEach(c => host.appendChild(c));
+
+        /* Chrome se réserve Échap pour sortir du plein écran : la frappe ne nous
+           parvient jamais, on ne peut donc pas fermer la visionneuse d'abord.
+           À défaut, on la referme en sortant — un seul appui produit ainsi un
+           seul résultat lisible, au lieu de laisser une image ouverte
+           par-dessus la fenêtre revenue à sa taille normale. */
+        if (!document.fullscreenElement) closeImageLightbox();
+      });
+      syncFullscreenButtons();
+
       document.getElementById('memory-modal-close').addEventListener('click', closeMemoryModal);
 
       document.getElementById('sorting-modal-close').addEventListener('click', closeSortingModal);
@@ -1105,11 +1220,6 @@
       interactivePagination.innerHTML = '';
       const exerciseList = interactiveData[currentInteractiveType] || [];
       const numExercises = exerciseList.length;
-
-      const labelElement = document.querySelector('#interactive-modal .pagination-label');
-      if (labelElement) {
-        labelElement.textContent = currentInteractiveType === 'fillBlanks' ? L.selectText : L.selectQuiz;
-      }
 
       interactivePagination.innerHTML = Array.from({ length: numExercises }, (_, index) => {
         const stepNumber = index + 1;
@@ -1464,7 +1574,18 @@
       fitbSpeechGeneration++;
       const myGeneration = fitbSpeechGeneration;
 
-      const spokenText = (exerciseData.text || '').replace(/\[blank\d+\]/g, 'blank');
+      /* Recalculé à chaque écoute, et non une fois pour toutes : un trou validé
+         doit s'entendre avec son mot. C'est là tout l'intérêt de réécouter le
+         texte une fois l'exercice terminé — la phrase se dit enfin en entier.
+         Seuls les trous validés parlent : lire la sélection en cours reviendrait
+         à souffler une réponse peut-être fausse. */
+      function currentSpokenText() {
+        return (exerciseData.text || '').replace(/\[blank(\d+)\]/g, (match, index) => {
+          const select = document.querySelector(`#fitb-content .fitb-select[data-index="${index}"]`);
+          if (select && select.classList.contains('correct') && select.value) return select.value;
+          return 'blank';
+        });
+      }
 
       let state = 'idle';
 
@@ -1478,7 +1599,7 @@
           updateFitbSpeakButton('speaking');
           window.speechSynthesis.resume();
         } else {
-          const utterance = new SpeechSynthesisUtterance(spokenText);
+          const utterance = new SpeechSynthesisUtterance(currentSpokenText());
           utterance.lang = 'en-US';
           utterance.rate = 0.95;
           utterance.onend = () => {
@@ -1496,6 +1617,31 @@
           window.speechSynthesis.speak(utterance);
         }
       });
+    }
+
+    /* Toutes les listes déroulantes d'un texte adoptent la largeur de la plus
+       large — c'est-à-dire celle qu'impose le mot le plus long de l'exercice,
+       puisqu'un <select> se dimensionne sur sa plus longue option.
+       Sans cela, le texte justifié serait doublement irrégulier : aux espaces
+       étirés par la justification s'ajouteraient des trous de largeurs
+       différentes selon la longueur des mots proposés. */
+    function fitbSyncSelectWidths() {
+      const selects = document.querySelectorAll('#fitb-content .fitb-select');
+      if (!selects.length) return;
+
+      // Remise à zéro d'abord : sinon on mesurerait la largeur déjà imposée.
+      selects.forEach(select => { select.style.width = ''; });
+
+      let widest = 0;
+      selects.forEach(select => {
+        widest = Math.max(widest, select.getBoundingClientRect().width);
+      });
+      if (widest <= 0) return;
+
+      /* Quelques pixels de marge : une réponse juste passe en gras, ce qui
+         élargit légèrement son texte après coup. */
+      const target = Math.ceil(widest) + 6;
+      selects.forEach(select => { select.style.width = target + 'px'; });
     }
 
     function renderFillInTheBlanks(exerciseData) {
@@ -1536,6 +1682,7 @@
         <button id="fitb-action-btn" class="fitb-action-button">${L.checkAnswers}</button>`;
 
       setupFitbSpeakButton(exerciseData);
+      fitbSyncSelectWidths();
 
       const actionBtn = document.getElementById('fitb-action-btn');
 
@@ -1740,6 +1887,7 @@
     }
 
     function closeDndModal() {
+      // La sortie du plein écran est centralisée dans updateBodyScrollLock.
       document.getElementById('dnd-modal').classList.remove('modal-open');
     }
 
@@ -1917,10 +2065,30 @@
       const container = document.querySelector('.dnd-board-container');
       if (!bgImg || !board) return;
 
-      if (container && container.clientHeight > 0) {
-        bgImg.style.maxHeight = container.clientHeight + 'px';
+      /* Le plateau était dimensionné par des maximums (max-width, max-height),
+         qui ne savent que rétrécir : l'image restait donc à sa taille naturelle
+         — 879×493px pour le premier jeu — quelle que soit la place disponible.
+         C'est pourquoi le plein écran ne changeait rien.
+         On calcule ici la mise à l'échelle « contain » et on l'applique en dur,
+         ce qui permet aussi d'agrandir quand il reste de la place. */
+      const nw = bgImg.naturalWidth;
+      const nh = bgImg.naturalHeight;
+      if (container && nw > 0 && nh > 0) {
+        const cw = container.clientWidth;
+        const ch = container.clientHeight;
+        if (cw > 0 && ch > 0) {
+          /* Plafond d'agrandissement : au-delà, une photo de 570px de large
+             devient franchement floue et on troque de la lisibilité contre de
+             la surface. En pratique c'est la hauteur qui borne, pas ce plafond. */
+          const scale = Math.min(cw / nw, ch / nh, 2);
+          /* Taille posée sur l'image elle-même, au pixel près du rectangle
+             ajusté : les zones de dépôt sont positionnées en pourcentage du
+             plateau, qui épouse l'image. Un letterboxing les décalerait. */
+          bgImg.style.width = Math.round(nw * scale) + 'px';
+          bgImg.style.height = Math.round(nh * scale) + 'px';
+        }
       }
-      // Lu après le calage en hauteur : la largeur en dépend.
+      // Lu après le calage en taille : la largeur en dépend.
       const width = bgImg.getBoundingClientRect().width;
       if (width > 0) board.style.setProperty('--dnd-board-w', width + 'px');
     }
@@ -2031,7 +2199,10 @@
       canvas.style.overflow = 'hidden';
       canvas.style.pointerEvents = 'none';
       canvas.style.zIndex = '9999';
-      document.body.appendChild(canvas);
+      // Classe purement technique : elle permet de le retrouver pour le
+      // déplacer si l'élève bascule en plein écran pendant l'animation.
+      canvas.className = 'confetti-canvas';
+      overlayHost().appendChild(canvas);
 
       const ctx = canvas.getContext('2d');
       canvas.width = window.innerWidth;

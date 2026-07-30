@@ -1197,14 +1197,11 @@ body.modal-is-open {
   padding: 0;
 }
 
+/* Taille posée en pixels par dndSyncBoardMetrics : les maximums d'autrefois ne
+   savaient que rétrécir et laissaient l'image à sa taille naturelle. */
 #dnd-bg-image,
 .dnd-board img {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 90vh;
-  object-fit: contain;
   border-radius: 12px;
   user-select: none;
 }
@@ -1901,7 +1898,11 @@ body.modal-is-open {
   background: rgba(255, 255, 255, 0.95);
   border: 2px solid rgba(17, 36, 72, 0.08);
   border-radius: 18px;
-  padding: 12px;
+  /* Pas de rembourrage en haut : le bandeau d'en-tête l'assure lui-même, et il
+     doit pouvoir toucher la bordure. Une marge négative ne convenait pas — une
+     boîte collante ne peut pas sortir de son bloc conteneur, et se retrouvait
+     repoussée sous le rembourrage en laissant un liseré blanc. */
+  padding: 0 12px 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -1934,15 +1935,29 @@ body.modal-is-open {
   background: rgba(17, 36, 72, 0.22);
 }
 
+/* Véritable bandeau plutôt qu'une ligne de texte : les marges latérales
+   négatives annulent le rembourrage du bac pour que l'en-tête aille toucher sa
+   bordure, qui l'encadre alors complètement. En haut, le bac ne rembourre plus
+   du tout — voir .sorting-bin. Le rayon de 16px est celui du bac (18) moins
+   l'épaisseur de sa bordure (2), sans quoi l'angle du bandeau dépasserait de
+   l'arrondi.
+   Rendu collant : le bac défile quand il se remplit, et l'élève doit pouvoir
+   lire à tout moment dans quelle catégorie il est en train de déposer. */
 .sorting-bin-header {
-  font-size: 0.9rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0 -12px 8px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
   font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-muted);
+  color: var(--color-current);
   text-align: center;
-  border-bottom: 1px solid rgba(17, 36, 72, 0.06);
-  padding-bottom: 6px;
-  margin-bottom: 4px;
+  background: rgba(var(--color-current-rgb), 0.12);
+  border-bottom: 2px solid rgba(var(--color-current-rgb), 0.45);
+  border-radius: 16px 16px 0 0;
 }
 
 /* Elements inside Columns */
@@ -1962,7 +1977,10 @@ body.modal-is-open {
 
 .sorting-bin-item {
   position: relative;
-  padding: 6px 6px 6px 16px;
+  /* Rembourrage symétrique : les 16px de gauche dégagent la poignée ⠿, mais
+     seuls, ils décalaient d'autant le texte centré — invisible sur une carte
+     étroite, très visible sur une carte large. */
+  padding: 6px 16px;
   border-radius: 10px;
   background: #ffffff;
   border: 1.5px solid rgba(17, 36, 72, 0.1);
@@ -2040,6 +2058,34 @@ body.modal-is-open {
 /* Bounce feedback on a correctly sorted item + a checkmark that pops in and fades away */
 .sorting-bin-item.just-correct {
   animation: sorting-pop 0.4s ease;
+}
+
+/* Cartes placées : la compression avait un sens quand la place manquait, elle
+   n'en a plus en plein écran sur grand écran, où trois cartes flottent dans un
+   bac de 890px. Le seuil laisse le Chromebook intact — un bac peut y contenir
+   dix cartes qui doivent toutes tenir sans défilement. */
+@media (min-width: 1400px) {
+  /* Le nombre de colonnes cesse d'être figé : à largeur imposée, c'est lui qui
+     s'adapte. Trois colonnes sur un écran étroit comme aujourd'hui, cinq bien
+     remplies en plein écran, sans avoir à trancher pour un chiffre. */
+  .sorting-modal-card:fullscreen .sorting-bin-content {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+
+  /* Les cartes image méritent des colonnes plus larges : c'est la vignette qui
+     porte l'information, pas un mot de cinq lettres. */
+  .sorting-modal-card:fullscreen .sorting-bin-content.image-cards {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  }
+
+  .sorting-modal-card:fullscreen .sorting-bin-item {
+    font-size: 1.1rem;
+    padding: 10px 18px;
+  }
+
+  .sorting-modal-card:fullscreen .sorting-bin-item img {
+    max-height: 110px;
+  }
 }
 
 @keyframes sorting-pop {
