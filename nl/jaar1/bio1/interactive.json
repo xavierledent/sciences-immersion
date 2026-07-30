@@ -748,7 +748,7 @@
   ],
   "matchPairs": [
     {
-      "quizTitle": "Zoek de paren - Ecologische rollen",
+      "quizTitle": "Ecologische rollen",
       "pairs": [
         {
           "id": 1,
@@ -819,7 +819,7 @@
       ]
     },
     {
-      "quizTitle": "Zoek de paren - Organisatieniveaus",
+      "quizTitle": "Organisatieniveaus",
       "instructions": "Koppel de afbeelding aan het juiste organisatieniveau.",
       "pairs": [
         {
@@ -869,7 +869,7 @@
       ]
     },
     {
-      "quizTitle": "Ecologische rollen",
+      "quizTitle": "Ecosysteemrollen",
       "instructions": "Koppel elk levend wezen aan zijn trofisch niveau",
       "pairs": [
         {
@@ -921,7 +921,7 @@
   ],
   "sorting": [
     {
-      "quizTitle": "Sorteeruitdaging - Ecologische factoren",
+      "quizTitle": "Ecologische factoren",
       "categories": [
         "Biotische factoren",
         "Abiotische factoren"
@@ -966,7 +966,7 @@
       ]
     },
     {
-      "quizTitle": "Sorteeruitdaging - Autotrofen versus heterotrofen",
+      "quizTitle": "Autotrofen versus heterotrofen",
       "categories": [
         "Autotrofen",
         "Heterotrofen"

@@ -748,7 +748,107 @@
   ],
   "matchPairs": [
     {
-      "quizTitle": "Match the Pairs - Ecosystem Roles",
+      "quizTitle": "Ecological roles",
+      "instructions": "Match every living being with its trophic level",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "🌳 Oak tree"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Producer"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "🦌 Deer"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Primary consumer"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "🐺 Wolf"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Secondary consumer"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "🍄 Fungus"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Decomposer"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Levels of Organization",
+      "instructions": "Match the picture with the correct level of organization.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP ind.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Individual"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP pop.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Population"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP eco.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Ecosystem"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP bio.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Biotope"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Ecosystem Roles",
       "pairs": [
         {
           "id": 1,
@@ -817,111 +917,11 @@
           }
         }
       ]
-    },
-    {
-      "quizTitle": "Match the pairs - Levels of Organization",
-      "instructions": "Match the picture with the correct level of organization.",
-      "pairs": [
-        {
-          "id": 1,
-          "sideA": {
-            "type": "image",
-            "content": "assets/MTP ind.jpg"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Individual"
-          }
-        },
-        {
-          "id": 2,
-          "sideA": {
-            "type": "image",
-            "content": "assets/MTP pop.jpg"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Population"
-          }
-        },
-        {
-          "id": 3,
-          "sideA": {
-            "type": "image",
-            "content": "assets/MTP eco.jpg"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Ecosystem"
-          }
-        },
-        {
-          "id": 4,
-          "sideA": {
-            "type": "image",
-            "content": "assets/MTP bio.jpg"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Biotope"
-          }
-        }
-      ]
-    },
-    {
-      "quizTitle": "Ecological roles",
-      "instructions": "Match every living being with its trophic level",
-      "pairs": [
-        {
-          "id": 1,
-          "sideA": {
-            "type": "text",
-            "content": "🌳 Oak tree"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Producer"
-          }
-        },
-        {
-          "id": 2,
-          "sideA": {
-            "type": "text",
-            "content": "🦌 Deer"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Primary consumer"
-          }
-        },
-        {
-          "id": 3,
-          "sideA": {
-            "type": "text",
-            "content": "🐺 Wolf"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Secondary consumer"
-          }
-        },
-        {
-          "id": 4,
-          "sideA": {
-            "type": "text",
-            "content": "🍄 Fungus"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Decomposer"
-          }
-        }
-      ]
     }
   ],
   "sorting": [
     {
-      "quizTitle": "Sorting Challenge - Ecological Factors",
+      "quizTitle": "Ecological Factors",
       "categories": [
         "Biotic factors",
         "Abiotic factors"
@@ -966,7 +966,7 @@
       ]
     },
     {
-      "quizTitle": "Sorting Challenge - Autotrophs vs Heterotrophs",
+      "quizTitle": "Autotrophs vs Heterotrophs",
       "categories": [
         "Autotrophs",
         "Heterotrophs"

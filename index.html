@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="UTF-8" />
@@ -205,30 +205,40 @@
         return '';
       }
 
-      function saveSelections() {
-        if (selectedLanguage) {
-          sessionStorage.setItem('selectedLanguage', selectedLanguage.code);
-        } else {
-          sessionStorage.removeItem('selectedLanguage');
-        }
-        if (selectedYear) {
-          sessionStorage.setItem('selectedYear', selectedYear.code);
-        } else {
-          sessionStorage.removeItem('selectedYear');
+      /* Choix conservés d'une visite à l'autre, et non plus pour la seule session :
+         un élève ne suit qu'une langue d'immersion et qu'une année scolaire, il
+         referait donc le même choix chaque jour pendant un an. Il ne le changera
+         qu'à la rentrée suivante.
+         Les deux rangées restent affichées et cliquables : le choix mémorisé est
+         un point de départ, jamais un enfermement. */
+      function rememberSelection(key, value) {
+        try {
+          if (value) {
+            localStorage.setItem(key, value);
+          } else {
+            localStorage.removeItem(key);
+          }
+        } catch (e) {
+          // Navigation privée ou stockage plein : le site marche sans mémoire.
         }
       }
 
-      function loadSavedSelections() {
-        // Clear any older persistent choices so selection restarts on a new visit
+      function recallSelection(key) {
         try {
-          localStorage.removeItem('selectedLanguage');
-          localStorage.removeItem('selectedYear');
+          return localStorage.getItem(key);
         } catch (e) {
-          // ignore
+          return null;
         }
+      }
 
-        const savedLanguageCode = sessionStorage.getItem('selectedLanguage');
-        const savedYearCode = sessionStorage.getItem('selectedYear');
+      function saveSelections() {
+        rememberSelection('selectedLanguage', selectedLanguage && selectedLanguage.code);
+        rememberSelection('selectedYear', selectedYear && selectedYear.code);
+      }
+
+      function loadSavedSelections() {
+        const savedLanguageCode = recallSelection('selectedLanguage');
+        const savedYearCode = recallSelection('selectedYear');
         const savedLanguage = siteData.languages.find(lang => lang.code === savedLanguageCode);
         const savedYear = siteData.years.find(year => year.code === savedYearCode);
 

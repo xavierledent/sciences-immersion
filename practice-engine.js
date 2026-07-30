@@ -49,6 +49,7 @@
         newBestMoves: 'New best: fewest moves!',
         newBestTime: 'New best time!',
         errors: 'Errors:',
+        memorySameSide: 'Match a light card with a dark one.',
         sortingHint: 'Tap a box, or drag the card into it.',
         correct: 'Correct:',
         moves: 'Moves:',
@@ -62,6 +63,9 @@
         bestMoves: n => 'Best: ' + n + ' move' + (n !== 1 ? 's' : ''),
         glossHint: '💡 Underlined words can be translated into French',
         listen: '🔊 Listen',
+        // Même clé et mêmes valeurs que vocabulary-engine.js : les deux moteurs
+        // font parler la même page, ils ne doivent pas le faire avec deux voix.
+        speechLang: 'en-US',
         pause: '⏸ Pause',
         resume: '▶ Resume',
         bestTimePrefix: 'Best time: '
@@ -110,6 +114,7 @@
         newBestMoves: 'Nieuw record: minste zetten!',
         newBestTime: 'Nieuwe snelste tijd!',
         errors: 'Fouten:',
+        memorySameSide: 'Combineer een lichte kaart met een donkere.',
         sortingHint: 'Tik op een vak, of sleep de kaart erin.',
         correct: 'Juist:',
         moves: 'Zetten:',
@@ -123,6 +128,7 @@
         bestMoves: n => 'Beste: ' + n + ' zet' + (n !== 1 ? 'ten' : ''),
         glossHint: '💡 Onderstreepte woorden kunnen naar het Frans vertaald worden',
         listen: '🔊 Luister',
+        speechLang: 'nl-BE',
         pause: '⏸ Pauze',
         resume: '▶ Hervatten',
         bestTimePrefix: 'Beste tijd: '
@@ -1600,7 +1606,9 @@
           window.speechSynthesis.resume();
         } else {
           const utterance = new SpeechSynthesisUtterance(currentSpokenText());
-          utterance.lang = 'en-US';
+          utterance.lang = L.speechLang;
+          const voice = pickVoice(L.speechLang);
+          if (voice) utterance.voice = voice;
           utterance.rate = 0.95;
           utterance.onend = () => {
             if (myGeneration !== fitbSpeechGeneration || state !== 'speaking') return;
@@ -2497,6 +2505,37 @@
       memorySyncCardSize();
     }
 
+    /* Choix explicite de la voix, même logique que dans vocabulary-engine.js.
+       Toutes les machines n'ont pas de voix nl-BE : sur un poste qui n'a que
+       nl-NL, laisser le navigateur décider peut aussi bien donner la voix
+       néerlandaise que la voix par défaut du système — française ou anglaise,
+       donc pire que rien. On descend explicitement : la variante demandée, puis
+       n'importe quelle voix de la même langue, puis le choix du navigateur. */
+    function pickVoice(preferred) {
+      const voices = (window.speechSynthesis.getVoices && window.speechSynthesis.getVoices()) || [];
+      if (!voices.length) return null;
+      const norm = tag => String(tag || '').toLowerCase().replace('_', '-');
+      const want = norm(preferred);
+      const base = want.split('-')[0];
+      return voices.find(v => norm(v.lang) === want)
+          || voices.find(v => norm(v.lang).split('-')[0] === base)
+          || null;
+    }
+
+    let memorySideHintTimer = null;
+
+    function memoryShowSideHint() {
+      const el = document.getElementById('memory-stat-result');
+      if (!el) return;
+      el.innerHTML = `<span class="memory-side-hint">${L.memorySameSide}</span>`;
+      if (memorySideHintTimer) clearTimeout(memorySideHintTimer);
+      memorySideHintTimer = setTimeout(() => {
+        // Le message de victoire a pu occuper la place entre-temps : on ne
+        // retire que ce qu'on a soi-même écrit.
+        if (el.querySelector('.memory-side-hint')) el.innerHTML = '';
+      }, 2500);
+    }
+
     function handleMemoryCardClick(card) {
       if (!canSelectMemoryCard) return;
       if (card.classList.contains('flipped') || card.classList.contains('correct')) return;
@@ -2509,8 +2548,13 @@
       } else {
         // Rule: Must be of different sides (A and B)
         if (memorySelectedCard1.dataset.side === card.dataset.side) {
-          // Ignore click on same side card, flip it back down instantly
+          /* La carte ne s'ouvre pas : les deux classes s'ajoutent et se retirent
+             dans la même passe, le navigateur ne peint jamais l'état retourné.
+             Vu de l'élève, le clic ne produit donc rien — d'où ce rappel, seul
+             retour existant à ce moment-là. L'estompage des cartes de la même
+             face (voir style.css) devrait le rendre rare. */
           card.classList.remove('flipped');
+          memoryShowSideHint();
           return;
         }
 

@@ -19,7 +19,7 @@ const LABELS = {
     targetBadge: 'NL',
     listen: '🔊 Luister',
     pronounceAria: 'Woord uitspreken',
-    speechLang: 'nl-NL',
+    speechLang: 'nl-BE',
     speechUnsupported: 'Spraaksynthese wordt niet ondersteund in deze browser.',
     loadErrorTitle: 'Kan de woordenschat niet laden vanuit <code>vocabulary.json</code>.',
     loadErrorHint: 'Open deze pagina via een lokale webserver en vernieuw.'
@@ -75,6 +75,23 @@ function initializeCards(mode) {
   });
 }
 
+/* Choix explicite de la voix plutôt que de s'en remettre au navigateur.
+   Toutes les machines n'ont pas de voix nl-BE : sur un poste qui n'a que
+   nl-NL, laisser le navigateur décider peut aussi bien donner la voix
+   néerlandaise que la voix par défaut du système — française ou anglaise, donc
+   pire que rien. On descend donc explicitement : la variante demandée d'abord,
+   puis n'importe quelle voix de la même langue, puis le choix du navigateur. */
+function pickVoice(preferred) {
+  const voices = (window.speechSynthesis.getVoices && window.speechSynthesis.getVoices()) || [];
+  if (!voices.length) return null;
+  const norm = tag => String(tag || '').toLowerCase().replace('_', '-');
+  const want = norm(preferred);
+  const base = want.split('-')[0];
+  return voices.find(v => norm(v.lang) === want)
+      || voices.find(v => norm(v.lang).split('-')[0] === base)
+      || null;
+}
+
 function speakWord(text) {
   if (!window.speechSynthesis) {
     alert(L.speechUnsupported);
@@ -83,6 +100,8 @@ function speakWord(text) {
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = L.speechLang;
+  const voice = pickVoice(L.speechLang);
+  if (voice) utterance.voice = voice;
   utterance.rate = 0.95;
   utterance.pitch = 1;
   window.speechSynthesis.speak(utterance);

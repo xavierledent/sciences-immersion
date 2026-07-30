@@ -1114,12 +1114,19 @@ header p {
   user-select: none;
 }
 
-.dnd-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(var(--color-current-rgb), 0.15);
-  background-color: var(--color-current);
-  border-color: var(--color-current);
-  color: #ffffff;
+/* Le survol se contente d'une teinte légère : rempli comme il l'était, il
+   donnait exactement le rendu de .selected, si bien que désélectionner une
+   étiquette ne se voyait pas — le pointeur restait dessus après le clic.
+   La double condition (hover: hover) et (pointer: fine) écarte le tactile, où
+   l'état de survol reste collé au dernier élément touché : sur un Chromebook,
+   l'étiquette serait restée allumée jusqu'à ce que l'élève touche ailleurs. */
+@media (hover: hover) and (pointer: fine) {
+  .dnd-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(var(--color-current-rgb), 0.15);
+    background-color: rgba(var(--color-current-rgb), 0.12);
+    border-color: var(--color-current);
+  }
 }
 
 /* Étiquette « portée » en mode toucher-toucher. Volontairement très marquée :
@@ -1648,10 +1655,22 @@ body.modal-is-open {
 }
 
 .memory-card-back span {
-  font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+  /* Proportionnelle à la carte, dont la taille est calculée par
+     memorySyncCardSize : le repère utile est la place réellement disponible, pas
+     la largeur de la fenêtre comme le faisait le 1.8vw d'avant. Un mot long tient
+     ainsi sans avoir à être coupé dans la plupart des cas. */
+  font-size: clamp(0.65rem, calc(var(--memory-card-size, 135px) * 0.13), 0.95rem);
   font-weight: 600;
-  overflow-wrap: break-word;
-  word-break: normal;
+  /* Largeur imposée plutôt que déduite : en tant qu'élément flex, le span se
+     dimensionnait sur son contenu et « Decomposers » lui donnait une largeur
+     supérieure à la carte, rognée ensuite par l'overflow: hidden.
+     Et « anywhere » plutôt que « break-word » : les deux coupent un mot trop
+     long, mais seul « anywhere » réduit aussi la largeur minimale intrinsèque du
+     texte. Avec « break-word », le mot entier restait la taille de référence du
+     calcul, et le débordement subsistait malgré l'autorisation de rétrécir. */
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
   white-space: normal;
   hyphens: auto;
   text-align: center;
@@ -1660,19 +1679,16 @@ body.modal-is-open {
 /* Match states */
 .memory-card.correct .memory-card-back,
 .memory-card.incorrect .memory-card-back {
-  overflow-wrap: break-word;
-  word-break: normal;
-  white-space: normal;
+  /* Une carte résolue ne se reclique pas. Les réglages de coupure qui figuraient
+     ici ont été retirés : ils ne faisaient que redire ceux du conteneur, et
+     brouillaient la lecture en donnant l'impression que l'état validé se
+     comportait autrement. */
   pointer-events: none;
 }
 
-.memory-card.correct .memory-card-back span,
-.memory-card.incorrect .memory-card-back span {
-  overflow-wrap: break-word;
-  word-break: normal;
-  white-space: normal;
-  hyphens: auto;
-}
+/* Ces règles répétaient l'ancien réglage de coupure et le réimposaient sur les
+   cartes validées — c'est pourquoi le débordement s'y voyait aussi. Elles
+   n'apportaient rien d'autre : le span hérite déjà de tout ce qu'il lui faut. */
 
 .memory-card.correct .memory-card-back {
   border: 3px solid var(--color-emerald) !important;
@@ -1688,6 +1704,36 @@ body.modal-is-open {
 /* Bounce feedback on a matched pair + a checkmark that pops in and fades away */
 .memory-card.just-matched {
   animation: memory-pop 0.4s ease;
+}
+
+/* Une carte est retournée : celles de la même face ne répondront pas au clic.
+   Rien ne le disait — la carte ne bougeait simplement pas, ce qui ne se
+   distingue en rien d'une carte cassée. Elles s'estompent donc, ce qui annonce
+   la règle au lieu de la faire découvrir par un silence.
+   Aucun mot : la règle se montre au lieu de s'écrire, ce qui vaut mieux devant
+   des élèves qui déchiffrent déjà tout le reste en langue étrangère.
+
+   Écrit en CSS et non en JS parce que la condition se lit dans le DOM lui-même :
+   la sélection est remise à zéro à quatre endroits du moteur, et une règle qui
+   observe l'état ne peut pas s'en désynchroniser.
+   La double condition — une face retournée ET pas l'autre — réserve l'effet au
+   moment où l'élève choisit vraiment. Pendant la vérification d'une paire, les
+   deux faces sont retournées et plus rien ne s'estompe. */
+#memory-grid:has(.memory-card[data-side='A'].flipped:not(.correct)):not(:has(.memory-card[data-side='B'].flipped:not(.correct))) .memory-card[data-side='A']:not(.flipped):not(.correct),
+#memory-grid:has(.memory-card[data-side='B'].flipped:not(.correct)):not(:has(.memory-card[data-side='A'].flipped:not(.correct))) .memory-card[data-side='B']:not(.flipped):not(.correct) {
+  opacity: 0.35;
+}
+
+.memory-card {
+  transition: opacity 0.2s ease;
+}
+
+/* Rappel de la règle, affiché seulement si l'élève l'enfreint malgré tout. Il se
+   loge dans l'emplacement du résultat de fin de partie, vide pendant le jeu. */
+.memory-side-hint {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-current);
 }
 
 @keyframes memory-pop {
