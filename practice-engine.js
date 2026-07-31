@@ -13,7 +13,16 @@
         tryTargetFirst: 'Try EN first',
         contentNotAvailable: 'Content not available.',
         correctionNotAvailable: 'Correction not available.',
-        exerciseUnderConstruction: 'Exercise is under construction...',
+        exerciseUnderConstruction: 'This exercise is under construction — come back later!',
+        gameUnderConstruction: 'This game is under construction — come back later!',
+        /* Titres de repli, affichés quand un exercice n'a pas de quizTitle
+           propre. Ils reprennent le nom de chaque jeu tel qu'il figure dans
+           l'en-tête des pages. */
+        qcmDefaultTitle: 'Multiple-choice questions',
+        fitbDefaultTitle: 'Fill in the blanks',
+        dndDefaultTitle: 'Drag and drop',
+        memoryDefaultTitle: 'Match the pairs',
+        sortingDefaultTitle: 'Sorting challenge',
         goTo: 'Go to:',
         fullscreenEnter: 'Full screen',
         fullscreenExit: 'Leave full screen',
@@ -50,6 +59,7 @@
         newBestTime: 'New best time!',
         errors: 'Errors:',
         memorySameSide: 'Match a light card with a dark one.',
+        qcmGentleFeedback: 'Good try! Here is the correct answer — now you know it.',
         sortingHint: 'Tap a box, or drag the card into it.',
         correct: 'Correct:',
         moves: 'Moves:',
@@ -78,7 +88,13 @@
         tryTargetFirst: 'Probeer eerst NL',
         contentNotAvailable: 'Inhoud niet beschikbaar.',
         correctionNotAvailable: 'Correctie niet beschikbaar.',
-        exerciseUnderConstruction: 'Deze oefening is nog in opbouw...',
+        exerciseUnderConstruction: 'Deze oefening is nog in opbouw — kom later terug!',
+        gameUnderConstruction: 'Dit spel is nog in opbouw — kom later terug!',
+        qcmDefaultTitle: 'Meerkeuzevragen',
+        fitbDefaultTitle: 'Vul de gaten in',
+        dndDefaultTitle: 'Sleep en plaats',
+        memoryDefaultTitle: 'Zoek de paren',
+        sortingDefaultTitle: 'Sorteeruitdaging',
         goTo: 'Ga naar:',
         fullscreenEnter: 'Volledig scherm',
         fullscreenExit: 'Volledig scherm verlaten',
@@ -115,6 +131,7 @@
         newBestTime: 'Nieuwe snelste tijd!',
         errors: 'Fouten:',
         memorySameSide: 'Combineer een lichte kaart met een donkere.',
+        qcmGentleFeedback: 'Goed geprobeerd! Hier is het juiste antwoord — nu ken je het.',
         sortingHint: 'Tik op een vak, of sleep de kaart erin.',
         correct: 'Juist:',
         moves: 'Zetten:',
@@ -172,6 +189,18 @@
 
     let practiceData = null;
     let interactiveData = null;
+    // Distingue « cet exercice n'existe pas encore » de « les données n'ont pas
+    // pu être chargées » : les deux donnent une liste vide, pas le même message.
+    let practiceDataFailed = false;
+    let interactiveDataFailed = false;
+
+    /* Message d'incident destiné à l'élève, en français : le reste de la page est
+       en langue d'immersion, mais une panne n'est pas un exercice — il ne s'agit
+       pas de la déchiffrer. Le contraste de langue signale d'ailleurs à lui seul
+       que ce qui s'affiche n'est pas du cours.
+       Déclaré ici, avec le drapeau qu'il accompagne : un const n'est pas hissé,
+       et il est lu bien plus haut dans le fichier que là où il servait. */
+    const LOAD_ERROR_TEXT = 'Erreur de chargement. Recharge la page, et préviens ton professeur si cela se reproduit.';
     let currentInteractiveType = '';
     let currentInteractiveExercise = 1;
 
@@ -415,6 +444,9 @@
       flushAnswerSave();
       answerLoadedKey = null;
       currentLevel = levelKey;
+      // Le niveau vient d'être choisi : ses images partent en arrière-plan
+      // pendant que l'élève lit le premier énoncé.
+      preloadImages(levelImageSources(levelKey));
       currentExercise = 1;
       currentView = 'en';
       lastStatementView = 'en';
@@ -593,14 +625,22 @@
         exerciseImageHost.style.display = 'none';
         exerciseSubQuestionNav.classList.add('hidden');
         exerciseSubQuestionNav.innerHTML = '';
-        exerciseText.textContent = L.exerciseUnderConstruction;
+        // Même distinction que dans les modales de jeu : le gris annonce une
+        // absence, le rouge une panne.
+        exerciseText.classList.toggle('is-load-error', practiceDataFailed);
+        exerciseText.textContent = practiceDataFailed ? LOAD_ERROR_TEXT : L.exerciseUnderConstruction;
         updateAnswerCompare(null, null);
         applyToggleState();
         return;
       }
 
       if (exerciseItem.image) {
-        exerciseImage.src = `assets/${exerciseItem.image}`;
+        // Image introuvable : on replie le conteneur plutôt que de laisser un
+        // cadre vide ou une icône cassée au milieu de l'énoncé. L'exercice reste
+        // lisible et utilisable sans elle.
+        swapImage(exerciseImage, `assets/${exerciseItem.image}`, () => {
+          exerciseImageHost.style.display = 'none';
+        });
         // Chaîne vide et non 'block' : on efface le style en ligne pour rendre
         // la main à la feuille de style, qui met le conteneur en disposition
         // flexible. Un 'block' en ligne l'emportait et supprimait à la fois le
@@ -614,6 +654,9 @@
 
       const questions = getExerciseQuestions(exerciseItem);
       const source = questions ? questions[currentSubQuestion] : exerciseItem;
+
+      // On sort du cas d'erreur : le panneau reprend son habillage normal.
+      exerciseText.classList.remove('is-load-error');
 
       if (currentView === 'en' || currentView === 'fr') {
         setRichText(exerciseText, (source && source[currentView]) || L.contentNotAvailable);
@@ -1094,18 +1137,36 @@
         if (!button) return;
         const typeKey = button.dataset.type;
         const title = button.textContent;
-        if (typeKey === 'dragAndDrop') {
-          openDndModal();
-        } else if (typeKey === 'matchPairs') {
-          openMemoryModal();
-        } else if (typeKey === 'sorting') {
-          openSortingModal();
-        } else if (typeKey === 'multipleChoice') {
-          openQCMModal();
-        } else if (typeKey === 'fillBlanks') {
-          openFitbModal();
-        } else {
+
+        const GAMES = {
+          dragAndDrop: ['dnd-modal', openDndModal],
+          matchPairs: ['memory-modal', openMemoryModal],
+          sorting: ['sorting-modal', openSortingModal],
+          multipleChoice: ['qcm-modal', openQCMModal],
+          fillBlanks: ['fitb-modal', openFitbModal]
+        };
+
+        const game = GAMES[typeKey];
+        if (!game) {
           openInteractiveModal(typeKey, title);
+          return;
+        }
+
+        const [modalId, openGame] = game;
+
+        /* Deux raisons de n'avoir rien à montrer, et deux messages distincts :
+           les données n'ont pas chargé, ou ce jeu n'a pas encore d'exercices.
+           Dans les deux cas la modale s'ouvre quand même, plutôt que de laisser
+           le bouton sans effet — un bouton qui ne réagit pas ne se distingue
+           pas d'un bouton cassé. */
+        const list = (interactiveData && interactiveData[typeKey]) || [];
+        if (interactiveDataFailed) {
+          showGameNotice(modalId, LOAD_ERROR_TEXT, true);
+        } else if (!list.length) {
+          showGameNotice(modalId, L.gameUnderConstruction);
+        } else {
+          clearGameNotice(modalId);
+          openGame();
         }
       });
 
@@ -1353,7 +1414,7 @@
       htmlStr += '</div>';
 
       if (qcmIsChecked && qcmSelectedOptionIndex !== questionData.correctAnswer) {
-        htmlStr += '<p class="qcm-gentle-feedback">Not quite — take a look at the correct answer above, then try the next question!</p>';
+        htmlStr += `<p class="qcm-gentle-feedback">${L.qcmGentleFeedback}</p>`;
       }
 
       let actionDisabled = qcmSelectedOptionIndex === null ? 'disabled' : '';
@@ -1455,7 +1516,7 @@
         btn.classList.toggle('active', parseInt(btn.dataset.index, 10) === index);
       });
 
-      document.getElementById('qcm-modal-title').textContent = exercise.quizTitle || 'Multiple Choice Quiz';
+      document.getElementById('qcm-modal-title').textContent = exercise.quizTitle || L.qcmDefaultTitle;
 
       const instrContainer = document.getElementById('qcm-instructions-container');
       if (exercise.instructions) {
@@ -1466,12 +1527,14 @@
         instrContainer.style.display = 'none';
       }
 
-      // Shuffle the answer options for each question so the correct answer isn't always first.
+      /* L'ordre d'affichage est calculé, celui du fichier ne sert qu'à désigner la
+         bonne réponse — toujours la première, convention posée par igames.html.
+         L'indice est recalculé après réordonnancement, quel qu'il soit. */
       exercise.questions.forEach(q => {
         const pairs = q.options.map((opt, i) => ({ opt, correct: i === q.correctAnswer }));
-        const shuffled = shuffleArray(pairs);
-        q.options = shuffled.map(p => p.opt);
-        q.correctAnswer = shuffled.findIndex(p => p.correct);
+        const ordered = qcmOrderOptions(pairs);
+        q.options = ordered.map(p => p.opt);
+        q.correctAnswer = ordered.findIndex(p => p.correct);
       });
 
       renderQCM(exercise);
@@ -1787,7 +1850,7 @@
         btn.classList.toggle('active', parseInt(btn.dataset.index, 10) === index);
       });
 
-      document.getElementById('fitb-modal-title').textContent = exercise.quizTitle || 'Fill in the Blanks';
+      document.getElementById('fitb-modal-title').textContent = exercise.quizTitle || L.fitbDefaultTitle;
 
       const instrContainer = document.getElementById('fitb-instructions-container');
       if (exercise.instructions) {
@@ -1839,6 +1902,49 @@
     let dndTimerIntervalId = null;
     let dndStartTime = 0;
     let dndMistakeCount = 0;
+
+    /* Une valeur numérique, ou null si le texte n'en est pas une. La virgule est
+       acceptée comme séparateur décimal : sur un site de sciences en Belgique
+       francophone, « 0,5 » s'écrit ainsi bien plus souvent que « 0.5 ». */
+    function qcmOptionAsNumber(text) {
+      const trimmed = String(text == null ? '' : text).trim().replace(',', '.');
+      if (!/^-?\d+(\.\d+)?$/.test(trimmed)) return null;
+      return Number(trimmed);
+    }
+
+    /* Une lettre isolée, majuscule, ou null. Les repères d'un schéma s'écrivent
+       aussi bien A, B, C que 1, 2, 3 — les deux méritent le même traitement. */
+    function qcmOptionAsLetter(text) {
+      const trimmed = String(text == null ? '' : text).trim();
+      return /^\p{L}$/u.test(trimmed) ? trimmed.toUpperCase() : null;
+    }
+
+    /* Des réponses qui désignent un repère — nombres ou lettres — se lisent dans
+       l'ordre : présentées en désordre, elles obligent l'élève à parcourir la
+       liste pour situer une valeur, ce qui n'a rien à voir avec ce que la
+       question évalue.
+       Le mélange ne perd rien au passage — sur une série ordonnée, la bonne
+       réponse tombe aussi bien au début qu'à la fin, il n'y a pas de biais de
+       position à corriger. Pour tout le reste, on continue de brasser. */
+    function qcmOrderOptions(pairs) {
+      const orderedBy = read => {
+        if (pairs.length < 2 || pairs.some(p => read(p.opt) === null)) return null;
+        return pairs.slice();
+      };
+
+      const numeric = orderedBy(qcmOptionAsNumber);
+      if (numeric) {
+        return numeric.sort((a, b) => qcmOptionAsNumber(a.opt) - qcmOptionAsNumber(b.opt));
+      }
+
+      const alphabetic = orderedBy(qcmOptionAsLetter);
+      if (alphabetic) {
+        return alphabetic.sort((a, b) =>
+          qcmOptionAsLetter(a.opt).localeCompare(qcmOptionAsLetter(b.opt)));
+      }
+
+      return shuffleArray(pairs);
+    }
 
     function shuffleArray(array) {
       const cloned = array.slice();
@@ -1931,7 +2037,7 @@
       });
 
       // Update title
-      document.getElementById('dnd-modal-title').textContent = exercise.quizTitle || 'Drag and Drop Challenge';
+      document.getElementById('dnd-modal-title').textContent = exercise.quizTitle || L.dndDefaultTitle;
 
       // Show/hide instructions
       const dndInstr = document.getElementById('dnd-instructions');
@@ -1965,10 +2071,19 @@
       applyLiveTimerVisibility();
       dndTimerIntervalId = setInterval(updateDndTimerDisplay, 1000);
 
-      // Load background image
+      /* Le plateau est la seule image des jeux qui soit remplacée en place d'un
+         jeu à l'autre : elle passe donc par le fondu, comme celle des exercices
+         classiques. Ailleurs le contenu est reconstruit à neuf.
+         swapImage ne fait rien si la source est identique, ce qui laisse le
+         chemin « déjà chargée » ci-dessous fonctionner comme avant. */
       const bgImg = document.getElementById('dnd-bg-image');
       bgImg.onload = dndSyncBoardMetrics;
-      bgImg.src = exercise.backgroundImage;
+      /* Ici l'image n'illustre pas, elle EST le jeu : les zones de dépôt sont
+         positionnées dessus. Sans elle il n'y a rien à faire, d'où un message
+         explicite plutôt qu'un repli discret. */
+      swapImage(bgImg, exercise.backgroundImage, () => {
+        showLoadError(document.querySelector('.dnd-board-container'));
+      });
       if (bgImg.complete) dndSyncBoardMetrics();
 
       // Reset reservoir
@@ -2394,7 +2509,7 @@
       });
 
       // Update title
-      document.getElementById('memory-modal-title').textContent = exercise.quizTitle || 'Match the Pairs';
+      document.getElementById('memory-modal-title').textContent = exercise.quizTitle || L.memoryDefaultTitle;
 
       // Show/hide instructions
       const memInstr = document.getElementById('memory-instructions');
@@ -2721,7 +2836,7 @@
       });
 
       // Update title
-      document.getElementById('sorting-modal-title').textContent = exercise.quizTitle || 'Sorting Challenge';
+      document.getElementById('sorting-modal-title').textContent = exercise.quizTitle || L.sortingDefaultTitle;
 
       // Show/hide instructions (element created on first use, then reused)
       const sortingModalBody = document.querySelector('.sorting-modal-body');
@@ -3106,6 +3221,148 @@
       }
     }
 
+    /* ===== Préchargement des images =====
+       Une image demandée pour la première fois au moment où l'élève arrive
+       dessus se voit charger : soit la précédente reste affichée, soit la place
+       reste vide. On lance donc les requêtes en avance, quand on sait ce dont
+       l'élève aura besoin.
+       Créer un objet Image et lui poser une source suffit à déclencher la
+       requête. Mais on conserve ensuite l'objet lui-même, et pas seulement son
+       adresse : sans référence, le ramasse-miettes peut le libérer, et il ne
+       reste alors que le cache HTTP. Or GitHub Pages sert ses fichiers avec une
+       durée de validité de dix minutes — au-delà, le navigateur redemande
+       confirmation au serveur avant d'afficher, ce qui rend un aller-retour
+       réseau au moment précis où l'on voulait n'en avoir aucun.
+       Une référence retenue garde la ressource disponible pour toute la séance,
+       sans réseau du tout. Le coût est de quelques mégaoctets pour la trentaine
+       d'images d'un chapitre. */
+    const preloadedImages = new Map();
+
+    function preloadImages(sources) {
+      sources.forEach(src => {
+        // La Map évite aussi de relancer une requête déjà partie.
+        if (!src || preloadedImages.has(src)) return;
+        const img = new Image();
+        img.src = src;
+        preloadedImages.set(src, img);
+      });
+    }
+
+    /* Un niveau à la fois : les exercices classiques en comptent une vingtaine
+       par niveau, et l'élève n'en ouvre qu'un. */
+    function levelImageSources(levelKey) {
+      return (practiceData[levelKey] || [])
+        .filter(item => item.image)
+        .map(item => `assets/${item.image}`);
+    }
+
+    /* Les jeux, eux, ne dépendent d'aucun niveau : leurs images se préchargent
+       en une fois, dès que interactive.json est lu. Elles sont peu nombreuses —
+       une vingtaine tous jeux confondus — et la requête part après le rendu de
+       la page, donc sans retarder ce que l'élève voit en premier. */
+    function gameImageSources() {
+      const data = interactiveData || {};
+      const sources = [];
+
+      (data.multipleChoice || []).forEach(quiz => {
+        sources.push(quiz.image);
+        (quiz.questions || []).forEach(q => sources.push(q.image));
+      });
+      (data.dragAndDrop || []).forEach(ex => sources.push(ex.backgroundImage));
+      (data.fillBlanks || []).forEach(ex => sources.push(ex.image));
+      (data.matchPairs || []).forEach(ex => {
+        (ex.pairs || []).forEach(pair => {
+          [pair.sideA, pair.sideB].forEach(sideData => {
+            if (sideData && sideData.type === 'image') sources.push(sideData.content);
+          });
+        });
+      });
+      (data.sorting || []).forEach(ex => {
+        (ex.items || []).forEach(item => {
+          if (item && item.type === 'image') sources.push(item.content);
+        });
+      });
+
+      return sources.filter(Boolean);
+    }
+
+    /* Remplacement en fondu, pour les seules images réutilisées d'un exercice au
+       suivant : l'ancienne s'efface, la nouvelle réapparaît une fois chargée.
+       Ailleurs — QCM, memory, sorting — le contenu est reconstruit à neuf à
+       chaque fois, il n'y a pas d'image précédente à faire disparaître.
+       L'égalité des sources est vérifiée en premier : renderExerciseContent est
+       rappelé à chaque bascule de langue ou de sous-question, et sans cela
+       l'image clignoterait sans avoir changé. */
+    function swapImage(imgEl, src, onFail) {
+      if (!imgEl || imgEl.getAttribute('src') === src) return;
+
+      imgEl.classList.add('is-swapping');
+
+      /* Trois sorties, parce qu'il y a trois façons d'en finir : l'image arrive,
+         elle n'arrive pas, ou elle n'arrive jamais. Le dernier cas — requête
+         suspendue sur un réseau coupé — n'émet aucun événement, et sans ce délai
+         de garde l'image resterait invisible indéfiniment. Mieux vaut alors
+         rendre la place, quitte à montrer une image cassée : l'élève voit qu'il
+         y a un problème au lieu de fixer un vide. */
+      let settled = false;
+      const finish = failed => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(guard);
+        imgEl.classList.remove('is-swapping');
+        if (failed && typeof onFail === 'function') onFail();
+      };
+
+      const guard = setTimeout(() => finish(true), 8000);
+      imgEl.addEventListener('load', () => finish(false), { once: true });
+      imgEl.addEventListener('error', () => finish(true), { once: true });
+
+      imgEl.src = src;
+    }
+
+    function showLoadError(container) {
+      if (!container) return null;
+      let el = container.querySelector(':scope > .load-error');
+      if (!el) {
+        el = document.createElement('p');
+        el.className = 'load-error';
+        el.textContent = LOAD_ERROR_TEXT;
+        container.appendChild(el);
+      }
+      return el;
+    }
+
+    /* Message tenant lieu de jeu, affiché dans la modale plutôt que sur la page :
+       c'est là que l'élève regarde après avoir cliqué, et cela évite d'encombrer
+       une page d'accueil qui est le plus souvent en parfait état.
+       Une classe sur le corps de la modale masque le reste de son contenu — plus
+       sûr que de vider ce contenu, qui est reconstruit par les moteurs de jeu. */
+    function gameModalBody(modalId) {
+      return document.querySelector('#' + modalId + ' .modal-body');
+    }
+
+    function showGameNotice(modalId, text, isError) {
+      const body = gameModalBody(modalId);
+      if (!body) return;
+      let el = body.querySelector(':scope > .game-notice');
+      if (!el) {
+        el = document.createElement('p');
+        el.className = 'game-notice';
+        body.prepend(el);
+      }
+      // Une panne et un jeu à venir n'appellent pas le même ton : l'une alerte,
+      // l'autre informe.
+      el.classList.toggle('is-error', !!isError);
+      el.textContent = text;
+      body.classList.add('has-notice');
+      document.getElementById(modalId).classList.add('modal-open');
+    }
+
+    function clearGameNotice(modalId) {
+      const body = gameModalBody(modalId);
+      if (body) body.classList.remove('has-notice');
+    }
+
     async function loadPracticeData() {
       try {
         const response = await fetch(practicePath + '?v=' + Date.now());
@@ -3113,6 +3370,16 @@
         practiceData = await response.json();
       } catch (error) {
         console.error('Erreur lors du chargement de practice.json:', error);
+        /* Un objet vide plutôt que null : practiceData est indexé sans précaution
+           dans une dizaine d'endroits, et le laisser à null faisait lever une
+           exception au premier clic sur un niveau — la modale se serait cassée
+           avant même d'afficher le message ci-dessous. */
+        /* Un objet vide plutôt que null : practiceData est indexé sans précaution
+           dans une dizaine d'endroits, et le laisser à null faisait lever une
+           exception au premier clic sur un niveau — la modale se serait cassée
+           avant même d'afficher son message. */
+        practiceData = {};
+        practiceDataFailed = true;
       }
 
       try {
@@ -3122,7 +3389,12 @@
       } catch (error) {
         console.error('Erreur lors du chargement de interactive.json:', error);
         interactiveData = { multipleChoice: [], dragAndDrop: [], fillBlanks: [], matchPairs: [], sorting: [] };
+        // Le message attend le clic de l'élève : il s'affichera dans la modale
+        // du jeu qu'il a demandé, pas sur une page qui va le plus souvent bien.
+        interactiveDataFailed = true;
       }
+
+      preloadImages(gameImageSources());
     }
 
     async function initPractice() {

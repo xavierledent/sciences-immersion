@@ -1109,6 +1109,81 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* Message tenant lieu de jeu : il remplace le contenu de la modale plutôt
+       que de s'y ajouter. Masquer les frères et sœurs plutôt que de les
+       supprimer laisse les moteurs de jeu retrouver leurs éléments intacts au
+       prochain lancement. */
+    .modal-body.has-notice > *:not(.game-notice) {
+      display: none;
+    }
+
+    .game-notice {
+      margin: auto;
+      padding: 24px;
+      max-width: 30rem;
+      text-align: center;
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--color-muted);
+    }
+
+    /* Incident technique : même cadre d'alerte que le message de la page, pour
+       que l'élève reconnaisse tout de suite qu'il ne s'agit pas d'un contenu de
+       cours. Le gris du message « en construction » annonce une absence, ce
+       rouge annonce une panne. */
+    .game-notice.is-error {
+      padding: 16px 20px;
+      border-radius: 14px;
+      background: rgba(212, 82, 122, 0.08);
+      border: 1px solid rgba(212, 82, 122, 0.35);
+      color: #a83d5e;
+    }
+
+    /* Exercices classiques : le panneau d'énoncé porte déjà un cadre, teinté à la
+       couleur du chapitre. Plutôt que d'en ajouter un second, on retourne
+       celui-ci au rouge — le signal est le même que dans les jeux, sans
+       superposer deux encadrements.
+       Le texte repasse au centre : justifié, une phrase de deux lignes étirait
+       ses espaces sans rien y gagner. */
+    .exercise-text.is-load-error {
+      background: rgba(212, 82, 122, 0.08);
+      border-color: rgba(212, 82, 122, 0.35);
+      color: #a83d5e;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Incident technique, pas contenu de cours : ton d'alerte pour que l'élève
+       comprenne au premier coup d'œil qu'il ne s'agit pas d'un exercice. */
+    .load-error {
+      margin: 16px 0 0;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(212, 82, 122, 0.08);
+      border: 1px solid rgba(212, 82, 122, 0.35);
+      color: #a83d5e;
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    /* Fondu de remplacement, posé par swapImage. Il ne concerne que les deux
+       images réutilisées d'un exercice au suivant : sans lui, l'ancienne restait
+       affichée le temps que la nouvelle arrive, ce qui donnait l'impression que
+       le changement d'exercice n'avait pas eu lieu.
+       Court volontairement : il masque une latence, il ne doit pas en créer une. */
+    .exercise-image,
+    #dnd-bg-image {
+      transition: opacity 0.18s ease;
+    }
+
+    .exercise-image.is-swapping,
+    #dnd-bg-image.is-swapping {
+      opacity: 0;
+    }
+
     .image-lightbox {
       display: none;
       position: fixed;
