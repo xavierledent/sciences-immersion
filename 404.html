@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page non trouvée | Sciences Immersion</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Propre à cette page : GitHub Pages sert 404.html pour n'importe quelle
+       adresse cassée, sur n'importe quel chapitre — pas de couleur de matière
+       à hériter ici, contrairement au reste du site. */
+    .notfound-page {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .notfound-card {
+      max-width: 420px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .notfound-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 24px;
+      box-shadow: var(--color-shadow);
+    }
+
+    /* Slate plutôt que le violet de .button : cette page ne rattache à aucune
+       matière, comme les boutons de langue/année une fois sélectionnés — même
+       logique de neutralité. */
+    .notfound-card .button {
+      /* .button n'est utilisée nulle part ailleurs sur un <a> — partout ailleurs
+         c'est un <button>, jamais souligné par défaut. Rien à faire tant que la
+         classe reste sur des boutons ; ici elle expose la lacune pour la
+         première fois. */
+      text-decoration: none;
+      background: var(--color-slate);
+      box-shadow: 0 16px 32px rgba(var(--color-slate-rgb), 0.28);
+    }
+
+    html[data-pointer='fine'] .notfound-card .button:hover,
+    .notfound-card .button:focus-visible {
+      background: var(--color-slate);
+      opacity: 0.88;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="notfound-page">
+    <div class="notfound-card">
+      <!-- Les deux personnages du site : ils apparaissent déjà en encadré sur
+           chaque page de chapitre, ce n'est donc pas un style importé d'ailleurs. -->
+      <img src="assets/Friends 404.png"
+        alt="Oups ! Page non trouvée. On dirait qu'on s'est un peu perdu en chemin ! Retournez en sécurité sur la page d'accueil." />
+      <a href="index.html" class="button">Retour à l'accueil</a>
+    </div>
+  </main>
+</body>
+
+</html>

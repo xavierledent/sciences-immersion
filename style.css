@@ -276,9 +276,9 @@ header p {
   font-weight: 700;
 }
 
-.choice-card:hover,
-.chapter-card:hover,
-.section-card:hover,
+html[data-pointer='fine'] .choice-card:hover,
+html[data-pointer='fine'] .chapter-card:hover,
+html[data-pointer='fine'] .section-card:hover,
 .choice-card:focus-visible,
 .chapter-card:focus-visible,
 .section-card:focus-visible {
@@ -369,9 +369,9 @@ header p {
   text-decoration: none;
 }
 
-.chapter-go-button:hover,
+html[data-pointer='fine'] .chapter-go-button:hover,
 .chapter-go-button:focus-visible,
-.section-card a:hover,
+html[data-pointer='fine'] .section-card a:hover,
 .section-card a:focus-visible {
   transform: translateY(-2px);
   background: #1692af;
@@ -383,8 +383,8 @@ header p {
     background: var(--color-bio);
   }
 
-  .subject-bio .chapter-go-button:hover,
-  .subject-bio .section-card a:hover {
+  html[data-pointer='fine'] .subject-bio .chapter-go-button:hover,
+  html[data-pointer='fine'] .subject-bio .section-card a:hover {
     background: #4f9588;
   }
 
@@ -393,8 +393,8 @@ header p {
     background: var(--color-physics);
   }
 
-  .subject-physics .chapter-go-button:hover,
-  .subject-physics .section-card a:hover {
+  html[data-pointer='fine'] .subject-physics .chapter-go-button:hover,
+  html[data-pointer='fine'] .subject-physics .section-card a:hover {
     background: #6e5fa0;
   }
 
@@ -404,8 +404,8 @@ header p {
     color: #ffffff;
   }
 
-  .subject-chemistry .chapter-go-button:hover,
-  .subject-chemistry .section-card a:hover {
+  html[data-pointer='fine'] .subject-chemistry .chapter-go-button:hover,
+  html[data-pointer='fine'] .subject-chemistry .section-card a:hover {
     background: #a87a20;
   }
 
@@ -432,7 +432,7 @@ header p {
     color: var(--color-current-dark);
   }
 
-  .chapter-nav-btn:hover,
+  html[data-pointer='fine'] .chapter-nav-btn:hover,
   .chapter-nav-btn:focus-visible {
     transform: translateY(-2px);
     background: rgba(var(--color-current-rgb), 0.08);
@@ -526,7 +526,7 @@ header p {
     transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
   }
 
-  .resource-list li a:hover,
+  html[data-pointer='fine'] .resource-list li a:hover,
   .resource-list li a:focus-visible {
     transform: translateY(-1px);
     border-color: rgba(var(--color-current-rgb), 0.4);
@@ -674,7 +674,7 @@ header p {
     transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
   }
 
-  .resource-button:hover,
+  html[data-pointer='fine'] .resource-button:hover,
   .resource-button:focus-visible {
     transform: translateY(-2px);
     background: var(--color-current-dark);
@@ -715,6 +715,50 @@ header p {
 
   .modal-overlay.modal-open {
     display: grid;
+  }
+
+  /* Arrivée des modales. Une animation par images-clés et non une transition :
+     on part de display: none, et un élément qui n'existe pas encore pour le
+     moteur de rendu n'a pas d'état de départ à faire évoluer. Une animation, en
+     revanche, se déclenche au moment où l'élément devient affiché.
+
+     La carte démarre dix pixels plus bas et remonte à sa place : l'œil lit « un
+     panneau vient de se poser » plutôt que « un panneau a été téléporté ici ».
+     Dix pixels et 200 ms, volontairement peu — au-delà, le mouvement se remarque
+     en tant que mouvement, et un geste répété devient un péage.
+
+     Seule l'ouverture est animée. Faire disparaître progressivement demanderait
+     de retarder le retrait en JavaScript dans les sept fonctions de fermeture,
+     pour un effet que personne ne regarde : quand on ferme, on veut être sorti.
+
+     Ces règles couvrent les huit modales du site, index.html compris : toutes
+     partagent .modal-overlay et .modal-card. */
+  @keyframes modal-overlay-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes modal-card-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .modal-overlay.modal-open {
+    animation: modal-overlay-in 160ms ease-out;
+  }
+
+  .modal-overlay.modal-open > .modal-card {
+    animation: modal-card-in 200ms ease-out;
+  }
+
+  /* Certains élèves — troubles vestibulaires, troubles de l'attention — règlent
+     cette préférence sur leur appareil. L'ignorer reviendrait à leur imposer un
+     mouvement qu'ils ont explicitement refusé. */
+  @media (prefers-reduced-motion: reduce) {
+    .modal-overlay.modal-open,
+    .modal-overlay.modal-open > .modal-card {
+      animation: none;
+    }
   }
 
   .modal-card {
@@ -795,7 +839,7 @@ header p {
   cursor: pointer;
 }
 
-.modal-close:hover,
+html[data-pointer='fine'] .modal-close:hover,
 .modal-close:focus-visible {
   transform: translateY(-1px);
   outline: none;
@@ -824,7 +868,7 @@ header p {
   transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.modal-grid .section-card:hover,
+html[data-pointer='fine'] .modal-grid .section-card:hover,
 .modal-grid .section-card:focus-visible {
   transform: translateY(-5px);
   background-color: var(--color-emerald);
@@ -839,7 +883,7 @@ header p {
   color: var(--color-bio);
   border-color: rgba(98, 181, 170, 0.65);
 }
-.modal-card.subject-bio .modal-grid .section-card:hover,
+html[data-pointer='fine'] .modal-card.subject-bio .modal-grid .section-card:hover,
 .modal-card.subject-bio .modal-grid .section-card:focus-visible {
   background-color: var(--color-bio);
   color: #ffffff;
@@ -852,7 +896,7 @@ header p {
   color: var(--color-physics);
   border-color: rgba(139, 123, 181, 0.65);
 }
-.modal-card.subject-physics .modal-grid .section-card:hover,
+html[data-pointer='fine'] .modal-card.subject-physics .modal-grid .section-card:hover,
 .modal-card.subject-physics .modal-grid .section-card:focus-visible {
   background-color: var(--color-physics);
   color: #ffffff;
@@ -865,7 +909,7 @@ header p {
   color: var(--color-chemistry);
   border-color: rgba(231, 195, 96, 0.65);
 }
-.modal-card.subject-chemistry .modal-grid .section-card:hover,
+html[data-pointer='fine'] .modal-card.subject-chemistry .modal-grid .section-card:hover,
 .modal-card.subject-chemistry .modal-grid .section-card:focus-visible {
   background-color: var(--color-chemistry);
   color: #ffffff;
@@ -920,7 +964,7 @@ header p {
   box-shadow: 0 16px 32px rgba(125, 81, 215, 0.16);
 }
 
-.button:hover,
+html[data-pointer='fine'] .button:hover,
 .button:focus-visible {
   transform: translateY(-2px);
   background: #6339b2;
@@ -942,7 +986,7 @@ header p {
   margin-top: 0;
 }
 
-.icon-button:hover,
+html[data-pointer='fine'] .icon-button:hover,
 .icon-button:focus-visible {
   transform: translateY(-2px);
   outline: none;
@@ -1117,16 +1161,15 @@ header p {
 /* Le survol se contente d'une teinte légère : rempli comme il l'était, il
    donnait exactement le rendu de .selected, si bien que désélectionner une
    étiquette ne se voyait pas — le pointeur restait dessus après le clic.
-   La double condition (hover: hover) et (pointer: fine) écarte le tactile, où
-   l'état de survol reste collé au dernier élément touché : sur un Chromebook,
-   l'étiquette serait restée allumée jusqu'à ce que l'élève touche ailleurs. */
-@media (hover: hover) and (pointer: fine) {
-  .dnd-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(var(--color-current-rgb), 0.15);
-    background-color: rgba(var(--color-current-rgb), 0.12);
-    border-color: var(--color-current);
-  }
+   La requête média (hover: hover) qui encadrait cette règle a été retirée : elle
+   décrit le périphérique principal, donc le pavé tactile sur un Chromebook, et
+   répondait « souris » même au doigt. C'est data-pointer, alimenté par le dernier
+   geste réel, qui fait ce travail — ici comme sur tous les autres survols. */
+html[data-pointer='fine'] .dnd-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(var(--color-current-rgb), 0.15);
+  background-color: rgba(var(--color-current-rgb), 0.12);
+  border-color: var(--color-current);
 }
 
 /* Étiquette « portée » en mode toucher-toucher. Volontairement très marquée :
@@ -1161,7 +1204,7 @@ header p {
 /* Instructions text (optional) */
 .dnd-instructions-text {
   font-size: 0.95rem;
-  color: #8a94a6;
+  color: var(--color-muted);
   font-weight: 400;
   line-height: 1.5;
   flex-shrink: 0;
@@ -1313,7 +1356,7 @@ body.modal-is-open {
   transition: all 0.2s ease;
 }
 
-.dnd-pagination .exercise-step:hover {
+html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
   background: rgba(var(--color-current-rgb), 0.05);
   border-color: var(--color-current);
 }
@@ -1405,7 +1448,7 @@ body.modal-is-open {
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.timer-toggle-btn:hover {
+html[data-pointer='fine'] .timer-toggle-btn:hover {
   border-color: var(--color-current);
   color: var(--color-current-dark);
 }
@@ -1508,7 +1551,7 @@ body.modal-is-open {
 /* Instructions text (optional) */
 .memory-instructions-text {
   font-size: 0.95rem;
-  color: #8a94a6;
+  color: var(--color-muted);
   font-weight: 400;
   line-height: 1.5;
   flex-shrink: 0;
@@ -1800,7 +1843,7 @@ body.modal-is-open {
   transition: all 0.2s ease;
 }
 
-.memory-pagination .exercise-step:hover {
+html[data-pointer='fine'] .memory-pagination .exercise-step:hover {
   background: rgba(var(--color-current-rgb), 0.05);
   border-color: var(--color-current);
 }
@@ -1907,7 +1950,7 @@ body.modal-is-open {
 /* Instructions text (optional) */
 .sorting-instructions-text {
   font-size: 0.95rem;
-  color: #8a94a6;
+  color: var(--color-muted);
   font-weight: 400;
   line-height: 1.5;
   flex-shrink: 0;
@@ -1977,6 +2020,10 @@ body.modal-is-open {
   background: rgba(17, 36, 72, 0.12);
   border-radius: 4px;
 }
+/* Exclue de la conversion en data-pointer : ::-webkit-scrollbar-thumb n'existe
+   que sur les navigateurs à moteur WebKit/Blink, où la barre de défilement n'est
+   de toute façon affichée qu'au survol d'une vraie souris. Le cas tactile ne se
+   présente pas. */
 .sorting-bin::-webkit-scrollbar-thumb:hover {
   background: rgba(17, 36, 72, 0.22);
 }
@@ -2063,7 +2110,7 @@ body.modal-is-open {
   pointer-events: none;
 }
 
-.sorting-bin-item:hover:not(.correct):not(.incorrect) {
+html[data-pointer='fine'] .sorting-bin-item:hover:not(.correct):not(.incorrect) {
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(17, 36, 72, 0.12);
 }
@@ -2356,7 +2403,7 @@ body.modal-is-open {
   transition: all 0.2s ease;
 }
 
-.sorting-choice-btn:hover {
+html[data-pointer='fine'] .sorting-choice-btn:hover {
   background: var(--color-current);
   color: #ffffff;
 }
@@ -2385,7 +2432,7 @@ body.modal-is-open {
   background: rgba(var(--color-current-rgb), 0.03);
 }
 
-.sorting-modal-body:not(.all-placed) .sorting-bin:hover {
+html[data-pointer='fine'] .sorting-modal-body:not(.all-placed) .sorting-bin:hover {
   border-color: var(--color-current);
   background: rgba(var(--color-current-rgb), 0.08);
 }
@@ -2403,7 +2450,7 @@ body.modal-is-open {
   transition: transform var(--transition), background var(--transition);
 }
 
-.sorting-action-btn:hover:not(:disabled) {
+html[data-pointer='fine'] .sorting-action-btn:hover:not(:disabled) {
   background: var(--color-current-dark);
   transform: translateY(-2px);
 }
@@ -2445,7 +2492,7 @@ body.modal-is-open {
   transition: all 0.2s ease;
 }
 
-.sorting-pagination .exercise-step:hover {
+html[data-pointer='fine'] .sorting-pagination .exercise-step:hover {
   background: rgba(var(--color-current-rgb), 0.05);
   border-color: var(--color-current);
 }
