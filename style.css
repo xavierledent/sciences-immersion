@@ -761,6 +761,28 @@ html[data-pointer='fine'] .section-card a:hover,
     }
   }
 
+  /* Bandeau hors ligne, posé par rich-text.js. Au-dessus de tout, y compris
+     les modales de jeu plein écran — c'est justement là qu'un élève doit
+     comprendre pourquoi un jeu refuse de charger. */
+  #offline-banner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: var(--color-slate);
+  }
+
+  #offline-banner.is-visible {
+    display: block;
+  }
+
   .modal-card {
     width: min(100%, 620px);
     border: 1px solid rgba(17, 36, 72, 0.1);

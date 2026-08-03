@@ -169,4 +169,154 @@
       first.focus({ preventScroll: true });
     }
   }, true);
+
+  /* ===== Service worker : résilience hors ligne =====
+     Enregistré ici, dans le seul script chargé par toutes les pages, plutôt
+     que dans chacune séparément.
+
+     document.currentScript.src donne l'adresse RÉELLE de ce fichier, déjà
+     résolue par le navigateur selon la profondeur de la page qui l'a chargé
+     (../../../rich-text.js depuis un chapitre, rich-text.js depuis la racine).
+     sw.js vit à côté, à la racine du dépôt : en dériver l'adresse à partir de
+     celle-ci évite de deviner la profondeur nous-mêmes, et fonctionne aussi
+     bien en sous-dossier GitHub Pages (…/sciences-immersion/) qu'à la racine
+     d'un domaine.
+     Capturé tout de suite : document.currentScript redevient null dès qu'on
+     entre dans un callback asynchrone. */
+  const swUrl = document.currentScript ? new URL('sw.js', document.currentScript.src).href : null;
+
+  if (swUrl && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register(swUrl).catch(() => {
+        // Pas de service worker disponible (navigation privée, restriction
+        // machine) : le site continue de fonctionner normalement, simplement
+        // sans le filet de secours hors ligne.
+      });
+    });
+  }
+
+  /* ===== Préchargement du chapitre en cours =====
+     Une fois qu'un élève a ouvert une page d'un chapitre, les trois autres
+     sections de ce même chapitre se préparent en arrière-plan : s'il perd la
+     connexion ensuite, tout le chapitre reste utilisable, pas seulement la
+     page qu'il regardait au moment de la coupure.
+
+     Portée volontairement limitée aux pages HTML, aux données JSON et aux
+     images des niveaux/jeux — pas aux fiches PDF de Resources/Explorations.
+     Leurs chemins suivent trois conventions différentes selon la section
+     (dossier général, sous-dossier, dossier local), déjà source d'un bug
+     réel sur ce site par le passé ; les reconstruire ici doublerait ce risque
+     dans un fichier qui ne reçoit pas la même attention que le moteur
+     principal. Un lien PDF cliqué une fois reste disponible ensuite comme
+     n'importe quelle image, via le cache du service worker — seule
+     l'anticipation avant le premier clic ne s'applique pas à eux. */
+  const chapterMatch = location.pathname.match(
+    /^(.*\/(?:en\/year1|nl\/jaar1)\/[a-z]+\d+\/)(practice|vocabulary|resources|explorations)\.html$/
+  );
+
+  if (chapterMatch && 'serviceWorker' in navigator) {
+    const chapterBase = chapterMatch[1];
+    const currentPage = chapterMatch[2];
+    const PAGE_TYPES = ['practice', 'vocabulary', 'resources', 'explorations'];
+
+    // Même lecture que gameImageSources()/levelImageSources() dans
+    // practice-engine.js : les deux fichiers gardent des conventions de
+    // chemin différentes, l'un relatif à préfixer, l'autre déjà complet.
+    function imagesFromPracticeData(data) {
+      const sources = [];
+      Object.keys(data || {}).forEach(levelKey => {
+        (data[levelKey] || []).forEach(item => {
+          if (item && item.image) sources.push('assets/' + item.image);
+        });
+      });
+      return sources;
+    }
+
+    function imagesFromInteractiveData(data) {
+      const sources = [];
+      data = data || {};
+      (data.multipleChoice || []).forEach(quiz => {
+        sources.push(quiz.image);
+        (quiz.questions || []).forEach(q => sources.push(q.image));
+      });
+      (data.dragAndDrop || []).forEach(ex => sources.push(ex.backgroundImage));
+      (data.fillBlanks || []).forEach(ex => sources.push(ex.image));
+      (data.matchPairs || []).forEach(ex => {
+        (ex.pairs || []).forEach(pair => {
+          [pair.sideA, pair.sideB].forEach(side => {
+            if (side && side.type === 'image') sources.push(side.content);
+          });
+        });
+      });
+      (data.sorting || []).forEach(ex => {
+        (ex.items || []).forEach(item => {
+          if (item && item.type === 'image') sources.push(item.content);
+        });
+      });
+      return sources.filter(Boolean);
+    }
+
+    // Une requête à la fois, plutôt que tout d'un coup : sans ça, vingt-cinq
+    // élèves ouvrant le même chapitre au même instant en début de cours
+    // saturent le wifi partagé de l'école pendant quelques secondes. Étalées,
+    // ces mêmes requêtes ne gênent ni la page en cours ni les autres postes.
+    async function prefetchSequentially(urls) {
+      for (const url of urls) {
+        try { await fetch(url); } catch (e) { /* une adresse en échec ne doit pas arrêter les suivantes */ }
+      }
+    }
+
+    async function prefetchChapter() {
+      const htmlUrls = PAGE_TYPES
+        .filter(type => type !== currentPage)
+        .map(type => chapterBase + type + '.html');
+
+      await prefetchSequentially(htmlUrls);
+
+      const jsonNames = ['practice.json', 'interactive.json', 'vocabulary.json', 'resources.json', 'explorations.json'];
+      const jsonUrls = jsonNames.map(name => chapterBase + name);
+      const jsonResults = await Promise.all(jsonUrls.map(url =>
+        fetch(url).then(r => r.ok ? r.json() : null).catch(() => null)
+      ));
+
+      const [practiceData, interactiveData] = jsonResults;
+      const imageUrls = [
+        ...imagesFromPracticeData(practiceData),
+        ...imagesFromInteractiveData(interactiveData)
+      ].map(path => chapterBase + path);
+
+      await prefetchSequentially(imageUrls);
+    }
+
+    // Après le chargement complet, et avec un court délai : la page en cours
+    // a toujours la priorité sur ce travail de fond, qui peut bien attendre
+    // deux secondes de plus.
+    window.addEventListener('load', () => {
+      setTimeout(prefetchChapter, 2000);
+    });
+  }
+
+  /* ===== Bandeau hors ligne =====
+     Seul repère explicite pour l'élève : sans lui, un jeu jamais ouvert avant
+     la coupure resterait silencieusement indisponible, sans qu'il comprenne
+     pourquoi — exactement le genre de confusion qu'on a déjà traitée pour les
+     autres messages d'erreur du site. */
+  function ensureOfflineBanner() {
+    let banner = document.getElementById('offline-banner');
+    if (banner) return banner;
+    banner = document.createElement('div');
+    banner.id = 'offline-banner';
+    banner.textContent = "Tu es hors ligne. Ce que tu as déjà ouvert reste utilisable — connecte-toi pour retrouver le reste.";
+    document.body.appendChild(banner);
+    return banner;
+  }
+
+  function updateOfflineBanner() {
+    const banner = ensureOfflineBanner();
+    banner.classList.toggle('is-visible', !navigator.onLine);
+  }
+
+  window.addEventListener('online', updateOfflineBanner);
+  window.addEventListener('offline', updateOfflineBanner);
+  document.addEventListener('DOMContentLoaded', updateOfflineBanner);
 })(window);
