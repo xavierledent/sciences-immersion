@@ -783,6 +783,26 @@ html[data-pointer='fine'] .section-card a:hover,
     display: block;
   }
 
+  /* Incident technique, pas contenu de cours : ton d'alerte pour que l'élève
+     comprenne au premier coup d'œil qu'il ne s'agit pas d'un exercice.
+     Vécu ici plutôt que dans practice-engine.css : les quatre pages d'un
+     chapitre (Vocabulary, Practice, Resources, Explorations) peuvent chacune
+     échouer à charger leur JSON, et une seule définition partagée évite trois
+     rendus différents pour la même situation — c'est précisément ce qui
+     s'était produit avant ce déplacement. */
+  .load-error {
+    margin: 16px 0 0;
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: rgba(212, 82, 122, 0.08);
+    border: 1px solid rgba(212, 82, 122, 0.35);
+    color: #a83d5e;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.45;
+    text-align: center;
+  }
+
   .modal-card {
     width: min(100%, 620px);
     border: 1px solid rgba(17, 36, 72, 0.1);

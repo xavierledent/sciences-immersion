@@ -11,18 +11,14 @@ const LABELS = {
     listen: '🔊 Listen',
     pronounceAria: 'Pronounce word',
     speechLang: 'en-US',
-    speechUnsupported: 'Speech synthesis is not supported in this browser.',
-    loadErrorTitle: 'Unable to load vocabulary from <code>vocabulary.json</code>.',
-    loadErrorHint: 'Run this page from a local web server and refresh.'
+    speechUnsupported: 'Speech synthesis is not supported in this browser.'
   },
   nl: {
     targetBadge: 'NL',
     listen: '🔊 Luister',
     pronounceAria: 'Woord uitspreken',
     speechLang: 'nl-BE',
-    speechUnsupported: 'Spraaksynthese wordt niet ondersteund in deze browser.',
-    loadErrorTitle: 'Kan de woordenschat niet laden vanuit <code>vocabulary.json</code>.',
-    loadErrorHint: 'Open deze pagina via een lokale webserver en vernieuw.'
+    speechUnsupported: 'Spraaksynthese wordt niet ondersteund in deze browser.'
   }
 };
 const L = LABELS[pageLang];
@@ -187,12 +183,12 @@ function renderCurrentCard() {
   });
 }
 
-function showLoadError(message) {
+// Même message que dans practice-engine.js, volontiers en français quelle que
+// soit la filière : une panne n'est pas du contenu de cours, elle ne s'adresse
+// pas à l'élève dans la langue d'immersion.
+function showLoadError() {
   container.innerHTML = `
-    <div class="load-error">
-      <p>${L.loadErrorTitle}</p>
-      <p>${message}</p>
-    </div>
+    <div class="load-error">Erreur de chargement. Recharge la page, et préviens ton professeur si cela se reproduit.</div>
   `;
 }
 
@@ -207,7 +203,7 @@ async function loadVocabulary() {
     initializeCards(currentMode);
     renderCurrentCard();
   } catch (error) {
-    showLoadError(L.loadErrorHint);
+    showLoadError();
     console.error(error);
   }
 }

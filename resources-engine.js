@@ -78,8 +78,11 @@
     return `<div class="mindmap-section"><div style="display:flex;flex-direction:column;gap:12px">${blocks}</div></div>`;
   }
 
-  function showError(message) {
-    grid.innerHTML = `<div class="note-box"><p>${message}</p></div>`;
+  // Même classe et même message que dans practice-engine.js et
+  // vocabulary-engine.js : une panne de chargement doit se reconnaître
+  // partout sur le site, pas seulement dans les exercices.
+  function showError() {
+    grid.innerHTML = '<div class="load-error">Erreur de chargement. Recharge la page, et préviens ton professeur si cela se reproduit.</div>';
   }
 
   async function loadResources() {
@@ -141,7 +144,7 @@
 
     } catch (error) {
       console.error(error);
-      showError('Impossible de charger les ressources depuis resources.json. Vérifiez la présence du fichier ou ouvrez la console de votre navigateur (F12) pour voir l\'erreur.');
+      showError();
     }
   }
 

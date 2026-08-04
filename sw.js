@@ -23,7 +23,7 @@
    interceptées : leur propre cache HTTP s'en charge déjà, et gérer des
    réponses cross-origin ici ajouterait un risque pour un bénéfice nul. */
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = 'sciences-immersion-' + CACHE_VERSION;
 
 self.addEventListener('install', () => {
@@ -44,29 +44,47 @@ self.addEventListener('activate', event => {
   );
 });
 
+/* Les moteurs du site ajoutent un paramètre anti-cache (?v=timestamp) à leurs
+   requêtes JSON pour forcer le navigateur à toujours redemander une version
+   fraîche — un paramètre différent à chaque appel. Le Cache Storage indexe
+   par adresse exacte : sans cette normalisation, une entrée mise en cache
+   sous une adresse ne serait jamais retrouvée sous une autre, et le filet de
+   secours resterait vide en pratique alors qu'il semble bien fonctionner. On
+   retire donc systématiquement les paramètres avant de lire ou d'écrire dans
+   le cache, tout en laissant fetch() partir avec l'adresse d'origine — le
+   paramètre continue de jouer son rôle contre le cache HTTP du navigateur, il
+   ne sert plus de clé pour le nôtre. */
+function cacheKey(request) {
+  const url = new URL(request.url);
+  url.search = '';
+  return url.toString();
+}
+
 async function networkFirst(request) {
+  const key = cacheKey(request);
   try {
     const response = await fetch(request);
     if (response && response.ok) {
       const cache = await caches.open(CACHE_NAME);
-      cache.put(request, response.clone());
+      cache.put(key, response.clone());
     }
     return response;
   } catch (error) {
-    const cached = await caches.match(request);
+    const cached = await caches.match(key);
     if (cached) return cached;
     throw error;
   }
 }
 
 async function cacheFirst(request) {
-  const cached = await caches.match(request);
+  const key = cacheKey(request);
+  const cached = await caches.match(key);
   if (cached) return cached;
   try {
     const response = await fetch(request);
     if (response && response.ok) {
       const cache = await caches.open(CACHE_NAME);
-      cache.put(request, response.clone());
+      cache.put(key, response.clone());
     }
     return response;
   } catch (error) {

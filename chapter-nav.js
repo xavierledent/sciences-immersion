@@ -61,12 +61,19 @@
 
       fetch(link.href, { method: 'HEAD' })
         .then(res => {
+          // Une vraie réponse du serveur : le verdict est fiable, on peut le
+          // mémoriser durablement.
           writeCachedExists(cacheKey, res.ok ? 'ok' : 'missing');
           if (!res.ok) link.remove();
         })
         .catch(() => {
-          writeCachedExists(cacheKey, 'missing');
-          link.remove();
+          /* Aucune réponse reçue — coupure réseau la plupart du temps, pas une
+             page absente : rien ne permet de trancher. On laisse le bouton en
+             place (l'hypothèse la plus sûre : la section existe) et on ne
+             grave rien en mémoire, pour que la vérification reparte à zéro
+             dès la page suivante, une fois le réseau revenu. Une page
+             réellement absente aurait renvoyé une réponse HTTP, pas une
+             erreur réseau — elle continuera d'être détectée normalement. */
         });
     });
   }

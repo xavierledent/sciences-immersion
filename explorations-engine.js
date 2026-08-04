@@ -50,8 +50,12 @@
       }
     } catch (error) {
       console.error(error);
+      // Même classe et même message que dans les trois autres moteurs : une
+      // panne se reconnaît partout de la même façon sur le site.
+      // grid-column:1/-1 fait toujours étendre le message sur toute la
+      // largeur de la grille, seule mise en forme propre à ce contexte.
       document.getElementById('explorations-grid').insertAdjacentHTML('beforeend',
-        '<p style="grid-column:1/-1">Impossible de charger les données de la page Explorations.</p>');
+        '<div class="load-error" style="grid-column:1/-1">Erreur de chargement. Recharge la page, et préviens ton professeur si cela se reproduit.</div>');
     }
   }
 
