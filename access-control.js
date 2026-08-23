@@ -48,6 +48,9 @@
   const LIMITED_ACCESS_IMAGE = document.currentScript
     ? new URL('assets/Friends%20-%20Limited%20acces.png', document.currentScript.src).href
     : '';
+  const CONNECT_IMAGE = document.currentScript
+    ? new URL('assets/Friends.jpg', document.currentScript.src).href
+    : '';
 
   /* Couleurs et rayons recopiés depuis style.css plutôt que lus via
      var(--...) : ce script s'exécute avant que la feuille de style n'ait eu
@@ -208,7 +211,7 @@
       }
       .access-illustration {
         display: block;
-        height: 90px;
+        height: 140px;
         width: auto;
         max-width: 100%;
         margin: 4px auto 24px;
@@ -263,6 +266,31 @@
       .access-back-btn {
         margin-top: 20px;
         padding: 13px 26px;
+      }
+      /* Statut de connexion, accueil uniquement — voir renderAccountBadge.
+         En dessous du calque d'accès (z-index 99999) : quand on clique
+         dessus pour rouvrir l'écran d'accès, celui-ci le recouvre
+         normalement, pas de conflit à gérer. */
+      /* Dans le flux normal de la page, pas en position fixe : sur une page
+         qui défile avec plusieurs rangées de cartes, un badge fixé à l'écran
+         finit toujours par chevaucher quelque chose à un moment ou un autre,
+         quel que soit le coin choisi — on l'a vérifié deux fois. Placé juste
+         après le sous-titre (voir insertBadgeInFlow), il pousse le contenu
+         qui suit au lieu de se superposer à lui, et ce problème ne se pose
+         alors plus jamais, quelle que soit la hauteur de la page. */
+      .account-badge {
+        display: inline-flex;
+        margin: 14px 0 0;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(${COLORS.slateRgb}, 0.25);
+        background: rgba(255, 255, 255, 0.92);
+        color: ${COLORS.slate};
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 6px 16px rgba(17, 36, 72, 0.08);
       }
     `;
     document.head.appendChild(style);
@@ -341,6 +369,7 @@
       '<div class="access-card">' +
       '<h1 class="access-title">Site pédagogique // Sciences en immersion</h1>' +
       '<p class="access-subtitle">Connecte-toi avec ton compte scolaire pour accéder à tout le site, ou continue en visiteur pour découvrir un chapitre.</p>' +
+      '<img class="access-illustration" src="' + CONNECT_IMAGE + '" alt="" />' +
       '<div class="access-google-btn-container" id="access-google-btn"></div>' +
       '<button type="button" class="access-visitor-btn" id="access-visitor-btn">Continuer en tant que visiteur</button>' +
       '<div class="access-error" id="access-error-box" style="display:none"></div>' +
@@ -370,13 +399,61 @@
   }
 
   /* ===== Décision principale, une fois la page prête ===== */
+  /* ===== Statut de connexion sur l'accueil =====
+     Aujourd'hui, rien ne dit à quelqu'un quel compte il utilise — un élève
+     connecté par erreur avec l'adresse d'un camarade n'a aucun moyen de le
+     remarquer. Ce badge répond à ça en même temps qu'il offre un chemin de
+     retour vers l'écran d'accès, pour se connecter ou changer de compte.
+     Accueil uniquement : ça n'a pas de sens au milieu d'un exercice. */
+  function isIndexPage() {
+    return /\/(index\.html)?$/.test(location.pathname);
+  }
+
+  // Masque le badge tant que la modale de choix de section est ouverte : les
+  // deux se disputeraient sinon le coin supérieur droit. Observé plutôt que
+  // déclenché par index.html lui-même — comme le verrou de défilement des
+  // modales ailleurs sur le site — pour ne pas avoir à toucher son code
+  // d'ouverture/fermeture.
+  function watchChapterModal(badge) {
+    const modal = document.getElementById('chapter-modal');
+    if (!modal) return;
+    const sync = () => {
+      badge.style.display = modal.classList.contains('modal-open') ? 'none' : '';
+    };
+    new MutationObserver(sync).observe(modal, { attributes: true, attributeFilter: ['class'] });
+    sync();
+  }
+
+  function renderAccountBadge(stored) {
+    if (!isIndexPage()) return;
+    injectAccessStyles();
+    let badge = document.getElementById('account-badge');
+    if (!badge) {
+      badge = document.createElement('button');
+      badge.type = 'button';
+      badge.id = 'account-badge';
+      badge.className = 'account-badge';
+      badge.addEventListener('click', showAccessScreen);
+      // Juste après le sous-titre, dans le flux normal — voir la note sur
+      // .account-badge. Repli sur body si la page a changé et n'a plus ce
+      // sous-titre, pour ne jamais perdre le badge silencieusement.
+      const subtitle = document.querySelector('.subtitle');
+      if (subtitle) subtitle.insertAdjacentElement('afterend', badge);
+      else document.body.appendChild(badge);
+      watchChapterModal(badge);
+    }
+    badge.textContent = stored.mode === 'full'
+      ? stored.email + ' — changer de compte'
+      : 'Visiteur — se connecter';
+  }
+
   function checkAccess() {
     const stored = readStoredAccess();
 
-    if (stored && stored.mode === 'full') { revealContent(); return; }
+    if (stored && stored.mode === 'full') { revealContent(); renderAccountBadge(stored); return; }
 
     if (stored && stored.mode === 'visitor') {
-      if (visitorCanSeeThisPage()) { revealContent(); return; }
+      if (visitorCanSeeThisPage()) { revealContent(); renderAccountBadge(stored); return; }
       showBlockedMessage();
       return;
     }
