@@ -783,6 +783,17 @@ html[data-pointer='fine'] .section-card a:hover,
     display: block;
   }
 
+  /* Mention de copyright, posée par rich-text.js en fin de page. Dans le flux
+     normal du document, pas fixée à l'écran : rien d'urgent à signaler, elle
+     n'a qu'à être là si on la cherche. */
+  #copyright-notice {
+    margin: 32px 0 16px;
+    padding: 0 20px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
   /* Incident technique, pas contenu de cours : ton d'alerte pour que l'élève
      comprenne au premier coup d'œil qu'il ne s'agit pas d'un exercice.
      Vécu ici plutôt que dans practice-engine.css : les quatre pages d'un

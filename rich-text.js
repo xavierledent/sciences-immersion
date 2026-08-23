@@ -319,4 +319,27 @@
   window.addEventListener('online', updateOfflineBanner);
   window.addEventListener('offline', updateOfflineBanner);
   document.addEventListener('DOMContentLoaded', updateOfflineBanner);
+
+  /* ===== Mention de copyright =====
+     Pas une obligation légale — la protection existe dès la création de
+     l'œuvre, sans dépôt ni mention — mais LICENSE, à la racine du dépôt,
+     n'est vu que par qui consulte le code source sur GitHub. Un visiteur du
+     site en ligne ne le voit jamais : c'est cette ligne, affichée, qui joue
+     ce rôle pour de vrai.
+     Posée ici pour couvrir toutes les pages d'un coup, dans le flux normal
+     du document — rien d'urgent à signaler, contrairement au bandeau hors
+     ligne, donc pas de position fixe. */
+  function ensureCopyrightNotice() {
+    if (document.getElementById('copyright-notice')) return;
+    const notice = document.createElement('p');
+    notice.id = 'copyright-notice';
+    notice.textContent = '© 2026 Xavier Ledent — Tous droits réservés.';
+    document.body.appendChild(notice);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureCopyrightNotice);
+  } else {
+    ensureCopyrightNotice();
+  }
 })(window);

@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <script src="access-control.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Page non trouvée | Sciences Immersion</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -68,6 +69,10 @@
       <a href="index.html" class="button">Retour à l'accueil</a>
     </div>
   </main>
+
+  <!-- Seule page du site à ne pas encore le charger : rich-text.js injecte
+       aussi la mention de copyright en bas de page, commune à tout le site. -->
+  <script src="rich-text.js"></script>
 </body>
 
 </html>

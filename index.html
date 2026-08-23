@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <script src="access-control.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sciences Immersion | Home</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -411,6 +412,10 @@
           const chapterButton = card.querySelector('.chapter-go-button');
           chapterButton.addEventListener('click', event => {
             event.stopPropagation();
+            // Un visiteur qui vise autre chose que Bio 1 anglais voit le
+            // message de blocage tout de suite, sans passer par la modale de
+            // choix de section.
+            if (window.AccessControl && window.AccessControl.blockChapterIfNeeded(chapter.folder, selectedLanguage.code, selectedYear.code)) return;
             openChapterMenu(chapter);
           });
 
