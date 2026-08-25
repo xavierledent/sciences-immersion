@@ -36,8 +36,12 @@
 
         answerPlaceholder: 'Write your answer here...',
         checkMyAnswer: 'Check my answer',
-        editMyAnswer: '← Edit my answer',
+        editMyAnswer: 'Edit my answer',
         answerSaved: 'Saved',
+        selfAssessPrompt: 'Evaluate your answer',
+        selfAssessNeedsWork: 'Needs work',
+        selfAssessAlmost: 'Almost',
+        selfAssessGotIt: 'Got it',
         yourAnswer: 'Your answer',
         answerEmpty: 'You have not written an answer yet.',
         enlargeHint: 'Click to open this picture full screen',
@@ -108,8 +112,12 @@
 
         answerPlaceholder: 'Schrijf hier je antwoord...',
         checkMyAnswer: 'Mijn antwoord nakijken',
-        editMyAnswer: '← Mijn antwoord aanpassen',
+        editMyAnswer: 'Mijn antwoord aanpassen',
         answerSaved: 'Opgeslagen',
+        selfAssessPrompt: 'Beoordeel je antwoord',
+        selfAssessNeedsWork: 'Nog oefenen',
+        selfAssessAlmost: 'Bijna',
+        selfAssessGotIt: 'Gelukt',
         yourAnswer: 'Jouw antwoord',
         answerEmpty: 'Je hebt nog geen antwoord geschreven.',
         enlargeHint: 'Klik om deze afbeelding schermvullend te openen',
@@ -539,6 +547,7 @@
           // not a score or difficulty signal.
           if (answerFeatureOn && hasAnyStoredAnswer(currentLevel, exerciseList.find(ex => ex.id === item))) {
             btn.classList.add('has-answer');
+            applySelfAssessClass(btn, worstSelfAssess(currentLevel, exerciseList.find(ex => ex.id === item)));
           }
           numbersWrap.appendChild(btn);
         }
@@ -733,6 +742,111 @@
     const exerciseRecallText = document.getElementById('exercise-recall-text');
     const answerFeatureOn = !!(answerBox && answerInput && answerCompare && answerEcho);
 
+    /* Trois visages minimalistes plutôt que des émoji : un émoji se dessine
+       différemment selon la police système (Chromebook, Windows, mobile),
+       avec ses propres couleurs fixes — ça détonnerait sur une pilule pleine
+       slate. Même cercle et mêmes yeux pour les trois, seule la courbe de la
+       bouche change : la parenté visuelle reste lisible d'un bouton à
+       l'autre. aria-hidden : le mot à côté suffit, l'icône est décorative.
+       Déclaré ici, avant la construction du bloc juste en dessous, qui s'en
+       sert immédiatement — plus bas dans le fichier, ce const n'existerait pas
+       encore au moment où ce code s'exécute. */
+    const SELF_ASSESS_MOUTHS = {
+      1: 'M6.5 14 Q10 11 13.5 14',
+      2: 'M6.5 12.5 H13.5',
+      3: 'M6.5 11 Q10 14.5 13.5 11'
+    };
+
+    // Mêmes teintes que le point sous le numéro d'exercice (voir
+    // practice-engine.css, .self-assess-N::after) : l'élève associe le même
+    // rouge/ambre/vert au bouton qu'il vient de cliquer et à l'endroit où le
+    // choix se retrouve résumé, sans avoir à en apprendre un second.
+    const SELF_ASSESS_COLORS = {
+      1: 'var(--color-rose)',
+      2: '#d99a2b',
+      3: 'var(--color-emerald)'
+    };
+
+    function selfAssessIcon(level) {
+      const color = SELF_ASSESS_COLORS[level];
+      const svg = '<svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+        '<circle cx="10" cy="10" r="8.5" fill="none" stroke="' + color + '" stroke-width="1.6" />' +
+        '<circle cx="7" cy="8" r="1" fill="' + color + '" />' +
+        '<circle cx="13" cy="8" r="1" fill="' + color + '" />' +
+        '<path d="' + SELF_ASSESS_MOUTHS[level] + '" fill="none" stroke="' + color + '" stroke-width="1.6" stroke-linecap="round" />' +
+        '</svg>';
+      // Enveloppe dédiée : sur fond slate plein (bouton sélectionné), le trait
+      // coloré se distinguait mal — voir .self-assess-btn.is-selected
+      // .self-assess-icon dans le CSS, qui pose un petit disque blanc derrière
+      // uniquement à ce moment-là, sans toucher à la couleur elle-même.
+      return '<span class="self-assess-icon">' + svg + '</span>';
+    }
+
+    const SELF_ASSESS_ICONS = { 1: selfAssessIcon(1), 2: selfAssessIcon(2), 3: selfAssessIcon(3) };
+
+    /* Flèche du bouton Check/Edit : dessinée plutôt que le caractère « ← »,
+       dont le trait rendait fin et léger à côté du texte en gras du reste du
+       site. Un seul tracé, pointant à droite par défaut ; la version gauche
+       n'est pas redessinée à part, juste retournée horizontalement — une
+       seule forme à faire vivre pour les deux sens. currentColor : ce bouton
+       est toujours plein slate à texte blanc, jamais les deux états des
+       pilules d'auto-évaluation, donc rien à distinguer ici. */
+    function arrowIcon(direction) {
+      const flip = direction === 'left' ? ' style="transform: scaleX(-1)"' : '';
+      return '<svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" focusable="false"' + flip + '>' +
+        '<path d="M3 10 H16 M11 5 L16 10 L11 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />' +
+        '</svg>';
+    }
+
+    /* ===== Auto-évaluation : construction du bloc =====
+       Construit en JS et inséré ici plutôt qu'écrit dans le HTML de chaque
+       chapitre : la consigne était que ça apparaisse systématiquement, sur
+       tous les exercices de tous les chapitres, sans rollout à faire sur
+       douze pages. Se greffe entre le panneau de correction et la barre
+       "Edit my answer" — placée là où l'élève regarde déjà à ce moment,
+       juste avant de décider s'il modifie sa réponse. */
+    let selfAssessBlock = null;
+    let selfAssessRevealTimer = null;
+
+    if (answerFeatureOn) {
+      const bar = answerBox.querySelector('.student-answer-bar');
+      if (bar) {
+        selfAssessBlock = document.createElement('div');
+        selfAssessBlock.className = 'self-assess';
+        selfAssessBlock.id = 'self-assess';
+        selfAssessBlock.innerHTML =
+          '<p class="self-assess-prompt">' + L.selfAssessPrompt + '</p>' +
+          '<div class="self-assess-buttons">' +
+          '<button type="button" class="self-assess-btn" data-level="1">' + SELF_ASSESS_ICONS[1] + '<span>' + L.selfAssessNeedsWork + '</span></button>' +
+          '<button type="button" class="self-assess-btn" data-level="2">' + SELF_ASSESS_ICONS[2] + '<span>' + L.selfAssessAlmost + '</span></button>' +
+          '<button type="button" class="self-assess-btn" data-level="3">' + SELF_ASSESS_ICONS[3] + '<span>' + L.selfAssessGotIt + '</span></button>' +
+          '</div>';
+        bar.parentNode.insertBefore(selfAssessBlock, bar);
+
+        // Un seul écouteur délégué plutôt qu'un par bouton : les trois pilules
+        // ne sont jamais recréées, inutile de les re-brancher à chaque exercice.
+        selfAssessBlock.querySelector('.self-assess-buttons').addEventListener('click', event => {
+          const btn = event.target.closest('.self-assess-btn');
+          if (!btn) return;
+          const level = Number(btn.dataset.level);
+          const wasSelected = btn.classList.contains('is-selected');
+
+          // Recliquer sur le choix déjà fait l'annule, plutôt que de rester
+          // bloqué sur un premier jugement qu'on regretterait.
+          if (wasSelected) {
+            clearSelfAssess(currentLevel, currentExercise, currentSubQuestion);
+          } else {
+            writeSelfAssess(currentLevel, currentExercise, currentSubQuestion, level);
+          }
+
+          selfAssessBlock.querySelectorAll('.self-assess-btn').forEach(b => {
+            b.classList.toggle('is-selected', !wasSelected && b === btn);
+          });
+          refreshAnswerMarkers();
+        });
+      }
+    }
+
     // Which statement language the student last read, so the condensed recall
     // shown next to the image thumbnail matches what they actually worked from.
     let lastStatementView = 'en';
@@ -770,6 +884,51 @@
         if (hasStoredAnswerForSub(levelKey, exerciseItem.id, i)) return true;
       }
       return false;
+    }
+
+    /* ===== Auto-évaluation de l'élève =====
+       Même convention de clé que les réponses elles-mêmes : une entrée par
+       sous-question, jamais par exercice entier — chaque partie a sa propre
+       correction, elle a donc aussi son propre jugement. */
+    function getSelfAssessKey(levelKey, exerciseId, subIndex) {
+      return 'practiceSelfAssess::' + location.pathname + '::' + levelKey + '::' + exerciseId + '::' + subIndex;
+    }
+
+    function readSelfAssess(levelKey, exerciseId, subIndex) {
+      try {
+        const raw = localStorage.getItem(getSelfAssessKey(levelKey, exerciseId, subIndex));
+        return raw ? Number(raw) : null;
+      } catch (e) { return null; }
+    }
+
+    function writeSelfAssess(levelKey, exerciseId, subIndex, level) {
+      try { localStorage.setItem(getSelfAssessKey(levelKey, exerciseId, subIndex), String(level)); } catch (e) {}
+    }
+
+    function clearSelfAssess(levelKey, exerciseId, subIndex) {
+      try { localStorage.removeItem(getSelfAssessKey(levelKey, exerciseId, subIndex)); } catch (e) {}
+    }
+
+    // Le pire des sous-parties déjà évaluées, pour le numéro principal de
+    // l'exercice : une seule partie "à revoir" doit se voir sur le numéro,
+    // une moyenne la masquerait. Ignore les parties pas encore jugées plutôt
+    // que d'attendre que tout le monde le soit — même logique tolérante que
+    // hasAnyStoredAnswer ci-dessus.
+    function worstSelfAssess(levelKey, exerciseItem) {
+      if (!exerciseItem) return null;
+      const questions = getExerciseQuestions(exerciseItem);
+      const count = questions ? questions.length : 1;
+      let worst = null;
+      for (let i = 0; i < count; i++) {
+        const value = readSelfAssess(levelKey, exerciseItem.id, i);
+        if (value !== null && (worst === null || value < worst)) worst = value;
+      }
+      return worst;
+    }
+
+    function applySelfAssessClass(el, level) {
+      el.classList.remove('self-assess-1', 'self-assess-2', 'self-assess-3');
+      if (level) el.classList.add('self-assess-' + level);
     }
 
     function writeStoredAnswer(levelKey, exerciseId, subIndex, value) {
@@ -822,7 +981,66 @@
       exerciseSubQuestionNav.querySelectorAll('.exercise-step').forEach(button => {
         const index = Number(button.dataset.subquestion);
         button.classList.toggle('has-answer', hasStoredAnswerForSub(currentLevel, exerciseItem.id, index));
+        applySelfAssessClass(button, readSelfAssess(currentLevel, exerciseItem.id, index));
       });
+    }
+
+    /* Fade-in retardé la toute première fois qu'une sous-question donnée est
+       évaluée — assez pour décourager un clic réflexe avant d'avoir vraiment
+       comparé, sans créer d'attente agaçante. Si elle l'est déjà (retour en
+       arrière dans la pagination, sans avoir modifié la réponse), les
+       boutons apparaissent tout de suite, celui déjà choisi mis en évidence :
+       il n'y a alors plus de réflexe à freiner, juste une relecture. */
+    function updateSelfAssessDisplay(comparing) {
+      if (!selfAssessBlock) return;
+
+      // Un minuteur laissé courant pourrait sinon rendre les boutons
+      // cliquables après un changement d'exercice ou de sous-question : on
+      // l'annule d'abord, dans tous les cas, avant de décider quoi que ce soit.
+      if (selfAssessRevealTimer) { clearTimeout(selfAssessRevealTimer); selfAssessRevealTimer = null; }
+
+      if (!comparing) {
+        // Repli instantané, sans transition : le reste de l'écran de
+        // comparaison disparaît lui aussi d'un coup (voir .answer-compare),
+        // un fondu qui traînerait ici seul paraîtrait orphelin. display:none
+        // retire aussi le bloc du flux pendant que l'élève écrit, où il
+        // laisserait sinon un vide silencieux.
+        selfAssessBlock.style.display = 'none';
+        selfAssessBlock.classList.remove('is-visible', 'is-clickable');
+        return;
+      }
+
+      const stored = readSelfAssess(currentLevel, currentExercise, currentSubQuestion);
+      selfAssessBlock.querySelectorAll('.self-assess-btn').forEach(btn => {
+        btn.classList.toggle('is-selected', Number(btn.dataset.level) === stored);
+      });
+
+      // 'block' explicitement, pas '' : une chaîne vide retire seulement la
+      // valeur posée en ligne, elle ne rétablit rien par défaut — la règle
+      // CSS display: none serait alors la seule encore en jeu, et le bloc
+      // resterait invisible malgré tout ce qui suit.
+      selfAssessBlock.style.display = 'block';
+
+      if (stored !== null) {
+        // Déjà jugée : la relire n'est pas un réflexe à freiner. Transition
+        // neutralisée le temps de poser les deux classes d'un coup, sinon le
+        // fondu de 2 s rejouerait à chaque retour sur cette sous-question.
+        selfAssessBlock.style.transition = 'none';
+        selfAssessBlock.classList.add('is-visible', 'is-clickable');
+        void selfAssessBlock.offsetHeight;
+        selfAssessBlock.style.transition = '';
+      } else {
+        selfAssessBlock.classList.remove('is-visible', 'is-clickable');
+        // Force le navigateur à peindre l'état invisible avant d'ajouter
+        // is-visible juste en dessous : sans ce point de passage, les deux
+        // opacités seraient posées dans le même instant et rien ne s'animerait.
+        void selfAssessBlock.offsetHeight;
+        selfAssessBlock.classList.add('is-visible');
+        selfAssessRevealTimer = setTimeout(() => {
+          selfAssessRevealTimer = null;
+          selfAssessBlock.classList.add('is-clickable');
+        }, 2000);
+      }
     }
 
     function refreshAnswerMarkers() {
@@ -856,7 +1074,13 @@
       if (comparing && !wasComparing) resyncCorrectionFrFill();
       wasComparing = comparing;
 
-      if (answerCheckBtn) answerCheckBtn.textContent = comparing ? L.editMyAnswer : L.checkMyAnswer;
+      updateSelfAssessDisplay(comparing);
+
+      if (answerCheckBtn) {
+        answerCheckBtn.innerHTML = comparing
+          ? arrowIcon('left') + '<span>' + L.editMyAnswer + '</span>'
+          : '<span>' + L.checkMyAnswer + '</span>' + arrowIcon('right');
+      }
 
       if (comparing) {
         const written = answerInput.value.trim();
@@ -949,7 +1173,7 @@
       // pages that actually opted into the answer box.
       modalOverlay.classList.add('has-answer-box');
       answerInput.setAttribute('placeholder', L.answerPlaceholder);
-      if (answerCheckBtn) answerCheckBtn.textContent = L.checkMyAnswer;
+      if (answerCheckBtn) answerCheckBtn.innerHTML = '<span>' + L.checkMyAnswer + '</span>' + arrowIcon('right');
       if (answerMineLabel) answerMineLabel.textContent = L.yourAnswer;
 
       answerInput.addEventListener('input', () => {
@@ -964,6 +1188,12 @@
           if (currentView === 'corr_en' || currentView === 'corr_fr') {
             // Back to writing. The statement toggles no longer leave the
             // comparison, so this is the only way back to the answer box.
+            // La réponse va changer : l'ancienne auto-évaluation ne
+            // correspondrait plus à ce qu'elle juge, un nouveau choix
+            // s'impose. Elle réapparaîtra donc avec son délai, comme si
+            // c'était la première fois — ce qui est bien le cas.
+            clearSelfAssess(currentLevel, currentExercise, currentSubQuestion);
+            refreshAnswerMarkers();
             currentView = lastStatementView;
             renderExerciseContent();
             answerInput.focus();

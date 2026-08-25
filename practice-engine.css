@@ -853,7 +853,16 @@
        by the inactive toggles, which read as disabled. Slate rather than the
        chapter colour, to stay in the student's own colour family like the
        writing area it belongs to. */
+    /* Même largeur que .self-assess-buttons au-dessus (voir sa note) : les
+       deux rangées s'alignent l'une sur l'autre plutôt que de dépendre
+       chacune de la longueur de son propre texte. */
     .student-answer-check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 500px;
+      max-width: 100%;
       border: 1px solid var(--color-slate);
       border-radius: 999px;
       padding: 12px 26px;
@@ -865,6 +874,135 @@
       cursor: pointer;
       box-shadow: 0 10px 24px rgba(var(--color-slate-rgb), 0.28);
       transition: background var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+
+    .student-answer-check svg {
+      flex-shrink: 0;
+    }
+
+    /* Auto-évaluation : construite en JS (voir practice-engine.js), insérée
+       entre le panneau de correction et la barre "Edit my answer" sur toutes
+       les pages qui ont la boîte de réponse, sans rien à ajouter dans leur
+       HTML. Slate, comme le bouton de vérification — une action de l'élève,
+       pas un contenu du chapitre, donc pas de couleur de matière ici non plus. */
+    .self-assess {
+      /* Hors flux tant que la correction n'est pas affichée — pas seulement
+         transparent : sinon le bloc laisserait un vide silencieux au-dessus
+         du bouton "Check my answer" pendant que l'élève écrit encore sa
+         réponse. display et opacity sont gérés ensemble par
+         updateSelfAssessDisplay ; cette valeur ne sert que d'état de repos
+         avant le tout premier rendu. */
+      display: none;
+      margin: 18px 0;
+      text-align: center;
+      /* La toute première fois qu'une sous-question est évaluée, l'opacité
+         grimpe progressivement sur 2 secondes plutôt que d'apparaître d'un
+         coup après une attente — c'est le fondu lui-même qui décourage le
+         clic réflexe, pas un minuteur invisible devant un bloc caché. Si
+         elle l'est déjà (retour dans la pagination sans avoir modifié la
+         réponse), la classe est posée sans transition : plus de réflexe à
+         freiner, juste une relecture. Voir updateSelfAssessDisplay.
+         pointer-events suit avec .is-clickable, ajoutée par JS une fois les
+         2 secondes écoulées : le bloc doit rester visuellement présent mais
+         réellement inerte pendant tout le fondu, pas seulement invisible. */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 2000ms ease;
+    }
+
+    .self-assess.is-visible {
+      opacity: 1;
+    }
+
+    .self-assess.is-clickable {
+      pointer-events: auto;
+    }
+
+    .self-assess-prompt {
+      margin: 0 0 10px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-muted);
+    }
+
+    /* Même largeur que .student-answer-check ci-dessous, pour que les deux
+       rangées se superposent bien plutôt que l'une déborde de l'autre — une
+       seule valeur à tenir à jour, les boutons se répartissent ensuite à
+       parts égales (flex: 1 sur .self-assess-btn) au lieu de porter chacun
+       leur propre largeur fixe. */
+    .self-assess-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      width: 500px;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Largeur fixe plutôt qu'ajustée au contenu : "Needs work" est nettement
+       plus long que "Almost" ou "Got it", et des pilules de tailles inégales
+       rompaient le centrage de l'ensemble. 132px suffit au plus long des
+       libellés dans les trois langues du site. */
+    /* Même logique que .toggle-button (Question EN / Question FR) : clair et
+       texte sombre au repos, plein et texte blanc une fois choisi — pas un
+       simple jeu d'opacité. Slate plutôt que la couleur du chapitre : c'est
+       l'action de l'élève, pas un contenu du chapitre.
+       160px plutôt que 132 : "Needs work" passait à la ligne en dessous —
+       assez large pour tenir sur une ligne dans les trois langues du site. */
+    .self-assess-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex: 1 1 0;
+      min-width: 0;
+      border: 1px solid rgba(var(--color-slate-rgb), 0.3);
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: rgba(var(--color-slate-rgb), 0.1);
+      /* currentColor dans le SVG (voir selfAssessIcon) : l'icône suit cette
+         couleur automatiquement, sombre ici, blanche une fois sélectionnée —
+         rien à recalculer côté JS pour les deux états. */
+      color: var(--color-text);
+      font-weight: 700;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition), color var(--transition), transform var(--transition);
+    }
+
+    .self-assess:not(.is-clickable) .self-assess-btn {
+      cursor: default;
+    }
+
+    .self-assess-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-radius: 50%;
+      transition: background var(--transition);
+    }
+
+    /* Le disque n'apparaît qu'à l'état sélectionné : au repos, le fond clair
+       du bouton laisse déjà l'icône colorée bien lisible, un disque y serait
+       superflu. */
+    .self-assess-btn.is-selected .self-assess-icon {
+      background: #ffffff;
+      padding: 2px;
+    }
+
+    html[data-pointer='fine'] .self-assess.is-clickable .self-assess-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .self-assess-btn.is-selected {
+      background: var(--color-slate);
+      border-color: var(--color-slate);
+      color: #ffffff;
+      box-shadow: 0 10px 24px rgba(var(--color-slate-rgb), 0.28);
     }
 
     html[data-pointer='fine'] .student-answer-check:hover {
@@ -936,8 +1074,8 @@
       bottom: 5px;
       left: 50%;
       transform: translateX(-50%);
-      width: 4px;
-      height: 4px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: rgba(19, 36, 61, 0.45);
     }
@@ -945,6 +1083,50 @@
     #exercises-pagination .exercise-step.active.has-answer::after,
     #exercise-subquestion-nav .exercise-step.active.has-answer::after {
       background: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Auto-évaluation de l'élève : le même point grossit et se colore une fois
+       une réponse jugée. Rouge/ambre/vert plutôt qu'un chiffre — à cette
+       taille, la couleur se lit d'un coup d'œil, un chiffre non.
+       Un liseré blanc plutôt que des teintes choisies pour éviter les trois
+       couleurs de matière : le numéro actif prend un fond plein à la couleur
+       du chapitre (bio, chimie ou physique), précisément l'exercice en cours
+       d'évaluation. Contourner ce fond avec des teintes "sûres" serait fragile
+       et changerait à chaque nouvelle matière ; le liseré, lui, fonctionne sur
+       n'importe quel fond sans rien recalculer.
+       Ces règles viennent après .has-answer::after ci-dessus, à spécificité
+       égale : l'ordre dans le fichier tranche, elles doivent rester en dessous
+       pour l'emporter, y compris sur l'état actif. */
+    #exercises-pagination .exercise-step.self-assess-1::after,
+    #exercise-subquestion-nav .exercise-step.self-assess-1::after,
+    #exercises-pagination .exercise-step.self-assess-2::after,
+    #exercise-subquestion-nav .exercise-step.self-assess-2::after,
+    #exercises-pagination .exercise-step.self-assess-3::after,
+    #exercise-subquestion-nav .exercise-step.self-assess-3::after {
+      /* Même taille que le point neutre (6px, voir .has-answer::after) : ce
+         n'est plus la taille qui distingue l'état évalué, le liseré suffit. */
+      box-shadow: 0 0 0 1.5px #ffffff;
+    }
+
+    #exercises-pagination .exercise-step.self-assess-1::after,
+    #exercise-subquestion-nav .exercise-step.self-assess-1::after,
+    #exercises-pagination .exercise-step.active.self-assess-1::after,
+    #exercise-subquestion-nav .exercise-step.active.self-assess-1::after {
+      background: var(--color-rose);
+    }
+
+    #exercises-pagination .exercise-step.self-assess-2::after,
+    #exercise-subquestion-nav .exercise-step.self-assess-2::after,
+    #exercises-pagination .exercise-step.active.self-assess-2::after,
+    #exercise-subquestion-nav .exercise-step.active.self-assess-2::after {
+      background: #d99a2b;
+    }
+
+    #exercises-pagination .exercise-step.self-assess-3::after,
+    #exercise-subquestion-nav .exercise-step.self-assess-3::after,
+    #exercises-pagination .exercise-step.active.self-assess-3::after,
+    #exercise-subquestion-nav .exercise-step.active.self-assess-3::after {
+      background: var(--color-emerald);
     }
 
     /* The a/b/c pills are short pills, not squares: without extra room the dot
