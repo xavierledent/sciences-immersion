@@ -894,15 +894,30 @@
       return 'practiceSelfAssess::' + location.pathname + '::' + levelKey + '::' + exerciseId + '::' + subIndex;
     }
 
+    /* Le jugement porte sur un texte précis, pas sur la sous-question en
+       général : on stocke donc la réponse avec son niveau, et on ne restitue
+       ce niveau que si la réponse actuelle lui correspond encore. Ça évite
+       d'avoir à effacer explicitement au clic sur "Edit my answer" — rouvrir
+       la réponse sans rien y changer laisse le jugement intact, seul un vrai
+       changement de texte l'invalide, une fois enregistré.
+       Un ancien format (juste le niveau, sans réponse associée) échouera au
+       test typeof ci-dessous et sera traité comme absent plutôt que planter. */
     function readSelfAssess(levelKey, exerciseId, subIndex) {
       try {
         const raw = localStorage.getItem(getSelfAssessKey(levelKey, exerciseId, subIndex));
-        return raw ? Number(raw) : null;
+        if (!raw) return null;
+        const record = JSON.parse(raw);
+        if (!record || typeof record.level !== 'number') return null;
+        if (record.answer !== readStoredAnswer(levelKey, exerciseId, subIndex)) return null;
+        return record.level;
       } catch (e) { return null; }
     }
 
     function writeSelfAssess(levelKey, exerciseId, subIndex, level) {
-      try { localStorage.setItem(getSelfAssessKey(levelKey, exerciseId, subIndex), String(level)); } catch (e) {}
+      try {
+        const record = { level: level, answer: readStoredAnswer(levelKey, exerciseId, subIndex) };
+        localStorage.setItem(getSelfAssessKey(levelKey, exerciseId, subIndex), JSON.stringify(record));
+      } catch (e) {}
     }
 
     function clearSelfAssess(levelKey, exerciseId, subIndex) {
@@ -1188,12 +1203,11 @@
           if (currentView === 'corr_en' || currentView === 'corr_fr') {
             // Back to writing. The statement toggles no longer leave the
             // comparison, so this is the only way back to the answer box.
-            // La réponse va changer : l'ancienne auto-évaluation ne
-            // correspondrait plus à ce qu'elle juge, un nouveau choix
-            // s'impose. Elle réapparaîtra donc avec son délai, comme si
-            // c'était la première fois — ce qui est bien le cas.
-            clearSelfAssess(currentLevel, currentExercise, currentSubQuestion);
-            refreshAnswerMarkers();
+            // Rien à effacer explicitement ici : readSelfAssess compare déjà
+            // la réponse actuelle à celle qui a été jugée (voir plus haut).
+            // Rouvrir sans rien changer laisse donc le jugement intact ; un
+            // vrai changement de texte, une fois enregistré, l'invalidera de
+            // lui-même au prochain rendu.
             currentView = lastStatementView;
             renderExerciseContent();
             answerInput.focus();
