@@ -10,7 +10,7 @@
         questionFrench: 'Question FR',
         correctionTarget: 'Correction EN',
         correctionFrench: 'Correction FR',
-        tryTargetFirst: 'Try EN first',
+        tryTargetFirst: 'Try english first',
         contentNotAvailable: 'Content not available.',
         correctionNotAvailable: 'Correction not available.',
         exerciseUnderConstruction: 'This exercise is under construction — come back later!',
@@ -44,6 +44,15 @@
         selfAssessGotIt: 'Got it',
         yourAnswer: 'Your answer',
         answerEmpty: 'You have not written an answer yet.',
+        chapterOverviewTitle: 'My progress',
+        exercisesRemaining: n => `${n} exercise${n !== 1 ? 's' : ''} to go. You can do it !`,
+        overviewAllTab: 'All',
+        continueLevel: 'Continue this level',
+        revisionModeLabel: 'Revision mode',
+        revisionProgress: (remaining, total) => `${remaining} of ${total} remaining`,
+        revisionNext: 'Next',
+        revisionExit: 'Exit revision',
+        revisionDone: 'All done !',
         enlargeHint: 'Click to open this picture full screen',
 
         quizCompleted: 'Quiz Completed!',
@@ -89,7 +98,7 @@
         questionFrench: 'Vraag FR',
         correctionTarget: 'Correctie NL',
         correctionFrench: 'Correctie FR',
-        tryTargetFirst: 'Probeer eerst NL',
+        tryTargetFirst: 'Probeer eerst Nederlands',
         contentNotAvailable: 'Inhoud niet beschikbaar.',
         correctionNotAvailable: 'Correctie niet beschikbaar.',
         exerciseUnderConstruction: 'Deze oefening is nog in opbouw — kom later terug!',
@@ -120,6 +129,15 @@
         selfAssessGotIt: 'Gelukt',
         yourAnswer: 'Jouw antwoord',
         answerEmpty: 'Je hebt nog geen antwoord geschreven.',
+        chapterOverviewTitle: 'Mijn voortgang',
+        exercisesRemaining: n => `Nog ${n} oefening${n !== 1 ? 'en' : ''} te gaan. Je kan het !`,
+        overviewAllTab: 'Alle',
+        continueLevel: 'Dit level verderzetten',
+        revisionModeLabel: 'Herhalingsmodus',
+        revisionProgress: (remaining, total) => `${remaining} van ${total} resterend`,
+        revisionNext: 'Volgende',
+        revisionExit: 'Herhaling stoppen',
+        revisionDone: 'Helemaal klaar !',
         enlargeHint: 'Klik om deze afbeelding schermvullend te openen',
 
         quizCompleted: 'Quiz voltooid!',
@@ -166,6 +184,11 @@
     const practicePath = './practice.json';
     const interactivePath = './interactive.json';
     const levelButtonsContainer = document.getElementById('level-buttons');
+    const overviewModal = document.getElementById('overview-modal');
+    const overviewModalClose = document.getElementById('overview-modal-close');
+    const overviewModalTitle = document.getElementById('overview-modal-title');
+    const overviewTabs = document.getElementById('overview-tabs');
+    const overviewPanels = document.getElementById('overview-panels');
     const modalOverlay = document.getElementById('exercise-modal');
     const modalClose = document.getElementById('exercise-modal-close');
     const modalTitle = document.getElementById('exercise-modal-title');
@@ -185,8 +208,6 @@
     const btnCorrectionFr = document.getElementById('btn-correction-fr');
     const statementFrFill = document.getElementById('statement-fr-fill');
     const correctionFrFill = document.getElementById('correction-fr-fill');
-    const statementFrLabelEl = document.getElementById('statement-fr-label');
-    const correctionFrLabelEl = document.getElementById('correction-fr-label');
 
     const interactiveButtonsContainer = document.getElementById('interactive-buttons');
     const interactiveModalOverlay = document.getElementById('interactive-modal');
@@ -255,15 +276,42 @@
     let currentView = 'en';
     let currentSubQuestion = 0;
 
+    // Revision mode: a session tied to one specific level, started from the
+    // overview's "Continue this level" button. Never persisted (localStorage
+    // or otherwise) — closing the exercise modal or reopening a level from
+    // scratch always resets it, deliberately, rather than restoring a session
+    // the student may not remember starting.
+    let revisionActive = false;
+    let revisionLevel = null;
+    // Frozen at session start ("Y" in "X of Y remaining"): the live remaining
+    // count already tells the shrinking half of the story, Y just needs to
+    // stay put as the stable denominator.
+    let revisionTotal = 0;
+
     // French statement/correction is locked for a few seconds on every new
-    // question/sub-question, to nudge students into reading the English first.
-    // While locked, the label swaps to an explicit nudge instead of a ticking
-    // number, and a fill bar behind the label drains over the lock duration —
+    // question/sub-question, to nudge students into reading the target language
+    // first. The label itself stays "Question FR" / "Correction FR" throughout;
+    // the nudge instead shows as a tooltip on hover (see .toggle-lock-wrap
+    // ::after), and a fill bar behind the label drains over the lock duration —
     // this avoids both a bare "(25s)" that reads as a bug and any per-second
     // text change that could resize the button.
-    const frStatementLabel = statementFrLabelEl.textContent;
-    const frCorrectionLabel = correctionFrLabelEl.textContent;
+    // The tooltip wrapper is a plain span placed around the button rather than
+    // a class on the button itself: the button keeps its own overflow:hidden
+    // (needed to clip .toggle-fill's square corners to the pill shape), and an
+    // overflow:hidden ancestor would clip an ::after tooltip positioned outside
+    // its box just the same way — so the tooltip has to live one level up.
+    function wrapForLockTooltip(btn) {
+      const wrap = document.createElement('span');
+      wrap.className = 'toggle-lock-wrap';
+      btn.parentNode.insertBefore(wrap, btn);
+      wrap.appendChild(btn);
+      return wrap;
+    }
+    const statementFrWrap = wrapForLockTooltip(btnStatementFr);
+    const correctionFrWrap = wrapForLockTooltip(btnCorrectionFr);
     const FR_LOCK_NUDGE = L.tryTargetFirst;
+    statementFrWrap.setAttribute('data-lock-tooltip', FR_LOCK_NUDGE);
+    correctionFrWrap.setAttribute('data-lock-tooltip', FR_LOCK_NUDGE);
     let frUnlockTimeoutId = null;
     // Kept so the correction bar can be re-armed with the time actually left
     // when it is revealed part-way through the countdown.
@@ -292,13 +340,17 @@
     function lockFrButtons() {
       if (frUnlockTimeoutId) clearTimeout(frUnlockTimeoutId);
       const seconds = getFrLockSeconds();
-      btnStatementFr.disabled = true;
-      btnCorrectionFr.disabled = true;
+      // A real `disabled` attribute stops the button from receiving hover
+      // events at all in Chrome/Firefox, which is exactly what the tooltip
+      // needs — so the lock is expressed as a class on the wrapper instead
+      // (see the click listeners above, which check it), with aria-disabled
+      // kept in sync on the button for assistive tech.
+      statementFrWrap.classList.add('is-fr-locked');
+      correctionFrWrap.classList.add('is-fr-locked');
+      btnStatementFr.setAttribute('aria-disabled', 'true');
+      btnCorrectionFr.setAttribute('aria-disabled', 'true');
       if (currentView === 'fr') handleStatementMode('en');
       else if (currentView === 'corr_fr') handleCorrectionMode('corr_en');
-
-      statementFrLabelEl.textContent = FR_LOCK_NUDGE;
-      correctionFrLabelEl.textContent = FR_LOCK_NUDGE;
 
       [statementFrFill, correctionFrFill].forEach(fill => {
         fill.style.transition = 'none';
@@ -313,10 +365,10 @@
 
       frUnlockTimeoutId = setTimeout(() => {
         frUnlockTimeoutId = null;
-        btnStatementFr.disabled = false;
-        btnCorrectionFr.disabled = false;
-        statementFrLabelEl.textContent = frStatementLabel;
-        correctionFrLabelEl.textContent = frCorrectionLabel;
+        statementFrWrap.classList.remove('is-fr-locked');
+        correctionFrWrap.classList.remove('is-fr-locked');
+        btnStatementFr.setAttribute('aria-disabled', 'false');
+        btnCorrectionFr.setAttribute('aria-disabled', 'false');
       }, frLockDurationMs);
     }
 
@@ -449,13 +501,23 @@
     }
 
     function openModal(levelKey) {
+      // Starting a level fresh from its button never carries over a revision
+      // session from earlier — see the state comment near revisionActive.
+      revisionActive = false;
+      openModalAtExercise(levelKey, 1);
+    }
+
+    // Shared by the level buttons (always exercise 1) and the chapter overview
+    // grid (any exercise the student picks) — same setup either way, only the
+    // starting exercise differs.
+    function openModalAtExercise(levelKey, exerciseId) {
       flushAnswerSave();
       answerLoadedKey = null;
       currentLevel = levelKey;
       // Le niveau vient d'être choisi : ses images partent en arrière-plan
       // pendant que l'élève lit le premier énoncé.
       preloadImages(levelImageSources(levelKey));
-      currentExercise = 1;
+      currentExercise = exerciseId;
       currentView = 'en';
       lastStatementView = 'en';
       currentSubQuestion = 0;
@@ -469,7 +531,19 @@
 
     function closeModal() {
       flushAnswerSave();
+      // Closing via the × normally relies on display:none forcing the browser
+      // to auto-exit fullscreen — true when this card entered fullscreen the
+      // usual way. But the My progress → exercise swap (see carryFullscreenTo)
+      // hands fullscreen to this card via a direct element-to-element request,
+      // and closing right after apparently doesn't trigger that same implicit
+      // exit reliably. Exiting explicitly here covers both paths.
+      if (document.fullscreenElement && modalOverlay.contains(document.fullscreenElement)) {
+        document.exitFullscreen().catch(() => {});
+      }
       modalOverlay.classList.remove('modal-open');
+      // Never persisted — closing the modal always drops the revision session
+      // rather than risk restoring one silently on the next open.
+      revisionActive = false;
     }
 
     function updateModalHeader() {
@@ -511,6 +585,11 @@
     }
 
     function renderExerciseSteps() {
+      if (revisionActive && currentLevel === revisionLevel) {
+        renderRevisionBar();
+        return;
+      }
+
       exercisesPagination.innerHTML = '';
       const exerciseList = practiceData[currentLevel] || [];
       const numExercises = exerciseList.length;
@@ -572,6 +651,70 @@
         `<input type="number" id="exercise-goto-input" min="1" max="${numExercises}" placeholder="${currentExercise}" />` +
         `<button type="button" class="exercise-pager-goto-btn">${L.go}</button>`;
       exercisesPagination.appendChild(goTo);
+    }
+
+    // Next non-green exercise in revisionLevel, scanning forward from the
+    // current exercise and wrapping around — never null while at least one
+    // other exercise (including ones before the current position) is still
+    // non-green, so revisiting one just marked green doesn't strand the
+    // student on a false "done".
+    function findNextRevisionExercise() {
+      const exerciseList = practiceData[revisionLevel] || [];
+      const ids = exerciseList.map(item => item.id);
+      const currentIdx = ids.indexOf(currentExercise);
+      for (let step = 1; step <= ids.length; step++) {
+        const idx = (currentIdx + step) % ids.length;
+        const item = exerciseList[idx];
+        if (worstSelfAssess(revisionLevel, item) !== 3) return item.id;
+      }
+      return null;
+    }
+
+    function renderRevisionBar() {
+      exercisesPagination.innerHTML = '';
+
+      const bar = document.createElement('div');
+      bar.className = 'revision-bar';
+
+      const label = document.createElement('span');
+      label.className = 'revision-bar-label';
+      label.textContent = L.revisionModeLabel;
+      bar.appendChild(label);
+
+      const progress = document.createElement('span');
+      progress.className = 'revision-bar-progress';
+      progress.textContent = L.revisionProgress(countOverviewRemaining(revisionLevel), revisionTotal);
+      bar.appendChild(progress);
+
+      const nextId = findNextRevisionExercise();
+      const nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = 'revision-bar-next';
+      if (nextId === null) {
+        nextBtn.classList.add('is-done');
+        nextBtn.textContent = L.revisionDone;
+        nextBtn.disabled = true;
+      } else {
+        nextBtn.textContent = L.revisionNext;
+        nextBtn.addEventListener('click', () => goToExercise(nextId));
+      }
+      bar.appendChild(nextBtn);
+
+      const exitBtn = document.createElement('button');
+      exitBtn.type = 'button';
+      exitBtn.className = 'revision-bar-exit';
+      exitBtn.textContent = L.revisionExit;
+      exitBtn.addEventListener('click', exitRevisionMode);
+      bar.appendChild(exitBtn);
+
+      exercisesPagination.appendChild(bar);
+    }
+
+    // Drops the session and restores the normal pager on whichever exercise
+    // the student happens to be on — no navigation of its own.
+    function exitRevisionMode() {
+      revisionActive = false;
+      renderExerciseSteps();
     }
 
     // Single entry point for every way to change exercise: number click, arrows,
@@ -946,6 +1089,191 @@
       if (level) el.classList.add('self-assess-' + level);
     }
 
+    /* ===== Chapter overview modal =====
+       Rebuilt from scratch on every open rather than kept in sync incrementally:
+       self-assessment can change while the exercise modal is open behind it, so
+       a fresh read off localStorage is simpler and cheaper than tracking
+       invalidation. */
+    const OVERVIEW_LEVELS = ['level1', 'level2', 'level3'];
+
+    // "Remaining" = not green: red + amber + never-attempted, exactly what the
+    // student still owes this level.
+    function countOverviewRemaining(levelKey) {
+      const exerciseList = practiceData[levelKey] || [];
+      let remaining = 0;
+      exerciseList.forEach(item => {
+        if (worstSelfAssess(levelKey, item) !== 3) remaining++;
+      });
+      return remaining;
+    }
+
+    // Leaving the overview modal for the exercise modal closes the former
+    // (display:none on its overlay), which forces the browser to exit
+    // fullscreen if that's what was fullscreen — jumping the student back
+    // into a small window even though they never asked to leave fullscreen.
+    // Captured before closing, applied to the new modal's own card after.
+    function isCardFullscreen(overlayEl) {
+      const card = overlayEl.querySelector('.modal-card');
+      return !!card && document.fullscreenElement === card;
+    }
+
+    // Returns the request's promise (always resolving, errors swallowed) so
+    // callers can wait for it before hiding the overview modal: requestFullscreen
+    // is asynchronous, and hiding — display:none — the still-current fullscreen
+    // element while the new request hasn't landed yet interrupts that request
+    // instead of letting it complete.
+    function carryFullscreenTo(overlayEl) {
+      const card = overlayEl.querySelector('.modal-card');
+      if (card && card.requestFullscreen) return card.requestFullscreen().catch(() => {});
+      return Promise.resolve();
+    }
+
+    function buildOverviewGrid(levelKey) {
+      const exerciseList = practiceData[levelKey] || [];
+      const grid = document.createElement('div');
+      grid.className = 'overview-grid';
+      exerciseList.forEach(item => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'exercise-step';
+        btn.textContent = String(item.id);
+        // Always coloured, unlike the pager's dot: grey by default (never
+        // attempted) rather than shown only once started, since the whole
+        // point here is to see every exercise's status at a glance.
+        applySelfAssessClass(btn, worstSelfAssess(levelKey, item));
+        btn.addEventListener('click', () => {
+          const wasFullscreen = isCardFullscreen(overviewModal);
+          revisionActive = false;
+          openModalAtExercise(levelKey, item.id);
+          if (wasFullscreen) {
+            // Only hide the overview modal once the new card has actually
+            // become fullscreen — see carryFullscreenTo.
+            carryFullscreenTo(modalOverlay).then(closeOverviewModal);
+          } else {
+            closeOverviewModal();
+          }
+        });
+        grid.appendChild(btn);
+      });
+      return grid;
+    }
+
+    // Every non-green exercise id in a level, in exercise order — the revision
+    // queue. Recomputed on demand rather than cached: self-assessment changes
+    // during the session as the student works through it.
+    function getNonGreenExerciseIds(levelKey) {
+      const exerciseList = practiceData[levelKey] || [];
+      return exerciseList.filter(item => worstSelfAssess(levelKey, item) !== 3).map(item => item.id);
+    }
+
+    function startRevisionMode(levelKey) {
+      const queue = getNonGreenExerciseIds(levelKey);
+      // The button that calls this is hidden whenever the level has nothing
+      // left (see buildOverviewLevelSection), so an empty queue here would
+      // mean the count changed between render and click — safe to just no-op.
+      if (queue.length === 0) return;
+      revisionActive = true;
+      revisionLevel = levelKey;
+      revisionTotal = queue.length;
+      openModalAtExercise(levelKey, queue[0]);
+    }
+
+    // One level's counter + grid, used both as its own tab panel and as one
+    // stacked section inside the "All" tab.
+    function buildOverviewLevelSection(levelKey) {
+      const section = document.createElement('div');
+      section.className = 'overview-level-section';
+
+      const remaining = countOverviewRemaining(levelKey);
+      const counter = document.createElement('p');
+      counter.className = 'overview-counter';
+      counter.textContent = L.exercisesRemaining(remaining);
+      section.appendChild(counter);
+
+      section.appendChild(buildOverviewGrid(levelKey));
+
+      // Below the grid, like the classic exercise modals' own action button
+      // sits below their content. Hidden rather than disabled when the level
+      // is already fully green: per the site's convention elsewhere, an
+      // action with nothing left to do disappears instead of sitting there
+      // inert.
+      if (remaining > 0) {
+        const continueBtn = document.createElement('button');
+        continueBtn.type = 'button';
+        continueBtn.className = 'overview-continue-btn';
+        continueBtn.textContent = L.continueLevel;
+        continueBtn.addEventListener('click', () => {
+          const wasFullscreen = isCardFullscreen(overviewModal);
+          startRevisionMode(levelKey);
+          // See buildOverviewGrid's click handler and carryFullscreenTo for
+          // why the overview modal only closes once the swap has landed.
+          if (wasFullscreen) {
+            carryFullscreenTo(modalOverlay).then(closeOverviewModal);
+          } else {
+            closeOverviewModal();
+          }
+        });
+        section.appendChild(continueBtn);
+      }
+
+      return section;
+    }
+
+    function renderOverviewModal() {
+      overviewTabs.innerHTML = '';
+      overviewPanels.innerHTML = '';
+
+      OVERVIEW_LEVELS.forEach(levelKey => {
+        const tabBtn = document.createElement('button');
+        tabBtn.type = 'button';
+        tabBtn.className = 'toggle-button overview-tab';
+        tabBtn.textContent = getLevelLabel(levelKey);
+        tabBtn.dataset.level = levelKey;
+        if (levelKey === currentLevel) tabBtn.classList.add('active');
+        overviewTabs.appendChild(tabBtn);
+
+        const panel = document.createElement('div');
+        panel.className = 'overview-panel';
+        panel.dataset.level = levelKey;
+        if (levelKey === currentLevel) panel.classList.add('is-active');
+
+        panel.appendChild(buildOverviewLevelSection(levelKey));
+        overviewPanels.appendChild(panel);
+      });
+
+      // "All" shows every level stacked in one panel, each under its own
+      // heading — bare numbers alone would be ambiguous since every level
+      // restarts its own numbering at 1.
+      const allTabBtn = document.createElement('button');
+      allTabBtn.type = 'button';
+      allTabBtn.className = 'toggle-button overview-tab';
+      allTabBtn.textContent = L.overviewAllTab;
+      allTabBtn.dataset.level = 'all';
+      overviewTabs.appendChild(allTabBtn);
+
+      const allPanel = document.createElement('div');
+      allPanel.className = 'overview-panel';
+      allPanel.dataset.level = 'all';
+      OVERVIEW_LEVELS.forEach(levelKey => {
+        const heading = document.createElement('h3');
+        heading.className = 'overview-level-heading';
+        heading.textContent = getLevelLabel(levelKey);
+        allPanel.appendChild(heading);
+        allPanel.appendChild(buildOverviewLevelSection(levelKey));
+      });
+      overviewPanels.appendChild(allPanel);
+    }
+
+    function openOverviewModal() {
+      overviewModalTitle.textContent = L.chapterOverviewTitle;
+      renderOverviewModal();
+      overviewModal.classList.add('modal-open');
+    }
+
+    function closeOverviewModal() {
+      overviewModal.classList.remove('modal-open');
+    }
+
     function writeStoredAnswer(levelKey, exerciseId, subIndex, value) {
       try {
         const key = getAnswerStorageKey(levelKey, exerciseId, subIndex);
@@ -1222,10 +1550,23 @@
 
     function bindEvents() {
       levelButtonsContainer.addEventListener('click', event => {
-        const button = event.target.closest('button[data-level]');
-        if (!button) return;
-        const levelKey = button.dataset.level;
-        openModal(levelKey);
+        const levelBtn = event.target.closest('button[data-level]');
+        if (levelBtn) {
+          openModal(levelBtn.dataset.level);
+          return;
+        }
+        const overviewBtn = event.target.closest('button[data-action="chapter-overview"]');
+        if (overviewBtn) openOverviewModal();
+      });
+
+      overviewModalClose.addEventListener('click', closeOverviewModal);
+
+      overviewTabs.addEventListener('click', event => {
+        const tabBtn = event.target.closest('.overview-tab');
+        if (!tabBtn) return;
+        const levelKey = tabBtn.dataset.level;
+        overviewTabs.querySelectorAll('.overview-tab').forEach(b => b.classList.toggle('active', b === tabBtn));
+        overviewPanels.querySelectorAll('.overview-panel').forEach(p => p.classList.toggle('is-active', p.dataset.level === levelKey));
       });
 
       // Fermeture par la croix uniquement : un appui à côté de la modale est vite
@@ -1282,6 +1623,7 @@
          On appelle les fonctions de fermeture existantes plutôt que de retirer
          la classe, pour ne pas court-circuiter leur nettoyage. */
       const MODAL_CLOSERS = [
+        ['overview-modal', closeOverviewModal],
         ['exercise-modal', closeModal],
         ['interactive-modal', closeInteractiveModal],
         ['qcm-modal', closeQCMModal],
@@ -1312,9 +1654,13 @@
       });
 
       btnStatementEn.addEventListener('click', () => handleStatementMode('en'));
-      btnStatementFr.addEventListener('click', () => handleStatementMode('fr'));
+      btnStatementFr.addEventListener('click', () => {
+        if (!statementFrWrap.classList.contains('is-fr-locked')) handleStatementMode('fr');
+      });
       btnCorrectionEn.addEventListener('click', () => handleCorrectionMode('corr_en'));
-      btnCorrectionFr.addEventListener('click', () => handleCorrectionMode('corr_fr'));
+      btnCorrectionFr.addEventListener('click', () => {
+        if (!correctionFrWrap.classList.contains('is-fr-locked')) handleCorrectionMode('corr_fr');
+      });
 
       exercisesPagination.addEventListener('click', event => {
         const stepBtn = event.target.closest('.exercise-step');

@@ -33,6 +33,22 @@
       padding: 0 18px;
     }
 
+    /* Both action lists get an explicit 5-row template so their rows land at
+       identical heights even though #level-buttons only fills 4 of them: 3
+       level buttons, an empty row 4 as a deliberate gap, then the chapter
+       overview button in row 5 — lined up with "Sorting challenge", the 5th
+       and last button of #interactive-buttons next door. An empty explicit
+       row still reserves its height (unlike an empty implicit row), which is
+       what makes the gap work. */
+    #level-buttons,
+    #interactive-buttons {
+      grid-template-rows: repeat(5, minmax(4rem, auto));
+    }
+
+    #level-buttons [data-action='chapter-overview'] {
+      grid-row: 5;
+    }
+
     .interactive-card .coming-soon {
       display: grid;
       place-items: center;
@@ -108,7 +124,8 @@
     /* Exercise modal only: title row (subtitle left, title centered) then the
        language toggle below, instead of one cramped row. The close button is
        taken out of this flow entirely (absolute, anchored to the card corner). */
-    #exercise-modal .modal-header {
+    #exercise-modal .modal-header,
+    #overview-modal .modal-header {
       display: flex;
       flex-direction: column;
       align-items: stretch;
@@ -127,7 +144,8 @@
       text-align: center;
     }
 
-    #exercise-modal .modal-header-titles h2 {
+    #exercise-modal .modal-header-titles h2,
+    #overview-modal .modal-header-titles h2 {
       text-align: center;
     }
 
@@ -145,6 +163,7 @@
     }
 
     #exercise-modal .modal-close,
+    #overview-modal .modal-close,
     #dnd-modal .modal-close,
     #memory-modal .modal-close,
     #sorting-modal .modal-close,
@@ -222,6 +241,15 @@
        plafonne, la carte étant hors d'atteinte. */
     #exercise-modal .modal-card:fullscreen .modal-card-inner {
       max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Same reasoning, narrower cap: My progress isn't a reading pane, it's the
+       620px exercise grid — no reason to stretch the tab row and grid across
+       a full external monitor once the card itself is unconstrained. */
+    #overview-modal .modal-card:fullscreen .modal-card-inner {
+      max-width: 740px;
       margin: 0 auto;
       width: 100%;
     }
@@ -423,9 +451,63 @@
       z-index: 1;
     }
 
-    .toggle-button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
+    /* Wraps the FR toggle button while it's lock-countdown-disabled. The
+       button itself keeps its normal overflow:hidden (needed so .toggle-fill's
+       square corners stay clipped to the pill shape); the lock/tooltip state
+       and the ::after content instead live on this wrapper, which has no
+       overflow clipping of its own, so the tooltip isn't cut off. See
+       lockFrButtons in practice-engine.js, which toggles .is-fr-locked here
+       (not the native `disabled` attribute — that stops the button receiving
+       hover at all in Chrome/Firefox, silently killing the tooltip). */
+    .toggle-lock-wrap {
+      position: relative;
+      display: block;
+    }
+
+    .toggle-lock-wrap .toggle-button {
+      width: 100%;
+      height: 100%;
+    }
+
+    .toggle-lock-wrap.is-fr-locked .toggle-button {
+      cursor: help;
+      /* Dims via color, not `opacity`: element-level opacity on an ancestor
+         would also fade the ::after tooltip below (opacity applies to the
+         whole box, generated content included), leaving it washed out instead
+         of solid like .fitb-gloss's. */
+      color: var(--color-muted);
+    }
+
+    /* Same tooltip model as .fitb-gloss::after just above the FITB texts: the
+       FR lock now leaves the button's own label alone ("Question FR" stays put)
+       and explains itself on hover instead, in the chapter colour. Ungated by
+       data-pointer for the same reason as .fitb-gloss — it replaces the
+       cursor's forbidden icon, which was itself never touch/mouse-specific. */
+    .toggle-lock-wrap.is-fr-locked::after {
+      content: attr(data-lock-tooltip);
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%) translateY(6px);
+      background: var(--color-current);
+      color: var(--color-current-text, #ffffff);
+      font-family: var(--font-family, 'Poppins', sans-serif);
+      font-size: 0.85rem;
+      font-weight: 500;
+      line-height: 1.4;
+      white-space: nowrap;
+      padding: 6px 10px;
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(var(--color-current-rgb), 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 20;
+    }
+
+    .toggle-lock-wrap.is-fr-locked:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(10px);
     }
 
     .exercise-image {
@@ -596,6 +678,70 @@
       border-radius: 6px;
       box-shadow: 0 6px 14px rgba(224, 85, 95, 0.3);
       z-index: 2;
+    }
+
+    /* Replaces #exercises-pagination entirely while a revision session is
+       active (see renderRevisionBar in practice-engine.js) — same slot, a
+       clearly different bar so it can't be mistaken for normal browsing. */
+    .revision-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: 14px;
+      background: rgba(var(--color-current-rgb), 0.1);
+      border: 1px solid rgba(var(--color-current-rgb), 0.25);
+    }
+
+    .revision-bar-label {
+      font-weight: 700;
+      color: var(--color-current);
+    }
+
+    .revision-bar-progress {
+      color: var(--color-muted);
+      font-weight: 600;
+    }
+
+    .revision-bar-next,
+    .revision-bar-exit {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition), opacity var(--transition);
+    }
+
+    .revision-bar-next {
+      background: var(--color-current);
+      color: #ffffff;
+      margin-left: auto;
+    }
+
+    .revision-bar-next.is-done {
+      background: rgba(19, 36, 61, 0.15);
+      color: var(--color-muted);
+      cursor: default;
+    }
+
+    .revision-bar-exit {
+      background: var(--color-slate);
+      color: #ffffff;
+    }
+
+    html[data-pointer='fine'] .revision-bar-next:not(.is-done):hover,
+    html[data-pointer='fine'] .revision-bar-exit:hover {
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 640px) {
+      .revision-bar-next {
+        margin-left: 0;
+      }
     }
 
     @media (max-width: 640px) {
@@ -1126,6 +1272,158 @@
     #exercise-subquestion-nav .exercise-step.self-assess-3::after,
     #exercises-pagination .exercise-step.active.self-assess-3::after,
     #exercise-subquestion-nav .exercise-step.active.self-assess-3::after {
+      background: var(--color-emerald);
+    }
+
+    /* ===== Chapter overview modal =====
+       Tabs reuse the site's existing EN/FR toggle-pill pattern (.toggle-button),
+       just in a row of three instead of two. The exercise grid reuses
+       .exercise-step at its unscoped, un-overridden size — the same square,
+       10-per-row layout already used for the drag-and-drop/memory/sorting
+       pickers — enlarged a little further since browsing the whole chapter's
+       status is this screen's entire purpose. Unlike the pager dot
+       (.has-answer, shown only once attempted), every square here always
+       carries a dot: grey by default, recoloured once assessed — so a
+       never-attempted exercise stays visibly grey rather than blank. */
+    /* Enlarged over the modal-card default (min(100%, 620px)) and given the
+       same scrolling-body treatment as #exercise-modal: a 10-wide grid of
+       squares needs real width to show all 10 per row, and the "All" tab
+       stacks all three levels, easily taller than the screen. */
+    /* Sized to the 620px grid below (plus the card's own padding), not to the
+       1100px "large modal" cap: with the grid on a fixed 10-column track, a
+       wider card only left an empty gutter down the right side. */
+    #overview-modal .modal-card {
+      width: min(95vw, 740px);
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #overview-modal .modal-card-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #overview-modal .modal-body {
+      overflow-y: auto;
+      flex: 1;
+      padding: 0 25px 25px;
+    }
+
+    .overview-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .overview-panel {
+      display: none;
+    }
+
+    .overview-panel.is-active {
+      display: block;
+    }
+
+    .overview-counter {
+      margin: 0 0 16px;
+      font-weight: 600;
+      color: var(--color-text);
+      text-align: center;
+    }
+
+    /* Below the grid and centred, like the classic exercise modals' own
+       action button sits below their content rather than beside a counter.
+       Slate, not the chapter colour: like the visitor-mode and self-assess
+       buttons elsewhere, this is neutral chrome whose behaviour never changes
+       from one subject to another, so it shouldn't borrow the subject's own
+       accent colour. */
+    .overview-continue-btn {
+      display: block;
+      margin: 18px auto 0;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: var(--color-slate);
+      color: #ffffff;
+      cursor: pointer;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+
+    html[data-pointer='fine'] .overview-continue-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Stacked level sections inside the "All" tab. */
+    .overview-level-heading {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      color: var(--color-current);
+    }
+
+    .overview-level-section + .overview-level-heading {
+      margin-top: 28px;
+    }
+
+    /* A real 10-column grid rather than flex-wrap: with .exercise-step's own
+       base width (a calc tied to a 10px gap, meant for its default 100%-wide
+       container) wrapping at exactly 10 was fragile — any different gap value
+       throws that math off by a few pixels and an 11th item, or only 9, ends
+       up on the row. Grid columns guarantee exactly 10 per row regardless.
+       Capped narrower than the modal itself (max-width below) so the squares
+       stay a reasonable size instead of stretching to fill an 1100px modal. */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 8px;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .overview-grid .exercise-step {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      /* Reserves room below the number for the dot, so the two never overlap. */
+      padding-bottom: 13px;
+    }
+
+    .overview-grid .exercise-step::after {
+      content: '';
+      position: absolute;
+      bottom: 7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(19, 36, 61, 0.45);
+    }
+
+    .overview-grid .exercise-step.self-assess-1::after,
+    .overview-grid .exercise-step.self-assess-2::after,
+    .overview-grid .exercise-step.self-assess-3::after {
+      box-shadow: 0 0 0 2px #ffffff;
+    }
+
+    .overview-grid .exercise-step.self-assess-1::after {
+      background: var(--color-rose);
+    }
+
+    .overview-grid .exercise-step.self-assess-2::after {
+      background: #d99a2b;
+    }
+
+    .overview-grid .exercise-step.self-assess-3::after {
       background: var(--color-emerald);
     }
 

@@ -40,10 +40,11 @@
             <button type='button' class='resource-button' data-level='level1'>Level 1 💡</button>
             <button type='button' class='resource-button' data-level='level2'>Level 2 💡💡</button>
             <button type='button' class='resource-button' data-level='level3'>Level 3 💡💡💡</button>
+            <button type='button' class='resource-button' data-action='chapter-overview'>My progress</button>
           </div>
         </div>
         <div class='note-box' style='margin-top: 24px;'>
-          <p>Select a level to start practicing at your own pace.<br />You can click on any picture to open it full screen.</p>
+          <p>Select a level to start practicing at your own pace.<br />Click My progress to see how you're doing in each level.</p>
         </div>
       </article>
 
@@ -115,6 +116,25 @@
               <button type='button' class='student-answer-check' id='btn-check-answer'>Check my answer</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='modal-overlay' id='overview-modal'>
+    <div class='modal-card exercise-modal' role='dialog' aria-modal='true' aria-labelledby='overview-modal-title'>
+      <div class='modal-card-inner'>
+        <div class='modal-header'>
+          <button type='button' class='modal-fullscreen' id='overview-fullscreen' aria-label='Full screen'>⛶</button>
+          <div class='modal-header-titles'>
+            <h2 id='overview-modal-title'>My progress</h2>
+          </div>
+          <button type='button' class='modal-close' id='overview-modal-close' aria-label='Close'>×</button>
+        </div>
+
+        <div class='modal-body'>
+          <div class='overview-tabs' id='overview-tabs'></div>
+          <div id='overview-panels'></div>
         </div>
       </div>
     </div>
