@@ -1,0 +1,212 @@
+{
+  "categories": [
+    {
+      "id": "savoirs",
+      "title": "Savoirs",
+      "items": [
+        {
+          "id": "s1",
+          "isVocabulary": false,
+          "text": "Décrire un écosystème comme un ensemble d'êtres vivants en interrelation (biocénose) et en relation avec leur milieu de vie (biotope).",
+          "locations": [
+            "PART 1 : Définitions vidéo, synthèse textuelle et schéma de \"The ecosystem equation\"",
+            "PART 5 : Mission 12 du Défi Loup"
+          ],
+          "exercises": [
+            { "level": "level1", "id": 2 },
+            { "level": "level1", "id": 7 },
+            { "level": "level1", "id": 9 },
+            { "level": "level2", "id": 13 },
+            { "level": "level3", "id": 14 }
+          ]
+        },
+        {
+          "id": "s2",
+          "isVocabulary": false,
+          "text": "Décrire l'influence de la température, de l'ensoleillement et de l'humidité sur les vivants, à partir d'observations sur le terrain.",
+          "locations": [
+            "FIELD TRIP - Mission 1 : Analyse comparative des zones A et B",
+            "PART 1 : Summary \"Environmental Influence\""
+          ],
+          "exercises": [
+            { "level": "level1", "id": 18 },
+            { "level": "level2", "id": 4 },
+            { "level": "level2", "id": 16 },
+            { "level": "level3", "id": 12 }
+          ]
+        },
+        {
+          "id": "s3",
+          "isVocabulary": false,
+          "text": "Décrire la biodiversité comme la diversité des espèces vivant sur la Terre.",
+          "locations": [
+            "PART 3 : Analyse d'images (forêt vs ville/champ) et schémas explicatifs",
+            "PART 3 : Summary \"Biodiversity\""
+          ],
+          "exercises": [
+            { "level": "level1", "id": 14 },
+            { "level": "level1", "id": 17 },
+            { "level": "level2", "id": 6 },
+            { "level": "level3", "id": 10 }
+          ]
+        },
+        {
+          "id": "s4",
+          "isVocabulary": false,
+          "text": "Décrire les relations entre les vivants, à partir d'observations sur le terrain (dont la prédation, le parasitisme, la coopération et la compétition).",
+          "locations": [
+            "FIELD TRIP - Mission 2 : Rapport de découverte d'indices réels",
+            "PART 4 : Missions 10 et 11 et exercice 8"
+          ],
+          "exercises": [
+            { "level": "level1", "id": 10 },
+            { "level": "level1", "id": 12 },
+            { "level": "level1", "id": 16 },
+            { "level": "level1", "id": 20 },
+            { "level": "level2", "id": 7 },
+            { "level": "level2", "id": 8 },
+            { "level": "level2", "id": 9 },
+            { "level": "level2", "id": 10 },
+            { "level": "level2", "id": 12 },
+            { "level": "level2", "id": 17 },
+            { "level": "level2", "id": 18 },
+            { "level": "level2", "id": 19 },
+            { "level": "level3", "id": 5 },
+            { "level": "level3", "id": 18 }
+          ]
+        },
+        {
+          "id": "s5",
+          "isVocabulary": false,
+          "text": "Expliciter l'importance des décomposeurs lors de la décomposition des matières d'origine animale et végétale dans un écosystème.",
+          "locations": [
+            "FIELD TRIP - Mission 3 : Questionnement sur la litière et observation de la communauté du sol",
+            "PART 2 : Exercice 6 \"A World Without Decomposer\""
+          ],
+          "exercises": [
+            { "level": "level1", "id": 6 },
+            { "level": "level2", "id": 5 },
+            { "level": "level2", "id": 15 },
+            { "level": "level3", "id": 1 },
+            { "level": "level3", "id": 7 },
+            { "level": "level3", "id": 16 }
+          ]
+        },
+        {
+          "id": "s6",
+          "isVocabulary": false,
+          "text": "Décrire le cycle de la matière.",
+          "locations": [
+            "PART 2 : Schéma complet à compléter \"The Food Cycle\" (Matière organique vs minérale)",
+            "PART 5 : Mission 12 du Défi Loup"
+          ],
+          "exercises": [
+            { "level": "level1", "id": 13 },
+            { "level": "level1", "id": 15 },
+            { "level": "level2", "id": 14 },
+            { "level": "level3", "id": 17 }
+          ]
+        },
+        {
+          "id": "s7",
+          "isVocabulary": false,
+          "text": "Identifier le réseau trophique comme un ensemble de chaînes alimentaires présentant des maillons communs.",
+          "locations": [
+            "PART 2 : Définition théorique et comparaison de la stabilité Chaîne vs Réseau"
+          ],
+          "exercises": [
+            { "level": "level1", "id": 4 },
+            { "level": "level1", "id": 19 },
+            { "level": "level2", "id": 1 },
+            { "level": "level2", "id": 2 },
+            { "level": "level3", "id": 2 },
+            { "level": "level3", "id": 3 },
+            { "level": "level3", "id": 9 },
+            { "level": "level3", "id": 19 }
+          ]
+        },
+        {
+          "id": "s8-vocabulaire",
+          "isVocabulary": true,
+          "text": "Utiliser les termes : écosystème, biotope, biocénose, biodiversité, prédation, parasitisme, coopération, compétition, décomposeur, modèle scientifique, réseau trophique.",
+          "locations": [
+            "Documents globaux : tous ces termes sont intégrés dans les exercices et systématiquement fixés dans les encadrés Summary"
+          ],
+          "exercises": []
+        }
+      ]
+    },
+    {
+      "id": "savoirFaire",
+      "title": "Savoir-faire",
+      "items": [
+        {
+          "id": "sf1",
+          "isVocabulary": false,
+          "text": "S-F 8 : Relever des caractéristiques physiques d'un écosystème (données qualitatives et quantitatives) sur le terrain.",
+          "locations": [
+            "FIELD TRIP - Mission 1 : Utilisation des instruments de mesure (thermomètre, luxmètre, hygromètre) et complétion du tableau de données"
+          ],
+          "exercises": [
+            { "level": "level2", "id": 4 },
+            { "level": "level3", "id": 8 }
+          ]
+        },
+        {
+          "id": "sf2",
+          "isVocabulary": false,
+          "text": "S-F 11 : Repérer des relations entre les vivants sur le terrain.",
+          "locations": [
+            "FIELD TRIP - Mission 2 : Identification in situ des interactions (recherche sous les troncs, sur les feuilles)"
+          ],
+          "exercises": []
+        },
+        {
+          "id": "sf3",
+          "isVocabulary": false,
+          "text": "S-F 13 : Exploiter des informations pour expliquer les conséquences d'une variation du nombre d'individus et l'importance d'une biodiversité.",
+          "locations": [
+            "PART 2 : Question critique sur la maladie des lapins",
+            "PART 3 : French mission sur la sélection naturelle (Phalène du bouleau)",
+            "PART 5 : Missions 12 du Défi Loup"
+          ],
+          "exercises": [
+            { "level": "level2", "id": 11 },
+            { "level": "level2", "id": 20 },
+            { "level": "level3", "id": 4 },
+            { "level": "level3", "id": 6 },
+            { "level": "level3", "id": 11 },
+            { "level": "level3", "id": 15 },
+            { "level": "level3", "id": 20 }
+          ]
+        },
+        {
+          "id": "sf4",
+          "isVocabulary": false,
+          "text": "S-F 17 : Modéliser un réseau trophique.",
+          "locations": [
+            "PART 2 : Mission 7 (Construction active du modèle de la forêt belge sur grand format A3 à l'aide de cartes)"
+          ],
+          "exercises": []
+        }
+      ]
+    },
+    {
+      "id": "competence",
+      "title": "Compétence",
+      "items": [
+        {
+          "id": "c1",
+          "isVocabulary": false,
+          "text": "Pratiquer une démarche d'investigation pour décrire et expliquer les relations au sein d'un écosystème.",
+          "locations": [
+            "FIELD TRIP : l'entièreté du livret guide les élèves à travers une démarche scientifique complète sur le terrain (de la récolte de données à l'émission d'hypothèses)"
+          ],
+          "exercises": [
+            { "level": "level3", "id": 13 }
+          ]
+        }
+      ]
+    }
+  ]
+}

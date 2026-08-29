@@ -63,19 +63,8 @@
     ]
   },
   "ficheAutoEvaluation": {
-    "title": "Fiche autoévaluation",
-    "basePath": "PDF",
-    "items": [
-      {
-        "title": "Consignes",
-        "file": "FE consignes.pdf",
-        "description": "Téléchargez la fiche d’autoévaluation pour vérifier vos connaissances sur Bio 1. N'oubliez pas de lire les consignes pour travailler efficacement"
-      },
-      {
-        "title": "FE Bio 1 : Les écosystèmes",
-        "file": "FE bio1.pdf"
-      }
-    ]
+    "title": "Autoévaluation par attendus",
+    "description": "Fais le point sur ta maîtrise du chapitre, notion par notion, et découvre où concentrer tes révisions."
   },
   "mindmap": {
     "title": "Mindmap",

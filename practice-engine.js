@@ -3987,10 +3987,26 @@
       preloadImages(gameImageSources());
     }
 
+    // Lets another page (the fiche d'autoévaluation on resources.html, opened
+    // in a new tab so it doesn't have to navigate itself) link straight to
+    // one exercise instead of leaving the student to find it by hand.
+    // Silently does nothing when the params are absent, malformed, or point
+    // at a level/exercise that doesn't exist — a normal page load is
+    // unaffected either way.
+    function openFromDeepLink() {
+      const params = new URLSearchParams(location.search);
+      const levelKey = params.get('level');
+      const exerciseId = parseInt(params.get('exercise'), 10);
+      if (!levelKey || !practiceData[levelKey]) return;
+      if (!practiceData[levelKey].some(item => item.id === exerciseId)) return;
+      openModalAtExercise(levelKey, exerciseId);
+    }
+
     async function initPractice() {
       await loadPracticeData();
       bindEvents();
       initAnswerBox();
+      openFromDeepLink();
     }
 
     initPractice();

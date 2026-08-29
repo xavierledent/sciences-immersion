@@ -823,6 +823,18 @@ html[data-pointer='fine'] .section-card a:hover,
     position: relative;
   }
 
+  /* rich-text.js focuses the card itself on open (tabindex="-1") so screen
+     readers announce the dialog immediately — a real interaction, but not
+     one a sighted user needs a visible ring for. The browser's default
+     focus-visible heuristic still draws one here, most visibly right after
+     a fresh page load with no prior pointer activity on the page (e.g. the
+     autoeval fiche's exercise links, opened in a new tab and auto-focused
+     via the ?level=&exercise= deep link) — any concrete button/link inside
+     the dialog keeps its own :focus-visible style once actually tabbed to. */
+  .modal-card:focus-visible {
+    outline: none;
+  }
+
   .modal-card-inner {
     display: grid;
     gap: 18px;
@@ -897,6 +909,322 @@ html[data-pointer='fine'] .modal-close:hover,
   transform: translateY(-1px);
   outline: none;
   border-color: rgba(29, 179, 212, 0.3);
+}
+
+/* Mirror of .modal-close, opposite corner — same pattern as the practice
+   page's exercise modals (see practice-engine.css), ported here since this
+   page has no shared engine script to inherit it from. Generic rather than
+   scoped to #autoeval-modal: any future modal on a page without
+   practice-engine.js can reuse it as-is. */
+.modal-fullscreen {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  cursor: pointer;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(17, 36, 72, 0.12);
+  background: #ffffff;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 18px rgba(17, 36, 72, 0.12);
+}
+
+html[data-pointer='fine'] .modal-fullscreen:hover,
+.modal-fullscreen:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+  border-color: rgba(29, 179, 212, 0.3);
+}
+
+.modal-fullscreen.is-fullscreen {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: #ffffff;
+}
+
+/* The fiche has no subject colour of its own (#autoeval-modal sits outside
+   <main class="subject-*">, so --color-current isn't even in scope there) —
+   its own fixed amber identity instead. */
+#autoeval-modal .modal-fullscreen.is-fullscreen {
+  background: var(--autoeval-accent);
+  border-color: var(--autoeval-accent);
+}
+
+.modal-card:fullscreen {
+  border: none;
+  border-radius: 0;
+  background: var(--color-surface);
+}
+
+/* ===== Fiche d'autoévaluation (resources.html) =====
+   First modal on this page, so — unlike practice.html's own modals, which
+   share their open/close/scroll-lock wiring via practice-engine.js — its
+   open/close logic lives self-contained in resources-engine.js, mirroring
+   index.html's #chapter-modal (also a standalone page with no shared engine
+   script). Entirely French, deliberately: this is a school assessment
+   document, not immersion-track exercise content.
+
+   Colour palette matches the paper fiche (cream background, amber borders)
+   rather than the per-subject --color-current used everywhere else on the
+   site: this is one fixed document identity, deliberately the same whether
+   the chapter is bio, chem or physics — a fiche shouldn't change colour
+   depending on which subject's resources page it's opened from. */
+/* Matches the paper fiche's own colours (pale yellow border, cream
+   background) rather than an invented tone. Close in hue to
+   --color-chemistry (#D4A030, 41°) but far enough apart in lightness/
+   saturation (this pair sits much paler and brighter) to read as its own
+   colour rather than a borrowed chemistry accent — checked side by side
+   before committing to it. --autoeval-accent is a darkened version of the
+   same border hue, needed only where white text sits on it (chips, the
+   active tab): the border colour itself is too pale for that contrast. */
+:root {
+  --autoeval-bg: #fff9e6;
+  --autoeval-border: #f5d061;
+  --autoeval-accent: #cc8f00;
+  --autoeval-accent-dark: #a37200;
+  /* Same value as --autoeval-accent, as an r,g,b triplet — needed wherever a
+     tint of it is mixed with alpha (rgba()), same convention as
+     --color-current-rgb elsewhere on the site. */
+  --autoeval-accent-rgb: 204, 143, 0;
+}
+
+.autoeval-modal-card {
+  width: min(92vw, 760px);
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: left;
+}
+
+/* Same reasoning as the practice page's own fullscreen exercise modal: the
+   card itself is forced to fill the screen by the browser's UA stylesheet
+   (unavoidable, !important) — only the content inside can still be capped,
+   so the tabs/list don't stretch edge-to-edge on a big external monitor. */
+.autoeval-modal-card:fullscreen #autoeval-modal-title,
+.autoeval-modal-card:fullscreen .autoeval-tabs,
+.autoeval-modal-card:fullscreen .autoeval-modal-body,
+.autoeval-modal-card:fullscreen .autoeval-synthesis {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#autoeval-modal-title {
+  margin: 0 0 20px;
+  /* Symmetric now that there's a button in both top corners (fullscreen
+     left, close right) — matches each button's own footprint so the
+     centered text isn't pulled toward either side. */
+  padding: 0 50px;
+  text-align: center;
+  color: var(--autoeval-accent-dark);
+}
+
+/* Category tabs — same toggle-pill pattern as the Level 1/2/3 tabs on the
+   practice page's "My progress", just recoloured to the fiche's own amber
+   identity instead of the subject colour. Splitting into tabs (rather than
+   stacking all three categories) is the main fix for how long this modal
+   got once a whole chapter's worth of attendus was in it. */
+.autoeval-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 20px;
+}
+
+.autoeval-tab {
+  border: 1px solid var(--autoeval-border);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: var(--autoeval-bg);
+  color: var(--autoeval-accent-dark);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.autoeval-tab.active {
+  background: var(--autoeval-accent);
+  border-color: var(--autoeval-accent);
+  color: #ffffff;
+}
+
+.autoeval-panel {
+  display: none;
+}
+
+.autoeval-panel.is-active {
+  display: block;
+}
+
+.autoeval-item {
+  background: var(--autoeval-bg);
+  border: 1px solid var(--autoeval-border);
+  border-radius: 16px;
+  padding: 12px 16px;
+}
+
+.autoeval-item + .autoeval-item {
+  margin-top: 12px;
+}
+
+.autoeval-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Collapsed by default (see resources-engine.js): only this row shows —
+   statement + bulbs — the "emplacement dans le cours" and exercise links
+   unfold on click instead of always taking up their own vertical space. */
+.autoeval-item-toggle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.autoeval-item-chevron {
+  flex-shrink: 0;
+  color: var(--autoeval-accent-dark);
+  transition: transform var(--transition);
+}
+
+.autoeval-item-toggle[aria-expanded='true'] .autoeval-item-chevron {
+  transform: rotate(-180deg);
+}
+
+.autoeval-item-details {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--autoeval-border);
+}
+
+.autoeval-item-locations {
+  margin: 0 0 10px;
+  padding-left: 20px;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.autoeval-item-exercises {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.autoeval-ex-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 10px 6px 0;
+}
+
+.autoeval-ex-level {
+  color: var(--color-muted);
+}
+
+.autoeval-ex-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--autoeval-accent);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+html[data-pointer='fine'] .autoeval-ex-chip:hover {
+  background: var(--autoeval-accent-dark);
+}
+
+/* Star-rating: clicking bulb N lights 1..N (see resources-engine.js). Real
+   <button>s now, but keep the same 💡 glyph as the Level 1/2/3 buttons rather
+   than a new icon, so the rating reads as the same symbol students already
+   know from the practice page. */
+.autoeval-bulbs {
+  flex-shrink: 0;
+  display: flex;
+  gap: 4px;
+  font-size: 1.1rem;
+}
+
+.autoeval-bulb {
+  border: none;
+  background: none;
+  padding: 2px;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  filter: grayscale(1) opacity(0.35);
+  transition: filter var(--transition), transform var(--transition);
+}
+
+.autoeval-bulb.is-lit {
+  filter: none;
+}
+
+html[data-pointer='fine'] .autoeval-bulb:hover {
+  transform: scale(1.15);
+}
+
+/* Advice slot: outside .autoeval-item-details on purpose (see
+   createAutoEvalItem) — it's the direct payoff of rating an attendu, so it
+   shouldn't need the accordion opened to be seen. Empty (no .autoeval-advice
+   child) until a level is chosen, restored or fresh. */
+.autoeval-advice {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(var(--autoeval-accent-rgb), 0.14);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.autoeval-advice .autoeval-ex-chip {
+  vertical-align: middle;
+}
+
+/* Cross-category synthesis, recomputed on every bulb click (see
+   renderAutoevalSynthesis) — sits below the tabs/panels, in the same
+   scrolling card, empty (no children) whenever no rule matches. A stronger
+   fill than .autoeval-advice's since this is the fiche's one closing
+   judgement, not a per-attendu aside. */
+/* Now sits right under the tabs, before the category list — the fiche's
+   one closing judgement is worth seeing before scrolling through a
+   potentially long list of attendus, not just after. */
+.autoeval-synthesis:empty {
+  margin: 0;
+}
+
+.autoeval-synthesis-msg {
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--autoeval-bg);
+  border: 1px solid var(--autoeval-border);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.autoeval-synthesis-msg a {
+  color: var(--autoeval-accent-dark);
+  font-weight: 600;
 }
 
 .modal-grid {
