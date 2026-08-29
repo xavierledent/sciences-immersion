@@ -561,6 +561,17 @@ html[data-pointer='fine'] .section-card a:hover,
     border-radius: var(--radius);
     box-shadow: var(--color-shadow);
     padding: 22px 18px;
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  }
+
+  /* Same light lift as .section-card on vocabulary/resources — explorations
+     cards were missing it entirely. */
+  html[data-pointer='fine'] .explorations-card:hover,
+  .explorations-card:focus-visible {
+    transform: translateY(-3px);
+    border-color: rgba(29, 179, 212, 0.3);
+    outline: none;
+    box-shadow: 0 24px 50px rgba(17, 36, 72, 0.16);
   }
 
   .explorations-card h3 {
@@ -652,10 +663,16 @@ html[data-pointer='fine'] .section-card a:hover,
   }
 
   .resource-button-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin-top: 18px;
   }
 
   .resource-button {
+    -webkit-appearance: none;
+    appearance: none;
+    forced-color-adjust: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -663,15 +680,27 @@ html[data-pointer='fine'] .section-card a:hover,
     width: 100%;
     height: 3.5rem;
     gap: 8px;
+    margin: 0;
     color: var(--color-current-text);
     text-decoration: none;
     border: 1px solid rgba(17, 36, 72, 0.12);
     padding: 0 14px;
     border-radius: 16px;
     background: var(--color-current);
+    font-family: inherit;
     font-weight: 700;
     font-size: 0.9rem;
+    line-height: normal;
     transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+  }
+
+  /* .section-card a (line ~355) targets any link inside a .section-card —
+     including the resource-button links on resources.html — with a 999px
+     pill radius, and beats .resource-button on specificity alone. This wins
+     it back for just that case, without touching the <button> version of
+     .resource-button used on practice.html (Level 1/2/3, My progress). */
+  .section-card a.resource-button {
+    border-radius: 16px;
   }
 
   html[data-pointer='fine'] .resource-button:hover,
@@ -1212,14 +1241,22 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
   margin: 0;
 }
 
+/* Deliberately toneless — same amber for a "bravo" and a "tout est fragile"
+   verdict alike (no red/green stigma on a self-assessment) — but pulled out
+   of the item list below by a left rail, denser fill, larger text and a
+   floating shadow so it reads as the fiche's one closing judgement rather
+   than another item in the list. */
 .autoeval-synthesis-msg {
   margin: 0 0 20px;
-  padding: 14px 16px;
+  padding: 16px 18px;
   border-radius: 12px;
-  background: var(--autoeval-bg);
-  border: 1px solid var(--autoeval-border);
-  font-size: 0.9rem;
+  border: none;
+  border-left: 5px solid var(--autoeval-accent);
+  background: rgba(var(--autoeval-accent-rgb), 0.16);
+  font-size: 0.97rem;
   line-height: 1.55;
+  box-shadow: 0 16px 30px rgba(var(--autoeval-accent-rgb), 0.22), 0 2px 6px rgba(17, 36, 72, 0.08);
+  transform: translateY(-4px);
 }
 
 .autoeval-synthesis-msg a {

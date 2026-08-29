@@ -53,7 +53,8 @@
   },
   "ficheAutoEvaluation": {
     "title": "Fiche d'autoévaluation",
-    "basePath": "PDF",
+    "basePath": "../../../assets",
+    "pdfFile": "FE phys2.pdf",
     "items": [
       {
         "title": "Consignes",

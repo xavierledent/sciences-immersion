@@ -64,7 +64,8 @@
   },
   "ficheAutoEvaluation": {
     "title": "Fiche autoévaluation",
-    "basePath": "PDF",
+    "basePath": "../../../assets",
+    "pdfFile": "FE bio1.pdf",
     "items": [
       {
         "title": "Consignes",

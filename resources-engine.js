@@ -55,12 +55,21 @@
     return `<ul class="resource-list">${listItems}</ul>`;
   }
 
-  // The fiche itself now opens in the shared modal system instead of
-  // downloading a PDF — see autoeval.json / #autoeval-modal / initAutoEval.
+  // The fiche opens in the shared modal system (autoeval.json /
+  // #autoeval-modal / initAutoEval) via the "en ligne" link; the classic
+  // printable PDF stays available alongside it via data.pdfFile. Both are
+  // plain <a class="resource-button">, deliberately not a <button>: a real
+  // button's native OS chrome (Windows Fluent, etc.) can keep its own corner
+  // radius even with appearance:none, which read as a mismatch next to the
+  // PDF/mindmap links using the exact same class.
   function createAutoEvaluationContent(data) {
     if (!data) return '<p>Fiche indisponible.</p>';
     const descHtml = data.description ? `<p style="margin:0 0 14px">${richText(data.description)}</p>` : '';
-    return `${descHtml}<button type="button" class="resource-button" id="btn-open-autoeval">Autoévaluation</button>`;
+    const pdfUrl = data.pdfFile ? `${data.basePath || ''}/${encodeURIComponent(data.pdfFile)}` : '';
+    const pdfBtnHtml = pdfUrl
+      ? `<a class="resource-button" href="${pdfUrl}" target="_blank" rel="noopener">Fiche d'autoévaluation (PDF)</a>`
+      : '';
+    return `${descHtml}<div class="resource-button-row">${pdfBtnHtml}<a href="#" class="resource-button" id="btn-open-autoeval">Autoévaluation en ligne</a></div>`;
   }
 
   const AUTOEVAL_LEVEL_LABELS = { level1: 'Niveau 1', level2: 'Niveau 2', level3: 'Niveau 3' };
@@ -220,19 +229,22 @@
     allWeak: `Les trois catégories montrent encore des difficultés. Plutôt que de tout refaire seul, va demander de l'aide en classe et explique précisément ce qui bloque. ${AUTOEVAL_GREEN_HOUR_NUDGE}`,
     competenceCatchingUp: "Les Savoirs et le Savoir-faire sont bien maîtrisés : c'est tout à fait normal d'être encore en progression sur la Compétence à ce stade. Essaie les exercices d'intégration les plus avancés pour continuer à progresser.",
     theoryStrong: 'Bravo, la théorie de ce chapitre est bien maîtrisée ! Concentre-toi maintenant sur les exercices d\'application plutôt que sur une relecture des notions.',
-    knowledgeWeak: `Les bases théoriques semblent encore fragiles. Prends le temps de revoir les notions avant de continuer. ${AUTOEVAL_GREEN_HOUR_NUDGE}`,
-    skillsWeak: `Les compétences pratiques (terrain, manipulation, lecture de données...) semblent le point à travailler. Retravaille les activités pratiques plutôt que la théorie. ${AUTOEVAL_GREEN_HOUR_NUDGE}`,
+    knowledgeWeak: `Les bases théoriques semblent encore fragiles. Retourne au cours et aux fiches outils pour revoir les notions clés avant de continuer. ${AUTOEVAL_GREEN_HOUR_NUDGE}`,
+    skillsWeak: `Les compétences pratiques (terrain, manipulation, lecture de données...) semblent le point à travailler. Retravaille les exercices de niveau 2 et 3 plutôt que la théorie. ${AUTOEVAL_GREEN_HOUR_NUDGE}`,
     // The Compétence-alone-faible case, but without Savoirs+Savoir-faire
     // both solide (else competenceCatchingUp already caught it) — those two
     // aren't fully stable either, so the advice leads with them first.
     competenceWeakPartial: `Ta Compétence est encore fragile sur ce chapitre, et les Savoirs et le Savoir-faire ne sont pas encore complètement stabilisés non plus. Retravaille d'abord les notions et les exercices d'application, puis reviens vers les exercices d'intégration. ${AUTOEVAL_GREEN_HOUR_NUDGE}`,
-    twoWeak: (weakTitles) => `${weakTitles.join(' et ')} restent difficiles pour toi. Prends le temps de retravailler ces deux aspects avant de continuer. ${AUTOEVAL_GREEN_HOUR_NUDGE}`,
+    twoWeak: (weakTitles) => `${weakTitles.join(' et ')} restent difficiles pour toi. Reprends le cours et les fiches outils pour ces deux points, puis retente les exercices de niveau 1 pour vérifier que ça tient. ${AUTOEVAL_GREEN_HOUR_NUDGE}`,
     allStrong: 'Bravo, les trois catégories sont bien maîtrisées ! Tu es prêt·e pour ce chapitre — continue sur cette lancée.',
     // No category faible, none of the "one weak" specifics above fired
     // (so at least one is mixte) — two flavours: nothing at all solide yet,
     // or a mix of mixte and solide.
-    allMixed: "Ton niveau est irrégulier sur les trois catégories, sans point faible net. Continue à t'entraîner un peu partout pour consolider l'ensemble.",
-    mostlyGood: "Tu progresses bien ! Continue à t'entraîner sur les catégories qui ne sont pas encore complètement solides pour finir de tout consolider.",
+    allMixed: "Ton niveau est irrégulier sur les trois catégories, sans point faible net. Refais un tour des exercices de niveau 2 pour repérer précisément où ça coince.",
+    // mixteTitles always has 1 or 2 entries here (weakCount is 0 and
+    // solidCount is 1 or 2, so the rest — 2 or 1 categories — are mixte);
+    // .join(' et ') reads fine either way, same as twoWeak above.
+    mostlyGood: (mixteTitles) => `Tu progresses bien ! Concentre-toi sur ${mixteTitles.join(' et ')} pour finir de tout consolider.`,
     vocabulary: 'Le vocabulaire du chapitre n\'est pas encore bien maîtrisé : va consulter la <a href="./vocabulary.html" target="_blank" rel="noopener">section Vocabulaire</a> avant de refaire les exercices.'
   };
 
@@ -279,7 +291,10 @@
       } else if (weakCount === 0 && solidCount === 0) {
         mainMessage = AUTOEVAL_SYNTHESIS_TEXT.allMixed;
       } else if (weakCount === 0) {
-        mainMessage = AUTOEVAL_SYNTHESIS_TEXT.mostlyGood;
+        const mixteTitles = categories
+          .filter(category => statuses[category.id] === 'mixte')
+          .map(category => category.title);
+        mainMessage = AUTOEVAL_SYNTHESIS_TEXT.mostlyGood(mixteTitles);
       }
     }
 
@@ -374,7 +389,7 @@
       document.body.classList.remove('modal-is-open');
     }
 
-    openBtn.addEventListener('click', openModal);
+    openBtn.addEventListener('click', event => { event.preventDefault(); openModal(); });
     closeBtn.addEventListener('click', closeModal);
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && modal.classList.contains('modal-open')) closeModal();

@@ -59,7 +59,8 @@
   },
   "ficheAutoEvaluation": {
     "title": "Fiche d'autoévaluation",
-    "basePath": "PDF",
+    "basePath": "../../../assets",
+    "pdfFile": "FE bio2.pdf",
     "items": [
       {
         "title": "Consignes",
