@@ -50,7 +50,7 @@
     const listItems = items.map(item => {
       const fileUrl  = `${basePath || ''}/${encodeURIComponent(item.file || '')}`;
       const descHtml = item.description ? `<p>${richText(item.description)}</p>` : '';
-      return `<li><a href="${fileUrl}" target="_blank" rel="noopener">${richText(item.label || 'Document')}</a>${descHtml}</li>`;
+      return `<li><a href="${fileUrl}" target="_blank" rel="noopener" data-resource-type="fichesOutils">${richText(item.label || 'Document')}</a>${descHtml}</li>`;
     }).join('');
     return `<ul class="resource-list">${listItems}</ul>`;
   }
@@ -67,7 +67,7 @@
     const descHtml = data.description ? `<p style="margin:0 0 14px">${richText(data.description)}</p>` : '';
     const pdfUrl = data.pdfFile ? `${data.basePath || ''}/${encodeURIComponent(data.pdfFile)}` : '';
     const pdfBtnHtml = pdfUrl
-      ? `<a class="resource-button" href="${pdfUrl}" target="_blank" rel="noopener">Fiche d'autoévaluation (PDF)</a>`
+      ? `<a class="resource-button" href="${pdfUrl}" target="_blank" rel="noopener" data-resource-type="ficheAutoEvalPdf">Fiche d'autoévaluation (PDF)</a>`
       : '';
     return `${descHtml}<div class="resource-button-row">${pdfBtnHtml}<a href="#" class="resource-button" id="btn-open-autoeval">Autoévaluation en ligne</a></div>`;
   }
@@ -394,7 +394,11 @@
       document.body.classList.remove('modal-is-open');
     }
 
-    openBtn.addEventListener('click', event => { event.preventDefault(); openModal(); });
+    openBtn.addEventListener('click', event => {
+      event.preventDefault();
+      if (window.logEvent) window.logEvent('autoeval_opened', {});
+      openModal();
+    });
     closeBtn.addEventListener('click', closeModal);
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && modal.classList.contains('modal-open')) closeModal();
@@ -459,6 +463,11 @@
         if (level === null) clearAutoevalRating(itemId);
         else writeAutoevalRating(itemId, level);
 
+        if (window.logEvent) {
+          const categoryId = itemEl.closest('.autoeval-panel')?.dataset.category || null;
+          window.logEvent('autoeval_item_rated', { itemId, category: categoryId, rating: level });
+        }
+
         itemEl.querySelectorAll('.autoeval-bulb').forEach(b => {
           b.classList.toggle('is-lit', level !== null && parseInt(b.dataset.level, 10) <= level);
         });
@@ -488,7 +497,7 @@
       const label    = item.title || 'Modèle général';
       const rawDesc  = (item.description || '').replace('Téléchargez ce modèle', 'Télécharger ces modèles');
       const descHtml = rawDesc ? `<p style="margin:0 0 10px">${richText(rawDesc)}</p>` : '';
-      return `<div>${descHtml}<a class="resource-button" href="${fileUrl}" target="_blank" rel="noopener">${richText(label)}</a></div>`;
+      return `<div>${descHtml}<a class="resource-button" href="${fileUrl}" target="_blank" rel="noopener" data-resource-type="mindmap">${richText(label)}</a></div>`;
     }).join('');
     return `<div class="mindmap-section"><div style="display:flex;flex-direction:column;gap:12px">${blocks}</div></div>`;
   }
@@ -503,6 +512,22 @@
   async function loadResources() {
     grid = document.getElementById('resources-grid');
     if (!grid) return;
+
+    // One delegated listener for every fiches-outils/autoeval-PDF/mindmap
+    // link ever rendered into the grid, rather than one per link — they're
+    // plain <a target="_blank">, so this only logs; it never blocks the
+    // native navigation.
+    grid.addEventListener('click', event => {
+      const link = event.target.closest('a[data-resource-type]');
+      if (link && window.logEvent) {
+        window.logEvent('resource_link_opened', {
+          type: link.dataset.resourceType,
+          label: link.textContent.trim(),
+          file: link.getAttribute('href')
+        });
+      }
+    });
+
     try {
       // Cache-buster, comme practice-engine.js : GitHub Pages sert les fichiers
       // avec 10 minutes de durée de vie, et les élèves verraient sinon l'ancien

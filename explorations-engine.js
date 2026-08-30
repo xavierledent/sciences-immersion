@@ -17,6 +17,22 @@
       const docCard   = grid.querySelector('.doc-card');
       const linksCard = grid.querySelector('.links-card');
 
+      // One delegated listener for every documentation/lien-utile link ever
+      // rendered here, rather than one per link — plain <a target="_blank">,
+      // this only logs and never blocks the native navigation. Set up once
+      // per load rather than once per item; harmless if loadExplorations
+      // runs again (a fresh grid element replaces the old listener target).
+      grid.addEventListener('click', event => {
+        const link = event.target.closest('a[data-resource-type]');
+        if (link && window.logEvent) {
+          window.logEvent('exploration_link_opened', {
+            type: link.dataset.resourceType,
+            label: link.textContent.trim(),
+            url: link.getAttribute('href')
+          });
+        }
+      });
+
       docCard.querySelectorAll('.exp-cell').forEach(el => el.remove());
       linksCard.querySelectorAll('.exp-cell').forEach(el => el.remove());
 
@@ -32,7 +48,7 @@
         if (doc) {
           const href = `${data.documentation.basePath}/${encodeURIComponent(doc.file)}`;
           docCell.innerHTML = `
-            <a class="resource-button" href="${href}" target="_blank" rel="noopener">${richText(doc.title)}</a>
+            <a class="resource-button" href="${href}" target="_blank" rel="noopener" data-resource-type="documentation">${richText(doc.title)}</a>
             ${doc.description ? `<p>${richText(doc.description)}</p>` : ''}
           `;
         }
@@ -42,7 +58,7 @@
         linkCell.className = 'exp-cell';
         if (link) {
           linkCell.innerHTML = `
-            <a class="resource-button" href="${link.url}" target="_blank" rel="noopener">${richText(link.title)} <span class="exp-external-icon" aria-hidden="true">&#8599;</span></a>
+            <a class="resource-button" href="${link.url}" target="_blank" rel="noopener" data-resource-type="lien">${richText(link.title)} <span class="exp-external-icon" aria-hidden="true">&#8599;</span></a>
             ${link.description ? `<p>${richText(link.description)}</p>` : ''}
           `;
         }

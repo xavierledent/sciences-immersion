@@ -982,6 +982,15 @@
             writeSelfAssess(currentLevel, currentExercise, currentSubQuestion, level);
           }
 
+          if (window.logEvent) {
+            window.logEvent('self_assess_rated', {
+              level: currentLevel,
+              exerciseId: currentExercise,
+              subQuestion: currentSubQuestion,
+              rating: wasSelected ? null : level
+            });
+          }
+
           selfAssessBlock.querySelectorAll('.self-assess-btn').forEach(b => {
             b.classList.toggle('is-selected', !wasSelected && b === btn);
           });
@@ -1175,6 +1184,7 @@
       revisionActive = true;
       revisionLevel = levelKey;
       revisionTotal = queue.length;
+      if (window.logEvent) window.logEvent('revision_mode_started', { level: levelKey, queueLength: queue.length });
       openModalAtExercise(levelKey, queue[0]);
     }
 
@@ -1542,6 +1552,16 @@
           } else {
             // Never gated on having written something: an empty box must still
             // reach the correction rather than block the student.
+            if (window.logEvent) {
+              const answerText = (answerInput.value || '').trim();
+              window.logEvent('answer_checked', {
+                level: currentLevel,
+                exerciseId: currentExercise,
+                subQuestion: currentSubQuestion,
+                hasAnswer: answerText.length > 0,
+                answerLength: answerText.length
+              });
+            }
             handleCorrectionMode('corr_en');
           }
         });
@@ -1653,13 +1673,17 @@
         }
       });
 
-      btnStatementEn.addEventListener('click', () => handleStatementMode('en'));
+      function logLanguageToggle(view) {
+        if (window.logEvent) window.logEvent('statement_language_toggled', { level: currentLevel, exerciseId: currentExercise, subQuestion: currentSubQuestion, view: view });
+      }
+
+      btnStatementEn.addEventListener('click', () => { logLanguageToggle('en'); handleStatementMode('en'); });
       btnStatementFr.addEventListener('click', () => {
-        if (!statementFrWrap.classList.contains('is-fr-locked')) handleStatementMode('fr');
+        if (!statementFrWrap.classList.contains('is-fr-locked')) { logLanguageToggle('fr'); handleStatementMode('fr'); }
       });
-      btnCorrectionEn.addEventListener('click', () => handleCorrectionMode('corr_en'));
+      btnCorrectionEn.addEventListener('click', () => { logLanguageToggle('corr_en'); handleCorrectionMode('corr_en'); });
       btnCorrectionFr.addEventListener('click', () => {
-        if (!correctionFrWrap.classList.contains('is-fr-locked')) handleCorrectionMode('corr_fr');
+        if (!correctionFrWrap.classList.contains('is-fr-locked')) { logLanguageToggle('corr_fr'); handleCorrectionMode('corr_fr'); }
       });
 
       exercisesPagination.addEventListener('click', event => {
@@ -1931,6 +1955,9 @@
           const isNewRecord = !previousBest || qcmScore > previousBest.score;
           if (isNewRecord) saveQcmBestScore(quizData, qcmScore, totalQuestions);
           qcmScoreScreenInfo = { isNewRecord, best: isNewRecord ? { score: qcmScore, total: totalQuestions } : previousBest };
+          if (window.logEvent) {
+            window.logEvent('qcm_quiz_completed', { quizTitle: quizData.quizTitle, score: qcmScore, total: totalQuestions });
+          }
         }
         const rank = getQcmRank(qcmScore, totalQuestions);
         let bestHtml = '';
@@ -2036,11 +2063,19 @@
         actionBtn.addEventListener('click', () => {
           if (qcmSelectedOptionIndex === null) return;
           qcmIsChecked = true;
-          if (qcmSelectedOptionIndex === questionData.correctAnswer) {
+          const correct = qcmSelectedOptionIndex === questionData.correctAnswer;
+          if (correct) {
             qcmScore++;
             qcmStreak++;
           } else {
             qcmStreak = 0;
+          }
+          if (window.logEvent) {
+            window.logEvent('qcm_answer_checked', {
+              quizTitle: quizData.quizTitle,
+              questionIndex: qcmCurrentQuestionIndex,
+              correct: correct
+            });
           }
           renderQCM(quizData);
         });
@@ -2171,6 +2206,9 @@
       const previousBest = getFitbBestMistakes(exerciseData);
       const isNewRecord = previousBest === null || fitbMistakeCount < previousBest;
       if (isNewRecord) saveFitbBestMistakes(exerciseData, fitbMistakeCount);
+      if (window.logEvent) {
+        window.logEvent('fitb_completed', { quizTitle: exerciseData.quizTitle, mistakes: fitbMistakeCount });
+      }
 
       const rank = getFitbRank(fitbMistakeCount);
       const note = isNewRecord
@@ -2878,6 +2916,10 @@
         const isNewTimeRecord = previousBestTime === null || finalSeconds < previousBestTime;
         if (isNewTimeRecord) saveDndBestStat(exercise, 'time', finalSeconds);
 
+        if (window.logEvent) {
+          window.logEvent('dnd_completed', { quizTitle: exercise.quizTitle, mistakes: dndMistakeCount, timeSeconds: finalSeconds });
+        }
+
         const rank = getDndRank(dndMistakeCount);
         const mistakesNote = isNewMistakesRecord
           ? `🎉 ${L.newBestMistakes}`
@@ -3310,6 +3352,10 @@
             const previousBestTime = getMemoryBestStat(exercise, 'time');
             const isNewTimeRecord = previousBestTime === null || finalSeconds < previousBestTime;
             if (isNewTimeRecord) saveMemoryBestStat(exercise, 'time', finalSeconds);
+
+            if (window.logEvent) {
+              window.logEvent('memory_completed', { quizTitle: exercise.quizTitle, moves: memoryMoveCount, timeSeconds: finalSeconds });
+            }
 
             const movesNote = isNewMovesRecord
               ? `🎉 ${L.newBestMoves}`
@@ -3758,6 +3804,9 @@
           const previousBest = getSortingBestMistakes(exercise);
           const isNewRecord = previousBest === null || sortingMistakeCount < previousBest;
           if (isNewRecord) saveSortingBestMistakes(exercise, sortingMistakeCount);
+          if (window.logEvent) {
+            window.logEvent('sorting_completed', { quizTitle: exercise.quizTitle, mistakes: sortingMistakeCount });
+          }
           const note = isNewRecord
             ? `🎉 ${L.newBestMistakes}`
             : (previousBest !== null ? L.bestMistakes(previousBest) : '');

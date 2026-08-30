@@ -52,6 +52,23 @@
     ? new URL('assets/Friends.jpg', document.currentScript.src).href
     : '';
 
+  /* Ni l'un ni l'autre écran ne s'affiche forcément en premier : un visiteur
+     déjà en mode "visiteur" peut atterrir directement sur showBlockedMessage()
+     sans jamais passer par showAccessScreen(), et inversement. Sans
+     préchargement, l'image du <img> ne commençait à charger qu'au moment où
+     cet écran précis s'affichait — d'où le temps de latence visible signalé.
+     En précommandant les deux dès l'exécution du script (avant même de savoir
+     lequel des deux écrans sera montré), l'image est déjà en cache le temps
+     que le DOM de l'écran soit construit. */
+  [LIMITED_ACCESS_IMAGE, CONNECT_IMAGE].forEach(function (href) {
+    if (!href) return;
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = href;
+    document.head.appendChild(link);
+  });
+
   /* Couleurs et rayons recopiés depuis style.css plutôt que lus via
      var(--...) : ce script s'exécute avant que la feuille de style n'ait eu
      le temps de charger, les variables CSS n'existeraient pas encore à ce

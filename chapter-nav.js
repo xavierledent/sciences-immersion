@@ -49,6 +49,14 @@
       link.textContent = section.label;
       container.appendChild(link);
 
+      // Vocabulary has no self-assessment of its own (just flashcards) — this
+      // is the only signal available for "does this student ever go there".
+      if (section.file === 'vocabulary.html') {
+        link.addEventListener('click', () => {
+          if (window.logEvent) window.logEvent('vocabulary_section_opened', {});
+        });
+      }
+
       // Si cette section n'existe pas encore dans ce chapitre (ex: année 2 / NL
       // en cours de construction), retire le bouton plutôt que laisser un lien mort.
       // link.href est déjà l'URL absolue résolue, donc deux chapitres différents
