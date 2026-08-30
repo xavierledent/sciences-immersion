@@ -13,11 +13,26 @@
             "PART 5 : Mission 12 du Défi Loup"
           ],
           "exercises": [
-            { "level": "level1", "id": 2 },
-            { "level": "level1", "id": 7 },
-            { "level": "level1", "id": 9 },
-            { "level": "level2", "id": 13 },
-            { "level": "level3", "id": 14 }
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level1",
+              "id": 7
+            },
+            {
+              "level": "level1",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 14
+            }
           ]
         },
         {
@@ -29,10 +44,22 @@
             "PART 1 : Summary \"Environmental Influence\""
           ],
           "exercises": [
-            { "level": "level1", "id": 18 },
-            { "level": "level2", "id": 4 },
-            { "level": "level2", "id": 16 },
-            { "level": "level3", "id": 12 }
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 12
+            }
           ]
         },
         {
@@ -44,10 +71,22 @@
             "PART 3 : Summary \"Biodiversity\""
           ],
           "exercises": [
-            { "level": "level1", "id": 14 },
-            { "level": "level1", "id": 17 },
-            { "level": "level2", "id": 6 },
-            { "level": "level3", "id": 10 }
+            {
+              "level": "level1",
+              "id": 14
+            },
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 10
+            }
           ]
         },
         {
@@ -59,20 +98,62 @@
             "PART 4 : Missions 10 et 11 et exercice 8"
           ],
           "exercises": [
-            { "level": "level1", "id": 10 },
-            { "level": "level1", "id": 12 },
-            { "level": "level1", "id": 16 },
-            { "level": "level1", "id": 20 },
-            { "level": "level2", "id": 7 },
-            { "level": "level2", "id": 8 },
-            { "level": "level2", "id": 9 },
-            { "level": "level2", "id": 10 },
-            { "level": "level2", "id": 12 },
-            { "level": "level2", "id": 17 },
-            { "level": "level2", "id": 18 },
-            { "level": "level2", "id": 19 },
-            { "level": "level3", "id": 5 },
-            { "level": "level3", "id": 18 }
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level1",
+              "id": 12
+            },
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 12
+            },
+            {
+              "level": "level2",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level2",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 18
+            }
           ]
         },
         {
@@ -84,12 +165,30 @@
             "PART 2 : Exercice 6 \"A World Without Decomposer\""
           ],
           "exercises": [
-            { "level": "level1", "id": 6 },
-            { "level": "level2", "id": 5 },
-            { "level": "level2", "id": 15 },
-            { "level": "level3", "id": 1 },
-            { "level": "level3", "id": 7 },
-            { "level": "level3", "id": 16 }
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 16
+            }
           ]
         },
         {
@@ -101,10 +200,22 @@
             "PART 5 : Mission 12 du Défi Loup"
           ],
           "exercises": [
-            { "level": "level1", "id": 13 },
-            { "level": "level1", "id": 15 },
-            { "level": "level2", "id": 14 },
-            { "level": "level3", "id": 17 }
+            {
+              "level": "level1",
+              "id": 13
+            },
+            {
+              "level": "level1",
+              "id": 15
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 17
+            }
           ]
         },
         {
@@ -115,14 +226,38 @@
             "PART 2 : Définition théorique et comparaison de la stabilité Chaîne vs Réseau"
           ],
           "exercises": [
-            { "level": "level1", "id": 4 },
-            { "level": "level1", "id": 19 },
-            { "level": "level2", "id": 1 },
-            { "level": "level2", "id": 2 },
-            { "level": "level3", "id": 2 },
-            { "level": "level3", "id": 3 },
-            { "level": "level3", "id": 9 },
-            { "level": "level3", "id": 19 }
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level1",
+              "id": 19
+            },
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
           ]
         },
         {
@@ -148,8 +283,14 @@
             "FIELD TRIP - Mission 1 : Utilisation des instruments de mesure (thermomètre, luxmètre, hygromètre) et complétion du tableau de données"
           ],
           "exercises": [
-            { "level": "level2", "id": 4 },
-            { "level": "level3", "id": 8 }
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 8
+            }
           ]
         },
         {
@@ -171,13 +312,34 @@
             "PART 5 : Missions 12 du Défi Loup"
           ],
           "exercises": [
-            { "level": "level2", "id": 11 },
-            { "level": "level2", "id": 20 },
-            { "level": "level3", "id": 4 },
-            { "level": "level3", "id": 6 },
-            { "level": "level3", "id": 11 },
-            { "level": "level3", "id": 15 },
-            { "level": "level3", "id": 20 }
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
           ]
         },
         {
@@ -203,7 +365,10 @@
             "FIELD TRIP : l'entièreté du livret guide les élèves à travers une démarche scientifique complète sur le terrain (de la récolte de données à l'émission d'hypothèses)"
           ],
           "exercises": [
-            { "level": "level3", "id": 13 }
+            {
+              "level": "level3",
+              "id": 13
+            }
           ]
         }
       ]

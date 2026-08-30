@@ -58,20 +58,10 @@
     ]
   },
   "ficheAutoEvaluation": {
-    "title": "Fiche d'autoévaluation",
+    "title": "Autoévaluation par attendus",
+    "description": "Fais le point sur ta maîtrise du chapitre, notion par notion, et découvre où concentrer tes révisions.",
     "basePath": "../../../assets",
-    "pdfFile": "FE bio2.pdf",
-    "items": [
-      {
-        "title": "Consignes",
-        "file": "FE consignes.pdf",
-        "description": "Téléchargez la fiche d’autoévaluation pour vérifier vos connaissances sur Bio 2. N'oubliez pas de lire les consignes pour travailler efficacement"
-      },
-      {
-        "title": "FE Bio 2 : La reproduction humaine",
-        "file": "FE bio2.pdf"
-      }
-    ]
+    "pdfFile": "FE bio2.pdf"
   },
   "mindmap": {
     "title": "Modèle de Mindmap",

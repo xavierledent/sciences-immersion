@@ -1022,11 +1022,24 @@ html[data-pointer='fine'] .modal-fullscreen:hover,
   --autoeval-accent-rgb: 204, 143, 0;
 }
 
+/* Flex column with only .autoeval-modal-body (the attendu list) scrolling —
+   same pattern as #overview-modal on practice.html. Previously the whole
+   card scrolled as one block, so scrolling through a category's attendus
+   also scrolled the category tabs and verdict out of view; now they stay
+   put and only the list underneath moves. */
 .autoeval-modal-card {
   width: min(92vw, 760px);
   max-height: 90vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   text-align: left;
+}
+
+.autoeval-modal-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 /* Same reasoning as the practice page's own fullscreen exercise modal: the
@@ -1163,6 +1176,11 @@ html[data-pointer='fine'] .modal-fullscreen:hover,
   color: var(--color-muted);
 }
 
+/* Rounded square, like #exercises-pagination .exercise-step on
+   practice.html (same radius-to-size ratio, scaled down for an inline
+   chip) — not a pill. The pill shape is already overloaded site-wide (tabs,
+   nav buttons, badges); a square reads unambiguously as "this points to a
+   specific numbered exercise", the same meaning it carries on Practice. */
 .autoeval-ex-chip {
   display: inline-flex;
   align-items: center;
@@ -1170,7 +1188,7 @@ html[data-pointer='fine'] .modal-fullscreen:hover,
   min-width: 22px;
   height: 22px;
   padding: 0 6px;
-  border-radius: 999px;
+  border-radius: 6px;
   background: var(--autoeval-accent);
   color: #ffffff;
   font-weight: 700;
@@ -1243,24 +1261,34 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
 
 /* Deliberately toneless — same amber for a "bravo" and a "tout est fragile"
    verdict alike (no red/green stigma on a self-assessment) — but pulled out
-   of the item list below by a left rail, denser fill, larger text and a
-   floating shadow so it reads as the fiche's one closing judgement rather
-   than another item in the list. */
+   of the item list below by a solid fill (not a tint on the same cream as
+   everything else) and a kicker label, so it reads as the fiche's one
+   closing judgement rather than another item in the list. Justified so the
+   block reads as one dense, deliberate paragraph rather than a ragged one. */
 .autoeval-synthesis-msg {
-  margin: 0 0 20px;
+  margin: 0 0 24px;
   padding: 16px 18px;
   border-radius: 12px;
-  border: none;
-  border-left: 5px solid var(--autoeval-accent);
-  background: rgba(var(--autoeval-accent-rgb), 0.16);
+  background: var(--autoeval-accent);
+  color: #ffffff;
   font-size: 0.97rem;
   line-height: 1.55;
-  box-shadow: 0 16px 30px rgba(var(--autoeval-accent-rgb), 0.22), 0 2px 6px rgba(17, 36, 72, 0.08);
-  transform: translateY(-4px);
+  text-align: justify;
+  text-align-last: left;
+}
+
+.autoeval-synthesis-kicker {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .autoeval-synthesis-msg a {
-  color: var(--autoeval-accent-dark);
+  color: #ffffff;
   font-weight: 600;
 }
 

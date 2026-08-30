@@ -1326,6 +1326,17 @@
       padding: 0 25px 25px;
     }
 
+    /* Sibling of .modal-body now (previously its first child) so it stays
+       fixed above the scrolling panel list instead of scrolling away with
+       it — same fix already applied to the autoeval fiche's own tabs.
+       flex-shrink:0 keeps it from being squeezed by #overview-modal's flex
+       column, and the horizontal padding replaces what .modal-body used to
+       provide before this moved outside of it. */
+    #overview-modal .overview-tabs {
+      padding: 0 25px;
+      flex-shrink: 0;
+    }
+
     .overview-tabs {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));

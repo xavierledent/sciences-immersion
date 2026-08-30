@@ -52,20 +52,10 @@
     ]
   },
   "ficheAutoEvaluation": {
-    "title": "Fiche d'autoévaluation",
+    "title": "Autoévaluation par attendus",
+    "description": "Fais le point sur ta maîtrise du chapitre, notion par notion, et découvre où concentrer tes révisions.",
     "basePath": "../../../assets",
-    "pdfFile": "FE phys2.pdf",
-    "items": [
-      {
-        "title": "Consignes",
-        "file": "FE consignes.pdf",
-        "description": "Téléchargez la fiche d’autoévaluation pour vérifier vos connaissances sur Bio 1. N'oubliez pas de lire les consignes pour travailler efficacement"
-      },
-      {
-        "title": "FE physique 2 : Changements d'état",
-        "file": "FE phys2.pdf"
-      }
-    ]
+    "pdfFile": "FE phys2.pdf"
   },
   "mindmap": {
     "title": "Modèle de Mindmap",

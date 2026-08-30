@@ -316,7 +316,12 @@
     const container = document.getElementById('autoeval-modal-synthesis');
     if (!container) return;
     const { mainMessage, vocabMessage } = computeAutoevalSynthesis(autoevalCategoriesCache);
-    const blocks = [mainMessage, vocabMessage].filter(Boolean).map(text => `<p class="autoeval-synthesis-msg">${text}</p>`);
+    const blocks = [
+      mainMessage ? ['Bilan du chapitre', mainMessage] : null,
+      vocabMessage ? ['Vocabulaire', vocabMessage] : null
+    ].filter(Boolean).map(([kicker, text]) =>
+      `<p class="autoeval-synthesis-msg"><span class="autoeval-synthesis-kicker">${kicker}</span>${text}</p>`
+    );
     container.innerHTML = blocks.join('');
   }
 

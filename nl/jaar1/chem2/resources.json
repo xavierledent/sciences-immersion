@@ -52,20 +52,10 @@
     ]
   },
   "ficheAutoEvaluation": {
-    "title": "Fiche d'autoévaluation",
+    "title": "Autoévaluation par attendus",
+    "description": "Fais le point sur ta maîtrise du chapitre, notion par notion, et découvre où concentrer tes révisions.",
     "basePath": "../../../assets",
-    "pdfFile": "FE chimie2.pdf",
-    "items": [
-      {
-        "title": "Consignes",
-        "file": "FE consignes.pdf",
-        "description": "Téléchargez la fiche d’autoévaluation pour vérifier vos connaissances sur Chimie 2. N'oubliez pas de lire les consignes pour travailler efficacement"
-      },
-      {
-        "title": "FE chimie 2 : Mélanges et corps purs",
-        "file": "FE chimie2.pdf"
-      }
-    ]
+    "pdfFile": "FE chimie2.pdf"
   },
   "mindmap": {
     "title": "Modèle de Mindmap",
