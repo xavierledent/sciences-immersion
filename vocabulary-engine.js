@@ -43,10 +43,20 @@ let listenCount = 0;
 let sessionEnded = false;
 let lastFlushThreshold = 0;
 
+// Fixed once per page load, so every snapshot sent during this visit
+// (mode-switch reshuffles, the 20-card safety flush, repeated
+// visibilitychange on tab-switch, the final pagehide) carries the same id —
+// letting downstream logs tell "another snapshot of this visit" apart from
+// "a new visit", and sum activity across visits without double-counting.
+const sessionId = (window.crypto && crypto.randomUUID)
+  ? crypto.randomUUID()
+  : Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+
 function sendSessionSnapshot(eventName) {
   if (!window.logEventBeacon) return;
   if (viewedCardIndices.size === 0 && flipCount === 0 && listenCount === 0) return;
   window.logEventBeacon(eventName, {
+    sessionId,
     nbCartesVues: viewedCardIndices.size,
     nbCartesTotal: cards.length,
     nbRetournees: flipCount,
