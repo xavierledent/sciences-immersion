@@ -53,4 +53,36 @@
       // Never let a tracking bug surface to the student.
     }
   };
+
+  // Same payload shape as logEvent, but for events fired as the page is
+  // being hidden/closed (pagehide, visibilitychange): a fetch() there can be
+  // aborted mid-flight, while sendBeacon() is designed to keep running after
+  // the page is gone. Falls back to a keepalive fetch on the rare browser
+  // without sendBeacon support (or if it rejects the payload, e.g. over its
+  // ~64KB queue limit).
+  window.logEventBeacon = function (eventName, data) {
+    try {
+      const email = getStudentEmail();
+      if (!email) return;
+      const payload = {
+        token: TRACKING_TOKEN,
+        email: email,
+        page: location.pathname,
+        event: eventName,
+        data: data || {}
+      };
+      const body = JSON.stringify(payload);
+      const sent = navigator.sendBeacon && navigator.sendBeacon(TRACKING_URL, body);
+      if (!sent) {
+        fetch(TRACKING_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          keepalive: true,
+          body: body
+        }).catch(function () {});
+      }
+    } catch (e) {
+      // Never let a tracking bug surface to the student.
+    }
+  };
 })();

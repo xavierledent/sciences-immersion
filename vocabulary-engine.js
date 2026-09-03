@@ -34,6 +34,42 @@ let currentCardIndex = 0;
 let cards = [];
 let vocabularyData = [];
 
+// Session-level counters for the vocabulary_session_ended log (see
+// sendSessionSnapshot below) — distinct from currentCardIndex/cards, which
+// only describe the current pack, not the whole session across mode changes.
+const viewedCardIndices = new Set();
+let flipCount = 0;
+let listenCount = 0;
+let sessionEnded = false;
+let lastFlushThreshold = 0;
+
+function sendSessionSnapshot(eventName) {
+  if (!window.logEventBeacon) return;
+  if (viewedCardIndices.size === 0 && flipCount === 0 && listenCount === 0) return;
+  window.logEventBeacon(eventName, {
+    nbCartesVues: viewedCardIndices.size,
+    nbCartesTotal: cards.length,
+    nbRetournees: flipCount,
+    nbEcoutes: listenCount
+  });
+}
+
+// pagehide fires reliably on tab close/navigation (unlike the deprecated
+// beforeunload/unload, which also break the back-forward cache); visibility
+// change is a backup for cases like switching apps on a Chromebook, where
+// pagehide doesn't always fire — it doesn't mark the session over since the
+// student may come back to the same tab.
+window.addEventListener('pagehide', () => {
+  if (sessionEnded) return;
+  sessionEnded = true;
+  sendSessionSnapshot('vocabulary_session_ended');
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (sessionEnded || document.visibilityState !== 'hidden') return;
+  sendSessionSnapshot('vocabulary_session_ended');
+});
+
 function shuffleArray(array) {
   const cloned = array.slice();
   for (let i = cloned.length - 1; i > 0; i--) {
@@ -55,11 +91,16 @@ function getCardSides(item, mode) {
 }
 
 function initializeCards(mode) {
-  const shuffledVocabulary = shuffleArray(vocabularyData);
-  cards = shuffledVocabulary.map((item, index) => {
+  // Shuffle a list of indices into vocabularyData, rather than the items
+  // themselves: vocabId then always identifies the same word, even after a
+  // mode change reshuffles the pack and would otherwise hand out the same
+  // 0..n-1 slots to different words (see viewedCardIndices below).
+  const order = shuffleArray(vocabularyData.map((_, i) => i));
+  cards = order.map(vocabId => {
+    const item = vocabularyData[vocabId];
     const sides = getCardSides(item, mode);
     return {
-      index,
+      vocabId,
       english: item.english,
       french: item.french,
       definitionEnglish: item.definitionEnglish || item.definition || '',
@@ -109,13 +150,18 @@ function renderCurrentCard() {
   if (window.speechSynthesis) window.speechSynthesis.cancel();
 
   const card = cards[currentCardIndex];
+  viewedCardIndices.add(card.vocabId);
+  if (viewedCardIndices.size >= lastFlushThreshold + 20) {
+    lastFlushThreshold = Math.floor(viewedCardIndices.size / 20) * 20;
+    sendSessionSnapshot('vocabulary_session_ended');
+  }
   const frontDefinition = card.frontLanguage === 'english' ? card.definitionEnglish : card.definitionFrench;
   const backDefinition = card.backLanguage === 'english' ? card.definitionEnglish : card.definitionFrench;
   container.innerHTML = '';
 
   const article = document.createElement('article');
   article.className = 'flashcard';
-  article.dataset.index = card.index;
+  article.dataset.index = card.vocabId;
   article.setAttribute('tabindex', '0');
   article.setAttribute('role', 'button');
   article.setAttribute('aria-pressed', 'false');
@@ -161,6 +207,7 @@ function renderCurrentCard() {
     card.isFlipped = !card.isFlipped;
     article.classList.toggle('is-flipped', card.isFlipped);
     article.setAttribute('aria-pressed', card.isFlipped.toString());
+    flipCount++;
   }
 
   article.addEventListener('click', event => {
@@ -178,6 +225,7 @@ function renderCurrentCard() {
   article.querySelectorAll('.flashcard-listen-btn').forEach(button => {
     button.addEventListener('click', event => {
       event.stopPropagation();
+      listenCount++;
       speakWord(card.english);
     });
   });
