@@ -61,6 +61,10 @@
         newPersonalBest: '🎉 New personal best!',
         checkAnswer: 'Check Answer',
         nextQuestion: 'Next Question',
+        qcmResumeTitle: 'Quiz paused',
+        qcmResumeSubtitle: (q, total) => `You stopped at question ${q} of ${total}.`,
+        qcmResumeBtn: 'Continue',
+        qcmRestartBtn: 'Start over',
 
         rankGold: 'Gold',
         rankSilver: 'Silver',
@@ -146,6 +150,10 @@
         newPersonalBest: '🎉 Nieuw persoonlijk record!',
         checkAnswer: 'Antwoord controleren',
         nextQuestion: 'Volgende vraag',
+        qcmResumeTitle: 'Quiz gepauzeerd',
+        qcmResumeSubtitle: (q, total) => `Je stopte bij vraag ${q} van ${total}.`,
+        qcmResumeBtn: 'Doorgaan',
+        qcmRestartBtn: 'Opnieuw beginnen',
 
         rankGold: 'Goud',
         rankSilver: 'Zilver',
@@ -261,6 +269,40 @@
 
     function saveQcmBestScore(quizData, score, total) {
       try { localStorage.setItem(getQcmStorageKey(quizData), JSON.stringify({ score, total })); } catch (e) {}
+    }
+
+    // Mid-quiz checkpoint (index/score/streak only — not the individual answers
+    // given) so a reload can offer to resume rather than always restarting at
+    // question 1. Distinct key/lifecycle from qcmBestScore above: this one is
+    // cleared as soon as the quiz is completed, that one never is.
+    function getQcmProgressKey(quizData) {
+      return 'qcmProgress::' + location.pathname + '::' + (quizData.quizTitle || 'quiz');
+    }
+
+    function getQcmProgress(quizData) {
+      try {
+        const raw = localStorage.getItem(getQcmProgressKey(quizData));
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed.questionIndex !== 'number' || parsed.questionIndex <= 0) return null;
+        // Guards against a quiz edited (fewer questions) since the checkpoint was saved.
+        if (!quizData.questions || parsed.questionIndex >= quizData.questions.length) return null;
+        return parsed;
+      } catch (e) { return null; }
+    }
+
+    function saveQcmProgress(quizData) {
+      try {
+        localStorage.setItem(getQcmProgressKey(quizData), JSON.stringify({
+          questionIndex: qcmCurrentQuestionIndex,
+          score: qcmScore,
+          streak: qcmStreak
+        }));
+      } catch (e) {}
+    }
+
+    function clearQcmProgress(quizData) {
+      try { localStorage.removeItem(getQcmProgressKey(quizData)); } catch (e) {}
     }
 
     function getQcmRank(score, total) {
@@ -1951,6 +1993,7 @@
       if (qcmCurrentQuestionIndex >= totalQuestions) {
         if (!qcmScoreSaved) {
           qcmScoreSaved = true;
+          clearQcmProgress(quizData);
           const previousBest = getQcmBestScore(quizData);
           const isNewRecord = !previousBest || qcmScore > previousBest.score;
           if (isNewRecord) saveQcmBestScore(quizData, qcmScore, totalQuestions);
@@ -2084,6 +2127,7 @@
           qcmCurrentQuestionIndex++;
           qcmSelectedOptionIndex = null;
           qcmIsChecked = false;
+          if (qcmCurrentQuestionIndex < totalQuestions) saveQcmProgress(quizData);
           renderQCM(quizData);
         });
       }
@@ -2162,7 +2206,45 @@
         q.correctAnswer = ordered.findIndex(p => p.correct);
       });
 
-      renderQCM(exercise);
+      const savedProgress = getQcmProgress(exercise);
+      if (savedProgress) {
+        renderQcmResumePrompt(exercise, savedProgress);
+      } else {
+        renderQCM(exercise);
+      }
+    }
+
+    // Shown instead of question 1 when a checkpoint (see saveQcmProgress) exists
+    // for this quiz — lets the student choose rather than silently resuming
+    // (the quiz content may have changed) or silently discarding their progress.
+    function renderQcmResumePrompt(quizData, savedProgress) {
+      const qcmContent = document.getElementById('qcm-content');
+      const qcmModalCard = document.querySelector('.qcm-modal-card');
+      if (qcmModalCard) qcmModalCard.classList.remove('qcm-has-image');
+      const totalQuestions = quizData.questions.length;
+
+      qcmContent.innerHTML = `
+        <div class="qcm-score-screen">
+          <h3>${L.qcmResumeTitle}</h3>
+          <p>${L.qcmResumeSubtitle(savedProgress.questionIndex + 1, totalQuestions)}</p>
+          <div class="qcm-resume-actions">
+            <button id="qcm-resume-btn" class="qcm-choice-btn">${L.qcmResumeBtn}</button>
+            <button id="qcm-restart-btn" class="qcm-choice-btn">${L.qcmRestartBtn}</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('qcm-resume-btn').addEventListener('click', () => {
+        qcmCurrentQuestionIndex = savedProgress.questionIndex;
+        qcmScore = savedProgress.score;
+        qcmStreak = savedProgress.streak;
+        renderQCM(quizData);
+      });
+
+      document.getElementById('qcm-restart-btn').addEventListener('click', () => {
+        clearQcmProgress(quizData);
+        renderQCM(quizData);
+      });
     }
 
     // Fill in the Blanks: mistakes accumulated across attempts for the current text.

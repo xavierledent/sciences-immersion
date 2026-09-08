@@ -1876,6 +1876,36 @@
       color: var(--color-current-dark);
       font-weight: 700;
     }
+    .qcm-resume-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    /* Both resume-prompt buttons share one style, on purpose — neither reads as
+       the "default active" choice, since resuming isn't always what the
+       student wants and shouldn't look pre-selected. */
+    .qcm-choice-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      border: 2px solid var(--color-current);
+      background: #ffffff;
+      color: var(--color-current-dark);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, transform 0.15s;
+    }
+    .qcm-choice-btn:active {
+      background: var(--color-current);
+      color: var(--color-current-text, #ffffff);
+    }
+    html[data-pointer='fine'] .qcm-choice-btn:hover {
+      background: var(--color-current);
+      color: var(--color-current-text, #ffffff);
+      transform: translateY(-2px);
+    }
 
     /* QCM Large Modal */
     .qcm-large-modal-overlay {
