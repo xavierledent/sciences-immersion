@@ -1,18 +1,548 @@
 {
-  "exercisesPage": {
-    "title": "Practice and Training",
-    "leftCard": {
-      "title": "Exercises",
-      "level1": "Level 1",
-      "level2": "Level 2",
-      "level3": "Level 3"
+  "level1": [
+    {
+      "id": 1,
+      "title": "Define raw material",
+      "image": null,
+      "en": "Define \"raw material\" in your own words.",
+      "fr": "Définis \"matière première\" avec tes propres mots.",
+      "corr_en": "A raw material is a substance taken directly from nature, used to make objects.",
+      "corr_fr": "Une matière première est une substance prélevée directement dans la nature, utilisée pour fabriquer des objets."
     },
-    "rightCard": {
-      "title": "Interactive exercises",
-      "status": "Coming soon..."
+    {
+      "id": 2,
+      "title": "Soil vs subsoil diagram",
+      "image": "N1 - 2.png",
+      "en": "Look at the diagram. Which number corresponds to the soil?",
+      "fr": "Observe le schéma. Quel numéro correspond au sol ?",
+      "corr_en": "Number 1 — it is the thin upper layer, full of life and organic matter.",
+      "corr_fr": "Le numéro 1 — c'est la fine couche supérieure, pleine de vie et de matière organique."
+    },
+    {
+      "id": 3,
+      "title": "Subsoil living things",
+      "image": null,
+      "en": "True or False: the subsoil contains living things and organic matter.",
+      "fr": "Vrai ou Faux : le sous-sol contient des êtres vivants et de la matière organique.",
+      "corr_en": "False — the subsoil is made only of rocks, minerals and sometimes water.",
+      "corr_fr": "Faux — le sous-sol n'est fait que de roches, de minéraux et parfois d'eau."
+    },
+    {
+      "id": 4,
+      "title": "Mineral vs rock diagram",
+      "image": "N1 - 4.png",
+      "en": "Look at the diagram. Which one, the mineral or the rock, is made of only one pure substance?",
+      "fr": "Observe le schéma. Lequel, le minéral ou la roche, est fait d'une seule substance pure ?",
+      "corr_en": "The mineral is made of one pure substance.",
+      "corr_fr": "Le minéral est fait d'une seule substance pure."
+    },
+    {
+      "id": 5,
+      "title": "Define mineral",
+      "image": null,
+      "en": "Define \"mineral\".",
+      "fr": "Définis \"minéral\".",
+      "corr_en": "A mineral is a pure natural substance with a specific crystal structure, like quartz or gold.",
+      "corr_fr": "Un minéral est une substance naturelle pure ayant une structure cristalline précise, comme le quartz ou l'or."
+    },
+    {
+      "id": 6,
+      "title": "Marble staircase",
+      "image": "N1 - 6.png",
+      "en": "Which rock is shown being used for this staircase?",
+      "fr": "Quelle roche est utilisée pour cet escalier ?",
+      "corr_en": "Marble.",
+      "corr_fr": "Le marbre."
+    },
+    {
+      "id": 7,
+      "title": "Define biodegradable",
+      "image": null,
+      "en": "Define \"biodegradable\".",
+      "fr": "Définis \"biodégradable\".",
+      "corr_en": "A material is biodegradable when decomposers can break it down naturally and fairly quickly.",
+      "corr_fr": "Un matériau est biodégradable quand des décomposeurs peuvent le dégrader naturellement et assez rapidement."
+    },
+    {
+      "id": 8,
+      "title": "Copper wire malleability",
+      "image": "N1 - 8.png",
+      "en": "This copper has been shaped into a thin wire. Which metal property does this show?",
+      "fr": "Ce cuivre a été façonné en fil fin. Quelle propriété du métal cela montre-t-il ?",
+      "corr_en": "Malleability.",
+      "corr_fr": "La malléabilité."
+    },
+    {
+      "id": 9,
+      "title": "Metals pure in nature",
+      "image": null,
+      "en": "True or False: metals are usually found pure in nature, like small bricks.",
+      "fr": "Vrai ou Faux : les métaux se trouvent généralement purs dans la nature, comme de petites briques.",
+      "corr_en": "False — metals are extracted from ores, rocks containing the metal mixed with other minerals.",
+      "corr_fr": "Faux — les métaux sont extraits de minerais, des roches contenant le métal mélangé à d'autres minéraux."
+    },
+    {
+      "id": 10,
+      "title": "Magnet paperclips",
+      "image": "N1 - 10.png",
+      "en": "Look at the picture. What metal property is being demonstrated?",
+      "fr": "Observe l'image. Quelle propriété du métal est démontrée ?",
+      "corr_en": "Magnetism.",
+      "corr_fr": "Le magnétisme."
+    },
+    {
+      "id": 11,
+      "title": "Define non-renewable resource",
+      "image": null,
+      "en": "Define \"non-renewable resource\".",
+      "fr": "Définis \"ressource non-renouvelable\".",
+      "corr_en": "A resource that exists in limited quantities and takes millions of years to form.",
+      "corr_fr": "Une ressource qui existe en quantité limitée et met des millions d'années à se former."
+    },
+    {
+      "id": 12,
+      "title": "Copper luster",
+      "image": "N1 - 12.png",
+      "en": "The copper in the picture looks shiny when polished. What is this property called?",
+      "fr": "Le cuivre de l'image brille quand il est poli. Comment appelle-t-on cette propriété ?",
+      "corr_en": "Luster.",
+      "corr_fr": "L'éclat."
+    },
+    {
+      "id": 13,
+      "title": "Fossil fuel example",
+      "image": null,
+      "en": "Give one example of a fossil fuel.",
+      "fr": "Donne un exemple de combustible fossile.",
+      "corr_en": "Coal (or oil, or natural gas).",
+      "corr_fr": "Le charbon (ou le pétrole, ou le gaz naturel)."
+    },
+    {
+      "id": 14,
+      "title": "Lifecycle first step",
+      "image": "N1 - 14.png",
+      "en": "Look at the lifecycle diagram. Which step comes first?",
+      "fr": "Observe le schéma du cycle de vie. Quelle étape vient en premier ?",
+      "corr_en": "Raw material extraction.",
+      "corr_fr": "L'extraction des matières premières."
+    },
+    {
+      "id": 15,
+      "title": "Define recycling",
+      "image": null,
+      "en": "Define \"recycling\".",
+      "fr": "Définis \"recyclage\".",
+      "corr_en": "Recycling means collecting used materials and processing them to make new objects.",
+      "corr_fr": "Recycler signifie collecter des matériaux usagés et les transformer pour fabriquer de nouveaux objets."
+    },
+    {
+      "id": 16,
+      "title": "Banana peel decomposition",
+      "image": "N1 - 16.png",
+      "en": "According to the data table, how long does a banana peel take to decompose?",
+      "fr": "Selon le tableau de données, combien de temps met une pelure de banane à se décomposer ?",
+      "corr_en": "About 2 to 6 weeks.",
+      "corr_fr": "Environ 2 à 6 semaines."
+    },
+    {
+      "id": 17,
+      "title": "Glass biodegradable",
+      "image": null,
+      "en": "True or False: glass is biodegradable.",
+      "fr": "Vrai ou Faux : le verre est biodégradable.",
+      "corr_en": "False — glass is non-biodegradable and stays in nature for a very long time.",
+      "corr_fr": "Faux — le verre n'est pas biodégradable et reste dans la nature très longtemps."
+    },
+    {
+      "id": 18,
+      "title": "Soda can metal",
+      "image": "N1 - 18.png",
+      "en": "What metal are these soda cans made of?",
+      "fr": "En quel métal sont faites ces canettes ?",
+      "corr_en": "Aluminum.",
+      "corr_fr": "L'aluminium."
+    },
+    {
+      "id": 19,
+      "title": "Organic resource example",
+      "image": null,
+      "en": "Give one example of an organic resource.",
+      "fr": "Donne un exemple de ressource organique.",
+      "corr_en": "Wood (or cotton, leather, wool, silk).",
+      "corr_fr": "Le bois (ou le coton, le cuir, la laine, la soie)."
+    },
+    {
+      "id": 20,
+      "title": "Smartphone metal",
+      "image": "N1 - 20.png",
+      "en": "Smartphones contain many raw materials. Name one metal found inside them.",
+      "fr": "Les smartphones contiennent beaucoup de matières premières. Nomme un métal qu'on y trouve.",
+      "corr_en": "Copper (or gold, or lithium).",
+      "corr_fr": "Le cuivre (ou l'or, ou le lithium)."
     }
-  },
-  "level1": [],
-  "level2": [],
-  "level3": []
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Soil vs subsoil explained",
+      "image": null,
+      "en": "Explain the main difference between soil and subsoil.",
+      "fr": "Explique la différence principale entre le sol et le sous-sol.",
+      "corr_en": "Soil contains living things and organic matter (humus) near the surface, while subsoil underneath is made only of solid rocks and minerals, with no life.",
+      "corr_fr": "Le sol contient des êtres vivants et de la matière organique (humus) près de la surface, alors que le sous-sol en dessous n'est fait que de roches et de minéraux solides, sans vie."
+    },
+    {
+      "id": 2,
+      "title": "Forest vs playground soil",
+      "image": "N2 - 2.png",
+      "en": "Based on the table, compare the composition of a forest soil sample and a playground sand sample.",
+      "fr": "D'après le tableau, compare la composition d'un échantillon de sol de forêt et d'un échantillon de sable de cour de récréation.",
+      "corr_en": "The forest sample has more living things and organic matter, while the playground sample is mostly mineral matter (sand and gravel) with little life.",
+      "corr_fr": "L'échantillon de forêt contient plus d'êtres vivants et de matière organique, alors que l'échantillon de la cour est surtout de la matière minérale (sable, gravier) avec peu de vie."
+    },
+    {
+      "id": 3,
+      "title": "Banana peel vs plastic bottle",
+      "image": null,
+      "en": "Explain why a banana peel decomposes in a few weeks but a plastic bottle does not.",
+      "fr": "Explique pourquoi une pelure de banane se décompose en quelques semaines alors qu'une bouteille en plastique ne se décompose pas.",
+      "corr_en": "The banana peel is organic plant matter that decomposers can break down easily, while the plastic bottle is made from oil transformed into a non-biodegradable material that decomposers cannot digest.",
+      "corr_fr": "La pelure de banane est de la matière végétale organique que les décomposeurs peuvent facilement dégrader, alors que la bouteille en plastique est faite de pétrole transformé en un matériau non biodégradable que les décomposeurs ne peuvent pas digérer."
+    },
+    {
+      "id": 4,
+      "title": "Identify rocks scientifically",
+      "image": "N2 - 4.png",
+      "en": "Two rock samples look identical. Explain how scientists can be 100% sure of what they are looking at.",
+      "fr": "Deux échantillons de roches se ressemblent. Explique comment les scientifiques peuvent être sûrs à 100 % de ce qu'ils observent.",
+      "corr_en": "Visual observation can be misleading, so scientists use chemical or physical tests (like testing for conductivity, hardness, or crystal structure) to confirm the exact composition.",
+      "corr_fr": "L'observation visuelle peut tromper, donc les scientifiques utilisent des tests chimiques ou physiques (conductivité, dureté, structure cristalline) pour confirmer la composition exacte."
+    },
+    {
+      "id": 5,
+      "title": "Copper for electrical wires",
+      "image": null,
+      "en": "Explain why copper is used for electrical wires instead of wood.",
+      "fr": "Explique pourquoi le cuivre est utilisé pour les fils électriques plutôt que le bois.",
+      "corr_en": "Copper is a metal with high electrical conductivity, letting electricity pass through easily, while wood does not conduct electricity.",
+      "corr_fr": "Le cuivre est un métal à haute conductivité électrique, laissant passer facilement l'électricité, alors que le bois ne conduit pas l'électricité."
+    },
+    {
+      "id": 6,
+      "title": "Identify metal from data",
+      "image": "N2 - 6.png",
+      "en": "Based on the data table, identify the metal (iron, copper, or aluminum) and justify your answer.",
+      "fr": "D'après le tableau de données, identifie le métal (fer, cuivre ou aluminium) et justifie ta réponse.",
+      "corr_en": "It is iron, because it is magnetic, shiny and conducts electricity — only iron among these three metals is attracted to a magnet.",
+      "corr_fr": "C'est du fer, car il est magnétique, brillant et conduit l'électricité — parmi ces trois métaux, seul le fer est attiré par un aimant."
+    },
+    {
+      "id": 7,
+      "title": "Rock vs mineral composition",
+      "image": null,
+      "en": "Compare a rock and a mineral in terms of composition.",
+      "fr": "Compare une roche et un minéral au niveau de leur composition.",
+      "corr_en": "A mineral is a single pure substance with a fixed structure, while a rock is a mixture of several different minerals bound together.",
+      "corr_fr": "Un minéral est une substance pure unique avec une structure fixe, alors qu'une roche est un mélange de plusieurs minéraux différents liés ensemble."
+    },
+    {
+      "id": 8,
+      "title": "Limestone vs granite use",
+      "image": "N2 - 8.png",
+      "en": "Explain the difference between using limestone \"as is\" to build a pyramid and transforming granite into a polished countertop.",
+      "fr": "Explique la différence entre utiliser le calcaire \"tel quel\" pour construire une pyramide et transformer le granite en un plan de travail poli.",
+      "corr_en": "Limestone blocks are used directly as extracted, keeping their natural form for building; granite instead is cut, shaped and polished by humans into a smooth, refined surface before being used as a countertop.",
+      "corr_fr": "Les blocs de calcaire sont utilisés directement tels qu'extraits, gardant leur forme naturelle pour la construction ; le granite, lui, est découpé, façonné et poli par l'humain pour obtenir une surface lisse et raffinée avant d'être utilisé comme plan de travail."
+    },
+    {
+      "id": 9,
+      "title": "Non-renewable resource explained",
+      "image": null,
+      "en": "Explain what makes a resource \"non-renewable\".",
+      "fr": "Explique ce qui rend une ressource \"non-renouvelable\".",
+      "corr_en": "A resource is non-renewable when it forms so slowly, over millions of years, that human use empties the available quantity faster than nature can replace it.",
+      "corr_fr": "Une ressource est non-renouvelable quand elle se forme si lentement, sur des millions d'années, que l'utilisation humaine épuise la quantité disponible plus vite que la nature ne peut la remplacer."
+    },
+    {
+      "id": 10,
+      "title": "Graphite for pencils",
+      "image": "N2 - 10.png",
+      "en": "Explain why graphite is used to make pencils, based on one of its properties.",
+      "fr": "Explique pourquoi le graphite est utilisé pour fabriquer des crayons, en te basant sur une de ses propriétés.",
+      "corr_en": "Graphite is a soft, dark mineral that leaves marks easily when rubbed on paper, which makes it useful for writing.",
+      "corr_fr": "Le graphite est un minéral tendre et sombre qui laisse facilement des traces quand on le frotte sur du papier, ce qui le rend utile pour écrire."
+    },
+    {
+      "id": 11,
+      "title": "Humus and compost link",
+      "image": null,
+      "en": "Explain the connection between humus and compost.",
+      "fr": "Explique le lien entre l'humus et le compost.",
+      "corr_en": "Both are dark, stable substances produced when decomposers break down organic waste; compost is basically humus made on purpose from kitchen and garden waste.",
+      "corr_fr": "Les deux sont des substances sombres et stables produites quand des décomposeurs dégradent des déchets organiques ; le compost est en fait de l'humus fabriqué volontairement à partir de déchets de cuisine et de jardin."
+    },
+    {
+      "id": 12,
+      "title": "Lifecycle double arrows",
+      "image": "N2 - 12.png",
+      "en": "Explain why the arrows on the lifecycle diagram are double (⇄) and not single (→), and what this shows about our relationship with Planet Earth.",
+      "fr": "Explique pourquoi les flèches du schéma du cycle de vie sont doubles (⇄) et non simples (→), et ce que cela montre sur notre relation avec la planète Terre.",
+      "corr_en": "The double arrows show that materials and waste can move in both directions — for example, recycled waste goes back to become a raw material again, closing the loop. This shows that our relationship with Earth should be balanced and reciprocal: instead of only taking resources, humans must also give back through recycling, rather than treating the planet as an endless one-way source.",
+      "corr_fr": "Les flèches doubles montrent que les matières et les déchets peuvent circuler dans les deux sens — par exemple, les déchets recyclés redeviennent des matières premières, bouclant le cycle. Cela montre que notre relation avec la Terre doit être équilibrée et réciproque : au lieu de seulement prendre des ressources, l'humain doit aussi rendre quelque chose via le recyclage, plutôt que de traiter la planète comme une source sans fin à sens unique."
+    },
+    {
+      "id": 13,
+      "title": "Newspaper vs plastic bottle",
+      "image": null,
+      "en": "Compare the decomposition time of a paper newspaper and a plastic water bottle, and explain the difference using their raw material origin.",
+      "fr": "Compare le temps de décomposition d'un journal en papier et d'une bouteille d'eau en plastique, et explique la différence en te basant sur leur matière première d'origine.",
+      "corr_en": "A paper newspaper, made from wood fibers, decomposes in 2 to 5 months, while a plastic bottle, made from oil transformed into plastic, takes about 450 years — because paper comes from a renewable organic resource that decomposers can digest, while plastic is a heavily transformed, non-biodegradable material.",
+      "corr_fr": "Un journal en papier, fait de fibres de bois, se décompose en 2 à 5 mois, alors qu'une bouteille en plastique, faite de pétrole transformé en plastique, met environ 450 ans — car le papier provient d'une ressource organique renouvelable que les décomposeurs peuvent digérer, alors que le plastique est un matériau fortement transformé et non biodégradable."
+    },
+    {
+      "id": 14,
+      "title": "Soda can lifecycle order",
+      "image": "N2 - 14.png",
+      "en": "Two steps of a soda can's lifecycle are shown out of order: \"trucks deliver cans to shops\" and \"machines dig up bauxite ore\". Put them in the correct order and justify.",
+      "fr": "Deux étapes du cycle de vie d'une canette sont présentées dans le désordre : \"des camions livrent les canettes aux magasins\" et \"des machines extraient le minerai de bauxite\". Remets-les dans l'ordre et justifie.",
+      "corr_en": "The ore must be extracted first, because it is the raw material; only afterward can it be processed into cans that are then delivered to shops.",
+      "corr_fr": "Le minerai doit d'abord être extrait, car c'est la matière première ; ce n'est qu'ensuite qu'il peut être transformé en canettes, livrées ensuite aux magasins."
+    },
+    {
+      "id": 15,
+      "title": "Metal and glass durability",
+      "image": null,
+      "en": "Explain why metal and glass, though non-biodegradable, are considered \"durable\".",
+      "fr": "Explique pourquoi le métal et le verre, bien que non biodégradables, sont considérés comme \"durables\".",
+      "corr_en": "They do not decompose, but they can be melted down and recycled indefinitely without losing quality, so they can be reused many times instead of being wasted.",
+      "corr_fr": "Ils ne se décomposent pas, mais peuvent être fondus et recyclés indéfiniment sans perdre en qualité, donc ils peuvent être réutilisés de nombreuses fois au lieu d'être gaspillés."
+    },
+    {
+      "id": 16,
+      "title": "Smartphone multiple mines",
+      "image": "N2 - 16.png",
+      "en": "Explain why manufacturing a single smartphone requires resources from many different mines.",
+      "fr": "Explique pourquoi la fabrication d'un seul smartphone nécessite des ressources provenant de nombreuses mines différentes.",
+      "corr_en": "A smartphone is built from over 60 different materials — lithium for the battery, copper and gold for circuits, silicon for the screen — and each comes from a different type of mine.",
+      "corr_fr": "Un smartphone est fabriqué à partir de plus de 60 matériaux différents — lithium pour la batterie, cuivre et or pour les circuits, silicium pour l'écran — et chacun provient d'un type de mine différent."
+    },
+    {
+      "id": 17,
+      "title": "Smartphone trash risk",
+      "image": null,
+      "en": "Explain the risk to nature if a smartphone is thrown in regular trash instead of recycled.",
+      "fr": "Explique le risque pour la nature si un smartphone est jeté à la poubelle classique plutôt que recyclé.",
+      "corr_en": "Toxic chemicals inside the phone can leak into the soil and water, polluting the ecosystem, and valuable metals like gold and copper are lost instead of being reused.",
+      "corr_fr": "Les produits chimiques toxiques du téléphone peuvent s'infiltrer dans le sol et l'eau, polluant l'écosystème, et des métaux précieux comme l'or et le cuivre sont perdus au lieu d'être réutilisés."
+    },
+    {
+      "id": 18,
+      "title": "Reduce vs recycle",
+      "image": "N2 - 18.png",
+      "en": "Compare \"Reduce\" and \"Recycle\" using one example for each.",
+      "fr": "Compare \"Réduire\" et \"Recycler\" en donnant un exemple pour chacun.",
+      "corr_en": "Reduce means using less in the first place, like bringing a reusable bag instead of buying plastic ones; Recycle means processing a used item, like melting a can to make a new one.",
+      "corr_fr": "Réduire signifie consommer moins dès le départ, comme apporter un sac réutilisable au lieu d'en acheter des jetables ; Recycler signifie traiter un objet usagé, comme fondre une canette pour en faire une nouvelle."
+    },
+    {
+      "id": 19,
+      "title": "Open-pit mining harm",
+      "image": null,
+      "en": "Explain why open-pit mining is harmful to the environment.",
+      "fr": "Explique pourquoi l'exploitation minière à ciel ouvert est nuisible pour l'environnement.",
+      "corr_en": "It destroys landscapes and forests to reach the ore, and it can produce toxic chemical waste that pollutes nearby rivers and soil.",
+      "corr_fr": "Elle détruit les paysages et les forêts pour atteindre le minerai, et peut produire des déchets chimiques toxiques qui polluent les rivières et les sols voisins."
+    },
+    {
+      "id": 20,
+      "title": "Fossil fuels non-renewable",
+      "image": "N2 - 20.png",
+      "en": "Explain why fossil fuels are classified as non-renewable resources.",
+      "fr": "Explique pourquoi les combustibles fossiles sont classés comme ressources non-renouvelables.",
+      "corr_en": "They form from ancient organic matter buried for millions of years, so once we use up existing reserves, new ones cannot form fast enough to replace them.",
+      "corr_fr": "Ils se forment à partir de matière organique ancienne enfouie pendant des millions d'années, donc une fois les réserves actuelles épuisées, de nouvelles ne peuvent pas se former assez vite pour les remplacer."
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "Bicycle full lifecycle",
+      "image": null,
+      "en": "A bicycle is made of steel, aluminum, and rubber. Predict its full lifecycle from raw material extraction to end of life, and explain at which steps humans are \"taking\" resources versus \"polluting\" the Earth.",
+      "fr": "Un vélo est fait d'acier, d'aluminium et de caoutchouc. Prédis son cycle de vie complet, de l'extraction des matières premières à sa fin de vie, et explique à quelles étapes l'humain \"prend\" des ressources et à quelles étapes il \"pollue\" la Terre.",
+      "corr_en": "Iron and bauxite ores are extracted and rubber is harvested (taking); the factory shapes and assembles the parts, possibly releasing waste (polluting); trucks distribute it (polluting via CO₂); the owner uses it for years; at the end, the metal parts can be recycled while worn rubber often becomes non-biodegradable waste.",
+      "corr_fr": "Le minerai de fer et la bauxite sont extraits, et le caoutchouc est récolté (prendre) ; l'usine façonne et assemble les pièces, en rejetant parfois des déchets (polluer) ; des camions le distribuent (polluer via le CO₂) ; le propriétaire l'utilise pendant des années ; en fin de vie, les pièces métalliques peuvent être recyclées alors que le caoutchouc usé devient souvent un déchet non biodégradable."
+    },
+    {
+      "id": 2,
+      "title": "3 R's on daily object",
+      "image": "N3 - 2.png",
+      "en": "Choose any object you use daily. Using the highlighted diagram, explain how applying \"reduce\", \"reuse\" and \"recycle\" at different lifecycle steps together lowers its overall environmental impact.",
+      "fr": "Choisis un objet que tu utilises tous les jours. À l'aide du schéma, explique comment appliquer \"réduire\", \"réutiliser\" et \"recycler\" à différentes étapes du cycle de vie réduit ensemble son impact environnemental global.",
+      "corr_en": "For example, for a t-shirt: reducing means buying fewer clothes, so less raw cotton and water are extracted; reusing means donating it instead of buying new, avoiding a new extraction and manufacturing cycle; recycling the worn fabric at disposal turns it back into fiber instead of polluting a landfill — together, each action removes pressure at a different point in the cycle.",
+      "corr_fr": "Par exemple, pour un t-shirt : réduire signifie acheter moins de vêtements, donc moins de coton et d'eau extraits ; réutiliser signifie le donner plutôt que d'en acheter un neuf, évitant un nouveau cycle d'extraction et de fabrication ; recycler le tissu usé en fin de vie le transforme en fibre au lieu de polluer une décharge — ensemble, chaque action réduit la pression à un point différent du cycle."
+    },
+    {
+      "id": 3,
+      "title": "Wind turbine metal test",
+      "image": null,
+      "en": "A wind turbine blade is suspected to contain a metal core hidden under composite material. Design a mini-experiment (hypothesis + variable tested) to check if the core is metal.",
+      "fr": "On soupçonne qu'une pale d'éolienne contient un noyau métallique caché sous un matériau composite. Conçois une mini-expérience (hypothèse + variable testée) pour vérifier si le noyau est métallique.",
+      "corr_en": "Hypothesis: if the core is metal, it should conduct electricity and/or be attracted to a magnet. I would test the exposed core by connecting it into an electric circuit (testing conductivity) and by placing a magnet against it (testing magnetism); a positive result on either test would confirm a metal core.",
+      "corr_fr": "Hypothèse : si le noyau est métallique, il devrait conduire l'électricité et/ou être attiré par un aimant. Je testerais le noyau exposé en le connectant dans un circuit électrique (test de conductivité) et en approchant un aimant (test de magnétisme) ; un résultat positif à l'un des tests confirmerait un noyau métallique."
+    },
+    {
+      "id": 4,
+      "title": "Cutlery metal properties",
+      "image": "N3 - 4.png",
+      "en": "Kitchen cutlery is often made of a metal that resists rust and stays shiny. Analyze which properties studied in class (luster, conductivity, magnetism, malleability) would have guided engineers to choose a metal for cutlery, and justify each.",
+      "fr": "Les couverts de cuisine sont souvent faits d'un métal résistant à la rouille qui reste brillant. Analyse quelles propriétés vues en classe (éclat, conductivité, magnétisme, malléabilité) auraient guidé les ingénieurs à choisir un métal pour les couverts, et justifie chacune.",
+      "corr_en": "Luster matters for appearance, since shiny cutlery looks clean and attractive; malleability is needed to shape the metal into thin fork prongs and spoon bowls; conductivity is less important here, but thermal conductivity should be moderate so the handle doesn't get too hot; magnetism is irrelevant to this use.",
+      "corr_fr": "L'éclat compte pour l'apparence, car des couverts brillants paraissent propres et attrayants ; la malléabilité est nécessaire pour façonner le métal en fines dents de fourchette et en cuillères ; la conductivité est moins importante ici, mais la conductivité thermique doit rester modérée pour que le manche ne chauffe pas trop ; le magnétisme n'a pas d'importance pour cet usage."
+    },
+    {
+      "id": 5,
+      "title": "Recycling aluminum argument",
+      "image": null,
+      "en": "Argue whether recycling aluminum cans is overall beneficial for the environment, weighing the energy saved against the energy still needed for collection and melting.",
+      "fr": "Argumente si recycler les canettes en aluminium est globalement bénéfique pour l'environnement, en pesant l'énergie économisée face à l'énergie encore nécessaire pour la collecte et la fonte.",
+      "corr_en": "Recycling aluminum uses much less energy than extracting and refining new bauxite ore, and it avoids new open-pit mining and its landscape destruction; even though collecting and melting used cans still requires some energy and transport, the overall balance strongly favors recycling.",
+      "corr_fr": "Recycler l'aluminium demande beaucoup moins d'énergie que d'extraire et de raffiner de la nouvelle bauxite, et évite une nouvelle exploitation minière à ciel ouvert et sa destruction du paysage ; même si collecter et fondre les canettes usagées demande encore de l'énergie et du transport, le bilan global favorise fortement le recyclage."
+    },
+    {
+      "id": 6,
+      "title": "Forest vs desert soil",
+      "image": "N3 - 6.png",
+      "en": "Compare the diagram of forest soil with a desert soil profile. Predict and explain why desert soil has a much thinner organic layer than forest soil.",
+      "fr": "Compare le schéma du sol forestier avec un profil de sol désertique. Prédis et explique pourquoi le sol désertique a une couche organique bien plus fine que le sol forestier.",
+      "corr_en": "A desert has very little plant and animal life and almost no dead organic matter falling to the ground, so decomposers have very little material to transform into humus; combined with low water, this results in a thin organic layer and mostly mineral, sandy soil.",
+      "corr_fr": "Un désert a très peu de vie végétale et animale et presque pas de matière organique morte qui tombe au sol, donc les décomposeurs ont très peu de matière à transformer en humus ; combiné au manque d'eau, cela donne une couche organique fine et un sol surtout minéral et sableux."
+    },
+    {
+      "id": 7,
+      "title": "EV battery lithium chain",
+      "image": null,
+      "en": "Electric car batteries need large amounts of lithium, mined mostly from salt flats. Predict a chain of consequences, from the mining step to a possible environmental effect several steps later.",
+      "fr": "Les batteries de voitures électriques nécessitent de grandes quantités de lithium, extrait principalement de salars (lacs salés). Prédis une chaîne de conséquences, depuis l'extraction jusqu'à un effet environnemental possible plusieurs étapes plus tard.",
+      "corr_en": "Lithium extraction from brine requires pumping and evaporating huge amounts of water; this can lower local water tables, which then reduces water available for nearby agriculture, which in turn can harm local communities' food production and biodiversity, even though the final electric car itself produces no exhaust pollution.",
+      "corr_fr": "L'extraction du lithium dans les saumures nécessite de pomper et d'évaporer d'énormes quantités d'eau ; cela peut faire baisser les nappes phréatiques locales, ce qui réduit ensuite l'eau disponible pour l'agriculture voisine, nuisant à la production alimentaire et à la biodiversité locales, même si la voiture électrique finale ne produit elle-même aucune pollution d'échappement."
+    },
+    {
+      "id": 8,
+      "title": "Brick house transformation",
+      "image": "N3 - 8.png",
+      "en": "Analyze the multi-step transformation of clay into bricks for a house, and predict the environmental impact at each stage (extraction, firing, use).",
+      "fr": "Analyse la transformation en plusieurs étapes de l'argile en briques pour une maison, et prédis l'impact environnemental à chaque étape (extraction, cuisson, utilisation).",
+      "corr_en": "Extracting clay disturbs land and removes topsoil; firing bricks in a kiln burns fuel and releases CO₂ into the air, contributing to pollution; but once built into a house, bricks last for decades without further extraction, making the use phase relatively low-impact compared to the earlier steps.",
+      "corr_fr": "L'extraction de l'argile perturbe le sol et enlève la couche supérieure ; la cuisson des briques dans un four brûle du combustible et libère du CO2 dans l'air, contribuant à la pollution ; mais une fois construites dans une maison, les briques durent des décennies sans nouvelle extraction, rendant la phase d'utilisation relativement peu impactante comparée aux étapes précédentes."
+    },
+    {
+      "id": 9,
+      "title": "Recycling gold vs mining",
+      "image": null,
+      "en": "Argue whether recycling old smartphones for gold is more resource-efficient than mining new gold ore, using the fact that 1 tonne of old phones can contain more gold than 1 tonne of gold ore.",
+      "fr": "Argumente si recycler de vieux smartphones pour en extraire l'or est plus efficace en ressources que d'extraire du minerai d'or neuf, en te basant sur le fait qu'1 tonne de vieux téléphones peut contenir plus d'or qu'1 tonne de minerai d'or.",
+      "corr_en": "Since old phones are actually a richer source of gold than natural ore, recycling them avoids the need for new open-pit mining, saving landscapes, forests and reducing toxic mining waste, while also recovering a resource that would otherwise pollute the ecosystem if thrown away — making recycling clearly more resource-efficient overall.",
+      "corr_fr": "Puisque les vieux téléphones sont en fait une source d'or plus riche que le minerai naturel, les recycler évite le besoin d'une nouvelle exploitation à ciel ouvert, préservant paysages et forêts et réduisant les déchets toxiques miniers, tout en récupérant une ressource qui polluerait sinon l'écosystème si elle était jetée — rendant le recyclage clairement plus efficace en ressources."
+    },
+    {
+      "id": 10,
+      "title": "Gold ring authenticity test",
+      "image": "N3 - 10.png",
+      "en": "You want to check if a ring is real gold or only gold-plated metal. Design an experiment using at least two physical properties studied in class, and explain what result would prove it is not pure gold.",
+      "fr": "Tu veux vérifier si une bague est en or véritable ou seulement plaquée or. Conçois une expérience utilisant au moins deux propriétés physiques vues en classe, et explique quel résultat prouverait qu'elle n'est pas en or pur.",
+      "corr_en": "I would test luster after a small scratch (real gold stays gold-colored underneath, plated metal reveals a different color base metal) and test electrical conductivity, since gold conducts very well; if the scratched spot shows a different color, or conductivity is unusually low, the ring is not pure gold, only plated.",
+      "corr_fr": "Je testerais l'éclat après une petite égratignure (l'or véritable reste doré en dessous, le plaqué révèle un métal de base d'une autre couleur) et la conductivité électrique, car l'or conduit très bien ; si la zone égratignée montre une couleur différente, ou si la conductivité est anormalement faible, la bague n'est pas en or pur, seulement plaquée."
+    },
+    {
+      "id": 11,
+      "title": "Deep-sea mining cascade",
+      "image": null,
+      "en": "Deep-sea mining extracts metal-rich nodules from the ocean floor. Predict a cascading chain of effects this could have on marine ecosystems, several steps beyond the extraction itself.",
+      "fr": "L'exploitation minière en eaux profondes extrait des nodules riches en métaux du fond océanique. Prédis une chaîne d'effets en cascade que cela pourrait avoir sur les écosystèmes marins, plusieurs étapes au-delà de l'extraction elle-même.",
+      "corr_en": "Extraction machines stir up sediment clouds that block sunlight for deep-sea organisms; this disrupts the food chain for small filter-feeding species, which then affects the larger predators depending on them, and the destroyed nodule habitats may take centuries to reform, causing long-term biodiversity loss far beyond the mining site itself.",
+      "corr_fr": "Les machines d'extraction soulèvent des nuages de sédiments qui bloquent la lumière pour les organismes des grands fonds ; cela perturbe la chaîne alimentaire des petites espèces filtreuses, ce qui affecte ensuite les grands prédateurs qui en dépendent, et les habitats de nodules détruits peuvent mettre des siècles à se reformer, causant une perte de biodiversité à long terme bien au-delà du site minier."
+    },
+    {
+      "id": 12,
+      "title": "Hiking litter ranking",
+      "image": "N3 - 12.png",
+      "en": "A hiker leaves a banana peel, an aluminum can, a plastic bottle and a glass bottle in a forest. Using the course's data table, analyze and rank their long-term impact on the ecosystem.",
+      "fr": "Un randonneur laisse une pelure de banane, une canette en aluminium, une bouteille en plastique et une bouteille en verre dans une forêt. À l'aide du tableau de données du cours, analyse et classe leur impact à long terme sur l'écosystème.",
+      "corr_en": "The banana peel has the least long-term impact since it disappears in a few weeks; the aluminum can persists for about 50 years but can be recycled if collected; the plastic bottle lasts around 450 years, harming wildlife and soil for centuries; the glass bottle has the greatest long-term impact, remaining in the ecosystem for about 4,000 years, even though it does not release toxins the way plastic can.",
+      "corr_fr": "La pelure de banane a le plus faible impact à long terme puisqu'elle disparaît en quelques semaines ; la canette en aluminium persiste environ 50 ans mais peut être recyclée si elle est collectée ; la bouteille en plastique dure environ 450 ans, nuisant à la faune et au sol pendant des siècles ; la bouteille en verre a le plus grand impact à long terme, restant dans l'écosystème environ 4 000 ans, bien qu'elle ne libère pas de toxines comme le plastique."
+    },
+    {
+      "id": 13,
+      "title": "Bauxite to aluminum can chain",
+      "image": null,
+      "en": "Explain the full chain from bauxite ore to a recycled aluminum can, mobilizing the concepts of raw materials, ore, manufacturing, and the lifecycle's double arrows.",
+      "fr": "Explique la chaîne complète du minerai de bauxite jusqu'à une canette en aluminium recyclée, en mobilisant les concepts de matière première, minerai, fabrication et flèches doubles du cycle de vie.",
+      "corr_en": "Bauxite, an ore rich in aluminum, is extracted from the underground as a raw material; a factory then transforms it into thin aluminum sheets shaped into cans, which are distributed and used; instead of ending in disposal, the used can is collected and melted down, re-entering the cycle as raw material again — this is exactly what the double arrows in the lifecycle diagram represent.",
+      "corr_fr": "La bauxite, un minerai riche en aluminium, est extraite du sous-sol comme matière première ; une usine la transforme ensuite en fines feuilles d'aluminium façonnées en canettes, distribuées puis utilisées ; au lieu de finir en déchet, la canette usagée est collectée et fondue, réintégrant le cycle comme matière première — c'est exactement ce que représentent les flèches doubles du schéma du cycle de vie."
+    },
+    {
+      "id": 14,
+      "title": "Cotton vs plastic garment",
+      "image": "N3 - 14.png",
+      "en": "Analyze the lifecycle diagram of a cotton t-shirt (a renewable organic resource) and compare its double-arrow flows to what you would expect for a plastic-based garment made from petroleum.",
+      "fr": "Analyse le schéma du cycle de vie d'un t-shirt en coton (ressource organique renouvelable) et compare ses flèches doubles à ce qu'on attendrait pour un vêtement à base de plastique issu du pétrole.",
+      "corr_en": "The cotton t-shirt can renew its raw material every growing season and, if discarded, its natural fibers can biodegrade or be composted, closing the loop naturally; a plastic garment instead depends on a non-renewable fossil resource and, if not specifically recycled, does not biodegrade, so its double arrow back to \"raw material\" only works through artificial recycling, not through nature itself.",
+      "corr_fr": "Le t-shirt en coton peut renouveler sa matière première à chaque saison de culture et, s'il est jeté, ses fibres naturelles peuvent se biodégrader ou être compostées, bouclant naturellement la boucle ; un vêtement en plastique dépend au contraire d'une ressource fossile non renouvelable et, s'il n'est pas spécifiquement recyclé, ne se biodégrade pas, donc sa flèche double vers \"matière première\" ne fonctionne que par un recyclage artificiel, pas par la nature elle-même."
+    },
+    {
+      "id": 15,
+      "title": "Recycled gravel argument",
+      "image": null,
+      "en": "A construction company can choose between virgin gravel (freshly mined) or recycled crushed concrete for a road project. Argue which choice is more responsible, considering multiple criteria from the course.",
+      "fr": "Une entreprise de construction peut choisir entre du gravier vierge (fraîchement extrait) ou du béton concassé recyclé pour un projet de route. Argumente quel choix est le plus responsable, en tenant compte de plusieurs critères vus en cours.",
+      "corr_en": "Recycled crushed concrete avoids new extraction from the subsoil, reducing landscape destruction and saving a non-renewable mineral resource; it also gives a second use to demolition waste instead of sending it to a landfill, matching the \"reuse\" principle, so overall it is the more responsible choice, as long as its quality is sufficient for the project.",
+      "corr_fr": "Le béton concassé recyclé évite une nouvelle extraction dans le sous-sol, réduisant la destruction du paysage et économisant une ressource minérale non renouvelable ; il donne aussi une seconde vie à des déchets de démolition au lieu de les envoyer en décharge, correspondant au principe de \"réutilisation\", donc c'est globalement le choix le plus responsable, à condition que sa qualité soit suffisante pour le projet."
+    },
+    {
+      "id": 16,
+      "title": "Laptop raw materials",
+      "image": "N3 - 16.png",
+      "en": "Using what you know about smartphone materials, predict which raw materials a laptop computer would need, and explain why its lifecycle raises similar environmental concerns.",
+      "fr": "En te basant sur ce que tu sais des matériaux des smartphones, prédis quelles matières premières un ordinateur portable nécessiterait, et explique pourquoi son cycle de vie soulève des préoccupations environnementales similaires.",
+      "corr_en": "Like a smartphone, a laptop would need lithium for its battery, copper and gold for its circuits and wires, silicon for its screen, and aluminum or plastic for its casing; because it also depends on dozens of mined materials from open-pit mines worldwide, its extraction and disposal raise the same risks of landscape destruction and toxic pollution if not recycled properly.",
+      "corr_fr": "Comme un smartphone, un ordinateur portable nécessiterait du lithium pour sa batterie, du cuivre et de l'or pour ses circuits et fils, du silicium pour son écran, et de l'aluminium ou du plastique pour son boîtier ; car il dépend aussi de dizaines de matériaux extraits de mines à ciel ouvert dans le monde, son extraction et sa fin de vie soulèvent les mêmes risques de destruction du paysage et de pollution toxique s'il n'est pas correctement recyclé."
+    },
+    {
+      "id": 17,
+      "title": "Concrete forest consequences",
+      "image": null,
+      "en": "In the lab investigation, a forest is compared to a hypothetical scenario where it gets covered in concrete. Analyze the multi-step chain of consequences this would have on the soil, its water, and the biodiversity living inside it.",
+      "fr": "Dans l'investigation de laboratoire, une forêt est comparée à un scénario hypothétique où elle serait recouverte de béton. Analyse la chaîne de conséquences en plusieurs étapes que cela aurait sur le sol, son eau et la biodiversité qui y vit.",
+      "corr_en": "Concrete blocks rainwater from infiltrating the soil, so groundwater is no longer replenished; without water and air reaching the soil, decomposers and roots can no longer live there, stopping the organic matter cycle; this kills the living things in the soil (worms, insects, plant roots), collapsing the local biodiversity that depended on that soil layer.",
+      "corr_fr": "Le béton empêche l'eau de pluie de s'infiltrer dans le sol, donc les nappes phréatiques ne sont plus rechargées ; sans eau ni air atteignant le sol, les décomposeurs et les racines ne peuvent plus y vivre, arrêtant le cycle de la matière organique ; cela tue les êtres vivants du sol (vers, insectes, racines de plantes), effondrant la biodiversité locale qui dépendait de cette couche de sol."
+    },
+    {
+      "id": 18,
+      "title": "Phosphate scarcity chain",
+      "image": "N3 - 18.png",
+      "en": "Phosphate rock, a non-renewable mineral resource, is essential to make fertilizer for growing food. Predict the cascading effects on farming and food supply if phosphate reserves became scarce.",
+      "fr": "La roche phosphatée, une ressource minérale non-renouvelable, est essentielle pour fabriquer des engrais pour cultiver la nourriture. Prédis les effets en cascade sur l'agriculture et l'approvisionnement alimentaire si les réserves de phosphate devenaient rares.",
+      "corr_en": "If phosphate becomes scarce, fertilizer would become expensive and harder to produce, so farmers would apply less of it; crops would then grow with fewer nutrients, lowering yields, which could raise food prices and threaten food security for regions that depend heavily on fertilized farmland.",
+      "corr_fr": "Si le phosphate devient rare, l'engrais deviendrait cher et plus difficile à produire, donc les agriculteurs en utiliseraient moins ; les cultures pousseraient alors avec moins de nutriments, réduisant les rendements, ce qui pourrait augmenter les prix alimentaires et menacer la sécurité alimentaire des régions très dépendantes des terres agricoles fertilisées."
+    },
+    {
+      "id": 19,
+      "title": "Solar panels materials",
+      "image": null,
+      "en": "Solar panels use renewable solar energy, but reflect on whether the panels themselves are made from renewable materials. Explain the difference between the energy source and the materials used, mobilizing several notions from the course.",
+      "fr": "Les panneaux solaires utilisent l'énergie solaire renouvelable, mais réfléchis à si les panneaux eux-mêmes sont fabriqués à partir de matériaux renouvelables. Explique la différence entre la source d'énergie et les matériaux utilisés, en mobilisant plusieurs notions vues en cours.",
+      "corr_en": "The energy the panels capture (sunlight) is renewable and will never run out, but the panels themselves are manufactured objects made from silicon, metals and rare minerals extracted from the subsoil, which are non-renewable raw materials; so even a \"green\" technology depends on a lifecycle of mining, manufacturing and eventual recycling, just like any other object.",
+      "corr_fr": "L'énergie que captent les panneaux (la lumière du soleil) est renouvelable et ne s'épuisera jamais, mais les panneaux eux-mêmes sont des objets fabriqués à partir de silicium, de métaux et de minéraux rares extraits du sous-sol, qui sont des matières premières non-renouvelables ; donc même une technologie \"verte\" dépend d'un cycle de vie d'extraction, de fabrication et de recyclage final, comme n'importe quel autre objet."
+    },
+    {
+      "id": 20,
+      "title": "School e-waste proposal",
+      "image": "N3 - 20.png",
+      "en": "Design a proposal for your school to reduce electronic waste (old calculators, phones, chargers), integrating at least two steps of the object lifecycle and one of the 3 R's.",
+      "fr": "Conçois une proposition pour ton école afin de réduire les déchets électroniques (vieilles calculatrices, téléphones, chargeurs), en intégrant au moins deux étapes du cycle de vie de l'objet et un des 3 R.",
+      "corr_en": "The school could set up a collection bin (disposal step) for broken electronics, partner with a certified recycler to recover metals like copper and gold instead of sending them to landfill (recycling step), and organize a repair workshop so students extend the use phase of their devices, applying the \"reduce\" principle by delaying the need for new raw material extraction.",
+      "corr_fr": "L'école pourrait installer un bac de collecte (étape d'élimination) pour l'électronique cassée, s'associer à un recycleur certifié pour récupérer des métaux comme le cuivre et l'or au lieu de les envoyer en décharge (étape de recyclage), et organiser un atelier de réparation pour que les élèves prolongent la phase d'utilisation de leurs appareils, appliquant le principe \"réduire\" en retardant le besoin de nouvelle extraction de matières premières."
+    }
+  ]
 }

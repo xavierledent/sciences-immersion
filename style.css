@@ -1493,6 +1493,19 @@ html[data-pointer='fine'] .icon-button:hover,
   background: linear-gradient(180deg, rgba(231, 195, 96, 0.12) 0%, var(--color-surface) 100%);
 }
 
+/* On practice.html, <body> also carries this class (so exercise modals
+   appended outside <main> still inherit --color-current) but must not look
+   like a card itself — that showed up as a second colored line flush
+   against the real edge of the viewport. Higher specificity than the class
+   alone, so this wins regardless of source order. */
+body.subject-bio,
+body.subject-physics,
+body.subject-chemistry {
+  border-left: none;
+  border-radius: 0;
+  background: none;
+}
+
 .subject-bio .topic-chip {
   background: rgba(98, 181, 170, 0.16);
   color: var(--color-bio);

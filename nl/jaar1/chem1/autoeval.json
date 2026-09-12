@@ -1,0 +1,613 @@
+{
+  "categories": [
+    {
+      "id": "savoirs",
+      "title": "Savoirs",
+      "items": [
+        {
+          "id": "s1",
+          "isVocabulary": false,
+          "text": "Énoncer que le sol est constitué de fragments de roches (matière minérale), de vivants et de restes de vivants (matière organique), d'eau et que sa composition peut varier.",
+          "locations": [
+            "PART 1 : Mission 1 - Texte introductif (\"The top layer is called the soil...\")",
+            "PART 1 : Lab investigation (Tableau A/B)",
+            "PART 1 : Summary (texte à trous)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 17
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "isVocabulary": false,
+          "text": "Énoncer que le sous-sol est constitué de roches et peut aussi contenir de l'eau et des matières organiques fossiles.",
+          "locations": [
+            "PART 1 : Mission 1 - Texte introductif (\"Deeper underneath the soil...\")",
+            "PART 1 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 1
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "isVocabulary": false,
+          "text": "Citer quelques ressources naturelles (ex. : eau, minerais, roches, charbon, pétrole, gaz, bois …).",
+          "locations": [
+            "PART 2 : Définitions des groupes (Rocks, Minerals, Fossil fuels, Organic resources, Water)",
+            "PART 2 : Exercise 1 (Tableau de catégorisation)",
+            "PART 2 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 1
+            },
+            {
+              "level": "level1",
+              "id": 5
+            },
+            {
+              "level": "level1",
+              "id": 11
+            },
+            {
+              "level": "level1",
+              "id": 13
+            },
+            {
+              "level": "level1",
+              "id": 19
+            },
+            {
+              "level": "level2",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "isVocabulary": false,
+          "text": "Définir la biodégradabilité de la matière.",
+          "locations": [
+            "PART 5 : Texte d'introduction théorique (\"What happens to materials...\")",
+            "PART 5 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 11
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "isVocabulary": false,
+          "text": "Citer des déchets qui résultent de l'activité humaine selon leur caractère biodégradable à l'échelle humaine.",
+          "locations": [
+            "PART 5 : Exercise 5 (Tableau de données scientifiques de décomposition)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 12
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "isVocabulary": false,
+          "text": "Citer les principales étapes du cycle de transformation de la matière qui constitue un objet et les présenter sous forme schématique : de l'extraction des matières premières à la valorisation des déchets.",
+          "locations": [
+            "PART 4 : Schéma du Product lifecycle",
+            "PART 4 : Mission 5 (Tableau associatif des étapes)",
+            "PART 4 : Exercise 4 (The Journey of a Soda Can)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 14
+            },
+            {
+              "level": "level1",
+              "id": 15
+            },
+            {
+              "level": "level2",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 14
+            }
+          ]
+        },
+        {
+          "id": "s7",
+          "isVocabulary": false,
+          "text": "Préciser que l'utilisation responsable des objets est un moyen de réduire la consommation des ressources naturelles, de l'énergie, et de diminuer le volume de déchets.",
+          "locations": [
+            "PART 4 : Summary (TAKING / GIVING BACK, 3 R's)",
+            "PART 6 : Mission 7c & 7d (Défi Smartphone)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 15
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s8",
+          "isVocabulary": false,
+          "text": "Citer des caractéristiques macroscopiques d'un métal (malléabilité, conductivité électrique, conductivité thermique, éclat métallique).",
+          "locations": [
+            "PART 3 : Liste des Metal properties",
+            "PART 3 : Summary de fin de laboratoire"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 8
+            },
+            {
+              "level": "level1",
+              "id": 9
+            },
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level1",
+              "id": 12
+            },
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 4
+            }
+          ]
+        },
+        {
+          "id": "s9",
+          "isVocabulary": false,
+          "text": "Citer et décrire quelques exemples d'utilisation de métaux du quotidien (ex. : l'or, l'argent, le cuivre, le fer …) et leur utilisation.",
+          "locations": [
+            "PART 3 : Summary (dernier paragraphe)",
+            "PART 6 : Mission 7a (Cartographie des ressources)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        },
+        {
+          "id": "s10-vocabulaire",
+          "isVocabulary": true,
+          "text": "Utiliser les termes : roche, minéral, sol, sous-sol, ressources, déchet, malléabilité, conductivité électrique, conductivité thermique, éclat, métal.",
+          "locations": [
+            "Documents globaux : tous ces termes sont intégrés dans les exercices et fixés dans le Scientific glossary et les encadrés Summary"
+          ],
+          "exercises": []
+        }
+      ]
+    },
+    {
+      "id": "savoirFaire",
+      "title": "Savoir-faire",
+      "items": [
+        {
+          "id": "sf1",
+          "isVocabulary": false,
+          "text": "S-F 13 : Observer et décrire la composition d'un échantillon de sol (ex. : roches, racines, feuilles, petits animaux …).",
+          "locations": [
+            "PART 1 : Mission 2 (Laboratory investigation – digging into soil)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level2",
+              "id": 2
+            }
+          ]
+        },
+        {
+          "id": "sf2",
+          "isVocabulary": false,
+          "text": "S-F 13 : Observer et décrire quelques minéraux en lien avec les matériaux utilisés dans certains objets.",
+          "locations": [
+            "PART 2 : Sections Rocks / Minerals, Mission 3 (Connect each mineral to its use)",
+            "PART 3 : Introduction sur les minerais (ores)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 10
+            }
+          ]
+        },
+        {
+          "id": "sf3",
+          "isVocabulary": false,
+          "text": "S-F 6 : Identifier expérimentalement des échantillons de métaux sur la base de leurs propriétés physiques (malléabilité, conductivité électrique, thermique, éclat).",
+          "locations": [
+            "PART 3 : Mission 4 (Laboratory report sheet)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 8
+            },
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level1",
+              "id": 12
+            },
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 10
+            }
+          ]
+        },
+        {
+          "id": "sf4",
+          "isVocabulary": false,
+          "text": "S-F 22 : Trier des matériaux selon leur caractère renouvelable et leur caractère biodégradable.",
+          "locations": [
+            "PART 2 : Exercise 2 (Tri renouvelable via vidéo)",
+            "PART 5 : Exercise 5 (Tri biodégradable via tableau)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level2",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 12
+            }
+          ]
+        },
+        {
+          "id": "sf5",
+          "isVocabulary": false,
+          "text": "S-F 13 : Repérer et exploiter des informations pour déterminer le trajet depuis l'extraction jusqu'à l'utilisation et la valorisation d'une roche ou d'un minéral dont on extrait un métal particulier.",
+          "locations": [
+            "PART 4 : Exercise 4 (The Journey of a Soda Can)",
+            "PART 6 : Mission 7a (Défi Smartphone)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 16
+            }
+          ]
+        },
+        {
+          "id": "sf6",
+          "isVocabulary": false,
+          "text": "S-F 17 : Représenter les étapes de transformation d'un objet et les présenter sous forme schématique : de l'extraction des matières premières à la valorisation des déchets.",
+          "locations": [
+            "PART 4 : Mission 5 (Schéma graphique du cycle de vie)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 12
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 13
+            }
+          ]
+        },
+        {
+          "id": "sf7",
+          "isVocabulary": false,
+          "text": "S-F 23 : Déterminer quelques impacts (positifs et négatifs) du cycle de transformation d'un objet sur l'environnement.",
+          "locations": [
+            "PART 4 : Exercise 3 (Connect the environmental impacts)",
+            "PART 6 : Texte introductif du défi smartphone"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 18
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "competence",
+      "title": "Compétence",
+      "items": [
+        {
+          "id": "c1",
+          "isVocabulary": false,
+          "text": "Proposer au moins un moyen de limiter les impacts environnementaux de notre consommation d'objets contenant des métaux et justifier son choix sur la base du cycle de transformation de la matière (cycle de vie).",
+          "locations": [
+            "PART 4 : Critical thinking (flèches doubles)",
+            "PART 6 : Mission 7c & 7d (Le français pour l'argumentation complexe)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -5,19 +5,30 @@
     "items": [
       {
         "title": "Voyage du pétrole",
-        "description": "De la formation géologique au raffinage, le parcours de l'or noir et ses applications quotidiennes.",
-        "file": "EXPLO 1 - Voyage du pétrole.pdf"
+        "file": "EXPLO 1 - Voyage du pétrole.pdf",
+        "description": "De la formation géologique au raffinage, le parcours de l'or noir et ses applications quotidiennes."
       },
       {
         "title": "Mine urbaine",
-        "description": "Le recyclage des déchets électroniques, une mine de métaux précieux au cœur de l'économie circulaire.",
-        "file": "EXPLO 2 - Mine urbaine.pdf"
+        "file": "EXPLO 2 - Mine urbaine.pdf",
+        "description": "Le recyclage des déchets électroniques, une mine de métaux précieux au cœur de l'économie circulaire."
       }
     ]
   },
   "liensUtiles": {
     "title": "Liens utiles",
     "basePath": "",
-    "items": []
+    "items": [
+      {
+        "title": "Portail pédagogique (géologie)",
+        "url": "https://fr.vikidia.org/wiki/Portail:G%C3%A9ologie",
+        "description": "L'encyclopédie en ligne écrite pour et en partie par les 8-13 ans. On y trouve des articles clairs sur les roches, les minéraux, les minerais et les ressources naturelles."
+      },
+      {
+        "title": "Recupel",
+        "url": "https://www.recupel.be/fr/pourquoi-faire-recycler-votre-ancien-telephone-portable-par-recupel",
+        "description": "L'organisme belge (asbl) qui collecte et recycle les appareils électroniques. Leur site explique quelles matières premières précieuses (or, cuivre, cobalt...) se cachent dans un smartphone et comment elles sont récupérées lors du recyclage."
+      }
+    ]
   }
 }
