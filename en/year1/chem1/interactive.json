@@ -1,5 +1,269 @@
 {
-  "multipleChoice": [],
+  "multipleChoice": [
+    {
+      "quizTitle": "Soil vs subsoil",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "What is the top layer of the ground called?",
+          "image": "assets/QCM1.jpg",
+          "options": [
+            "Soil",
+            "Subsoil",
+            "Bedrock",
+            "Groundwater"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "What is the layer beneath the soil called?",
+          "image": "assets/QCM1.jpg",
+          "options": [
+            "Subsoil",
+            "Soil",
+            "Humus",
+            "Aquifer"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "What does soil contain that subsoil does not?",
+          "image": null,
+          "options": [
+            "Living organisms and organic matter",
+            "Rocks and minerals",
+            "Water only",
+            "Nothing — they are identical"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Where do humans extract most of their raw materials, like iron, stone, or oil?",
+          "options": [
+            "The subsoil",
+            "The soil",
+            "The atmosphere",
+            "The ocean surface"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "What is humus made from?",
+          "options": [
+            "Dead leaves and decomposed animals",
+            "Rocks and minerals",
+            "Melted metal",
+            "Plastic waste"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Classifying Natural Resources",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Which category does granite belong to?",
+          "image": "assets/QCM2-1.png",
+          "options": [
+            "Rocks",
+            "Minerals",
+            "Fossil fuels",
+            "Organic resources"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which category does this belong to?",
+          "image": "assets/QCM2-2.png",
+          "options": [
+            "Minerals",
+            "Rocks",
+            "Fossil fuels",
+            "Water"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which category does this belong to?",
+          "image": "assets/QCM2-3.png",
+          "options": [
+            "Fossil fuels",
+            "Rocks",
+            "Minerals",
+            "Organic resources"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which category does this belong to?",
+          "image": "assets/QCM2-4.png",
+          "options": [
+            "Organic resources",
+            "Minerals",
+            "Fossil fuels",
+            "Rocks"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which of these is a renewable resource?",
+          "image": null,
+          "options": [
+            "Wood",
+            "Coal",
+            "Petroleum oil",
+            "Natural gas"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Why is petroleum classified as a non-renewable resource?",
+          "image": null,
+          "options": [
+            "Because it takes millions of years to form and can't be quickly replaced",
+            "Because it falls from the sky when it rains",
+            "Because animals use it to build their nests",
+            "Because it is only found in the ocean"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Metal Properties",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Which property does this picture show?",
+          "image": "assets/QCM3-1.png",
+          "options": [
+            "Luster",
+            "Magnetism",
+            "Malleability",
+            "Thermal conductivity"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which property does this picture show?",
+          "image": "assets/QCM3-2.png",
+          "options": [
+            "Electrical conductivity",
+            "Luster",
+            "Magnetism",
+            "Malleability"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which property does this picture show?",
+          "image": "assets/QCM3-3.png",
+          "options": [
+            "Magnetism",
+            "Luster",
+            "Electrical conductivity",
+            "Thermal conductivity"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which property lets a metal be bent or shaped into thin wires without breaking?",
+          "image": null,
+          "options": [
+            "Malleability",
+            "Magnetism",
+            "Luster",
+            "Thermal conductivity"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which metal is well known for being attracted to magnets?",
+          "image": null,
+          "options": [
+            "Iron",
+            "Copper",
+            "Gold",
+            "Aluminum"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Where are metals extracted from?",
+          "image": null,
+          "options": [
+            "Ores found in the subsoil",
+            "The atmosphere",
+            "Ocean water",
+            "Tree sap"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Lifecycle & the 3 R's",
+      "image": "assets/QCM4.png",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Which step comes right after \"Raw material extraction\"?",
+          "options": [
+            "Manufacturing",
+            "Distribution",
+            "Use",
+            "Disposal"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which step involves transporting finished products to shops?",
+          "options": [
+            "Distribution",
+            "Manufacturing",
+            "Recycling",
+            "Raw material extraction"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Why are the arrows in the lifecycle diagram double instead of single?",
+          "image": null,
+          "options": [
+            "Because materials can be given back to Earth through recycling, not only taken",
+            "Because the cycle only goes in one direction",
+            "Because the diagram has a printing mistake",
+            "Because objects are never thrown away"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "What does \"Reduce\" mean in the 3 R's rule?",
+          "image": null,
+          "options": [
+            "Using less of something so we don't waste it",
+            "Using an object again instead of throwing it away",
+            "Turning old materials into new products",
+            "Burying waste safely underground"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "What does \"Recycle\" mean?",
+          "image": null,
+          "options": [
+            "Turning old materials into new products",
+            "Using less of something",
+            "Reusing an object as it is",
+            "Burying waste underground"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    }
+  ],
   "dragAndDrop": [],
   "fillBlanks": [],
   "matchPairs": [],
