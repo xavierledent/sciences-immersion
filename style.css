@@ -1010,23 +1010,25 @@ html[data-pointer='fine'] .modal-fullscreen:hover,
    site: this is one fixed document identity, deliberately the same whether
    the chapter is bio, chem or physics — a fiche shouldn't change colour
    depending on which subject's resources page it's opened from. */
-/* Matches the paper fiche's own colours (pale yellow border, cream
-   background) rather than an invented tone. Close in hue to
-   --color-chemistry (#D4A030, 41°) but far enough apart in lightness/
-   saturation (this pair sits much paler and brighter) to read as its own
-   colour rather than a borrowed chemistry accent — checked side by side
-   before committing to it. --autoeval-accent is a darkened version of the
-   same border hue, needed only where white text sits on it (chips, the
-   active tab): the border colour itself is too pale for that contrast. */
+/* Was matched to the printed fiche's own cream/amber colours; dropped once
+   chapters started getting this online tool as their own page (autoeval.html)
+   rather than a resources.html modal — on a bio or physics chapter, amber
+   tabs/bulbs/synthesis read as a stray chemistry accent with nothing to do
+   with that chapter. Slate instead, the same colour and the same reasoning
+   already used for .self-assess-btn on practice.html ("the student's own
+   action, not the chapter's content"): this fiche is exactly that, just
+   bigger. Tied to --color-slate directly rather than copied, so both stay in
+   sync. The printed PDF fiche keeps its own cream/amber design — only the
+   online tool's colours change here. */
 :root {
-  --autoeval-bg: #fff9e6;
-  --autoeval-border: #f5d061;
-  --autoeval-accent: #cc8f00;
-  --autoeval-accent-dark: #a37200;
+  --autoeval-bg: #eef2f6;
+  --autoeval-border: #c7d3de;
+  --autoeval-accent: var(--color-slate);
+  --autoeval-accent-dark: #34495f;
   /* Same value as --autoeval-accent, as an r,g,b triplet — needed wherever a
      tint of it is mixed with alpha (rgba()), same convention as
      --color-current-rgb elsewhere on the site. */
-  --autoeval-accent-rgb: 204, 143, 0;
+  --autoeval-accent-rgb: var(--color-slate-rgb);
 }
 
 /* Flex column with only .autoeval-modal-body (the attendu list) scrolling —
