@@ -60,6 +60,7 @@
         <div class="modal-chip" id="chapter-modal-chip">Subject</div>
         <h2 id="chapter-modal-title">Choose a section</h2>
         <div class="modal-grid" id="chapter-modal-options"></div>
+        <div class="modal-grid-assessment" id="chapter-modal-assessment-row" hidden></div>
       </div>
     </div>
   </div>
@@ -79,7 +80,7 @@
             chapters: {
               year1: [
                 { folder: 'bio1', title: 'Bio 1 : Ecosystems' },
-                { folder: 'chem1', title: 'Chemistry 1 : Natural resources and raw materials' },
+                { folder: 'chem1', title: 'Chemistry 1 : Natural resources and raw materials', hasAssessment: true },
                 { folder: 'phys1', title: 'Physics 1 : Natural energy resources' },
                 { folder: 'chem2', title: 'Chemistry 2 : Mixtures and pure substances' },
                 { folder: 'phys2', title: 'Physics 2 : Energy, expansion and changes of state' },
@@ -147,6 +148,7 @@
       const modalCard = document.querySelector('.modal-card');
       const modalChip = document.getElementById('chapter-modal-chip');
       const modalClose = document.getElementById('chapter-modal-close');
+      const modalAssessmentRow = document.getElementById('chapter-modal-assessment-row');
       const titleHeading = document.querySelector('h1');
       const subtitleParagraph = document.querySelector('.subtitle');
       const step1Heading = document.querySelector('#language-row h2');
@@ -310,6 +312,24 @@
           card.textContent = label;
           modalOptions.appendChild(card);
         });
+
+        // Assessment: a 5th, visually distinct option below the regular
+        // section grid rather than a 5th equal card — the online self-
+        // assessment tool deserves more visibility than it had buried in
+        // Resources. Only shown for chapters flagged `hasAssessment` (set
+        // once that chapter's autoeval.html actually exists) so the button
+        // never points at a missing page during the gradual rollout.
+        modalAssessmentRow.innerHTML = '';
+        if (chapter.hasAssessment) {
+          const assessmentCard = document.createElement('a');
+          assessmentCard.className = 'section-card assessment-card';
+          assessmentCard.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/autoeval.html`;
+          assessmentCard.textContent = selectedLanguage.code === 'nl' ? 'Zelfevaluatie' : 'Assessment';
+          modalAssessmentRow.appendChild(assessmentCard);
+          modalAssessmentRow.hidden = false;
+        } else {
+          modalAssessmentRow.hidden = true;
+        }
 
         modalOverlay.classList.add('modal-open');
         // Empêche la page de défiler derrière la modale, comme sur les pages

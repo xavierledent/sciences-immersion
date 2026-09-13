@@ -150,11 +150,11 @@
   /* ===== Restriction du mode visiteur à Bio 1 anglais ===== */
 
   function isChapterPage(path) {
-    return /\/(en\/year1|nl\/jaar1)\/[a-z]+\d+\/(practice|vocabulary|resources|explorations)\.html$/.test(path);
+    return /\/(en\/year1|nl\/jaar1)\/[a-z]+\d+\/(practice|vocabulary|resources|explorations|autoeval)\.html$/.test(path);
   }
 
   function isBio1EnglishPage(path) {
-    return /\/en\/year1\/bio1\/(practice|vocabulary|resources|explorations)\.html$/.test(path);
+    return /\/en\/year1\/bio1\/(practice|vocabulary|resources|explorations|autoeval)\.html$/.test(path);
   }
 
   // L'accueil et la page 404 ne sont pas des chapitres : toujours accessibles

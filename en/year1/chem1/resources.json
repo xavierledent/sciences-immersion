@@ -61,7 +61,8 @@
     "title": "Autoévaluation par attendus",
     "description": "Fais le point sur ta maîtrise du chapitre, notion par notion, et découvre où concentrer tes révisions.",
     "basePath": "../../../assets",
-    "pdfFile": "FE chimie1.pdf"
+    "pdfFile": "FE chimie1.pdf",
+    "onlineTool": "./autoeval.html"
   },
   "mindmap": {
     "title": "Modèle de Mindmap",

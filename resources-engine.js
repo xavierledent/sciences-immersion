@@ -62,6 +62,12 @@
   // button's native OS chrome (Windows Fluent, etc.) can keep its own corner
   // radius even with appearance:none, which read as a mismatch next to the
   // PDF/mindmap links using the exact same class.
+  // data.onlineTool (set in resources.json) marks a chapter migrated to its
+  // own autoeval.html: the online button disappears from this card entirely
+  // (it now lives in the chapter nav / index instead) and only the PDF stays.
+  // Chapters without it keep the old modal-opening button exactly as before
+  // — this is what lets chapters move over one at a time instead of all at
+  // once.
   function createAutoEvaluationContent(data) {
     if (!data) return '<p>Fiche indisponible.</p>';
     const descHtml = data.description ? `<p style="margin:0 0 14px">${richText(data.description)}</p>` : '';
@@ -69,7 +75,10 @@
     const pdfBtnHtml = pdfUrl
       ? `<a class="resource-button" href="${pdfUrl}" target="_blank" rel="noopener" data-resource-type="ficheAutoEvalPdf">Fiche d'autoévaluation (PDF)</a>`
       : '';
-    return `${descHtml}<div class="resource-button-row">${pdfBtnHtml}<a href="#" class="resource-button" id="btn-open-autoeval">Autoévaluation en ligne</a></div>`;
+    const onlineBtnHtml = data.onlineTool
+      ? ''
+      : '<a href="#" class="resource-button" id="btn-open-autoeval">Autoévaluation en ligne</a>';
+    return `${descHtml}<div class="resource-button-row">${pdfBtnHtml}${onlineBtnHtml}</div>`;
   }
 
   const AUTOEVAL_LEVEL_LABELS = { level1: 'Niveau 1', level2: 'Niveau 2', level3: 'Niveau 3' };

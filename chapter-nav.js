@@ -4,8 +4,8 @@
   const pageLang = location.pathname.split('/').includes('nl') ? 'nl' : 'en';
 
   const LABELS = {
-    en: { home: 'Home', vocabulary: 'Vocabulary', practice: 'Practice', resources: 'Resources', explorations: 'Explorations' },
-    nl: { home: 'Home', vocabulary: 'Woordenschat', practice: 'Oefeningen', resources: 'Hulpbronnen', explorations: 'Exploraties' }
+    en: { home: 'Home', vocabulary: 'Vocabulary', practice: 'Practice', resources: 'Resources', explorations: 'Explorations', assessment: 'Assessment' },
+    nl: { home: 'Home', vocabulary: 'Woordenschat', practice: 'Oefeningen', resources: 'Hulpbronnen', explorations: 'Exploraties', assessment: 'Zelfevaluatie' }
   };
   const L = LABELS[pageLang];
 
@@ -13,7 +13,12 @@
     { file: 'vocabulary.html', label: L.vocabulary },
     { file: 'practice.html', label: L.practice },
     { file: 'resources.html', label: L.resources },
-    { file: 'explorations.html', label: L.explorations }
+    { file: 'explorations.html', label: L.explorations },
+    // Only exists for chapters migrated to the dedicated page (see
+    // autoeval.html) — the HEAD-check below already hides missing sections,
+    // so no per-chapter flag is needed here: it just quietly stays absent
+    // everywhere else until that chapter gets its own autoeval.html.
+    { file: 'autoeval.html', label: L.assessment }
   ];
 
   // Existence of a section is stable for the whole visit, so the HEAD check is

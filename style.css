@@ -1042,6 +1042,15 @@ html[data-pointer='fine'] .modal-fullscreen:hover,
   overflow-y: auto;
 }
 
+/* Standalone-page version of the fiche (autoeval.html), replacing the modal
+   for chapters migrated off resources.html — same reading width as the
+   modal card (min(92vw,760px)) for the same line length, but flowing with
+   the page instead of scrolling inside a fixed-height card. */
+.autoeval-page-body {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
 /* Same reasoning as the practice page's own fullscreen exercise modal: the
    card itself is forced to fill the screen by the browser's UA stylesheet
    (unavoidable, !important) — only the content inside can still be capped,
@@ -1361,6 +1370,52 @@ html[data-pointer='fine'] .modal-card.subject-chemistry .modal-grid .section-car
   color: #ffffff;
   border-color: var(--color-chemistry);
   box-shadow: 0 24px 50px rgba(231, 195, 96, 0.25);
+}
+
+/* Assessment: the 5th, deliberately distinct option below the regular
+   section grid (see index.html openChapterMenu). Sits on its own row rather
+   than inside .modal-grid so its width isn't dictated by that grid's
+   auto-fit columns — sized here to roughly match two regular cards
+   side-by-side, per design brief, and centered under them.
+   Coloured with the fiche's own --autoeval-accent (same amber as
+   autoeval.html itself) rather than the current subject colour, on purpose:
+   this button always looks the same regardless of bio/chem/physics, so it
+   reads as "the same tool" everywhere it appears. */
+.modal-grid-assessment {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.modal-grid-assessment[hidden] {
+  display: none;
+}
+
+.assessment-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 396px);
+  min-height: 64px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--autoeval-accent-dark);
+  background: var(--autoeval-bg);
+  border: 2px solid var(--autoeval-border);
+  border-radius: 16px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+html[data-pointer='fine'] .assessment-card:hover,
+.assessment-card:focus-visible {
+  transform: translateY(-5px);
+  background-color: var(--autoeval-accent);
+  color: #ffffff;
+  border-color: var(--autoeval-accent);
+  box-shadow: 0 24px 50px rgba(var(--autoeval-accent-rgb), 0.3);
+  outline: none;
 }
 
 .friends-card {
