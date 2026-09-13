@@ -1333,13 +1333,18 @@ html[data-pointer='fine'] .modal-grid .section-card:hover,
   outline: none;
 }
 
-/* Subject Bio (Green) overrides */
-.modal-card.subject-bio .modal-grid .section-card {
+/* Subject Bio (Green) overrides — also applied to .assessment-card so its
+   text/border match the current subject exactly like the 4 regular cards;
+   only its left accent bar (see below) keeps a fixed colour. */
+.modal-card.subject-bio .modal-grid .section-card,
+.modal-card.subject-bio .assessment-card {
   color: var(--color-bio);
   border-color: rgba(98, 181, 170, 0.65);
 }
 html[data-pointer='fine'] .modal-card.subject-bio .modal-grid .section-card:hover,
-.modal-card.subject-bio .modal-grid .section-card:focus-visible {
+.modal-card.subject-bio .modal-grid .section-card:focus-visible,
+html[data-pointer='fine'] .modal-card.subject-bio .assessment-card:hover,
+.modal-card.subject-bio .assessment-card:focus-visible {
   background-color: var(--color-bio);
   color: #ffffff;
   border-color: var(--color-bio);
@@ -1347,12 +1352,15 @@ html[data-pointer='fine'] .modal-card.subject-bio .modal-grid .section-card:hove
 }
 
 /* Subject Physics (Purple/Violet) overrides */
-.modal-card.subject-physics .modal-grid .section-card {
+.modal-card.subject-physics .modal-grid .section-card,
+.modal-card.subject-physics .assessment-card {
   color: var(--color-physics);
   border-color: rgba(139, 123, 181, 0.65);
 }
 html[data-pointer='fine'] .modal-card.subject-physics .modal-grid .section-card:hover,
-.modal-card.subject-physics .modal-grid .section-card:focus-visible {
+.modal-card.subject-physics .modal-grid .section-card:focus-visible,
+html[data-pointer='fine'] .modal-card.subject-physics .assessment-card:hover,
+.modal-card.subject-physics .assessment-card:focus-visible {
   background-color: var(--color-physics);
   color: #ffffff;
   border-color: var(--color-physics);
@@ -1360,12 +1368,15 @@ html[data-pointer='fine'] .modal-card.subject-physics .modal-grid .section-card:
 }
 
 /* Subject Chemistry (Yellow/Orange) overrides */
-.modal-card.subject-chemistry .modal-grid .section-card {
+.modal-card.subject-chemistry .modal-grid .section-card,
+.modal-card.subject-chemistry .assessment-card {
   color: var(--color-chemistry);
   border-color: rgba(231, 195, 96, 0.65);
 }
 html[data-pointer='fine'] .modal-card.subject-chemistry .modal-grid .section-card:hover,
-.modal-card.subject-chemistry .modal-grid .section-card:focus-visible {
+.modal-card.subject-chemistry .modal-grid .section-card:focus-visible,
+html[data-pointer='fine'] .modal-card.subject-chemistry .assessment-card:hover,
+.modal-card.subject-chemistry .assessment-card:focus-visible {
   background-color: var(--color-chemistry);
   color: #ffffff;
   border-color: var(--color-chemistry);
@@ -1374,17 +1385,21 @@ html[data-pointer='fine'] .modal-card.subject-chemistry .modal-grid .section-car
 
 /* Assessment: the 5th option below the regular section grid (see
    index.html openChapterMenu). Sits on its own row, full width, rather than
-   inside .modal-grid — same white card material as the 4 regular
-   .section-cards (so it doesn't read as a mismatched, separately-filled
-   block the way an earlier cream-filled version did), distinguished only by
-   a left accent bar. Coloured with the fiche's own --autoeval-accent (same
-   amber as autoeval.html itself) rather than the current subject colour, on
-   purpose: this button always looks the same regardless of bio/chem/
-   physics, so it reads as "the same tool" everywhere it appears. */
+   inside .modal-grid — same white card material and same subject-coloured
+   text/border/hover as the 4 regular .section-cards (see the subject
+   override blocks above, which include .assessment-card). The one thing
+   that marks it as different is the left accent bar below, kept a fixed
+   amber (the fiche's own --autoeval-accent, same as autoeval.html) rather
+   than the subject colour — so it reads as "the same tool" across bio/chem/
+   physics chapters, without the whole card clashing with, say, a bio page's
+   green or a physics page's purple. */
 .modal-grid-assessment[hidden] {
   display: none;
 }
 
+/* Fallback colours match .modal-grid .section-card's own default/emerald
+   fallback — in practice always overridden by a subject class, since the
+   modal is never shown without one. */
 .assessment-card {
   position: relative;
   display: flex;
@@ -1393,17 +1408,15 @@ html[data-pointer='fine'] .modal-card.subject-chemistry .modal-grid .section-car
   overflow: hidden;
   min-height: 64px;
   text-decoration: none;
-  color: var(--autoeval-accent-dark);
+  color: var(--color-emerald);
   background: var(--color-surface);
-  border: 1.5px solid var(--autoeval-border);
+  border: 1.5px solid rgba(12, 163, 127, 0.6);
   border-radius: 16px;
   font-size: 1.15rem;
   font-weight: 700;
   transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Left accent bar — the one thing that marks this card as different from
-   the 4 above, instead of a different fill or shape. */
 .assessment-card::before {
   content: '';
   position: absolute;
@@ -1415,11 +1428,12 @@ html[data-pointer='fine'] .modal-card.subject-chemistry .modal-grid .section-car
 html[data-pointer='fine'] .assessment-card:hover,
 .assessment-card:focus-visible {
   transform: translateY(-5px);
-  background-color: var(--autoeval-accent);
-  color: #ffffff;
-  border-color: var(--autoeval-accent);
-  box-shadow: 0 24px 50px rgba(var(--autoeval-accent-rgb), 0.3);
   outline: none;
+}
+
+html[data-pointer='fine'] .assessment-card:hover::before,
+.assessment-card:focus-visible::before {
+  background: #ffffff;
 }
 
 html[data-pointer='fine'] .assessment-card:hover::before,
