@@ -1372,40 +1372,44 @@ html[data-pointer='fine'] .modal-card.subject-chemistry .modal-grid .section-car
   box-shadow: 0 24px 50px rgba(231, 195, 96, 0.25);
 }
 
-/* Assessment: the 5th, deliberately distinct option below the regular
-   section grid (see index.html openChapterMenu). Sits on its own row rather
-   than inside .modal-grid so its width isn't dictated by that grid's
-   auto-fit columns — sized here to roughly match two regular cards
-   side-by-side, per design brief, and centered under them.
-   Coloured with the fiche's own --autoeval-accent (same amber as
-   autoeval.html itself) rather than the current subject colour, on purpose:
-   this button always looks the same regardless of bio/chem/physics, so it
-   reads as "the same tool" everywhere it appears. */
-.modal-grid-assessment {
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-}
-
+/* Assessment: the 5th option below the regular section grid (see
+   index.html openChapterMenu). Sits on its own row, full width, rather than
+   inside .modal-grid — same white card material as the 4 regular
+   .section-cards (so it doesn't read as a mismatched, separately-filled
+   block the way an earlier cream-filled version did), distinguished only by
+   a left accent bar. Coloured with the fiche's own --autoeval-accent (same
+   amber as autoeval.html itself) rather than the current subject colour, on
+   purpose: this button always looks the same regardless of bio/chem/
+   physics, so it reads as "the same tool" everywhere it appears. */
 .modal-grid-assessment[hidden] {
   display: none;
 }
 
 .assessment-card {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(100%, 396px);
+  overflow: hidden;
   min-height: 64px;
-  text-align: center;
   text-decoration: none;
   color: var(--autoeval-accent-dark);
-  background: var(--autoeval-bg);
-  border: 2px solid var(--autoeval-border);
+  background: var(--color-surface);
+  border: 1.5px solid var(--autoeval-border);
   border-radius: 16px;
   font-size: 1.15rem;
   font-weight: 700;
   transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Left accent bar — the one thing that marks this card as different from
+   the 4 above, instead of a different fill or shape. */
+.assessment-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: var(--autoeval-accent);
 }
 
 html[data-pointer='fine'] .assessment-card:hover,
@@ -1416,6 +1420,11 @@ html[data-pointer='fine'] .assessment-card:hover,
   border-color: var(--autoeval-accent);
   box-shadow: 0 24px 50px rgba(var(--autoeval-accent-rgb), 0.3);
   outline: none;
+}
+
+html[data-pointer='fine'] .assessment-card:hover::before,
+.assessment-card:focus-visible::before {
+  background: #ffffff;
 }
 
 .friends-card {
