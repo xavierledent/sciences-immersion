@@ -1307,33 +1307,26 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
   gap: 16px;
 }
 
-/* Fallback / Default emerald styles.
-   Row layout (icon-left label, chevron-right) rather than a centered tile:
-   reads as "this navigates further" instead of "pick one of these", and it's
-   what lets Assessment (.assessment-card, styled identically here even
-   though it sits in its own row outside .modal-grid — see below) join the
-   other 4 without needing a fill, accent bar or subtitle to stand out. */
+/* Fallback / Default emerald styles. Centered text, no icon — same tile
+   look for all 5 options (the 4 regular .section-cards and .assessment-card,
+   styled identically here even though it sits in its own row outside
+   .modal-grid, see below). What marks Assessment as a step apart is the
+   dashed divider above it (.modal-grid-divider, further down), not a
+   different card style. */
 .modal-grid .section-card,
 .assessment-card {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  text-align: left;
+  text-align: center;
   min-height: 120px;
-  padding: 0 22px;
   text-decoration: none;
   color: var(--color-emerald);
   border: 2px solid rgba(12, 163, 127, 0.6);
   font-size: 1.4rem;
   font-weight: 700;
   transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.section-card .chevron,
-.assessment-card .chevron {
-  flex-shrink: 0;
 }
 
 html[data-pointer='fine'] .modal-grid .section-card:hover,
@@ -1400,13 +1393,33 @@ html[data-pointer='fine'] .modal-card.subject-chemistry .assessment-card:hover,
 /* Assessment: a 5th option below the regular section grid (see index.html
    openChapterMenu), on its own full-width row rather than inside
    .modal-grid — but visually identical to the 4 regular .section-cards
-   (shared rules above, subject colour included). Nothing distinguishes it
-   materially anymore; the earlier cream fill / accent bar / subtitle were
-   all tried and dropped once the tool got its own page, its own index
-   button and its own nav entry — that's what makes it findable now, not a
-   louder button. */
+   (shared rules above, subject colour included). The earlier cream fill,
+   accent bar, icon+subtitle and chevron were all tried and dropped once the
+   tool got its own page, its own index button and its own nav entry —
+   that's what makes it findable now. The one remaining marker is the dashed
+   divider above it, saying "this is a step apart" without touching the
+   button itself. */
+.modal-grid-divider {
+  border: none;
+  border-top: 2px dashed rgba(12, 163, 127, 0.4);
+  margin: 0;
+}
+
+.modal-grid-divider[hidden],
 .modal-grid-assessment[hidden] {
   display: none;
+}
+
+.modal-card.subject-bio .modal-grid-divider {
+  border-top-color: rgba(98, 181, 170, 0.5);
+}
+
+.modal-card.subject-physics .modal-grid-divider {
+  border-top-color: rgba(139, 123, 181, 0.5);
+}
+
+.modal-card.subject-chemistry .modal-grid-divider {
+  border-top-color: rgba(231, 195, 96, 0.5);
 }
 
 .friends-card {

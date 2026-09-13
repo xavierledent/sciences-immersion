@@ -60,6 +60,7 @@
         <div class="modal-chip" id="chapter-modal-chip">Subject</div>
         <h2 id="chapter-modal-title">Choose a section</h2>
         <div class="modal-grid" id="chapter-modal-options"></div>
+        <hr class="modal-grid-divider" id="chapter-modal-divider" hidden>
         <div class="modal-grid-assessment" id="chapter-modal-assessment-row" hidden></div>
       </div>
     </div>
@@ -71,12 +72,6 @@
 
   <script>
     window.addEventListener('DOMContentLoaded', () => {
-      // Right-aligned "this leads further" affordance on every section card
-      // (including Assessment) — currentColor so it follows the card's own
-      // text colour (subject colour normally, white on hover/filled state)
-      // without a separate rule to keep in sync.
-      const CHEVRON_SVG = '<svg class="chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>';
-
       const siteData = {
         languages: [
           {
@@ -154,6 +149,7 @@
       const modalCard = document.querySelector('.modal-card');
       const modalChip = document.getElementById('chapter-modal-chip');
       const modalClose = document.getElementById('chapter-modal-close');
+      const modalDivider = document.getElementById('chapter-modal-divider');
       const modalAssessmentRow = document.getElementById('chapter-modal-assessment-row');
       const titleHeading = document.querySelector('h1');
       const subtitleParagraph = document.querySelector('.subtitle');
@@ -315,7 +311,7 @@
           card.className = 'section-card';
           card.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/${section.key}.html`;
           const label = getSectionLabel(section);
-          card.innerHTML = `<span>${label}</span>${CHEVRON_SVG}`;
+          card.textContent = label;
           modalOptions.appendChild(card);
         });
 
@@ -324,20 +320,22 @@
         // deserves more visibility than it had buried in Resources. Styled
         // identically to the 4 cards above (see style.css): what makes it
         // findable is having its own page, its own nav entry and this
-        // button, not a louder button. Only shown for chapters flagged
-        // `hasAssessment` (set once that chapter's autoeval.html actually
-        // exists) so the button never points at a missing page during the
-        // gradual rollout.
+        // button, not a louder button — the dashed divider above it is the
+        // only thing marking it as a step apart. Only shown for chapters
+        // flagged `hasAssessment` (set once that chapter's autoeval.html
+        // actually exists) so the button never points at a missing page
+        // during the gradual rollout.
         modalAssessmentRow.innerHTML = '';
         if (chapter.hasAssessment) {
           const assessmentCard = document.createElement('a');
           assessmentCard.className = 'section-card assessment-card';
           assessmentCard.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/autoeval.html`;
-          const assessmentLabel = selectedLanguage.code === 'nl' ? 'Zelfevaluatie' : 'Assessment';
-          assessmentCard.innerHTML = `<span>${assessmentLabel}</span>${CHEVRON_SVG}`;
+          assessmentCard.textContent = selectedLanguage.code === 'nl' ? 'Zelfevaluatie' : 'Assessment';
           modalAssessmentRow.appendChild(assessmentCard);
+          modalDivider.hidden = false;
           modalAssessmentRow.hidden = false;
         } else {
+          modalDivider.hidden = true;
           modalAssessmentRow.hidden = true;
         }
 
