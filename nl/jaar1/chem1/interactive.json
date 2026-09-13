@@ -1,7 +1,1348 @@
 {
-  "multipleChoice": [],
-  "dragAndDrop": [],
-  "fillBlanks": [],
-  "matchPairs": [],
-  "sorting": []
+  "multipleChoice": [
+    {
+      "quizTitle": "Bodem vs ondergrond",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Hoe heet de bovenste laag van de grond?",
+          "image": "assets/QCM1.jpg",
+          "options": [
+            "Bodem",
+            "Ondergrond",
+            "Moedergesteente",
+            "Grondwater"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Hoe heet de laag onder de bodem?",
+          "image": "assets/QCM1.jpg",
+          "options": [
+            "Ondergrond",
+            "Bodem",
+            "Humus",
+            "Watervoerende laag"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Wat bevat de bodem dat de ondergrond niet bevat?",
+          "image": null,
+          "options": [
+            "Levende organismen en organisch materiaal",
+            "Gesteenten en mineralen",
+            "Enkel water",
+            "Niets — ze zijn identiek"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Waar halen mensen het grootste deel van hun grondstoffen vandaan, zoals ijzer, steen of olie?",
+          "options": [
+            "De ondergrond",
+            "De bodem",
+            "De atmosfeer",
+            "Het oceaanoppervlak"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Waaruit bestaat humus?",
+          "options": [
+            "Dode bladeren en ontbonden dieren",
+            "Gesteenten en mineralen",
+            "Gesmolten metaal",
+            "Plastic afval"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Natuurlijke hulpbronnen classificeren",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Tot welke categorie behoort graniet?",
+          "image": "assets/QCM2-1.png",
+          "options": [
+            "Gesteenten",
+            "Mineralen",
+            "Fossiele brandstoffen",
+            "Organische hulpbronnen"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Tot welke categorie behoort dit?",
+          "image": "assets/QCM2-2.png",
+          "options": [
+            "Mineralen",
+            "Gesteenten",
+            "Fossiele brandstoffen",
+            "Water"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Tot welke categorie behoort dit?",
+          "image": "assets/QCM2-3.png",
+          "options": [
+            "Fossiele brandstoffen",
+            "Gesteenten",
+            "Mineralen",
+            "Organische hulpbronnen"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Tot welke categorie behoort dit?",
+          "image": "assets/QCM2-4.png",
+          "options": [
+            "Organische hulpbronnen",
+            "Mineralen",
+            "Fossiele brandstoffen",
+            "Gesteenten"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welke van deze is een hernieuwbare hulpbron?",
+          "image": null,
+          "options": [
+            "Hout",
+            "Steenkool",
+            "Aardolie",
+            "Aardgas"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Waarom wordt aardolie geclassificeerd als een niet-hernieuwbare hulpbron?",
+          "image": null,
+          "options": [
+            "Omdat het miljoenen jaren duurt om te ontstaan en niet snel kan worden aangevuld",
+            "Omdat het uit de lucht valt wanneer het regent",
+            "Omdat dieren het gebruiken om hun nesten te bouwen",
+            "Omdat het enkel in de oceaan voorkomt"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Eigenschappen van metalen",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Welke eigenschap toont deze afbeelding?",
+          "image": "assets/QCM3-1.png",
+          "options": [
+            "Glans",
+            "Magnetisme",
+            "Kneedbaarheid",
+            "Warmtegeleiding"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welke eigenschap toont deze afbeelding?",
+          "image": "assets/QCM3-2.png",
+          "options": [
+            "Elektrische geleiding",
+            "Glans",
+            "Magnetisme",
+            "Kneedbaarheid"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welke eigenschap toont deze afbeelding?",
+          "image": "assets/QCM3-3.png",
+          "options": [
+            "Magnetisme",
+            "Glans",
+            "Elektrische geleiding",
+            "Warmtegeleiding"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welke eigenschap zorgt ervoor dat een metaal kan worden gebogen of tot dunne draden kan worden gevormd zonder te breken?",
+          "image": null,
+          "options": [
+            "Kneedbaarheid",
+            "Magnetisme",
+            "Glans",
+            "Warmtegeleiding"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welk metaal staat erom bekend door magneten te worden aangetrokken?",
+          "image": null,
+          "options": [
+            "IJzer",
+            "Koper",
+            "Goud",
+            "Aluminium"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Waar worden metalen uit gewonnen?",
+          "image": null,
+          "options": [
+            "Ertsen die in de ondergrond worden gevonden",
+            "De atmosfeer",
+            "Oceaanwater",
+            "Boomsap"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Levenscyclus en de 3 R's",
+      "image": "assets/QCM4.png",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Welke stap komt net na \"Winning van grondstoffen\"?",
+          "options": [
+            "Productie",
+            "Distributie",
+            "Gebruik",
+            "Afvoer"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Bij welke stap worden afgewerkte producten naar winkels vervoerd?",
+          "options": [
+            "Distributie",
+            "Productie",
+            "Recyclage",
+            "Winning van grondstoffen"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Waarom zijn de pijlen in het levenscyclusdiagram dubbel in plaats van enkel?",
+          "image": null,
+          "options": [
+            "Omdat mensen bij elke stap zowel hulpbronnen van de Aarde nemen als er vervuiling aan teruggeven.",
+            "Omdat het diagram elke stap tweemaal herhaalt.",
+            "Omdat objecten in de cyclus achteruit in de tijd kunnen reizen.",
+            "Omdat het het diagram er wetenschappelijker doet uitzien."
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Wat betekent \"Reduce\" (verminderen) in de regel van de 3 R's?",
+          "image": null,
+          "options": [
+            "Minder van iets gebruiken zodat we het niet verspillen",
+            "Een voorwerp opnieuw gebruiken in plaats van het weg te gooien",
+            "Oude materialen omvormen tot nieuwe producten",
+            "Afval veilig onder de grond begraven"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Wat betekent \"Recycle\" (recycleren)?",
+          "image": null,
+          "options": [
+            "Oude materialen omvormen tot nieuwe producten",
+            "Minder van iets gebruiken",
+            "Een voorwerp hergebruiken zoals het is",
+            "Afval onder de grond begraven"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "quizTitle": "Metaal, gesteente of mythe?",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Welk van deze voorwerpen zou na honderden jaren in de natuur waarschijnlijk nog bijna ongewijzigd bestaan?",
+          "options": [
+            "Een keramische mok",
+            "Een wollen trui",
+            "Een bananenschil",
+            "Een kartonnen doos"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Een stalen waterfles voelt heel snel koud aan wanneer je hem aanraakt. Welke eigenschap van metaal verklaart dit het best?",
+          "image": "assets/QCM5-2.png",
+          "options": [
+            "Warmtegeleiding",
+            "Kneedbaarheid",
+            "Magnetisme",
+            "Glans"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Welke test zouden wetenschappers kunnen gebruiken om te controleren of deze \"zilveren\" munt echt zilver is, op basis van wat we over metalen geleerd hebben?",
+          "image": "assets/QCM5-3.png",
+          "options": [
+            "Elektrische geleiding",
+            "De kleur van de verf op het oppervlak",
+            "De vorm van de munt",
+            "Hoe luid ze klinkt wanneer ze valt"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Bamboe groeit binnen enkele maanden terug na te zijn gekapt, veel sneller dan eiken die er tientallen jaren over doen. Hoe moet bamboe worden geclassificeerd?",
+          "image": "assets/QCM5-4.png",
+          "options": [
+            "Een hernieuwbare hulpbron",
+            "Een niet-hernieuwbare hulpbron",
+            "Een fossiele brandstof",
+            "Een minerale hulpbron"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Een bedrijf wint lithium uit ondergrondse zoutvlaktes om batterijen te maken. Welke stap van de levenscyclus van een voorwerp stelt dit voor?",
+          "image": "assets/QCM5-5.png",
+          "options": [
+            "Winning van grondstoffen",
+            "Productie",
+            "Distributie",
+            "Recyclage"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "quizTitle": "Benoem het bodemprofiel",
+      "backgroundImage": "assets/DnD1.jpeg",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Bodem",
+        "Ondergrond",
+        "Plantenwortels",
+        "Gesteentefragmenten",
+        "Regenworm"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 28.85,
+          "y_pourcent": 42.45,
+          "acceptedText": "Bodem"
+        },
+        {
+          "x_pourcent": 29,
+          "y_pourcent": 72.4,
+          "acceptedText": "Ondergrond"
+        },
+        {
+          "x_pourcent": 58.28,
+          "y_pourcent": 38.8,
+          "acceptedText": "Plantenwortels"
+        },
+        {
+          "x_pourcent": 68.68,
+          "y_pourcent": 66.93,
+          "acceptedText": "Gesteentefragmenten"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Herken gesteente- en mineraalstalen",
+      "backgroundImage": "assets/Dnd2.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Centreer elk label op het midden van het beoogde staal (niet op de rand).",
+      "reservoirItems": [
+        "Graniet",
+        "Kwarts",
+        "Gouderts",
+        "Kalksteen",
+        "Marmer"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 25.5,
+          "y_pourcent": 25,
+          "acceptedText": "Graniet"
+        },
+        {
+          "x_pourcent": 74.08,
+          "y_pourcent": 27.08,
+          "acceptedText": "Kwarts"
+        },
+        {
+          "x_pourcent": 24.08,
+          "y_pourcent": 75.65,
+          "acceptedText": "Gouderts"
+        },
+        {
+          "x_pourcent": 76.07,
+          "y_pourcent": 77.86,
+          "acceptedText": "Kalksteen"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Benoem de levenscyclus van een product",
+      "backgroundImage": "assets/Dnd3.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Winning van grondstoffen",
+        "Productie",
+        "Distributie",
+        "Gebruik",
+        "Afvoer",
+        "Recyclage"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 40.04,
+          "y_pourcent": 14.45,
+          "acceptedText": "Winning van grondstoffen"
+        },
+        {
+          "x_pourcent": 73.54,
+          "y_pourcent": 16.6,
+          "acceptedText": "Productie"
+        },
+        {
+          "x_pourcent": 90.23,
+          "y_pourcent": 43.26,
+          "acceptedText": "Distributie"
+        },
+        {
+          "x_pourcent": 71.88,
+          "y_pourcent": 73.24,
+          "acceptedText": "Gebruik"
+        },
+        {
+          "x_pourcent": 28.71,
+          "y_pourcent": 70.7,
+          "acceptedText": "Afvoer"
+        },
+        {
+          "x_pourcent": 9.67,
+          "y_pourcent": 43.07,
+          "acceptedText": "Recyclage"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Materialen van een fiets",
+      "backgroundImage": "assets/Dnd4.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk materiaal naar de juiste genummerde cirkel",
+      "reservoirItems": [
+        "Staal",
+        "Rubber",
+        "Leer",
+        "Plastic"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 54.9,
+          "y_pourcent": 48.57,
+          "acceptedText": "Staal"
+        },
+        {
+          "x_pourcent": 76.14,
+          "y_pourcent": 40.63,
+          "acceptedText": "Rubber"
+        },
+        {
+          "x_pourcent": 32.46,
+          "y_pourcent": 20.44,
+          "acceptedText": "Leer"
+        },
+        {
+          "x_pourcent": 51.56,
+          "y_pourcent": 74.48,
+          "acceptedText": "Plastic"
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "quizTitle": "Bodem en ondergrond",
+      "text": "Wanneer je een diep gat graaft in een bos, kun je verschillende lagen waarnemen. De bovenste laag heet de [blank0]. Ze is dun, donker en vol leven, en bevat organisch materiaal dat [blank1] heet. Dieper eronder vind je de [blank2]. Deze laag bevat geen levende wezens, enkel vast gesteente en [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "bodem",
+            "zand",
+            "compost",
+            "grind"
+          ],
+          "correctAnswer": "bodem"
+        },
+        {
+          "options": [
+            "humus",
+            "klei",
+            "slib",
+            "grind"
+          ],
+          "correctAnswer": "humus"
+        },
+        {
+          "options": [
+            "ondergrond",
+            "bovengrond",
+            "atmosfeer",
+            "aardkorst"
+          ],
+          "correctAnswer": "ondergrond"
+        },
+        {
+          "options": [
+            "mineralen",
+            "plastic",
+            "hout",
+            "zand"
+          ],
+          "correctAnswer": "mineralen"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "graven",
+          "translation": "creuser"
+        },
+        {
+          "word": "dieper",
+          "translation": "plus profondément"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Een metaal testen",
+      "text": "Maya vond een glanzende ring die in haar tuin begraven lag. Om te controleren of het echt metaal was, [blank0] ze hem voorzichtig met schuurpapier en zag een heldere glans — bewijs van [blank1]. Daarna sloot ze hem aan in een elektrisch circuit, en het lampje ging branden, wat wees op een goede [blank2]. Ten slotte boog ze hem tot een dunne draad zonder dat hij brak, waarmee ze zijn [blank3] testte.",
+      "blanks": [
+        {
+          "options": [
+            "schuurde",
+            "verfde",
+            "kookte",
+            "bevroor"
+          ],
+          "correctAnswer": "schuurde"
+        },
+        {
+          "options": [
+            "glans",
+            "roest",
+            "magnetisme",
+            "gewicht"
+          ],
+          "correctAnswer": "glans"
+        },
+        {
+          "options": [
+            "elektrische geleiding",
+            "kneedbaarheid",
+            "glans",
+            "warmtegeleiding"
+          ],
+          "correctAnswer": "elektrische geleiding"
+        },
+        {
+          "options": [
+            "kneedbaarheid",
+            "magnetisme",
+            "glans",
+            "warmtegeleiding"
+          ],
+          "correctAnswer": "kneedbaarheid"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "schuurpapier",
+          "translation": "papier de verre"
+        },
+        {
+          "word": "begraven",
+          "translation": "enterré"
+        },
+        {
+          "word": "boog",
+          "translation": "plié"
+        }
+      ]
+    },
+    {
+      "quizTitle": "De verborgen reis van een smartphone",
+      "text": "Diep onder de grond graven [blank0] in de aarde om koper en goud te winnen. Deze grondstoffen reizen naar een fabriek waar arbeiders ze [blank1] tot elektronische onderdelen. Vrachtwagens [blank2] vervolgens de afgewerkte smartphones naar winkels in het hele land. Jaren later, als de telefoon achteloos wordt weggegooid, kunnen de giftige onderdelen de bodem en de rivieren [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "mijnwerkers",
+            "boeren",
+            "leraren",
+            "dokters"
+          ],
+          "correctAnswer": "mijnwerkers"
+        },
+        {
+          "options": [
+            "verwerken",
+            "planten",
+            "koken",
+            "verven"
+          ],
+          "correctAnswer": "verwerken"
+        },
+        {
+          "options": [
+            "vervoeren",
+            "recycleren",
+            "begraven",
+            "bevriezen"
+          ],
+          "correctAnswer": "vervoeren"
+        },
+        {
+          "options": [
+            "vervuilen",
+            "reinigen",
+            "versieren",
+            "afkoelen"
+          ],
+          "correctAnswer": "vervuilen"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "mijnwerkers",
+          "translation": "mineurs"
+        },
+        {
+          "word": "winkels",
+          "translation": "magasins"
+        },
+        {
+          "word": "achteloos",
+          "translation": "avec négligence"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Biologische afbreekbaarheid",
+      "text": "Sommig afval is [blank0], wat betekent dat kleine levende wezens zoals bacteriën en [blank1] het snel kunnen afbreken tot natuurlijke mineralen. Ander afval, zoals [blank2] en glas, blijft honderden jaren in de natuur en wordt beschouwd als [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "biologisch afbreekbaar",
+            "recycleerbaar",
+            "hernieuwbaar",
+            "giftig"
+          ],
+          "correctAnswer": "biologisch afbreekbaar"
+        },
+        {
+          "options": [
+            "schimmels",
+            "fabrieken",
+            "vrachtwagens",
+            "metalen"
+          ],
+          "correctAnswer": "schimmels"
+        },
+        {
+          "options": [
+            "plastic",
+            "papier",
+            "hout",
+            "katoen"
+          ],
+          "correctAnswer": "plastic"
+        },
+        {
+          "options": [
+            "niet biologisch afbreekbaar",
+            "hernieuwbaar",
+            "organisch",
+            "biologisch afbreekbaar"
+          ],
+          "correctAnswer": "niet biologisch afbreekbaar"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Het gezonken schip",
+      "text": "Een oud schip zonk 200 jaar geleden naar de bodem van de oceaan. Duikers die vandaag het wrak verkennen, ontdekken dat het [blank0] anker van het schip is geroest maar nog steeds herkenbaar, terwijl het houten dek bijna volledig is [blank1], afgebroken door kleine organismen die in het water leven. De glazen patrijspoorten van het schip zijn echter nog steeds [blank2], bijna ongewijzigd na twee eeuwen onder water — omdat glas, in tegenstelling tot hout, [blank3] is.",
+      "blanks": [
+        {
+          "options": [
+            "ijzeren",
+            "katoenen",
+            "wollen",
+            "rubberen"
+          ],
+          "correctAnswer": "ijzeren"
+        },
+        {
+          "options": [
+            "afgebroken",
+            "verdampt",
+            "gesmolten",
+            "gekristalliseerd"
+          ],
+          "correctAnswer": "afgebroken"
+        },
+        {
+          "options": [
+            "intact",
+            "opgelost",
+            "afgebroken",
+            "geroest"
+          ],
+          "correctAnswer": "intact"
+        },
+        {
+          "options": [
+            "niet biologisch afbreekbaar",
+            "hernieuwbaar",
+            "magnetisch",
+            "kneedbaar"
+          ],
+          "correctAnswer": "niet biologisch afbreekbaar"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "wrak",
+          "translation": "épave"
+        },
+        {
+          "word": "patrijspoorten",
+          "translation": "hublots"
+        },
+        {
+          "word": "geroest",
+          "translation": "rouillé"
+        },
+        {
+          "word": "anker",
+          "translation": "ancre"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "quizTitle": "Mineralen en hun toepassingen",
+      "instructions": "Koppel elk mineraal aan het voorwerp waarvoor het wordt gebruikt.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Grafiet"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Potloden"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Gouderts"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Juwelen"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Steenzout"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Kruiden"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Koperterts"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Draden"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Kwarts"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Glas"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Eigenschappen van metalen",
+      "instructions": "Koppel elke eigenschap van metaal aan de juiste korte beschrijving.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Glans"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Glanzend oppervlak"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Elektrische geleiding"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Geleidt elektriciteit"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Warmtegeleiding"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Geleidt warmte"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Kneedbaarheid"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Buigt makkelijk"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Magnetisme"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Trekt magneten aan"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Stalen van hulpbronnen",
+      "instructions": "Koppel elk staal van een hulpbron aan de juiste categorie.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-1.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Gesteente"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-2.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Mineraal"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-3.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Fossiele brandstof"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-4.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Organische hulpbron"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-5.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Water"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Stappen van de levenscyclus",
+      "instructions": "Koppel elke stap van de levenscyclus aan de juiste korte beschrijving.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Winning van grondstoffen"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Grondstoffen delven"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Productie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Voorwerpen maken"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Distributie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Producten vervoeren"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Gebruik"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Dagelijks gebruik"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Afvoer"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Weggooien"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Recyclage"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Nieuw van oud"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Waar komt het vandaan?",
+      "instructions": "Koppel elk materiaal aan zijn natuurlijke bron.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP5-1.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Boomschors"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP5-2.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Vogelveren"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP5-3.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Vlasplant"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP5-4.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Paardenhaar"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "quizTitle": "Hernieuwbaar vs niet-hernieuwbaar",
+      "instructions": "Sorteer deze hulpbronnen op basis van of ze kunnen opraken of niet.",
+      "categories": [
+        "Hernieuwbaar",
+        "Niet-hernieuwbaar"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Hernieuwbaar",
+          "type": "text",
+          "content": "Zon"
+        },
+        {
+          "id": 2,
+          "category": "Hernieuwbaar",
+          "type": "text",
+          "content": "Wind"
+        },
+        {
+          "id": 3,
+          "category": "Hernieuwbaar",
+          "type": "text",
+          "content": "Water"
+        },
+        {
+          "id": 4,
+          "category": "Hernieuwbaar",
+          "type": "text",
+          "content": "Hout"
+        },
+        {
+          "id": 5,
+          "category": "Niet-hernieuwbaar",
+          "type": "text",
+          "content": "Steenkool"
+        },
+        {
+          "id": 6,
+          "category": "Niet-hernieuwbaar",
+          "type": "text",
+          "content": "Olie"
+        },
+        {
+          "id": 7,
+          "category": "Niet-hernieuwbaar",
+          "type": "text",
+          "content": "Gas"
+        },
+        {
+          "id": 8,
+          "category": "Niet-hernieuwbaar",
+          "type": "text",
+          "content": "Goud"
+        },
+        {
+          "id": 9,
+          "category": "Niet-hernieuwbaar",
+          "type": "text",
+          "content": "Koper"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Natuurlijke hulpbronnen",
+      "instructions": "Help deze materialen, verzameld tijdens een geologie-excursie, te sorteren in hun juiste wetenschappelijke groep.",
+      "categories": [
+        "Gesteenten",
+        "Mineralen",
+        "Fossiele brandstoffen",
+        "Water & organische hulpbronnen"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Gesteenten",
+          "type": "text",
+          "content": "Graniet"
+        },
+        {
+          "id": 2,
+          "category": "Gesteenten",
+          "type": "text",
+          "content": "Kalksteen"
+        },
+        {
+          "id": 3,
+          "category": "Mineralen",
+          "type": "text",
+          "content": "Kwarts"
+        },
+        {
+          "id": 4,
+          "category": "Mineralen",
+          "type": "text",
+          "content": "Goud"
+        },
+        {
+          "id": 5,
+          "category": "Mineralen",
+          "type": "text",
+          "content": "IJzer"
+        },
+        {
+          "id": 6,
+          "category": "Fossiele brandstoffen",
+          "type": "text",
+          "content": "Steenkool"
+        },
+        {
+          "id": 7,
+          "category": "Fossiele brandstoffen",
+          "type": "text",
+          "content": "Aardolie"
+        },
+        {
+          "id": 8,
+          "category": "Fossiele brandstoffen",
+          "type": "text",
+          "content": "Gas"
+        },
+        {
+          "id": 9,
+          "category": "Water & organische hulpbronnen",
+          "type": "text",
+          "content": "Water"
+        },
+        {
+          "id": 10,
+          "category": "Water & organische hulpbronnen",
+          "type": "text",
+          "content": "Hout"
+        },
+        {
+          "id": 11,
+          "category": "Water & organische hulpbronnen",
+          "type": "text",
+          "content": "Wol"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Biologisch afbreekbaar vs niet biologisch afbreekbaar",
+      "instructions": "Jij bent een afvalsorteerder — bepaal welke voorwerpen snel in de natuur zullen verdwijnen en welke ze eeuwenlang zullen vervuilen.",
+      "categories": [
+        "Biologisch afbreekbaar",
+        "Niet biologisch afbreekbaar"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Biologisch afbreekbaar",
+          "type": "text",
+          "content": "Bananenschil"
+        },
+        {
+          "id": 2,
+          "category": "Biologisch afbreekbaar",
+          "type": "text",
+          "content": "Papier"
+        },
+        {
+          "id": 3,
+          "category": "Biologisch afbreekbaar",
+          "type": "text",
+          "content": "Krant"
+        },
+        {
+          "id": 4,
+          "category": "Niet biologisch afbreekbaar",
+          "type": "text",
+          "content": "Aluminium blikje"
+        },
+        {
+          "id": 5,
+          "category": "Niet biologisch afbreekbaar",
+          "type": "text",
+          "content": "Plastic fles"
+        },
+        {
+          "id": 6,
+          "category": "Niet biologisch afbreekbaar",
+          "type": "text",
+          "content": "Glazen fles"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Een hulpbron nemen vs de Aarde vervuilen",
+      "instructions": "Bepaal voor elke menselijke activiteit of de mens een hulpbron van de Aarde neemt, of ze vervuilt.",
+      "categories": [
+        "Nemen",
+        "Vervuilen"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Nemen",
+          "type": "text",
+          "content": "Koper ontginnen"
+        },
+        {
+          "id": 2,
+          "category": "Nemen",
+          "type": "text",
+          "content": "Olie winnen"
+        },
+        {
+          "id": 3,
+          "category": "Nemen",
+          "type": "text",
+          "content": "Bomen kappen"
+        },
+        {
+          "id": 4,
+          "category": "Vervuilen",
+          "type": "text",
+          "content": "CO2-uitstoot"
+        },
+        {
+          "id": 5,
+          "category": "Vervuilen",
+          "type": "text",
+          "content": "Chemisch afval dumpen"
+        },
+        {
+          "id": 6,
+          "category": "Vervuilen",
+          "type": "text",
+          "content": "Giftige lekken"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Raakt het op?",
+      "instructions": "Sorteer elke hulpbron als hernieuwbaar of niet-hernieuwbaar.",
+      "categories": [
+        "Hernieuwbaar",
+        "Niet-hernieuwbaar"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Hernieuwbaar",
+          "type": "image",
+          "content": "assets/SC5-1.png"
+        },
+        {
+          "id": 2,
+          "category": "Hernieuwbaar",
+          "type": "image",
+          "content": "assets/SC5-2.png"
+        },
+        {
+          "id": 3,
+          "category": "Hernieuwbaar",
+          "type": "image",
+          "content": "assets/SC5-3.png"
+        },
+        {
+          "id": 4,
+          "category": "Hernieuwbaar",
+          "type": "image",
+          "content": "assets/SC5-4.png"
+        },
+        {
+          "id": 5,
+          "category": "Niet-hernieuwbaar",
+          "type": "image",
+          "content": "assets/SC5-5.png"
+        },
+        {
+          "id": 6,
+          "category": "Niet-hernieuwbaar",
+          "type": "image",
+          "content": "assets/SC5-6.png"
+        },
+        {
+          "id": 7,
+          "category": "Niet-hernieuwbaar",
+          "type": "image",
+          "content": "assets/SC5-7.png"
+        },
+        {
+          "id": 8,
+          "category": "Niet-hernieuwbaar",
+          "type": "image",
+          "content": "assets/SC5-8.png"
+        }
+      ]
+    }
+  ]
 }

@@ -232,10 +232,10 @@
           "question": "Why are the arrows in the lifecycle diagram double instead of single?",
           "image": null,
           "options": [
-            "Because materials can be given back to Earth through recycling, not only taken",
-            "Because the cycle only goes in one direction",
-            "Because the diagram has a printing mistake",
-            "Because objects are never thrown away"
+            "Because at each step, humans both take resources from Earth and give back pollution to it.",
+            "Because the diagram repeats each step twice.",
+            "Because objects can travel backward through time in the cycle.",
+            "Because it makes the diagram look more scientific."
           ],
           "correctAnswer": 0
         },
@@ -262,10 +262,1087 @@
           "correctAnswer": 0
         }
       ]
+    },
+    {
+      "quizTitle": "Metal, Rock or Myth?",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Which of these objects would most likely still exist almost unchanged in nature after hundreds of years?",
+          "options": [
+            "A ceramic mug",
+            "A wool sweater",
+            "A banana peel",
+            "A cardboard box"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "A steel water bottle feels cold very quickly when you touch it. Which metal property explains this best?",
+          "image": "assets/QCM5-2.png",
+          "options": [
+            "Thermal conductivity",
+            "Malleability",
+            "Magnetism",
+            "Luster"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Which test could scientists use to check if this \"silver\" coin is real silver, based on what we learned about metals?",
+          "image": "assets/QCM5-3.png",
+          "options": [
+            "Electrical conductivity",
+            "The color of paint on the surface",
+            "The shape of the coin",
+            "How loud it sounds when dropped"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Bamboo grows back within a few months after being cut, much faster than oak trees which take decades. How should bamboo be classified?",
+          "image": "assets/QCM5-4.png",
+          "options": [
+            "A renewable resource",
+            "A non-renewable resource",
+            "A fossil fuel",
+            "A mineral resource"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "A company digs up lithium from underground salt flats to make batteries. Which step of the object lifecycle does this represent?",
+          "image": "assets/QCM5-5.png",
+          "options": [
+            "Raw material extraction",
+            "Manufacturing",
+            "Distribution",
+            "Recycling"
+          ],
+          "correctAnswer": 0
+        }
+      ]
     }
   ],
-  "dragAndDrop": [],
-  "fillBlanks": [],
-  "matchPairs": [],
-  "sorting": []
+  "dragAndDrop": [
+    {
+      "quizTitle": "Label the Soil Profile",
+      "backgroundImage": "assets/DnD1.jpeg",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Soil",
+        "Subsoil",
+        "Plant roots",
+        "Rock fragments",
+        "Earthworm"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 28.85,
+          "y_pourcent": 42.45,
+          "acceptedText": "Soil"
+        },
+        {
+          "x_pourcent": 29,
+          "y_pourcent": 72.4,
+          "acceptedText": "Subsoil"
+        },
+        {
+          "x_pourcent": 58.28,
+          "y_pourcent": 38.8,
+          "acceptedText": "Plant roots"
+        },
+        {
+          "x_pourcent": 68.68,
+          "y_pourcent": 66.93,
+          "acceptedText": "Rock fragments"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Identify Rock and Mineral Samples",
+      "backgroundImage": "assets/Dnd2.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Center each label on the middle of the target sample (not on its edge).",
+      "reservoirItems": [
+        "Granite",
+        "Quartz",
+        "Gold ore",
+        "Limestone",
+        "Marble"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 25.5,
+          "y_pourcent": 25,
+          "acceptedText": "Granite"
+        },
+        {
+          "x_pourcent": 74.08,
+          "y_pourcent": 27.08,
+          "acceptedText": "Quartz"
+        },
+        {
+          "x_pourcent": 24.08,
+          "y_pourcent": 75.65,
+          "acceptedText": "Gold ore"
+        },
+        {
+          "x_pourcent": 76.07,
+          "y_pourcent": 77.86,
+          "acceptedText": "Limestone"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Label the Product Lifecycle",
+      "backgroundImage": "assets/Dnd3.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Raw material extraction",
+        "Manufacturing",
+        "Distribution",
+        "Use",
+        "Disposal",
+        "Recycling"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 40.04,
+          "y_pourcent": 14.45,
+          "acceptedText": "Raw material extraction"
+        },
+        {
+          "x_pourcent": 73.54,
+          "y_pourcent": 16.6,
+          "acceptedText": "Manufacturing"
+        },
+        {
+          "x_pourcent": 90.23,
+          "y_pourcent": 43.26,
+          "acceptedText": "Distribution"
+        },
+        {
+          "x_pourcent": 71.88,
+          "y_pourcent": 73.24,
+          "acceptedText": "Use"
+        },
+        {
+          "x_pourcent": 28.71,
+          "y_pourcent": 70.7,
+          "acceptedText": "Disposal"
+        },
+        {
+          "x_pourcent": 9.67,
+          "y_pourcent": 43.07,
+          "acceptedText": "Recycling"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Build-a-Bike Materials",
+      "backgroundImage": "assets/Dnd4.jpg",
+      "hideOnSuccess": true,
+      "instructions": "Drag each material to the correct numbered circle",
+      "reservoirItems": [
+        "Steel",
+        "Rubber",
+        "Leather",
+        "Plastic"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 54.9,
+          "y_pourcent": 48.57,
+          "acceptedText": "Steel"
+        },
+        {
+          "x_pourcent": 76.14,
+          "y_pourcent": 40.63,
+          "acceptedText": "Rubber"
+        },
+        {
+          "x_pourcent": 32.46,
+          "y_pourcent": 20.44,
+          "acceptedText": "Leather"
+        },
+        {
+          "x_pourcent": 51.56,
+          "y_pourcent": 74.48,
+          "acceptedText": "Plastic"
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "quizTitle": "Soil and Subsoil",
+      "text": "When you dig a deep hole in a forest, you can observe different layers. The top layer is called the [blank0]. It is thin, dark, and full of life, containing organic matter called [blank1]. Deeper underneath, you find the [blank2]. This layer contains no living things, only solid rocks and [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "soil",
+            "sand",
+            "compost",
+            "gravel"
+          ],
+          "correctAnswer": "soil"
+        },
+        {
+          "options": [
+            "humus",
+            "clay",
+            "silt",
+            "gravel"
+          ],
+          "correctAnswer": "humus"
+        },
+        {
+          "options": [
+            "subsoil",
+            "topsoil",
+            "atmosphere",
+            "crust"
+          ],
+          "correctAnswer": "subsoil"
+        },
+        {
+          "options": [
+            "minerals",
+            "plastic",
+            "wood",
+            "sand"
+          ],
+          "correctAnswer": "minerals"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "dig",
+          "translation": "creuser"
+        },
+        {
+          "word": "deeper",
+          "translation": "plus profondément"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Testing a Metal",
+      "text": "Maya found a shiny ring buried in her garden. To check if it was a real metal, she [blank0] it gently with sandpaper and saw a bright shine — proof of [blank1]. Next, she connected it into an electric circuit, and the light bulb turned on, showing good [blank2]. Finally, she bent it into a thin wire without breaking it, testing its [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "scratched",
+            "painted",
+            "boiled",
+            "froze"
+          ],
+          "correctAnswer": "scratched"
+        },
+        {
+          "options": [
+            "luster",
+            "rust",
+            "magnetism",
+            "weight"
+          ],
+          "correctAnswer": "luster"
+        },
+        {
+          "options": [
+            "electrical conductivity",
+            "malleability",
+            "luster",
+            "thermal conductivity"
+          ],
+          "correctAnswer": "electrical conductivity"
+        },
+        {
+          "options": [
+            "malleability",
+            "magnetism",
+            "luster",
+            "thermal conductivity"
+          ],
+          "correctAnswer": "malleability"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "sandpaper",
+          "translation": "papier de verre"
+        },
+        {
+          "word": "buried",
+          "translation": "enterré"
+        },
+        {
+          "word": "bent",
+          "translation": "plié"
+        }
+      ]
+    },
+    {
+      "quizTitle": "The Hidden Journey of a Smartphone",
+      "text": "Deep underground, [blank0] dig into the earth to extract copper and gold. These raw materials travel to a factory where workers [blank1] them into electronic parts. Trucks then [blank2] the finished smartphones to stores around the country. Years later, if the phone is thrown away carelessly, its toxic parts can [blank3] the soil and rivers.",
+      "blanks": [
+        {
+          "options": [
+            "miners",
+            "farmers",
+            "teachers",
+            "doctors"
+          ],
+          "correctAnswer": "miners"
+        },
+        {
+          "options": [
+            "transform",
+            "plant",
+            "cook",
+            "paint"
+          ],
+          "correctAnswer": "transform"
+        },
+        {
+          "options": [
+            "distribute",
+            "recycle",
+            "bury",
+            "freeze"
+          ],
+          "correctAnswer": "distribute"
+        },
+        {
+          "options": [
+            "pollute",
+            "clean",
+            "decorate",
+            "cool"
+          ],
+          "correctAnswer": "pollute"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "miners",
+          "translation": "mineurs"
+        },
+        {
+          "word": "stores",
+          "translation": "magasins"
+        },
+        {
+          "word": "carelessly",
+          "translation": "avec négligence"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Biodegradability",
+      "text": "Some waste is [blank0], which means tiny living things like bacteria and [blank1] can break it down quickly into natural minerals. Other waste, like [blank2] and glass, stays in nature for hundreds of years and is considered [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "biodegradable",
+            "recyclable",
+            "renewable",
+            "toxic"
+          ],
+          "correctAnswer": "biodegradable"
+        },
+        {
+          "options": [
+            "fungi",
+            "factories",
+            "trucks",
+            "metals"
+          ],
+          "correctAnswer": "fungi"
+        },
+        {
+          "options": [
+            "plastic",
+            "paper",
+            "wood",
+            "cotton"
+          ],
+          "correctAnswer": "plastic"
+        },
+        {
+          "options": [
+            "non-biodegradable",
+            "renewable",
+            "organic",
+            "biodegradable"
+          ],
+          "correctAnswer": "non-biodegradable"
+        }
+      ]
+    },
+    {
+      "quizTitle": "The Sunken Ship",
+      "text": "An old ship sank to the bottom of the ocean 200 years ago. Divers exploring the wreck today find that the ship's [blank0] anchor is rusted but still recognisable, while the wooden deck has almost completely [blank1], broken down by tiny organisms living in the water. The ship's glass portholes, however, are still [blank2], almost unchanged after two centuries underwater — because glass, unlike wood, is [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "iron",
+            "cotton",
+            "wool",
+            "rubber"
+          ],
+          "correctAnswer": "iron"
+        },
+        {
+          "options": [
+            "decomposed",
+            "evaporated",
+            "melted",
+            "crystallized"
+          ],
+          "correctAnswer": "decomposed"
+        },
+        {
+          "options": [
+            "intact",
+            "dissolved",
+            "decomposed",
+            "rusted"
+          ],
+          "correctAnswer": "intact"
+        },
+        {
+          "options": [
+            "non-biodegradable",
+            "renewable",
+            "magnetic",
+            "malleable"
+          ],
+          "correctAnswer": "non-biodegradable"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "wreck",
+          "translation": "épave"
+        },
+        {
+          "word": "portholes",
+          "translation": "hublots"
+        },
+        {
+          "word": "rusted",
+          "translation": "rouillé"
+        },
+        {
+          "word": "anchor",
+          "translation": "ancre"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "quizTitle": "Minerals and Their Uses",
+      "instructions": "Match each mineral to the object it is used to make.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Graphite"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Pencils"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Gold ore"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Jewelry"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Rock salt"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Food seasoning"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Copper ore"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Wires"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Quartz"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Glass"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Metal Properties",
+      "instructions": "Match each metal property to its short description.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Luster"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Shiny surface"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Electrical conductivity"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Conducts electricity"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Thermal conductivity"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Conducts heat"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Malleability"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Bends easily"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Magnetism"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Attracts magnets"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Resource Samples",
+      "instructions": "Match each resource sample to its correct category.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-1.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Rock"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-2.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Mineral"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-3.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Fossil fuel"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-4.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Organic resource"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP3-5.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Water"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Lifecycle Steps",
+      "instructions": "Match each lifecycle step to its short description.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Raw material extraction"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Digging resources"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Manufacturing"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Making objects"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Distribution"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Transporting products"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Use"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Everyday use"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Disposal"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Throwing away"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Recycling"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "New from old"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Where Does It Come From?",
+      "instructions": "Match each material to its natural source.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP5-1.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Tree bark"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP5-2.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Bird feathers"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP5-3.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Flax plant"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP5-4.png"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Horsehair"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "quizTitle": "Renewable vs Non-renewable",
+      "instructions": "Sort these resources based on whether they can run out or not.",
+      "categories": [
+        "Renewable",
+        "Non-renewable"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Renewable",
+          "type": "text",
+          "content": "Sun"
+        },
+        {
+          "id": 2,
+          "category": "Renewable",
+          "type": "text",
+          "content": "Wind"
+        },
+        {
+          "id": 3,
+          "category": "Renewable",
+          "type": "text",
+          "content": "Water"
+        },
+        {
+          "id": 4,
+          "category": "Renewable",
+          "type": "text",
+          "content": "Wood"
+        },
+        {
+          "id": 5,
+          "category": "Non-renewable",
+          "type": "text",
+          "content": "Coal"
+        },
+        {
+          "id": 6,
+          "category": "Non-renewable",
+          "type": "text",
+          "content": "Oil"
+        },
+        {
+          "id": 7,
+          "category": "Non-renewable",
+          "type": "text",
+          "content": "Gas"
+        },
+        {
+          "id": 8,
+          "category": "Non-renewable",
+          "type": "text",
+          "content": "Gold"
+        },
+        {
+          "id": 9,
+          "category": "Non-renewable",
+          "type": "text",
+          "content": "Copper"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Natural resources",
+      "instructions": "Help sort these materials collected during a geology field trip into their correct scientific group.",
+      "categories": [
+        "Rocks",
+        "Minerals",
+        "Fossil fuels",
+        "Water & organic resources"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Rocks",
+          "type": "text",
+          "content": "Granite"
+        },
+        {
+          "id": 2,
+          "category": "Rocks",
+          "type": "text",
+          "content": "Limestone"
+        },
+        {
+          "id": 3,
+          "category": "Minerals",
+          "type": "text",
+          "content": "Quartz"
+        },
+        {
+          "id": 4,
+          "category": "Minerals",
+          "type": "text",
+          "content": "Gold"
+        },
+        {
+          "id": 5,
+          "category": "Minerals",
+          "type": "text",
+          "content": "Iron"
+        },
+        {
+          "id": 6,
+          "category": "Fossil fuels",
+          "type": "text",
+          "content": "Coal"
+        },
+        {
+          "id": 7,
+          "category": "Fossil fuels",
+          "type": "text",
+          "content": "Petroleum oil"
+        },
+        {
+          "id": 8,
+          "category": "Fossil fuels",
+          "type": "text",
+          "content": "Gas"
+        },
+        {
+          "id": 9,
+          "category": "Water & organic resources",
+          "type": "text",
+          "content": "Water"
+        },
+        {
+          "id": 10,
+          "category": "Water & organic resources",
+          "type": "text",
+          "content": "Wood"
+        },
+        {
+          "id": 11,
+          "category": "Water & organic resources",
+          "type": "text",
+          "content": "Wool"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Biodegradable vs Non-biodegradable",
+      "instructions": "You're a waste sorter — decide which items will disappear quickly in nature and which will pollute it for centuries.",
+      "categories": [
+        "Biodegradable",
+        "Non-biodegradable"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Biodegradable",
+          "type": "text",
+          "content": "Banana peel"
+        },
+        {
+          "id": 2,
+          "category": "Biodegradable",
+          "type": "text",
+          "content": "Paper"
+        },
+        {
+          "id": 3,
+          "category": "Biodegradable",
+          "type": "text",
+          "content": "Newspaper"
+        },
+        {
+          "id": 4,
+          "category": "Non-biodegradable",
+          "type": "text",
+          "content": "Aluminum can"
+        },
+        {
+          "id": 5,
+          "category": "Non-biodegradable",
+          "type": "text",
+          "content": "Plastic bottle"
+        },
+        {
+          "id": 6,
+          "category": "Non-biodegradable",
+          "type": "text",
+          "content": "Glass bottle"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Taking a Resource vs Polluting Earth",
+      "instructions": "For each human activity, decide if humans are taking a resource from Earth, or polluting it.",
+      "categories": [
+        "Taking",
+        "Polluting"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Taking",
+          "type": "text",
+          "content": "Mining copper"
+        },
+        {
+          "id": 2,
+          "category": "Taking",
+          "type": "text",
+          "content": "Extracting oil"
+        },
+        {
+          "id": 3,
+          "category": "Taking",
+          "type": "text",
+          "content": "Cutting trees"
+        },
+        {
+          "id": 4,
+          "category": "Polluting",
+          "type": "text",
+          "content": "CO2 emissions"
+        },
+        {
+          "id": 5,
+          "category": "Polluting",
+          "type": "text",
+          "content": "Chemical dumping"
+        },
+        {
+          "id": 6,
+          "category": "Polluting",
+          "type": "text",
+          "content": "Toxic leakes"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Will It Run Out?",
+      "instructions": "Sort each resource as Renewable or Non-renewable.",
+      "categories": [
+        "Renewable",
+        "Non-renewable"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Renewable",
+          "type": "image",
+          "content": "assets/SC5-1.png"
+        },
+        {
+          "id": 2,
+          "category": "Renewable",
+          "type": "image",
+          "content": "assets/SC5-2.png"
+        },
+        {
+          "id": 3,
+          "category": "Renewable",
+          "type": "image",
+          "content": "assets/SC5-3.png"
+        },
+        {
+          "id": 4,
+          "category": "Renewable",
+          "type": "image",
+          "content": "assets/SC5-4.png"
+        },
+        {
+          "id": 5,
+          "category": "Non-renewable",
+          "type": "image",
+          "content": "assets/SC5-5.png"
+        },
+        {
+          "id": 6,
+          "category": "Non-renewable",
+          "type": "image",
+          "content": "assets/SC5-6.png"
+        },
+        {
+          "id": 7,
+          "category": "Non-renewable",
+          "type": "image",
+          "content": "assets/SC5-7.png"
+        },
+        {
+          "id": 8,
+          "category": "Non-renewable",
+          "type": "image",
+          "content": "assets/SC5-8.png"
+        }
+      ]
+    }
+  ]
 }

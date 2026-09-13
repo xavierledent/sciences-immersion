@@ -1,12 +1,12 @@
 {
   "videos": {
-    "title": "Vidéos",
+    "title": "Videos",
     "basePath": "https://www.youtube.com/embed/",
     "items": [
       {
-        "title": "Where do our things come from ?",
-        "youtubeId": "__jL-MBc-X8",
-        "description": "Natural Resources Explained for Kids"
+        "title": "Natuurlijke hulpbronnen",
+        "youtubeId": "AISqqeW2sOQ",
+        "description": "wat zijn het en hoe lang bestaan ze nog?"
       }
     ]
   },
@@ -59,12 +59,12 @@
   },
   "ficheAutoEvaluation": {
     "title": "Autoévaluation par attendus",
-    "description": "Fais le point sur ta maîtrise du chapitre, notion par notion, et découvre où concentrer tes révisions.",
     "basePath": "../../../assets",
+    "description": "Fais le point sur ta maîtrise du chapitre, notion par notion, et découvre où concentrer tes révisions.",
     "pdfFile": "FE chimie1.pdf"
   },
   "mindmap": {
-    "title": "Modèle de Mindmap",
+    "title": "Mindmap",
     "basePath": "../../../assets",
     "items": [
       {
