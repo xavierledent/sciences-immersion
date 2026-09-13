@@ -738,7 +738,7 @@ html[data-pointer='fine'] .section-card a:hover,
     place-items: center;
     /* make overlay opaque to avoid text overlap behind the modal */
     background: rgba(255, 255, 255, 0.96);
-    padding: 24px;
+    padding: 16px 24px;
     z-index: 50;
   }
 
@@ -845,10 +845,17 @@ html[data-pointer='fine'] .section-card a:hover,
 
   .modal-card {
     width: min(100%, 620px);
+    /* Safety net for tall content on short viewports (e.g. Chromebooks with
+       a lot of browser chrome eating into the window) — the modal scrolls
+       internally instead of being silently cut off with the page itself
+       locked (.modal-is-open) and unreachable. Invisible in the common case
+       where the trimmed spacing below already lets everything fit. */
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
     border: 1px solid rgba(17, 36, 72, 0.1);
     border-radius: var(--radius);
     background: var(--color-surface);
-    padding: 28px 24px;
+    padding: 22px 24px;
     position: relative;
   }
 
@@ -866,7 +873,7 @@ html[data-pointer='fine'] .section-card a:hover,
 
   .modal-card-inner {
     display: grid;
-    gap: 18px;
+    gap: 14px;
   }
 
   #chapter-modal-title {
@@ -890,8 +897,8 @@ html[data-pointer='fine'] .section-card a:hover,
     align-items: center;
     justify-self: center;
     gap: 0.4rem;
-    margin-top: 22px;
-    margin-bottom: 1rem;
+    margin-top: 8px;
+    margin-bottom: 0;
     padding: 8px 12px;
     border-radius: 999px;
     font-weight: 700;
@@ -1304,7 +1311,7 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
 .modal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
+  gap: 12px;
 }
 
 /* Fallback / Default emerald styles. Centered text, no icon — same tile
@@ -1320,7 +1327,8 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 120px;
+  min-height: 96px;
+  padding: 10px;
   text-decoration: none;
   color: var(--color-emerald);
   border: 2px solid rgba(12, 163, 127, 0.6);
