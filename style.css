@@ -1308,9 +1308,13 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
   font-weight: 600;
 }
 
+/* Fixed 2 columns, not auto-fit: this grid only ever holds the 4 section
+   cards (used nowhere else on the site), and it's meant to read as a
+   deliberate 2x2, not reflow to 3+1 whenever a screen width happens to fit
+   one more column. */
 .modal-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 
