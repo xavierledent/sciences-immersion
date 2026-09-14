@@ -46,40 +46,47 @@
     const style = document.createElement('style');
     style.id = 'welcome-back-style';
     style.textContent = `
-      /* Aligné sur la même colonne que main.page (max-width 1080px, padding
-         32px 22px) sans être son enfant : le bandeau doit rester au tout
-         haut de la page, avant même le header, pas dans le flux de <main>. */
+      /* Centré sur la même colonne que main.page (max-width 1080px) sans en
+         être l'enfant : le bandeau doit rester au tout haut de la page, avant
+         même le header, pas dans le flux de <main>. */
       #welcome-back-wrap {
         max-width: 1080px;
         margin: 0 auto;
-        padding: 18px 22px 0;
+        padding: 28px 22px 0;
+        display: flex;
+        justify-content: center;
       }
-      /* Taille de contenu, pas pleine largeur : un bandeau qui ne couvre que
-         ce dont il a besoin laisse tout le reste de la page — sélecteurs de
-         langue/année/chapitre compris — dans le flux normal, jamais recouvert
-         ni bloqué. */
+      /* Une vraie carte, pas une pastille : à cette taille d'image, le
+         bandeau doit se voir tout de suite, sans jamais couvrir ce qu'il y a
+         en dessous — sélecteurs de langue/année/chapitre compris, restés
+         dans le flux normal de la page. */
       #welcome-back-banner {
-        display: inline-flex;
+        display: flex;
         align-items: center;
-        gap: 14px;
-        max-width: min(520px, 100%);
-        padding: 8px 22px 8px 8px;
-        border-radius: 999px;
+        gap: 20px;
+        max-width: 560px;
+        width: 100%;
+        padding: 20px 28px 20px 20px;
+        border-radius: 26px;
         background: var(--color-surface);
         box-shadow: var(--color-shadow);
         opacity: 0;
-        transform: translateX(-24px);
-        transition: opacity 480ms ease-out, transform 480ms ease-out;
+        transform: translateY(-36px);
+        transition: opacity 550ms ease-out, transform 550ms ease-out;
       }
       #welcome-back-banner.is-visible {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateY(0);
       }
+      /* object-fit: contain plutôt que cover: la mascotte fait signe de la
+         main sur cette image précise (assets/Friends wback.png) — un
+         recadrage en cercle qui coupait ce geste, comme la version
+         précédente, retirait justement ce qui rend l'image reconnaissable. */
       #welcome-back-banner img {
-        width: 52px;
-        height: 52px;
-        object-fit: cover;
-        border-radius: 50%;
+        height: 130px;
+        width: auto;
+        aspect-ratio: 944 / 1125;
+        object-fit: contain;
         flex-shrink: 0;
       }
       #welcome-back-banner p {
@@ -87,17 +94,22 @@
         flex: 1;
         min-width: 0;
         font-family: var(--font-family);
-        font-size: 0.9rem;
+        font-size: 1.05rem;
         font-weight: 600;
+        line-height: 1.4;
         color: var(--color-text);
       }
-      @media (max-width: 480px) {
+      @media (max-width: 560px) {
+        #welcome-back-banner {
+          flex-direction: column;
+          text-align: center;
+          padding: 22px 20px;
+        }
         #welcome-back-banner img {
-          width: 44px;
-          height: 44px;
+          height: 110px;
         }
         #welcome-back-banner p {
-          font-size: 0.82rem;
+          font-size: 0.95rem;
         }
       }
       @media (prefers-reduced-motion: reduce) {
