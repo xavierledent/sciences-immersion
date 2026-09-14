@@ -1352,11 +1352,41 @@
       display: block;
     }
 
-    .overview-counter {
+    .overview-counter-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       margin: 0 0 16px;
+    }
+
+    .overview-counter {
+      margin: 0;
       font-weight: 600;
       color: var(--color-text);
       text-align: center;
+    }
+
+    /* Mascot next to the "My progress" counter, one per completion tier (see
+       getOverviewMascotSrc). Gentle continuous float, same
+       prefers-reduced-motion guard as the modal-open animation in style.css. */
+    .overview-mascot {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      flex-shrink: 0;
+      animation: overview-mascot-float 3s ease-in-out infinite;
+    }
+
+    @keyframes overview-mascot-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .overview-mascot {
+        animation: none;
+      }
     }
 
     /* Below the grid and centred, like the classic exercise modals' own

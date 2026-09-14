@@ -1230,17 +1230,44 @@
       openModalAtExercise(levelKey, queue[0]);
     }
 
+    // Same four-tier mascot set used for every level/"All" section, picked
+    // from the level's own completion percentage — the fraction of its
+    // pastilles already green, the same figure countOverviewRemaining derives
+    // for the "exercises to go" counter right next to it.
+    function getOverviewMascotSrc(percent) {
+      if (percent >= 100) return '../../../assets/Friends palier 4.png';
+      if (percent >= 80) return '../../../assets/Friends palier 3.png';
+      if (percent >= 21) return '../../../assets/Friends palier 2.png';
+      return '../../../assets/Friends palier 1.png';
+    }
+
     // One level's counter + grid, used both as its own tab panel and as one
     // stacked section inside the "All" tab.
     function buildOverviewLevelSection(levelKey) {
       const section = document.createElement('div');
       section.className = 'overview-level-section';
 
+      const exerciseList = practiceData[levelKey] || [];
       const remaining = countOverviewRemaining(levelKey);
+      const completedPercent = exerciseList.length > 0
+        ? ((exerciseList.length - remaining) / exerciseList.length) * 100
+        : 0;
+
+      const counterRow = document.createElement('div');
+      counterRow.className = 'overview-counter-row';
+
       const counter = document.createElement('p');
       counter.className = 'overview-counter';
       counter.textContent = L.exercisesRemaining(remaining);
-      section.appendChild(counter);
+      counterRow.appendChild(counter);
+
+      const mascot = document.createElement('img');
+      mascot.className = 'overview-mascot';
+      mascot.src = getOverviewMascotSrc(completedPercent);
+      mascot.alt = '';
+      counterRow.appendChild(mascot);
+
+      section.appendChild(counterRow);
 
       section.appendChild(buildOverviewGrid(levelKey));
 
