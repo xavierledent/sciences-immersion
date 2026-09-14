@@ -14,11 +14,7 @@
     { file: 'practice.html', label: L.practice },
     { file: 'resources.html', label: L.resources },
     { file: 'explorations.html', label: L.explorations },
-    // Only exists for chapters migrated to the dedicated page (see
-    // autoeval.html) — the HEAD-check below already hides missing sections,
-    // so no per-chapter flag is needed here: it just quietly stays absent
-    // everywhere else until that chapter gets its own autoeval.html.
-    { file: 'autoeval.html', label: L.assessment }
+    { file: 'assessment.html', label: L.assessment }
   ];
 
   // Existence of a section is stable for the whole visit, so the HEAD check is

@@ -80,12 +80,12 @@
             subtitle: 'Anglais + français',
             chapters: {
               year1: [
-                { folder: 'bio1', title: 'Bio 1 : Ecosystems' },
+                { folder: 'bio1', title: 'Bio 1 : Ecosystems', hasAssessment: true },
                 { folder: 'chem1', title: 'Chemistry 1 : Natural resources and raw materials', hasAssessment: true },
-                { folder: 'phys1', title: 'Physics 1 : Natural energy resources' },
-                { folder: 'chem2', title: 'Chemistry 2 : Mixtures and pure substances' },
-                { folder: 'phys2', title: 'Physics 2 : Energy, expansion and changes of state' },
-                { folder: 'bio2', title: 'Bio 2 : Human reproduction and prevention' }
+                { folder: 'phys1', title: 'Physics 1 : Natural energy resources', hasAssessment: true },
+                { folder: 'chem2', title: 'Chemistry 2 : Mixtures and pure substances', hasAssessment: true },
+                { folder: 'phys2', title: 'Physics 2 : Energy, expansion and changes of state', hasAssessment: true },
+                { folder: 'bio2', title: 'Bio 2 : Human reproduction and prevention', hasAssessment: true }
               ],
               year2: []
             }
@@ -96,12 +96,12 @@
             subtitle: 'Nederlands + Frans',
             chapters: {
               year1: [
-                { folder: 'bio1', title: 'Bio 1 : Ecosystemen' },
-                { folder: 'chem1', title: 'Chemie 1 : Natuurlijke hulpbronnen en grondstoffen' },
-                { folder: 'phys1', title: 'Fysica 1 : Natuurlijke energiebronnen' },
-                { folder: 'chem2', title: 'Chemie 2 : Mengsels en zuivere stoffen' },
-                { folder: 'phys2', title: 'Fysica 2 : Energie, uitzetting en faseovergangen' },
-                { folder: 'bio2', title: 'Bio 2 : Voortplanting en preventie' }
+                { folder: 'bio1', title: 'Bio 1 : Ecosystemen', hasAssessment: true },
+                { folder: 'chem1', title: 'Chemie 1 : Natuurlijke hulpbronnen en grondstoffen', hasAssessment: true },
+                { folder: 'phys1', title: 'Fysica 1 : Natuurlijke energiebronnen', hasAssessment: true },
+                { folder: 'chem2', title: 'Chemie 2 : Mengsels en zuivere stoffen', hasAssessment: true },
+                { folder: 'phys2', title: 'Fysica 2 : Energie, uitzetting en faseovergangen', hasAssessment: true },
+                { folder: 'bio2', title: 'Bio 2 : Voortplanting en preventie', hasAssessment: true }
               ],
               year2: []
             }
@@ -321,15 +321,15 @@
         // identically to the 4 cards above (see style.css): what makes it
         // findable is having its own page, its own nav entry and this
         // button, not a louder button — the dashed divider above it is the
-        // only thing marking it as a step apart. Only shown for chapters
-        // flagged `hasAssessment` (set once that chapter's autoeval.html
-        // actually exists) so the button never points at a missing page
-        // during the gradual rollout.
+        // only thing marking it as a step apart. Every chapter now has its
+        // own assessment.html (`hasAssessment` kept as a flag rather than
+        // removed, so a future chapter added without one yet doesn't get a
+        // button pointing at a missing page).
         modalAssessmentRow.innerHTML = '';
         if (chapter.hasAssessment) {
           const assessmentCard = document.createElement('a');
           assessmentCard.className = 'section-card assessment-card';
-          assessmentCard.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/autoeval.html`;
+          assessmentCard.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/assessment.html`;
           assessmentCard.textContent = selectedLanguage.code === 'nl' ? 'Zelfevaluatie' : 'Assessment';
           modalAssessmentRow.appendChild(assessmentCard);
           modalDivider.hidden = false;

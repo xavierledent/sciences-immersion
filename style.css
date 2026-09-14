@@ -983,43 +983,26 @@ html[data-pointer='fine'] .modal-fullscreen:hover,
   color: #ffffff;
 }
 
-/* The fiche has no subject colour of its own (#autoeval-modal sits outside
-   <main class="subject-*">, so --color-current isn't even in scope there) —
-   its own fixed amber identity instead. */
-#autoeval-modal .modal-fullscreen.is-fullscreen {
-  background: var(--autoeval-accent);
-  border-color: var(--autoeval-accent);
-}
-
 .modal-card:fullscreen {
   border: none;
   border-radius: 0;
   background: var(--color-surface);
 }
 
-/* ===== Fiche d'autoévaluation (resources.html) =====
-   First modal on this page, so — unlike practice.html's own modals, which
-   share their open/close/scroll-lock wiring via practice-engine.js — its
-   open/close logic lives self-contained in resources-engine.js, mirroring
-   index.html's #chapter-modal (also a standalone page with no shared engine
-   script). Entirely French, deliberately: this is a school assessment
-   document, not immersion-track exercise content.
+/* ===== Fiche d'autoévaluation (assessment.html) =====
+   Entirely French, deliberately: this is a school assessment document, not
+   immersion-track exercise content.
 
-   Colour palette matches the paper fiche (cream background, amber borders)
-   rather than the per-subject --color-current used everywhere else on the
-   site: this is one fixed document identity, deliberately the same whether
-   the chapter is bio, chem or physics — a fiche shouldn't change colour
-   depending on which subject's resources page it's opened from. */
-/* Was matched to the printed fiche's own cream/amber colours; dropped once
-   chapters started getting this online tool as their own page (autoeval.html)
-   rather than a resources.html modal — on a bio or physics chapter, amber
-   tabs/bulbs/synthesis read as a stray chemistry accent with nothing to do
-   with that chapter. Slate instead, the same colour and the same reasoning
-   already used for .self-assess-btn on practice.html ("the student's own
-   action, not the chapter's content"): this fiche is exactly that, just
-   bigger. Tied to --color-slate directly rather than copied, so both stay in
-   sync. The printed PDF fiche keeps its own cream/amber design — only the
-   online tool's colours change here. */
+   Colour palette is a fixed slate identity, not the per-subject
+   --color-current used everywhere else on the site: this is one document
+   identity, deliberately the same whether the chapter is bio, chem or
+   physics — a fiche shouldn't change colour depending on which subject it
+   belongs to. Same colour and the same reasoning already used for
+   .self-assess-btn on practice.html ("the student's own action, not the
+   chapter's content"): this fiche is exactly that, just bigger. Tied to
+   --color-slate directly rather than copied, so both stay in sync. The
+   printed PDF fiche (resources.html) keeps its own cream/amber design —
+   only this online tool's colours are set here. */
 :root {
   --autoeval-bg: #eef2f6;
   --autoeval-border: #c7d3de;
@@ -1031,56 +1014,19 @@ html[data-pointer='fine'] .modal-fullscreen:hover,
   --autoeval-accent-rgb: var(--color-slate-rgb);
 }
 
-/* Flex column with only .autoeval-modal-body (the attendu list) scrolling —
-   same pattern as #overview-modal on practice.html. Previously the whole
-   card scrolled as one block, so scrolling through a category's attendus
-   also scrolled the category tabs and verdict out of view; now they stay
-   put and only the list underneath moves. */
-.autoeval-modal-card {
-  width: min(92vw, 760px);
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  text-align: left;
-}
-
-.autoeval-modal-body {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-}
-
-/* Standalone-page version of the fiche (autoeval.html), replacing the modal
-   for chapters migrated off resources.html — same reading width as the
-   modal card (min(92vw,760px)) for the same line length, but flowing with
-   the page instead of scrolling inside a fixed-height card. */
+/* Standalone page (assessment.html) — same reading width the old modal card
+   used (min(92vw,760px)) for the same line length, but flowing with the page
+   instead of scrolling inside a fixed-height card. Same white-card look as
+   .section-card/.exercise-card elsewhere on the site, so the tool doesn't
+   read as bare text sitting directly on the page background. */
 .autoeval-page-body {
   width: min(100%, 760px);
-  margin: 0 auto;
-}
-
-/* Same reasoning as the practice page's own fullscreen exercise modal: the
-   card itself is forced to fill the screen by the browser's UA stylesheet
-   (unavoidable, !important) — only the content inside can still be capped,
-   so the tabs/list don't stretch edge-to-edge on a big external monitor. */
-.autoeval-modal-card:fullscreen #autoeval-modal-title,
-.autoeval-modal-card:fullscreen .autoeval-tabs,
-.autoeval-modal-card:fullscreen .autoeval-modal-body,
-.autoeval-modal-card:fullscreen .autoeval-synthesis {
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#autoeval-modal-title {
-  margin: 0 0 20px;
-  /* Symmetric now that there's a button in both top corners (fullscreen
-     left, close right) — matches each button's own footprint so the
-     centered text isn't pulled toward either side. */
-  padding: 0 50px;
-  text-align: center;
-  color: var(--autoeval-accent-dark);
+  margin: 28px auto 0;
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  border: 1px solid rgba(17, 36, 72, 0.08);
 }
 
 /* Category tabs — same toggle-pill pattern as the Level 1/2/3 tabs on the
@@ -1310,6 +1256,41 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
   font-weight: 600;
 }
 
+/* "Bilan par catégorie" scoreboard: one small box per category rather than
+   one run-on line — Savoirs/Savoir-faire/Compétence need to stay visually
+   distinct at a glance. Wraps to its own line on a narrow screen instead of
+   compressing. No colour-coding by status (faible/mixte/acquis) — same
+   deliberately toneless reasoning as .autoeval-synthesis-msg above: the
+   distinction is the layout and the label, not a red/green judgement. */
+.autoeval-scoreboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.autoeval-scoreboard-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.16);
+  min-width: 108px;
+}
+
+.autoeval-scoreboard-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.autoeval-scoreboard-status {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
 /* Fixed 2 columns, not auto-fit: this grid only ever holds the 4 section
    cards (used nowhere else on the site), and it's meant to read as a
    deliberate 2x2, not reflow to 3+1 whenever a screen width happens to fit
@@ -1320,12 +1301,10 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
   gap: 12px;
 }
 
-/* Fallback / Default emerald styles. Centered text, no icon — same tile
-   look for all 5 options (the 4 regular .section-cards and .assessment-card,
-   styled identically here even though it sits in its own row outside
-   .modal-grid, see below). What marks Assessment as a step apart is the
-   dashed divider above it (.modal-grid-divider, further down), not a
-   different card style. */
+/* Fallback / Default emerald styles for the 4 regular .section-cards.
+   Centered text, no icon. .assessment-card shares this same structural tile
+   look (see below) but not this colour — its own slate rule always wins by
+   sitting later in the file. */
 .modal-grid .section-card,
 .assessment-card {
   display: flex;
@@ -1344,9 +1323,7 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
 }
 
 html[data-pointer='fine'] .modal-grid .section-card:hover,
-.modal-grid .section-card:focus-visible,
-html[data-pointer='fine'] .assessment-card:hover,
-.assessment-card:focus-visible {
+.modal-grid .section-card:focus-visible {
   transform: translateY(-5px);
   background-color: var(--color-emerald);
   color: #ffffff;
@@ -1355,17 +1332,13 @@ html[data-pointer='fine'] .assessment-card:hover,
   outline: none;
 }
 
-/* Subject Bio (Green) overrides — also applied to .assessment-card so its
-   text/border match the current subject exactly like the 4 regular cards. */
-.modal-card.subject-bio .modal-grid .section-card,
-.modal-card.subject-bio .assessment-card {
+/* Subject Bio (Green) overrides */
+.modal-card.subject-bio .modal-grid .section-card {
   color: var(--color-bio);
   border-color: rgba(98, 181, 170, 0.65);
 }
 html[data-pointer='fine'] .modal-card.subject-bio .modal-grid .section-card:hover,
-.modal-card.subject-bio .modal-grid .section-card:focus-visible,
-html[data-pointer='fine'] .modal-card.subject-bio .assessment-card:hover,
-.modal-card.subject-bio .assessment-card:focus-visible {
+.modal-card.subject-bio .modal-grid .section-card:focus-visible {
   background-color: var(--color-bio);
   color: #ffffff;
   border-color: var(--color-bio);
@@ -1373,15 +1346,12 @@ html[data-pointer='fine'] .modal-card.subject-bio .assessment-card:hover,
 }
 
 /* Subject Physics (Purple/Violet) overrides */
-.modal-card.subject-physics .modal-grid .section-card,
-.modal-card.subject-physics .assessment-card {
+.modal-card.subject-physics .modal-grid .section-card {
   color: var(--color-physics);
   border-color: rgba(139, 123, 181, 0.65);
 }
 html[data-pointer='fine'] .modal-card.subject-physics .modal-grid .section-card:hover,
-.modal-card.subject-physics .modal-grid .section-card:focus-visible,
-html[data-pointer='fine'] .modal-card.subject-physics .assessment-card:hover,
-.modal-card.subject-physics .assessment-card:focus-visible {
+.modal-card.subject-physics .modal-grid .section-card:focus-visible {
   background-color: var(--color-physics);
   color: #ffffff;
   border-color: var(--color-physics);
@@ -1389,30 +1359,45 @@ html[data-pointer='fine'] .modal-card.subject-physics .assessment-card:hover,
 }
 
 /* Subject Chemistry (Yellow/Orange) overrides */
-.modal-card.subject-chemistry .modal-grid .section-card,
-.modal-card.subject-chemistry .assessment-card {
+.modal-card.subject-chemistry .modal-grid .section-card {
   color: var(--color-chemistry);
   border-color: rgba(231, 195, 96, 0.65);
 }
 html[data-pointer='fine'] .modal-card.subject-chemistry .modal-grid .section-card:hover,
-.modal-card.subject-chemistry .modal-grid .section-card:focus-visible,
-html[data-pointer='fine'] .modal-card.subject-chemistry .assessment-card:hover,
-.modal-card.subject-chemistry .assessment-card:focus-visible {
+.modal-card.subject-chemistry .modal-grid .section-card:focus-visible {
   background-color: var(--color-chemistry);
   color: #ffffff;
   border-color: var(--color-chemistry);
   box-shadow: 0 24px 50px rgba(231, 195, 96, 0.25);
 }
 
+/* Assessment button: always the fiche's own fixed slate identity, never the
+   subject colour — matches assessment.html itself (tabs/bulbs/synthesis are
+   all slate there too, regardless of chapter) so the colour doesn't shift
+   the moment the page loads. Validated as a chem1-only test first; now
+   applied to every chapter. Not scoped under any .subject-* selector, so it
+   always wins regardless of which subject class is on .modal-card. */
+.assessment-card {
+  color: var(--autoeval-accent-dark);
+  border-color: rgba(var(--autoeval-accent-rgb), 0.65);
+}
+html[data-pointer='fine'] .assessment-card:hover,
+.assessment-card:focus-visible {
+  background-color: var(--autoeval-accent);
+  color: #ffffff;
+  border-color: var(--autoeval-accent);
+  box-shadow: 0 24px 50px rgba(var(--autoeval-accent-rgb), 0.25);
+}
+
 /* Assessment: a 5th option below the regular section grid (see index.html
    openChapterMenu), on its own full-width row rather than inside
-   .modal-grid — but visually identical to the 4 regular .section-cards
-   (shared rules above, subject colour included). The earlier cream fill,
-   accent bar, icon+subtitle and chevron were all tried and dropped once the
-   tool got its own page, its own index button and its own nav entry —
-   that's what makes it findable now. The one remaining marker is the dashed
-   divider above it, saying "this is a step apart" without touching the
-   button itself. */
+   .modal-grid — same structural tile as the 4 regular .section-cards, but
+   its own fixed slate colour rather than the subject's (see above). The
+   earlier cream fill, accent bar, icon+subtitle and chevron were all tried
+   and dropped once the tool got its own page, its own index button and its
+   own nav entry — that's what makes it findable now. The one remaining
+   marker beyond colour is the dashed divider above it, saying "this is a
+   step apart" without touching the button itself. */
 .modal-grid-divider {
   border: none;
   border-top: 2px dashed rgba(12, 163, 127, 0.4);

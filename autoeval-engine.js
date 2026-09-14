@@ -101,6 +101,12 @@
     `;
   }
 
+  // 'irregulier' (a tie between two or more levels — ratings pulling in
+  // different directions, no clear tendency) and 'enCours' (level 2 alone
+  // dominant — a coherent "getting there", not yet acquired) used to both
+  // collapse into one 'mixte' status; kept distinct now since they call for
+  // different advice, not because either is more "weak" or "solid" than
+  // the other — neither counts toward weakCount/solidCount below.
   function computeCategoryStatus(category) {
     const ratings = category.items.map(item => readAutoevalRating(item.id)).filter(r => r !== null);
     if (ratings.length === 0) return null;
@@ -108,10 +114,10 @@
     ratings.forEach(r => counts[r]++);
     const maxCount = Math.max(counts[1], counts[2], counts[3]);
     const dominant = [1, 2, 3].filter(level => counts[level] === maxCount);
-    if (dominant.length > 1) return 'mixte';
+    if (dominant.length > 1) return 'irregulier';
     if (dominant[0] === 1) return 'faible';
     if (dominant[0] === 3) return 'solide';
-    return 'mixte';
+    return 'enCours';
   }
 
   const AUTOEVAL_GREEN_HOUR_NUDGE = "L'heure verte est aussi là pour ça : tu peux t'y inscrire même pour une seule question.";
@@ -130,10 +136,40 @@
     vocabulary: 'Le vocabulaire du chapitre n\'est pas encore bien maîtrisé : va consulter la <a href="./vocabulary.html" target="_blank" rel="noopener">section Vocabulaire</a> avant de refaire les exercices.'
   };
 
+  // Compact label for the "Bilan par catégorie" scoreboard — shown from the
+  // very first rating in ANY category (unlike the "Bilan croisé" below it,
+  // which needs all three). "acquis" rather than "solide" to match the
+  // wording students already see on a single attendu (AUTOEVAL_GENERAL_ADVICE
+  // [3]: "cette notion est acquise").
+  const AUTOEVAL_CATEGORY_STATUS_LABEL = { faible: 'Faible', enCours: 'À consolider', irregulier: 'Irrégulier', solide: 'Acquis' };
+
+  // A single rating already produces a status (computeCategoryStatus has no
+  // minimum), which would otherwise read as a firm verdict off one data
+  // point. The (x/y) count makes that visible instead of hiding it — "faible
+  // (1/8)" is honest about how little the label is based on so far, where
+  // "faible" alone would not be.
+  function buildCategoryScoreboardHtml(categories, statuses) {
+    const items = categories.map(category => {
+      const status = statuses[category.id];
+      const total = category.items.length;
+      const ratedCount = category.items.filter(item => readAutoevalRating(item.id) !== null).length;
+      const statusText = status ? `${AUTOEVAL_CATEGORY_STATUS_LABEL[status]} (${ratedCount}/${total})` : '—';
+      return `<div class="autoeval-scoreboard-item">` +
+        `<span class="autoeval-scoreboard-label">${richText(category.title || '')}</span>` +
+        `<span class="autoeval-scoreboard-status">${statusText}</span>` +
+        `</div>`;
+    }).join('');
+    return `<div class="autoeval-scoreboard">${items}</div>`;
+  }
+
   function computeAutoevalSynthesis(categories) {
     const statuses = {};
     categories.forEach(category => { statuses[category.id] = computeCategoryStatus(category); });
     const { savoirs, savoirFaire, competence } = statuses;
+
+    const categoryScoreboard = Object.values(statuses).some(s => s !== null)
+      ? buildCategoryScoreboardHtml(categories, statuses)
+      : null;
 
     let mainMessage = null;
     if (savoirs !== null && savoirFaire !== null && competence !== null) {
@@ -161,12 +197,18 @@
       } else if (weakCount === 0 && solidCount === 0) {
         mainMessage = AUTOEVAL_SYNTHESIS_TEXT.allMixed;
       } else if (weakCount === 0) {
+        // weakCount is 0 here (no 'faible') and solidCount is 1 or 2 (the 0
+        // and 3 cases were already handled above), so "not solide" reliably
+        // means "enCours or irregulier" — never "faible" in this branch.
         const mixteTitles = categories
-          .filter(category => statuses[category.id] === 'mixte')
+          .filter(category => statuses[category.id] !== 'solide')
           .map(category => category.title);
         mainMessage = AUTOEVAL_SYNTHESIS_TEXT.mostlyGood(mixteTitles);
       }
     }
+    // Else: not all three categories have data yet — mainMessage stays null
+    // and the cross-category comparison simply doesn't run. The scoreboard
+    // above (already computed) is shown on its own in the meantime.
 
     let vocabMessage = null;
     categories.forEach(category => category.items.forEach(item => {
@@ -176,18 +218,23 @@
       }
     }));
 
-    return { mainMessage, vocabMessage };
+    return { mainMessage, categoryScoreboard, vocabMessage };
   }
 
   function renderAutoevalSynthesis() {
     const container = document.getElementById('autoeval-synthesis');
     if (!container) return;
-    const { mainMessage, vocabMessage } = computeAutoevalSynthesis(autoevalCategoriesCache);
+    const { mainMessage, categoryScoreboard, vocabMessage } = computeAutoevalSynthesis(autoevalCategoriesCache);
+    // categoryScoreboard (per-category score) shows from the first rating in
+    // any category; mainMessage (the cross-category "Bilan croisé") only
+    // once all three have data, and is never duplicated by a lesser version
+    // of itself while waiting — the scoreboard alone covers that gap.
     const blocks = [
-      mainMessage ? ['Bilan du chapitre', mainMessage] : null,
+      categoryScoreboard ? ['Bilan par catégorie', categoryScoreboard] : null,
+      mainMessage ? ['Bilan croisé', mainMessage] : null,
       vocabMessage ? ['Vocabulaire', vocabMessage] : null
     ].filter(Boolean).map(([kicker, text]) =>
-      `<p class="autoeval-synthesis-msg"><span class="autoeval-synthesis-kicker">${kicker}</span>${text}</p>`
+      `<div class="autoeval-synthesis-msg"><span class="autoeval-synthesis-kicker">${kicker}</span>${text}</div>`
     );
     container.innerHTML = blocks.join('');
   }
@@ -287,7 +334,16 @@
     if (window.logEvent) window.logEvent('autoeval_page_opened', {});
 
     fetch('./autoeval.json?v=' + Date.now())
-      .then(response => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); })
+      .then(response => {
+        // A 404 means this chapter simply has no fiche yet (most chapters,
+        // during the rollout) — not a technical failure, so it takes the
+        // same friendly empty-state as a fiche with no categories
+        // (renderAutoEvalPage below), never the "reload / tell your
+        // teacher" error message that a genuine fetch/parse failure gets.
+        if (response.status === 404) return null;
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
       .then(renderAutoEvalPage)
       .catch(error => { console.error(error); showError(); });
   }
