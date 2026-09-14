@@ -1371,22 +1371,32 @@
     /* Single mascot next to "My progress" itself, not repeated per level:
        reflects how much of the active tab's own pastilles have been tried at
        all — see countOverviewAttempted/updateOverviewMascot in
-       practice-engine.js — updated on open and on every tab switch. Gentle
-       continuous float, same prefers-reduced-motion guard as the modal-open
-       animation in style.css. */
+       practice-engine.js — updated on open and on every tab switch.
+       A 1fr/auto/1fr grid rather than a centered flex row: the two outer
+       columns stay equal width so the title (middle column) sits at the
+       header's true center regardless of the mascot's own width, which just
+       floats in the right column next to it instead of pulling the title
+       off-center. */
     #overview-modal .modal-header-titles {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
+      column-gap: 14px;
     }
 
+    #overview-modal .modal-header-titles h2 {
+      grid-column: 2;
+    }
+
+    /* Gentle continuous float, same prefers-reduced-motion guard as the
+       modal-open animation in style.css. */
     .overview-mascot {
-      width: 60px;
+      grid-column: 3;
+      justify-self: start;
+      width: 100px;
       height: auto;
       aspect-ratio: 928 / 1152;
       object-fit: contain;
-      flex-shrink: 0;
       animation: overview-mascot-float 3s ease-in-out infinite;
     }
 
@@ -1401,17 +1411,27 @@
       }
     }
 
+    /* Windowed 100px comfortably fits the 740px-capped card down to tablet
+       widths, but on a narrow phone screen — 95vw of ~400px, minus the
+       header's own padding — a fixed 100px would crowd the title out of its
+       own column. */
+    @media (max-width: 480px) {
+      .overview-mascot {
+        width: 56px;
+      }
+    }
+
     /* Scaled up together once the card has real screen estate to itself —
        #overview-modal .modal-card:fullscreen .modal-card-inner earlier in
        this file caps the grid/tabs at the same 740px as windowed on purpose,
        but a title and mascot sized for an arm's-length laptop read small
        once the card fills a projector or an external monitor. */
     #overview-modal .modal-card:fullscreen .modal-header-titles h2 {
-      font-size: 1.8rem;
+      font-size: 2.2rem;
     }
 
     #overview-modal .modal-card:fullscreen .overview-mascot {
-      width: 80px;
+      width: 150px;
     }
 
     /* Below the grid and centred, like the classic exercise modals' own
