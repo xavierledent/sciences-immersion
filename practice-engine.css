@@ -1352,27 +1352,39 @@
       display: block;
     }
 
-    .overview-counter-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 0 0 16px;
-    }
-
+    /* Banner-style counter (not a plain line of text): gives "X exercises to
+       go" a little more visual weight now that the mascot has moved up to
+       the header (.overview-mascot below) instead of sitting right next to
+       it. width:fit-content + auto margins centers the pill without needing
+       a wrapper element. */
     .overview-counter {
-      margin: 0;
+      width: fit-content;
+      margin: 0 auto 16px;
       font-weight: 600;
-      color: var(--color-text);
+      color: var(--color-current-dark);
+      background: rgba(var(--color-current-rgb), 0.12);
+      border-radius: 999px;
+      padding: 9px 20px;
       text-align: center;
     }
 
-    /* Mascot next to the "My progress" counter, one per completion tier (see
-       getOverviewMascotSrc). Gentle continuous float, same
-       prefers-reduced-motion guard as the modal-open animation in style.css. */
+    /* Single mascot next to "My progress" itself, not repeated per level:
+       reflects how much of the active tab's own pastilles have been tried at
+       all — see countOverviewAttempted/updateOverviewMascot in
+       practice-engine.js — updated on open and on every tab switch. Gentle
+       continuous float, same prefers-reduced-motion guard as the modal-open
+       animation in style.css. */
+    #overview-modal .modal-header-titles {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
     .overview-mascot {
-      width: 36px;
-      height: 36px;
+      width: 60px;
+      height: auto;
+      aspect-ratio: 928 / 1152;
       object-fit: contain;
       flex-shrink: 0;
       animation: overview-mascot-float 3s ease-in-out infinite;
@@ -1387,6 +1399,19 @@
       .overview-mascot {
         animation: none;
       }
+    }
+
+    /* Scaled up together once the card has real screen estate to itself —
+       #overview-modal .modal-card:fullscreen .modal-card-inner earlier in
+       this file caps the grid/tabs at the same 740px as windowed on purpose,
+       but a title and mascot sized for an arm's-length laptop read small
+       once the card fills a projector or an external monitor. */
+    #overview-modal .modal-card:fullscreen .modal-header-titles h2 {
+      font-size: 1.8rem;
+    }
+
+    #overview-modal .modal-card:fullscreen .overview-mascot {
+      width: 80px;
     }
 
     /* Below the grid and centred, like the classic exercise modals' own

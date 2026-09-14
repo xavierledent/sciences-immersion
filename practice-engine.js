@@ -196,6 +196,7 @@
     const overviewModalClose = document.getElementById('overview-modal-close');
     const overviewModalTitle = document.getElementById('overview-modal-title');
     const overviewTabs = document.getElementById('overview-tabs');
+    const overviewMascotImg = document.getElementById('overview-mascot');
     const overviewPanels = document.getElementById('overview-panels');
     const modalOverlay = document.getElementById('exercise-modal');
     const modalClose = document.getElementById('exercise-modal-close');
@@ -1158,6 +1159,47 @@
       return remaining;
     }
 
+    // "Attempted" = any self-assessment at all, red/amber/green alike — only
+    // never-opened (grey) is excluded. Deliberately not "mastered" (green):
+    // the header mascot rewards time spent working through a level, not the
+    // score, which the counter text and pastille colours already carry.
+    function countOverviewAttempted(levelKey) {
+      const exerciseList = practiceData[levelKey] || [];
+      let attempted = 0;
+      exerciseList.forEach(item => {
+        if (worstSelfAssess(levelKey, item) !== null) attempted++;
+      });
+      return attempted;
+    }
+
+    // Same %-attempted idea as countOverviewAttempted, but for the whole
+    // chapter at once when the "All" tab is active: one combined fraction
+    // across all three levels rather than one level's own.
+    function overviewAttemptedPercent(levelKey) {
+      if (levelKey === 'all') {
+        let total = 0, attempted = 0;
+        OVERVIEW_LEVELS.forEach(key => {
+          total += (practiceData[key] || []).length;
+          attempted += countOverviewAttempted(key);
+        });
+        return total > 0 ? (attempted / total) * 100 : 0;
+      }
+      const exerciseList = practiceData[levelKey] || [];
+      return exerciseList.length > 0 ? (countOverviewAttempted(levelKey) / exerciseList.length) * 100 : 0;
+    }
+
+    function getOverviewMascotSrc(percent) {
+      if (percent >= 100) return '../../../assets/Friends palier 4.png';
+      if (percent >= 80) return '../../../assets/Friends palier 3.png';
+      if (percent >= 21) return '../../../assets/Friends palier 2.png';
+      return '../../../assets/Friends palier 1.png';
+    }
+
+    function updateOverviewMascot(levelKey) {
+      if (!overviewMascotImg) return;
+      overviewMascotImg.src = getOverviewMascotSrc(overviewAttemptedPercent(levelKey));
+    }
+
     // Leaving the overview modal for the exercise modal closes the former
     // (display:none on its overlay), which forces the browser to exit
     // fullscreen if that's what was fullscreen — jumping the student back
@@ -1230,44 +1272,17 @@
       openModalAtExercise(levelKey, queue[0]);
     }
 
-    // Same four-tier mascot set used for every level/"All" section, picked
-    // from the level's own completion percentage — the fraction of its
-    // pastilles already green, the same figure countOverviewRemaining derives
-    // for the "exercises to go" counter right next to it.
-    function getOverviewMascotSrc(percent) {
-      if (percent >= 100) return '../../../assets/Friends palier 4.png';
-      if (percent >= 80) return '../../../assets/Friends palier 3.png';
-      if (percent >= 21) return '../../../assets/Friends palier 2.png';
-      return '../../../assets/Friends palier 1.png';
-    }
-
     // One level's counter + grid, used both as its own tab panel and as one
     // stacked section inside the "All" tab.
     function buildOverviewLevelSection(levelKey) {
       const section = document.createElement('div');
       section.className = 'overview-level-section';
 
-      const exerciseList = practiceData[levelKey] || [];
       const remaining = countOverviewRemaining(levelKey);
-      const completedPercent = exerciseList.length > 0
-        ? ((exerciseList.length - remaining) / exerciseList.length) * 100
-        : 0;
-
-      const counterRow = document.createElement('div');
-      counterRow.className = 'overview-counter-row';
-
       const counter = document.createElement('p');
       counter.className = 'overview-counter';
       counter.textContent = L.exercisesRemaining(remaining);
-      counterRow.appendChild(counter);
-
-      const mascot = document.createElement('img');
-      mascot.className = 'overview-mascot';
-      mascot.src = getOverviewMascotSrc(completedPercent);
-      mascot.alt = '';
-      counterRow.appendChild(mascot);
-
-      section.appendChild(counterRow);
+      section.appendChild(counter);
 
       section.appendChild(buildOverviewGrid(levelKey));
 
@@ -1346,6 +1361,7 @@
     function openOverviewModal() {
       overviewModalTitle.textContent = L.chapterOverviewTitle;
       renderOverviewModal();
+      updateOverviewMascot(currentLevel);
       overviewModal.classList.add('modal-open');
     }
 
@@ -1656,6 +1672,7 @@
         const levelKey = tabBtn.dataset.level;
         overviewTabs.querySelectorAll('.overview-tab').forEach(b => b.classList.toggle('active', b === tabBtn));
         overviewPanels.querySelectorAll('.overview-panel').forEach(p => p.classList.toggle('is-active', p.dataset.level === levelKey));
+        updateOverviewMascot(levelKey);
       });
 
       // Fermeture par la croix uniquement : un appui à côté de la modale est vite
