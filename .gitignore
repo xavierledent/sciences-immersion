@@ -3,3 +3,6 @@ Admin/
 
 # Local tooling settings, specific to this machine
 .claude/
+
+# Separate Google Apps Script project — not part of this public repo
+apps-script/
