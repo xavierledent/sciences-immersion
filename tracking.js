@@ -6,7 +6,7 @@
   const TRACKING_URL = 'https://script.google.com/macros/s/AKfycbzZe_DRuDA4KSnbAzXH65pvx70Hh1-trKNRX8Rj_UIPQeI11sqVysk5roSe_WUbV21K/exec';
 
   // Must match the TOKEN constant in apps-script/Code.gs exactly.
-  const TRACKING_TOKEN = 'NHcVSmZC4JUnnvuaQg9oq5Qkqn1rnmPD3Ynv8RUx';
+  const TRACKING_TOKEN = 'VlyuETgLI98jSA0KT6Jg74jpZnW2xgSOytHJv2nU';
 
   // Same storage key/shape as access-control.js's storeAccess(): {mode, email, ...}.
   const ACCESS_STORAGE_KEY = 'accessToken';
