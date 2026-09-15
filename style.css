@@ -435,7 +435,9 @@ html[data-pointer='fine'] .section-card a:hover,
   html[data-pointer='fine'] .chapter-nav-btn:hover,
   .chapter-nav-btn:focus-visible {
     transform: translateY(-2px);
-    background: rgba(var(--color-current-rgb), 0.08);
+    background: var(--color-current);
+    color: #ffffff;
+    border-color: var(--color-current);
     outline: none;
   }
 
