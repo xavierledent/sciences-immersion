@@ -331,7 +331,7 @@
      ligne, donc pas de position fixe. */
   function ensureCopyrightNotice() {
     if (document.getElementById('copyright-notice')) return;
-    const notice = document.createElement('p');
+    const notice = document.createElement('footer');
     notice.id = 'copyright-notice';
     notice.textContent = '© 2026 Xavier Ledent — Tous droits réservés.';
     document.body.appendChild(notice);
