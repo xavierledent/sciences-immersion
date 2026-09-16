@@ -180,6 +180,7 @@
         <div class='modal-body dnd-modal-body'>
           <!-- Instructions optionnelles -->
           <div id='dnd-instructions' class='dnd-instructions-text' style='display: none;'></div>
+          <div id='dnd-live-region' class='visually-hidden' aria-live='polite' aria-atomic='true'></div>
           <!-- Réservoir d'étiquettes en haut -->
           <div class='dnd-reservoir' id='dnd-reservoir'>
             <!-- Les étiquettes de mots seront injectées ici -->
@@ -188,7 +189,7 @@
           <!-- Plateau de jeu (Image de fond + zones cibles) -->
           <div class='dnd-board-container'>
             <div class='dnd-board' id='dnd-board'>
-              <img id='dnd-bg-image' src='' alt='Ecosystem Board' />
+              <img id='dnd-bg-image' src='' alt='Drag and drop board' />
               <!-- Les zones de drop cibles seront injectées ici de manière absolue -->
             </div>
           </div>

@@ -1255,7 +1255,16 @@
        n'importe quel fond sans rien recalculer.
        Ces règles viennent après .has-answer::after ci-dessus, à spécificité
        égale : l'ordre dans le fichier tranche, elles doivent rester en dessous
-       pour l'emporter, y compris sur l'état actif. */
+       pour l'emporter, y compris sur l'état actif.
+
+       Contrairement à assessment.html (verdict global slate neutre, une
+       évaluation ponctuelle), ce code couleur rose/ambre/vert reflète un
+       statut de travail en cours, pas un jugement final — un exercice "pas
+       vert" reste dans la file de révision et peut être retravaillé autant
+       de fois que nécessaire. Choix assumé, pas une incohérence avec le ton
+       neutre d'assessment.html. Couleurs définies une fois dans
+       practice-engine.js (SELF_ASSESS_COLORS), reprises ici pour le point de
+       pagination. */
     #exercises-pagination .exercise-step.self-assess-1::after,
     #exercise-subquestion-nav .exercise-step.self-assess-1::after,
     #exercises-pagination .exercise-step.self-assess-2::after,
@@ -2281,6 +2290,15 @@
       55% { transform: scale(1); }
       75% { opacity: 1; }
       100% { opacity: 0; transform: scale(0.9); }
+    }
+    /* Same prefers-reduced-motion guard as .overview-mascot above, and as the
+       equivalent Drag & Drop / Memory / Sorting bounce animations in
+       style.css. */
+    @media (prefers-reduced-motion: reduce) {
+      .fitb-blank-wrap.just-correct,
+      .fitb-blank-tick {
+        animation: none;
+      }
     }
     .fitb-text {
       font-size: 1.15rem;

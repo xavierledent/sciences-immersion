@@ -77,6 +77,9 @@
         errors: 'Errors:',
         memorySameSide: 'Match a light card with a dark one.',
         qcmGentleFeedback: 'Good try! Here is the correct answer — now you know it.',
+        dndZoneLabel: n => `Drop zone ${n}`,
+        dndCorrectPlacement: 'Correct!',
+        dndIncorrectPlacement: 'Not correct, try again.',
         sortingHint: 'Tap a box, or drag the card into it.',
         correct: 'Correct:',
         moves: 'Moves:',
@@ -166,6 +169,9 @@
         errors: 'Fouten:',
         memorySameSide: 'Combineer een lichte kaart met een donkere.',
         qcmGentleFeedback: 'Goed geprobeerd! Hier is het juiste antwoord — nu ken je het.',
+        dndZoneLabel: n => `Plaatsingszone ${n}`,
+        dndCorrectPlacement: 'Juist!',
+        dndIncorrectPlacement: 'Niet juist, probeer opnieuw.',
         sortingHint: 'Tik op een vak, of sleep de kaart erin.',
         correct: 'Juist:',
         moves: 'Zetten:',
@@ -947,6 +953,13 @@
     // practice-engine.css, .self-assess-N::after) : l'élève associe le même
     // rouge/ambre/vert au bouton qu'il vient de cliquer et à l'endroit où le
     // choix se retrouve résumé, sans avoir à en apprendre un second.
+    //
+    // Contrairement à assessment.html (verdict global slate neutre, une
+    // évaluation ponctuelle), ce code couleur rose/ambre/vert reflète un
+    // statut de travail en cours, pas un jugement final — un exercice "pas
+    // vert" reste dans la file de révision et peut être retravaillé autant
+    // de fois que nécessaire. Choix assumé, pas une incohérence avec le ton
+    // neutre d'assessment.html.
     const SELF_ASSESS_COLORS = {
       1: 'var(--color-rose)',
       2: '#d99a2b',
@@ -2855,7 +2868,12 @@
         itemEl.className = 'dnd-item';
         itemEl.textContent = text;
         itemEl.draggable = true;
-        
+        // Reachable by Tab, in reservoir (DOM) order — already the visual
+        // reading order, since items are appended in the shuffled order
+        // they're displayed in.
+        itemEl.tabIndex = 0;
+        itemEl.setAttribute('role', 'button');
+
         // HTML5 dragstart
         itemEl.addEventListener('dragstart', event => {
           event.dataTransfer.setData('text/plain', text);
@@ -2875,6 +2893,11 @@
           itemEl.classList.add('selected');
         });
 
+        // Clavier seul : Entrée/Espace reproduisent exactement le clic
+        // ci-dessus (même sélection, même classe .selected) plutôt que de
+        // dupliquer la logique — un seul chemin à maintenir.
+        dndBindKeyboardActivation(itemEl);
+
         reservoir.appendChild(itemEl);
       });
 
@@ -2884,8 +2907,17 @@
       const existingZones = board.querySelectorAll('.dnd-zone');
       existingZones.forEach(z => z.remove());
 
-      // Create and position new drop zones
-      exercise.dropZones.forEach((zone, zoneIdx) => {
+      // Create and position new drop zones, in reading order (top-to-bottom,
+      // then left-to-right) rather than the JSON's authoring order — that's
+      // what keeps Tab moving sensibly across the board image instead of
+      // jumping around based on whatever order they were placed in the admin
+      // tool. A sorted copy: exercise.dropZones itself (and each zone
+      // object's identity) is untouched, only the creation/tab order here.
+      const zonesInReadingOrder = exercise.dropZones
+        .slice()
+        .sort((a, b) => (a.y_pourcent - b.y_pourcent) || (a.x_pourcent - b.x_pourcent));
+
+      zonesInReadingOrder.forEach((zone, zoneIdx) => {
         const zoneEl = document.createElement('div');
         zoneEl.className = 'dnd-zone';
         zoneEl.style.left = `${zone.x_pourcent}%`;
@@ -2893,6 +2925,12 @@
         zoneEl.dataset.accepted = zone.acceptedText;
         zoneEl.dataset.index = zoneIdx;
         zoneEl.innerHTML = ``;
+        // Reachable by Tab, right after the reservoir items. An empty zone
+        // has no visible text of its own, so it needs an explicit label for
+        // it to mean anything to a screen reader.
+        zoneEl.tabIndex = 0;
+        zoneEl.setAttribute('role', 'button');
+        zoneEl.setAttribute('aria-label', L.dndZoneLabel(zoneIdx + 1));
 
         // HTML5 dragover & dragenter
         zoneEl.addEventListener('dragover', event => {
@@ -2926,6 +2964,12 @@
           dndClearSelection();
           dndTryPlace(zoneEl, zone, text, exercise, reservoir);
         });
+
+        // Clavier seul : Entrée/Espace reproduisent le clic — sélectionner une
+        // étiquette au clavier (Entrée dessus) puis Tab jusqu'à une zone et
+        // Entrée à nouveau dépose, exactement comme un doigt qui touche
+        // l'étiquette puis la zone.
+        dndBindKeyboardActivation(zoneEl);
 
         board.appendChild(zoneEl);
       });
@@ -2978,6 +3022,38 @@
       dndSelectedItem = null;
     }
 
+    // Entrée/Espace déclenchent exactement le même clic que la souris/le
+    // doigt — un seul point d'entrée logique (le listener 'click' déjà posé
+    // sur l'élément) plutôt qu'une seconde implémentation à maintenir en
+    // parallèle. Espace est empêché par défaut : sans ça la page défile.
+    function dndBindKeyboardActivation(el) {
+      el.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+          event.preventDefault();
+          el.click();
+        }
+      });
+    }
+
+    // Le retour tactile (couleur, tremblement) est invisible pour qui utilise
+    // un lecteur d'écran en plus du clavier — cette zone aria-live annonce
+    // donc chaque tentative en mots, en plus (jamais à la place) du visuel
+    // existant.
+    function dndAnnounce(message) {
+      const liveRegion = document.getElementById('dnd-live-region');
+      if (liveRegion) liveRegion.textContent = message;
+    }
+
+    // Après une suppression qui retire l'étiquette actuellement focus (voir
+    // dndTryPlace ci-dessous) : la suivante du réservoir s'il en reste une,
+    // sinon la zone qui vient d'être remplie plutôt qu'un focus perdu sur un
+    // nœud qui n'existe plus.
+    function dndFocusAfterRemoval(reservoir, fallbackEl) {
+      const nextItem = reservoir.querySelector('.dnd-item');
+      if (nextItem) nextItem.focus();
+      else if (fallbackEl) fallbackEl.focus();
+    }
+
     /* Seul point d'entrée du placement, partagé par le glisser et le toucher :
        une divergence entre les deux voies produirait des règles de jeu
        différentes selon l'appareil. */
@@ -2988,18 +3064,26 @@
         // Correct match! Bounce the zone and flash a checkmark that fades away.
         zoneEl.classList.add('correct', 'just-placed');
         zoneEl.innerHTML = `<span class='dnd-zone-text'>${text}</span><span class='dnd-zone-tick'>✓</span>`;
+        // aria-label prime sur le contenu visuel pour le nom accessible d'un
+        // élément : sans ceci, une zone déjà remplie continuerait à
+        // s'annoncer juste "Drop zone 3" au clavier, sans dire ce qu'elle
+        // contient désormais.
+        zoneEl.setAttribute('aria-label', zoneEl.getAttribute('aria-label') + ': ' + text);
         setTimeout(() => {
           zoneEl.classList.remove('just-placed');
           const tick = zoneEl.querySelector('.dnd-zone-tick');
           if (tick) tick.remove();
         }, 700);
+        dndAnnounce(L.dndCorrectPlacement);
 
         // If hideOnSuccess is true, remove from reservoir
         if (exercise.hideOnSuccess) {
           const itemsInReservoir = reservoir.querySelectorAll('.dnd-item');
           for (let item of itemsInReservoir) {
             if (item.textContent === text) {
+              const wasFocused = document.activeElement === item;
               item.remove();
+              if (wasFocused) dndFocusAfterRemoval(reservoir, zoneEl);
               break;
             }
           }
@@ -3011,6 +3095,7 @@
         setTimeout(() => {
           zoneEl.classList.remove('incorrect');
         }, 1000);
+        dndAnnounce(L.dndIncorrectPlacement);
 
         const items = reservoir.querySelectorAll('.dnd-item');
         items.forEach(item => {

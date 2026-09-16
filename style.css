@@ -77,6 +77,22 @@ img {
   max-width: 100%;
 }
 
+/* Screen-reader-only content: kept in the accessibility tree (unlike
+   display:none/hidden, which strips it) but removed from the visual flow
+   and never a tab stop. Standard clip-based technique — width/height:1px
+   rather than 0 so some screen readers don't treat it as empty. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 main.page {
   max-width: 1080px;
   margin: 0 auto;
@@ -1032,7 +1048,7 @@ html[data-pointer='fine'] .modal-fullscreen:hover,
 }
 
 /* Category tabs — same toggle-pill pattern as the Level 1/2/3 tabs on the
-   practice page's "My progress", just recoloured to the fiche's own amber
+   practice page's "My progress", just recoloured to the fiche's own slate
    identity instead of the subject colour. Splitting into tabs (rather than
    stacking all three categories) is the main fix for how long this modal
    got once a whole chapter's worth of attendus was in it. */
@@ -1225,7 +1241,7 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
   margin: 0;
 }
 
-/* Deliberately toneless — same amber for a "bravo" and a "tout est fragile"
+/* Deliberately toneless — same slate for a "bravo" and a "tout est fragile"
    verdict alike (no red/green stigma on a self-assessment) — but pulled out
    of the item list below by a solid fill (not a tint on the same cream as
    everything else) and a kicker label, so it reads as the fiche's one
@@ -1689,6 +1705,17 @@ html[data-pointer='fine'] .dnd-item:hover {
   box-shadow: 0 6px 14px rgba(var(--color-current-rgb), 0.15);
   background-color: rgba(var(--color-current-rgb), 0.12);
   border-color: var(--color-current);
+}
+
+/* Keyboard-only wayfinding: neither the plain hover tint above nor .selected
+   (which only appears once an item IS the current pick) tells a keyboard
+   user where Tab currently sits — a thick offset outline, visible on both
+   the light board image and the surface behind it, fills that gap without
+   being confused for "selected"/"correct"/"incorrect". */
+.dnd-item:focus-visible,
+.dnd-zone:focus-visible {
+  outline: 3px solid var(--color-current-dark);
+  outline-offset: 3px;
 }
 
 /* Étiquette « portée » en mode toucher-toucher. Volontairement très marquée :
@@ -2730,6 +2757,25 @@ html[data-pointer='fine'] .sorting-bin-item:hover:not(.correct):not(.incorrect) 
   55% { transform: scale(1); }
   75% { opacity: 1; }
   100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Même garde-fou que les animations de modale plus haut dans ce fichier —
+   celles des jeux (Drag & Drop, Memory, Sorting) n'y étaient pas encore
+   soumises. Le tremblement d'erreur (dnd-shake, partagé par les 3 jeux) est
+   le plus concerné : un mouvement de secousse est justement le genre
+   d'animation qu'un trouble vestibulaire ne tolère pas. */
+@media (prefers-reduced-motion: reduce) {
+  .dnd-item.shake-error,
+  .dnd-zone.incorrect,
+  .dnd-zone.just-placed,
+  .dnd-zone-tick,
+  .memory-card.incorrect .memory-card-back,
+  .memory-card.just-matched,
+  .memory-card-tick,
+  .sorting-bin-item.just-correct,
+  .sorting-item-tick {
+    animation: none;
+  }
 }
 
 /* Une fois toutes les cartes placées, la pioche disparaît — mais pas le

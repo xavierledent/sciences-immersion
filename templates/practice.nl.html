@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='nl'>
 
 <head>
   <meta charset='UTF-8' />
   <script src='../../../access-control.js'></script>
   <script src='../../../tracking.js'></script>
   <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-  <title>Practice - Year 1 - Chem 2</title>
+  <title>Oefeningen - Jaar 1 - {{TITLE_SUFFIX}}</title>
   <link rel='icon' type='image/svg+xml' href='../../../assets/favicon.svg'>
   <link rel='preconnect' href='https://fonts.googleapis.com'>
   <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
@@ -15,17 +15,17 @@
   <link rel='stylesheet' href='../../../practice-engine.css'>
 </head>
 
-<body class='subject-chemistry'>
-  <main class='page subject-chemistry'>
+<body class='{{SUBJECT_CLASS}}'>
+  <main class='page {{SUBJECT_CLASS}}'>
     <header>
       <div class="header-top">
         <div>
-          <span class='topic-chip'>Practice • English immersion • Year 1</span>
-          <h1>Chemistry 2 : Mixtures and pure substances</h1>
-          <p>Train your skills with progressive exercise levels, in both languages. Have fun while learning with interactive
-            exercises.</p>
+          <span class='topic-chip'>Oefeningen • Nederlandse immersie • Jaar 1</span>
+          <h1>{{H1}}</h1>
+          <p>Train je vaardigheden met progressieve oefenniveaus, in beide talen. Leer op een leuke manier met
+            interactieve oefeningen.</p>
         </div>
-        <img src="../../../assets/Friends pra.jpg" alt="Practice illustration" />
+        <img src="../../../assets/Friends pra.jpg" alt="Oefeningen illustratie" />
       </div>
     </header>
 
@@ -36,38 +36,38 @@
     <section class='practice-grid'>
       <article class='exercise-card'>
         <div>
-          <h3>Exercises</h3>
+          <h3>Oefeningen</h3>
           <div class='exercise-actions' id='level-buttons'>
             <button type='button' class='resource-button' data-level='level1'>Level 1 💡</button>
             <button type='button' class='resource-button' data-level='level2'>Level 2 💡💡</button>
             <button type='button' class='resource-button' data-level='level3'>Level 3 💡💡💡</button>
-            <button type='button' class='resource-button' data-action='chapter-overview'>My progress</button>
+            <button type='button' class='resource-button' data-action='chapter-overview'>Mijn voortgang</button>
           </div>
         </div>
         <div class='note-box' style='margin-top: 24px;'>
-          <p>Select a level to start practicing at your own pace.<br />Click My progress to see how you're doing in each level.</p>
+          <p>Kies een level om in je eigen tempo te oefenen.<br />Klik op Mijn voortgang om te zien hoe het gaat in elk level.</p>
         </div>
       </article>
 
       <article class='interactive-card'>
         <div>
-          <h3>Interactive exercises</h3>
+          <h3>Interactieve oefeningen</h3>
           <div class='exercise-actions' id='interactive-buttons'>
-            <button type='button' class='resource-button' data-type='multipleChoice'>Multiple-choice questions</button>
-            <button type='button' class='resource-button' data-type='dragAndDrop'>Drag and drop</button>
-            <button type='button' class='resource-button' data-type='fillBlanks'>Fill in the blanks</button>
-            <button type='button' class='resource-button' data-type='matchPairs'>Match the pairs</button>
-            <button type='button' class='resource-button' data-type='sorting'>Sorting challenge</button>
+            <button type='button' class='resource-button' data-type='multipleChoice'>Meerkeuzevragen</button>
+            <button type='button' class='resource-button' data-type='dragAndDrop'>Sleep en plaats</button>
+            <button type='button' class='resource-button' data-type='fillBlanks'>Vul de gaten in</button>
+            <button type='button' class='resource-button' data-type='matchPairs'>Zoek de paren</button>
+            <button type='button' class='resource-button' data-type='sorting'>Sorteeruitdaging</button>
           </div>
         </div>
         <div class='note-box' style='margin-top: 24px;'>
-          <p>Choose a game mode to test your skills differently</p>
+          <p>Kies een spelmodus om je vaardigheden op een andere manier te testen</p>
         </div>
       </article>
     </section>
 
     <section>
-      <nav class="chapter-nav" id="chapter-nav" aria-label="Chapter navigation"></nav>
+      <nav class="chapter-nav" id="chapter-nav" aria-label="Hoofdstuknavigatie"></nav>
     </section>
   </main>
 
@@ -75,15 +75,15 @@
     <div class='modal-card exercise-modal' role='dialog' aria-modal='true' aria-labelledby='exercise-modal-title'>
       <div class='modal-card-inner'>
         <div class='modal-header'>
-          <button type='button' class='modal-fullscreen' id='exercise-fullscreen' aria-label='Full screen'>⛶</button>
+          <button type='button' class='modal-fullscreen' id='exercise-fullscreen' aria-label='Volledig scherm'>⛶</button>
           <button type='button' class='modal-close' id='exercise-modal-close' aria-label='Close'>×</button>
           <div class='modal-header-titles'>
             <p id='exercise-modal-subtitle' style='margin:0;color:var(--color-muted);font-size:0.95rem;'>Level 1</p>
-            <h2 id='exercise-modal-title'>Exercise 1</h2>
+            <h2 id='exercise-modal-title'>Oefening 1</h2>
           </div>
           <div id='exercises-pagination'></div>
           <div class='language-buttons'>
-            <button type='button' class='toggle-button active' id='btn-statement-en'>Question EN</button>
+            <button type='button' class='toggle-button active' id='btn-statement-en'>Vraag NL</button>
             <button type='button' class='toggle-button' id='btn-statement-fr'><span class='toggle-fill' id='statement-fr-fill'></span><span class='toggle-label' id='statement-fr-label'>Question FR</span></button>
           </div>
         </div>
@@ -99,12 +99,12 @@
           <div id='exercise-subquestion-nav' class='hidden'></div>
           <div class='answer-compare' id='answer-compare'>
             <div class='answer-compare-mine'>
-              <div class='answer-compare-label' id='answer-compare-mine-label'>Your answer</div>
+              <div class='answer-compare-label' id='answer-compare-mine-label'>Jouw antwoord</div>
               <div class='student-answer-echo' id='student-answer-echo'></div>
             </div>
             <div class='answer-compare-corr'>
               <div class='correction-buttons'>
-                <button type='button' class='toggle-button active' id='btn-correction-en'>Correction EN</button>
+                <button type='button' class='toggle-button active' id='btn-correction-en'>Correctie NL</button>
                 <button type='button' class='toggle-button' id='btn-correction-fr'><span class='toggle-fill' id='correction-fr-fill'></span><span class='toggle-label' id='correction-fr-label'>Correction FR</span></button>
               </div>
               <div id='exercise-text' class='exercise-text'>Chargement de l'exercice...</div>
@@ -114,7 +114,7 @@
             <textarea id='student-answer-input' class='student-answer-input' rows='2'></textarea>
             <div class='student-answer-bar'>
               <span class='student-answer-saved' id='student-answer-saved' aria-live='polite'></span>
-              <button type='button' class='student-answer-check' id='btn-check-answer'>Check my answer</button>
+              <button type='button' class='student-answer-check' id='btn-check-answer'>Mijn antwoord nakijken</button>
             </div>
           </div>
         </div>
@@ -128,7 +128,7 @@
         <div class='modal-header'>
           <button type='button' class='modal-fullscreen' id='overview-fullscreen' aria-label='Full screen'>⛶</button>
           <div class='modal-header-titles'>
-            <h2 id='overview-modal-title'>My progress</h2>
+            <h2 id='overview-modal-title'>Mijn voortgang</h2>
             <img class='overview-mascot' id='overview-mascot' src='../../../assets/Friends palier 1.png' alt='' />
           </div>
           <button type='button' class='modal-close' id='overview-modal-close' aria-label='Close'>×</button>
@@ -148,9 +148,9 @@
       <div class='modal-card-inner'>
         <div class='modal-header'>
           <div style='flex: 1;'>
-            <p id='interactive-modal-subtitle' style='margin:0;color:var(--color-muted);font-size:0.95rem;'>Interactive
+            <p id='interactive-modal-subtitle' style='margin:0;color:var(--color-muted);font-size:0.95rem;'>Interactief
             </p>
-            <h2 id='interactive-modal-title'>Exercise Type</h2>
+            <h2 id='interactive-modal-title'>Oefentype</h2>
           </div>
           <div style='flex: 1; display: flex; justify-content: flex-end;'>
             <button type='button' class='modal-close' id='interactive-modal-close' aria-label='Close'>×</button>
@@ -172,8 +172,8 @@
     <div class='modal-card dnd-modal-card' role='dialog' aria-modal='true' aria-labelledby='dnd-modal-title'>
       <div class='modal-card-inner dnd-modal-card-inner'>
         <div class='modal-header dnd-modal-header'>
-          <button type='button' class='modal-fullscreen' id='dnd-fullscreen' aria-label='Full screen'>⛶</button>
-          <h2 id='dnd-modal-title' class='game-modal-title'>Drag and drop</h2>
+          <button type='button' class='modal-fullscreen' id='dnd-fullscreen' aria-label='Volledig scherm'>⛶</button>
+          <h2 id='dnd-modal-title' class='game-modal-title'>Sleep en plaats</h2>
           <button type='button' class='modal-close' id='dnd-modal-close' aria-label='Close'>×</button>
         </div>
 
@@ -189,7 +189,7 @@
           <!-- Plateau de jeu (Image de fond + zones cibles) -->
           <div class='dnd-board-container'>
             <div class='dnd-board' id='dnd-board'>
-              <img id='dnd-bg-image' src='' alt='Drag and drop board' />
+              <img id='dnd-bg-image' src='' alt='Sleep-en-plaatsbord' />
               <!-- Les zones de drop cibles seront injectées ici de manière absolue -->
             </div>
           </div>
@@ -210,8 +210,8 @@
     <div class='modal-card memory-modal-card' role='dialog' aria-modal='true' aria-labelledby='memory-modal-title'>
       <div class='modal-card-inner memory-modal-card-inner'>
         <div class='modal-header memory-modal-header'>
-          <button type='button' class='modal-fullscreen' id='memory-fullscreen' aria-label='Full screen'>⛶</button>
-          <h2 id='memory-modal-title' class='game-modal-title'>Match the pairs</h2>
+          <button type='button' class='modal-fullscreen' id='memory-fullscreen' aria-label='Volledig scherm'>⛶</button>
+          <h2 id='memory-modal-title' class='game-modal-title'>Zoek de paren</h2>
           <button type='button' class='modal-close' id='memory-modal-close' aria-label='Close'>×</button>
         </div>
 
@@ -241,8 +241,8 @@
     <div class='modal-card sorting-modal-card' role='dialog' aria-modal='true' aria-labelledby='sorting-modal-title'>
       <div class='modal-card-inner sorting-modal-card-inner'>
         <div class='modal-header sorting-modal-header'>
-          <button type='button' class='modal-fullscreen' id='sorting-fullscreen' aria-label='Full screen'>⛶</button>
-          <h2 id='sorting-modal-title' class='game-modal-title'>Sorting challenge</h2>
+          <button type='button' class='modal-fullscreen' id='sorting-fullscreen' aria-label='Volledig scherm'>⛶</button>
+          <h2 id='sorting-modal-title' class='game-modal-title'>Sorteeruitdaging</h2>
           <button type='button' class='modal-close' id='sorting-modal-close' aria-label='Close'>×</button>
         </div>
 
@@ -268,7 +268,7 @@
 
           <!-- Zone du bouton de vérification final (au milieu, désactivé tant qu'il reste des cartes) -->
           <div class='sorting-action-container'>
-            <button type='button' class='sorting-action-btn' id='btn-check-sorting' disabled>Check Categories</button>
+            <button type='button' class='sorting-action-btn' id='btn-check-sorting' disabled>Categorieën controleren</button>
           </div>
 
           <!-- Zone de navigation en bas -->
@@ -287,8 +287,8 @@
     <div class='modal-card fitb-modal-card' role='dialog' aria-modal='true' aria-labelledby='fitb-modal-title'>
       <div class='modal-card-inner fitb-modal-card-inner'>
         <div class='modal-header fitb-modal-header'>
-          <button type='button' class='modal-fullscreen' id='fitb-fullscreen' aria-label='Full screen'>⛶</button>
-          <h2 id='fitb-modal-title' class='game-modal-title'>Fill in the blanks</h2>
+          <button type='button' class='modal-fullscreen' id='fitb-fullscreen' aria-label='Volledig scherm'>⛶</button>
+          <h2 id='fitb-modal-title' class='game-modal-title'>Vul de gaten in</h2>
           <button type='button' class='modal-close' id='fitb-modal-close' aria-label='Close'>×</button>
         </div>
         <div class='modal-body fitb-modal-body'>
@@ -308,8 +308,8 @@
     <div class='modal-card qcm-modal-card' role='dialog' aria-modal='true' aria-labelledby='qcm-modal-title'>
       <div class='modal-card-inner qcm-modal-card-inner'>
         <div class='modal-header qcm-modal-header'>
-          <button type='button' class='modal-fullscreen' id='qcm-fullscreen' aria-label='Full screen'>⛶</button>
-          <h2 id='qcm-modal-title' class='game-modal-title'>Multiple-choice questions</h2>
+          <button type='button' class='modal-fullscreen' id='qcm-fullscreen' aria-label='Volledig scherm'>⛶</button>
+          <h2 id='qcm-modal-title' class='game-modal-title'>Meerkeuzevragen</h2>
           <button type='button' class='modal-close' id='qcm-modal-close' aria-label='Close'>×</button>
         </div>
         <div class='modal-body qcm-modal-body'>
