@@ -59,7 +59,7 @@
   },
   "ficheAutoEvaluation": {
     "title": "Autoévaluation par attendus",
-    "description": "Fais le point sur ta maîtrise du chapitre, notion par notion, et découvre où concentrer tes révisions.",
+    "description": "Fiche imprimable, à cocher notion par notion.",
     "basePath": "../../../assets",
     "pdfFile": "FE chimie1.pdf"
   },
