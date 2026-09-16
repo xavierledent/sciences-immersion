@@ -46,6 +46,68 @@
       padding: 0 18px;
     }
 
+    /* Structure à deux zones à l'intérieur du même bouton plein habituel —
+       même famille visuelle que .resource-button partout ailleurs sur le
+       site (toujours rempli), pas le contour/remplissage des boutons de
+       navigation (.chapter-nav-btn/.mode-button), qui a un sens différent
+       (ces boutons ouvrent du contenu, ils ne naviguent pas). */
+    .level-option {
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .level-label {
+      text-align: left;
+    }
+
+    .level-bulbs {
+      margin-left: 4px;
+      font-size: 0.85rem;
+      opacity: 0.85;
+    }
+
+    .level-action {
+      flex-shrink: 0;
+      font-weight: 700;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    /* Le niveau recommandé/repris : même remplissage que les autres, un
+       halo + une teinte plus foncée le distinguent — pas un système de
+       boutons différent, juste un signal en plus. Le badge est la seule
+       vraie nouveauté visuelle, et n'existe nulle part ailleurs sur le
+       site donc n'entre en conflit avec aucun pattern existant. */
+    .is-current-level {
+      background: var(--color-current-dark);
+      box-shadow: 0 0 0 4px rgba(var(--color-current-rgb), 0.25), 0 16px 30px rgba(var(--color-current-rgb), 0.3);
+    }
+
+    html[data-pointer='fine'] .is-current-level:hover,
+    .is-current-level:focus-visible {
+      background: var(--color-current-darker);
+    }
+
+    /* Doit tenir dans les 18px d'écart entre boutons (grid gap) sans
+       l'agrandir : la grille des 2 cartes est calée ligne par ligne (voir
+       grid-template-rows plus bas), une marge ici désaligne Exercises et
+       Interactive exercises l'une de l'autre. */
+    .level-badge {
+      position: absolute;
+      top: -9px;
+      left: 20px;
+      line-height: 1;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--color-current-darker);
+      color: #ffffff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 10px rgba(17, 36, 72, 0.18);
+    }
+
     /* Both action lists get an explicit 5-row template so their rows land at
        identical heights even though #level-buttons only fills 4 of them: 3
        level buttons, an empty row 4 as a deliberate gap, then the chapter

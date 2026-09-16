@@ -342,4 +342,79 @@
   } else {
     ensureCopyrightNotice();
   }
+
+  /* ===== Contraste élevé =====
+     Option activable par l'élève, pas un thème automatique complet : sur
+     certains fonds pâles, le texte coloré (badges, boutons) passe sous le
+     seuil recommandé pour une partie des élèves (vue basse, tableau projeté
+     avec reflets...). Le choix explicite prime toujours sur la détection
+     système, mais au tout premier chargement — avant tout choix — on
+     respecte prefers-contrast: more comme le fait déjà le CSS pour
+     prefers-reduced-motion, plutôt que de partir sur "désactivé" pour tout
+     le monde. Les couleurs de matière elles-mêmes ne changent jamais ; voir
+     body.high-contrast dans style.css pour ce qui bascule réellement. */
+  const HIGH_CONTRAST_KEY = 'highContrast';
+
+  function readHighContrastPreference() {
+    try {
+      const stored = localStorage.getItem(HIGH_CONTRAST_KEY);
+      if (stored === 'true') return true;
+      if (stored === 'false') return false;
+    } catch (e) {
+      // Stockage indisponible : pas de préférence mémorisée, on retombe sur la détection système ci-dessous.
+    }
+    return !!(window.matchMedia && window.matchMedia('(prefers-contrast: more)').matches);
+  }
+
+  function writeHighContrastPreference(value) {
+    try { localStorage.setItem(HIGH_CONTRAST_KEY, value ? 'true' : 'false'); } catch (e) {}
+  }
+
+  function applyHighContrast(active, button) {
+    document.body.classList.toggle('high-contrast', active);
+    if (!button) return;
+    button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    const label = active ? 'Désactiver le contraste élevé' : 'Activer le contraste élevé';
+    button.setAttribute('aria-label', label);
+    const tooltip = button.querySelector('.high-contrast-tooltip');
+    if (tooltip) tooltip.textContent = label;
+  }
+
+  function ensureHighContrastToggle() {
+    let button = document.getElementById('high-contrast-toggle');
+    if (button) return button;
+
+    button = document.createElement('button');
+    button.type = 'button';
+    button.id = 'high-contrast-toggle';
+
+    const icon = document.createElement('span');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = '◐';
+
+    const tooltip = document.createElement('span');
+    tooltip.className = 'high-contrast-tooltip';
+    tooltip.setAttribute('aria-hidden', 'true');
+
+    button.append(icon, tooltip);
+    button.addEventListener('click', () => {
+      const nextActive = !document.body.classList.contains('high-contrast');
+      writeHighContrastPreference(nextActive);
+      applyHighContrast(nextActive, button);
+    });
+
+    document.body.appendChild(button);
+    return button;
+  }
+
+  function initHighContrast() {
+    const button = ensureHighContrastToggle();
+    applyHighContrast(readHighContrastPreference(), button);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHighContrast);
+  } else {
+    initHighContrast();
+  }
 })(window);

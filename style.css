@@ -36,6 +36,14 @@
   --color-current-text: #ffffff;
 }
 
+/* index.html isn't tied to a subject — without this, --color-current-rgb
+   would silently fall through to the :root default (bio green) instead of
+   a neutral tone. Used by the note-box teacher's-tip tint (see .note-box-tip
+   below). */
+.subject-neutral {
+  --color-current-rgb: var(--color-slate-rgb);
+}
+
 .subject-physics {
   --color-current: var(--color-physics);
   --color-current-rgb: 139, 123, 181;
@@ -43,6 +51,28 @@
   --color-current-darker: #584c80;
   --color-current-darkest: #463d66;
   --color-current-text: #ffffff;
+}
+
+/* Contraste élevé (mode optionnel, activable par l'élève — voir rich-text.js
+   pour le bouton et la mémorisation du choix). Un seul changement : le texte
+   blanc sur fond de couleur plein (boutons, liens de ressources — tout ce
+   qui lit --color-current-text) passe au noir, nettement plus lisible sur
+   les 3 couleurs de matière (vérifié : bio 8.71:1, chimie 8.87:1, physique
+   5.6:1 contre blanc qui reste sous le seuil AA sur au moins deux d'entre
+   elles). Les couleurs de matière elles-mêmes ne changent pas — seul le
+   texte qui doit rester lisible par-dessus fonce.
+   Ciblé directement sur .subject-bio/-physics/-chemistry (pas seulement sur
+   body.high-contrast) : ce sont ces classes, posées sur <main> ou parfois
+   <body> selon la page, qui déclarent déjà --color-current-text — une
+   redéclaration sur <body> seul serait invisible pour elles, écrasée avant
+   de les atteindre par leur propre déclaration plus proche dans le DOM. */
+body.high-contrast.subject-bio,
+body.high-contrast .subject-bio,
+body.high-contrast.subject-physics,
+body.high-contrast .subject-physics,
+body.high-contrast.subject-chemistry,
+body.high-contrast .subject-chemistry {
+  --color-current-text: #000000;
 }
 
 * {
@@ -152,6 +182,13 @@ header {
   color: #ffffff;
 }
 
+/* Contraste élevé : le cyan sur fond cyan pâle (12% d'opacité) est le
+   "badge de matière" pointé par l'audit — texte trop proche du fond. Le
+   fond garde sa teinte, seul le texte fonce. */
+body.high-contrast .topic-chip {
+  color: #000000;
+}
+
 h1 {
   margin: 0;
   font-size: clamp(2.35rem, 3vw, 3.4rem);
@@ -167,7 +204,6 @@ h1 {
 .mode-help,
 .card-counter,
 .note-box p,
-.notes li,
 .section-card p,
 .chapter-card p {
   color: var(--color-muted);
@@ -381,7 +417,7 @@ html[data-pointer='fine'] .section-card:hover,
   align-items: center;
   justify-content: center;
   background: var(--color-cyan);
-  color: #ffffff;
+  color: var(--color-current-text);
   text-decoration: none;
 }
 
@@ -417,7 +453,6 @@ html[data-pointer='fine'] .section-card a:hover,
   .subject-chemistry .chapter-go-button,
   .subject-chemistry .section-card a {
     background: var(--color-chemistry);
-    color: #ffffff;
   }
 
   html[data-pointer='fine'] .subject-chemistry .chapter-go-button:hover,
@@ -830,6 +865,79 @@ html[data-pointer='fine'] .section-card a:hover,
     display: block;
   }
 
+  /* Bouton de contraste élevé, posé par rich-text.js. Flottant en bas à
+     droite : emplacement conventionnel pour ce type d'outil, atteignable au
+     pouce sur Chromebook tactile, et un seul point d'injection suffit quelle
+     que soit la structure de l'en-tête de la page (accueil, chapitre, 404). */
+  #high-contrast-toggle {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 998;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--color-slate);
+    background: #ffffff;
+    color: var(--color-slate);
+    font-size: 1.3rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(17, 36, 72, 0.18);
+    transition: transform var(--transition), background var(--transition), color var(--transition);
+  }
+
+  html[data-pointer='fine'] #high-contrast-toggle:hover,
+  #high-contrast-toggle:focus-visible {
+    transform: translateY(-2px);
+    outline: 3px solid var(--color-cyan);
+    outline-offset: 2px;
+  }
+
+  #high-contrast-toggle[aria-pressed='true'] {
+    background: var(--color-slate);
+    color: #ffffff;
+  }
+
+  /* Infobulle visible au survol souris ET au focus clavier (pas seulement
+     :hover) — pour rester utile à un élève qui navigue au clavier ou sur
+     tablette tactile sans souris. Le contenu textuel fait doublon avec
+     l'aria-label du bouton, donc masquée aux lecteurs d'écran. */
+  .high-contrast-tooltip {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    white-space: nowrap;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--color-text);
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    pointer-events: none;
+  }
+
+  html[data-pointer='fine'] #high-contrast-toggle:hover .high-contrast-tooltip,
+  #high-contrast-toggle:focus-visible .high-contrast-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #high-contrast-toggle,
+    .high-contrast-tooltip {
+      transition: none;
+    }
+  }
+
   /* Mention de copyright, posée par rich-text.js en fin de page. Dans le flux
      normal du document, pas fixée à l'écran : rien d'urgent à signaler, elle
      n'a qu'à être là si on la cherche. */
@@ -862,7 +970,7 @@ html[data-pointer='fine'] .section-card a:hover,
   }
 
   .modal-card {
-    width: min(100%, 620px);
+    width: min(100%, 540px);
     /* Safety net for tall content on short viewports (e.g. Chromebooks with
        a lot of browser chrome eating into the window) — the modal scrolls
        internally instead of being silently cut off with the page itself
@@ -875,6 +983,26 @@ html[data-pointer='fine'] .section-card a:hover,
     background: var(--color-surface);
     padding: 22px 24px;
     position: relative;
+  }
+
+  /* The 4 section buttons, the dashed divider and Assessment are all pinned
+     to the same 400px width (narrower than the 540px modal itself) so their
+     left/right edges line up vertically, and so the buttons read as a
+     roughly square 2x2 grid rather than flat/rectangular tiles — the modal
+     stays wider than that so the chapter title still wraps to 2 lines
+     instead of 3. Piloted on phys2 first, then generalized here.
+
+     Fixed `width`, not `max-width`: a CSS grid child with only a max-width
+     doesn't stretch up to that limit, it shrinks to its own content's
+     natural width (here, the inner button grid) — and auto margins then
+     have no leftover space to center into, so the divider ends up 0px wide
+     and invisible. */
+  .modal-grid,
+  .modal-grid-divider,
+  .modal-grid-assessment {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* rich-text.js focuses the card itself on open (tabindex="-1") so screen
@@ -936,6 +1064,14 @@ html[data-pointer='fine'] .section-card a:hover,
   .modal-card.subject-chemistry .modal-chip {
     background: rgba(231, 195, 96, 0.16);
     color: var(--color-chemistry);
+  }
+
+  /* Contraste élevé : même logique que .topic-chip — le fond pâle par
+     matière reste intact, seul le texte fonce. */
+  body.high-contrast .modal-card.subject-bio .modal-chip,
+  body.high-contrast .modal-card.subject-physics .modal-chip,
+  body.high-contrast .modal-card.subject-chemistry .modal-chip {
+    color: #000000;
   }
 
   #chapter-list {
@@ -1389,6 +1525,32 @@ html[data-pointer='fine'] .modal-card.subject-chemistry .modal-grid .section-car
   box-shadow: 0 24px 50px rgba(231, 195, 96, 0.25);
 }
 
+/* Contraste élevé : ces 4 boutons (Vocabulary/Practice/Resources/
+   Explorations dans la modale) ont un texte de couleur sur fond blanc au
+   repos (ratios mesurés entre 2.37:1 et 3.75:1, sous le seuil AA de 4.5:1),
+   et un texte blanc sur fond de couleur plein au survol/focus — même
+   problème que --color-current-text ailleurs, mais implémenté ici en dur
+   plutôt que via la variable. Les deux états passent au noir ; le fond,
+   la bordure et l'identité de matière ne changent pas. */
+body.high-contrast .modal-grid .section-card,
+body.high-contrast .assessment-card,
+body.high-contrast .modal-card.subject-bio .modal-grid .section-card,
+body.high-contrast .modal-card.subject-physics .modal-grid .section-card,
+body.high-contrast .modal-card.subject-chemistry .modal-grid .section-card {
+  color: #000000;
+}
+
+html[data-pointer='fine'] body.high-contrast .modal-grid .section-card:hover,
+body.high-contrast .modal-grid .section-card:focus-visible,
+html[data-pointer='fine'] body.high-contrast .modal-card.subject-bio .modal-grid .section-card:hover,
+body.high-contrast .modal-card.subject-bio .modal-grid .section-card:focus-visible,
+html[data-pointer='fine'] body.high-contrast .modal-card.subject-physics .modal-grid .section-card:hover,
+body.high-contrast .modal-card.subject-physics .modal-grid .section-card:focus-visible,
+html[data-pointer='fine'] body.high-contrast .modal-card.subject-chemistry .modal-grid .section-card:hover,
+body.high-contrast .modal-card.subject-chemistry .modal-grid .section-card:focus-visible {
+  color: #000000;
+}
+
 /* Assessment button: always the fiche's own fixed slate identity, never the
    subject colour — matches assessment.html itself (tabs/bulbs/synthesis are
    all slate there too, regardless of chapter) so the colour doesn't shift
@@ -1516,30 +1678,38 @@ html[data-pointer='fine'] .icon-button:hover,
   background: rgba(31, 181, 214, 0.08);
 }
 
-.notes {
+/* Contraste élevé : cyan sur blanc (2.48:1, sous le seuil AA). */
+body.high-contrast .icon-button {
+  color: #000000;
+}
+
+/* White fill, border, shadow, radius, padding — scoped to section.note-box
+   specifically, not a bare class: the "how to use this page" notes are all
+   centralized in this one component now, always as a top-level <section>. */
+section.note-box {
   margin-top: 34px;
   padding: 24px;
   border-radius: var(--radius);
   border: 1px solid rgba(31, 181, 214, 0.14);
   background: #fff;
-  color: var(--color-muted);
   box-shadow: 0 14px 32px rgba(16, 47, 91, 0.06);
 }
 
-.notes h2 {
+section.note-box h3 {
   margin: 0 0 14px;
   font-size: 1.15rem;
   color: var(--color-text);
 }
 
-.notes ul {
-  margin: 0;
-  padding-left: 1.2rem;
-}
-
-.notes li {
-  margin-bottom: 0.75rem;
-  line-height: 1.7;
+/* The "Conseil du prof" / "Teacher's tip" paragraph, set apart from the
+   factual how-to-use text above it. Tinted with the chapter's own subject
+   color (index.html has no subject — see .subject-neutral above). */
+section.note-box p.note-box-tip {
+  margin-top: 14px;
+  padding: 10px 16px;
+  border-radius: calc(var(--radius) - 6px);
+  background: rgba(var(--color-current-rgb), 0.1);
+  font-style: italic;
 }
 
 .subject-bio {
@@ -1842,6 +2012,11 @@ body.modal-is-open {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+
+/* Contraste élevé : émeraude sur fond clair (3.20:1, sous le seuil AA). */
+body.high-contrast .dnd-zone.correct .dnd-zone-text {
+  color: #000000;
 }
 
 .dnd-zone.correct .dnd-zone-text {

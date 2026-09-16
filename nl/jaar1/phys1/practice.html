@@ -29,23 +29,29 @@
       </div>
     </header>
 
-    <section class='note-box'>
-      <p></p>
-    </section>
-
     <section class='practice-grid'>
       <article class='exercise-card'>
         <div>
           <h3>Oefeningen</h3>
+          <!-- Structure à deux zones (label + action) pour la mise en
+               évidence du niveau où reprendre — voir practice-engine.js
+               (applyLevelResumeUI) et practice-engine.css (.level-option,
+               .level-badge, .is-current-level). -->
           <div class='exercise-actions' id='level-buttons'>
-            <button type='button' class='resource-button' data-level='level1'>Level 1 💡</button>
-            <button type='button' class='resource-button' data-level='level2'>Level 2 💡💡</button>
-            <button type='button' class='resource-button' data-level='level3'>Level 3 💡💡💡</button>
+            <button type='button' class='resource-button level-option' data-level='level1'>
+              <span class='level-label'>Level 1 <span class='level-bulbs'>💡</span></span>
+              <span class='level-action'>Beginnen</span>
+            </button>
+            <button type='button' class='resource-button level-option' data-level='level2'>
+              <span class='level-label'>Level 2 <span class='level-bulbs'>💡💡</span></span>
+              <span class='level-action'>Beginnen</span>
+            </button>
+            <button type='button' class='resource-button level-option' data-level='level3'>
+              <span class='level-label'>Level 3 <span class='level-bulbs'>💡💡💡</span></span>
+              <span class='level-action'>Beginnen</span>
+            </button>
             <button type='button' class='resource-button' data-action='chapter-overview'>Mijn voortgang</button>
           </div>
-        </div>
-        <div class='note-box' style='margin-top: 24px;'>
-          <p>Kies een level om in je eigen tempo te oefenen.<br />Klik op Mijn voortgang om te zien hoe het gaat in elk level.</p>
         </div>
       </article>
 
@@ -60,13 +66,23 @@
             <button type='button' class='resource-button' data-type='sorting'>Sorteeruitdaging</button>
           </div>
         </div>
-        <div class='note-box' style='margin-top: 24px;'>
-          <p>Kies een spelmodus om je vaardigheden op een andere manier te testen</p>
-        </div>
       </article>
     </section>
 
-    <section>
+    <section class='note-box'>
+      <h3>Hoe werkt deze pagina?</h3>
+      <p><strong>Kort gezegd:</strong> twee manieren om te oefenen — de klassieke oefeningen (Level 1 tot 3) worden
+        geleidelijk moeilijker, terwijl de interactieve spellen (meerkeuzevragen, sleep en plaats, vul de gaten in,
+        zoek de paren, sorteeruitdaging) een andere manier bieden om dezelfde begrippen te herhalen. Kies elk level
+        in eender welke volgorde — begin bij Level 1 als het onderwerp nieuw is, of ga meteen naar Level 3 als je je
+        er al zeker bij voelt. Beoordeel jezelf na elke klassieke oefening met "Nog oefenen", "Bijna" of "Gelukt";
+        bekijk "Mijn voortgang" voor het volledige beeld van dit hoofdstuk.</p>
+      <p class="note-box-tip"><strong>Tip van de leerkracht:</strong> een oefening die nog niet groen is, blijft
+        beschikbaar om opnieuw te doen — kom er zo vaak op terug als nodig, regelmatig oefenen is de beste manier om
+        vooruitgang te boeken.</p>
+    </section>
+
+    <section style="margin-top: 38px">
       <nav class="chapter-nav" id="chapter-nav" aria-label="Hoofdstuknavigatie"></nav>
     </section>
   </main>

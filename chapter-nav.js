@@ -31,6 +31,14 @@
     try { sessionStorage.setItem(key, value); } catch (e) {}
   }
 
+  // Choix assumé : cette barre est toujours placée en bas de page (voir les
+  // templates HTML, juste avant </main>), jamais en haut. Un audit externe
+  // l'a signalé comme un défaut ("il faut scroller pour changer de section"),
+  // mais ce raisonnement suppose un usage en projection au tableau — ce n'est
+  // pas l'usage réel du site, pensé pour du travail autonome. En bas de page,
+  // le scroll fait passer l'élève par le contenu de la page ET par la
+  // note-box (conseils d'utilisation) avant d'atteindre la nav ; en haut,
+  // un élève pressé cliquerait directement sans jamais les voir.
   function renderChapterNav() {
     const container = document.getElementById('chapter-nav');
     if (!container) return;

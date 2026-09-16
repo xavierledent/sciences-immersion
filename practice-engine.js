@@ -48,6 +48,10 @@
         exercisesRemaining: n => `${n} exercise${n !== 1 ? 's' : ''} to turn green. Keep going !`,
         overviewAllTab: 'All',
         continueLevel: 'Continue this level',
+        levelActionStart: 'Start',
+        levelActionContinue: 'Continue',
+        levelBadgeStart: 'Start here',
+        levelBadgeContinue: 'Pick up here',
         revisionModeLabel: 'Revision mode',
         revisionProgress: (remaining, total) => `${remaining} of ${total} remaining`,
         revisionNext: 'Next',
@@ -140,6 +144,10 @@
         exercisesRemaining: n => `Nog ${n} oefening${n !== 1 ? 'en' : ''} om groen te worden. Ga zo door !`,
         overviewAllTab: 'Alle',
         continueLevel: 'Dit level verderzetten',
+        levelActionStart: 'Beginnen',
+        levelActionContinue: 'Doorgaan',
+        levelBadgeStart: 'Begin hier',
+        levelBadgeContinue: 'Ga hier verder',
         revisionModeLabel: 'Herhalingsmodus',
         revisionProgress: (remaining, total) => `${remaining} van ${total} resterend`,
         revisionNext: 'Volgende',
@@ -567,6 +575,7 @@
       // pendant que l'élève lit le premier énoncé.
       preloadImages(levelImageSources(levelKey));
       currentExercise = exerciseId;
+      recordLevelResumePosition(levelKey, exerciseId);
       currentView = 'en';
       lastStatementView = 'en';
       currentSubQuestion = 0;
@@ -593,6 +602,9 @@
       // Never persisted — closing the modal always drops the revision session
       // rather than risk restoring one silently on the next open.
       revisionActive = false;
+      // Le badge/"Continue" doit refléter ce qui vient de se passer sans
+      // attendre un rechargement de page.
+      applyLevelResumeUI();
     }
 
     function updateModalHeader() {
@@ -775,6 +787,7 @@
       if (!Number.isInteger(n) || n < 1 || n > numExercises) return false;
       flushAnswerSave();
       currentExercise = n;
+      recordLevelResumePosition(currentLevel, n);
       currentView = 'en';
       lastStatementView = 'en';
       currentSubQuestion = 0;
@@ -1071,6 +1084,42 @@
     // use index 0.
     function getAnswerStorageKey(levelKey, exerciseId, subIndex) {
       return 'practiceAnswer::' + location.pathname + '::' + levelKey + '::' + exerciseId + '::' + subIndex;
+    }
+
+    // Position de reprise : quel exercice a été touché en dernier dans
+    // chaque niveau, et quel niveau a été touché en dernier tous niveaux
+    // confondus — deux clés distinctes, car "reprendre" doit rouvrir
+    // l'exercice exact, pas juste le niveau.
+    function getLastExerciseKey(levelKey) {
+      return 'practiceLastExercise::' + location.pathname + '::' + levelKey;
+    }
+
+    function readLastExercise(levelKey) {
+      try {
+        const n = parseInt(localStorage.getItem(getLastExerciseKey(levelKey)), 10);
+        return Number.isInteger(n) && n >= 1 ? n : null;
+      } catch (e) { return null; }
+    }
+
+    function writeLastExercise(levelKey, exerciseId) {
+      try { localStorage.setItem(getLastExerciseKey(levelKey), String(exerciseId)); } catch (e) {}
+    }
+
+    function getLastTouchedLevelKey() {
+      return 'practiceLastTouchedLevel::' + location.pathname;
+    }
+
+    function readLastTouchedLevel() {
+      try { return localStorage.getItem(getLastTouchedLevelKey()); } catch (e) { return null; }
+    }
+
+    function writeLastTouchedLevel(levelKey) {
+      try { localStorage.setItem(getLastTouchedLevelKey(), levelKey); } catch (e) {}
+    }
+
+    function recordLevelResumePosition(levelKey, exerciseId) {
+      writeLastExercise(levelKey, exerciseId);
+      writeLastTouchedLevel(levelKey);
     }
 
     function readStoredAnswer(levelKey, exerciseId, subIndex) {
@@ -1670,7 +1719,19 @@
       levelButtonsContainer.addEventListener('click', event => {
         const levelBtn = event.target.closest('button[data-level]');
         if (levelBtn) {
-          openModal(levelBtn.dataset.level);
+          // Le niveau mis en avant rouvre l'exercice exact où l'élève
+          // s'était arrêté ("Continue"), pas le système de révision (qui
+          // saute les exercices déjà verts) — celui-ci reste exclusivement
+          // accessible depuis "My progress".
+          const savedExercise = levelBtn.classList.contains('is-current-level')
+            ? readLastExercise(levelBtn.dataset.level)
+            : null;
+          if (savedExercise) {
+            revisionActive = false;
+            openModalAtExercise(levelBtn.dataset.level, savedExercise);
+          } else {
+            openModal(levelBtn.dataset.level);
+          }
           return;
         }
         const overviewBtn = event.target.closest('button[data-action="chapter-overview"]');
@@ -4262,10 +4323,48 @@
       openModalAtExercise(levelKey, exerciseId);
     }
 
+    // Met en évidence le niveau où reprendre. Aucun signet nulle part
+    // (première visite) → Level 1 avec "Start". Sinon → le niveau touché en
+    // dernier, avec "Continue" — un signet distinct par niveau, donc rouvrir
+    // Level 1 puis revenir met bien en avant Level 1 à nouveau, pas le
+    // dernier niveau vraiment travaillé.
+    // Idempotent plutôt qu'à usage unique : rappelée à la fermeture de la
+    // modale (voir closeModal) pour que le badge/"Continue" se mette à jour
+    // tout de suite, sans attendre un rechargement de la page. Repart donc
+    // toujours d'un état propre — sinon un badge posé au tour précédent
+    // resterait collé sur l'ancien niveau en plus du nouveau.
+    function applyLevelResumeUI() {
+      const options = levelButtonsContainer.querySelectorAll('.level-option');
+      options.forEach(btn => {
+        btn.classList.remove('is-current-level');
+        const badge = btn.querySelector('.level-badge');
+        if (badge) badge.remove();
+        const action = btn.querySelector('.level-action');
+        if (action) action.textContent = L.levelActionStart;
+      });
+
+      const touchedLevel = readLastTouchedLevel();
+      const currentLevelKey = (touchedLevel && practiceData[touchedLevel]) ? touchedLevel : 'level1';
+      const savedExercise = readLastExercise(currentLevelKey);
+
+      options.forEach(btn => {
+        if (btn.dataset.level !== currentLevelKey) return;
+        const action = btn.querySelector('.level-action');
+        if (!action) return;
+        btn.classList.add('is-current-level');
+        action.textContent = savedExercise ? L.levelActionContinue : L.levelActionStart;
+        const badge = document.createElement('span');
+        badge.className = 'level-badge';
+        badge.textContent = savedExercise ? L.levelBadgeContinue : L.levelBadgeStart;
+        btn.prepend(badge);
+      });
+    }
+
     async function initPractice() {
       await loadPracticeData();
       bindEvents();
       initAnswerBox();
+      applyLevelResumeUI();
       openFromDeepLink();
     }
 

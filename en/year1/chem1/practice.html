@@ -29,23 +29,29 @@
       </div>
     </header>
 
-    <section class='note-box'>
-      <p></p>
-    </section>
-
     <section class='practice-grid'>
       <article class='exercise-card'>
         <div>
           <h3>Exercises</h3>
+          <!-- Structure à deux zones (label + action) pour la mise en
+               évidence du niveau où reprendre — voir practice-engine.js
+               (applyLevelResumeUI) et practice-engine.css (.level-option,
+               .level-badge, .is-current-level). -->
           <div class='exercise-actions' id='level-buttons'>
-            <button type='button' class='resource-button' data-level='level1'>Level 1 💡</button>
-            <button type='button' class='resource-button' data-level='level2'>Level 2 💡💡</button>
-            <button type='button' class='resource-button' data-level='level3'>Level 3 💡💡💡</button>
+            <button type='button' class='resource-button level-option' data-level='level1'>
+              <span class='level-label'>Level 1 <span class='level-bulbs'>💡</span></span>
+              <span class='level-action'>Start</span>
+            </button>
+            <button type='button' class='resource-button level-option' data-level='level2'>
+              <span class='level-label'>Level 2 <span class='level-bulbs'>💡💡</span></span>
+              <span class='level-action'>Start</span>
+            </button>
+            <button type='button' class='resource-button level-option' data-level='level3'>
+              <span class='level-label'>Level 3 <span class='level-bulbs'>💡💡💡</span></span>
+              <span class='level-action'>Start</span>
+            </button>
             <button type='button' class='resource-button' data-action='chapter-overview'>My progress</button>
           </div>
-        </div>
-        <div class='note-box' style='margin-top: 24px;'>
-          <p>Select a level to start practicing at your own pace.<br />Click My progress to see how you're doing in each level.</p>
         </div>
       </article>
 
@@ -60,13 +66,21 @@
             <button type='button' class='resource-button' data-type='sorting'>Sorting challenge</button>
           </div>
         </div>
-        <div class='note-box' style='margin-top: 24px;'>
-          <p>Choose a game mode to test your skills differently</p>
-        </div>
       </article>
     </section>
 
-    <section>
+    <section class='note-box'>
+      <h3>How does this page work?</h3>
+      <p><strong>In short:</strong> two ways to practice — the classic exercises (Level 1 to 3) get progressively
+        harder, while the interactive games (multiple-choice, drag and drop, fill in the blanks, match the pairs,
+        sorting) offer another way to review the same notions. Pick any level in any order — start at Level 1 if the
+        topic is new, or jump to Level 3 if you're already comfortable. After each classic exercise, rate yourself
+        "Needs work", "Almost", or "Got it"; check "My progress" for the full picture of this chapter.</p>
+      <p class="note-box-tip"><strong>Teacher's tip:</strong> an exercise that isn't green yet stays available to
+        redo — come back to it as often as you need, repeated practice is the best way to improve.</p>
+    </section>
+
+    <section style="margin-top: 38px">
       <nav class="chapter-nav" id="chapter-nav" aria-label="Chapter navigation"></nav>
     </section>
   </main>

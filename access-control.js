@@ -26,7 +26,7 @@
 
   // Adresses e-mail acceptées individuellement, même hors du domaine de
   // l'école. Vide au départ ; à remplir à la main au besoin.
-  const FULL_ACCESS_WHITELIST = [];
+  const FULL_ACCESS_WHITELIST = ['xledent@gmail.com'];
 
   // Nom de domaine scolaire : toute adresse Google Workspace se terminant par
   // @cnddinant.be est acceptée automatiquement, sans passer par la liste

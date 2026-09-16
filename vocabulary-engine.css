@@ -8,30 +8,38 @@
   margin: 42px 0 16px;
 }
 
+/* Même logique "contour au repos, plein au survol/sélection" que
+   .chapter-nav-btn (style.css), pour rester cohérent avec le reste du
+   site : bordure et texte dans le ton foncé de la matière au repos, fond
+   plein + texte clair dès qu'on survole ou que le mode est actif. */
 .mode-button {
   border: none;
   font: inherit;
-  border: 1px solid rgba(var(--color-current-rgb), 0.3);
+  font-weight: 700;
+  border: 1.5px solid var(--color-current-dark);
   background: #ffffff;
-  color: var(--color-text);
+  color: var(--color-current-dark);
   padding: 14px 18px;
   border-radius: 999px;
   cursor: pointer;
-  width: 190px;
+  width: 210px;
   text-align: center;
+  transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
 }
 
 html[data-pointer='fine'] .mode-button:hover,
 .mode-button:focus-visible {
   transform: translateY(-1px);
   outline: none;
-  border-color: rgba(var(--color-current-rgb), 0.4);
-  box-shadow: 0 0 0 4px rgba(var(--color-current-rgb), 0.12);
+  background: var(--color-current);
+  color: var(--color-current-text);
+  border-color: var(--color-current);
 }
 
 .mode-button.active {
   background: var(--color-current);
   color: var(--color-current-text);
+  border-color: var(--color-current);
   box-shadow: 0 16px 30px rgba(var(--color-current-rgb), 0.18);
 }
 
@@ -272,6 +280,14 @@ html[data-pointer='fine'] .flashcard-listen-btn:hover,
 .subject-chemistry .flashcard-badge {
   background: rgba(231, 195, 96, 0.16);
   color: var(--color-chemistry);
+}
+
+/* Contraste élevé (voir style.css / rich-text.js) : le fond pâle par
+   matière reste intact, seul le texte du badge fonce. */
+body.high-contrast .subject-bio .flashcard-badge,
+body.high-contrast .subject-physics .flashcard-badge,
+body.high-contrast .subject-chemistry .flashcard-badge {
+  color: #000000;
 }
 
 .subject-bio .flashcard-face {

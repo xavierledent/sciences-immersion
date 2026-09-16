@@ -16,14 +16,13 @@
 </head>
 
 <body>
-  <main class="page">
+  <main class="page subject-neutral">
     <header>
       <div class="header-top">
         <div>
           <span class="site-badge">Sciences en immersion</span>
           <h1>Bienvenue dans ton espace de sciences</h1>
-          <p class="subtitle">Sélectionne ta langue, puis ton année, puis le chapitre. Chaque chapitre ouvre une fenêtre
-            de choix vers Vocabulary, Practice, Resources ou Explorations.</p>
+          <p class="subtitle">Sélectionne ta langue, puis ton année, puis le chapitre.</p>
         </div>
         <img src="assets/Friends.jpg" alt="Mes amis" />
       </div>
@@ -47,10 +46,13 @@
     </section>
 
     <section class="note-box">
-      <p>Les pages <strong>Vocabulary</strong>, <strong>Practice</strong>, <strong>Resources</strong> et
-        <strong>Explorations</strong> sont déjà créées dans l'arborescence. Choisis un chapitre, puis sélectionne la
-        section souhaitée dans la fenêtre qui s'ouvre.
-      </p>
+      <h3>Comment utiliser cette page ?</h3>
+      <p><strong>En bref :</strong> <span id="note-text">chaque chapitre combine vocabulaire à écouter, exercices et
+        jeux interactifs, fiches outils et lectures pour aller plus loin, et une auto-évaluation pour faire le
+        point. Tu es libre de naviguer entre les sections comme tu veux.</span></p>
+      <p class="note-box-tip"><strong>Conseil du prof :</strong> commence par le vocabulaire pour connaître les
+        mots-clés, puis enchaîne avec les exercices à ton rythme. Garde l'auto-évaluation pour la fin : c'est le
+        bilan général à faire juste avant un contrôle, pour vérifier que tu es prêt·e.</p>
     </section>
   </main>
 
@@ -123,11 +125,11 @@
       const uiText = {
         en: {
           title: 'Bienvenue dans ton espace de sciences',
-          subtitle: 'Sélectionne ta langue, puis ton année, puis le chapitre. Chaque chapitre ouvre une fenêtre de choix vers Vocabulary, Practice, Resources ou Explorations.',
+          subtitle: 'Sélectionne ta langue, puis ton année, puis le chapitre.',
           step1: "1. Choisis ta langue d'immersion",
           step2: '2. Choisis ton année',
           step3: '3. Choisis un chapitre',
-          note: 'Chaque chapitre combine vocabulaire à écouter, exercices et jeux interactifs, fiches outils et lectures pour aller plus loin. À toi d\'avancer à ton rythme !'
+          note: 'chaque chapitre combine vocabulaire à écouter, exercices et jeux interactifs, fiches outils et lectures pour aller plus loin, et une auto-évaluation pour faire le point. Tu es libre de naviguer entre les sections comme tu veux.'
         },
         nl: {
           title: 'Welkom in je wetenschapsruimte',
@@ -157,7 +159,7 @@
       const step1Heading = document.querySelector('#language-row h2');
       const step2Heading = document.querySelector('#year-row h2');
       const step3Heading = document.querySelector('#chapter-row h2');
-      const noteParagraph = document.querySelector('.note-box p');
+      const noteText = document.getElementById('note-text');
 
       let selectedLanguage = null;
       let selectedYear = null;
@@ -173,7 +175,7 @@
         step1Heading.textContent = text.step1;
         step2Heading.textContent = text.step2;
         step3Heading.textContent = text.step3;
-        noteParagraph.textContent = text.note;
+        noteText.textContent = text.note;
       }
 
       function getYearLabel(year) {
