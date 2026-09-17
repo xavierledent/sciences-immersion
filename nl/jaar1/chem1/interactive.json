@@ -474,6 +474,91 @@
           "acceptedText": "Plastic"
         }
       ]
+    },
+    {
+      "quizTitle": "Teststation voor metalen",
+      "backgroundImage": "assets/DnD5.jpg",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Magnetismetest",
+        "Geleidbaarheidstest",
+        "Glanstest",
+        "Kneedbaarheidstest",
+        "Smaaktest"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 9.3,
+          "y_pourcent": 26.95,
+          "acceptedText": "Magnetismetest"
+        },
+        {
+          "x_pourcent": 32.6,
+          "y_pourcent": 26.69,
+          "acceptedText": "Geleidbaarheidstest"
+        },
+        {
+          "x_pourcent": 58.31,
+          "y_pourcent": 34.24,
+          "acceptedText": "Glanstest"
+        },
+        {
+          "x_pourcent": 78.13,
+          "y_pourcent": 35.68,
+          "acceptedText": "Kneedbaarheidstest"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Determineersleutel materialen",
+      "backgroundImage": "assets/Dnd6.png",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Wol",
+        "Katoen",
+        "Hout",
+        "Rubberen band",
+        "Plastic fles",
+        "Gouden ring",
+        "Aluminium blikje"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 7.53,
+          "y_pourcent": 75.39,
+          "acceptedText": "Wol"
+        },
+        {
+          "x_pourcent": 22.8,
+          "y_pourcent": 94.01,
+          "acceptedText": "Katoen"
+        },
+        {
+          "x_pourcent": 43.54,
+          "y_pourcent": 93.62,
+          "acceptedText": "Hout"
+        },
+        {
+          "x_pourcent": 44.39,
+          "y_pourcent": 57.94,
+          "acceptedText": "Rubberen band"
+        },
+        {
+          "x_pourcent": 95.24,
+          "y_pourcent": 57.94,
+          "acceptedText": "Plastic fles"
+        },
+        {
+          "x_pourcent": 58.1,
+          "y_pourcent": 84.77,
+          "acceptedText": "Gouden ring"
+        },
+        {
+          "x_pourcent": 79.26,
+          "y_pourcent": 84.38,
+          "acceptedText": "Aluminium blikje"
+        }
+      ]
     }
   ],
   "fillBlanks": [

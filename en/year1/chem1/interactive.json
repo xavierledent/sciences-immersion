@@ -474,6 +474,91 @@
           "acceptedText": "Plastic"
         }
       ]
+    },
+    {
+      "quizTitle": "Metal Testing Station",
+      "backgroundImage": "assets/DnD5.jpg",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Magnetism test",
+        "Conductivity test",
+        "Luster test",
+        "Malleability test",
+        "Taste test"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 9.3,
+          "y_pourcent": 26.56,
+          "acceptedText": "Magnetism test"
+        },
+        {
+          "x_pourcent": 32.39,
+          "y_pourcent": 27.21,
+          "acceptedText": "Conductivity test"
+        },
+        {
+          "x_pourcent": 58.31,
+          "y_pourcent": 33.46,
+          "acceptedText": "Luster test"
+        },
+        {
+          "x_pourcent": 78.34,
+          "y_pourcent": 35.94,
+          "acceptedText": "Malleability test"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Materials Dichotomous Key",
+      "backgroundImage": "assets/Dnd6.png",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Wool",
+        "Cotton",
+        "Wood",
+        "Rubber tire",
+        "Plastic bottle",
+        "Gold ring",
+        "Aluminum can"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 7.53,
+          "y_pourcent": 75.91,
+          "acceptedText": "Wool"
+        },
+        {
+          "x_pourcent": 22.8,
+          "y_pourcent": 94.01,
+          "acceptedText": "Cotton"
+        },
+        {
+          "x_pourcent": 43.61,
+          "y_pourcent": 93.88,
+          "acceptedText": "Wood"
+        },
+        {
+          "x_pourcent": 44.39,
+          "y_pourcent": 57.94,
+          "acceptedText": "Rubber tire"
+        },
+        {
+          "x_pourcent": 95.24,
+          "y_pourcent": 57.55,
+          "acceptedText": "Plastic bottle"
+        },
+        {
+          "x_pourcent": 58.24,
+          "y_pourcent": 84.64,
+          "acceptedText": "Gold ring"
+        },
+        {
+          "x_pourcent": 79.12,
+          "y_pourcent": 84.77,
+          "acceptedText": "Aluminum can"
+        }
+      ]
     }
   ],
   "fillBlanks": [

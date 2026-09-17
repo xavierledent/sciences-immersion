@@ -256,12 +256,12 @@
     },
     {
       "id": 9,
-      "title": "Non-renewable resource explained",
+      "title": "Renewable and biodegradable sort",
       "image": null,
-      "en": "Explain what makes a resource \"non-renewable\".",
-      "fr": "Explique ce qui rend une ressource \"non-renouvelable\".",
-      "corr_en": "A resource is non-renewable when it forms so slowly, over millions of years, that human use empties the available quantity faster than nature can replace it.",
-      "corr_fr": "Une ressource est non-renouvelable quand elle se forme si lentement, sur des millions d'années, que l'utilisation humaine épuise la quantité disponible plus vite que la nature ne peut la remplacer."
+      "en": "Sort these six materials — cotton, wood, wool, aluminum can, plastic bottle, gold ring — first by renewable vs non-renewable, then by biodegradable vs non-biodegradable. Present your classification as two short lists.",
+      "fr": "Classe ces six matériaux — coton, bois, laine, canette en aluminium, bouteille en plastique, bague en or — d'abord selon renouvelable vs non-renouvelable, puis selon biodégradable vs non-biodégradable. Présente ta classification sous forme de deux listes.",
+      "corr_en": "Renewable: cotton, wood, wool. Non-renewable: aluminum can, plastic bottle, gold ring. Biodegradable: cotton, wood, wool. Non-biodegradable: aluminum can, plastic bottle, gold ring — the two criteria give the same two groups here, showing that natural organic materials tend to be both renewable and biodegradable.",
+      "corr_fr": "Renouvelable : coton, bois, laine. Non-renouvelable : canette en aluminium, bouteille en plastique, bague en or. Biodégradable : coton, bois, laine. Non-biodégradable : canette en aluminium, bouteille en plastique, bague en or — les deux critères donnent ici les deux mêmes groupes, montrant que les matériaux organiques naturels sont souvent à la fois renouvelables et biodégradables."
     },
     {
       "id": 10,
@@ -319,21 +319,21 @@
     },
     {
       "id": 16,
-      "title": "Smartphone multiple mines",
+      "title": "Smartphone materials pie chart",
       "image": "N2 - 16.png",
-      "en": "Explain why manufacturing a single smartphone requires resources from many different mines.",
-      "fr": "Explique pourquoi la fabrication d'un seul smartphone nécessite des ressources provenant de nombreuses mines différentes.",
-      "corr_en": "A smartphone is built from over 60 different materials — lithium for the battery, copper and gold for circuits, silicon for the screen — and each comes from a different type of mine.",
-      "corr_fr": "Un smartphone est fabriqué à partir de plus de 60 matériaux différents — lithium pour la batterie, cuivre et or pour les circuits, silicium pour l'écran — et chacun provient d'un type de mine différent."
+      "en": "Look at the pie chart. Based on it, explain why a smartphone, made of so many different materials, is harder to recycle than a single-material object like an aluminum can.",
+      "fr": "Observe le graphique circulaire. Explique pourquoi un smartphone, fait de tant de matériaux différents, est plus difficile à recycler qu'un objet en un seul matériau comme une canette en aluminium.",
+      "corr_en": "Because each material (plastic, several metals, glass) needs its own separation and recycling process, recyclers must sort many small mixed components instead of melting one uniform material — making smartphone recycling slower, costlier and less efficient than recycling an aluminum can.",
+      "corr_fr": "Parce que chaque matériau (plastique, plusieurs métaux, verre) nécessite son propre processus de séparation et de recyclage, les recycleurs doivent trier de nombreux petits composants mélangés au lieu de fondre un matériau uniforme — rendant le recyclage d'un smartphone plus lent, plus coûteux et moins efficace que celui d'une canette en aluminium."
     },
     {
       "id": 17,
-      "title": "Smartphone trash risk",
+      "title": "Rusting metal scientific method",
       "image": null,
-      "en": "Explain the risk to nature if a smartphone is thrown in regular trash instead of recycled.",
-      "fr": "Explique le risque pour la nature si un smartphone est jeté à la poubelle classique plutôt que recyclé.",
-      "corr_en": "Toxic chemicals inside the phone can leak into the soil and water, polluting the ecosystem, and valuable metals like gold and copper are lost instead of being reused.",
-      "corr_fr": "Les produits chimiques toxiques du téléphone peuvent s'infiltrer dans le sol et l'eau, polluant l'écosystème, et des métaux précieux comme l'or et le cuivre sont perdus au lieu d'être réutilisés."
+      "en": "You notice an iron nail left outside in the rain turns orange and flaky after a few weeks, while a nearby aluminum can stays shiny. Apply the steps of the scientific method: state the question, a hypothesis explaining the difference, and one experiment (variable tested) to check it.",
+      "fr": "Tu remarques qu'un clou en fer laissé sous la pluie devient orange et s'effrite après quelques semaines, alors qu'une canette en aluminium à proximité reste brillante. Applique les étapes de la démarche scientifique : formule la question, une hypothèse expliquant la différence, et une expérience (variable testée) pour la vérifier.",
+      "corr_en": "Question: Why does iron rust outdoors while aluminum doesn't? Hypothesis: iron reacts with water/oxygen more easily than aluminum. Experiment: expose small iron and aluminum samples to the same wet conditions for a week and compare visible corrosion (metal type = variable tested).",
+      "corr_fr": "Question : Pourquoi le fer rouille-t-il dehors alors que l'aluminium semble résister ? Hypothèse : le fer réagit plus facilement avec l'eau/l'oxygène que l'aluminium. Expérience : exposer de petits échantillons de fer et d'aluminium aux mêmes conditions humides pendant une semaine et comparer la corrosion visible (le type de métal = variable testée)."
     },
     {
       "id": 18,
@@ -346,12 +346,12 @@
     },
     {
       "id": 19,
-      "title": "Open-pit mining harm",
+      "title": "Fact, judgment or hypothesis?",
       "image": null,
-      "en": "Explain why open-pit mining is harmful to the environment.",
-      "fr": "Explique pourquoi l'exploitation minière à ciel ouvert est nuisible pour l'environnement.",
-      "corr_en": "It destroys landscapes and forests to reach the ore, and it can produce toxic chemical waste that pollutes nearby rivers and soil.",
-      "corr_fr": "Elle détruit les paysages et les forêts pour atteindre le minerai, et peut produire des déchets chimiques toxiques qui polluent les rivières et les sols voisins."
+      "en": "Read these three statements about open-pit mining: <br>(1) \"Open-pit mining removes large amounts of rock and soil to reach the ore.\" <br>(2) \"Open-pit mining is the worst thing humans do to the planet.\" <br>(3) \"If mining continues at this rate, most accessible ore deposits will probably run out within a few decades.\" <br>For each, say whether it is a fact, a judgement, or a hypothesis, and justify briefly.",
+      "fr": "Lis ces trois affirmations sur l'exploitation minière à ciel ouvert : <br>(1) « Elle retire de grandes quantités de roche et de sol pour atteindre le minerai. » <br>(2) « C'est la pire chose que l'humain fasse à la planète. » <br>(3) « Si l'extraction continue à ce rythme, la plupart des gisements accessibles seront probablement épuisés d'ici quelques décennies. » <br>Pour chacune, dis s'il s'agit d'un fait, d'un jugement ou d'une hypothèse, et justifie brièvement.",
+      "corr_en": "(1) Fact — a measurable, verifiable description of what mining does. \n(2) Judgement — a value opinion that can't be objectively measured. \n(3) Hypothesis — an unverified prediction based on current trends.",
+      "corr_fr": "(1) Fait — description mesurable et vérifiable. \n(2) Jugement — opinion de valeur non mesurable objectivement. \n(3) Hypothèse — prédiction non vérifiée basée sur les tendances actuelles."
     },
     {
       "id": 20,
@@ -384,12 +384,12 @@
     },
     {
       "id": 3,
-      "title": "Wind turbine metal test",
+      "title": "Wind turbine lab report plan",
       "image": null,
-      "en": "A wind turbine blade is suspected to contain a metal core hidden under composite material. Design a mini-experiment (hypothesis + variable tested) to check if the core is metal.",
-      "fr": "On soupçonne qu'une pale d'éolienne contient un noyau métallique caché sous un matériau composite. Conçois une mini-expérience (hypothèse + variable testée) pour vérifier si le noyau est métallique.",
-      "corr_en": "Hypothesis: if the core is metal, it should conduct electricity and/or be attracted to a magnet. I would test the exposed core by connecting it into an electric circuit (testing conductivity) and by placing a magnet against it (testing magnetism); a positive result on either test would confirm a metal core.",
-      "corr_fr": "Hypothèse : si le noyau est métallique, il devrait conduire l'électricité et/ou être attiré par un aimant. Je testerais le noyau exposé en le connectant dans un circuit électrique (test de conductivité) et en approchant un aimant (test de magnétisme) ; un résultat positif à l'un des tests confirmerait un noyau métallique."
+      "en": "A wind turbine blade is suspected to contain a metal core hidden under composite material. Sketch a short lab report plan: one line each for the Question, the Hypothesis, the Material needed, and the Observation that would confirm a metal core.",
+      "fr": "On soupçonne qu'une pale d'éolienne contient un noyau métallique caché sous un matériau composite. Esquisse un court plan de rapport de labo : une ligne pour la Question, une pour l'Hypothèse, une pour le Matériel nécessaire, et une pour l'Observation qui confirmerait un noyau métallique.",
+      "corr_en": "Question: Does the blade core contain metal? Hypothesis: if metal, it should conduct electricity and/or be magnetic. Material: a circuit tester and a magnet. Observation confirming metal: the circuit lights up and/or the magnet is attracted to the exposed core.",
+      "corr_fr": "Question : Le noyau de la pale contient-il du métal ? Hypothèse : s'il est métallique, il devrait conduire l'électricité et/ou être magnétique. Matériel : un testeur de circuit et un aimant. Observation confirmant le métal : le circuit s'allume et/ou l'aimant est attiré par le noyau exposé."
     },
     {
       "id": 4,
@@ -465,12 +465,12 @@
     },
     {
       "id": 12,
-      "title": "Hiking litter ranking",
+      "title": "Decomposition times bar chart",
       "image": "N3 - 12.png",
-      "en": "A hiker leaves a banana peel, an aluminum can, a plastic bottle and a glass bottle in a forest. Using the course's data table, analyze and rank their long-term impact on the ecosystem.",
-      "fr": "Un randonneur laisse une pelure de banane, une canette en aluminium, une bouteille en plastique et une bouteille en verre dans une forêt. À l'aide du tableau de données du cours, analyse et classe leur impact à long terme sur l'écosystème.",
-      "corr_en": "The banana peel has the least long-term impact since it disappears in a few weeks; the aluminum can persists for about 50 years but can be recycled if collected; the plastic bottle lasts around 450 years, harming wildlife and soil for centuries; the glass bottle has the greatest long-term impact, remaining in the ecosystem for about 4,000 years, even though it does not release toxins the way plastic can.",
-      "corr_fr": "La pelure de banane a le plus faible impact à long terme puisqu'elle disparaît en quelques semaines ; la canette en aluminium persiste environ 50 ans mais peut être recyclée si elle est collectée ; la bouteille en plastique dure environ 450 ans, nuisant à la faune et au sol pendant des siècles ; la bouteille en verre a le plus grand impact à long terme, restant dans l'écosystème environ 4 000 ans, bien qu'elle ne libère pas de toxines comme le plastique."
+      "en": "Look at the bar chart of decomposition times for six items. A hiker leaves a banana peel, an aluminum can, a plastic bottle and a glass bottle behind in a forest. Using the chart, rank their long-term impact.",
+      "fr": "Observe l'histogramme des temps de décomposition de six objets. Un randonneur laisse une pelure de banane, une canette en aluminium, une bouteille en plastique et une bouteille en verre dans une forêt. À l'aide du graphique, classe leur impact à long terme.",
+      "corr_en": "From least to most impact: banana peel (weeks) < aluminum can (~50 years) < plastic bottle (~450 years) < glass bottle (~4000 years). A log scale is needed because values range from a few weeks to thousands of years.",
+      "corr_fr": "Du plus faible au plus grand impact : pelure de banane (semaines) < canette aluminium (~50 ans) < bouteille plastique (~450 ans) < bouteille en verre (~4000 ans). Une échelle logarithmique est nécessaire car les valeurs vont de quelques semaines à des milliers d'années."
     },
     {
       "id": 13,
