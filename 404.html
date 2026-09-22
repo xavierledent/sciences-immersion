@@ -3,6 +3,18 @@
 
 <head>
   <meta charset="UTF-8" />
+  <!-- GitHub Pages sert ce fichier tel quel pour n'importe quelle adresse
+       cassée, à n'importe quelle profondeur (ex. /en/year1/bio1/typo.html) —
+       mais la barre d'adresse garde cette adresse cassée, elle ne revient pas
+       à la racine. Tous les chemins relatifs ci-dessous se seraient donc
+       résolus par rapport à CETTE profondeur-là plutôt que par rapport à
+       l'emplacement réel de 404.html (toujours à la racine du dépôt),
+       cassant le script d'accès, l'image et le lien retour dès que la 404
+       survient ailleurs qu'à la racine. Fixer explicitement la base du
+       document à la racine du site publié règle les deux à la fois. À
+       adapter si le site passe un jour sous domaine personnalisé (racine
+       "/" plutôt que "/sciences-immersion/"). -->
+  <base href="/sciences-immersion/" />
   <script src="access-control.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Page non trouvée | Sciences Immersion</title>
