@@ -1,0 +1,48 @@
+/* Styles propres à resources.html (injectés par resources-engine.js) :
+   grille de cartes, liste de vidéos. Extrait de style.css. */
+
+.card-grid {
+  display: grid;
+  gap: 22px;
+}
+
+@media (min-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+  }
+}
+
+.video-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 18px;
+  row-gap: 12px;
+}
+
+.video-item {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+}
+
+.video-item iframe {
+  width: 100%;
+  min-height: 250px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  border-radius: 18px;
+}
+
+.video-meta {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.video-meta strong {
+  text-align: center;
+  display: block;
+}
+
+.card-grid .full-width {
+  grid-column: 1 / -1;
+}

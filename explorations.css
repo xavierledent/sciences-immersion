@@ -1,0 +1,63 @@
+/* Styles propres à explorations.html (injectés par explorations-engine.js).
+   Extrait de style.css. */
+
+/* ── Explorations: two visually separate cards, rows kept aligned across
+   both via CSS subgrid — row N sizes to the taller of the two items at
+   that position, in either card, regardless of text length on either side.
+   The row count is dynamic (depends on how many items load), so JS sets
+   grid-template-rows on .explorations-grid itself (see loadExplorations()). ── */
+.explorations-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.explorations-card {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: 1 / -1;
+  row-gap: 20px;
+  background: var(--color-surface);
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  border-radius: var(--radius);
+  box-shadow: var(--color-shadow);
+  padding: 22px 18px;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+/* Same light lift as .section-card on vocabulary/resources — explorations
+   cards were missing it entirely. */
+html[data-pointer='fine'] .explorations-card:hover,
+.explorations-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(29, 179, 212, 0.3);
+  outline: none;
+  box-shadow: 0 24px 50px rgba(17, 36, 72, 0.16);
+}
+
+.explorations-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  text-align: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.07);
+}
+
+.exp-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-self: start;
+}
+
+.exp-cell p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Outbound-link cue, added only on "Liens utiles" buttons via JS */
+.exp-external-icon {
+  margin-left: 4px;
+}

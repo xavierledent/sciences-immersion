@@ -2531,3 +2531,1457 @@
         width: calc((100% - 40px) / 5);
       }
     }
+
+/* Jeux : glisser-déposer, memory, tri (déplacé depuis style.css) */
+/* Drag and Drop dedicated modal (90% width and height) */
+.dnd-large-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 16px;
+  z-index: 100;
+}
+
+.dnd-large-modal-overlay.modal-open {
+  display: grid;
+}
+
+.dnd-modal-card {
+  width: 95vw;
+  height: 95vh;
+  max-width: 1500px;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dnd-modal-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dnd-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dnd-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  overflow: hidden;
+  gap: 16px;
+}
+
+/* Reservoir of labels */
+.dnd-reservoir {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(var(--color-current-rgb), 0.05);
+  border: 1px dashed rgba(var(--color-current-rgb), 0.2);
+  min-height: 70px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dnd-item {
+  padding: 10px 20px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-current);
+  border-radius: 12px;
+  cursor: grab;
+  font-weight: 600;
+  color: var(--color-text);
+  box-shadow: 0 4px 10px rgba(var(--color-current-rgb), 0.08);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+  user-select: none;
+}
+
+/* Le survol se contente d'une teinte légère : rempli comme il l'était, il
+   donnait exactement le rendu de .selected, si bien que désélectionner une
+   étiquette ne se voyait pas — le pointeur restait dessus après le clic.
+   La requête média (hover: hover) qui encadrait cette règle a été retirée : elle
+   décrit le périphérique principal, donc le pavé tactile sur un Chromebook, et
+   répondait « souris » même au doigt. C'est data-pointer, alimenté par le dernier
+   geste réel, qui fait ce travail — ici comme sur tous les autres survols. */
+html[data-pointer='fine'] .dnd-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(var(--color-current-rgb), 0.15);
+  background-color: rgba(var(--color-current-rgb), 0.12);
+  border-color: var(--color-current);
+}
+
+/* Keyboard-only wayfinding: neither the plain hover tint above nor .selected
+   (which only appears once an item IS the current pick) tells a keyboard
+   user where Tab currently sits — a thick offset outline, visible on both
+   the light board image and the surface behind it, fills that gap without
+   being confused for "selected"/"correct"/"incorrect". */
+.dnd-item:focus-visible,
+.dnd-zone:focus-visible {
+  outline: 3px solid var(--color-current-dark);
+  outline-offset: 3px;
+}
+
+/* Étiquette « portée » en mode toucher-toucher. Volontairement très marquée :
+   c'est le seul indice qui dit à l'élève qu'un mot attend d'être posé, et il
+   doit rester lisible du coin de l'œil pendant qu'il vise une zone. */
+.dnd-item.selected {
+  background: var(--color-current);
+  color: var(--color-current-text, #ffffff);
+  border-color: var(--color-current);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 20px rgba(var(--color-current-rgb), 0.35);
+}
+
+.dnd-item.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.dnd-item.shake-error {
+  animation: dnd-shake 0.5s ease-in-out;
+  background: rgba(212, 82, 122, 0.1);
+  border-color: var(--color-rose);
+  color: var(--color-rose);
+}
+
+@keyframes dnd-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Instructions text (optional) */
+.dnd-instructions-text {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  line-height: 1.5;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Board of the game */
+.dnd-board-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: 18px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+/* --dnd-board-w porte la largeur réelle de l'image, mesurée en JS
+   (dndSyncBoardMetrics). Les zones de dépôt s'y réfèrent pour suivre l'image
+   quand elle rétrécit : figées à 150px, elles occupaient 15 % de l'image du jeu 4
+   mais 26 % de celle du jeu 2, et devenaient ingérables dès que la barre de
+   Chrome réduisait la hauteur de fenêtre.
+   Surtout pas container-type ici : la containment interdirait au plateau de
+   tirer sa largeur de l'image, et il s'effondrerait à zéro. */
+.dnd-board {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Taille posée en pixels par dndSyncBoardMetrics : les maximums d'autrefois ne
+   savaient que rétrécir et laissaient l'image à sa taille naturelle. */
+#dnd-bg-image,
+.dnd-board img {
+  display: block;
+  border-radius: 12px;
+  user-select: none;
+}
+
+/* Drop targets */
+.dnd-zone {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  /* Proportionnel à l'image, avec un plancher pour rester touchable au doigt
+     et un plafond pour ne pas devenir énorme sur grand écran. La valeur de repli
+     sert le temps que la mesure arrive. */
+  width: clamp(88px, calc(var(--dnd-board-w, 900px) * 0.17), 175px);
+  height: clamp(30px, calc(var(--dnd-board-w, 900px) * 0.055), 52px);
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+  transition: all 0.3s ease;
+  z-index: 5;
+  cursor: default;
+}
+
+.dnd-zone-placeholder {
+  display: none;
+}
+
+.dnd-zone.hovered {
+  background: rgba(var(--color-current-rgb), 0.1);
+  border: 1.5px dashed var(--color-current);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.dnd-zone.correct {
+  background: var(--color-surface);
+  border: 2px solid var(--color-emerald);
+  box-shadow: 0 4px 12px rgba(12, 163, 127, 0.2);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Contraste élevé : émeraude sur fond clair (3.20:1, sous le seuil AA). */
+body.high-contrast .dnd-zone.correct .dnd-zone-text {
+  color: #000000;
+}
+
+.dnd-zone.correct .dnd-zone-text {
+  font-weight: 700;
+  color: var(--color-emerald);
+  /* Suit la zone, sinon un texte figé déborderait d'une zone rétrécie. */
+  font-size: clamp(0.62rem, calc(var(--dnd-board-w, 900px) * 0.017), 0.95rem);
+  line-height: 1.15;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-block;
+  text-align: center;
+}
+
+.dnd-zone.incorrect {
+  background: rgba(212, 82, 122, 0.1);
+  border-color: var(--color-rose);
+  animation: dnd-shake 0.5s ease-in-out;
+}
+
+/* Footer & Navigation */
+.dnd-footer {
+  padding: 14px 0 6px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.dnd-select-game-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dnd-pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.dnd-pagination .exercise-step {
+  font-weight: 700;
+  font-size: 1rem;
+  width: auto;
+  height: 44px;
+  padding: 10px 24px;
+  white-space: nowrap;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
+  background: rgba(var(--color-current-rgb), 0.05);
+  border-color: var(--color-current);
+}
+
+.dnd-pagination .exercise-step.active {
+  background: var(--color-current);
+  border-color: rgba(12, 163, 127, 0.35);
+  color: var(--color-current-text, #ffffff);
+  box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
+}
+
+/* Stopwatch + mistake counter, live during the attempt; badge/records appear here once solved */
+.dnd-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(17, 36, 72, 0.03);
+  flex-shrink: 0;
+}
+
+.dnd-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.dnd-stat-icon {
+  font-size: 1rem;
+}
+
+.dnd-stat-result {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.dnd-result-badge {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-current-dark, var(--color-text));
+}
+
+.dnd-result-note {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* Shared by drag & drop and memory: hides the live ticking timer (opt-in via the
+   pill button below), while mistakes/moves stay visible. Default state is hidden,
+   so the element starts collapsed until JS explicitly reveals it (avoids a flash). */
+.live-timer-display {
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Equal-width digits so the ticking seconds don't shift neighboring buttons */
+.live-timer-value {
+  font-variant-numeric: tabular-nums;
+  min-width: 2.4em;
+  display: inline-block;
+}
+
+/* Shared by drag & drop and memory: a light passive badge for read-only stats
+   (errors, moves), distinct from the actionable .timer-toggle-btn pill. */
+.stat-badge {
+  background: rgba(17, 36, 72, 0.05);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.timer-toggle-btn {
+  border: 1px solid rgba(17, 36, 72, 0.15);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+html[data-pointer='fine'] .timer-toggle-btn:hover {
+  border-color: var(--color-current);
+  color: var(--color-current-dark);
+}
+
+.timer-toggle-btn.active {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: var(--color-current-text, #ffffff);
+}
+
+/* Bounce feedback on the zone + a checkmark that pops in and fades away */
+.dnd-zone.just-placed {
+  animation: dnd-pop 0.4s ease;
+}
+
+@keyframes dnd-pop {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  40% { transform: translate(-50%, -50%) scale(1.18); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.dnd-zone-tick {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: dnd-tick-pop 0.7s ease forwards;
+}
+
+@keyframes dnd-tick-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 1; transform: scale(1.15); }
+  55% { transform: scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Memory Match the Pairs dedicated modal (90% width and height) */
+.memory-large-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 16px;
+  z-index: 100;
+}
+
+.memory-large-modal-overlay.modal-open {
+  display: grid;
+}
+
+.memory-modal-card {
+  width: 90vw;
+  height: 90vh;
+  max-width: 1400px;
+  max-height: 900px;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.memory-modal-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.memory-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.memory-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  overflow: hidden;
+  gap: 16px;
+}
+
+/* Instructions text (optional) */
+.memory-instructions-text {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  line-height: 1.5;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Stopwatch + move counter, live during the attempt; streak pips appear once >= 2 matches in a row */
+.memory-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(17, 36, 72, 0.03);
+  flex-shrink: 0;
+}
+
+.memory-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.memory-stat-icon {
+  font-size: 1rem;
+}
+
+/* Grille de cartes */
+.memory-grid-container {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  background: #f8fafc;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.06);
+  padding: 20px;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  align-content: center;
+}
+
+@media (max-width: 640px) {
+  .memory-grid {
+    gap: 10px;
+  }
+}
+
+/* Card item (3D flip effect) */
+.memory-card {
+  perspective: 1000px;
+  /* Taille calculée par memorySyncCardSize selon la place disponible ; 135px
+     n'est plus qu'un repli avant ce calcul. */
+  width: var(--memory-card-size, 135px);
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  user-select: none;
+}
+
+.memory-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.memory-card.flipped .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card-front,
+.memory-card-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(17, 36, 72, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Card Front (Face cachée) - deux tons de la couleur du sujet (bio/chimie/physique) */
+.memory-card-front.card-side-A {
+  background: var(--color-current);
+  border: 2px solid var(--color-current-dark);
+}
+
+.memory-card-front.card-side-B {
+  background: var(--color-current-darker);
+  border: 2px solid var(--color-current-darkest);
+}
+
+.memory-card-backpattern {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-current-text, #ffffff);
+  opacity: 0.8;
+}
+
+/* Card Back (Face visible) - Appearance "nette" */
+.memory-card-back {
+  background: #ffffff;
+  color: var(--color-text);
+  transform: rotateY(180deg);
+  border: 2px solid rgba(17, 36, 72, 0.08);
+  padding: 8px;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+  box-sizing: border-box;
+}
+
+/* Image cards go edge-to-edge (no padding) so the photo's own corners land
+   exactly on the card's rounded clip boundary instead of floating square
+   inside a padded gap. Text cards keep their padding untouched. */
+.memory-card-back.card-has-image {
+  padding: 0;
+}
+
+.memory-card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.memory-card-back span {
+  /* Proportionnelle à la carte, dont la taille est calculée par
+     memorySyncCardSize : le repère utile est la place réellement disponible, pas
+     la largeur de la fenêtre comme le faisait le 1.8vw d'avant. Un mot long tient
+     ainsi sans avoir à être coupé dans la plupart des cas. */
+  font-size: clamp(0.65rem, calc(var(--memory-card-size, 135px) * 0.13), 0.95rem);
+  font-weight: 600;
+  /* Largeur imposée plutôt que déduite : en tant qu'élément flex, le span se
+     dimensionnait sur son contenu et « Decomposers » lui donnait une largeur
+     supérieure à la carte, rognée ensuite par l'overflow: hidden.
+     Et « anywhere » plutôt que « break-word » : les deux coupent un mot trop
+     long, mais seul « anywhere » réduit aussi la largeur minimale intrinsèque du
+     texte. Avec « break-word », le mot entier restait la taille de référence du
+     calcul, et le débordement subsistait malgré l'autorisation de rétrécir. */
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  hyphens: auto;
+  text-align: center;
+}
+
+/* Match states */
+.memory-card.correct .memory-card-back,
+.memory-card.incorrect .memory-card-back {
+  /* Une carte résolue ne se reclique pas. Les réglages de coupure qui figuraient
+     ici ont été retirés : ils ne faisaient que redire ceux du conteneur, et
+     brouillaient la lecture en donnant l'impression que l'état validé se
+     comportait autrement. */
+  pointer-events: none;
+}
+
+/* Ces règles répétaient l'ancien réglage de coupure et le réimposaient sur les
+   cartes validées — c'est pourquoi le débordement s'y voyait aussi. Elles
+   n'apportaient rien d'autre : le span hérite déjà de tout ce qu'il lui faut. */
+
+.memory-card.correct .memory-card-back {
+  border: 3px solid var(--color-emerald) !important;
+  box-shadow: 0 4px 16px rgba(12, 163, 127, 0.3) !important;
+}
+
+.memory-card.incorrect .memory-card-back {
+  border: 3px solid var(--color-rose) !important;
+  box-shadow: 0 4px 16px rgba(212, 82, 122, 0.3) !important;
+  animation: dnd-shake 0.5s ease-in-out;
+}
+
+/* Bounce feedback on a matched pair + a checkmark that pops in and fades away */
+.memory-card.just-matched {
+  animation: memory-pop 0.4s ease;
+}
+
+/* Une carte est retournée : celles de la même face ne répondront pas au clic.
+   Rien ne le disait — la carte ne bougeait simplement pas, ce qui ne se
+   distingue en rien d'une carte cassée. Elles s'estompent donc, ce qui annonce
+   la règle au lieu de la faire découvrir par un silence.
+   Aucun mot : la règle se montre au lieu de s'écrire, ce qui vaut mieux devant
+   des élèves qui déchiffrent déjà tout le reste en langue étrangère.
+
+   Écrit en CSS et non en JS parce que la condition se lit dans le DOM lui-même :
+   la sélection est remise à zéro à quatre endroits du moteur, et une règle qui
+   observe l'état ne peut pas s'en désynchroniser.
+   La double condition — une face retournée ET pas l'autre — réserve l'effet au
+   moment où l'élève choisit vraiment. Pendant la vérification d'une paire, les
+   deux faces sont retournées et plus rien ne s'estompe. */
+#memory-grid:has(.memory-card[data-side='A'].flipped:not(.correct)):not(:has(.memory-card[data-side='B'].flipped:not(.correct))) .memory-card[data-side='A']:not(.flipped):not(.correct),
+#memory-grid:has(.memory-card[data-side='B'].flipped:not(.correct)):not(:has(.memory-card[data-side='A'].flipped:not(.correct))) .memory-card[data-side='B']:not(.flipped):not(.correct) {
+  opacity: 0.35;
+}
+
+.memory-card {
+  transition: opacity 0.2s ease;
+}
+
+/* Rappel de la règle, affiché seulement si l'élève l'enfreint malgré tout. Il se
+   loge dans l'emplacement du résultat de fin de partie, vide pendant le jeu. */
+.memory-side-hint {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-current);
+}
+
+@keyframes memory-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.memory-card-tick {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: memory-tick-pop 0.7s ease forwards;
+  z-index: 2;
+}
+
+@keyframes memory-tick-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 1; transform: scale(1.15); }
+  55% { transform: scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Footer & Navigation */
+.memory-footer {
+  padding: 14px 0 6px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.memory-pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.memory-pagination .exercise-step {
+  font-weight: 700;
+  font-size: 1rem;
+  width: auto;
+  height: 44px;
+  padding: 10px 24px;
+  white-space: nowrap;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+html[data-pointer='fine'] .memory-pagination .exercise-step:hover {
+  background: rgba(var(--color-current-rgb), 0.05);
+  border-color: var(--color-current);
+}
+
+.memory-pagination .exercise-step.active {
+  background: var(--color-current);
+  border-color: rgba(12, 163, 127, 0.35);
+  color: var(--color-current-text, #ffffff);
+  box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
+}
+
+/* Sorting Challenge dedicated modal (90% width and height) */
+.sorting-large-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(17, 36, 72, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+}
+
+.sorting-large-modal-overlay.modal-open {
+  display: grid;
+}
+
+.sorting-modal-card {
+  width: 95vw;
+  height: 95vh;
+  max-width: 1500px;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sorting-modal-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sorting-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.sorting-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  /* Filet de sécurité : avec hidden, un écran trop bas pour satisfaire les
+     planchers des bacs et de la pioche coupait le contenu sans le moindre
+     signal — un bouton pouvait disparaître. Un défilement est le moindre mal. */
+  overflow-y: auto;
+  gap: 16px;
+}
+
+/* Mistake counter, live during the attempt; badge/record appear here once solved */
+.sorting-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(17, 36, 72, 0.03);
+  flex-shrink: 0;
+}
+
+.sorting-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.sorting-stat-icon {
+  font-size: 1rem;
+}
+
+.sorting-result-badge {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-current-dark);
+}
+
+.sorting-result-note {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* Instructions text (optional) */
+.sorting-instructions-text {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  line-height: 1.5;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Wrapper around the bins so the victory overlay survives the bins-container being cleared/rebuilt on each exercise load */
+.sorting-bins-wrapper {
+  position: relative;
+  display: flex;
+  flex: 1;
+  /* Plancher, et non 0 : avec min-height:0 les bacs se laissaient écraser
+     jusqu'à disparaître, absorbant toute la compression avant que la pioche ne
+     cède le moindre pixel. L'élève ne voyait donc plus où sa carte atterrissait.
+     Ce plancher inverse l'ordre : c'est la pioche qui rétrécit d'abord.
+     Sans risque pour un grand nombre de cartes, chaque bac ayant son propre
+     défilement interne. */
+  min-height: 170px;
+}
+
+/* Colonnes / Bacs de Tri (Upper Zone) */
+.sorting-bins-container {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.sorting-bin {
+  flex: 1;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(17, 36, 72, 0.08);
+  border-radius: 18px;
+  /* Pas de rembourrage en haut : le bandeau d'en-tête l'assure lui-même, et il
+     doit pouvoir toucher la bordure. Une marge négative ne convenait pas — une
+     boîte collante ne peut pas sortir de son bloc conteneur, et se retrouvait
+     repoussée sous le rembourrage en laissant un liseré blanc. */
+  padding: 0 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.sorting-bin-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  align-content: start;
+}
+
+.sorting-bin-content.image-cards {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Custom Scrollbar inside Bins */
+.sorting-bin::-webkit-scrollbar {
+  width: 6px;
+}
+.sorting-bin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sorting-bin::-webkit-scrollbar-thumb {
+  background: rgba(17, 36, 72, 0.12);
+  border-radius: 4px;
+}
+/* Exclue de la conversion en data-pointer : ::-webkit-scrollbar-thumb n'existe
+   que sur les navigateurs à moteur WebKit/Blink, où la barre de défilement n'est
+   de toute façon affichée qu'au survol d'une vraie souris. Le cas tactile ne se
+   présente pas. */
+.sorting-bin::-webkit-scrollbar-thumb:hover {
+  background: rgba(17, 36, 72, 0.22);
+}
+
+/* Véritable bandeau plutôt qu'une ligne de texte : les marges latérales
+   négatives annulent le rembourrage du bac pour que l'en-tête aille toucher sa
+   bordure, qui l'encadre alors complètement. En haut, le bac ne rembourre plus
+   du tout — voir .sorting-bin. Le rayon de 16px est celui du bac (18) moins
+   l'épaisseur de sa bordure (2), sans quoi l'angle du bandeau dépasserait de
+   l'arrondi.
+   Rendu collant : le bac défile quand il se remplit, et l'élève doit pouvoir
+   lire à tout moment dans quelle catégorie il est en train de déposer. */
+.sorting-bin-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0 -12px 8px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-current);
+  text-align: center;
+  background: rgba(var(--color-current-rgb), 0.12);
+  border-bottom: 2px solid rgba(var(--color-current-rgb), 0.45);
+  border-radius: 16px 16px 0 0;
+}
+
+/* Elements inside Columns */
+/* Carte « portée » en mode toucher-toucher. Très marquée à dessein : c'est le
+   seul indice qui dit à l'élève qu'une carte attend d'être déplacée. */
+.sorting-bin-item.selected {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: var(--color-current-text, #ffffff);
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(var(--color-current-rgb), 0.35);
+}
+
+.sorting-bin-item.selected span {
+  color: var(--color-current-text, #ffffff);
+}
+
+.sorting-bin-item {
+  position: relative;
+  /* Rembourrage symétrique : les 16px de gauche dégagent la poignée ⠿, mais
+     seuls, ils décalaient d'autant le texte centré — invisible sur une carte
+     étroite, très visible sur une carte large. */
+  padding: 6px 16px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1.5px solid rgba(17, 36, 72, 0.1);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(17, 36, 72, 0.04);
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sorting-bin-item img {
+  max-width: 100%;
+  max-height: 58px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+/* Discreet "grip" hint so it's clear a placed card can still be dragged —
+   works on touch too, unlike the hover-only lift below. Hidden once locked
+   (correct/incorrect) since the item stops being draggable at that point. */
+.sorting-bin-item::after {
+  content: '⠿';
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.65rem;
+  line-height: 1;
+  color: rgba(17, 36, 72, 0.3);
+  pointer-events: none;
+}
+
+html[data-pointer='fine'] .sorting-bin-item:hover:not(.correct):not(.incorrect) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(17, 36, 72, 0.12);
+}
+
+.sorting-bin-item.dragging {
+  opacity: 0.35;
+  cursor: grabbing;
+}
+
+.sorting-bin-item.correct,
+.sorting-bin-item.incorrect {
+  cursor: default;
+}
+
+.sorting-bin-item.correct::after,
+.sorting-bin-item.incorrect::after {
+  content: none;
+}
+
+.sorting-bin.drop-hover {
+  background: rgba(var(--color-current-rgb), 0.06);
+  box-shadow: 0 0 0 2px var(--color-current);
+}
+
+/* Verify statuses inside columns */
+.sorting-bin-item.correct {
+  background: rgba(12, 163, 127, 0.1) !important;
+  border-color: var(--color-emerald) !important;
+  color: #097d61;
+}
+
+.sorting-bin-item.incorrect {
+  background: rgba(212, 82, 122, 0.1) !important;
+  border-color: var(--color-rose) !important;
+  color: #a83d5e;
+}
+
+/* Bounce feedback on a correctly sorted item + a checkmark that pops in and fades away */
+.sorting-bin-item.just-correct {
+  animation: sorting-pop 0.4s ease;
+}
+
+/* Cartes placées : la compression avait un sens quand la place manquait, elle
+   n'en a plus en plein écran sur grand écran, où trois cartes flottent dans un
+   bac de 890px. Le seuil laisse le Chromebook intact — un bac peut y contenir
+   dix cartes qui doivent toutes tenir sans défilement. */
+@media (min-width: 1400px) {
+  /* Le nombre de colonnes cesse d'être figé : à largeur imposée, c'est lui qui
+     s'adapte. Trois colonnes sur un écran étroit comme aujourd'hui, cinq bien
+     remplies en plein écran, sans avoir à trancher pour un chiffre. */
+  .sorting-modal-card:fullscreen .sorting-bin-content {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+
+  /* Les cartes image méritent des colonnes plus larges : c'est la vignette qui
+     porte l'information, pas un mot de cinq lettres. */
+  .sorting-modal-card:fullscreen .sorting-bin-content.image-cards {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  }
+
+  .sorting-modal-card:fullscreen .sorting-bin-item {
+    font-size: 1.1rem;
+    padding: 10px 18px;
+  }
+
+  .sorting-modal-card:fullscreen .sorting-bin-item img {
+    max-height: 110px;
+  }
+}
+
+@keyframes sorting-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.sorting-item-tick {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: sorting-tick-pop 0.7s ease forwards;
+  z-index: 2;
+}
+
+@keyframes sorting-tick-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 1; transform: scale(1.15); }
+  55% { transform: scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Même garde-fou que les animations de modale plus haut dans ce fichier —
+   celles des jeux (Drag & Drop, Memory, Sorting) n'y étaient pas encore
+   soumises. Le tremblement d'erreur (dnd-shake, partagé par les 3 jeux) est
+   le plus concerné : un mouvement de secousse est justement le genre
+   d'animation qu'un trouble vestibulaire ne tolère pas. */
+@media (prefers-reduced-motion: reduce) {
+  .dnd-item.shake-error,
+  .dnd-zone.incorrect,
+  .dnd-zone.just-placed,
+  .dnd-zone-tick,
+  .memory-card.incorrect .memory-card-back,
+  .memory-card.just-matched,
+  .memory-card-tick,
+  .sorting-bin-item.just-correct,
+  .sorting-item-tick {
+    animation: none;
+  }
+}
+
+/* Une fois toutes les cartes placées, la pioche disparaît — mais pas le
+   compteur d'erreurs, qu'elle hébergeait : c'est justement à la vérification
+   qu'il compte. Le conteneur survit donc, réduit à cette seule ligne, et le
+   compteur revient au centre puisque plus rien ne l'y gêne. */
+.sorting-modal-body.all-placed .sorting-deck {
+  display: none;
+}
+
+.sorting-modal-body.all-placed .sorting-deck-container {
+  min-height: 0;
+}
+
+/* Plus de carte à placer : la consigne n'a plus d'objet et le compteur, seul
+   rescapé de la bande, se recentre. */
+.sorting-modal-body.all-placed .sorting-deck-hint {
+  display: none;
+}
+
+.sorting-modal-body.all-placed .sorting-deck-stat {
+  flex: 0 0 auto;
+  justify-content: center;
+}
+
+.sorting-modal-body.all-placed .sorting-bins-container {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.sorting-modal-body.all-placed .sorting-bin {
+  height: auto;
+  overflow-y: visible;
+}
+
+/* Pioche / Deck (Central Zone) */
+.sorting-deck-container {
+  /* Base de 190px mais compressible : figée, elle ne rendait jamais de place et
+     les bacs se retrouvaient écrasés à quelques pixels sur un écran bas —
+     l'élève ne voyait plus où sa carte allait atterrir. Le plancher garde la
+     carte active confortablement lisible. */
+  /* La pioche épouse sa carte au lieu de lui imposer une hauteur : une carte
+     texte de trois lignes débordait sinon par le haut et par le bas. Elle ne se
+     comprime pas non plus — mieux vaut un léger défilement de la modale, qui
+     reste atteignable, qu'un texte tronqué.
+     Le plancher évite qu'une carte d'un seul mot ne réduise la bande à rien. */
+  flex: 0 0 auto;
+  min-height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Pleine largeur et sans habillage : le fond gris est passé sur .sorting-deck,
+     ce qui libère les marges gauche et droite. Trois colonnes en flux — consigne,
+     carte, compteur — plutôt que des éléments positionnés en absolu : les deux
+     satellites ont la même base souple, ce qui garde la carte centrée, et ils se
+     serrent contre elle au lieu de fuir vers les bords de la modale, où l'œil ne
+     les suit plus. Rien n'étant sorti du flux, la bande ne peut pas non plus se
+     retrouver avec une hauteur nulle. */
+  width: 100%;
+  gap: 12px;
+}
+
+.sorting-deck-hint,
+.sorting-deck-stat {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Chacun se plaque contre la carte : la consigne par la droite, le compteur par
+   la gauche. */
+.sorting-deck-hint {
+  justify-content: flex-end;
+  text-align: right;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  color: rgba(17, 36, 72, 0.55);
+}
+
+.sorting-deck-stat {
+  justify-content: flex-start;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+/* Sur petit écran les trois colonnes ne tiennent plus côte à côte : la consigne
+   passe au-dessus, le compteur en dessous. */
+@media (max-width: 640px) {
+  .sorting-deck-container {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .sorting-deck-hint,
+  .sorting-deck-stat {
+    flex: 1 0 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* Porte désormais l'habillage gris, que le conteneur lui a cédé pour libérer
+   ses marges. */
+.sorting-deck {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.06);
+  padding: 6px;
+}
+
+.sorting-card {
+  background: #ffffff;
+  border: 2.5px solid var(--color-current);
+  border-radius: 16px;
+  padding: 16px;
+  width: 100%;
+  height: auto;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(var(--color-current-rgb), 0.15);
+  transition: transform 0.3s;
+  overflow: hidden;
+  /* La carte est saisissable : le curseur le dit avant que l'élève n'essaie. */
+  cursor: grab;
+}
+
+.sorting-card:active {
+  cursor: grabbing;
+}
+
+.sorting-card span {
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  font-weight: 600;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+/* Carte image : elle prend toute la hauteur de la pioche, ce qui donne à
+   l'image un cadre de hauteur connue. Sans ça, l'image restait bloquée à 140px
+   et débordait de la pioche dès que celle-ci se comprimait. Réservé aux cartes
+   image, une carte texte devant rester compacte. */
+.sorting-card.has-image {
+  /* Marges réduites au strict nécessaire : chaque pixel rendu ici agrandit
+     d'autant l'image. */
+  padding: 5px;
+  cursor: zoom-in;
+}
+
+/* Hauteur fixe plutôt qu'un pourcentage : la pioche étant désormais dimensionnée
+   par sa carte, un pourcentage serait circulaire et l'image s'effondrerait.
+   150px tient dans la bande sans la faire déborder, et reste nettement plus
+   grand qu'avant — le clic plein écran couvre le reste. */
+.sorting-card img {
+  max-width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Choice Buttons Zone */
+/* Les bacs sont devenus la cible directe du placement : cette rangée n'a plus
+   d'objet. Le conteneur reste dans les pages mais n'est plus alimenté. */
+.sorting-choice-buttons {
+  display: none;
+}
+
+.sorting-choice-btn {
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1.5px solid var(--color-current);
+  background: #ffffff;
+  color: var(--color-current);
+  transition: all 0.2s ease;
+}
+
+html[data-pointer='fine'] .sorting-choice-btn:hover {
+  background: var(--color-current);
+  color: var(--color-current-text, #ffffff);
+}
+
+/* Check / Action Button Zone */
+.sorting-action-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Le bouton de validation ne s'affiche que lorsqu'il sert. Il occupait sa bande
+   pendant toute la phase de tri, désactivé — c'est-à-dire précisément quand la
+   place manquait. Quand il devient utile, la pioche a disparu et lui a déjà
+   cédé sa hauteur : sa bande ne coûte alors plus rien. */
+.sorting-modal-body:not(.all-placed) .sorting-action-container {
+  display: none;
+}
+
+/* Indice de découvrabilité : tant qu'une carte attend d'être classée, les bacs
+   se signalent comme cibles. Sans ce repère, rien ne dirait à l'élève qu'il
+   doit toucher un bac — un bouton nommé « Cause » le disait, pas une colonne
+   silencieuse. */
+.sorting-modal-body:not(.all-placed) .sorting-bin {
+  cursor: pointer;
+  border-color: rgba(var(--color-current-rgb), 0.35);
+  background: rgba(var(--color-current-rgb), 0.03);
+}
+
+html[data-pointer='fine'] .sorting-modal-body:not(.all-placed) .sorting-bin:hover {
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+}
+
+.sorting-action-btn {
+  width: min(100%, 400px);
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: var(--color-current);
+  color: var(--color-current-text, #ffffff);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition);
+}
+
+html[data-pointer='fine'] .sorting-action-btn:hover:not(:disabled) {
+  background: var(--color-current-dark);
+  transform: translateY(-2px);
+}
+
+.sorting-action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Footer & Navigation */
+.sorting-footer {
+  padding: 14px 0 6px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sorting-pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.sorting-pagination .exercise-step {
+  font-weight: 700;
+  font-size: 1rem;
+  width: auto;
+  height: 44px;
+  padding: 10px 24px;
+  white-space: nowrap;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+html[data-pointer='fine'] .sorting-pagination .exercise-step:hover {
+  background: rgba(var(--color-current-rgb), 0.05);
+  border-color: var(--color-current);
+}
+
+.sorting-pagination .exercise-step.active {
+  background: var(--color-current);
+  border-color: rgba(12, 163, 127, 0.35);
+  color: var(--color-current-text, #ffffff);
+  box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
+}

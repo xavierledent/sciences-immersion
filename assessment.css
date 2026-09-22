@@ -1,0 +1,355 @@
+/* Assessment (fiche d'autoévaluation) — assessment.html only.
+   Extracted from style.css: all .autoeval-* rules plus the .assessment-card
+   rules (the "5th option" button in index.html's chapter-picker modal also
+   uses .assessment-card, which is why index.html loads this file too). */
+
+/* ===== Fiche d'autoévaluation (assessment.html) =====
+   Entirely French, deliberately: this is a school assessment document, not
+   immersion-track exercise content.
+
+   Colour palette is a fixed slate identity, not the per-subject
+   --color-current used everywhere else on the site: this is one document
+   identity, deliberately the same whether the chapter is bio, chem or
+   physics — a fiche shouldn't change colour depending on which subject it
+   belongs to. Same colour and the same reasoning already used for
+   .self-assess-btn on practice.html ("the student's own action, not the
+   chapter's content"): this fiche is exactly that, just bigger. Tied to
+   --color-slate directly rather than copied, so both stay in sync. The
+   printed PDF fiche (resources.html) keeps its own cream/amber design —
+   only this online tool's colours are set here. */
+:root {
+  --autoeval-bg: #eef2f6;
+  --autoeval-border: #c7d3de;
+  --autoeval-accent: var(--color-slate);
+  --autoeval-accent-dark: #34495f;
+  /* Same value as --autoeval-accent, as an r,g,b triplet — needed wherever a
+     tint of it is mixed with alpha (rgba()), same convention as
+     --color-current-rgb elsewhere on the site. */
+  --autoeval-accent-rgb: var(--color-slate-rgb);
+}
+
+/* Standalone page (assessment.html) — same reading width the old modal card
+   used (min(92vw,760px)) for the same line length, but flowing with the page
+   instead of scrolling inside a fixed-height card. Same white-card look as
+   .section-card/.exercise-card elsewhere on the site, so the tool doesn't
+   read as bare text sitting directly on the page background. */
+.autoeval-page-body {
+  width: min(100%, 760px);
+  margin: 28px auto 0;
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  border: 1px solid rgba(17, 36, 72, 0.08);
+}
+
+/* Category tabs — same toggle-pill pattern as the Level 1/2/3 tabs on the
+   practice page's "My progress", just recoloured to the fiche's own slate
+   identity instead of the subject colour. Splitting into tabs (rather than
+   stacking all three categories) is the main fix for how long this modal
+   got once a whole chapter's worth of attendus was in it. */
+.autoeval-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 20px;
+}
+
+.autoeval-tab {
+  border: 1px solid var(--autoeval-border);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: var(--autoeval-bg);
+  color: var(--autoeval-accent-dark);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.autoeval-tab.active {
+  background: var(--autoeval-accent);
+  border-color: var(--autoeval-accent);
+  color: #ffffff;
+}
+
+.autoeval-panel {
+  display: none;
+}
+
+.autoeval-panel.is-active {
+  display: block;
+}
+
+.autoeval-item {
+  background: var(--autoeval-bg);
+  border: 1px solid var(--autoeval-border);
+  border-radius: 16px;
+  padding: 12px 16px;
+}
+
+.autoeval-item + .autoeval-item {
+  margin-top: 12px;
+}
+
+.autoeval-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Collapsed by default (see resources-engine.js): only this row shows —
+   statement + bulbs — the "emplacement dans le cours" and exercise links
+   unfold on click instead of always taking up their own vertical space. */
+.autoeval-item-toggle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.autoeval-item-chevron {
+  flex-shrink: 0;
+  color: var(--autoeval-accent-dark);
+  transition: transform var(--transition);
+}
+
+.autoeval-item-toggle[aria-expanded='true'] .autoeval-item-chevron {
+  transform: rotate(-180deg);
+}
+
+.autoeval-item-details {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--autoeval-border);
+}
+
+.autoeval-item-locations {
+  margin: 0 0 10px;
+  padding-left: 20px;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.autoeval-item-exercises {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.autoeval-ex-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 10px 6px 0;
+}
+
+.autoeval-ex-level {
+  color: var(--color-muted);
+}
+
+/* Rounded square, like #exercises-pagination .exercise-step on
+   practice.html (same radius-to-size ratio, scaled down for an inline
+   chip) — not a pill. The pill shape is already overloaded site-wide (tabs,
+   nav buttons, badges); a square reads unambiguously as "this points to a
+   specific numbered exercise", the same meaning it carries on Practice. */
+.autoeval-ex-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: var(--autoeval-accent);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+html[data-pointer='fine'] .autoeval-ex-chip:hover {
+  background: var(--autoeval-accent-dark);
+}
+
+/* Star-rating: clicking bulb N lights 1..N (see resources-engine.js). Real
+   <button>s now, but keep the same 💡 glyph as the Level 1/2/3 buttons rather
+   than a new icon, so the rating reads as the same symbol students already
+   know from the practice page. */
+.autoeval-bulbs {
+  flex-shrink: 0;
+  display: flex;
+  gap: 4px;
+  font-size: 1.1rem;
+}
+
+.autoeval-bulb {
+  border: none;
+  background: none;
+  padding: 2px;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  filter: grayscale(1) opacity(0.35);
+  transition: filter var(--transition), transform var(--transition);
+}
+
+.autoeval-bulb.is-lit {
+  filter: none;
+}
+
+html[data-pointer='fine'] .autoeval-bulb:hover {
+  transform: scale(1.15);
+}
+
+/* Advice slot: outside .autoeval-item-details on purpose (see
+   createAutoEvalItem) — it's the direct payoff of rating an attendu, so it
+   shouldn't need the accordion opened to be seen. Empty (no .autoeval-advice
+   child) until a level is chosen, restored or fresh. */
+.autoeval-advice {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(var(--autoeval-accent-rgb), 0.14);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.autoeval-advice .autoeval-ex-chip {
+  vertical-align: middle;
+}
+
+/* Cross-category synthesis, recomputed on every bulb click (see
+   renderAutoevalSynthesis) — sits below the tabs/panels, in the same
+   scrolling card, empty (no children) whenever no rule matches. A stronger
+   fill than .autoeval-advice's since this is the fiche's one closing
+   judgement, not a per-attendu aside. */
+/* Now sits right under the tabs, before the category list — the fiche's
+   one closing judgement is worth seeing before scrolling through a
+   potentially long list of attendus, not just after. */
+.autoeval-synthesis:empty {
+  margin: 0;
+}
+
+/* Deliberately toneless — same slate for a "bravo" and a "tout est fragile"
+   verdict alike (no red/green stigma on a self-assessment) — but pulled out
+   of the item list below by a solid fill (not a tint on the same cream as
+   everything else) and a kicker label, so it reads as the fiche's one
+   closing judgement rather than another item in the list. Justified so the
+   block reads as one dense, deliberate paragraph rather than a ragged one. */
+.autoeval-synthesis-msg {
+  margin: 0 0 24px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--autoeval-accent);
+  color: #ffffff;
+  font-size: 0.97rem;
+  line-height: 1.55;
+  text-align: justify;
+  text-align-last: left;
+}
+
+.autoeval-synthesis-kicker {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.autoeval-synthesis-msg a {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* "Bilan par catégorie" scoreboard: one small box per category rather than
+   one run-on line — Savoirs/Savoir-faire/Compétence need to stay visually
+   distinct at a glance. Wraps to its own line on a narrow screen instead of
+   compressing. No colour-coding by status (faible/mixte/acquis) — same
+   deliberately toneless reasoning as .autoeval-synthesis-msg above: the
+   distinction is the layout and the label, not a red/green judgement. */
+.autoeval-scoreboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.autoeval-scoreboard-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.16);
+  min-width: 108px;
+}
+
+.autoeval-scoreboard-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.autoeval-scoreboard-status {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+/* .assessment-card: the "5th option" button, both on assessment.html itself
+   (implicitly, via the shared tile look) and on index.html's chapter-picker
+   modal (openChapterMenu creates an element with class
+   "section-card assessment-card") — which is why index.html also loads this
+   file. Split out of the combined ".modal-grid .section-card, .assessment-card"
+   rule that stays in style.css: same declarations, kept in sync by hand. */
+.assessment-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 96px;
+  padding: 10px;
+  text-decoration: none;
+  color: var(--color-emerald);
+  border: 2px solid rgba(12, 163, 127, 0.6);
+  font-size: 1.4rem;
+  font-weight: 700;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Contraste élevé : ce bouton a un texte de couleur sur fond blanc au repos
+   (ratio sous le seuil AA de 4.5:1), et un texte blanc sur fond de couleur
+   plein au survol/focus — même problème que --color-current-text ailleurs,
+   mais implémenté ici en dur plutôt que via la variable. Split out of the
+   combined high-contrast rule that stays in style.css. */
+body.high-contrast .assessment-card {
+  color: #000000;
+}
+
+/* Assessment button: always the fiche's own fixed slate identity, never the
+   subject colour — matches assessment.html itself (tabs/bulbs/synthesis are
+   all slate there too, regardless of chapter) so the colour doesn't shift
+   the moment the page loads. Validated as a chem1-only test first; now
+   applied to every chapter. Not scoped under any .subject-* selector, so it
+   always wins regardless of which subject class is on .modal-card. */
+.assessment-card {
+  color: var(--autoeval-accent-dark);
+  border-color: rgba(var(--autoeval-accent-rgb), 0.65);
+}
+html[data-pointer='fine'] .assessment-card:hover,
+.assessment-card:focus-visible {
+  background-color: var(--autoeval-accent);
+  color: #ffffff;
+  border-color: var(--autoeval-accent);
+  box-shadow: 0 24px 50px rgba(var(--autoeval-accent-rgb), 0.25);
+}
