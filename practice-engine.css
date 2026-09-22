@@ -100,7 +100,7 @@
       padding: 3px 10px;
       border-radius: 999px;
       background: var(--color-current-darker);
-      color: #ffffff;
+      color: var(--color-current-text, #ffffff);
       font-size: 0.6rem;
       font-weight: 700;
       letter-spacing: 0.05em;
@@ -282,7 +282,7 @@
     .modal-fullscreen.is-fullscreen {
       background: var(--color-current);
       border-color: var(--color-current);
-      color: #ffffff;
+      color: var(--color-current-text, #ffffff);
     }
 
     /* Une seule règle pour les cinq jeux : leurs cartes sont toutes bâties de la
@@ -506,7 +506,7 @@
     .toggle-button.active {
       background: var(--color-current);
       border-color: rgba(var(--color-current-rgb), 0.35);
-      color: #ffffff;
+      color: var(--color-current-text, #ffffff);
     }
 
     /* Drains from full to empty over the FR lock duration (see lockFrButtons in
@@ -726,7 +726,7 @@
       border: 1px solid transparent;
       border-radius: 8px;
       background: var(--color-current);
-      color: #ffffff;
+      color: var(--color-current-text, #ffffff);
       font-weight: 700;
       font-size: 0.85rem;
       cursor: pointer;
@@ -793,7 +793,7 @@
 
     .revision-bar-next {
       background: var(--color-current);
-      color: #ffffff;
+      color: var(--color-current-text, #ffffff);
       margin-left: auto;
     }
 
@@ -1976,7 +1976,7 @@
       border-radius: 16px;
       border: none;
       background: var(--color-current);
-      color: #ffffff;
+      color: var(--color-current-text, #ffffff);
       font-size: 1.1rem;
       font-weight: 700;
       cursor: pointer;
@@ -2485,7 +2485,7 @@
       border-radius: 16px;
       border: none;
       background: var(--color-current);
-      color: #ffffff;
+      color: var(--color-current-text, #ffffff);
       font-size: 1.1rem;
       font-weight: 700;
       cursor: pointer;
@@ -2510,7 +2510,7 @@
 
     .exercise-step.active {
       background: var(--color-current);
-      color: #ffffff;
+      color: var(--color-current-text, #ffffff);
       border-color: rgba(var(--color-current-rgb), 0.35);
     }
 

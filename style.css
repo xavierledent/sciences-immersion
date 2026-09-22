@@ -487,7 +487,7 @@ html[data-pointer='fine'] .section-card a:hover,
   .chapter-nav-btn:focus-visible {
     transform: translateY(-2px);
     background: var(--color-current);
-    color: #ffffff;
+    color: var(--color-current-text, #ffffff);
     border-color: var(--color-current);
     outline: none;
   }
@@ -1134,7 +1134,7 @@ html[data-pointer='fine'] .modal-fullscreen:hover,
 .modal-fullscreen.is-fullscreen {
   background: var(--color-current);
   border-color: var(--color-current);
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
 }
 
 .modal-card:fullscreen {
@@ -1893,7 +1893,7 @@ html[data-pointer='fine'] .dnd-item:hover {
    doit rester lisible du coin de l'œil pendant qu'il vise une zone. */
 .dnd-item.selected {
   background: var(--color-current);
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
   border-color: var(--color-current);
   transform: translateY(-2px) scale(1.04);
   box-shadow: 0 8px 20px rgba(var(--color-current-rgb), 0.35);
@@ -2085,7 +2085,7 @@ html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
 .dnd-pagination .exercise-step.active {
   background: var(--color-current);
   border-color: rgba(12, 163, 127, 0.35);
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
   box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
 }
 
@@ -2177,7 +2177,7 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
 .timer-toggle-btn.active {
   background: var(--color-current);
   border-color: var(--color-current);
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
 }
 
 /* Bounce feedback on the zone + a checkmark that pops in and fades away */
@@ -2387,7 +2387,7 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
 .memory-card-backpattern {
   font-size: 2.2rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
   opacity: 0.8;
 }
 
@@ -2572,7 +2572,7 @@ html[data-pointer='fine'] .memory-pagination .exercise-step:hover {
 .memory-pagination .exercise-step.active {
   background: var(--color-current);
   border-color: rgba(12, 163, 127, 0.35);
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
   box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
 }
 
@@ -2780,13 +2780,13 @@ html[data-pointer='fine'] .memory-pagination .exercise-step:hover {
 .sorting-bin-item.selected {
   background: var(--color-current);
   border-color: var(--color-current);
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
   transform: scale(1.03);
   box-shadow: 0 8px 20px rgba(var(--color-current-rgb), 0.35);
 }
 
 .sorting-bin-item.selected span {
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
 }
 
 .sorting-bin-item {
@@ -3145,7 +3145,7 @@ html[data-pointer='fine'] .sorting-bin-item:hover:not(.correct):not(.incorrect) 
 
 html[data-pointer='fine'] .sorting-choice-btn:hover {
   background: var(--color-current);
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
 }
 
 /* Check / Action Button Zone */
@@ -3183,7 +3183,7 @@ html[data-pointer='fine'] .sorting-modal-body:not(.all-placed) .sorting-bin:hove
   border-radius: 16px;
   border: none;
   background: var(--color-current);
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
   font-size: 1.05rem;
   font-weight: 700;
   cursor: pointer;
@@ -3240,6 +3240,6 @@ html[data-pointer='fine'] .sorting-pagination .exercise-step:hover {
 .sorting-pagination .exercise-step.active {
   background: var(--color-current);
   border-color: rgba(12, 163, 127, 0.35);
-  color: #ffffff;
+  color: var(--color-current-text, #ffffff);
   box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
 }
