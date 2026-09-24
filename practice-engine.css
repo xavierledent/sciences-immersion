@@ -60,10 +60,58 @@
       text-align: left;
     }
 
+    /* Même ampoule dessinée que sur la page d'auto-évaluation
+       (templates/partials/bulb-icon.svg), allumée : verre jaune, filament
+       orange, léger halo — un niveau, c'est ce qu'on atteint, pas du vide.
+       Contour et culot restent en currentColor (blanc) : sur le bouton doré
+       de chimie, le jaune du verre se distingue peu du fond, c'est ce
+       contour qui dessine l'ampoule. Suit aussi le texte au survol et en
+       mode contrasté (texte noir). Indique la difficulté, pas un état. */
     .level-bulbs {
+      display: inline-flex;
+      gap: 1px;
       margin-left: 4px;
+      vertical-align: middle;
       font-size: 0.85rem;
-      opacity: 0.85;
+    }
+
+    .level-bulbs .bulb-icon {
+      display: block;
+      width: 1.4em;
+      height: 1.4em;
+      stroke: currentColor;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 2px rgba(255, 196, 0, 0.8));
+    }
+
+    .level-bulbs .bulb-glass {
+      fill: #ffd43b;
+    }
+
+    .level-bulbs .bulb-shine {
+      fill: none;
+      stroke: #fff3bf;
+      stroke-width: 1.1;
+    }
+
+    .level-bulbs .bulb-filament {
+      fill: none;
+      stroke: #e8590c;
+      stroke-width: 1;
+    }
+
+    .level-bulbs .bulb-thread {
+      fill: none;
+      stroke-width: 1;
+    }
+
+    .level-bulbs .bulb-base,
+    .level-bulbs .bulb-tip {
+      fill: currentColor;
+      fill-opacity: 0.4;
+      stroke-width: 1.1;
     }
 
     .level-action {

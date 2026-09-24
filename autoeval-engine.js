@@ -77,11 +77,28 @@
     return locationsHtml + exercisesHtml;
   }
 
+  // Drawn bulb rather than the 💡 emoji: an emoji can only be tinted as a
+  // whole (filter), so an unlit bulb was either too faint to look clickable
+  // or no longer looked like glass. With separate parts, assessment.css
+  // colours glass/filament/base per state (unlit = clear glass with a
+  // visible outline, lit = yellow glass with a glow). The markup itself lives
+  // in templates/partials/bulb-icon.svg (shared with the practice level
+  // buttons), injected into the page as <template id="bulb-icon-template">.
+  // Read lazily, falling back to the emoji if the template is ever missing.
+  let bulbSvg = null;
+  function getBulbSvg() {
+    if (bulbSvg === null) {
+      const tpl = document.getElementById('bulb-icon-template');
+      bulbSvg = (tpl && tpl.innerHTML.trim()) || '💡';
+    }
+    return bulbSvg;
+  }
+
   function createAutoEvalItem(item) {
     const rating = readAutoevalRating(item.id);
     const bulbsHtml = '<div class="autoeval-bulbs">' +
       [1, 2, 3].map(n =>
-        `<button type="button" class="autoeval-bulb${rating && n <= rating ? ' is-lit' : ''}" data-level="${n}" aria-label="Niveau ${n}">💡</button>`
+        `<button type="button" class="autoeval-bulb${rating && n <= rating ? ' is-lit' : ''}" data-level="${n}" aria-label="Niveau ${n}">${getBulbSvg()}</button>`
       ).join('') +
       '</div>';
     return `

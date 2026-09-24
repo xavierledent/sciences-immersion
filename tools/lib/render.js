@@ -14,6 +14,15 @@ function loadChapters() {
   return JSON.parse(raw).chapters;
 }
 
+// Shared partials, substituted in every page type after its own renderFn —
+// one source for markup reused across several templates. {{BULB_ICON}}: the
+// drawn light bulb (practice level buttons, assessment rating bulbs via a
+// <template> that autoeval-engine.js clones).
+function applyPartials(html) {
+  const bulbIcon = fs.readFileSync(path.join(ROOT, 'templates', 'partials', 'bulb-icon.svg'), 'utf8').trim();
+  return html.replace(/\{\{BULB_ICON\}\}/g, bulbIcon);
+}
+
 // CRLF + exactly one trailing newline, matching the rest of this repo's HTML
 // files — regardless of what the template itself has on disk (templates are
 // authored as plain LF files; only the generated output needs to match).
@@ -35,7 +44,7 @@ function generatePage(pageType, outputFileName, renderFn) {
     const template = fs.readFileSync(templatePath, 'utf8');
 
     chapters.forEach(chapter => {
-      const output = normalizeLineEndings(renderFn(template, chapter, lang));
+      const output = normalizeLineEndings(applyPartials(renderFn(template, chapter, lang)));
       const outPath = path.join(ROOT, lang, YEAR_FOLDER[lang], chapter.folder, outputFileName);
 
       if (checkOnly) {

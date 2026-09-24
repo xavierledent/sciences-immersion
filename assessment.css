@@ -189,24 +189,105 @@ html[data-pointer='fine'] .autoeval-ex-chip:hover {
   font-size: 1.1rem;
 }
 
+/* Ampoule dessinée en SVG (BULB_SVG dans autoeval-engine.js) : chaque
+   partie (verre, reflet, filament, culot) prend ses couleurs des variables
+   ci-dessous, redéfinies par état. Éteinte = verre clair avec un contour
+   ardoise (c'est le contour qui porte le contraste WCAG 3:1 d'un élément
+   d'interface : slate ~5.4:1 sur --autoeval-bg — l'ancien emoji en
+   opacity(0.35) tombait vers ~1.2:1). Allumée = verre jaune + halo. */
 .autoeval-bulb {
+  --bulb-glass: #ffffff;
+  --bulb-stroke: var(--color-slate);
+  --bulb-filament: #9aabbd;
+  --bulb-shine: #c7d3de;
+  --bulb-base: #dfe5ec;
+  --bulb-base-stroke: var(--color-slate);
   border: none;
   background: none;
   padding: 2px;
   font: inherit;
   line-height: 1;
   cursor: pointer;
-  filter: grayscale(1) opacity(0.35);
+  border-radius: 6px;
   transition: filter var(--transition), transform var(--transition);
 }
 
+.autoeval-bulb .bulb-icon {
+  display: block;
+  width: 1.45em;
+  height: 1.45em;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.autoeval-bulb .bulb-glass {
+  fill: var(--bulb-glass);
+  stroke: var(--bulb-stroke);
+  transition: fill var(--transition), stroke var(--transition);
+}
+
+.autoeval-bulb .bulb-shine {
+  fill: none;
+  stroke: var(--bulb-shine);
+  stroke-width: 1.1;
+}
+
+.autoeval-bulb .bulb-filament {
+  fill: none;
+  stroke: var(--bulb-filament);
+  stroke-width: 1;
+  transition: stroke var(--transition);
+}
+
+.autoeval-bulb .bulb-base,
+.autoeval-bulb .bulb-tip {
+  fill: var(--bulb-base);
+  stroke: var(--bulb-base-stroke);
+  stroke-width: 1.1;
+}
+
+.autoeval-bulb .bulb-thread {
+  fill: none;
+  stroke: var(--bulb-base-stroke);
+  stroke-width: 0.9;
+}
+
 .autoeval-bulb.is-lit {
-  filter: none;
+  --bulb-glass: #ffd43b;
+  --bulb-stroke: #a67c00;
+  --bulb-filament: #e8590c;
+  --bulb-shine: #fff3bf;
+  --bulb-base: #b8c2cc;
+  --bulb-base-stroke: #6b7785;
+  filter: drop-shadow(0 0 3px rgba(255, 196, 0, 0.75));
+}
+
+body.high-contrast .autoeval-bulb:not(.is-lit) {
+  --bulb-stroke: #000000;
+  --bulb-base-stroke: #000000;
+  --bulb-filament: #4a5563;
 }
 
 html[data-pointer='fine'] .autoeval-bulb:hover {
   transform: scale(1.15);
 }
+
+/* Aperçu au survol, seulement sur une ampoule éteinte : le verre se teinte
+   d'un jaune pâle. Une ampoule allumée garde exactement son apparence. */
+html[data-pointer='fine'] .autoeval-bulb:not(.is-lit):hover {
+  --bulb-glass: #fff3bf;
+}
+
+.autoeval-bulb:focus-visible {
+  outline: 2px solid var(--autoeval-accent-dark);
+  outline-offset: 2px;
+}
+
+body.high-contrast .autoeval-bulb:focus-visible {
+  outline-color: #000000;
+}
+
 
 /* Advice slot: outside .autoeval-item-details on purpose (see
    createAutoEvalItem) — it's the direct payoff of rating an attendu, so it
