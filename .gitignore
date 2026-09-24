@@ -6,3 +6,8 @@ Admin/
 
 # Separate Google Apps Script project — not part of this public repo
 apps-script/
+
+# Private audit and its follow-up checklists — they describe unfixed
+# security issues, so they must stay out of this public repo
+docs/audit-sciences-immersion.md
+docs/todo/
