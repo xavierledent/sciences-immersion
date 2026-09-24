@@ -333,7 +333,7 @@
     if (!authorized) {
       const errorBox = document.getElementById('access-error-box');
       if (errorBox) {
-        errorBox.textContent = 'Cette adresse n\'est pas autorisée. Contactez ' + CONTACT_EMAIL + ' si vous pensez qu\'il s\'agit d\'une erreur.';
+        errorBox.textContent = 'Cette adresse n\'est pas autorisée. Contacte ' + CONTACT_EMAIL + ' si tu penses qu\'il s\'agit d\'une erreur.';
         errorBox.style.display = 'block';
       }
       return;
@@ -406,7 +406,7 @@
       '<div class="access-screen">' +
       '<div class="access-card">' +
       '<h1 class="access-title">Accès limité</h1>' +
-      '<p class="access-subtitle">Veuillez vous identifier avec une adresse autorisée pour accéder à cette partie du site.</p>' +
+      '<p class="access-subtitle">Identifie-toi avec une adresse autorisée pour accéder à cette partie du site.</p>' +
       '<img class="access-illustration" src="' + LIMITED_ACCESS_IMAGE + '" alt="" />' +
       '<button type="button" class="access-visitor-btn access-back-btn" id="access-back-btn">Se connecter avec Google</button>' +
       '</div>' +

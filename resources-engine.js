@@ -70,7 +70,7 @@
     const blocks = items.map((item, i) => {
       const fileUrl  = `${path}/${encodeURIComponent(item.file || '')}`;
       const label    = item.title || 'Modèle général';
-      const rawDesc  = (item.description || '').replace('Téléchargez ce modèle', 'Télécharger ces modèles');
+      const rawDesc  = item.description || '';
       const descHtml = rawDesc ? `<p style="margin:0 0 10px">${richText(rawDesc)}</p>` : '';
       return `<div>${descHtml}<a class="resource-button" href="${fileUrl}" target="_blank" rel="noopener" data-resource-type="mindmap">${richText(label)}</a></div>`;
     }).join('');
