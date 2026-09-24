@@ -10,7 +10,8 @@
             "Ecosysteem = Individu + Populatie",
             "Ecosysteem = Organische stof + Minerale stof"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Een ecosysteem bestaat uit twee delen: de <strong>biotoop</strong> (het niet-levende deel: water, bodem, klimaat) en de <strong>biocenose</strong> (alle levende wezens). Samen vormen ze het ecosysteem."
         },
         {
           "question": "Temperatuur, water, bodem en wind zijn voorbeelden van welk type factoren?",
@@ -19,7 +20,8 @@
             "Biotische factoren",
             "Biocenosefactoren"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Temperatuur, water, bodem en wind leven niet. Niet-levende factoren noemen we <strong>abiotische factoren</strong> (\"a-\" betekent \"zonder\", \"bio\" betekent \"leven\")."
         },
         {
           "question": "Alle kikkers van dezelfde soort die samen in één vijver leven, vormen een:",
@@ -28,7 +30,8 @@
             "Individu",
             "Biotoop"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Een <strong>populatie</strong> is een groep individuen van dezelfde soort die op dezelfde plaats leven, zoals alle kikkers van één soort in de vijver."
         },
         {
           "question": "Welke term beschrijft een enkele, rechte lijn die toont wie wie eet in een ecosysteem?",
@@ -37,7 +40,8 @@
             "Voedselweb",
             "Kringloop van de stof"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Een <strong>voedselketen</strong> is één rechte lijn: elk levend wezen wordt door het volgende gegeten. Een voedselweb bestaat uit veel voedselketens die met elkaar verbonden zijn."
         },
         {
           "question": "Planten worden \"producenten\" genoemd omdat ze zonlicht gebruiken om het volgende om te zetten:",
@@ -46,7 +50,8 @@
             "Organische stof in minerale stof",
             "Reducenten in consumenten"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Planten nemen minerale stof op (water, koolstofdioxide, minerale zouten) en maken er met de energie van zonlicht <strong>organische stof</strong> van. Daarom noemen we ze producenten."
         },
         {
           "question": "Eén enkele waterleliplant die in een vijver leeft, wordt gedefinieerd als een:",
@@ -55,7 +60,8 @@
             "Populatie",
             "Biocenose"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Eén enkel levend wezen is een <strong>individu</strong>. Veel waterlelies van dezelfde soort samen zouden een populatie vormen."
         },
         {
           "question": "Pad en kikker kunnen samen geen jongen krijgen. Dit betekent dat ze tot een verschillende ... behoren:",
@@ -64,7 +70,8 @@
             "Populatie",
             "Biotoop"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Een <strong>soort</strong> is een groep organismen die samen vruchtbare jongen kunnen krijgen. Een pad en een kikker kunnen dat niet, dus het zijn verschillende soorten."
         },
         {
           "question": "Alle levende organismen (dieren, planten, schimmels) die samen interageren in een bos, vormen de:",
@@ -73,7 +80,8 @@
             "Biotoop",
             "Abiotische factor"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "De <strong>biocenose</strong> is het geheel van alle levende wezens in een ecosysteem en hun interacties. De biotoop is alleen het niet-levende deel."
         }
       ]
     },
@@ -87,7 +95,8 @@
             "Omdat producenten onderaan sneller groeien wanneer er meer ketens zijn.",
             "Omdat het reducenten verhindert organische stof terug om te zetten in mineralen."
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "In een voedselweb eten de meeste dieren verschillende soorten voedsel. Als één soort verdwijnt, kunnen ze <strong>iets anders eten</strong>, zodat het hele ecosysteem minder getroffen wordt."
         },
         {
           "question": "Een regenworm breekt gevallen dode bladeren af in de bosbodem. Wat is zijn ecologische rol en welke omzetting van stof vindt plaats?",
@@ -96,7 +105,8 @@
             "Consument; zet minerale stof om in organische stof",
             "Producent; zet organische stof om in minerale stof"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "De regenworm eet dode bladeren en breekt ze af. <strong>Reducenten</strong> zetten dode organische stof terug om in minerale stof die planten opnieuw kunnen gebruiken."
         },
         {
           "question": "Tijdens de Industriële Revolutie raakten witte berkenstammen bedekt met zwart roet. Donkere vlinders overleefden beter omdat vogels ze moeilijker zagen. Dit is een voorbeeld van:",
@@ -105,7 +115,8 @@
             "Mutualisme",
             "Commensalisme"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "De donkere vlinders waren beter verstopt op de zwarte stammen, dus aten vogels er minder van en kregen ze meer nakomelingen. Wanneer de best aangepaste organismen overleven en zich voortplanten, spreken we van <strong>natuurlijke selectie</strong>."
         },
         {
           "question": "Twee hoge bomen die vlak naast elkaar groeien, strijden om hetzelfde beperkte zonlicht te bemachtigen. Wat voor interactie is dit?",
@@ -114,7 +125,8 @@
             "Parasitisme (+/-)",
             "Commensalisme (+/0)"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Beide bomen hebben hetzelfde beperkte zonlicht nodig, en elk krijgt er minder van door de andere. Dat is <strong>competitie</strong>: allebei verliezen ze (-/-)."
         },
         {
           "question": "Een zuigvis reist vastgehecht aan een haai om voedselresten te eten. De haai ondervindt hier geen enkele invloed van en merkt het niet op. Welke code en naam representeren deze interactie?",
@@ -123,7 +135,8 @@
             "(+/+) Mutualisme",
             "(+/-) Predatie"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "De zuigvis heeft er voordeel van (+), want hij eet de voedselresten, en de haai ondervindt geen invloed (0). De ene heeft voordeel, de andere geen invloed: <strong>commensalisme</strong> (+/0)."
         },
         {
           "question": "Een lintworm leeft in het spijsverteringsstelsel van een kat, neemt zijn voedingsstoffen op en verzwakt het dier. Deze relatie is:",
@@ -132,7 +145,8 @@
             "Competitie (-/-)",
             "Symbiose"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "De lintworm heeft er voordeel van (+), want hij neemt de voedingsstoffen van de kat op, en de kat wordt benadeeld (-). De ene heeft voordeel, de andere nadeel: <strong>parasitisme</strong> (+/-)."
         },
         {
           "question": "Wanneer twee verschillende soorten samenleven in een extreme, zeer nauwe relatie en elkaar absoluut nodig hebben om te overleven (zoals korstmos of koraal), noemen wetenschappers dit:",
@@ -141,7 +155,8 @@
             "Commensalisme",
             "Predatie"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Symbiose</strong> is een zeer nauwe relatie op lange termijn tussen twee verschillende soorten die elkaar nodig hebben, zoals de schimmel en de alg die samen een korstmos vormen."
         },
         {
           "question": "Als een mysterieus virus alle reducenten (bacteriën, schimmels, wormen) volledig van de aarde zou wegvagen, wat is dan het uiteindelijke gevolg?",
@@ -150,7 +165,8 @@
             "Dieren (consumenten) zullen rechtstreeks minerale stof beginnen om te zetten.",
             "Planten (producenten) zullen meer organische stof maken met enkel zonlicht."
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Reducenten zetten dode organische stof terug om in minerale stof. Zonder hen zouden dode bladeren en lichamen zich opstapelen en zouden planten zonder mineralen vallen: <strong>de kringloop van de stof zou stoppen</strong>."
         }
       ]
     },
@@ -168,7 +184,8 @@
             "4",
             "5"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Op afbeelding 2 legt de koekoek zijn ei in het nest van de kleine karekiet, en het koekoeksjong duwt de eieren van de karekiet eruit. De koekoek heeft voordeel, de karekiet nadeel: <strong>parasitisme</strong> (+/-)."
         },
         {
           "question": "Welke van deze afbeeldingen toont \"Predatie\"?",
@@ -179,7 +196,8 @@
             "4",
             "5"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Op afbeelding 1 jaagt de uil op de muis en eet hem op. Een dier dat een ander dier vangt en opeet: dat is <strong>predatie</strong>."
         },
         {
           "question": "Welke van deze afbeeldingen toont \"Competitie\"?",
@@ -190,7 +208,8 @@
             "4",
             "5"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Op afbeelding 3 vechten de gieren en de jakhals om dezelfde maaltijd. Strijden om hetzelfde voedsel is <strong>competitie</strong> (-/-)."
         },
         {
           "question": "Welke van deze afbeeldingen toont \"Samenwerking\"?",
@@ -201,7 +220,8 @@
             "3",
             "4"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Op afbeelding 5 houdt een stokstaartje de wacht en waarschuwt het zijn groep voor gevaar. De leden van de groep helpen elkaar: dat is <strong>samenwerking</strong>."
         },
         {
           "question": "Weet je nog welke ecologische relatie te zien was op afbeelding 4?",
@@ -213,7 +233,8 @@
             "Predatie",
             "Competitie"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Op afbeelding 4 eet de koereiger de insecten die de olifant opschrikt tijdens het lopen. De reiger heeft voordeel en de olifant ondervindt geen invloed: <strong>commensalisme</strong> (+/0)."
         }
       ]
     }

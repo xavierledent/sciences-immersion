@@ -13,7 +13,8 @@
             "Moedergesteente",
             "Grondwater"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "De <strong>bodem</strong> is de dunne, donkere bovenste laag van de grond, vol leven: wortels, insecten, wormen en organisch materiaal (laag 1 op de afbeelding)."
         },
         {
           "question": "Hoe heet de laag onder de bodem?",
@@ -24,7 +25,8 @@
             "Humus",
             "Watervoerende laag"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Onder de bodem ligt de <strong>ondergrond</strong>: gesteenten en minerale stoffen, zonder levende wezens (laag 2 op de afbeelding)."
         },
         {
           "question": "Wat bevat de bodem dat de ondergrond niet bevat?",
@@ -35,7 +37,8 @@
             "Enkel water",
             "Niets — ze zijn identiek"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "De bodem zit vol leven (wortels, wormen, insecten) en <strong>organisch materiaal</strong> zoals humus. De ondergrond bevat alleen gesteenten en mineralen."
         },
         {
           "question": "Waar halen mensen het grootste deel van hun grondstoffen vandaan, zoals ijzer, steen of olie?",
@@ -45,7 +48,8 @@
             "De atmosfeer",
             "Het oceaanoppervlak"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "IJzererts, steen en olie zitten diep onder de grond. Daarom worden ze uit de <strong>ondergrond</strong> gewonnen, in mijnen, steengroeven en putten."
         },
         {
           "question": "Waaruit bestaat humus?",
@@ -55,7 +59,8 @@
             "Gesmolten metaal",
             "Plastic afval"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Humus</strong> is het donkere organische materiaal van de bodem. Het ontstaat wanneer reducenten (zoals wormen en schimmels) dode bladeren en dode dieren afbreken."
         }
       ]
     },
@@ -72,7 +77,8 @@
             "Fossiele brandstoffen",
             "Organische hulpbronnen"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Graniet is een <strong>gesteente</strong>: een vast materiaal dat uit verschillende mineralen bestaat. Vaak zie je korrels in verschillende kleuren."
         },
         {
           "question": "Tot welke categorie behoort dit?",
@@ -83,7 +89,8 @@
             "Fossiele brandstoffen",
             "Water"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Goud is een <strong>mineraal</strong>: een natuurlijke vaste stof met één vaste chemische samenstelling. Een gesteente, zoals graniet, is een mengsel van verschillende mineralen."
         },
         {
           "question": "Tot welke categorie behoort dit?",
@@ -94,7 +101,8 @@
             "Mineralen",
             "Organische hulpbronnen"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Steenkool is een <strong>fossiele brandstof</strong>: ze is in miljoenen jaren ontstaan uit resten van planten onder de grond, en we verbranden ze om energie te krijgen."
         },
         {
           "question": "Tot welke categorie behoort dit?",
@@ -105,7 +113,8 @@
             "Fossiele brandstoffen",
             "Gesteenten"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Katoen komt van een plant, dus het is een <strong>organische hulpbron</strong>: een hulpbron die van levende wezens komt."
         },
         {
           "question": "Welke van deze is een hernieuwbare hulpbron?",
@@ -116,7 +125,8 @@
             "Aardolie",
             "Aardgas"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Hout is <strong>hernieuwbaar</strong> omdat bomen in enkele tientallen jaren teruggroeien. Steenkool, aardolie en aardgas doen er miljoenen jaren over om te ontstaan."
         },
         {
           "question": "Waarom wordt aardolie geclassificeerd als een niet-hernieuwbare hulpbron?",
@@ -127,7 +137,8 @@
             "Omdat dieren het gebruiken om hun nesten te bouwen",
             "Omdat het enkel in de oceaan voorkomt"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Aardolie ontstaat in <strong>miljoenen jaren</strong> uit resten van piepkleine organismen. We verbruiken ze veel sneller dan de natuur ze kan maken, dus ze kan niet worden aangevuld."
         }
       ]
     },
@@ -144,7 +155,8 @@
             "Kneedbaarheid",
             "Warmtegeleiding"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Het metaal op de afbeelding blinkt wanneer er licht op valt. Dat blinkende uitzicht noemen we <strong>glans</strong>."
         },
         {
           "question": "Welke eigenschap toont deze afbeelding?",
@@ -155,7 +167,8 @@
             "Magnetisme",
             "Kneedbaarheid"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "De afbeelding toont een elektrische stroom die door metalen draden loopt. Metalen laten elektriciteit door: dat is <strong>elektrische geleiding</strong>."
         },
         {
           "question": "Welke eigenschap toont deze afbeelding?",
@@ -166,7 +179,8 @@
             "Elektrische geleiding",
             "Warmtegeleiding"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "De magneet trekt de paperclips aan, die van staal zijn (vooral ijzer). Die aantrekking is <strong>magnetisme</strong>."
         },
         {
           "question": "Welke eigenschap zorgt ervoor dat een metaal kan worden gebogen of tot dunne draden kan worden gevormd zonder te breken?",
@@ -177,7 +191,8 @@
             "Glans",
             "Warmtegeleiding"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Kneedbare</strong> metalen kun je buigen, pletten of vormen zonder dat ze breken, bijvoorbeeld tot dunne draden of platen."
         },
         {
           "question": "Welk metaal staat erom bekend door magneten te worden aangetrokken?",
@@ -188,7 +203,8 @@
             "Goud",
             "Aluminium"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>IJzer</strong> (en staal, dat vooral uit ijzer bestaat) wordt door magneten aangetrokken. Koper, goud en aluminium zijn ook metalen, maar worden niet aangetrokken."
         },
         {
           "question": "Waar worden metalen uit gewonnen?",
@@ -199,7 +215,8 @@
             "Oceaanwater",
             "Boomsap"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Metalen zitten in <strong>ertsen</strong>: gesteenten uit de ondergrond die waardevolle mineralen bevatten. Daarna wordt het metaal van de rest van het gesteente gescheiden."
         }
       ]
     },
@@ -216,7 +233,8 @@
             "Gebruik",
             "Afvoer"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Na de winning worden de grondstoffen in fabrieken tot voorwerpen omgevormd: dat is <strong>productie</strong>. Daarna volgen distributie, gebruik en afvoer."
         },
         {
           "question": "Bij welke stap worden afgewerkte producten naar winkels vervoerd?",
@@ -226,7 +244,8 @@
             "Recyclage",
             "Winning van grondstoffen"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Distributie</strong> is wanneer vrachtwagens, schepen en treinen afgewerkte producten van de fabriek naar de winkels brengen."
         },
         {
           "question": "Waarom zijn de pijlen in het levenscyclusdiagram dubbel in plaats van enkel?",
@@ -237,7 +256,8 @@
             "Omdat objecten in de cyclus achteruit in de tijd kunnen reizen.",
             "Omdat het het diagram er wetenschappelijker doet uitzien."
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Bij elke stap <strong>nemen</strong> we hulpbronnen van de Aarde (materialen, energie, water) en <strong>geven</strong> we vervuiling <strong>terug</strong> (afval, rook). De dubbele pijlen tonen die uitwisseling in beide richtingen."
         },
         {
           "question": "Wat betekent \"Reduce\" (verminderen) in de regel van de 3 R's?",
@@ -248,7 +268,8 @@
             "Oude materialen omvormen tot nieuwe producten",
             "Afval veilig onder de grond begraven"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Verminderen</strong> betekent minder gebruiken: minder verpakking, minder energie, minder water. Het beste afval is afval dat we nooit maken."
         },
         {
           "question": "Wat betekent \"Recycle\" (recycleren)?",
@@ -259,7 +280,8 @@
             "Een voorwerp hergebruiken zoals het is",
             "Afval onder de grond begraven"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Recycleren</strong> is oude materialen omvormen tot nieuwe producten, bijvoorbeeld oude plastic flessen tot een nieuwe fleecetrui."
         }
       ]
     },
@@ -275,7 +297,8 @@
             "Een bananenschil",
             "Een kartonnen doos"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Keramiek wordt gemaakt van klei, een mineraal materiaal, gebakken in een zeer hete oven. Reducenten <strong>kunnen het niet afbreken</strong>, in tegenstelling tot wol, een bananenschil en karton, die van levende wezens komen."
         },
         {
           "question": "Een stalen waterfles voelt heel snel koud aan wanneer je hem aanraakt. Welke eigenschap van metaal verklaart dit het best?",
@@ -286,10 +309,11 @@
             "Magnetisme",
             "Glans"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Staal is een goede <strong>warmtegeleider</strong>: het voert de warmte van je hand snel af. Daarom voelt het koud aan, zelfs bij kamertemperatuur."
         },
         {
-          "question": "Welke test zouden wetenschappers kunnen gebruiken om te controleren of deze \"zilveren\" munt echt zilver is, op basis van wat we over metalen geleerd hebben?",
+          "question": "Welke test zouden wetenschappers kunnen gebruiken om te controleren of deze \"zilveren\" munt echt van metaal is, op basis van wat we over metalen geleerd hebben?",
           "image": "assets/QCM5-3.png",
           "options": [
             "Elektrische geleiding",
@@ -297,7 +321,8 @@
             "De vorm van de munt",
             "Hoe luid ze klinkt wanneer ze valt"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Metalen <strong>geleiden elektriciteit</strong> heel goed. Als de stroom door de munt gaat, is ze van metaal; een valse munt van geverfd plastic zou de stroom niet doorlaten."
         },
         {
           "question": "Bamboe groeit binnen enkele maanden terug na te zijn gekapt, veel sneller dan eiken die er tientallen jaren over doen. Hoe moet bamboe worden geclassificeerd?",
@@ -308,7 +333,8 @@
             "Een fossiele brandstof",
             "Een minerale hulpbron"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Een hernieuwbare hulpbron wordt in korte tijd op natuurlijke wijze aangevuld. Bamboe groeit in enkele maanden terug, dus het is <strong>hernieuwbaar</strong>."
         },
         {
           "question": "Een bedrijf wint lithium uit ondergrondse zoutvlaktes om batterijen te maken. Welke stap van de levenscyclus van een voorwerp stelt dit voor?",
@@ -319,7 +345,8 @@
             "Distributie",
             "Recyclage"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Lithium wordt uit de grond gehaald nog voor er een batterij gemaakt wordt. Materialen uit de natuur halen is de eerste stap: de <strong>winning van grondstoffen</strong>."
         }
       ]
     }

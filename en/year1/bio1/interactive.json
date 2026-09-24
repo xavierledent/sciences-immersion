@@ -10,7 +10,8 @@
             "Ecosystem = Individual + Population",
             "Ecosystem = Organic matter + Mineral matter"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "An ecosystem has two parts: the <strong>biotope</strong> (the non-living part: water, soil, climate) and the <strong>biocenosis</strong> (all the living things). Together they form the ecosystem."
         },
         {
           "question": "Temperature, water, soil, and wind are examples of which type of factors?",
@@ -19,7 +20,8 @@
             "Biotic factors",
             "Biocenosis factors"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Temperature, water, soil and wind are not alive. Non-living factors are called <strong>abiotic factors</strong> (\"a-\" means \"without\", \"bio\" means \"life\")."
         },
         {
           "question": "All the frogs of the same species living together in a single pond form a:",
@@ -28,7 +30,8 @@
             "Individual",
             "Biotope"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "A <strong>population</strong> is a group of individuals of the same species living in the same place, like all the frogs of one species in the pond."
         },
         {
           "question": "Which term describes a single, straight line that shows who eats whom in an ecosystem?",
@@ -37,7 +40,8 @@
             "Food web",
             "Food cycle"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "A <strong>food chain</strong> is one straight line: each living thing is eaten by the next one. A food web is many food chains linked together."
         },
         {
           "question": "Plants are called \"producers\" because they use sunlight to transform:",
@@ -46,7 +50,8 @@
             "Organic matter into mineral matter",
             "Decomposers into consumers"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Plants take mineral matter (water, carbon dioxide, mineral salts) and use the energy of sunlight to make <strong>organic matter</strong>. That is why they are called producers."
         },
         {
           "question": "One single water lily plant living in a pond is defined as a(n):",
@@ -55,7 +60,8 @@
             "Population",
             "Biocenosis"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "One single living thing is an <strong>individual</strong>. Many water lilies of the same species together would form a population."
         },
         {
           "question": "Toad and frog cannot make babies together. This means that they belong to a different:",
@@ -64,7 +70,8 @@
             "Population",
             "Biotope"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "A <strong>species</strong> is a group of organisms that can reproduce together and have fertile babies. Toads and frogs cannot, so they are different species."
         },
         {
           "question": "All the living organisms (animals, plants, fungi) interacting together in a forest form the:",
@@ -73,7 +80,8 @@
             "Biotope",
             "Abiotic factor"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The <strong>biocenosis</strong> is all the living things of an ecosystem and their interactions. The biotope is only the non-living part."
         }
       ]
     },
@@ -87,7 +95,8 @@
             "Because producers at the bottom grow faster when there are more chains.",
             "Because it prevents decomposers from transforming organic matter back into minerals."
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "In a food web, most animals eat several kinds of food. If one species disappears, they can <strong>eat something else</strong>, so the whole ecosystem is less affected."
         },
         {
           "question": "An earthworm breaks down fallen dead leaves in a forest soil. What is its ecological role and matter transformation?",
@@ -96,7 +105,8 @@
             "Consumer; transforms mineral matter into organic matter",
             "Producer; transforms organic matter into mineral matter"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The earthworm feeds on dead leaves and breaks them down. <strong>Decomposers</strong> transform dead organic matter back into mineral matter that plants can use again."
         },
         {
           "question": "During the Industrial Revolution, white birch tree trunks became covered in black soot. Darker moths survived better because birds couldn't see them easily. This is an example of:",
@@ -105,7 +115,8 @@
             "Mutualism",
             "Commensalism"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The dark moths were better hidden on the black trunks, so birds ate fewer of them and they had more babies. When the best-adapted organisms survive and reproduce, it is <strong>natural selection</strong>."
         },
         {
           "question": "Two tall trees growing right next to each other are fighting to capture the same limited sunlight. What kind of interaction is this?",
@@ -114,7 +125,8 @@
             "Parasitism (+/-)",
             "Commensalism (+/0)"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Both trees need the same limited resource (sunlight), and each one gets less because of the other. This is <strong>competition</strong>: both lose (-/-)."
         },
         {
           "question": "A remora fish travels attached to a shark to eat leftover food scraps. The shark is completely unaffected and does not notice. What code and name represent this interaction?",
@@ -123,7 +135,8 @@
             "(+/+) Mutualism",
             "(+/-) Predation"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The remora benefits (+) because it eats the food scraps, and the shark is not affected (0). One benefits, the other is unaffected: <strong>commensalism</strong> (+/0)."
         },
         {
           "question": "A tapeworm lives inside a cat's digestive system, absorbing its nutrients and weakening the animal. This relationship is:",
@@ -132,7 +145,8 @@
             "Competition (-/-)",
             "Symbiosis"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The tapeworm benefits (+) because it takes the cat's nutrients, and the cat is harmed (-). One benefits, the other is harmed: <strong>parasitism</strong> (+/-)."
         },
         {
           "question": "When two different species live together in an extreme, very close relationship and absolutely need each other to survive (like lichen or coral), scientists call this:",
@@ -141,7 +155,8 @@
             "Commensalism",
             "Predation"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Symbiosis</strong> is a very close, long-term relationship between two different species that need each other, like the fungus and the alga that form a lichen."
         },
         {
           "question": "If a mysterious virus completely eliminates all decomposers (bacteria, fungi, worms) from Earth, what is the ultimate consequence?",
@@ -150,7 +165,8 @@
             "Animals (consumers) will start transforming mineral matter directly.",
             "Plants (producers) will make more organic matter using only sunlight."
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Decomposers turn dead organic matter back into mineral matter. Without them, dead leaves and bodies would pile up and plants would run out of minerals: <strong>the cycle of matter would stop</strong>."
         }
       ]
     },
@@ -168,7 +184,8 @@
             "4",
             "5"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "In picture 2, the cuckoo lays its egg in the reed warbler's nest, and its chick pushes out the warbler's eggs. The cuckoo benefits and the warbler is harmed: <strong>parasitism</strong> (+/-)."
         },
         {
           "question": "Which of these pictures shows \"Predation\"?",
@@ -179,7 +196,8 @@
             "4",
             "5"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "In picture 1, the owl hunts and eats the mouse. One animal hunting and eating another is <strong>predation</strong>."
         },
         {
           "question": "Which of these pictures shows \"Competition\"?",
@@ -190,7 +208,8 @@
             "4",
             "5"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "In picture 3, the vultures and the jackal fight over the same meal. Fighting for the same food is <strong>competition</strong> (-/-)."
         },
         {
           "question": "Which of these pictures shows \"Cooperation\"?",
@@ -201,7 +220,8 @@
             "3",
             "4"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "In picture 5, the lookout meerkat watches for danger and warns its group. The members of the group help each other: this is <strong>cooperation</strong>."
         },
         {
           "question": "Do you remember, which ecological relationship was shown in picture 4 ?",
@@ -213,7 +233,8 @@
             "Predation",
             "Competition"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "In picture 4, the cattle egret eats the insects that the elephant disturbs while walking. The egret benefits and the elephant is not affected: <strong>commensalism</strong> (+/0)."
         }
       ]
     }

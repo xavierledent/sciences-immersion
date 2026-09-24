@@ -81,6 +81,8 @@
         errors: 'Errors:',
         memorySameSide: 'Match a light card with a dark one.',
         qcmGentleFeedback: 'Good try! Here is the correct answer — now you know it.',
+        qcmExplanationWrong: "Not quite! Here's why:",
+        qcmExplanationRight: "Correct! Here's why:",
         dndZoneLabel: n => `Drop zone ${n}`,
         dndCorrectPlacement: 'Correct!',
         dndIncorrectPlacement: 'Not correct, try again.',
@@ -177,6 +179,8 @@
         errors: 'Fouten:',
         memorySameSide: 'Combineer een lichte kaart met een donkere.',
         qcmGentleFeedback: 'Goed geprobeerd! Hier is het juiste antwoord — nu ken je het.',
+        qcmExplanationWrong: "Net niet! Zo zit het:",
+        qcmExplanationRight: "Juist! Zo zit het:",
         dndZoneLabel: n => `Plaatsingszone ${n}`,
         dndCorrectPlacement: 'Juist!',
         dndIncorrectPlacement: 'Niet juist, probeer opnieuw.',
@@ -2191,8 +2195,20 @@
 
       htmlStr += '</div>';
 
-      if (qcmIsChecked && qcmSelectedOptionIndex !== questionData.correctAnswer) {
-        htmlStr += `<p class="qcm-gentle-feedback">${L.qcmGentleFeedback}</p>`;
+      /* Optional "explanation" key: one box after checking, right or wrong
+         answer alike — its title ("Not quite!" / "Correct!") replaces the
+         gentle-feedback line, keeping its kind tone, so the two are never stacked
+         in a modal where every line counts. Without the key: unchanged. */
+      if (qcmIsChecked) {
+        const isWrong = qcmSelectedOptionIndex !== questionData.correctAnswer;
+        const explanation = typeof questionData.explanation === 'string' ? questionData.explanation.trim() : '';
+        if (explanation) {
+          htmlStr += '<div class="qcm-explanation ' + (isWrong ? 'is-wrong' : 'is-right') + '">' +
+            '<strong class="qcm-explanation-title">' + (isWrong ? L.qcmExplanationWrong : L.qcmExplanationRight) + '</strong> ' +
+            richText(explanation) + '</div>';
+        } else if (isWrong) {
+          htmlStr += `<p class="qcm-gentle-feedback">${L.qcmGentleFeedback}</p>`;
+        }
       }
 
       let actionDisabled = qcmSelectedOptionIndex === null ? 'disabled' : '';

@@ -480,6 +480,12 @@
         font-size: 1.4rem;
       }
 
+      /* L'explication reste un cran sous les réponses, comme en mode normal
+         (0,95rem pour 1rem). */
+      .qcm-modal-card:fullscreen .qcm-explanation {
+        font-size: 1.3rem;
+      }
+
       /* Exercices classiques : l'énoncé, la réponse de l'élève et son écho dans
          la comparaison montent ensemble — la colonne de gauche et celle de droite
          doivent se lire au même calibre, sans quoi la comparaison suggérerait une
@@ -1986,6 +1992,43 @@
       color: var(--color-muted);
       font-style: italic;
     }
+    /* Explication facultative d'une question (clé "explanation") : remplace
+       la ligne .qcm-gentle-feedback quand elle existe. Encadré neutre (même
+       esprit que les conseils de l'auto-évaluation) : les boutons de réponse
+       disent déjà ce qui est juste ou faux, l'explication est une aide, pas
+       une sanction. Seul le liseré porte la couleur du résultat (vert /
+       vieux rose désaturé, pas un rouge qui accentuerait l'échec) ; le titre
+       reste dans la couleur du texte, en gras. */
+    .qcm-explanation {
+      margin: -4px 0 14px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border-left: 4px solid var(--color-slate);
+      background: rgba(var(--color-slate-rgb), 0.07);
+      color: var(--color-text);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+    .qcm-explanation.is-right {
+      --qcm-explanation-accent: #097d61;
+    }
+    .qcm-explanation.is-wrong {
+      --qcm-explanation-accent: #a94f6f;
+    }
+    .qcm-explanation.is-right,
+    .qcm-explanation.is-wrong {
+      border-left-color: var(--qcm-explanation-accent);
+    }
+    .qcm-explanation-title {
+      font-weight: 700;
+    }
+    body.high-contrast .qcm-explanation,
+    body.high-contrast .qcm-explanation .qcm-explanation-title {
+      color: #000000;
+    }
+    body.high-contrast .qcm-explanation {
+      border-left-color: #000000;
+    }
     .qcm-progress-row {
       display: flex;
       align-items: center;
@@ -2239,6 +2282,13 @@
 
     .qcm-modal-card.qcm-has-image .qcm-option {
       padding: 7px 18px;
+    }
+
+    .qcm-modal-card.qcm-has-image .qcm-explanation {
+      margin: 0 0 8px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      line-height: 1.35;
     }
 
     .qcm-modal-card.qcm-has-image .qcm-footer {

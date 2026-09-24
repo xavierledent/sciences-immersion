@@ -13,7 +13,8 @@
             "Bedrock",
             "Groundwater"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The <strong>soil</strong> is the thin, dark top layer of the ground, full of life: roots, insects, worms and organic matter (layer 1 in the picture)."
         },
         {
           "question": "What is the layer beneath the soil called?",
@@ -24,7 +25,8 @@
             "Humus",
             "Aquifer"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Under the soil lies the <strong>subsoil</strong>: rocks and mineral materials, with no living things (layer 2 in the picture)."
         },
         {
           "question": "What does soil contain that subsoil does not?",
@@ -35,7 +37,8 @@
             "Water only",
             "Nothing — they are identical"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The soil is full of life (roots, worms, insects) and <strong>organic matter</strong> such as humus. The subsoil contains only rocks and minerals."
         },
         {
           "question": "Where do humans extract most of their raw materials, like iron, stone, or oil?",
@@ -45,7 +48,8 @@
             "The atmosphere",
             "The ocean surface"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Iron ore, stone and oil are found deep underground, so they are extracted from the <strong>subsoil</strong> in mines, quarries and wells."
         },
         {
           "question": "What is humus made from?",
@@ -55,7 +59,8 @@
             "Melted metal",
             "Plastic waste"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Humus</strong> is the dark organic matter of the soil. It forms when decomposers (like worms and fungi) break down dead leaves and dead animals."
         }
       ]
     },
@@ -72,7 +77,8 @@
             "Fossil fuels",
             "Organic resources"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Granite is a <strong>rock</strong>: a solid material made of several minerals mixed together. You can often see its grains of different colours."
         },
         {
           "question": "Which category does this belong to?",
@@ -83,7 +89,8 @@
             "Fossil fuels",
             "Water"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Gold is a <strong>mineral</strong>: a natural solid substance with one definite chemical composition. A rock, like granite, is a mix of several minerals."
         },
         {
           "question": "Which category does this belong to?",
@@ -94,7 +101,8 @@
             "Minerals",
             "Organic resources"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Coal is a <strong>fossil fuel</strong>: it formed over millions of years from the remains of plants buried underground, and we burn it to get energy."
         },
         {
           "question": "Which category does this belong to?",
@@ -105,7 +113,8 @@
             "Fossil fuels",
             "Rocks"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Cotton comes from a plant, so it is an <strong>organic resource</strong>: a resource that comes from living things."
         },
         {
           "question": "Which of these is a renewable resource?",
@@ -116,7 +125,8 @@
             "Petroleum oil",
             "Natural gas"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Wood is <strong>renewable</strong> because trees can grow back in a few decades. Coal, oil and natural gas take millions of years to form."
         },
         {
           "question": "Why is petroleum classified as a non-renewable resource?",
@@ -127,7 +137,8 @@
             "Because animals use it to build their nests",
             "Because it is only found in the ocean"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Petroleum forms from the remains of tiny organisms over <strong>millions of years</strong>. We use it much faster than nature can make it, so it cannot be replaced."
         }
       ]
     },
@@ -144,7 +155,8 @@
             "Malleability",
             "Thermal conductivity"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The metal in the picture shines when light hits its surface. This shiny look is called <strong>luster</strong>."
         },
         {
           "question": "Which property does this picture show?",
@@ -155,7 +167,8 @@
             "Magnetism",
             "Malleability"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The picture shows an electric current flowing through metal wires. Metals let electricity pass through them: this is <strong>electrical conductivity</strong>."
         },
         {
           "question": "Which property does this picture show?",
@@ -166,7 +179,8 @@
             "Electrical conductivity",
             "Thermal conductivity"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "The magnet attracts the paperclips, which are made of steel (mostly iron). This attraction is <strong>magnetism</strong>."
         },
         {
           "question": "Which property lets a metal be bent or shaped into thin wires without breaking?",
@@ -177,7 +191,8 @@
             "Luster",
             "Thermal conductivity"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Malleable</strong> metals can be bent, hammered or shaped without breaking, for example into thin wires or sheets."
         },
         {
           "question": "Which metal is well known for being attracted to magnets?",
@@ -188,7 +203,8 @@
             "Gold",
             "Aluminum"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Iron</strong> (and steel, which is mostly iron) is attracted to magnets. Copper, gold and aluminum are metals too, but they are not attracted."
         },
         {
           "question": "Where are metals extracted from?",
@@ -199,7 +215,8 @@
             "Ocean water",
             "Tree sap"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Metals are found in <strong>ores</strong>: rocks from the subsoil that contain valuable minerals. The metal is then separated from the rest of the rock."
         }
       ]
     },
@@ -216,7 +233,8 @@
             "Use",
             "Disposal"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "After raw materials are extracted, factories transform them into objects: this is <strong>manufacturing</strong>. Then come distribution, use and disposal."
         },
         {
           "question": "Which step involves transporting finished products to shops?",
@@ -226,7 +244,8 @@
             "Recycling",
             "Raw material extraction"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "<strong>Distribution</strong> is when trucks, ships and trains carry finished products from the factory to the shops."
         },
         {
           "question": "Why are the arrows in the lifecycle diagram double instead of single?",
@@ -237,7 +256,8 @@
             "Because objects can travel backward through time in the cycle.",
             "Because it makes the diagram look more scientific."
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "At every step, we <strong>take</strong> resources from the Earth (materials, energy, water) and <strong>give back</strong> pollution (waste, smoke). The double arrows show this exchange in both directions."
         },
         {
           "question": "What does \"Reduce\" mean in the 3 R's rule?",
@@ -248,7 +268,8 @@
             "Turning old materials into new products",
             "Burying waste safely underground"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "To <strong>reduce</strong> means to use less: less packaging, less energy, less water. The best waste is the one we never create."
         },
         {
           "question": "What does \"Recycle\" mean?",
@@ -259,7 +280,8 @@
             "Reusing an object as it is",
             "Burying waste underground"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "To <strong>recycle</strong> is to turn old materials into new products, for example old plastic bottles into a new fleece jacket."
         }
       ]
     },
@@ -275,7 +297,8 @@
             "A banana peel",
             "A cardboard box"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Ceramic is made from clay, a mineral material, baked in a very hot oven. Decomposers <strong>cannot break it down</strong>, unlike wool, banana peel and cardboard, which come from living things."
         },
         {
           "question": "A steel water bottle feels cold very quickly when you touch it. Which metal property explains this best?",
@@ -286,10 +309,11 @@
             "Magnetism",
             "Luster"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Steel is a good <strong>thermal conductor</strong>: it quickly takes the heat away from your hand. That is why it feels cold, even at room temperature."
         },
         {
-          "question": "Which test could scientists use to check if this \"silver\" coin is real silver, based on what we learned about metals?",
+          "question": "Which test could scientists use to check if this \"silver\" coin is really made of metal, based on what we learned about metals?",
           "image": "assets/QCM5-3.png",
           "options": [
             "Electrical conductivity",
@@ -297,7 +321,8 @@
             "The shape of the coin",
             "How loud it sounds when dropped"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Metals <strong>conduct electricity</strong> very well. If the current passes through the coin, it is made of metal; a fake coin made of painted plastic would not let it pass."
         },
         {
           "question": "Bamboo grows back within a few months after being cut, much faster than oak trees which take decades. How should bamboo be classified?",
@@ -308,7 +333,8 @@
             "A fossil fuel",
             "A mineral resource"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "A renewable resource is replaced naturally in a short time. Bamboo grows back in a few months, so it is <strong>renewable</strong>."
         },
         {
           "question": "A company digs up lithium from underground salt flats to make batteries. Which step of the object lifecycle does this represent?",
@@ -319,7 +345,8 @@
             "Distribution",
             "Recycling"
           ],
-          "correctAnswer": 0
+          "correctAnswer": 0,
+          "explanation": "Lithium is dug out of the ground before any battery is made. Taking materials from nature is the first step: <strong>raw material extraction</strong>."
         }
       ]
     }
