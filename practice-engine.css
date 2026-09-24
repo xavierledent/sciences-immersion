@@ -62,7 +62,8 @@
 
     /* Même ampoule dessinée que sur la page d'auto-évaluation
        (templates/partials/bulb-icon.svg), allumée : verre jaune, filament
-       orange, léger halo — un niveau, c'est ce qu'on atteint, pas du vide.
+       ocre (même teinte que l'ampoule allumée de l'auto-évaluation), léger
+       halo — un niveau, c'est ce qu'on atteint, pas du vide.
        Contour et culot restent en currentColor (blanc) : sur le bouton doré
        de chimie, le jaune du verre se distingue peu du fond, c'est ce
        contour qui dessine l'ampoule. Suit aussi le texte au survol et en
@@ -98,7 +99,7 @@
 
     .level-bulbs .bulb-filament {
       fill: none;
-      stroke: #e8590c;
+      stroke: #a67c00;
       stroke-width: 1;
     }
 

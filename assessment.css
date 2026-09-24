@@ -189,12 +189,14 @@ html[data-pointer='fine'] .autoeval-ex-chip:hover {
   font-size: 1.1rem;
 }
 
-/* Ampoule dessinée en SVG (BULB_SVG dans autoeval-engine.js) : chaque
-   partie (verre, reflet, filament, culot) prend ses couleurs des variables
-   ci-dessous, redéfinies par état. Éteinte = verre clair avec un contour
-   ardoise (c'est le contour qui porte le contraste WCAG 3:1 d'un élément
-   d'interface : slate ~5.4:1 sur --autoeval-bg — l'ancien emoji en
-   opacity(0.35) tombait vers ~1.2:1). Allumée = verre jaune + halo. */
+/* Ampoule dessinée en SVG (templates/partials/bulb-icon.svg, recopiée par
+   autoeval-engine.js) : chaque partie (verre, reflet, filament, culot) prend
+   ses couleurs des variables ci-dessous, redéfinies par état. Éteinte =
+   verre clair avec un contour ardoise (c'est le contour qui porte le
+   contraste WCAG 3:1 d'un élément d'interface : slate ~5.4:1 sur
+   --autoeval-bg — l'ancien emoji en opacity(0.35) tombait vers ~1.2:1).
+   Allumée = verre jaune, contour et filament ocre, halo : tout dans les tons
+   jaunes, pas de couleur de plus. */
 .autoeval-bulb {
   --bulb-glass: #ffffff;
   --bulb-stroke: var(--color-slate);
@@ -256,7 +258,7 @@ html[data-pointer='fine'] .autoeval-ex-chip:hover {
 .autoeval-bulb.is-lit {
   --bulb-glass: #ffd43b;
   --bulb-stroke: #a67c00;
-  --bulb-filament: #e8590c;
+  --bulb-filament: #a67c00;
   --bulb-shine: #fff3bf;
   --bulb-base: #b8c2cc;
   --bulb-base-stroke: #6b7785;
@@ -274,9 +276,10 @@ html[data-pointer='fine'] .autoeval-bulb:hover {
 }
 
 /* Aperçu au survol, seulement sur une ampoule éteinte : le verre se teinte
-   d'un jaune pâle. Une ampoule allumée garde exactement son apparence. */
+   d'un jaune franc, plus clair que l'ampoule allumée et sans halo. Une
+   ampoule allumée garde exactement son apparence. */
 html[data-pointer='fine'] .autoeval-bulb:not(.is-lit):hover {
-  --bulb-glass: #fff3bf;
+  --bulb-glass: #ffe066;
 }
 
 .autoeval-bulb:focus-visible {
