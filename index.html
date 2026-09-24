@@ -414,6 +414,58 @@
         });
       }
 
+      /* « … still in development » sur la carte d'un chapitre encore en
+         construction, détecté automatiquement d'après ses fichiers : rien à
+         mettre à jour à la main quand un chapitre se remplit, la mention
+         disparaît d'elle-même. Elle remplace la phrase d'invitation affichée
+         d'emblée (pas de saut de mise en page pour un chapitre complet).
+         Vocabulaire, ressources et explorations existent déjà partout : seuls
+         Practice et Assessment sont vérifiés, avec un seuil pour qu'un chapitre
+         à peine commencé ne passe pas pour prêt — Practice : au moins
+         MIN_EXERCISES_PER_LEVEL exercices dans CHACUN des 3 niveaux ;
+         Assessment : autoeval.json avec ses 3 catégories (Savoirs,
+         Savoir-faire, Compétence) contenant chacune au moins un attendu.
+         En cas d'échec réseau (valeur undefined, distincte d'un 404 = null),
+         la phrase d'invitation reste plutôt que d'affirmer quelque chose de
+         faux. */
+      const MIN_EXERCISES_PER_LEVEL = 5;
+
+      function fetchChapterJson(url) {
+        return fetch(url + '?v=' + Date.now())
+          .then(response => {
+            if (response.status === 404) return null;
+            if (!response.ok) return undefined;
+            return response.json();
+          })
+          .catch(() => undefined);
+      }
+
+      function showChapterStatus(chapter, statusEl) {
+        const language = selectedLanguage;
+        const base = `${language.code}/${getYearFolder(selectedYear)}/${chapter.folder}/`;
+        Promise.all([fetchChapterJson(base + 'practice.json'), fetchChapterJson(base + 'autoeval.json')])
+          .then(([practice, autoeval]) => {
+            if (practice === undefined || autoeval === undefined) return;
+            const missing = [];
+            const practiceReady = !!practice && ['level1', 'level2', 'level3']
+              .every(level => Array.isArray(practice[level]) && practice[level].length >= MIN_EXERCISES_PER_LEVEL);
+            if (!practiceReady) {
+              missing.push(getSectionLabel(siteData.sections.find(section => section.key === 'practice')));
+            }
+            const categories = autoeval && Array.isArray(autoeval.categories) ? autoeval.categories : [];
+            const assessmentReady = categories.length >= 3 && categories
+              .every(category => Array.isArray(category.items) && category.items.length > 0);
+            if (!assessmentReady) {
+              missing.push(language.code === 'nl' ? 'Zelfevaluatie' : 'Assessment');
+            }
+            if (!missing.length) return;
+            const plural = missing.length > 1;
+            statusEl.textContent = language.code === 'nl'
+              ? `${missing.join(' en ')} ${plural ? 'zijn' : 'is'} nog in ontwikkeling.`
+              : `${missing.join(' and ')} ${plural ? 'are' : 'is'} still in development.`;
+          });
+      }
+
       function renderChapters() {
         chapterList.innerHTML = '';
         if (!selectedLanguage || !selectedYear) {
@@ -440,10 +492,11 @@
           card.innerHTML = `
             <div class="chapter-card-copy">
               <h3>${chapter.title}</h3>
-              <p>${selectedLanguage.code === 'nl' ? 'Kies een sectie in het venster.' : 'Choose a section in the window.'}</p>
+              <p class="chapter-card-status">${selectedLanguage.code === 'nl' ? 'Kies een onderdeel om te beginnen.' : 'Choose a section to get started.'}</p>
             </div>
             <button type="button" class="chapter-go-button">Go</button>
           `;
+          showChapterStatus(chapter, card.querySelector('.chapter-card-status'));
 
           const chapterButton = card.querySelector('.chapter-go-button');
           chapterButton.addEventListener('click', event => {

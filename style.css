@@ -377,6 +377,13 @@ html[data-pointer='fine'] .section-card:hover,
   gap: 12px;
 }
 
+/* Phrase courte sous le titre : alignée à gauche plutôt que justifiée comme
+   les autres paragraphes du site — sur une ligne qui passe à la ligne, la
+   justification écartait les mots d'un grand vide. */
+.chapter-card-status {
+  text-align: left;
+}
+
 .chapter-card h3,
 .choice-card h3,
 .section-card h3 {
