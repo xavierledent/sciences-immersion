@@ -389,6 +389,14 @@ body.high-contrast .autoeval-bulb:focus-visible {
   font-weight: 700;
 }
 
+/* Sur combien d'attendus repose le statut : discret, sous le statut, jamais
+   collé à lui (une fraction à côté du statut se lisait comme une note). */
+.autoeval-scoreboard-coverage {
+  font-size: 0.72rem;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.85);
+}
+
 /* .assessment-card: the "5th option" button, both on assessment.html itself
    (implicitly, via the shared tile look) and on index.html's chapter-picker
    modal (openChapterMenu creates an element with class

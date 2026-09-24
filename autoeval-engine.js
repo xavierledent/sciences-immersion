@@ -162,18 +162,29 @@
 
   // A single rating already produces a status (computeCategoryStatus has no
   // minimum), which would otherwise read as a firm verdict off one data
-  // point. The (x/y) count makes that visible instead of hiding it — "faible
-  // (1/8)" is honest about how little the label is based on so far, where
-  // "faible" alone would not be.
+  // point. How many attendus it rests on is therefore shown too — but on its
+  // own line and in words: a fraction glued to the label ("Acquis (1/8)")
+  // read like a mark, one that contradicted the label itself.
+  function buildCoverageText(ratedCount, total) {
+    if (ratedCount >= total) return 'Tous les attendus évalués';
+    return ratedCount === 1
+      ? `1 attendu évalué sur ${total}`
+      : `${ratedCount} attendus évalués sur ${total}`;
+  }
+
   function buildCategoryScoreboardHtml(categories, statuses) {
     const items = categories.map(category => {
       const status = statuses[category.id];
       const total = category.items.length;
       const ratedCount = category.items.filter(item => readAutoevalRating(item.id) !== null).length;
-      const statusText = status ? `${AUTOEVAL_CATEGORY_STATUS_LABEL[status]} (${ratedCount}/${total})` : '—';
+      const statusText = status ? AUTOEVAL_CATEGORY_STATUS_LABEL[status] : '—';
+      const coverageHtml = status
+        ? `<span class="autoeval-scoreboard-coverage">${buildCoverageText(ratedCount, total)}</span>`
+        : '';
       return `<div class="autoeval-scoreboard-item">` +
         `<span class="autoeval-scoreboard-label">${richText(category.title || '')}</span>` +
         `<span class="autoeval-scoreboard-status">${statusText}</span>` +
+        coverageHtml +
         `</div>`;
     }).join('');
     return `<div class="autoeval-scoreboard">${items}</div>`;
