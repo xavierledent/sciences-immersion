@@ -543,7 +543,7 @@
   "dragAndDrop": [
     {
       "quizTitle": "Ecologische interacties",
-      "backgroundImage": "assets/DnD 2.jpg",
+      "backgroundImage": "assets/DnD 2b.jpg",
       "hideOnSuccess": true,
       "reservoirItems": [
         "Predatie",
@@ -554,23 +554,23 @@
       ],
       "dropZones": [
         {
-          "x_pourcent": 22.28,
-          "y_pourcent": 24.26,
+          "x_pourcent": 23.63,
+          "y_pourcent": 25.14,
           "acceptedText": "Predatie"
         },
         {
-          "x_pourcent": 72.81,
-          "y_pourcent": 25.98,
+          "x_pourcent": 76.07,
+          "y_pourcent": 25.27,
           "acceptedText": "Mutualisme"
         },
         {
-          "x_pourcent": 22.63,
-          "y_pourcent": 75.25,
+          "x_pourcent": 24.71,
+          "y_pourcent": 74.31,
           "acceptedText": "Commensalisme"
         },
         {
-          "x_pourcent": 73.51,
-          "y_pourcent": 74.51,
+          "x_pourcent": 75.2,
+          "y_pourcent": 74.45,
           "acceptedText": "Parasitisme"
         }
       ]

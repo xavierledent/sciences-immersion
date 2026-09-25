@@ -1321,3 +1321,24 @@ body.modal-is-open {
   overflow: hidden;
 }
 
+
+/* Lien vers credits.html en bas de l'accueil : exigé par les licences
+   Creative Commons (citer l'auteur), mais volontairement presque invisible
+   — la page d'accueil reste de la navigation pure. */
+.credits-link {
+  margin: -28px 0 20px;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+.credits-link a {
+  color: var(--color-muted);
+  opacity: 0.6;
+  text-decoration: none;
+}
+
+.credits-link a:hover,
+.credits-link a:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}

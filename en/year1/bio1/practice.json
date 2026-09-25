@@ -203,7 +203,7 @@
     {
       "id": 20,
       "title": "Remora and Shark",
-      "image": "remora.jpg",
+      "image": "remora2.jpg",
       "en": "The remora fish eats the shark's leftover food scraps, and the shark is not affected. Name this type of interaction.",
       "fr": "Le poisson rémora mange les restes de nourriture du requin, et le requin n'est pas affecté. Nomme ce type d'interaction.",
       "corr_en": "Commensalism (+ / 0).",
@@ -333,7 +333,7 @@
     {
       "id": 10,
       "title": "Commensalism vs Mutualism",
-      "image": "remora.jpg",
+      "image": "remora2.jpg",
       "en": "Explain why this interaction is called commensalism and not mutualism.",
       "fr": "Explique pourquoi cette interaction s'appelle du commensalisme et non du mutualisme.",
       "corr_en": "It is commensalism because only the remora benefits (it eats leftover scraps); the shark is neither helped nor harmed (0), whereas mutualism requires both species to benefit.",

@@ -94,7 +94,7 @@
         },
         {
           "question": "Which category does this belong to?",
-          "image": "assets/QCM2-3.png",
+          "image": "assets/QCM2-3.jpg",
           "options": [
             "Fossil fuels",
             "Rocks",
@@ -1131,7 +1131,7 @@
           "id": 2,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP5-2.png"
+            "content": "assets/MTP5-2b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1446,7 +1446,7 @@
           "id": 7,
           "category": "Non-renewable",
           "type": "image",
-          "content": "assets/SC5-7.png"
+          "content": "assets/SC5-7b.jpg"
         },
         {
           "id": 8,
