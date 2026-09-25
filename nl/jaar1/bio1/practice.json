@@ -25,7 +25,7 @@
     {
       "id": 2,
       "title": "Vijverecosysteem — Zoek de factoren",
-      "image": "frog waterlily.jpg",
+      "image": "frog-waterlily-2.jpg",
       "en": "Bekijk de afbeelding. \nNoem twee biotische factoren en twee abiotische factoren die je ziet.",
       "fr": "Observe l'image. \nCite deux facteurs biotiques et deux facteurs abiotiques visibles.",
       "corr_en": "Biotisch: kikkers, waterlelies \nAbiotisch: water, rotsen/zon",
@@ -101,7 +101,7 @@
     {
       "id": 6,
       "title": "Reducenten aan het werk",
-      "image": "Fungus dead log.jpg",
+      "image": "fungus-dead-log-2.jpg",
       "en": "Wat is de ecologische rol van het organisme op de afbeelding?",
       "fr": "Quel est le rôle écologique de l'organisme présent sur l'image ?",
       "corr_en": "Het is een reducent: het breekt dode organische stof af tot minerale stof.",
@@ -119,7 +119,7 @@
     {
       "id": 8,
       "title": "De berkenspanner — Observatie",
-      "image": "biston betularia.jpg",
+      "image": "biston-betularia-2.jpg",
       "en": "Beschrijf wat je op de afbeelding ziet (kleur van de vlinders en de schors).",
       "fr": "Décris ce que tu observes sur l'image (couleur des papillons et de l'écorce).",
       "corr_en": "Er zijn twee kleurvormen van dezelfde vlindersoort: een lichte en een donkere, rustend op boomschors.",
@@ -137,7 +137,7 @@
     {
       "id": 10,
       "title": "Bij en bloem — Interactie",
-      "image": "bee flower.jpg",
+      "image": "bee-flower-2.jpg",
       "en": "Welk type interactie is te zien op de afbeelding: predatie, mutualisme of competitie?",
       "fr": "Quel type d'interaction est représenté sur l'image : prédation, mutualisme ou compétition ?",
       "corr_en": "Mutualisme: de bij krijgt nectar en de bloem wordt bestoven.",
@@ -155,7 +155,7 @@
     {
       "id": 12,
       "title": "Korstmos — Een bijzondere samenwerking",
-      "image": "lichen.jpg",
+      "image": "lichen-2.jpg",
       "en": "Hoe noem je de extreme relatie waarbij twee soorten elkaar absoluut nodig hebben om te overleven, zoals het korstmos op de afbeelding?",
       "fr": "Comment appelle-t-on la relation extrême où deux espèces ont absolument besoin l'une de l'autre pour survivre, comme le lichen sur l'image ?",
       "corr_en": "Symbiose.",
@@ -173,7 +173,7 @@
     {
       "id": 14,
       "title": "Biodiversiteit op een golfterrein",
-      "image": "golf course.jpg",
+      "image": "golf-course-2.jpg",
       "en": "Verwacht je, gezien de afbeelding, dat deze omgeving een hoge of lage biodiversiteit heeft? Geef één reden.",
       "fr": "En observant l'image, penses-tu que cet environnement a une biodiversité élevée ou faible ? Donne une raison.",
       "corr_en": "Lage biodiversiteit: het bestaat vooral uit één soort gras, met heel weinig andere planten- of diersoorten.",
@@ -191,7 +191,7 @@
     {
       "id": 16,
       "title": "Leeuw en zebra",
-      "image": "lion zebra.jpg",
+      "image": "lion-zebra-2.jpg",
       "en": "Noem het type interactie dat te zien is, en zeg welk dier de predator is.",
       "fr": "Nomme le type d'interaction représenté, et précise quel animal est le prédateur.",
       "corr_en": "Predatie; de leeuw is de predator.",
@@ -327,7 +327,7 @@
     {
       "id": 6,
       "title": "Weide versus golfterrein",
-      "image": "meadow golf.jpg",
+      "image": "meadow-golf-2.jpg",
       "en": "Vergelijk de twee afbeeldingen. Welke plaats heeft waarschijnlijk een hogere biodiversiteit, en waarom?",
       "fr": "Compare les deux images. Quel endroit possède probablement une biodiversité plus élevée, et pourquoi ?",
       "corr_en": "De bloemenweide: ze bevat veel verschillende plantensoorten, die diverse insecten aantrekken, in tegenstelling tot het golfterrein dat vooral uit één soort gras bestaat.",
@@ -345,7 +345,7 @@
     {
       "id": 8,
       "title": "De interactie coderen",
-      "image": "lion zebra.jpg",
+      "image": "lion-zebra-2.jpg",
       "en": "Identificeer de interactie en leg, met de woordenschat van de les, uit waarom ze gecodeerd wordt als (+ / -).",
       "fr": "Identifie l'interaction et explique, avec le vocabulaire du cours, pourquoi elle est codée (+ / -).",
       "corr_en": "Predatie: de leeuw (predator) heeft er voordeel bij door voedsel te krijgen (+), terwijl de zebra (prooi) gedood wordt, en dus nadeel ondervindt (-).",
@@ -381,7 +381,7 @@
     {
       "id": 12,
       "title": "Clownvis en zeeanemoon",
-      "image": "clownfish.jpg",
+      "image": "clownfish-2.jpg",
       "en": "Leg uit wat elk organisme uit deze relatie haalt.",
       "fr": "Explique ce que chaque organisme gagne dans cette relation.",
       "corr_en": "De clownvis krijgt bescherming tegen predatoren tussen de tentakels van de anemoon; de anemoon wordt schoongemaakt en profiteert ook van voedselresten en een betere waterstroming dankzij de vis.",
@@ -417,7 +417,7 @@
     {
       "id": 16,
       "title": "Leven in zon en schaduw voorspellen",
-      "image": "shade suny.jpg",
+      "image": "shade-sunny-2.jpg",
       "en": "Voorspel, op basis van de afbeeldingen, in welke zone je meer vliegende insecten en wilde bloemen zou vinden, en leg uit waarom.",
       "fr": "Prédis, à partir des images, dans quelle zone tu trouverais davantage d'insectes volants et de fleurs sauvages, et explique pourquoi.",
       "corr_en": "In de zonnige open plek: bloeiende planten hebben meer licht nodig om te groeien en te bloeien, wat vervolgens bestuivende insecten zoals bijen en vlinders aantrekt.",
@@ -435,7 +435,7 @@
     {
       "id": 18,
       "title": "Korstmos",
-      "image": "lichen.jpg",
+      "image": "lichen-2.jpg",
       "en": "Een korstmos bestaat eigenlijk uit een schimmel en een alg die samenleven. Leg uit waarom we dit symbiose noemen en geen gewoon mutualisme.",
       "fr": "Un lichen est en réalité composé d'un champignon et d'une algue vivant ensemble. Explique pourquoi on parle de symbiose plutôt que de simple mutualisme.",
       "corr_en": "Omdat de schimmel en de alg in die omgeving absoluut niet apart kunnen overleven: de alg produceert voedsel via fotosynthese en de schimmel biedt bescherming en water, wat de relatie verplicht maakt.",
@@ -453,7 +453,7 @@
     {
       "id": 20,
       "title": "Camouflage vóór de Industriële Revolutie",
-      "image": "moth.jpg",
+      "image": "moth-2.jpg",
       "en": "Vóór de Industriële Revolutie was boomschors licht van kleur. Leg, aan de hand van de afbeelding, uit welke vlinderkleur het best gecamoufleerd was, en waarom.",
       "fr": "Avant la Révolution industrielle, l'écorce des arbres était claire. À l'aide de l'image, explique quelle couleur de papillon était la mieux camouflée, et pourquoi.",
       "corr_en": "De lichtgekleurde vlinder, omdat hij opging in de lichte schors en moeilijker te zien en te eten was voor vogels.",
@@ -519,7 +519,7 @@
     {
       "id": 6,
       "title": "De berkenspanner — Voor en na",
-      "image": "biston betularia.jpg",
+      "image": "biston-betularia-2.jpg",
       "questions": [
         {
           "en": "Welke vlinderkleur werd tijdens de Industriële Revolutie bevoordeeld door natuurlijke selectie, en waarom?",
@@ -547,7 +547,7 @@
     {
       "id": 8,
       "title": "Terreingegevens analyseren — Zone A versus B",
-      "image": "field_data_sheet level 3.png",
+      "image": "field-data-sheet-level3.png",
       "en": "Welke ene fysieke factor beperkt de biodiversiteit in Zone A waarschijnlijk het meest? Stel een hypothese voor en beschrijf hoe je ze op het terrein zou testen.",
       "fr": "Quel facteur physique unique limite le plus probablement la biodiversité en Zone A ? Propose une hypothèse et décris comment tu la testerais sur le terrain.",
       "corr_en": "Waarschijnlijk de vochtigheid (of een hoge temperatuur die droogte veroorzaakt). Hypothese: lage vochtigheid beperkt het aantal soorten dat in Zone A kan overleven. Test: meet de vochtigheid en het aantal soorten op verschillende zonnige en schaduwrijke plekken, houd de andere factoren zo constant mogelijk, en vergelijk de resultaten.",
@@ -565,7 +565,7 @@
     {
       "id": 10,
       "title": "Verborgen biodiversiteit",
-      "image": "meadow golf.jpg",
+      "image": "meadow-golf-2.jpg",
       "en": "Het golfterrein oogt \"groen en levendig\", toch zeggen wetenschappers dat het waarschijnlijk een lagere biodiversiteit heeft dan de weide. Leg uit waarom zichtbaar groen misleidend kan zijn, en vermeld een niveau van biodiversiteit dat vaak onzichtbaar is.",
       "fr": "Le golf paraît \"vert et vivant\", pourtant les scientifiques disent qu'il a probablement une biodiversité plus faible que la prairie. Explique pourquoi la verdure visible peut être trompeuse, et cite un niveau de biodiversité souvent invisible.",
       "corr_en": "Een golfterrein bestaat vooral uit één grassoort; ondanks het groene uitzicht is de soortendiversiteit dus erg laag. Biodiversiteit bestaat ook op het niveau van de bodem (micro-organismen, schimmels, insecten), die op het eerste gezicht onzichtbaar is, maar meestal veel rijker onder een natuurlijke weide dan onder intensief onderhouden gras.",
@@ -601,7 +601,7 @@
     {
       "id": 14,
       "title": "Na ontbossing",
-      "image": "deforastation.jpg",
+      "image": "deforestation-2.jpg",
       "en": "Voorspel de langetermijngevolgen voor de lokale biocenose en biotoop als het ontboste gebied op de afbeelding nooit meer aangroeit.",
       "fr": "Prédis les conséquences à long terme pour la biocénose et le biotope locaux si la zone déforestée montrée sur l'image ne repousse jamais.",
       "corr_en": "Zonder bomen verandert de biotoop drastisch: minder schaduw, hogere temperatuur, drogere bodem, meer erosie. Deze nieuwe biotoop kan de oorspronkelijke biocenose niet langer ondersteunen (bossoorten verliezen hun habitat en voedselbronnen), wat leidt tot een verlies aan biodiversiteit en een volledig ander, armer ecosysteem.",
@@ -637,7 +637,7 @@
     {
       "id": 18,
       "title": "Clownvis en zeeanemoon",
-      "image": "clownfish.jpg",
+      "image": "clownfish-2.jpg",
       "en": "Leg uit wat er met beide organismen zou gebeuren als ze gedwongen gescheiden zouden worden, en gebruik dit om te verantwoorden waarom sommige wetenschappers deze relatie dicht bij symbiose vinden aanleunen.",
       "fr": "Explique ce qui arriverait aux deux organismes s'ils étaient séparés de force, et utilise cela pour justifier pourquoi certains scientifiques considèrent cette relation proche de la symbiose.",
       "corr_en": "Zonder de anemoon zou de clownvis zijn belangrijkste bescherming tegen predatoren verliezen en kwetsbaarder worden; zonder de vis zou de anemoon de voordelen van reiniging, voedselresten en waterstroming verliezen, en meer blootgesteld kunnen worden aan bepaalde predatoren. Omdat beide een reëel nadeel ondervinden wanneer ze gescheiden worden, overstijgt de relatie eenvoudig mutualisme en benadert ze een verplichte symbiose, vooral voor de vis.",
@@ -655,7 +655,7 @@
     {
       "id": 20,
       "title": "Waarom predatie de prooisoort ten goede komt",
-      "image": "lion zebra.jpg",
+      "image": "lion-zebra-2.jpg",
       "en": "Leg uit waarom predatie, ook al doodt ze individuen, over het algemeen als gunstig wordt beschouwd voor de prooisoort als geheel op lange termijn.",
       "fr": "Explique pourquoi la prédation, même si elle tue des individus, est généralement considérée comme bénéfique pour l'espèce proie dans son ensemble sur le long terme.",
       "corr_en": "Predatoren vangen doorgaans de zwakste, ziekste of traagste individuen; dit werkt als natuurlijke selectie, waarbij minder aangepaste individuen verdwijnen en de sterkste zich voortplanten, wat de algemene gezondheid en aanpassing van de prooipopulatie verbetert, en ook voorkomt dat de prooipopulatie te groot wordt en haar eigen voedselbronnen uitput.",

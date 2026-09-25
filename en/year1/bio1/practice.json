@@ -25,7 +25,7 @@
     {
       "id": 2,
       "title": "Pond Ecosystem — Spot the Factors",
-      "image": "frog waterlily.jpg",
+      "image": "frog-waterlily-2.jpg",
       "en": "Look at the picture. \nName two biotic factors and two abiotic factors you can see.",
       "fr": "Observe l'image. \nCite deux facteurs biotiques et deux facteurs abiotiques visibles.",
       "corr_en": "Biotic: frogs, water lilies \nAbiotic: water, rocks/sun",
@@ -101,7 +101,7 @@
     {
       "id": 6,
       "title": "Decomposers at work",
-      "image": "Fungus dead log.jpg",
+      "image": "fungus-dead-log-2.jpg",
       "en": "What is the ecological role of the organism shown in the picture?",
       "fr": "Quel est le rôle écologique de l'organisme présent sur l'image ?",
       "corr_en": "It is a decomposer: it breaks down dead organic matter into mineral matter.",
@@ -119,7 +119,7 @@
     {
       "id": 8,
       "title": "The Peppered Moth — Observation",
-      "image": "biston betularia.jpg",
+      "image": "biston-betularia-2.jpg",
       "en": "Describe what you observe in the picture (color of the moths and the bark).",
       "fr": "Décris ce que tu observes sur l'image (couleur des papillons et de l'écorce).",
       "corr_en": "There are two colour forms of the same moth species: a light one and a dark one, resting on tree bark.",
@@ -137,7 +137,7 @@
     {
       "id": 10,
       "title": "Bee and Flower — Interaction",
-      "image": "bee flower.jpg",
+      "image": "bee-flower-2.jpg",
       "en": "Which type of interaction is shown in the picture: predation, mutualism, or competition?",
       "fr": "Quel type d'interaction est représenté sur l'image : prédation, mutualisme ou compétition ?",
       "corr_en": "Mutualism: the bee gets nectar and the flower gets pollinated.",
@@ -155,7 +155,7 @@
     {
       "id": 12,
       "title": "Lichen — A Special Partnership",
-      "image": "lichen.jpg",
+      "image": "lichen-2.jpg",
       "en": "What is the name of the extreme relationship where two species absolutely need each other to survive, like the lichen in the picture?",
       "fr": "Comment appelle-t-on la relation extrême où deux espèces ont absolument besoin l'une de l'autre pour survivre, comme le lichen sur l'image ?",
       "corr_en": "Symbiosis.",
@@ -173,7 +173,7 @@
     {
       "id": 14,
       "title": "Golf Course Biodiversity",
-      "image": "golf course.jpg",
+      "image": "golf-course-2.jpg",
       "en": "Looking at the picture, would you expect this environment to have high or low biodiversity? Give one reason.",
       "fr": "En observant l'image, penses-tu que cet environnement a une biodiversité élevée ou faible ? Donne une raison.",
       "corr_en": "Low biodiversity: it is mostly a single type of grass, with very few other plant or animal species.",
@@ -191,7 +191,7 @@
     {
       "id": 16,
       "title": "Lion and Zebra",
-      "image": "lion zebra.jpg",
+      "image": "lion-zebra-2.jpg",
       "en": "Name the type of interaction shown, and say which animal is the predator.",
       "fr": "Nomme le type d'interaction représenté, et précise quel animal est le prédateur.",
       "corr_en": "Predation; the lion is the predator.",
@@ -327,7 +327,7 @@
     {
       "id": 6,
       "title": "Meadow vs Golf Course",
-      "image": "meadow golf.jpg",
+      "image": "meadow-golf-2.jpg",
       "en": "Compare the two pictures. Which place likely has higher biodiversity, and why?",
       "fr": "Compare les deux images. Quel endroit possède probablement une biodiversité plus élevée, et pourquoi ?",
       "corr_en": "The wildflower meadow: it contains many different plant species, which attract a variety of insects, unlike the golf course which is mostly a single type of grass.",
@@ -345,7 +345,7 @@
     {
       "id": 8,
       "title": "Coding the Interaction",
-      "image": "lion zebra.jpg",
+      "image": "lion-zebra-2.jpg",
       "en": "Identify the interaction and explain, using the vocabulary from the course, why it is coded (+ / -).",
       "fr": "Identifie l'interaction et explique, avec le vocabulaire du cours, pourquoi elle est codée (+ / -).",
       "corr_en": "Predation: the lion (predator) benefits by getting food (+), while the zebra (prey) is killed, so it is harmed (-).",
@@ -381,7 +381,7 @@
     {
       "id": 12,
       "title": "Clownfish and Anemone",
-      "image": "clownfish.jpg",
+      "image": "clownfish-2.jpg",
       "en": "Explain what each organism gains from this relationship.",
       "fr": "Explique ce que chaque organisme gagne dans cette relation.",
       "corr_en": "The clownfish gets protection from predators among the anemone's tentacles; the anemone gets cleaned and can also benefit from food scraps and improved water circulation brought by the fish.",
@@ -417,7 +417,7 @@
     {
       "id": 16,
       "title": "Predicting Life in Sun and Shade",
-      "image": "shade suny.jpg",
+      "image": "shade-sunny-2.jpg",
       "en": "Predict, based on the pictures, in which zone you would find more flying insects and wildflowers, and explain why.",
       "fr": "Prédis, à partir des images, dans quelle zone tu trouverais davantage d'insectes volants et de fleurs sauvages, et explique pourquoi.",
       "corr_en": "In the sunny clearing: flowering plants need more light to grow and produce flowers, which then attract pollinating insects like bees and butterflies.",
@@ -435,7 +435,7 @@
     {
       "id": 18,
       "title": "Lichen",
-      "image": "lichen.jpg",
+      "image": "lichen-2.jpg",
       "en": "A lichen is actually made of a fungus and an alga living together. Explain why we call this symbiosis rather than simple mutualism.",
       "fr": "Un lichen est en réalité composé d'un champignon et d'une algue vivant ensemble. Explique pourquoi on parle de symbiose plutôt que de simple mutualisme.",
       "corr_en": "Because the fungus and the alga absolutely cannot survive separately in that environment: the alga produces food through photosynthesis and the fungus provides protection and water, making the relationship obligatory.",
@@ -453,7 +453,7 @@
     {
       "id": 20,
       "title": "Camouflage Before the Industrial Revolution",
-      "image": "moth.jpg",
+      "image": "moth-2.jpg",
       "en": "Before the Industrial Revolution, tree bark was pale. Using the picture, explain which moth colour was best camouflaged, and why.",
       "fr": "Avant la Révolution industrielle, l'écorce des arbres était claire. À l'aide de l'image, explique quelle couleur de papillon était la mieux camouflée, et pourquoi.",
       "corr_en": "The light-coloured moth, because it blended in with the pale bark and was harder for birds to spot and eat.",
@@ -519,7 +519,7 @@
     {
       "id": 6,
       "title": "The Peppered Moth — Before and After",
-      "image": "biston betularia.jpg",
+      "image": "biston-betularia-2.jpg",
       "questions": [
         {
           "en": "During the Industrial Revolution, which moth colour was favoured by natural selection, and why?",
@@ -547,7 +547,7 @@
     {
       "id": 8,
       "title": "Analysing Field Data — Zone A vs B",
-      "image": "field_data_sheet level 3.png",
+      "image": "field-data-sheet-level3.png",
       "en": "Which single physical factor most likely limits biodiversity the most in Zone A? Propose a hypothesis and describe how you would test it in the field.",
       "fr": "Quel facteur physique unique limite le plus probablement la biodiversité en Zone A ? Propose une hypothèse et décris comment tu la testerais sur le terrain.",
       "corr_en": "Likely humidity (or high temperature causing dryness). Hypothesis: low humidity limits the number of species that can survive in Zone A. Test: measure humidity and species count in several sunny and shaded spots, keeping other factors as constant as possible, and compare the results.",
@@ -565,7 +565,7 @@
     {
       "id": 10,
       "title": "Hidden Biodiversity",
-      "image": "meadow golf.jpg",
+      "image": "meadow-golf-2.jpg",
       "en": "The golf course looks \"green and alive\", yet scientists say it likely has lower biodiversity than the meadow. Explain why visible greenery can be misleading, and mention a level of biodiversity that is often invisible.",
       "fr": "Le golf paraît \"vert et vivant\", pourtant les scientifiques disent qu'il a probablement une biodiversité plus faible que la prairie. Explique pourquoi la verdure visible peut être trompeuse, et cite un niveau de biodiversité souvent invisible.",
       "corr_en": "A golf course is mostly a single grass species, so despite looking green it has very low species diversity; biodiversity also exists at the level of the soil (microorganisms, fungi, insects), which is invisible at first glance but is usually much richer under a natural meadow than under intensively maintained grass.",
@@ -601,7 +601,7 @@
     {
       "id": 14,
       "title": "After Deforestation",
-      "image": "deforastation.jpg",
+      "image": "deforestation-2.jpg",
       "en": "Predict the long-term consequences for the local biocenosis and biotope if the deforested area shown never regrows.",
       "fr": "Prédis les conséquences à long terme pour la biocénose et le biotope locaux si la zone déforestée montrée sur l'image ne repousse jamais.",
       "corr_en": "Without trees, the biotope changes drastically: less shade, higher temperature, drier soil, more erosion. This new biotope can no longer support the original biocenosis (forest species lose their habitat and food sources), leading to a loss of biodiversity and a completely different, poorer ecosystem.",
@@ -637,7 +637,7 @@
     {
       "id": 18,
       "title": "Clownfish and Anemone",
-      "image": "clownfish.jpg",
+      "image": "clownfish-2.jpg",
       "en": "Explain what would happen to both organisms if they were forcibly separated, and use this to justify why some scientists consider this relationship close to symbiosis.",
       "fr": "Explique ce qui arriverait aux deux organismes s'ils étaient séparés de force, et utilise cela pour justifier pourquoi certains scientifiques considèrent cette relation proche de la symbiose.",
       "corr_en": "Without the anemone, the clownfish would lose its main protection from predators and would be more vulnerable; without the fish, the anemone would lose the cleaning, food scraps, and water circulation benefits, and could become more exposed to certain predators. Since both suffer a real disadvantage when separated, the relationship goes beyond simple mutualism and approaches obligatory symbiosis for the fish especially.",
@@ -655,7 +655,7 @@
     {
       "id": 20,
       "title": "Why Predation Benefits the Prey Species",
-      "image": "lion zebra.jpg",
+      "image": "lion-zebra-2.jpg",
       "en": "Explain why predation, even though it kills individuals, is generally considered beneficial for the prey species as a whole over time.",
       "fr": "Explique pourquoi la prédation, même si elle tue des individus, est généralement considérée comme bénéfique pour l'espèce proie dans son ensemble sur le long terme.",
       "corr_en": "Predators tend to catch the weakest, sickest, or slowest individuals; this acts as natural selection, removing less-adapted individuals and leaving the strongest to reproduce, which improves the overall health and adaptation of the prey population, and also prevents the prey population from growing too large and depleting its own food resources.",
