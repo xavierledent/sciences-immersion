@@ -30,6 +30,7 @@
         enterNumberBetween: n => `Enter a number between 1 and ${n}`,
         prevExerciseAria: 'Previous exercise',
         nextExerciseAria: 'Next exercise',
+        exercisePositionAria: (n, total) => `Exercise ${n} of ${total}`,
         level1: 'Level 1',
         level2: 'Level 2',
         level3: 'Level 3',
@@ -128,6 +129,7 @@
         enterNumberBetween: n => `Voer een getal in tussen 1 en ${n}`,
         prevExerciseAria: 'Vorige oefening',
         nextExerciseAria: 'Volgende oefening',
+        exercisePositionAria: (n, total) => `Oefening ${n} van ${total}`,
         level1: 'Level 1',
         level2: 'Level 2',
         level3: 'Level 3',
@@ -649,16 +651,43 @@
       return [1, '...', ...middleRange, '...', total];
     }
 
+    /* Pagination compacte quand la place manque (zoom à 200 % sur un écran de
+       Chromebook, fenêtre étroite) : la barre complète passait alors sur 2 ou 3
+       lignes, l'en-tête grandissait et poussait la question hors de l'écran.
+       Trois formes, de la plus riche à la plus sobre, et on garde la première
+       qui tient sur UNE ligne — mesurée sur le DOM réel plutôt que devinée
+       d'après une largeur d'écran fixe (même principe que
+       syncExerciseImageHeight) :
+         'full'    ◀ 1 … 4 5 6 [7] 8 9 10 … 20 ▶   Go to: [  ] [Go]
+         'compact' ◀ 7 / 20 ▶   Go to: [  ] [Go]
+         'minimal' ◀ 7 / 20 ▶   [  ] [Go]   (« Go to: » reste lu par les
+                                              lecteurs d'écran)
+       Tout se passe dans la même tâche, avant que le navigateur ne peigne :
+       aucune forme intermédiaire n'apparaît à l'écran. */
+    const EXERCISE_PAGER_MODES = ['full', 'compact', 'minimal'];
+
     function renderExerciseSteps() {
       if (revisionActive && currentLevel === revisionLevel) {
         renderRevisionBar();
         return;
       }
 
-      exercisesPagination.innerHTML = '';
       const exerciseList = practiceData[currentLevel] || [];
+      if (exerciseList.length === 0) {
+        exercisesPagination.innerHTML = '';
+        return;
+      }
+
+      for (const mode of EXERCISE_PAGER_MODES) {
+        buildExercisePager(exerciseList, mode);
+        if (!exercisePagerWraps()) break;
+      }
+    }
+
+    function buildExercisePager(exerciseList, mode) {
+      exercisesPagination.innerHTML = '';
+      exercisesPagination.classList.toggle('is-compact', mode !== 'full');
       const numExercises = exerciseList.length;
-      if (numExercises === 0) return;
 
       const pager = document.createElement('div');
       pager.className = 'exercise-pager';
@@ -672,31 +701,42 @@
       prevBtn.disabled = currentExercise <= 1;
       pager.appendChild(prevBtn);
 
-      const numbersWrap = document.createElement('div');
-      numbersWrap.className = 'exercise-pager-numbers';
-      getPaginationRange(currentExercise, numExercises, 3).forEach(item => {
-        if (item === '...') {
-          const dots = document.createElement('span');
-          dots.className = 'exercise-pager-ellipsis';
-          dots.textContent = '...';
-          numbersWrap.appendChild(dots);
-        } else {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'exercise-step';
-          btn.dataset.step = String(item);
-          btn.textContent = String(item);
-          if (item === currentExercise) btn.classList.add('active');
-          // Purely a "you already wrote something here" reminder — deliberately
-          // not a score or difficulty signal.
-          if (answerFeatureOn && hasAnyStoredAnswer(currentLevel, exerciseList.find(ex => ex.id === item))) {
-            btn.classList.add('has-answer');
-            applySelfAssessClass(btn, worstSelfAssess(currentLevel, exerciseList.find(ex => ex.id === item)));
+      if (mode === 'full') {
+        const numbersWrap = document.createElement('div');
+        numbersWrap.className = 'exercise-pager-numbers';
+        getPaginationRange(currentExercise, numExercises, 3).forEach(item => {
+          if (item === '...') {
+            const dots = document.createElement('span');
+            dots.className = 'exercise-pager-ellipsis';
+            dots.textContent = '...';
+            numbersWrap.appendChild(dots);
+          } else {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'exercise-step';
+            btn.dataset.step = String(item);
+            btn.textContent = String(item);
+            if (item === currentExercise) btn.classList.add('active');
+            // Purely a "you already wrote something here" reminder — deliberately
+            // not a score or difficulty signal.
+            if (answerFeatureOn && hasAnyStoredAnswer(currentLevel, exerciseList.find(ex => ex.id === item))) {
+              btn.classList.add('has-answer');
+              applySelfAssessClass(btn, worstSelfAssess(currentLevel, exerciseList.find(ex => ex.id === item)));
+            }
+            numbersWrap.appendChild(btn);
           }
-          numbersWrap.appendChild(btn);
-        }
-      });
-      pager.appendChild(numbersWrap);
+        });
+        pager.appendChild(numbersWrap);
+      } else {
+        // Simple repère de position, pas un bouton : les flèches et « Go to »
+        // gardent la navigation.
+        const position = document.createElement('span');
+        position.className = 'exercise-pager-position';
+        position.innerHTML =
+          `<span aria-hidden="true">${currentExercise} / ${numExercises}</span>` +
+          `<span class="visually-hidden">${L.exercisePositionAria(currentExercise, numExercises)}</span>`;
+        pager.appendChild(position);
+      }
 
       const nextBtn = document.createElement('button');
       nextBtn.type = 'button';
@@ -712,10 +752,44 @@
       const goTo = document.createElement('div');
       goTo.className = 'exercise-pager-goto';
       goTo.innerHTML =
-        `<label for="exercise-goto-input">${L.goTo}</label>` +
+        `<label for="exercise-goto-input"${mode === 'minimal' ? ' class="visually-hidden"' : ''}>${L.goTo}</label>` +
         `<input type="number" id="exercise-goto-input" min="1" max="${numExercises}" placeholder="${currentExercise}" />` +
         `<button type="button" class="exercise-pager-goto-btn">${L.go}</button>`;
       exercisesPagination.appendChild(goTo);
+    }
+
+    // Vrai si les éléments visibles de la barre ne sont pas tous sur la même
+    // ligne : on compare leurs centres verticaux (deux lignes sont séparées
+    // d'au moins ~36 px ; les petites différences de hauteur entre boutons de
+    // 40 px et champ de 36 px restent sous la tolérance). Barre invisible :
+    // rien à mesurer, on garde la forme complète — elle sera remesurée au
+    // prochain rendu ou redimensionnement.
+    function exercisePagerWraps() {
+      const items = exercisesPagination.querySelectorAll(
+        '.exercise-pager-arrow, .exercise-step, .exercise-pager-ellipsis, .exercise-pager-position, ' +
+        '.exercise-pager-goto > label:not(.visually-hidden), .exercise-pager-goto > input, .exercise-pager-goto-btn'
+      );
+      let minCenter = Infinity;
+      let maxCenter = -Infinity;
+      items.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (!rect.height) return;
+        const center = rect.top + rect.height / 2;
+        minCenter = Math.min(minCenter, center);
+        maxCenter = Math.max(maxCenter, center);
+      });
+      return maxCenter - minCenter > 8;
+    }
+
+    // Zoom, rotation, plein écran : la place disponible change, la forme de la
+    // barre est recalculée. Jamais pendant une saisie dans « Go to » : sur
+    // Chromebook en mode tablette, le clavier virtuel déclenche un resize, et
+    // reconstruire la barre ferait perdre le champ et le chiffre tapé.
+    function refitExercisePagination() {
+      if (!modalOverlay.classList.contains('modal-open')) return;
+      if (revisionActive && currentLevel === revisionLevel) return;
+      if (exercisesPagination.contains(document.activeElement)) return;
+      renderExerciseSteps();
     }
 
     // Next non-green exercise in revisionLevel, scanning forward from the
@@ -1786,6 +1860,9 @@
 
       // Le plateau du glisser-déposer se remesure au redimensionnement, sinon
       // les zones garderaient la taille calculée à l'ouverture.
+      // En premier : la hauteur de l'en-tête (pagination) conditionne la place
+      // que syncExerciseImageHeight laisse ensuite à l'image.
+      window.addEventListener('resize', refitExercisePagination);
       window.addEventListener('resize', dndSyncBoardMetrics);
       window.addEventListener('resize', syncExerciseImageHeight);
       window.addEventListener('resize', memorySyncCardSize);

@@ -715,6 +715,19 @@
       padding: 0 2px;
     }
 
+    /* Forme compacte de la pagination (voir renderExerciseSteps) : « 7 / 20 »
+       entre les flèches. Chiffres à chasse fixe pour que la barre ne bouge
+       pas d'un exercice à l'autre. */
+    .exercise-pager-position {
+      min-width: 64px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--color-text);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
     .exercise-pager-arrow {
       width: 40px;
       height: 40px;
@@ -880,6 +893,10 @@
       }
       .exercise-pager-goto {
         width: 100%;
+      }
+      /* Forme compacte : tout doit tenir sur une ligne, « Go to » compris. */
+      #exercises-pagination.is-compact .exercise-pager-goto {
+        width: auto;
       }
     }
 
