@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <script src="storage.js"></script>
   <script src="access-control.js"></script>
   <script src="tracking.js"></script>
   <script src="welcome-back.js"></script>
@@ -229,24 +230,18 @@
          qu'à la rentrée suivante.
          Les deux rangées restent affichées et cliquables : le choix mémorisé est
          un point de départ, jamais un enfermement. */
+      // Navigation privée ou stockage plein : storage.js l'absorbe, le site
+      // marche simplement sans mémoire.
       function rememberSelection(key, value) {
-        try {
-          if (value) {
-            localStorage.setItem(key, value);
-          } else {
-            localStorage.removeItem(key);
-          }
-        } catch (e) {
-          // Navigation privée ou stockage plein : le site marche sans mémoire.
+        if (value) {
+          SiteStorage.device.set(key, value);
+        } else {
+          SiteStorage.device.remove(key);
         }
       }
 
       function recallSelection(key) {
-        try {
-          return localStorage.getItem(key);
-        } catch (e) {
-          return null;
-        }
+        return SiteStorage.device.get(key);
       }
 
       function saveSelections() {

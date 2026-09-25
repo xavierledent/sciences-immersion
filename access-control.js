@@ -130,12 +130,12 @@
       authVersion: AUTH_VERSION,
       expires: computeExpiration()
     };
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) { /* stockage indisponible : rien à faire, l'écran d'accès réapparaîtra à chaque visite */ }
+    // Stockage indisponible : storage.js l'absorbe, l'écran d'accès réapparaîtra simplement à chaque visite.
+    SiteStorage.device.set(STORAGE_KEY, JSON.stringify(data));
   }
 
   function readStoredAccess() {
-    let raw;
-    try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+    const raw = SiteStorage.device.get(STORAGE_KEY);
     if (!raw) return null;
     let data;
     try { data = JSON.parse(raw); } catch (e) { return null; }
@@ -358,10 +358,9 @@
     // Pré-coche English immersion / Year 1 sur l'accueil, comme si l'élève
     // venait de les choisir lui-même — mêmes clés que celles qu'index.html
     // utilise déjà pour se souvenir d'un choix d'une visite à l'autre.
-    try {
-      localStorage.setItem('selectedLanguage', 'en');
-      localStorage.setItem('selectedYear', 'year1');
-    } catch (e) { /* pas grave : l'élève choisira lui-même sur l'accueil */ }
+    // Stockage indisponible : pas grave, l'élève choisira lui-même sur l'accueil.
+    SiteStorage.device.set('selectedLanguage', 'en');
+    SiteStorage.device.set('selectedYear', 'year1');
     location.reload();
   }
 

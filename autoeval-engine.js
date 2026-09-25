@@ -9,23 +9,18 @@
 
   const AUTOEVAL_LEVEL_LABELS = { level1: 'Niveau 1', level2: 'Niveau 2', level3: 'Niveau 3' };
 
-  function getAutoevalRatingKey(itemId) {
-    return 'autoevalRating::' + location.pathname + '::' + itemId;
-  }
-
+  // Stockage via storage.js (clé 'autoevalRating::<page>::<itemId>').
   function readAutoevalRating(itemId) {
-    try {
-      const level = parseInt(localStorage.getItem(getAutoevalRatingKey(itemId)), 10);
-      return (level >= 1 && level <= 3) ? level : null;
-    } catch (e) { return null; }
+    const level = parseInt(SiteStorage.data.get('autoevalRating', [itemId]), 10);
+    return (level >= 1 && level <= 3) ? level : null;
   }
 
   function writeAutoevalRating(itemId, level) {
-    try { localStorage.setItem(getAutoevalRatingKey(itemId), String(level)); } catch (e) {}
+    SiteStorage.data.set('autoevalRating', [itemId], String(level));
   }
 
   function clearAutoevalRating(itemId) {
-    try { localStorage.removeItem(getAutoevalRatingKey(itemId)); } catch (e) {}
+    SiteStorage.data.remove('autoevalRating', [itemId]);
   }
 
   function createAutoEvalExerciseGroups(exercises) {

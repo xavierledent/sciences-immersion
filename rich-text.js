@@ -356,18 +356,15 @@
   const HIGH_CONTRAST_KEY = 'highContrast';
 
   function readHighContrastPreference() {
-    try {
-      const stored = localStorage.getItem(HIGH_CONTRAST_KEY);
-      if (stored === 'true') return true;
-      if (stored === 'false') return false;
-    } catch (e) {
-      // Stockage indisponible : pas de préférence mémorisée, on retombe sur la détection système ci-dessous.
-    }
+    // Stockage indisponible (null) : pas de préférence mémorisée, on retombe sur la détection système ci-dessous.
+    const stored = SiteStorage.device.get(HIGH_CONTRAST_KEY);
+    if (stored === 'true') return true;
+    if (stored === 'false') return false;
     return !!(window.matchMedia && window.matchMedia('(prefers-contrast: more)').matches);
   }
 
   function writeHighContrastPreference(value) {
-    try { localStorage.setItem(HIGH_CONTRAST_KEY, value ? 'true' : 'false'); } catch (e) {}
+    SiteStorage.device.set(HIGH_CONTRAST_KEY, value ? 'true' : 'false');
   }
 
   function applyHighContrast(active, button) {

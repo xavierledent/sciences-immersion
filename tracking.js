@@ -13,7 +13,7 @@
 
   function getStudentEmail() {
     try {
-      const raw = localStorage.getItem(ACCESS_STORAGE_KEY);
+      const raw = SiteStorage.device.get(ACCESS_STORAGE_KEY);
       if (!raw) return null;
       const data = JSON.parse(raw);
       // Visitor mode stores email:null on purpose — never logged.

@@ -13,14 +13,13 @@
     : 'assets/Friends wback.png';
 
   function readLastVisit() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? parseInt(raw, 10) : null;
-    } catch (e) { return null; }
+    const raw = SiteStorage.device.get(STORAGE_KEY);
+    return raw ? parseInt(raw, 10) : null;
   }
 
+  // Stockage indisponible : storage.js l'absorbe, le bandeau ne se déclenchera simplement jamais.
   function writeLastVisit() {
-    try { localStorage.setItem(STORAGE_KEY, String(Date.now())); } catch (e) { /* stockage indisponible : le bandeau ne se déclenchera simplement jamais */ }
+    SiteStorage.device.set(STORAGE_KEY, String(Date.now()));
   }
 
   /* access-control.js cache <html> (visibility:hidden) tant que l'écran

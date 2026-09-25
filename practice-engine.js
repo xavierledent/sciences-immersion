@@ -274,13 +274,15 @@
     // Streak bar fills up to this many consecutive correct answers, then stays full.
     const QCM_STREAK_CAP = 5;
 
-    function getQcmStorageKey(quizData) {
-      return 'qcmBestScore::' + location.pathname + '::' + (quizData.quizTitle || 'quiz');
+    // Clé commune au meilleur score et au point de reprise d'un QCM (voir
+    // storage.js pour le format complet de la clé).
+    function qcmStorageParts(quizData) {
+      return [quizData.quizTitle || 'quiz'];
     }
 
     function getQcmBestScore(quizData) {
       try {
-        const raw = localStorage.getItem(getQcmStorageKey(quizData));
+        const raw = SiteStorage.data.get('qcmBestScore', qcmStorageParts(quizData));
         if (!raw) return null;
         const parsed = JSON.parse(raw);
         if (typeof parsed.score === 'number' && typeof parsed.total === 'number') return parsed;
@@ -289,20 +291,16 @@
     }
 
     function saveQcmBestScore(quizData, score, total) {
-      try { localStorage.setItem(getQcmStorageKey(quizData), JSON.stringify({ score, total })); } catch (e) {}
+      SiteStorage.data.set('qcmBestScore', qcmStorageParts(quizData), JSON.stringify({ score, total }));
     }
 
     // Mid-quiz checkpoint (index/score/streak only — not the individual answers
     // given) so a reload can offer to resume rather than always restarting at
     // question 1. Distinct key/lifecycle from qcmBestScore above: this one is
     // cleared as soon as the quiz is completed, that one never is.
-    function getQcmProgressKey(quizData) {
-      return 'qcmProgress::' + location.pathname + '::' + (quizData.quizTitle || 'quiz');
-    }
-
     function getQcmProgress(quizData) {
       try {
-        const raw = localStorage.getItem(getQcmProgressKey(quizData));
+        const raw = SiteStorage.data.get('qcmProgress', qcmStorageParts(quizData));
         if (!raw) return null;
         const parsed = JSON.parse(raw);
         if (!parsed || typeof parsed.questionIndex !== 'number' || parsed.questionIndex <= 0) return null;
@@ -313,17 +311,15 @@
     }
 
     function saveQcmProgress(quizData) {
-      try {
-        localStorage.setItem(getQcmProgressKey(quizData), JSON.stringify({
-          questionIndex: qcmCurrentQuestionIndex,
-          score: qcmScore,
-          streak: qcmStreak
-        }));
-      } catch (e) {}
+      SiteStorage.data.set('qcmProgress', qcmStorageParts(quizData), JSON.stringify({
+        questionIndex: qcmCurrentQuestionIndex,
+        score: qcmScore,
+        streak: qcmStreak
+      }));
     }
 
     function clearQcmProgress(quizData) {
-      try { localStorage.removeItem(getQcmProgressKey(quizData)); } catch (e) {}
+      SiteStorage.data.remove('qcmProgress', qcmStorageParts(quizData));
     }
 
     function getQcmRank(score, total) {
@@ -1160,39 +1156,29 @@
     // The sub-question index is part of the key so an exercise split into a/b/c
     // keeps one answer per part; exercises without sub-questions simply always
     // use index 0.
-    function getAnswerStorageKey(levelKey, exerciseId, subIndex) {
-      return 'practiceAnswer::' + location.pathname + '::' + levelKey + '::' + exerciseId + '::' + subIndex;
+    function answerStorageParts(levelKey, exerciseId, subIndex) {
+      return [levelKey, exerciseId, subIndex];
     }
 
     // Position de reprise : quel exercice a été touché en dernier dans
     // chaque niveau, et quel niveau a été touché en dernier tous niveaux
     // confondus — deux clés distinctes, car "reprendre" doit rouvrir
     // l'exercice exact, pas juste le niveau.
-    function getLastExerciseKey(levelKey) {
-      return 'practiceLastExercise::' + location.pathname + '::' + levelKey;
-    }
-
     function readLastExercise(levelKey) {
-      try {
-        const n = parseInt(localStorage.getItem(getLastExerciseKey(levelKey)), 10);
-        return Number.isInteger(n) && n >= 1 ? n : null;
-      } catch (e) { return null; }
+      const n = parseInt(SiteStorage.data.get('practiceLastExercise', [levelKey]), 10);
+      return Number.isInteger(n) && n >= 1 ? n : null;
     }
 
     function writeLastExercise(levelKey, exerciseId) {
-      try { localStorage.setItem(getLastExerciseKey(levelKey), String(exerciseId)); } catch (e) {}
-    }
-
-    function getLastTouchedLevelKey() {
-      return 'practiceLastTouchedLevel::' + location.pathname;
+      SiteStorage.data.set('practiceLastExercise', [levelKey], String(exerciseId));
     }
 
     function readLastTouchedLevel() {
-      try { return localStorage.getItem(getLastTouchedLevelKey()); } catch (e) { return null; }
+      return SiteStorage.data.get('practiceLastTouchedLevel', []);
     }
 
     function writeLastTouchedLevel(levelKey) {
-      try { localStorage.setItem(getLastTouchedLevelKey(), levelKey); } catch (e) {}
+      SiteStorage.data.set('practiceLastTouchedLevel', [], levelKey);
     }
 
     function recordLevelResumePosition(levelKey, exerciseId) {
@@ -1201,8 +1187,7 @@
     }
 
     function readStoredAnswer(levelKey, exerciseId, subIndex) {
-      try { return localStorage.getItem(getAnswerStorageKey(levelKey, exerciseId, subIndex)) || ''; }
-      catch (e) { return ''; }
+      return SiteStorage.data.get('practiceAnswer', answerStorageParts(levelKey, exerciseId, subIndex)) || '';
     }
 
     function hasStoredAnswerForSub(levelKey, exerciseId, subIndex) {
@@ -1225,9 +1210,6 @@
        Même convention de clé que les réponses elles-mêmes : une entrée par
        sous-question, jamais par exercice entier — chaque partie a sa propre
        correction, elle a donc aussi son propre jugement. */
-    function getSelfAssessKey(levelKey, exerciseId, subIndex) {
-      return 'practiceSelfAssess::' + location.pathname + '::' + levelKey + '::' + exerciseId + '::' + subIndex;
-    }
 
     /* Le jugement porte sur un texte précis, pas sur la sous-question en
        général : on stocke donc la réponse avec son niveau, et on ne restitue
@@ -1239,7 +1221,7 @@
        test typeof ci-dessous et sera traité comme absent plutôt que planter. */
     function readSelfAssess(levelKey, exerciseId, subIndex) {
       try {
-        const raw = localStorage.getItem(getSelfAssessKey(levelKey, exerciseId, subIndex));
+        const raw = SiteStorage.data.get('practiceSelfAssess', answerStorageParts(levelKey, exerciseId, subIndex));
         if (!raw) return null;
         const record = JSON.parse(raw);
         if (!record || typeof record.level !== 'number') return null;
@@ -1249,14 +1231,12 @@
     }
 
     function writeSelfAssess(levelKey, exerciseId, subIndex, level) {
-      try {
-        const record = { level: level, answer: readStoredAnswer(levelKey, exerciseId, subIndex) };
-        localStorage.setItem(getSelfAssessKey(levelKey, exerciseId, subIndex), JSON.stringify(record));
-      } catch (e) {}
+      const record = { level: level, answer: readStoredAnswer(levelKey, exerciseId, subIndex) };
+      SiteStorage.data.set('practiceSelfAssess', answerStorageParts(levelKey, exerciseId, subIndex), JSON.stringify(record));
     }
 
     function clearSelfAssess(levelKey, exerciseId, subIndex) {
-      try { localStorage.removeItem(getSelfAssessKey(levelKey, exerciseId, subIndex)); } catch (e) {}
+      SiteStorage.data.remove('practiceSelfAssess', answerStorageParts(levelKey, exerciseId, subIndex));
     }
 
     // Le pire des sous-parties déjà évaluées, pour le numéro principal de
@@ -1284,7 +1264,7 @@
     /* ===== Chapter overview modal =====
        Rebuilt from scratch on every open rather than kept in sync incrementally:
        self-assessment can change while the exercise modal is open behind it, so
-       a fresh read off localStorage is simpler and cheaper than tracking
+       a fresh read from storage.js is simpler and cheaper than tracking
        invalidation. */
     const OVERVIEW_LEVELS = ['level1', 'level2', 'level3'];
 
@@ -1510,11 +1490,9 @@
     }
 
     function writeStoredAnswer(levelKey, exerciseId, subIndex, value) {
-      try {
-        const key = getAnswerStorageKey(levelKey, exerciseId, subIndex);
-        if (value.trim() === '') localStorage.removeItem(key);
-        else localStorage.setItem(key, value);
-      } catch (e) {}
+      const parts = answerStorageParts(levelKey, exerciseId, subIndex);
+      if (value.trim() === '') SiteStorage.data.remove('practiceAnswer', parts);
+      else SiteStorage.data.set('practiceAnswer', parts, value);
     }
 
     function flashAnswerSaved() {
@@ -1630,7 +1608,7 @@
     // EN/FR or a correction view never wipes what the student is typing.
     function syncAnswerBoxForExercise() {
       if (!answerFeatureOn) return;
-      const key = getAnswerStorageKey(currentLevel, currentExercise, currentSubQuestion);
+      const key = answerStorageParts(currentLevel, currentExercise, currentSubQuestion).join('::');
       if (answerLoadedKey === key) return;
       flushAnswerSave();
       answerInput.value = readStoredAnswer(currentLevel, currentExercise, currentSubQuestion);
@@ -2461,21 +2439,15 @@
     // Fill in the Blanks: mistakes accumulated across attempts for the current text.
     let fitbMistakeCount = 0;
 
-    function getFitbStorageKeyBase(exercise) {
-      return 'fitbBest::' + location.pathname + '::' + (exercise.quizTitle || 'exercise');
-    }
-
     function getFitbBestMistakes(exercise) {
-      try {
-        const raw = localStorage.getItem(getFitbStorageKeyBase(exercise));
-        if (raw === null) return null;
-        const n = Number(raw);
-        return Number.isFinite(n) ? n : null;
-      } catch (e) { return null; }
+      const raw = SiteStorage.data.get('fitbBest', [exercise.quizTitle || 'exercise']);
+      if (raw === null) return null;
+      const n = Number(raw);
+      return Number.isFinite(n) ? n : null;
     }
 
     function saveFitbBestMistakes(exercise, mistakes) {
-      try { localStorage.setItem(getFitbStorageKeyBase(exercise), String(mistakes)); } catch (e) {}
+      SiteStorage.data.set('fitbBest', [exercise.quizTitle || 'exercise'], String(mistakes));
     }
 
     // Same thresholds as the drag & drop badge, for consistency across games.
@@ -2798,11 +2770,11 @@
     // play so slower/anxious readers aren't rushed. Time is still tracked in the background
     // either way, so records keep working — only the ticking number is hidden mid-game,
     // and the final time/record is always shown once the exercise is solved.
-    let showLiveTimer = localStorage.getItem('showLiveTimer') === 'true';
+    let showLiveTimer = SiteStorage.device.get('showLiveTimer') === 'true';
 
     function toggleLiveTimer() {
       showLiveTimer = !showLiveTimer;
-      try { localStorage.setItem('showLiveTimer', String(showLiveTimer)); } catch (e) {}
+      SiteStorage.device.set('showLiveTimer', String(showLiveTimer));
       applyLiveTimerVisibility();
     }
 
@@ -2897,21 +2869,15 @@
       return { emoji: '🥉', label: L.rankBronze };
     }
 
-    function getDndStorageKeyBase(exercise) {
-      return 'dndBest::' + location.pathname + '::' + (exercise.quizTitle || 'exercise');
-    }
-
     function getDndBestStat(exercise, stat) {
-      try {
-        const raw = localStorage.getItem(getDndStorageKeyBase(exercise) + '::' + stat);
-        if (raw === null) return null;
-        const n = Number(raw);
-        return Number.isFinite(n) ? n : null;
-      } catch (e) { return null; }
+      const raw = SiteStorage.data.get('dndBest', [exercise.quizTitle || 'exercise', stat]);
+      if (raw === null) return null;
+      const n = Number(raw);
+      return Number.isFinite(n) ? n : null;
     }
 
     function saveDndBestStat(exercise, stat, value) {
-      try { localStorage.setItem(getDndStorageKeyBase(exercise) + '::' + stat, String(value)); } catch (e) {}
+      SiteStorage.data.set('dndBest', [exercise.quizTitle || 'exercise', stat], String(value));
     }
 
     function openDndModal() {
@@ -3410,21 +3376,15 @@
       return { emoji: '🥉', label: L.rankBronze };
     }
 
-    function getMemoryStorageKeyBase(exercise) {
-      return 'memoryBest::' + location.pathname + '::' + (exercise.quizTitle || 'exercise');
-    }
-
     function getMemoryBestStat(exercise, stat) {
-      try {
-        const raw = localStorage.getItem(getMemoryStorageKeyBase(exercise) + '::' + stat);
-        if (raw === null) return null;
-        const n = Number(raw);
-        return Number.isFinite(n) ? n : null;
-      } catch (e) { return null; }
+      const raw = SiteStorage.data.get('memoryBest', [exercise.quizTitle || 'exercise', stat]);
+      if (raw === null) return null;
+      const n = Number(raw);
+      return Number.isFinite(n) ? n : null;
     }
 
     function saveMemoryBestStat(exercise, stat, value) {
-      try { localStorage.setItem(getMemoryStorageKeyBase(exercise) + '::' + stat, String(value)); } catch (e) {}
+      SiteStorage.data.set('memoryBest', [exercise.quizTitle || 'exercise', stat], String(value));
     }
 
     function openMemoryModal() {
@@ -3769,21 +3729,15 @@
       return { emoji: '🥉', label: L.rankBronze };
     }
 
-    function getSortingStorageKeyBase(exercise) {
-      return 'sortingBest::' + location.pathname + '::' + (exercise.quizTitle || 'exercise');
-    }
-
     function getSortingBestMistakes(exercise) {
-      try {
-        const raw = localStorage.getItem(getSortingStorageKeyBase(exercise));
-        if (raw === null) return null;
-        const n = Number(raw);
-        return Number.isFinite(n) ? n : null;
-      } catch (e) { return null; }
+      const raw = SiteStorage.data.get('sortingBest', [exercise.quizTitle || 'exercise']);
+      if (raw === null) return null;
+      const n = Number(raw);
+      return Number.isFinite(n) ? n : null;
     }
 
     function saveSortingBestMistakes(exercise, mistakes) {
-      try { localStorage.setItem(getSortingStorageKeyBase(exercise), String(mistakes)); } catch (e) {}
+      SiteStorage.data.set('sortingBest', [exercise.quizTitle || 'exercise'], String(mistakes));
     }
 
     function updateSortingMistakesDisplay() {
