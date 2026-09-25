@@ -302,7 +302,7 @@
         },
         {
           "question": "Een stalen waterfles voelt heel snel koud aan wanneer je hem aanraakt. Welke eigenschap van metaal verklaart dit het best?",
-          "image": "assets/QCM5-2.png",
+          "image": "assets/QCM5-2b.jpg",
           "options": [
             "Warmtegeleiding",
             "Kneedbaarheid",
@@ -314,7 +314,7 @@
         },
         {
           "question": "Welke test zouden wetenschappers kunnen gebruiken om te controleren of deze \"zilveren\" munt echt van metaal is, op basis van wat we over metalen geleerd hebben?",
-          "image": "assets/QCM5-3.png",
+          "image": "assets/QCM5-3b.jpg",
           "options": [
             "Elektrische geleiding",
             "De kleur van de verf op het oppervlak",
@@ -326,7 +326,7 @@
         },
         {
           "question": "Bamboe groeit binnen enkele maanden terug na te zijn gekapt, veel sneller dan eiken die er tientallen jaren over doen. Hoe moet bamboe worden geclassificeerd?",
-          "image": "assets/QCM5-4.png",
+          "image": "assets/QCM5-4b.jpg",
           "options": [
             "Een hernieuwbare hulpbron",
             "Een niet-hernieuwbare hulpbron",
@@ -338,7 +338,7 @@
         },
         {
           "question": "Een bedrijf wint lithium uit ondergrondse zoutvlaktes om batterijen te maken. Welke stap van de levenscyclus van een voorwerp stelt dit voor?",
-          "image": "assets/QCM5-5.png",
+          "image": "assets/QCM5-5b.jpg",
           "options": [
             "Winning van grondstoffen",
             "Productie",
@@ -1020,7 +1020,7 @@
           "id": 4,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-4.png"
+            "content": "assets/MTP3-4b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1031,7 +1031,7 @@
           "id": 5,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-5.png"
+            "content": "assets/MTP3-5b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1120,7 +1120,7 @@
           "id": 1,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP5-1.png"
+            "content": "assets/MTP5-1b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1142,7 +1142,7 @@
           "id": 3,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP5-3.png"
+            "content": "assets/MTP5-3b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1153,7 +1153,7 @@
           "id": 4,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP5-4.png"
+            "content": "assets/MTP5-4b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1410,37 +1410,37 @@
           "id": 1,
           "category": "Hernieuwbaar",
           "type": "image",
-          "content": "assets/SC5-1.png"
+          "content": "assets/SC5-1b.jpg"
         },
         {
           "id": 2,
           "category": "Hernieuwbaar",
           "type": "image",
-          "content": "assets/SC5-2.png"
+          "content": "assets/SC5-2b.jpg"
         },
         {
           "id": 3,
           "category": "Hernieuwbaar",
           "type": "image",
-          "content": "assets/SC5-3.png"
+          "content": "assets/SC5-3b.jpg"
         },
         {
           "id": 4,
           "category": "Hernieuwbaar",
           "type": "image",
-          "content": "assets/SC5-4.png"
+          "content": "assets/SC5-4b.jpg"
         },
         {
           "id": 5,
           "category": "Niet-hernieuwbaar",
           "type": "image",
-          "content": "assets/SC5-5.png"
+          "content": "assets/SC5-5b.jpg"
         },
         {
           "id": 6,
           "category": "Niet-hernieuwbaar",
           "type": "image",
-          "content": "assets/SC5-6.png"
+          "content": "assets/SC5-6b.jpg"
         },
         {
           "id": 7,
@@ -1452,7 +1452,7 @@
           "id": 8,
           "category": "Niet-hernieuwbaar",
           "type": "image",
-          "content": "assets/SC5-8.png"
+          "content": "assets/SC5-8b.jpg"
         }
       ]
     }

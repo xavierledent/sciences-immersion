@@ -302,7 +302,7 @@
         },
         {
           "question": "A steel water bottle feels cold very quickly when you touch it. Which metal property explains this best?",
-          "image": "assets/QCM5-2.png",
+          "image": "assets/QCM5-2b.jpg",
           "options": [
             "Thermal conductivity",
             "Malleability",
@@ -314,7 +314,7 @@
         },
         {
           "question": "Which test could scientists use to check if this \"silver\" coin is really made of metal, based on what we learned about metals?",
-          "image": "assets/QCM5-3.png",
+          "image": "assets/QCM5-3b.jpg",
           "options": [
             "Electrical conductivity",
             "The color of paint on the surface",
@@ -326,7 +326,7 @@
         },
         {
           "question": "Bamboo grows back within a few months after being cut, much faster than oak trees which take decades. How should bamboo be classified?",
-          "image": "assets/QCM5-4.png",
+          "image": "assets/QCM5-4b.jpg",
           "options": [
             "A renewable resource",
             "A non-renewable resource",
@@ -338,7 +338,7 @@
         },
         {
           "question": "A company digs up lithium from underground salt flats to make batteries. Which step of the object lifecycle does this represent?",
-          "image": "assets/QCM5-5.png",
+          "image": "assets/QCM5-5b.jpg",
           "options": [
             "Raw material extraction",
             "Manufacturing",
@@ -1020,7 +1020,7 @@
           "id": 4,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-4.png"
+            "content": "assets/MTP3-4b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1031,7 +1031,7 @@
           "id": 5,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-5.png"
+            "content": "assets/MTP3-5b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1120,7 +1120,7 @@
           "id": 1,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP5-1.png"
+            "content": "assets/MTP5-1b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1142,7 +1142,7 @@
           "id": 3,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP5-3.png"
+            "content": "assets/MTP5-3b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1153,7 +1153,7 @@
           "id": 4,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP5-4.png"
+            "content": "assets/MTP5-4b.jpg"
           },
           "sideB": {
             "type": "text",
@@ -1410,37 +1410,37 @@
           "id": 1,
           "category": "Renewable",
           "type": "image",
-          "content": "assets/SC5-1.png"
+          "content": "assets/SC5-1b.jpg"
         },
         {
           "id": 2,
           "category": "Renewable",
           "type": "image",
-          "content": "assets/SC5-2.png"
+          "content": "assets/SC5-2b.jpg"
         },
         {
           "id": 3,
           "category": "Renewable",
           "type": "image",
-          "content": "assets/SC5-3.png"
+          "content": "assets/SC5-3b.jpg"
         },
         {
           "id": 4,
           "category": "Renewable",
           "type": "image",
-          "content": "assets/SC5-4.png"
+          "content": "assets/SC5-4b.jpg"
         },
         {
           "id": 5,
           "category": "Non-renewable",
           "type": "image",
-          "content": "assets/SC5-5.png"
+          "content": "assets/SC5-5b.jpg"
         },
         {
           "id": 6,
           "category": "Non-renewable",
           "type": "image",
-          "content": "assets/SC5-6.png"
+          "content": "assets/SC5-6b.jpg"
         },
         {
           "id": 7,
@@ -1452,7 +1452,7 @@
           "id": 8,
           "category": "Non-renewable",
           "type": "image",
-          "content": "assets/SC5-8.png"
+          "content": "assets/SC5-8b.jpg"
         }
       ]
     }
