@@ -73,19 +73,19 @@
           "en": "Name one secondary consumer shown in the diagram.",
           "fr": "Nomme un consommateur secondaire présent sur le schéma.",
           "corr_en": "The tarantula, the lizard, the rattlesnake or the hawk (they eat primary consumers).",
-          "corr_fr": "La mygale, le lézard, le serpent à sonnette ou la buse (ils mangent des consommateurs primaires)."
+          "corr_fr": "La mygale, le lézard, le serpent à sonnette ou le faucon (ils mangent des consommateurs primaires)."
         },
         {
           "en": "Is the hawk a herbivore, a carnivore or an omnivore? Explain using the diagram.",
-          "fr": "La buse est-elle herbivore, carnivore ou omnivore ? Justifie à l'aide du schéma.",
+          "fr": "Le faucon est-il herbivore, carnivore ou omnivore ? Justifie à l'aide du schéma.",
           "corr_en": "A carnivore: it only eats animals (the rattlesnake, the rabbit, the kangaroo rat and the lizard).",
-          "corr_fr": "Carnivore : elle ne mange que des animaux (le serpent à sonnette, le lapin, le rat-kangourou et le lézard)."
+          "corr_fr": "Carnivore : il ne mange que des animaux (le serpent à sonnette, le lapin, le rat-kangourou et le lézard)."
         },
         {
           "en": "Is there an omnivore in this food web? Explain.",
           "fr": "Y a-t-il un omnivore dans ce réseau trophique ? Explique.",
           "corr_en": "No. Each animal eats either only plants (herbivores: rabbit, kangaroo rat, grasshopper) or only animals (carnivores: tarantula, lizard, rattlesnake, hawk). An omnivore would eat both.",
-          "corr_fr": "Non. Chaque animal mange soit uniquement des plantes (herbivores : lapin, rat-kangourou, sauterelle), soit uniquement des animaux (carnivores : mygale, lézard, serpent à sonnette, buse). Un omnivore mangerait les deux."
+          "corr_fr": "Non. Chaque animal mange soit uniquement des plantes (herbivores : lapin, rat-kangourou, sauterelle), soit uniquement des animaux (carnivores : mygale, lézard, serpent à sonnette, faucon). Un omnivore mangerait les deux."
         }
       ]
     },
@@ -283,7 +283,7 @@
           "en": "If the grasshopper disappeared from this forest, which two animals would lose their only food source? What would happen to their populations?",
           "fr": "Si la sauterelle disparaissait de cette forêt, quels sont les deux animaux qui perdraient leur seule source de nourriture ? Qu'arriverait-il à leurs populations ?",
           "corr_en": "The shrew and the insect-eating bird. Their populations would decrease sharply (they could disappear from this forest), and their predators (hawk, snake, mountain lion) would also have less food.",
-          "corr_fr": "La musaraigne et l'oiseau insectivore. Leurs populations diminueraient fortement (elles pourraient disparaître de cette forêt), et leurs prédateurs (buse, serpent, puma) auraient eux aussi moins de nourriture."
+          "corr_fr": "La musaraigne et l'oiseau insectivore. Leurs populations diminueraient fortement (elles pourraient disparaître de cette forêt), et leurs prédateurs (faucon, serpent, puma) auraient eux aussi moins de nourriture."
         }
       ]
     },

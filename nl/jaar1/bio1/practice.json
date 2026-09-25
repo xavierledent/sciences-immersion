@@ -73,19 +73,19 @@
           "en": "Noem één secundaire consument die op het schema te zien is.",
           "fr": "Nomme un consommateur secondaire présent sur le schéma.",
           "corr_en": "De vogelspin, de hagedis, de ratelslang of de havik (ze eten primaire consumenten).",
-          "corr_fr": "La mygale, le lézard, le serpent à sonnette ou la buse (ils mangent des consommateurs primaires)."
+          "corr_fr": "La mygale, le lézard, le serpent à sonnette ou le faucon (ils mangent des consommateurs primaires)."
         },
         {
           "en": "Is de havik een herbivoor, een carnivoor of een omnivoor? Leg uit met het schema.",
-          "fr": "La buse est-elle herbivore, carnivore ou omnivore ? Justifie à l'aide du schéma.",
+          "fr": "Le faucon est-il herbivore, carnivore ou omnivore ? Justifie à l'aide du schéma.",
           "corr_en": "Een carnivoor: hij eet alleen dieren (de ratelslang, het konijn, de kangoeroerat en de hagedis).",
-          "corr_fr": "Carnivore : elle ne mange que des animaux (le serpent à sonnette, le lapin, le rat-kangourou et le lézard)."
+          "corr_fr": "Carnivore : il ne mange que des animaux (le serpent à sonnette, le lapin, le rat-kangourou et le lézard)."
         },
         {
           "en": "Is er een omnivoor in dit voedselweb? Leg uit.",
           "fr": "Y a-t-il un omnivore dans ce réseau trophique ? Explique.",
           "corr_en": "Nee. Elk dier eet ofwel alleen planten (herbivoren: konijn, kangoeroerat, sprinkhaan), ofwel alleen dieren (carnivoren: vogelspin, hagedis, ratelslang, havik). Een omnivoor zou beide eten.",
-          "corr_fr": "Non. Chaque animal mange soit uniquement des plantes (herbivores : lapin, rat-kangourou, sauterelle), soit uniquement des animaux (carnivores : mygale, lézard, serpent à sonnette, buse). Un omnivore mangerait les deux."
+          "corr_fr": "Non. Chaque animal mange soit uniquement des plantes (herbivores : lapin, rat-kangourou, sauterelle), soit uniquement des animaux (carnivores : mygale, lézard, serpent à sonnette, faucon). Un omnivore mangerait les deux."
         }
       ]
     },
@@ -283,7 +283,7 @@
           "en": "Als de sprinkhaan uit dit bos zou verdwijnen, welke twee dieren zouden dan hun enige voedselbron verliezen? Wat zou er met hun populaties gebeuren?",
           "fr": "Si la sauterelle disparaissait de cette forêt, quels sont les deux animaux qui perdraient leur seule source de nourriture ? Qu'arriverait-il à leurs populations ?",
           "corr_en": "De spitsmuis en de insectenetende vogel. Hun populaties zouden sterk dalen (ze zouden uit dit bos kunnen verdwijnen), en hun predatoren (havik, slang, poema) zouden ook minder voedsel hebben.",
-          "corr_fr": "La musaraigne et l'oiseau insectivore. Leurs populations diminueraient fortement (elles pourraient disparaître de cette forêt), et leurs prédateurs (buse, serpent, puma) auraient eux aussi moins de nourriture."
+          "corr_fr": "La musaraigne et l'oiseau insectivore. Leurs populations diminueraient fortement (elles pourraient disparaître de cette forêt), et leurs prédateurs (faucon, serpent, puma) auraient eux aussi moins de nourriture."
         }
       ]
     },
