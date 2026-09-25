@@ -43,13 +43,13 @@
     {
       "id": 4,
       "title": "Een voedselweb-schema lezen",
-      "image": "desert food web.jpg",
+      "image": "desert-food-web-2.jpg",
       "questions": [
         {
           "en": "Noem één producent die op het schema te zien is.",
           "fr": "Nomme un producteur présent sur le schéma",
-          "corr_en": "Cactus / Gras",
-          "corr_fr": "Cactus / Herbe"
+          "corr_en": "De cactus, de stercactus of het gras.",
+          "corr_fr": "Le cactus, le cactus étoilé ou l'herbe."
         },
         {
           "en": "Noem één reducent die op het schema te zien is.",
@@ -62,6 +62,30 @@
           "fr": "Que signifie une flèche sur ce schéma ?",
           "corr_en": "De pijl betekent \"wordt gegeten door\".",
           "corr_fr": "La flèche signifie \"est mangé par\"."
+        },
+        {
+          "en": "Noem één primaire consument die op het schema te zien is.",
+          "fr": "Nomme un consommateur primaire présent sur le schéma.",
+          "corr_en": "Het konijn, de kangoeroerat of de sprinkhaan (ze eten producenten).",
+          "corr_fr": "Le lapin, le rat-kangourou ou la sauterelle (ils mangent des producteurs)."
+        },
+        {
+          "en": "Noem één secundaire consument die op het schema te zien is.",
+          "fr": "Nomme un consommateur secondaire présent sur le schéma.",
+          "corr_en": "De vogelspin, de hagedis, de ratelslang of de havik (ze eten primaire consumenten).",
+          "corr_fr": "La mygale, le lézard, le serpent à sonnette ou la buse (ils mangent des consommateurs primaires)."
+        },
+        {
+          "en": "Is de havik een herbivoor, een carnivoor of een omnivoor? Leg uit met het schema.",
+          "fr": "La buse est-elle herbivore, carnivore ou omnivore ? Justifie à l'aide du schéma.",
+          "corr_en": "Een carnivoor: hij eet alleen dieren (de ratelslang, het konijn, de kangoeroerat en de hagedis).",
+          "corr_fr": "Carnivore : elle ne mange que des animaux (le serpent à sonnette, le lapin, le rat-kangourou et le lézard)."
+        },
+        {
+          "en": "Is er een omnivoor in dit voedselweb? Leg uit.",
+          "fr": "Y a-t-il un omnivore dans ce réseau trophique ? Explique.",
+          "corr_en": "Nee. Elk dier eet ofwel alleen planten (herbivoren: konijn, kangoeroerat, sprinkhaan), ofwel alleen dieren (carnivoren: vogelspin, hagedis, ratelslang, havik). Een omnivoor zou beide eten.",
+          "corr_fr": "Non. Chaque animal mange soit uniquement des plantes (herbivores : lapin, rat-kangourou, sauterelle), soit uniquement des animaux (carnivores : mygale, lézard, serpent à sonnette, buse). Un omnivore mangerait les deux."
         }
       ]
     },
@@ -223,7 +247,7 @@
     {
       "id": 2,
       "title": "Een voedselweb analyseren",
-      "image": "food_web_diagram.png",
+      "image": "food-web-forest.jpg",
       "questions": [
         {
           "en": "Welke toppredator jaagt op het hert?",
@@ -246,14 +270,20 @@
         {
           "en": "Als de havik de predator is, noem dan twee van zijn prooien die op het schema te zien zijn.",
           "fr": "Si le faucon est le prédateur, nomme deux de ses proies visibles sur le schéma.",
-          "corr_en": "De eekhoorn en de spitsmuis.",
-          "corr_fr": "L'écureuil et la musaraigne."
+          "corr_en": "Twee van deze: de eekhoorn, de spitsmuis, de slang, de insectenetende vogel.",
+          "corr_fr": "Deux parmi : l'écureuil, la musaraigne, le serpent, l'oiseau insectivore."
         },
         {
           "en": "Welke organismen onderaan het schema fungeren als reducenten in dit ecosysteem?",
           "fr": "Quels organismes au bas du schéma agissent comme des décomposeurs dans cet écosystème ?",
           "corr_en": "Schimmels en bacteriën.",
           "corr_fr": "Les champignons (fungi) et les bactéries."
+        },
+        {
+          "en": "Als de sprinkhaan uit dit bos zou verdwijnen, welke twee dieren zouden dan hun enige voedselbron verliezen? Wat zou er met hun populaties gebeuren?",
+          "fr": "Si la sauterelle disparaissait de cette forêt, quels sont les deux animaux qui perdraient leur seule source de nourriture ? Qu'arriverait-il à leurs populations ?",
+          "corr_en": "De spitsmuis en de insectenetende vogel. Hun populaties zouden sterk dalen (ze zouden uit dit bos kunnen verdwijnen), en hun predatoren (havik, slang, poema) zouden ook minder voedsel hebben.",
+          "corr_fr": "La musaraigne et l'oiseau insectivore. Leurs populations diminueraient fortement (elles pourraient disparaître de cette forêt), et leurs prédateurs (buse, serpent, puma) auraient eux aussi moins de nourriture."
         }
       ]
     },

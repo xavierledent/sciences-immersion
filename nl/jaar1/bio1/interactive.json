@@ -704,7 +704,7 @@
     },
     {
       "quizTitle": "Woordenschat levende wezens",
-      "backgroundImage": "assets/vocabulary animals.jpg",
+      "backgroundImage": "assets/vocabulary-animals-2.jpg",
       "hideOnSuccess": true,
       "instructions": "Vind het juiste Nederlandse woord voor elk levend wezen op deze afbeelding",
       "reservoirItems": [
@@ -720,48 +720,48 @@
       ],
       "dropZones": [
         {
-          "x_pourcent": 18.48,
-          "y_pourcent": 15.75,
+          "x_pourcent": 17.5,
+          "y_pourcent": 20,
           "acceptedText": "Vos"
         },
         {
-          "x_pourcent": 9.39,
-          "y_pourcent": 52.3,
+          "x_pourcent": 14.17,
+          "y_pourcent": 53.75,
           "acceptedText": "Konijn"
         },
         {
-          "x_pourcent": 16.54,
-          "y_pourcent": 83.59,
+          "x_pourcent": 14.17,
+          "y_pourcent": 83.75,
           "acceptedText": "Wortel"
         },
         {
-          "x_pourcent": 51.42,
-          "y_pourcent": 80.31,
+          "x_pourcent": 46.67,
+          "y_pourcent": 85,
           "acceptedText": "Gras"
         },
         {
-          "x_pourcent": 81.22,
-          "y_pourcent": 82.49,
+          "x_pourcent": 84.17,
+          "y_pourcent": 81.25,
           "acceptedText": "Graan"
         },
         {
-          "x_pourcent": 41.88,
-          "y_pourcent": 51.64,
+          "x_pourcent": 39.17,
+          "y_pourcent": 57.5,
           "acceptedText": "Muis"
         },
         {
-          "x_pourcent": 56.78,
-          "y_pourcent": 12.69,
+          "x_pourcent": 50,
+          "y_pourcent": 15,
           "acceptedText": "Uil"
         },
         {
-          "x_pourcent": 68.55,
-          "y_pourcent": 52.08,
+          "x_pourcent": 65.83,
+          "y_pourcent": 56.25,
           "acceptedText": "Sprinkhaan"
         },
         {
-          "x_pourcent": 87.33,
-          "y_pourcent": 33.04,
+          "x_pourcent": 84.17,
+          "y_pourcent": 38.75,
           "acceptedText": "Vogel"
         }
       ]

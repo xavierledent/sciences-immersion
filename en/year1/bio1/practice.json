@@ -43,13 +43,13 @@
     {
       "id": 4,
       "title": "Reading a Food Web Diagram",
-      "image": "desert food web.jpg",
+      "image": "desert-food-web-2.jpg",
       "questions": [
         {
           "en": "Name one producer shown in the diagram.",
           "fr": "Nomme un producteur présent sur le schéma",
-          "corr_en": "Cactus / Grass",
-          "corr_fr": "Cactus / Herbe"
+          "corr_en": "The cactus, the star cactus or the grass.",
+          "corr_fr": "Le cactus, le cactus étoilé ou l'herbe."
         },
         {
           "en": "Name one decomposer shown in the diagram.",
@@ -62,6 +62,30 @@
           "fr": "Que signifie une flèche sur ce schéma ?",
           "corr_en": "The arrow means \"is eaten by\".",
           "corr_fr": "La flèche signifie \"est mangé par\"."
+        },
+        {
+          "en": "Name one primary consumer shown in the diagram.",
+          "fr": "Nomme un consommateur primaire présent sur le schéma.",
+          "corr_en": "The rabbit, the kangaroo rat or the grasshopper (they eat producers).",
+          "corr_fr": "Le lapin, le rat-kangourou ou la sauterelle (ils mangent des producteurs)."
+        },
+        {
+          "en": "Name one secondary consumer shown in the diagram.",
+          "fr": "Nomme un consommateur secondaire présent sur le schéma.",
+          "corr_en": "The tarantula, the lizard, the rattlesnake or the hawk (they eat primary consumers).",
+          "corr_fr": "La mygale, le lézard, le serpent à sonnette ou la buse (ils mangent des consommateurs primaires)."
+        },
+        {
+          "en": "Is the hawk a herbivore, a carnivore or an omnivore? Explain using the diagram.",
+          "fr": "La buse est-elle herbivore, carnivore ou omnivore ? Justifie à l'aide du schéma.",
+          "corr_en": "A carnivore: it only eats animals (the rattlesnake, the rabbit, the kangaroo rat and the lizard).",
+          "corr_fr": "Carnivore : elle ne mange que des animaux (le serpent à sonnette, le lapin, le rat-kangourou et le lézard)."
+        },
+        {
+          "en": "Is there an omnivore in this food web? Explain.",
+          "fr": "Y a-t-il un omnivore dans ce réseau trophique ? Explique.",
+          "corr_en": "No. Each animal eats either only plants (herbivores: rabbit, kangaroo rat, grasshopper) or only animals (carnivores: tarantula, lizard, rattlesnake, hawk). An omnivore would eat both.",
+          "corr_fr": "Non. Chaque animal mange soit uniquement des plantes (herbivores : lapin, rat-kangourou, sauterelle), soit uniquement des animaux (carnivores : mygale, lézard, serpent à sonnette, buse). Un omnivore mangerait les deux."
         }
       ]
     },
@@ -223,7 +247,7 @@
     {
       "id": 2,
       "title": "Analyzing a food web",
-      "image": "food_web_diagram.png",
+      "image": "food-web-forest.jpg",
       "questions": [
         {
           "en": "Which apex predator preys upon the deer?",
@@ -246,14 +270,20 @@
         {
           "en": "If the hawk is the predator, name two of its preys shown in the diagram.",
           "fr": "Si le faucon est le prédateur, nomme deux de ses proies visibles sur le schéma.",
-          "corr_en": "The squirrel and the shrew.",
-          "corr_fr": "L'écureuil et la musaraigne."
+          "corr_en": "Any two of: the squirrel, the shrew, the snake, the insect-eating bird.",
+          "corr_fr": "Deux parmi : l'écureuil, la musaraigne, le serpent, l'oiseau insectivore."
         },
         {
           "en": "Which organisms at the bottom of the diagram act as decomposers in this ecosystem?",
           "fr": "Quels organismes au bas du schéma agissent comme des décomposeurs dans cet écosystème ?",
           "corr_en": "Fungi and bacteria.",
           "corr_fr": "Les champignons (fungi) et les bactéries."
+        },
+        {
+          "en": "If the grasshopper disappeared from this forest, which two animals would lose their only food source? What would happen to their populations?",
+          "fr": "Si la sauterelle disparaissait de cette forêt, quels sont les deux animaux qui perdraient leur seule source de nourriture ? Qu'arriverait-il à leurs populations ?",
+          "corr_en": "The shrew and the insect-eating bird. Their populations would decrease sharply (they could disappear from this forest), and their predators (hawk, snake, mountain lion) would also have less food.",
+          "corr_fr": "La musaraigne et l'oiseau insectivore. Leurs populations diminueraient fortement (elles pourraient disparaître de cette forêt), et leurs prédateurs (buse, serpent, puma) auraient eux aussi moins de nourriture."
         }
       ]
     },
