@@ -47,8 +47,8 @@
     },
     {
       "id": 6,
-      "title": "Marble staircase",
-      "image": "N1 - 6.png",
+      "title": "Staircase rock",
+      "image": "N1-6b.jpg",
       "en": "Which rock is shown being used for this staircase?",
       "fr": "Quelle roche est utilisée pour cet escalier ?",
       "corr_en": "Marble.",
@@ -65,8 +65,8 @@
     },
     {
       "id": 8,
-      "title": "Copper wire malleability",
-      "image": "N1 - 8.png",
+      "title": "Copper wire",
+      "image": "N1-8b.jpg",
       "en": "This copper has been shaped into a thin wire. Which metal property does this show?",
       "fr": "Ce cuivre a été façonné en fil fin. Quelle propriété du métal cela montre-t-il ?",
       "corr_en": "Malleability.",
@@ -83,8 +83,8 @@
     },
     {
       "id": 10,
-      "title": "Magnet paperclips",
-      "image": "N1 - 10.png",
+      "title": "Paperclips",
+      "image": "N1-10b.jpg",
       "en": "Look at the picture. What metal property is being demonstrated?",
       "fr": "Observe l'image. Quelle propriété du métal est démontrée ?",
       "corr_en": "Magnetism.",
@@ -101,8 +101,8 @@
     },
     {
       "id": 12,
-      "title": "Copper luster",
-      "image": "N1 - 12.png",
+      "title": "Polished copper",
+      "image": "N1-12b.jpg",
       "en": "The copper in the picture looks shiny when polished. What is this property called?",
       "fr": "Le cuivre de l'image brille quand il est poli. Comment appelle-t-on cette propriété ?",
       "corr_en": "Luster.",
@@ -174,7 +174,7 @@
     {
       "id": 20,
       "title": "Smartphone metal",
-      "image": "N1 - 20.png",
+      "image": "N1-20b.jpg",
       "en": "Smartphones contain many raw materials. Name one metal found inside them.",
       "fr": "Les smartphones contiennent beaucoup de matières premières. Nomme un métal qu'on y trouve.",
       "corr_en": "Copper (or gold, or lithium).",
@@ -394,7 +394,7 @@
     {
       "id": 4,
       "title": "Cutlery metal properties",
-      "image": "N3 - 4.png",
+      "image": "N3-4b.jpg",
       "en": "Kitchen cutlery is often made of a metal that resists rust and stays shiny. Analyze which properties studied in class (luster, conductivity, magnetism, malleability) would have guided engineers to choose a metal for cutlery, and justify each.",
       "fr": "Les couverts de cuisine sont souvent faits d'un métal résistant à la rouille qui reste brillant. Analyse quelles propriétés vues en classe (éclat, conductivité, magnétisme, malléabilité) auraient guidé les ingénieurs à choisir un métal pour les couverts, et justifie chacune.",
       "corr_en": "Luster matters for appearance, since shiny cutlery looks clean and attractive; malleability is needed to shape the metal into thin fork prongs and spoon bowls; conductivity is less important here, but thermal conductivity should be moderate so the handle doesn't get too hot; magnetism is irrelevant to this use.",
@@ -448,7 +448,7 @@
     {
       "id": 10,
       "title": "Gold ring authenticity test",
-      "image": "N3 - 10.png",
+      "image": "N3-10b.jpg",
       "en": "You want to check if a ring is real gold or only gold-plated metal. Design an experiment using at least two physical properties studied in class, and explain what result would prove it is not pure gold.",
       "fr": "Tu veux vérifier si une bague est en or véritable ou seulement plaquée or. Conçois une expérience utilisant au moins deux propriétés physiques vues en classe, et explique quel résultat prouverait qu'elle n'est pas en or pur.",
       "corr_en": "I would test luster after a small scratch (real gold stays gold-colored underneath, plated metal reveals a different color base metal) and test electrical conductivity, since gold conducts very well; if the scratched spot shows a different color, or conductivity is unusually low, the ring is not pure gold, only plated.",
@@ -502,7 +502,7 @@
     {
       "id": 16,
       "title": "Laptop raw materials",
-      "image": "N3 - 16.png",
+      "image": "N3-16b.jpg",
       "en": "Using what you know about smartphone materials, predict which raw materials a laptop computer would need, and explain why its lifecycle raises similar environmental concerns.",
       "fr": "En te basant sur ce que tu sais des matériaux des smartphones, prédis quelles matières premières un ordinateur portable nécessiterait, et explique pourquoi son cycle de vie soulève des préoccupations environnementales similaires.",
       "corr_en": "Like a smartphone, a laptop would need lithium for its battery, copper and gold for its circuits and wires, silicon for its screen, and aluminum or plastic for its casing; because it also depends on dozens of mined materials from open-pit mines worldwide, its extraction and disposal raise the same risks of landscape destruction and toxic pollution if not recycled properly.",
@@ -520,7 +520,7 @@
     {
       "id": 18,
       "title": "Phosphate scarcity chain",
-      "image": "N3 - 18.png",
+      "image": "N3-18b.jpg",
       "en": "Phosphate rock, a non-renewable mineral resource, is essential to make fertilizer for growing food. Predict the cascading effects on farming and food supply if phosphate reserves became scarce.",
       "fr": "La roche phosphatée, une ressource minérale non-renouvelable, est essentielle pour fabriquer des engrais pour cultiver la nourriture. Prédis les effets en cascade sur l'agriculture et l'approvisionnement alimentaire si les réserves de phosphate devenaient rares.",
       "corr_en": "If phosphate becomes scarce, fertilizer would become expensive and harder to produce, so farmers would apply less of it; crops would then grow with fewer nutrients, lowering yields, which could raise food prices and threaten food security for regions that depend heavily on fertilized farmland.",

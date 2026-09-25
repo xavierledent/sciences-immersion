@@ -47,8 +47,8 @@
     },
     {
       "id": 6,
-      "title": "Marble staircase",
-      "image": "N1 - 6.png",
+      "title": "Staircase rock",
+      "image": "N1-6b.jpg",
       "en": "Welke rots wordt hier gebruikt voor deze trap?",
       "fr": "Quelle roche est utilisée pour cet escalier ?",
       "corr_en": "Marmer.",
@@ -65,8 +65,8 @@
     },
     {
       "id": 8,
-      "title": "Copper wire malleability",
-      "image": "N1 - 8.png",
+      "title": "Copper wire",
+      "image": "N1-8b.jpg",
       "en": "Dit koper is tot een dunne draad gevormd. Welke eigenschap van metalen toont dit aan?",
       "fr": "Ce cuivre a été façonné en fil fin. Quelle propriété du métal cela montre-t-il ?",
       "corr_en": "Kneedbaarheid (malleability).",
@@ -83,8 +83,8 @@
     },
     {
       "id": 10,
-      "title": "Magnet paperclips",
-      "image": "N1 - 10.png",
+      "title": "Paperclips",
+      "image": "N1-10b.jpg",
       "en": "Bekijk de afbeelding. Welke eigenschap van het metaal wordt hier getoond?",
       "fr": "Observe l'image. Quelle propriété du métal est démontrée ?",
       "corr_en": "Magnetisme.",
@@ -101,8 +101,8 @@
     },
     {
       "id": 12,
-      "title": "Copper luster",
-      "image": "N1 - 12.png",
+      "title": "Polished copper",
+      "image": "N1-12b.jpg",
       "en": "Het koper op de afbeelding ziet er glanzend uit wanneer het gepolijst is. Hoe noemen we deze eigenschap?",
       "fr": "Le cuivre de l'image brille quand il est poli. Comment appelle-t-on cette propriété ?",
       "corr_en": "Glans (luster).",
@@ -174,7 +174,7 @@
     {
       "id": 20,
       "title": "Smartphone metal",
-      "image": "N1 - 20.png",
+      "image": "N1-20b.jpg",
       "en": "Smartphones bevatten veel grondstoffen. Noem één metaal dat erin te vinden is.",
       "fr": "Les smartphones contiennent beaucoup de matières premières. Nomme un métal qu'on y trouve.",
       "corr_en": "Koper (of goud, of lithium).",
@@ -394,7 +394,7 @@
     {
       "id": 4,
       "title": "Cutlery metal properties",
-      "image": "N3 - 4.png",
+      "image": "N3-4b.jpg",
       "en": "Keukenbestek is vaak gemaakt van een metaal dat roestbestendig is en glanzend blijft. Analyseer welke in de klas bestudeerde eigenschappen (glans, geleidbaarheid, magnetisme, kneedbaarheid) ingenieurs geleid zouden hebben bij het kiezen van een metaal voor bestek, en motiveer elk van hen.",
       "fr": "Les couverts de cuisine sont souvent faits d'un métal résistant à la rouille qui reste brillant. Analyse quelles propriétés vues en classe (éclat, conductivité, magnétisme, malléabilité) auraient guidé les ingénieurs à choisir un métal pour les couverts, et justifie chacune.",
       "corr_en": "Glans is belangrijk voor het uiterlijk, want glanzend bestek oogt schoon en aantrekkelijk; kneedbaarheid is nodig om het metaal te vormen tot dunne vorktanden en lepelkommen; geleidbaarheid is hier minder belangrijk, maar de thermische geleidbaarheid moet matig zijn zodat het handvat niet te warm wordt; magnetisme speelt geen rol bij dit gebruik.",
@@ -448,7 +448,7 @@
     {
       "id": 10,
       "title": "Gold ring authenticity test",
-      "image": "N3 - 10.png",
+      "image": "N3-10b.jpg",
       "en": "Je wilt controleren of een ring echt goud is of enkel verguld metaal. Ontwerp een experiment met minstens twee in de klas bestudeerde fysische eigenschappen, en leg uit welk resultaat zou bewijzen dat het geen zuiver goud is.",
       "fr": "Tu veux vérifier si une bague est en or véritable ou seulement plaquée or. Conçois une expérience utilisant au moins deux propriétés physiques vues en classe, et explique quel résultat prouverait qu'elle n'est pas en or pur.",
       "corr_en": "Ik zou de glans testen na een kleine kras (echt goud blijft goudkleurig eronder, verguld metaal onthult een basismetaal met een andere kleur) en de elektrische geleidbaarheid testen, want goud geleidt heel goed; als de bekraste plek een andere kleur toont, of als de geleidbaarheid ongewoon laag is, is de ring geen zuiver goud, maar enkel verguld.",
@@ -502,7 +502,7 @@
     {
       "id": 16,
       "title": "Laptop raw materials",
-      "image": "N3 - 16.png",
+      "image": "N3-16b.jpg",
       "en": "Voorspel, op basis van wat je weet over de materialen van een smartphone, welke grondstoffen een laptop nodig zou hebben, en leg uit waarom zijn levenscyclus vergelijkbare milieuzorgen oproept.",
       "fr": "En te basant sur ce que tu sais des matériaux des smartphones, prédis quelles matières premières un ordinateur portable nécessiterait, et explique pourquoi son cycle de vie soulève des préoccupations environnementales similaires.",
       "corr_en": "Net als een smartphone zou een laptop lithium nodig hebben voor zijn batterij, koper en goud voor zijn circuits en draden, silicium voor zijn scherm, en aluminium of plastic voor zijn behuizing; aangezien hij ook afhankelijk is van tientallen gewonnen materialen uit dagbouwmijnen wereldwijd, brengen de winning en afdanking ervan dezelfde risico's op landschapsvernieling en giftige vervuiling met zich mee als hij niet correct gerecycleerd wordt.",
@@ -520,7 +520,7 @@
     {
       "id": 18,
       "title": "Phosphate scarcity chain",
-      "image": "N3 - 18.png",
+      "image": "N3-18b.jpg",
       "en": "Fosfaatgesteente, een niet-hernieuwbare minerale grondstof, is essentieel om meststof te maken voor voedselteelt. Voorspel de cascade-effecten op de landbouw en de voedselvoorziening als de fosfaatvoorraden schaars zouden worden.",
       "fr": "La roche phosphatée, une ressource minérale non-renouvelable, est essentielle pour fabriquer des engrais pour cultiver la nourriture. Prédis les effets en cascade sur l'agriculture et l'approvisionnement alimentaire si les réserves de phosphate devenaient rares.",
       "corr_en": "Als fosfaat schaars wordt, zou meststof duur en moeilijker te produceren worden, waardoor boeren er minder van zouden gebruiken; gewassen zouden dan met minder voedingsstoffen groeien, wat de opbrengsten zou verlagen, wat op zijn beurt de voedselprijzen kan doen stijgen en de voedselzekerheid kan bedreigen voor regio's die sterk afhankelijk zijn van bemeste landbouwgrond.",

@@ -70,7 +70,7 @@
       "questions": [
         {
           "question": "Which category does granite belong to?",
-          "image": "assets/QCM2-1.png",
+          "image": "assets/QCM2-1b.jpg",
           "options": [
             "Rocks",
             "Minerals",
@@ -82,7 +82,7 @@
         },
         {
           "question": "Which category does this belong to?",
-          "image": "assets/QCM2-2.png",
+          "image": "assets/QCM2-2b.jpg",
           "options": [
             "Minerals",
             "Rocks",
@@ -106,7 +106,7 @@
         },
         {
           "question": "Which category does this belong to?",
-          "image": "assets/QCM2-4.png",
+          "image": "assets/QCM2-4b.jpg",
           "options": [
             "Organic resources",
             "Minerals",
@@ -148,7 +148,7 @@
       "questions": [
         {
           "question": "Which property does this picture show?",
-          "image": "assets/QCM3-1.png",
+          "image": "assets/QCM3-1b.jpg",
           "options": [
             "Luster",
             "Magnetism",
@@ -160,7 +160,7 @@
         },
         {
           "question": "Which property does this picture show?",
-          "image": "assets/QCM3-2.png",
+          "image": "assets/QCM3-2b.jpg",
           "options": [
             "Electrical conductivity",
             "Luster",
@@ -168,7 +168,7 @@
             "Malleability"
           ],
           "correctAnswer": 0,
-          "explanation": "The picture shows an electric current flowing through metal wires. Metals let electricity pass through them: this is <strong>electrical conductivity</strong>."
+          "explanation": "The bulb lights up because the electric current flows through the copper plate. Metals let electricity pass through them: this is <strong>electrical conductivity</strong>."
         },
         {
           "question": "Which property does this picture show?",

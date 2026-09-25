@@ -28,8 +28,8 @@
       "image": "frog-waterlily-2.jpg",
       "en": "Look at the picture. \nName two biotic factors and two abiotic factors you can see.",
       "fr": "Observe l'image. \nCite deux facteurs biotiques et deux facteurs abiotiques visibles.",
-      "corr_en": "Biotic: frogs, water lilies \nAbiotic: water, rocks/sun",
-      "corr_fr": "Biotiques : grenouilles, nénuphars\nAbiotiques : eau, rochers/soleil"
+      "corr_en": "Biotic: frog, water lilies, flowers, trees \nAbiotic: water, rocks, sun",
+      "corr_fr": "Biotiques : grenouille, nénuphars, fleurs, arbres\nAbiotiques : eau, rochers, soleil"
     },
     {
       "id": 3,

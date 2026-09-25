@@ -70,7 +70,7 @@
       "questions": [
         {
           "question": "Tot welke categorie behoort graniet?",
-          "image": "assets/QCM2-1.png",
+          "image": "assets/QCM2-1b.jpg",
           "options": [
             "Gesteenten",
             "Mineralen",
@@ -82,7 +82,7 @@
         },
         {
           "question": "Tot welke categorie behoort dit?",
-          "image": "assets/QCM2-2.png",
+          "image": "assets/QCM2-2b.jpg",
           "options": [
             "Mineralen",
             "Gesteenten",
@@ -106,7 +106,7 @@
         },
         {
           "question": "Tot welke categorie behoort dit?",
-          "image": "assets/QCM2-4.png",
+          "image": "assets/QCM2-4b.jpg",
           "options": [
             "Organische hulpbronnen",
             "Mineralen",
@@ -148,7 +148,7 @@
       "questions": [
         {
           "question": "Welke eigenschap toont deze afbeelding?",
-          "image": "assets/QCM3-1.png",
+          "image": "assets/QCM3-1b.jpg",
           "options": [
             "Glans",
             "Magnetisme",
@@ -160,7 +160,7 @@
         },
         {
           "question": "Welke eigenschap toont deze afbeelding?",
-          "image": "assets/QCM3-2.png",
+          "image": "assets/QCM3-2b.jpg",
           "options": [
             "Elektrische geleiding",
             "Glans",
@@ -168,7 +168,7 @@
             "Kneedbaarheid"
           ],
           "correctAnswer": 0,
-          "explanation": "De afbeelding toont een elektrische stroom die door metalen draden loopt. Metalen laten elektriciteit door: dat is <strong>elektrische geleiding</strong>."
+          "explanation": "De lamp brandt omdat de elektrische stroom door de koperen plaat loopt. Metalen laten elektriciteit door: dat is <strong>elektrische geleiding</strong>."
         },
         {
           "question": "Welke eigenschap toont deze afbeelding?",
