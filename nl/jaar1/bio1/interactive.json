@@ -172,7 +172,7 @@
     },
     {
       "quizTitle": "Ecologische relaties",
-      "image": "assets/QCM test.webp",
+      "image": "assets/QCM test-nl.webp",
       "instructions": "Bekijk de afbeelding hierboven aandachtig, en beantwoord dan de vragen hieronder.",
       "questions": [
         {
@@ -577,7 +577,7 @@
     },
     {
       "quizTitle": "De kringloop van de stof",
-      "backgroundImage": "assets/DnD 1.jpg",
+      "backgroundImage": "assets/DnD 1-nl.jpg",
       "hideOnSuccess": true,
       "reservoirItems": [
         "Biocenose",

@@ -20,7 +20,7 @@
     },
     {
       "id": 3,
-      "title": "Subsoil living things",
+      "title": "Life in the subsoil?",
       "image": null,
       "en": "True or False: the subsoil contains living things and organic matter.",
       "fr": "Vrai ou Faux : le sous-sol contient des êtres vivants et de la matière organique.",
@@ -74,7 +74,7 @@
     },
     {
       "id": 9,
-      "title": "Metals pure in nature",
+      "title": "Metals in nature",
       "image": null,
       "en": "True or False: metals are usually found pure in nature, like small bricks.",
       "fr": "Vrai ou Faux : les métaux se trouvent généralement purs dans la nature, comme de petites briques.",
@@ -146,7 +146,7 @@
     },
     {
       "id": 17,
-      "title": "Glass biodegradable",
+      "title": "Is glass biodegradable?",
       "image": null,
       "en": "True or False: glass is biodegradable.",
       "fr": "Vrai ou Faux : le verre est biodégradable.",

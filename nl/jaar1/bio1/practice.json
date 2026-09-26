@@ -91,7 +91,7 @@
     },
     {
       "id": 5,
-      "title": "Soort — Herkenning",
+      "title": "Twee padden",
       "image": null,
       "en": "Twee padden kunnen samen geen jongen krijgen. Wat vertelt dit je over de twee padden?",
       "fr": "Deux crapauds ne peuvent pas se reproduire ensemble. Que peux-tu en déduire ?",
@@ -100,7 +100,7 @@
     },
     {
       "id": 6,
-      "title": "Reducenten aan het werk",
+      "title": "Schimmel op een dode stam",
       "image": "fungus-dead-log-2.jpg",
       "en": "Wat is de ecologische rol van het organisme op de afbeelding?",
       "fr": "Quel est le rôle écologique de l'organisme présent sur l'image ?",
@@ -209,7 +209,7 @@
     {
       "id": 18,
       "title": "Zonnige versus schaduwrijke zone",
-      "image": "forest_zones_sunny_vs_shade.webp",
+      "image": "forest_zones_sunny_vs_shade-nl.webp",
       "en": "Welke zone verwacht je vochtiger en kouder: Zone A of Zone B?",
       "fr": "Quelle zone est probablement plus humide et plus fraîche : la Zone A ou la Zone B ?",
       "corr_en": "Zone B (diepe schaduw): minder zonlicht betekent een lagere temperatuur en hogere vochtigheid.",
@@ -299,7 +299,7 @@
     {
       "id": 4,
       "title": "Terreingegevens — Zone A en B vergelijken",
-      "image": "field_data_sheet.webp",
+      "image": "field_data_sheet-nl.webp",
       "questions": [
         {
           "en": "Welke zone heeft, volgens de tabel, de hoogste biodiversiteit?",
@@ -335,7 +335,7 @@
     },
     {
       "id": 7,
-      "title": "Concurrerende eiken",
+      "title": "Twee eiken naast elkaar",
       "image": null,
       "en": "Noem deze interactie en verantwoord: \"Twee eiken die dicht bij elkaar groeien, strijden beide om zonlicht.\"",
       "fr": "Nomme cette interaction et justifie : \"Deux chênes qui poussent l'un près de l'autre se disputent tous les deux la lumière.\"",
@@ -399,7 +399,7 @@
     {
       "id": 14,
       "title": "De kringloop van de stof",
-      "image": "forest_matter_cycle.webp",
+      "image": "forest_matter_cycle-nl.webp",
       "en": "Leg, aan de hand van het schema, uit wat er met de kringloop zou gebeuren als de stap \"reducent\" zou verdwijnen.",
       "fr": "À l'aide du schéma, explique ce qui arriverait au cycle si l'étape \"décomposeur\" disparaissait.",
       "corr_en": "Dode organische stof zou niet langer omgezet worden in minerale stof; de bodem zou arm worden aan voedingsstoffen, en producenten zouden moeilijk kunnen groeien, waardoor de hele kringloop verbroken zou worden.",
@@ -473,7 +473,7 @@
     {
       "id": 2,
       "title": "De wolf, het hert en het bos",
-      "image": "ardennes_forest_food_web.webp",
+      "image": "ardennes_forest_food_web-nl.webp",
       "questions": [
         {
           "en": "Voorspel, aan de hand van het voedselweb, wat er met de hertenpopulatie zou gebeuren als de wolf opnieuw zou verdwijnen.",
@@ -501,7 +501,7 @@
     {
       "id": 4,
       "title": "Een predator-prooigrafiek lezen",
-      "image": "deer_wolf_population.png",
+      "image": "deer_wolf_population-nl.webp",
       "en": "Analyseer de grafiek en leg de relatie tussen de twee populatiecurves uit.",
       "fr": "Analyse le graphique et explique la relation entre les deux courbes de population.",
       "corr_en": "Wanneer de hertenpopulatie te groot wordt, put ze waarschijnlijk haar voedselbron uit en stort ze in; de wolvenpopulatie volgt deze trend dan met vertraging, aangezien wolven afhankelijk zijn van herten als prooi — dit is een predator-prooicyclus.",
@@ -583,7 +583,7 @@
     {
       "id": 12,
       "title": "Lichtniveaus en biodiversiteit",
-      "image": "forest_light_biodiversity_gradient.webp",
+      "image": "forest_light_biodiversity_gradient-nl.webp",
       "en": "Voorspel, aan de hand van het schema, op welk niveau de biodiversiteit waarschijnlijk het hoogst is, en verantwoord je antwoord met abiotische factoren.",
       "fr": "À l'aide du schéma, prédis à quel niveau la biodiversité est probablement la plus élevée, et justifie ta réponse avec des facteurs abiotiques.",
       "corr_en": "Antwoorden kunnen variëren als ze verantwoord zijn; een veelvoorkomend antwoord is de kroonlaag/randzones met matig tot veel licht, aangezien veel planten licht nodig hebben voor fotosynthese, wat op zijn beurt meer herbivoren en hun predatoren ondersteunt — de beschikbaarheid van licht bepaalt rechtstreeks waar producenten, en dus de rest van het voedselweb, kunnen gedijen.",
@@ -619,7 +619,7 @@
     {
       "id": 16,
       "title": "Bodem met en zonder reducenten",
-      "image": "soil_with_without_decomposers.webp",
+      "image": "soil_with_without_decomposers-nl.webp",
       "en": "Vergelijk de twee bodems en voorspel, 10 jaar later, het gevolg voor het bos dat zich boven elk ervan bevindt.",
       "fr": "Compare les deux sols et prédis, 10 ans plus tard, la conséquence pour la forêt qui se trouve au-dessus de chacun.",
       "corr_en": "De bodem met reducenten blijft rijk aan minerale stof, wat een gezonde boomgroei ondersteunt. De bodem zonder reducenten hoopt onafgebroken organische stof op maar blijft arm aan minerale voedingsstoffen, waardoor bomen zwakker zouden groeien en het bos geleidelijk zou achteruitgaan.",

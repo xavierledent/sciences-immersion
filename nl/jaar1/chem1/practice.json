@@ -2,7 +2,7 @@
   "level1": [
     {
       "id": 1,
-      "title": "Define raw material",
+      "title": "Grondstof — Definitie",
       "image": null,
       "en": "Definieer \"grondstof\" met je eigen woorden.",
       "fr": "Définis \"matière première\" avec tes propres mots.",
@@ -11,7 +11,7 @@
     },
     {
       "id": 2,
-      "title": "Soil vs subsoil diagram",
+      "title": "Schema: bodem en ondergrond",
       "image": "N1 - 2.webp",
       "en": "Bekijk het schema. Welk nummer komt overeen met de bodem (soil)?",
       "fr": "Observe le schéma. Quel numéro correspond au sol ?",
@@ -20,7 +20,7 @@
     },
     {
       "id": 3,
-      "title": "Subsoil living things",
+      "title": "Leven in de ondergrond?",
       "image": null,
       "en": "Waar of niet waar: de ondergrond (subsoil) bevat levende wezens en organisch materiaal.",
       "fr": "Vrai ou Faux : le sous-sol contient des êtres vivants et de la matière organique.",
@@ -29,7 +29,7 @@
     },
     {
       "id": 4,
-      "title": "Mineral vs rock diagram",
+      "title": "Schema: mineraal en rots",
       "image": "N1 - 4.webp",
       "en": "Bekijk het schema. Welke van de twee, het mineraal of de rots, bestaat uit slechts één zuivere stof?",
       "fr": "Observe le schéma. Lequel, le minéral ou la roche, est fait d'une seule substance pure ?",
@@ -38,7 +38,7 @@
     },
     {
       "id": 5,
-      "title": "Define mineral",
+      "title": "Mineraal — Definitie",
       "image": null,
       "en": "Definieer \"mineraal\".",
       "fr": "Définis \"minéral\".",
@@ -47,7 +47,7 @@
     },
     {
       "id": 6,
-      "title": "Staircase rock",
+      "title": "Een stenen trap",
       "image": "N1-6b.jpg",
       "en": "Welke rots wordt hier gebruikt voor deze trap?",
       "fr": "Quelle roche est utilisée pour cet escalier ?",
@@ -56,7 +56,7 @@
     },
     {
       "id": 7,
-      "title": "Define biodegradable",
+      "title": "Biologisch afbreekbaar — Definitie",
       "image": null,
       "en": "Definieer \"biologisch afbreekbaar\".",
       "fr": "Définis \"biodégradable\".",
@@ -65,7 +65,7 @@
     },
     {
       "id": 8,
-      "title": "Copper wire",
+      "title": "Koperdraad",
       "image": "N1-8b.jpg",
       "en": "Dit koper is tot een dunne draad gevormd. Welke eigenschap van metalen toont dit aan?",
       "fr": "Ce cuivre a été façonné en fil fin. Quelle propriété du métal cela montre-t-il ?",
@@ -74,7 +74,7 @@
     },
     {
       "id": 9,
-      "title": "Metals pure in nature",
+      "title": "Metalen in de natuur",
       "image": null,
       "en": "Waar of niet waar: metalen worden meestal zuiver in de natuur gevonden, zoals kleine baksteentjes.",
       "fr": "Vrai ou Faux : les métaux se trouvent généralement purs dans la nature, comme de petites briques.",
@@ -92,7 +92,7 @@
     },
     {
       "id": 11,
-      "title": "Define non-renewable resource",
+      "title": "Niet-hernieuwbare grondstof — Definitie",
       "image": null,
       "en": "Definieer \"niet-hernieuwbare grondstof\".",
       "fr": "Définis \"ressource non-renouvelable\".",
@@ -101,7 +101,7 @@
     },
     {
       "id": 12,
-      "title": "Polished copper",
+      "title": "Gepolijst koper",
       "image": "N1-12b.jpg",
       "en": "Het koper op de afbeelding ziet er glanzend uit wanneer het gepolijst is. Hoe noemen we deze eigenschap?",
       "fr": "Le cuivre de l'image brille quand il est poli. Comment appelle-t-on cette propriété ?",
@@ -110,7 +110,7 @@
     },
     {
       "id": 13,
-      "title": "Fossil fuel example",
+      "title": "Een fossiele brandstof",
       "image": null,
       "en": "Geef één voorbeeld van een fossiele brandstof.",
       "fr": "Donne un exemple de combustible fossile.",
@@ -119,7 +119,7 @@
     },
     {
       "id": 14,
-      "title": "Lifecycle first step",
+      "title": "De eerste stap van de levenscyclus",
       "image": "N1 - 14.webp",
       "en": "Bekijk het levenscyclusschema. Welke stap komt eerst?",
       "fr": "Observe le schéma du cycle de vie. Quelle étape vient en premier ?",
@@ -128,7 +128,7 @@
     },
     {
       "id": 15,
-      "title": "Define recycling",
+      "title": "Recycling — Definitie",
       "image": null,
       "en": "Definieer \"recycling\".",
       "fr": "Définis \"recyclage\".",
@@ -137,7 +137,7 @@
     },
     {
       "id": 16,
-      "title": "Banana peel decomposition",
+      "title": "Afbraak van een bananenschil",
       "image": "N1 - 16.png",
       "en": "Hoeveel tijd heeft een bananenschil volgens de gegevenstabel nodig om te verteren?",
       "fr": "Selon le tableau de données, combien de temps met une pelure de banane à se décomposer ?",
@@ -146,7 +146,7 @@
     },
     {
       "id": 17,
-      "title": "Glass biodegradable",
+      "title": "Is glas biologisch afbreekbaar?",
       "image": null,
       "en": "Waar of niet waar: glas is biologisch afbreekbaar.",
       "fr": "Vrai ou Faux : le verre est biodégradable.",
@@ -155,7 +155,7 @@
     },
     {
       "id": 18,
-      "title": "Soda can metal",
+      "title": "Het metaal van een blikje",
       "image": "N1-18b.jpg",
       "en": "Uit welk metaal bestaan deze frisdrankblikjes?",
       "fr": "En quel métal sont faites ces canettes ?",
@@ -164,7 +164,7 @@
     },
     {
       "id": 19,
-      "title": "Organic resource example",
+      "title": "Een organische grondstof",
       "image": null,
       "en": "Geef één voorbeeld van een organische grondstof.",
       "fr": "Donne un exemple de ressource organique.",
@@ -173,7 +173,7 @@
     },
     {
       "id": 20,
-      "title": "Smartphone metal",
+      "title": "Metalen in een smartphone",
       "image": "N1-20b.jpg",
       "en": "Smartphones bevatten veel grondstoffen. Noem één metaal dat erin te vinden is.",
       "fr": "Les smartphones contiennent beaucoup de matières premières. Nomme un métal qu'on y trouve.",
@@ -184,7 +184,7 @@
   "level2": [
     {
       "id": 1,
-      "title": "Soil vs subsoil explained",
+      "title": "Bodem en ondergrond uitgelegd",
       "image": null,
       "en": "Leg het belangrijkste verschil tussen de bodem (soil) en de ondergrond (subsoil) uit.",
       "fr": "Explique la différence principale entre le sol et le sous-sol.",
@@ -193,7 +193,7 @@
     },
     {
       "id": 2,
-      "title": "Forest vs playground soil",
+      "title": "Bosbodem versus speelpleinbodem",
       "image": "N2 - 2.webp",
       "en": "Vergelijk aan de hand van de tabel de samenstelling van een bodemstaal uit een bos en een zandstaal van een speelplein.",
       "fr": "D'après le tableau, compare la composition d'un échantillon de sol de forêt et d'un échantillon de sable de cour de récréation.",
@@ -202,7 +202,7 @@
     },
     {
       "id": 3,
-      "title": "Banana peel vs plastic bottle",
+      "title": "Bananenschil versus plastic fles",
       "image": null,
       "en": "Leg uit waarom een bananenschil binnen enkele weken verteert, maar een plastic fles niet.",
       "fr": "Explique pourquoi une pelure de banane se décompose en quelques semaines alors qu'une bouteille en plastique ne se décompose pas.",
@@ -211,7 +211,7 @@
     },
     {
       "id": 4,
-      "title": "Identify rocks scientifically",
+      "title": "Gesteenten wetenschappelijk herkennen",
       "image": "N2 - 4.webp",
       "en": "Twee rotsstalen zien er identiek uit. Leg uit hoe wetenschappers 100% zeker kunnen zijn van wat ze bekijken.",
       "fr": "Deux échantillons de roches se ressemblent. Explique comment les scientifiques peuvent être sûrs à 100 % de ce qu'ils observent.",
@@ -220,7 +220,7 @@
     },
     {
       "id": 5,
-      "title": "Copper for electrical wires",
+      "title": "Koper voor elektrische draden",
       "image": null,
       "en": "Leg uit waarom koper gebruikt wordt voor elektrische draden in plaats van hout.",
       "fr": "Explique pourquoi le cuivre est utilisé pour les fils électriques plutôt que le bois.",
@@ -229,7 +229,7 @@
     },
     {
       "id": 6,
-      "title": "Identify metal from data",
+      "title": "Een metaal herkennen aan de hand van gegevens",
       "image": "N2 - 6.png",
       "en": "Identificeer aan de hand van de gegevenstabel het metaal (ijzer, koper of aluminium) en motiveer je antwoord.",
       "fr": "D'après le tableau de données, identifie le métal (fer, cuivre ou aluminium) et justifie ta réponse.",
@@ -238,7 +238,7 @@
     },
     {
       "id": 7,
-      "title": "Rock vs mineral composition",
+      "title": "Samenstelling: rots versus mineraal",
       "image": null,
       "en": "Vergelijk een rots en een mineraal op het vlak van samenstelling.",
       "fr": "Compare une roche et un minéral au niveau de leur composition.",
@@ -247,7 +247,7 @@
     },
     {
       "id": 8,
-      "title": "Limestone vs granite use",
+      "title": "Kalksteen versus graniet",
       "image": "N2 - 8.webp",
       "en": "Leg het verschil uit tussen het gebruik van kalksteen \"zoals het is\" om een piramide te bouwen en het omvormen van graniet tot een gepolijst aanrechtblad.",
       "fr": "Explique la différence entre utiliser le calcaire \"tel quel\" pour construire une pyramide et transformer le granite en un plan de travail poli.",
@@ -256,7 +256,7 @@
     },
     {
       "id": 9,
-      "title": "Renewable and biodegradable sort",
+      "title": "Hernieuwbaar en biologisch afbreekbaar sorteren",
       "image": null,
       "en": "Sorteer deze zes materialen — katoen, hout, wol, aluminium blikje, plastic fles, gouden ring — eerst volgens hernieuwbaar vs niet-hernieuwbaar, en daarna volgens biologisch afbreekbaar vs niet-biologisch afbreekbaar. Presenteer je indeling als twee korte lijstjes.",
       "fr": "Classe ces six matériaux — coton, bois, laine, canette en aluminium, bouteille en plastique, bague en or — d'abord selon renouvelable vs non-renouvelable, puis selon biodégradable vs non-biodégradable. Présente ta classification sous forme de deux listes.",
@@ -265,7 +265,7 @@
     },
     {
       "id": 10,
-      "title": "Graphite for pencils",
+      "title": "Grafiet voor potloden",
       "image": "N2 - 10.png",
       "en": "Leg uit waarom grafiet gebruikt wordt om potloden te maken, op basis van één van zijn eigenschappen.",
       "fr": "Explique pourquoi le graphite est utilisé pour fabriquer des crayons, en te basant sur une de ses propriétés.",
@@ -274,7 +274,7 @@
     },
     {
       "id": 11,
-      "title": "Humus and compost link",
+      "title": "Het verband tussen humus en compost",
       "image": null,
       "en": "Leg het verband tussen humus en compost uit.",
       "fr": "Explique le lien entre l'humus et le compost.",
@@ -283,7 +283,7 @@
     },
     {
       "id": 12,
-      "title": "Lifecycle double arrows",
+      "title": "De dubbele pijlen van de levenscyclus",
       "image": "N2 - 12.webp",
       "en": "Leg uit waarom de pijlen op het levenscyclusschema dubbel zijn (⇄) en niet enkel (→), en wat dit toont over onze relatie met de planeet Aarde.",
       "fr": "Explique pourquoi les flèches du schéma du cycle de vie sont doubles (⇄) et non simples (→), et ce que cela montre sur notre relation avec la planète Terre.",
@@ -292,7 +292,7 @@
     },
     {
       "id": 13,
-      "title": "Newspaper vs plastic bottle",
+      "title": "Krant versus plastic fles",
       "image": null,
       "en": "Vergelijk de vertijd van een papieren krant en een plastic waterfles, en verklaar het verschil op basis van hun oorspronkelijke grondstof.",
       "fr": "Compare le temps de décomposition d'un journal en papier et d'une bouteille d'eau en plastique, et explique la différence en te basant sur leur matière première d'origine.",
@@ -301,7 +301,7 @@
     },
     {
       "id": 14,
-      "title": "Soda can lifecycle order",
+      "title": "De levenscyclus van een blikje in de juiste volgorde",
       "image": "N2 - 14.webp",
       "en": "Twee stappen uit de levenscyclus van een blikje worden in de verkeerde volgorde getoond: \"vrachtwagens leveren blikjes aan winkels\" en \"machines delven bauxieterts\". Zet ze in de juiste volgorde en motiveer.",
       "fr": "Deux étapes du cycle de vie d'une canette sont présentées dans le désordre : \"des camions livrent les canettes aux magasins\" et \"des machines extraient le minerai de bauxite\". Remets-les dans l'ordre et justifie.",
@@ -310,7 +310,7 @@
     },
     {
       "id": 15,
-      "title": "Metal and glass durability",
+      "title": "Metaal en glas: duurzaam?",
       "image": null,
       "en": "Leg uit waarom metaal en glas, hoewel niet biologisch afbreekbaar, als \"duurzaam\" beschouwd worden.",
       "fr": "Explique pourquoi le métal et le verre, bien que non biodégradables, sont considérés comme \"durables\".",
@@ -319,7 +319,7 @@
     },
     {
       "id": 16,
-      "title": "Smartphone materials pie chart",
+      "title": "Cirkeldiagram: materialen van een smartphone",
       "image": "N2 - 16.webp",
       "en": "Bekijk het cirkeldiagram. Leg op basis daarvan uit waarom een smartphone, gemaakt van zoveel verschillende materialen, moeilijker te recycleren is dan een voorwerp uit één materiaal, zoals een aluminium blikje.",
       "fr": "Observe le graphique circulaire. Explique pourquoi un smartphone, fait de tant de matériaux différents, est plus difficile à recycler qu'un objet en un seul matériau comme une canette en aluminium.",
@@ -328,7 +328,7 @@
     },
     {
       "id": 17,
-      "title": "Rusting metal scientific method",
+      "title": "Roestend metaal en de wetenschappelijke methode",
       "image": null,
       "en": "Je merkt dat een ijzeren nagel die buiten in de regen ligt na enkele weken oranje en schilferig wordt, terwijl een aluminium blikje in de buurt glanzend blijft. Pas de stappen van de wetenschappelijke methode toe: formuleer de vraag, een hypothese die het verschil verklaart, en één experiment (geteste variabele) om dit te controleren.",
       "fr": "Tu remarques qu'un clou en fer laissé sous la pluie devient orange et s'effrite après quelques semaines, alors qu'une canette en aluminium à proximité reste brillante. Applique les étapes de la démarche scientifique : formule la question, une hypothèse expliquant la différence, et une expérience (variable testée) pour la vérifier.",
@@ -337,7 +337,7 @@
     },
     {
       "id": 18,
-      "title": "Reduce vs recycle",
+      "title": "Reduce versus recycle",
       "image": "N2 - 18.webp",
       "en": "Vergelijk \"Reduce\" (verminderen) en \"Recycle\" (recycleren) aan de hand van telkens één voorbeeld.",
       "fr": "Compare \"Réduire\" et \"Recycler\" en donnant un exemple pour chacun.",
@@ -346,7 +346,7 @@
     },
     {
       "id": 19,
-      "title": "Fact, judgment or hypothesis?",
+      "title": "Feit, oordeel of hypothese?",
       "image": null,
       "en": "Lees deze drie uitspraken over dagbouwmijnbouw (open-pit mining): <br>(1) \"Dagbouwmijnbouw verwijdert grote hoeveelheden rots en bodem om het erts te bereiken.\" <br>(2) \"Dagbouwmijnbouw is het ergste wat de mens de planeet aandoet.\" <br>(3) \"Als de mijnbouw in dit tempo doorgaat, zullen de meeste toegankelijke ertsvoorraden waarschijnlijk binnen enkele decennia opraken.\" <br>Zeg voor elke uitspraak of het een feit, een oordeel of een hypothese is, en motiveer kort.",
       "fr": "Lis ces trois affirmations sur l'exploitation minière à ciel ouvert : <br>(1) « Elle retire de grandes quantités de roche et de sol pour atteindre le minerai. » <br>(2) « C'est la pire chose que l'humain fasse à la planète. » <br>(3) « Si l'extraction continue à ce rythme, la plupart des gisements accessibles seront probablement épuisés d'ici quelques décennies. » <br>Pour chacune, dis s'il s'agit d'un fait, d'un jugement ou d'une hypothèse, et justifie brièvement.",
@@ -355,7 +355,7 @@
     },
     {
       "id": 20,
-      "title": "Fossil fuels non-renewable",
+      "title": "Fossiele brandstoffen: niet-hernieuwbaar",
       "image": "N2 - 20.png",
       "en": "Leg uit waarom fossiele brandstoffen ingedeeld worden als niet-hernieuwbare grondstoffen.",
       "fr": "Explique pourquoi les combustibles fossiles sont classés comme ressources non-renouvelables.",
@@ -366,7 +366,7 @@
   "level3": [
     {
       "id": 1,
-      "title": "Bicycle full lifecycle",
+      "title": "De volledige levenscyclus van een fiets",
       "image": null,
       "en": "Een fiets is gemaakt van staal, aluminium en rubber. Voorspel de volledige levenscyclus, van de winning van grondstoffen tot het einde van de levensduur, en leg uit bij welke stappen de mens grondstoffen \"neemt\" tegenover stappen waarbij hij de Aarde \"vervuilt\".",
       "fr": "Un vélo est fait d'acier, d'aluminium et de caoutchouc. Prédis son cycle de vie complet, de l'extraction des matières premières à sa fin de vie, et explique à quelles étapes l'humain \"prend\" des ressources et à quelles étapes il \"pollue\" la Terre.",
@@ -375,7 +375,7 @@
     },
     {
       "id": 2,
-      "title": "3 R's on daily object",
+      "title": "De 3 R's op een dagelijks voorwerp",
       "image": "N3 - 2.webp",
       "en": "Kies een voorwerp dat je dagelijks gebruikt. Leg aan de hand van het schema uit hoe het toepassen van \"reduce\", \"reuse\" en \"recycle\" op verschillende stappen van de levenscyclus samen de totale milieu-impact verlaagt.",
       "fr": "Choisis un objet que tu utilises tous les jours. À l'aide du schéma, explique comment appliquer \"réduire\", \"réutiliser\" et \"recycler\" à différentes étapes du cycle de vie réduit ensemble son impact environnemental global.",
@@ -384,7 +384,7 @@
     },
     {
       "id": 3,
-      "title": "Wind turbine lab report plan",
+      "title": "Plan voor een labverslag: de windturbine",
       "image": null,
       "en": "Men vermoedt dat een windturbinewiek een metalen kern verbergt onder composietmateriaal. Schets een kort labverslagplan: één zin voor de Vraag, één voor de Hypothese, één voor het benodigde Materiaal en één voor de Waarneming die een metalen kern zou bevestigen.",
       "fr": "On soupçonne qu'une pale d'éolienne contient un noyau métallique caché sous un matériau composite. Esquisse un court plan de rapport de labo : une ligne pour la Question, une pour l'Hypothèse, une pour le Matériel nécessaire, et une pour l'Observation qui confirmerait un noyau métallique.",
@@ -393,7 +393,7 @@
     },
     {
       "id": 4,
-      "title": "Cutlery metal properties",
+      "title": "Eigenschappen van metalen in bestek",
       "image": "N3-4b.jpg",
       "en": "Keukenbestek is vaak gemaakt van een metaal dat roestbestendig is en glanzend blijft. Analyseer welke in de klas bestudeerde eigenschappen (glans, geleidbaarheid, magnetisme, kneedbaarheid) ingenieurs geleid zouden hebben bij het kiezen van een metaal voor bestek, en motiveer elk van hen.",
       "fr": "Les couverts de cuisine sont souvent faits d'un métal résistant à la rouille qui reste brillant. Analyse quelles propriétés vues en classe (éclat, conductivité, magnétisme, malléabilité) auraient guidé les ingénieurs à choisir un métal pour les couverts, et justifie chacune.",
@@ -402,7 +402,7 @@
     },
     {
       "id": 5,
-      "title": "Recycling aluminum argument",
+      "title": "Aluminium recycleren: een argumentatie",
       "image": null,
       "en": "Beargumenteer of het recycleren van aluminium blikjes over het geheel genomen goed is voor het milieu, door de bespaarde energie af te wegen tegen de energie die nog nodig is voor inzameling en smelten.",
       "fr": "Argumente si recycler les canettes en aluminium est globalement bénéfique pour l'environnement, en pesant l'énergie économisée face à l'énergie encore nécessaire pour la collecte et la fonte.",
@@ -411,7 +411,7 @@
     },
     {
       "id": 6,
-      "title": "Forest vs desert soil",
+      "title": "Bosbodem versus woestijnbodem",
       "image": "N3 - 6.webp",
       "en": "Vergelijk het schema van bosbodem met een bodemprofiel uit de woestijn. Voorspel en verklaar waarom woestijnbodem een veel dunnere organische laag heeft dan bosbodem.",
       "fr": "Compare le schéma du sol forestier avec un profil de sol désertique. Prédis et explique pourquoi le sol désertique a une couche organique bien plus fine que le sol forestier.",
@@ -420,7 +420,7 @@
     },
     {
       "id": 7,
-      "title": "EV battery lithium chain",
+      "title": "Lithium voor batterijen van elektrische auto's",
       "image": null,
       "en": "Batterijen van elektrische auto's hebben grote hoeveelheden lithium nodig, vooral gewonnen uit zoutvlaktes. Voorspel een reeks gevolgen, van de mijnbouwstap tot een mogelijk milieueffect meerdere stappen later.",
       "fr": "Les batteries de voitures électriques nécessitent de grandes quantités de lithium, extrait principalement de salars (lacs salés). Prédis une chaîne de conséquences, depuis l'extraction jusqu'à un effet environnemental possible plusieurs étapes plus tard.",
@@ -429,7 +429,7 @@
     },
     {
       "id": 8,
-      "title": "Brick house transformation",
+      "title": "Van klei tot bakstenen huis",
       "image": "N3 - 8.webp",
       "en": "Analyseer de meerstapstransformatie van klei tot bakstenen voor een huis, en voorspel de milieu-impact bij elke fase (winning, bakken, gebruik).",
       "fr": "Analyse la transformation en plusieurs étapes de l'argile en briques pour une maison, et prédis l'impact environnemental à chaque étape (extraction, cuisson, utilisation).",
@@ -438,7 +438,7 @@
     },
     {
       "id": 9,
-      "title": "Recycling gold vs mining",
+      "title": "Goud recycleren versus goud delven",
       "image": null,
       "en": "Beargumenteer of het recycleren van oude smartphones voor goud efficiënter is met grondstoffen dan het winnen van nieuw gouderts, op basis van het feit dat 1 ton oude telefoons meer goud kan bevatten dan 1 ton gouderts.",
       "fr": "Argumente si recycler de vieux smartphones pour en extraire l'or est plus efficace en ressources que d'extraire du minerai d'or neuf, en te basant sur le fait qu'1 tonne de vieux téléphones peut contenir plus d'or qu'1 tonne de minerai d'or.",
@@ -447,7 +447,7 @@
     },
     {
       "id": 10,
-      "title": "Gold ring authenticity test",
+      "title": "Is deze ring van echt goud?",
       "image": "N3-10b.jpg",
       "en": "Je wilt controleren of een ring echt goud is of enkel verguld metaal. Ontwerp een experiment met minstens twee in de klas bestudeerde fysische eigenschappen, en leg uit welk resultaat zou bewijzen dat het geen zuiver goud is.",
       "fr": "Tu veux vérifier si une bague est en or véritable ou seulement plaquée or. Conçois une expérience utilisant au moins deux propriétés physiques vues en classe, et explique quel résultat prouverait qu'elle n'est pas en or pur.",
@@ -456,7 +456,7 @@
     },
     {
       "id": 11,
-      "title": "Deep-sea mining cascade",
+      "title": "Diepzeemijnbouw: een cascade van gevolgen",
       "image": null,
       "en": "Diepzeemijnbouw wint metaalrijke knollen van de oceaanbodem. Voorspel een cascade van effecten die dit zou kunnen hebben op mariene ecosystemen, meerdere stappen voorbij de winning zelf.",
       "fr": "L'exploitation minière en eaux profondes extrait des nodules riches en métaux du fond océanique. Prédis une chaîne d'effets en cascade que cela pourrait avoir sur les écosystèmes marins, plusieurs étapes au-delà de l'extraction elle-même.",
@@ -465,7 +465,7 @@
     },
     {
       "id": 12,
-      "title": "Decomposition times bar chart",
+      "title": "Staafdiagram: afbraaktijden",
       "image": "N3 - 12.png",
       "en": "Bekijk het staafdiagram met de vertijden van zes voorwerpen. Een wandelaar laat een bananenschil, een aluminium blikje, een plastic fles en een glazen fles achter in een bos. Rangschik aan de hand van het diagram hun impact op lange termijn op het ecosysteem.",
       "fr": "Observe l'histogramme des temps de décomposition de six objets. Un randonneur laisse une pelure de banane, une canette en aluminium, une bouteille en plastique et une bouteille en verre dans une forêt. À l'aide du graphique, classe leur impact à long terme.",
@@ -474,7 +474,7 @@
     },
     {
       "id": 13,
-      "title": "Bauxite to aluminum can chain",
+      "title": "Van bauxiet tot aluminium blikje",
       "image": null,
       "en": "Leg de volledige keten uit van bauxieterts tot een gerecycleerd aluminium blikje, met gebruik van de begrippen grondstof, erts, productie en de dubbele pijlen van de levenscyclus.",
       "fr": "Explique la chaîne complète du minerai de bauxite jusqu'à une canette en aluminium recyclée, en mobilisant les concepts de matière première, minerai, fabrication et flèches doubles du cycle de vie.",
@@ -483,7 +483,7 @@
     },
     {
       "id": 14,
-      "title": "Cotton vs plastic garment",
+      "title": "Katoenen versus plastic kledingstuk",
       "image": "N3 - 14.webp",
       "en": "Analyseer het levenscyclusschema van een katoenen t-shirt (een hernieuwbare organische grondstof) en vergelijk de dubbele-pijlstromen ervan met wat je zou verwachten voor een kledingstuk op basis van plastic, gemaakt van aardolie.",
       "fr": "Analyse le schéma du cycle de vie d'un t-shirt en coton (ressource organique renouvelable) et compare ses flèches doubles à ce qu'on attendrait pour un vêtement à base de plastique issu du pétrole.",
@@ -492,7 +492,7 @@
     },
     {
       "id": 15,
-      "title": "Recycled gravel argument",
+      "title": "Gerecycleerd grind: een argumentatie",
       "image": null,
       "en": "Een bouwbedrijf kan kiezen tussen vers gewonnen grind of gerecycleerd verbrijzeld beton voor een wegenproject. Beargumenteer welke keuze verantwoorder is, rekening houdend met meerdere criteria uit de cursus.",
       "fr": "Une entreprise de construction peut choisir entre du gravier vierge (fraîchement extrait) ou du béton concassé recyclé pour un projet de route. Argumente quel choix est le plus responsable, en tenant compte de plusieurs critères vus en cours.",
@@ -501,7 +501,7 @@
     },
     {
       "id": 16,
-      "title": "Laptop raw materials",
+      "title": "Grondstoffen van een laptop",
       "image": "N3-16b.jpg",
       "en": "Voorspel, op basis van wat je weet over de materialen van een smartphone, welke grondstoffen een laptop nodig zou hebben, en leg uit waarom zijn levenscyclus vergelijkbare milieuzorgen oproept.",
       "fr": "En te basant sur ce que tu sais des matériaux des smartphones, prédis quelles matières premières un ordinateur portable nécessiterait, et explique pourquoi son cycle de vie soulève des préoccupations environnementales similaires.",
@@ -510,7 +510,7 @@
     },
     {
       "id": 17,
-      "title": "Concrete forest consequences",
+      "title": "Een bos onder beton",
       "image": null,
       "en": "In het laboratoriumonderzoek wordt een bos vergeleken met een hypothetisch scenario waarin het onder beton verdwijnt. Analyseer de meerstapsketen van gevolgen die dit zou hebben op de bodem, zijn water en de biodiversiteit die erin leeft.",
       "fr": "Dans l'investigation de laboratoire, une forêt est comparée à un scénario hypothétique où elle serait recouverte de béton. Analyse la chaîne de conséquences en plusieurs étapes que cela aurait sur le sol, son eau et la biodiversité qui y vit.",
@@ -519,7 +519,7 @@
     },
     {
       "id": 18,
-      "title": "Phosphate scarcity chain",
+      "title": "Schaarste aan fosfaat",
       "image": "N3-18b.jpg",
       "en": "Fosfaatgesteente, een niet-hernieuwbare minerale grondstof, is essentieel om meststof te maken voor voedselteelt. Voorspel de cascade-effecten op de landbouw en de voedselvoorziening als de fosfaatvoorraden schaars zouden worden.",
       "fr": "La roche phosphatée, une ressource minérale non-renouvelable, est essentielle pour fabriquer des engrais pour cultiver la nourriture. Prédis les effets en cascade sur l'agriculture et l'approvisionnement alimentaire si les réserves de phosphate devenaient rares.",
@@ -528,7 +528,7 @@
     },
     {
       "id": 19,
-      "title": "Solar panels materials",
+      "title": "Materialen van zonnepanelen",
       "image": null,
       "en": "Zonnepanelen gebruiken hernieuwbare zonne-energie, maar denk na over de vraag of de panelen zelf gemaakt zijn van hernieuwbare materialen. Leg het verschil uit tussen de energiebron en de gebruikte materialen, met gebruik van meerdere begrippen uit de cursus.",
       "fr": "Les panneaux solaires utilisent l'énergie solaire renouvelable, mais réfléchis à si les panneaux eux-mêmes sont fabriqués à partir de matériaux renouvelables. Explique la différence entre la source d'énergie et les matériaux utilisés, en mobilisant plusieurs notions vues en cours.",
@@ -537,7 +537,7 @@
     },
     {
       "id": 20,
-      "title": "School e-waste proposal",
+      "title": "Een schoolplan tegen elektronisch afval",
       "image": "N3 - 20.png",
       "en": "Ontwerp een voorstel voor je school om elektronisch afval (oude rekenmachines, telefoons, opladers) te verminderen, met minstens twee stappen van de levenscyclus van een voorwerp en één van de 3 R's.",
       "fr": "Conçois une proposition pour ton école afin de réduire les déchets électroniques (vieilles calculatrices, téléphones, chargeurs), en intégrant au moins deux étapes du cycle de vie de l'objet et un des 3 R.",
