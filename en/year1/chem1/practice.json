@@ -12,7 +12,7 @@
     {
       "id": 2,
       "title": "Soil vs subsoil diagram",
-      "image": "N1 - 2.png",
+      "image": "N1 - 2.webp",
       "en": "Look at the diagram. Which number corresponds to the soil?",
       "fr": "Observe le schéma. Quel numéro correspond au sol ?",
       "corr_en": "Number 1 — it is the thin upper layer, full of life and organic matter.",
@@ -30,7 +30,7 @@
     {
       "id": 4,
       "title": "Mineral vs rock diagram",
-      "image": "N1 - 4.png",
+      "image": "N1 - 4.webp",
       "en": "Look at the diagram. Which one, the mineral or the rock, is made of only one pure substance?",
       "fr": "Observe le schéma. Lequel, le minéral ou la roche, est fait d'une seule substance pure ?",
       "corr_en": "The mineral is made of one pure substance.",
@@ -120,7 +120,7 @@
     {
       "id": 14,
       "title": "Lifecycle first step",
-      "image": "N1 - 14.png",
+      "image": "N1 - 14.webp",
       "en": "Look at the lifecycle diagram. Which step comes first?",
       "fr": "Observe le schéma du cycle de vie. Quelle étape vient en premier ?",
       "corr_en": "Raw material extraction.",
@@ -194,7 +194,7 @@
     {
       "id": 2,
       "title": "Forest vs playground soil",
-      "image": "N2 - 2.png",
+      "image": "N2 - 2.webp",
       "en": "Based on the table, compare the composition of a forest soil sample and a playground sand sample.",
       "fr": "D'après le tableau, compare la composition d'un échantillon de sol de forêt et d'un échantillon de sable de cour de récréation.",
       "corr_en": "The forest sample has more living things and organic matter, while the playground sample is mostly mineral matter (sand and gravel) with little life.",
@@ -212,7 +212,7 @@
     {
       "id": 4,
       "title": "Identify rocks scientifically",
-      "image": "N2 - 4.png",
+      "image": "N2 - 4.webp",
       "en": "Two rock samples look identical. Explain how scientists can be 100% sure of what they are looking at.",
       "fr": "Deux échantillons de roches se ressemblent. Explique comment les scientifiques peuvent être sûrs à 100 % de ce qu'ils observent.",
       "corr_en": "Visual observation can be misleading, so scientists use chemical or physical tests (like testing for conductivity, hardness, or crystal structure) to confirm the exact composition.",
@@ -248,7 +248,7 @@
     {
       "id": 8,
       "title": "Limestone vs granite use",
-      "image": "N2 - 8.png",
+      "image": "N2 - 8.webp",
       "en": "Explain the difference between using limestone \"as is\" to build a pyramid and transforming granite into a polished countertop.",
       "fr": "Explique la différence entre utiliser le calcaire \"tel quel\" pour construire une pyramide et transformer le granite en un plan de travail poli.",
       "corr_en": "Limestone blocks are used directly as extracted, keeping their natural form for building; granite instead is cut, shaped and polished by humans into a smooth, refined surface before being used as a countertop.",
@@ -284,7 +284,7 @@
     {
       "id": 12,
       "title": "Lifecycle double arrows",
-      "image": "N2 - 12.png",
+      "image": "N2 - 12.webp",
       "en": "Explain why the arrows on the lifecycle diagram are double (⇄) and not single (→), and what this shows about our relationship with Planet Earth.",
       "fr": "Explique pourquoi les flèches du schéma du cycle de vie sont doubles (⇄) et non simples (→), et ce que cela montre sur notre relation avec la planète Terre.",
       "corr_en": "The double arrows show that materials and waste can move in both directions — for example, recycled waste goes back to become a raw material again, closing the loop. This shows that our relationship with Earth should be balanced and reciprocal: instead of only taking resources, humans must also give back through recycling, rather than treating the planet as an endless one-way source.",
@@ -302,7 +302,7 @@
     {
       "id": 14,
       "title": "Soda can lifecycle order",
-      "image": "N2 - 14.png",
+      "image": "N2 - 14.webp",
       "en": "Two steps of a soda can's lifecycle are shown out of order: \"trucks deliver cans to shops\" and \"machines dig up bauxite ore\". Put them in the correct order and justify.",
       "fr": "Deux étapes du cycle de vie d'une canette sont présentées dans le désordre : \"des camions livrent les canettes aux magasins\" et \"des machines extraient le minerai de bauxite\". Remets-les dans l'ordre et justifie.",
       "corr_en": "The ore must be extracted first, because it is the raw material; only afterward can it be processed into cans that are then delivered to shops.",
@@ -320,7 +320,7 @@
     {
       "id": 16,
       "title": "Smartphone materials pie chart",
-      "image": "N2 - 16.png",
+      "image": "N2 - 16.webp",
       "en": "Look at the pie chart. Based on it, explain why a smartphone, made of so many different materials, is harder to recycle than a single-material object like an aluminum can.",
       "fr": "Observe le graphique circulaire. Explique pourquoi un smartphone, fait de tant de matériaux différents, est plus difficile à recycler qu'un objet en un seul matériau comme une canette en aluminium.",
       "corr_en": "Because each material (plastic, several metals, glass) needs its own separation and recycling process, recyclers must sort many small mixed components instead of melting one uniform material — making smartphone recycling slower, costlier and less efficient than recycling an aluminum can.",
@@ -338,7 +338,7 @@
     {
       "id": 18,
       "title": "Reduce vs recycle",
-      "image": "N2 - 18.png",
+      "image": "N2 - 18.webp",
       "en": "Compare \"Reduce\" and \"Recycle\" using one example for each.",
       "fr": "Compare \"Réduire\" et \"Recycler\" en donnant un exemple pour chacun.",
       "corr_en": "Reduce means using less in the first place, like bringing a reusable bag instead of buying plastic ones; Recycle means processing a used item, like melting a can to make a new one.",
@@ -376,7 +376,7 @@
     {
       "id": 2,
       "title": "3 R's on daily object",
-      "image": "N3 - 2.png",
+      "image": "N3 - 2.webp",
       "en": "Choose any object you use daily. Using the diagram, explain how applying \"reduce\", \"reuse\" and \"recycle\" at different lifecycle steps together lowers its overall environmental impact.",
       "fr": "Choisis un objet que tu utilises tous les jours. À l'aide du schéma, explique comment appliquer \"réduire\", \"réutiliser\" et \"recycler\" à différentes étapes du cycle de vie réduit ensemble son impact environnemental global.",
       "corr_en": "For example, for a t-shirt: reducing means buying fewer clothes, so less raw cotton and water are extracted; reusing means donating it instead of buying new, avoiding a new extraction and manufacturing cycle; recycling the worn fabric at disposal turns it back into fiber instead of polluting a landfill — together, each action removes pressure at a different point in the cycle.",
@@ -412,7 +412,7 @@
     {
       "id": 6,
       "title": "Forest vs desert soil",
-      "image": "N3 - 6.png",
+      "image": "N3 - 6.webp",
       "en": "Compare the diagram of forest soil with a desert soil profile. Predict and explain why desert soil has a much thinner organic layer than forest soil.",
       "fr": "Compare le schéma du sol forestier avec un profil de sol désertique. Prédis et explique pourquoi le sol désertique a une couche organique bien plus fine que le sol forestier.",
       "corr_en": "A desert has very little plant and animal life and almost no dead organic matter falling to the ground, so decomposers have very little material to transform into humus; combined with low water, this results in a thin organic layer and mostly mineral, sandy soil.",
@@ -430,7 +430,7 @@
     {
       "id": 8,
       "title": "Brick house transformation",
-      "image": "N3 - 8.png",
+      "image": "N3 - 8.webp",
       "en": "Analyze the multi-step transformation of clay into bricks for a house, and predict the environmental impact at each stage (extraction, firing, use).",
       "fr": "Analyse la transformation en plusieurs étapes de l'argile en briques pour une maison, et prédis l'impact environnemental à chaque étape (extraction, cuisson, utilisation).",
       "corr_en": "Extracting clay disturbs land and removes topsoil; firing bricks in a kiln burns fuel and releases CO₂ into the air, contributing to pollution; but once built into a house, bricks last for decades without further extraction, making the use phase relatively low-impact compared to the earlier steps.",
@@ -484,7 +484,7 @@
     {
       "id": 14,
       "title": "Cotton vs plastic garment",
-      "image": "N3 - 14.png",
+      "image": "N3 - 14.webp",
       "en": "Analyze the lifecycle diagram of a cotton t-shirt (a renewable organic resource) and compare its double-arrow flows to what you would expect for a plastic-based garment made from petroleum.",
       "fr": "Analyse le schéma du cycle de vie d'un t-shirt en coton (ressource organique renouvelable) et compare ses flèches doubles à ce qu'on attendrait pour un vêtement à base de plastique issu du pétrole.",
       "corr_en": "The cotton t-shirt can renew its raw material every growing season and, if discarded, its natural fibers can biodegrade or be composted, closing the loop naturally; a plastic garment instead depends on a non-renewable fossil resource and, if not specifically recycled, does not biodegrade, so its double arrow back to \"raw material\" only works through artificial recycling, not through nature itself.",

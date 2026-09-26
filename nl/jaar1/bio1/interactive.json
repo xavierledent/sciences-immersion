@@ -172,7 +172,7 @@
     },
     {
       "quizTitle": "Ecologische relaties",
-      "image": "assets/QCM test.jpg",
+      "image": "assets/QCM test.webp",
       "instructions": "Bekijk de afbeelding hierboven aandachtig, en beantwoord dan de vragen hieronder.",
       "questions": [
         {
@@ -628,7 +628,7 @@
     },
     {
       "quizTitle": "Organisatieniveaus",
-      "backgroundImage": "assets/DnD 3.jpg",
+      "backgroundImage": "assets/DnD 3.webp",
       "hideOnSuccess": true,
       "instructions": "Kies het juiste organisatieniveau voor elke trap van de piramide.",
       "reservoirItems": [
@@ -858,7 +858,7 @@
           "id": 2,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP pop.jpg"
+            "content": "assets/MTP pop.webp"
           },
           "sideB": {
             "type": "text",
@@ -869,7 +869,7 @@
           "id": 3,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP eco.jpg"
+            "content": "assets/MTP eco.webp"
           },
           "sideB": {
             "type": "text",

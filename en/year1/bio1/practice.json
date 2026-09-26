@@ -25,7 +25,7 @@
     {
       "id": 2,
       "title": "Pond Ecosystem — Spot the Factors",
-      "image": "frog-waterlily-2.jpg",
+      "image": "frog-waterlily-2.webp",
       "en": "Look at the picture. \nName two biotic factors and two abiotic factors you can see.",
       "fr": "Observe l'image. \nCite deux facteurs biotiques et deux facteurs abiotiques visibles.",
       "corr_en": "Biotic: frog, water lilies, flowers, trees \nAbiotic: water, rocks, sun",
@@ -209,7 +209,7 @@
     {
       "id": 18,
       "title": "Sunny vs Shady Zone",
-      "image": "forest_zones_sunny_vs_shade.png",
+      "image": "forest_zones_sunny_vs_shade.webp",
       "en": "Which zone would you expect to be more humid and cooler: Zone A or Zone B?",
       "fr": "Quelle zone est probablement plus humide et plus fraîche : la Zone A ou la Zone B ?",
       "corr_en": "Zone B (deep shade): less sunlight means lower temperature and higher humidity.",
@@ -299,7 +299,7 @@
     {
       "id": 4,
       "title": "Field Data — Comparing Zone A and B",
-      "image": "field_data_sheet.png",
+      "image": "field_data_sheet.webp",
       "questions": [
         {
           "en": "Based on the table, which zone has the highest biodiversity?",
@@ -399,7 +399,7 @@
     {
       "id": 14,
       "title": "The Matter Cycle",
-      "image": "forest_matter_cycle.png",
+      "image": "forest_matter_cycle.webp",
       "en": "Using the diagram, explain what would happen to the cycle if the decomposer step disappeared.",
       "fr": "À l'aide du schéma, explique ce qui arriverait au cycle si l'étape \"décomposeur\" disparaissait.",
       "corr_en": "Dead organic matter would no longer be transformed into mineral matter; the soil would become poor in nutrients, and producers would struggle to grow, breaking the whole cycle.",
@@ -473,7 +473,7 @@
     {
       "id": 2,
       "title": "The Wolf, the Deer and the Forest",
-      "image": "ardennes_forest_food_web.png",
+      "image": "ardennes_forest_food_web.webp",
       "questions": [
         {
           "en": "Using the food web, predict what would happen to the deer population if the wolf disappeared again.",
@@ -583,7 +583,7 @@
     {
       "id": 12,
       "title": "Light Levels and Biodiversity",
-      "image": "forest_light_biodiversity_gradient.png",
+      "image": "forest_light_biodiversity_gradient.webp",
       "en": "Using the diagram, predict at which level biodiversity is likely to be highest, and justify your answer using abiotic factors.",
       "fr": "À l'aide du schéma, prédis à quel niveau la biodiversité est probablement la plus élevée, et justifie ta réponse avec des facteurs abiotiques.",
       "corr_en": "Answers may vary with justification; a common answer is the canopy/edge zones with intermediate to high light, since many plants need light for photosynthesis, which then supports more herbivores and their predators — light availability directly shapes where producers, and therefore the rest of the food web, can thrive.",
@@ -619,7 +619,7 @@
     {
       "id": 16,
       "title": "Soil With and Without Decomposers",
-      "image": "soil_with_without_decomposers.png",
+      "image": "soil_with_without_decomposers.webp",
       "en": "Compare the two soils and predict, 10 years later, the consequence for the forest above each one.",
       "fr": "Compare les deux sols et prédis, 10 ans plus tard, la conséquence pour la forêt qui se trouve au-dessus de chacun.",
       "corr_en": "The soil with decomposers stays rich in mineral matter, supporting healthy tree growth. The soil without decomposers accumulates undecomposed organic matter but stays poor in mineral nutrients, so trees would grow weaker and the forest could gradually decline.",

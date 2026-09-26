@@ -46,10 +46,10 @@
      valide qu'ici, en exécution synchrone du script ; il redeviendrait null
      dans une fonction appelée plus tard. */
   const LIMITED_ACCESS_IMAGE = document.currentScript
-    ? new URL('assets/Friends%20-%20Limited%20acces.png', document.currentScript.src).href
+    ? new URL('assets/Friends%20-%20Limited%20acces.webp', document.currentScript.src).href
     : '';
   const CONNECT_IMAGE = document.currentScript
-    ? new URL('assets/Friends.jpg', document.currentScript.src).href
+    ? new URL('assets/Friends.webp', document.currentScript.src).href
     : '';
 
   /* Ni l'un ni l'autre écran ne s'affiche forcément en premier : un visiteur

@@ -23,7 +23,7 @@
    interceptées : leur propre cache HTTP s'en charge déjà, et gérer des
    réponses cross-origin ici ajouterait un risque pour un bénéfice nul. */
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = 'sciences-immersion-' + CACHE_VERSION;
 
 self.addEventListener('install', () => {

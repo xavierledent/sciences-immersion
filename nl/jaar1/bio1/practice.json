@@ -25,7 +25,7 @@
     {
       "id": 2,
       "title": "Vijverecosysteem — Zoek de factoren",
-      "image": "frog-waterlily-2.jpg",
+      "image": "frog-waterlily-2.webp",
       "en": "Bekijk de afbeelding. \nNoem twee biotische factoren en twee abiotische factoren die je ziet.",
       "fr": "Observe l'image. \nCite deux facteurs biotiques et deux facteurs abiotiques visibles.",
       "corr_en": "Biotisch: kikker, waterlelies, bloemen, bomen \nAbiotisch: water, rotsen, zon",
@@ -209,7 +209,7 @@
     {
       "id": 18,
       "title": "Zonnige versus schaduwrijke zone",
-      "image": "forest_zones_sunny_vs_shade.png",
+      "image": "forest_zones_sunny_vs_shade.webp",
       "en": "Welke zone verwacht je vochtiger en kouder: Zone A of Zone B?",
       "fr": "Quelle zone est probablement plus humide et plus fraîche : la Zone A ou la Zone B ?",
       "corr_en": "Zone B (diepe schaduw): minder zonlicht betekent een lagere temperatuur en hogere vochtigheid.",
@@ -299,7 +299,7 @@
     {
       "id": 4,
       "title": "Terreingegevens — Zone A en B vergelijken",
-      "image": "field_data_sheet.png",
+      "image": "field_data_sheet.webp",
       "questions": [
         {
           "en": "Welke zone heeft, volgens de tabel, de hoogste biodiversiteit?",
@@ -399,7 +399,7 @@
     {
       "id": 14,
       "title": "De kringloop van de stof",
-      "image": "forest_matter_cycle.png",
+      "image": "forest_matter_cycle.webp",
       "en": "Leg, aan de hand van het schema, uit wat er met de kringloop zou gebeuren als de stap \"reducent\" zou verdwijnen.",
       "fr": "À l'aide du schéma, explique ce qui arriverait au cycle si l'étape \"décomposeur\" disparaissait.",
       "corr_en": "Dode organische stof zou niet langer omgezet worden in minerale stof; de bodem zou arm worden aan voedingsstoffen, en producenten zouden moeilijk kunnen groeien, waardoor de hele kringloop verbroken zou worden.",
@@ -473,7 +473,7 @@
     {
       "id": 2,
       "title": "De wolf, het hert en het bos",
-      "image": "ardennes_forest_food_web.png",
+      "image": "ardennes_forest_food_web.webp",
       "questions": [
         {
           "en": "Voorspel, aan de hand van het voedselweb, wat er met de hertenpopulatie zou gebeuren als de wolf opnieuw zou verdwijnen.",
@@ -583,7 +583,7 @@
     {
       "id": 12,
       "title": "Lichtniveaus en biodiversiteit",
-      "image": "forest_light_biodiversity_gradient.png",
+      "image": "forest_light_biodiversity_gradient.webp",
       "en": "Voorspel, aan de hand van het schema, op welk niveau de biodiversiteit waarschijnlijk het hoogst is, en verantwoord je antwoord met abiotische factoren.",
       "fr": "À l'aide du schéma, prédis à quel niveau la biodiversité est probablement la plus élevée, et justifie ta réponse avec des facteurs abiotiques.",
       "corr_en": "Antwoorden kunnen variëren als ze verantwoord zijn; een veelvoorkomend antwoord is de kroonlaag/randzones met matig tot veel licht, aangezien veel planten licht nodig hebben voor fotosynthese, wat op zijn beurt meer herbivoren en hun predatoren ondersteunt — de beschikbaarheid van licht bepaalt rechtstreeks waar producenten, en dus de rest van het voedselweb, kunnen gedijen.",
@@ -619,7 +619,7 @@
     {
       "id": 16,
       "title": "Bodem met en zonder reducenten",
-      "image": "soil_with_without_decomposers.png",
+      "image": "soil_with_without_decomposers.webp",
       "en": "Vergelijk de twee bodems en voorspel, 10 jaar later, het gevolg voor het bos dat zich boven elk ervan bevindt.",
       "fr": "Compare les deux sols et prédis, 10 ans plus tard, la conséquence pour la forêt qui se trouve au-dessus de chacun.",
       "corr_en": "De bodem met reducenten blijft rijk aan minerale stof, wat een gezonde boomgroei ondersteunt. De bodem zonder reducenten hoopt onafgebroken organische stof op maar blijft arm aan minerale voedingsstoffen, waardoor bomen zwakker zouden groeien en het bos geleidelijk zou achteruitgaan.",

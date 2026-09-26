@@ -9,8 +9,8 @@
   const DISPLAY_MS = 6000;
 
   const WELCOME_IMAGE = document.currentScript
-    ? new URL('assets/Friends%20wback.png', document.currentScript.src).href
-    : 'assets/Friends wback.png';
+    ? new URL('assets/Friends%20wback.webp', document.currentScript.src).href
+    : 'assets/Friends wback.webp';
 
   function readLastVisit() {
     const raw = SiteStorage.device.get(STORAGE_KEY);
@@ -78,7 +78,7 @@
         transform: translateY(0);
       }
       /* object-fit: contain plutôt que cover: la mascotte fait signe de la
-         main sur cette image précise (assets/Friends wback.png) — un
+         main sur cette image précise (assets/Friends wback.webp) — un
          recadrage en cercle qui coupait ce geste, comme la version
          précédente, retirait justement ce qui rend l'image reconnaissable. */
       #welcome-back-banner img {

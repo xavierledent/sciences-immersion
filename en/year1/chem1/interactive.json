@@ -6,7 +6,7 @@
       "questions": [
         {
           "question": "What is the top layer of the ground called?",
-          "image": "assets/QCM1.jpg",
+          "image": "assets/QCM1.webp",
           "options": [
             "Soil",
             "Subsoil",
@@ -18,7 +18,7 @@
         },
         {
           "question": "What is the layer beneath the soil called?",
-          "image": "assets/QCM1.jpg",
+          "image": "assets/QCM1.webp",
           "options": [
             "Subsoil",
             "Soil",
@@ -82,7 +82,7 @@
         },
         {
           "question": "Which category does this belong to?",
-          "image": "assets/QCM2-2b.jpg",
+          "image": "assets/QCM2-2b.webp",
           "options": [
             "Minerals",
             "Rocks",
@@ -222,7 +222,7 @@
     },
     {
       "quizTitle": "Lifecycle & the 3 R's",
-      "image": "assets/QCM4.png",
+      "image": "assets/QCM4.webp",
       "instructions": "",
       "questions": [
         {
@@ -338,7 +338,7 @@
         },
         {
           "question": "A company digs up lithium from underground salt flats to make batteries. Which step of the object lifecycle does this represent?",
-          "image": "assets/QCM5-5b.jpg",
+          "image": "assets/QCM5-5b.webp",
           "options": [
             "Raw material extraction",
             "Manufacturing",
@@ -354,7 +354,7 @@
   "dragAndDrop": [
     {
       "quizTitle": "Label the Soil Profile",
-      "backgroundImage": "assets/DnD1.jpeg",
+      "backgroundImage": "assets/DnD1.webp",
       "hideOnSuccess": true,
       "instructions": "Drag each label onto the correct numbered circle.",
       "reservoirItems": [
@@ -389,7 +389,7 @@
     },
     {
       "quizTitle": "Identify Rock and Mineral Samples",
-      "backgroundImage": "assets/Dnd2.jpg",
+      "backgroundImage": "assets/Dnd2.webp",
       "hideOnSuccess": true,
       "instructions": "Center each label on the middle of the target sample (not on its edge).",
       "reservoirItems": [
@@ -424,7 +424,7 @@
     },
     {
       "quizTitle": "Label the Product Lifecycle",
-      "backgroundImage": "assets/Dnd3.jpg",
+      "backgroundImage": "assets/Dnd3.webp",
       "hideOnSuccess": true,
       "instructions": "Drag each label onto the correct numbered circle.",
       "reservoirItems": [
@@ -470,7 +470,7 @@
     },
     {
       "quizTitle": "Build-a-Bike Materials",
-      "backgroundImage": "assets/Dnd4.jpg",
+      "backgroundImage": "assets/Dnd4.webp",
       "hideOnSuccess": true,
       "instructions": "Drag each material to the correct numbered circle",
       "reservoirItems": [
@@ -504,7 +504,7 @@
     },
     {
       "quizTitle": "Metal Testing Station",
-      "backgroundImage": "assets/DnD5.jpg",
+      "backgroundImage": "assets/DnD5.webp",
       "hideOnSuccess": true,
       "reservoirItems": [
         "Magnetism test",
@@ -538,7 +538,7 @@
     },
     {
       "quizTitle": "Materials Dichotomous Key",
-      "backgroundImage": "assets/Dnd6.png",
+      "backgroundImage": "assets/Dnd6.webp",
       "hideOnSuccess": true,
       "reservoirItems": [
         "Wool",
@@ -987,7 +987,7 @@
           "id": 1,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-1.png"
+            "content": "assets/MTP3-1.webp"
           },
           "sideB": {
             "type": "text",
@@ -998,7 +998,7 @@
           "id": 2,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-2.png"
+            "content": "assets/MTP3-2.webp"
           },
           "sideB": {
             "type": "text",
@@ -1009,7 +1009,7 @@
           "id": 3,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-3.png"
+            "content": "assets/MTP3-3.webp"
           },
           "sideB": {
             "type": "text",

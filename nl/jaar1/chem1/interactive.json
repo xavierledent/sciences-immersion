@@ -6,7 +6,7 @@
       "questions": [
         {
           "question": "Hoe heet de bovenste laag van de grond?",
-          "image": "assets/QCM1.jpg",
+          "image": "assets/QCM1.webp",
           "options": [
             "Bodem",
             "Ondergrond",
@@ -18,7 +18,7 @@
         },
         {
           "question": "Hoe heet de laag onder de bodem?",
-          "image": "assets/QCM1.jpg",
+          "image": "assets/QCM1.webp",
           "options": [
             "Ondergrond",
             "Bodem",
@@ -82,7 +82,7 @@
         },
         {
           "question": "Tot welke categorie behoort dit?",
-          "image": "assets/QCM2-2b.jpg",
+          "image": "assets/QCM2-2b.webp",
           "options": [
             "Mineralen",
             "Gesteenten",
@@ -222,7 +222,7 @@
     },
     {
       "quizTitle": "Levenscyclus en de 3 R's",
-      "image": "assets/QCM4.png",
+      "image": "assets/QCM4.webp",
       "instructions": "",
       "questions": [
         {
@@ -338,7 +338,7 @@
         },
         {
           "question": "Een bedrijf wint lithium uit ondergrondse zoutvlaktes om batterijen te maken. Welke stap van de levenscyclus van een voorwerp stelt dit voor?",
-          "image": "assets/QCM5-5b.jpg",
+          "image": "assets/QCM5-5b.webp",
           "options": [
             "Winning van grondstoffen",
             "Productie",
@@ -354,7 +354,7 @@
   "dragAndDrop": [
     {
       "quizTitle": "Benoem het bodemprofiel",
-      "backgroundImage": "assets/DnD1.jpeg",
+      "backgroundImage": "assets/DnD1.webp",
       "hideOnSuccess": true,
       "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
       "reservoirItems": [
@@ -389,7 +389,7 @@
     },
     {
       "quizTitle": "Herken gesteente- en mineraalstalen",
-      "backgroundImage": "assets/Dnd2.jpg",
+      "backgroundImage": "assets/Dnd2.webp",
       "hideOnSuccess": true,
       "instructions": "Centreer elk label op het midden van het beoogde staal (niet op de rand).",
       "reservoirItems": [
@@ -424,7 +424,7 @@
     },
     {
       "quizTitle": "Benoem de levenscyclus van een product",
-      "backgroundImage": "assets/Dnd3.jpg",
+      "backgroundImage": "assets/Dnd3.webp",
       "hideOnSuccess": true,
       "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
       "reservoirItems": [
@@ -470,7 +470,7 @@
     },
     {
       "quizTitle": "Materialen van een fiets",
-      "backgroundImage": "assets/Dnd4.jpg",
+      "backgroundImage": "assets/Dnd4.webp",
       "hideOnSuccess": true,
       "instructions": "Sleep elk materiaal naar de juiste genummerde cirkel",
       "reservoirItems": [
@@ -504,7 +504,7 @@
     },
     {
       "quizTitle": "Teststation voor metalen",
-      "backgroundImage": "assets/DnD5.jpg",
+      "backgroundImage": "assets/DnD5.webp",
       "hideOnSuccess": true,
       "reservoirItems": [
         "Magnetismetest",
@@ -538,7 +538,7 @@
     },
     {
       "quizTitle": "Determineersleutel materialen",
-      "backgroundImage": "assets/Dnd6.png",
+      "backgroundImage": "assets/Dnd6.webp",
       "hideOnSuccess": true,
       "reservoirItems": [
         "Wol",
@@ -987,7 +987,7 @@
           "id": 1,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-1.png"
+            "content": "assets/MTP3-1.webp"
           },
           "sideB": {
             "type": "text",
@@ -998,7 +998,7 @@
           "id": 2,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-2.png"
+            "content": "assets/MTP3-2.webp"
           },
           "sideB": {
             "type": "text",
@@ -1009,7 +1009,7 @@
           "id": 3,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-3.png"
+            "content": "assets/MTP3-3.webp"
           },
           "sideB": {
             "type": "text",

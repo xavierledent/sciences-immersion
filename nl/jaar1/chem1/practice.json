@@ -12,7 +12,7 @@
     {
       "id": 2,
       "title": "Soil vs subsoil diagram",
-      "image": "N1 - 2.png",
+      "image": "N1 - 2.webp",
       "en": "Bekijk het schema. Welk nummer komt overeen met de bodem (soil)?",
       "fr": "Observe le schéma. Quel numéro correspond au sol ?",
       "corr_en": "Nummer 1 — het is de dunne bovenste laag, vol leven en organisch materiaal.",
@@ -30,7 +30,7 @@
     {
       "id": 4,
       "title": "Mineral vs rock diagram",
-      "image": "N1 - 4.png",
+      "image": "N1 - 4.webp",
       "en": "Bekijk het schema. Welke van de twee, het mineraal of de rots, bestaat uit slechts één zuivere stof?",
       "fr": "Observe le schéma. Lequel, le minéral ou la roche, est fait d'une seule substance pure ?",
       "corr_en": "Het mineraal bestaat uit één zuivere stof.",
@@ -120,7 +120,7 @@
     {
       "id": 14,
       "title": "Lifecycle first step",
-      "image": "N1 - 14.png",
+      "image": "N1 - 14.webp",
       "en": "Bekijk het levenscyclusschema. Welke stap komt eerst?",
       "fr": "Observe le schéma du cycle de vie. Quelle étape vient en premier ?",
       "corr_en": "De winning van grondstoffen.",
@@ -194,7 +194,7 @@
     {
       "id": 2,
       "title": "Forest vs playground soil",
-      "image": "N2 - 2.png",
+      "image": "N2 - 2.webp",
       "en": "Vergelijk aan de hand van de tabel de samenstelling van een bodemstaal uit een bos en een zandstaal van een speelplein.",
       "fr": "D'après le tableau, compare la composition d'un échantillon de sol de forêt et d'un échantillon de sable de cour de récréation.",
       "corr_en": "Het bosstaal bevat meer levende wezens en organisch materiaal, terwijl het speelpleinstaal vooral uit minerale stof (zand en grind) bestaat, met weinig leven.",
@@ -212,7 +212,7 @@
     {
       "id": 4,
       "title": "Identify rocks scientifically",
-      "image": "N2 - 4.png",
+      "image": "N2 - 4.webp",
       "en": "Twee rotsstalen zien er identiek uit. Leg uit hoe wetenschappers 100% zeker kunnen zijn van wat ze bekijken.",
       "fr": "Deux échantillons de roches se ressemblent. Explique comment les scientifiques peuvent être sûrs à 100 % de ce qu'ils observent.",
       "corr_en": "Visuele waarneming kan misleidend zijn, dus gebruiken wetenschappers chemische of fysische testen (zoals geleidbaarheid, hardheid of kristalstructuur) om de precieze samenstelling te bevestigen.",
@@ -248,7 +248,7 @@
     {
       "id": 8,
       "title": "Limestone vs granite use",
-      "image": "N2 - 8.png",
+      "image": "N2 - 8.webp",
       "en": "Leg het verschil uit tussen het gebruik van kalksteen \"zoals het is\" om een piramide te bouwen en het omvormen van graniet tot een gepolijst aanrechtblad.",
       "fr": "Explique la différence entre utiliser le calcaire \"tel quel\" pour construire une pyramide et transformer le granite en un plan de travail poli.",
       "corr_en": "Kalkstenen blokken worden rechtstreeks gebruikt zoals ze gewonnen zijn, met behoud van hun natuurlijke vorm voor de bouw; graniet daarentegen wordt door de mens gesneden, gevormd en gepolijst tot een glad, verfijnd oppervlak voor het als aanrechtblad gebruikt wordt.",
@@ -284,7 +284,7 @@
     {
       "id": 12,
       "title": "Lifecycle double arrows",
-      "image": "N2 - 12.png",
+      "image": "N2 - 12.webp",
       "en": "Leg uit waarom de pijlen op het levenscyclusschema dubbel zijn (⇄) en niet enkel (→), en wat dit toont over onze relatie met de planeet Aarde.",
       "fr": "Explique pourquoi les flèches du schéma du cycle de vie sont doubles (⇄) et non simples (→), et ce que cela montre sur notre relation avec la planète Terre.",
       "corr_en": "De dubbele pijlen tonen dat materialen en afval in beide richtingen kunnen bewegen — gerecycleerd afval wordt bijvoorbeeld opnieuw een grondstof, waardoor de cirkel gesloten wordt. Dit toont dat onze relatie met de Aarde evenwichtig en wederkerig moet zijn: in plaats van enkel grondstoffen te nemen, moet de mens ook iets teruggeven via recycling, in plaats van de planeet te behandelen als een onuitputtelijke bron in één richting.",
@@ -302,7 +302,7 @@
     {
       "id": 14,
       "title": "Soda can lifecycle order",
-      "image": "N2 - 14.png",
+      "image": "N2 - 14.webp",
       "en": "Twee stappen uit de levenscyclus van een blikje worden in de verkeerde volgorde getoond: \"vrachtwagens leveren blikjes aan winkels\" en \"machines delven bauxieterts\". Zet ze in de juiste volgorde en motiveer.",
       "fr": "Deux étapes du cycle de vie d'une canette sont présentées dans le désordre : \"des camions livrent les canettes aux magasins\" et \"des machines extraient le minerai de bauxite\". Remets-les dans l'ordre et justifie.",
       "corr_en": "Het erts moet eerst gewonnen worden, want het is de grondstof; pas daarna kan het verwerkt worden tot blikjes, die vervolgens aan winkels geleverd worden.",
@@ -320,7 +320,7 @@
     {
       "id": 16,
       "title": "Smartphone materials pie chart",
-      "image": "N2 - 16.png",
+      "image": "N2 - 16.webp",
       "en": "Bekijk het cirkeldiagram. Leg op basis daarvan uit waarom een smartphone, gemaakt van zoveel verschillende materialen, moeilijker te recycleren is dan een voorwerp uit één materiaal, zoals een aluminium blikje.",
       "fr": "Observe le graphique circulaire. Explique pourquoi un smartphone, fait de tant de matériaux différents, est plus difficile à recycler qu'un objet en un seul matériau comme une canette en aluminium.",
       "corr_en": "Omdat elk materiaal (plastic, verschillende metalen, glas) zijn eigen scheidings- en recyclingproces vereist, moeten recyclers veel kleine, vermengde onderdelen sorteren in plaats van één uniform materiaal te smelten — waardoor het recycleren van een smartphone trager, duurder en minder efficiënt is dan dat van een aluminium blikje.",
@@ -338,7 +338,7 @@
     {
       "id": 18,
       "title": "Reduce vs recycle",
-      "image": "N2 - 18.png",
+      "image": "N2 - 18.webp",
       "en": "Vergelijk \"Reduce\" (verminderen) en \"Recycle\" (recycleren) aan de hand van telkens één voorbeeld.",
       "fr": "Compare \"Réduire\" et \"Recycler\" en donnant un exemple pour chacun.",
       "corr_en": "Reduce betekent van bij het begin minder gebruiken, zoals een herbruikbare tas meenemen in plaats van plastic zakjes te kopen; Recycle betekent een gebruikt voorwerp verwerken, zoals een blikje smelten om er een nieuw van te maken.",
@@ -376,7 +376,7 @@
     {
       "id": 2,
       "title": "3 R's on daily object",
-      "image": "N3 - 2.png",
+      "image": "N3 - 2.webp",
       "en": "Kies een voorwerp dat je dagelijks gebruikt. Leg aan de hand van het schema uit hoe het toepassen van \"reduce\", \"reuse\" en \"recycle\" op verschillende stappen van de levenscyclus samen de totale milieu-impact verlaagt.",
       "fr": "Choisis un objet que tu utilises tous les jours. À l'aide du schéma, explique comment appliquer \"réduire\", \"réutiliser\" et \"recycler\" à différentes étapes du cycle de vie réduit ensemble son impact environnemental global.",
       "corr_en": "Voor een t-shirt bijvoorbeeld: reduceren betekent minder kleren kopen, zodat er minder ruwe katoen en water gewonnen worden; hergebruiken betekent het weggeven in plaats van een nieuwe te kopen, waardoor een nieuwe winnings- en productiecyclus vermeden wordt; het versleten weefsel recycleren bij afdanking maakt er opnieuw vezel van in plaats van een stort te vervuilen — samen verminderen deze acties de druk op verschillende punten van de cyclus.",
@@ -412,7 +412,7 @@
     {
       "id": 6,
       "title": "Forest vs desert soil",
-      "image": "N3 - 6.png",
+      "image": "N3 - 6.webp",
       "en": "Vergelijk het schema van bosbodem met een bodemprofiel uit de woestijn. Voorspel en verklaar waarom woestijnbodem een veel dunnere organische laag heeft dan bosbodem.",
       "fr": "Compare le schéma du sol forestier avec un profil de sol désertique. Prédis et explique pourquoi le sol désertique a une couche organique bien plus fine que le sol forestier.",
       "corr_en": "Een woestijn heeft heel weinig planten- en dierenleven en bijna geen dood organisch materiaal dat op de grond valt, waardoor ontbinders zeer weinig materiaal hebben om tot humus om te zetten; samen met het lage watergehalte resulteert dit in een dunne organische laag en een voornamelijk minerale, zanderige bodem.",
@@ -430,7 +430,7 @@
     {
       "id": 8,
       "title": "Brick house transformation",
-      "image": "N3 - 8.png",
+      "image": "N3 - 8.webp",
       "en": "Analyseer de meerstapstransformatie van klei tot bakstenen voor een huis, en voorspel de milieu-impact bij elke fase (winning, bakken, gebruik).",
       "fr": "Analyse la transformation en plusieurs étapes de l'argile en briques pour une maison, et prédis l'impact environnemental à chaque étape (extraction, cuisson, utilisation).",
       "corr_en": "Het winnen van klei verstoort het land en verwijdert de bovengrond; het bakken van bakstenen in een oven verbrandt brandstof en stoot CO₂ uit in de lucht, wat bijdraagt aan vervuiling; maar eenmaal verwerkt in een huis, gaan bakstenen tientallen jaren mee zonder verdere winning, waardoor de gebruiksfase relatief weinig impact heeft in vergelijking met de eerdere stappen.",
@@ -484,7 +484,7 @@
     {
       "id": 14,
       "title": "Cotton vs plastic garment",
-      "image": "N3 - 14.png",
+      "image": "N3 - 14.webp",
       "en": "Analyseer het levenscyclusschema van een katoenen t-shirt (een hernieuwbare organische grondstof) en vergelijk de dubbele-pijlstromen ervan met wat je zou verwachten voor een kledingstuk op basis van plastic, gemaakt van aardolie.",
       "fr": "Analyse le schéma du cycle de vie d'un t-shirt en coton (ressource organique renouvelable) et compare ses flèches doubles à ce qu'on attendrait pour un vêtement à base de plastique issu du pétrole.",
       "corr_en": "Het katoenen t-shirt kan zijn grondstof elk groeiseizoen vernieuwen en, indien weggegooid, kunnen de natuurlijke vezels biologisch afbreken of gecomposteerd worden, waardoor de cirkel op natuurlijke wijze gesloten wordt; een plastic kledingstuk hangt daarentegen af van een niet-hernieuwbare fossiele grondstof en breekt, tenzij het specifiek gerecycleerd wordt, niet biologisch af, waardoor zijn dubbele pijl terug naar \"grondstof\" enkel werkt via kunstmatige recycling, niet via de natuur zelf.",

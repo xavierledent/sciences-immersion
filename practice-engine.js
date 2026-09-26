@@ -1309,10 +1309,10 @@
     }
 
     function getOverviewMascotSrc(percent) {
-      if (percent >= 100) return '../../../assets/Friends palier 4.png';
-      if (percent >= 80) return '../../../assets/Friends palier 3.png';
-      if (percent >= 21) return '../../../assets/Friends palier 2.png';
-      return '../../../assets/Friends palier 1.png';
+      if (percent >= 100) return '../../../assets/Friends palier 4.webp';
+      if (percent >= 80) return '../../../assets/Friends palier 3.webp';
+      if (percent >= 21) return '../../../assets/Friends palier 2.webp';
+      return '../../../assets/Friends palier 1.webp';
     }
 
     function updateOverviewMascot(levelKey) {
