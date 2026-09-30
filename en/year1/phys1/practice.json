@@ -472,7 +472,7 @@
     {
       "id": 6,
       "title": "Nuclear plant analysis",
-      "image": null,
+      "image": "nuclear-plant-diagram.jpg",
       "questions": [
         {
           "en": "This diagram shows a nuclear power plant. In which form is the energy stored in the uranium, and what happens to it in part 1 (the reactor)?",
@@ -530,7 +530,7 @@
     {
       "id": 10,
       "title": "Desert solar plant",
-      "image": null,
+      "image": "desert-solar-plant.jpg",
       "en": "Morocco has built one of the biggest solar power plants in the world, in the desert. Why is the desert a good place for it? Give two advantages compared with a coal power plant, and one limit of solar energy.",
       "fr": "Le Maroc a construit l’une des plus grandes centrales solaires du monde, dans le désert. Pourquoi le désert est-il un bon endroit ? Donne deux avantages par rapport à une centrale au charbon, et une limite de l’énergie solaire.",
       "corr_en": "In the desert, the sun shines almost every day, so the plant receives a lot of EMW energy (light). Advantages: the sun is a renewable resource that will never run out, and nothing is burned, so no CO2 is released. Limit: there is no production at night, and electricity cannot be stored directly, so it must first be transformed and stored in another form.",
@@ -548,7 +548,7 @@
     {
       "id": 12,
       "title": "Solaria pie chart",
-      "image": null,
+      "image": "solaria-pie-chart.png",
       "questions": [
         {
           "en": "This pie chart shows how the imaginary country Solaria produced its electricity last year. What percentage came from renewable resources? Show your calculation.",
@@ -582,7 +582,7 @@
     {
       "id": 14,
       "title": "LED versus traditional",
-      "image": null,
+      "image": "led-vs-bulb.jpg",
       "en": "A traditional light bulb (60 W) and an LED bulb (10 W) give the same amount of light. Using the idea of an energy flow diagram, explain this difference and why using LED bulbs helps protect the planet.",
       "fr": "Une ampoule classique (60 W) et une ampoule LED (10 W) donnent la même quantité de lumière. En t’appuyant sur l’idée du diagramme de flux d’énergie, explique cette différence et pourquoi utiliser des LED aide à protéger la planète.",
       "corr_en": "Both transform electrical energy into EMW energy (light) and thermal energy. The traditional bulb loses most of its energy as heat (it gets very hot), while the LED loses much less. So the LED needs 6 times less power for the same useful light. Less electricity is needed, so power plants burn less gas and release less CO2.",
