@@ -288,7 +288,7 @@
     {
       "id": 10,
       "title": "Thermos flask",
-      "image": null,
+      "image": "thermos.jpg",
       "en": "A thermos flask is an energy reservoir. Which storage code is it: [C], [M] or [T]? Why does the drink still get cold after many hours?",
       "fr": "Une bouteille thermos est un réservoir d’énergie. Quel est son code de stockage : [C], [M] ou [T] ? Pourquoi la boisson finit-elle quand même par refroidir après de nombreuses heures ?",
       "corr_en": "[T]: it stores thermal energy (trapped heat). But a little heat always escapes into the colder air around it, so the drink slowly cools down.",
