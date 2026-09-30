@@ -1,5 +1,668 @@
 {
-  "level1": [],
-  "level2": [],
-  "level3": []
+  "level1": [
+    {
+      "id": 1,
+      "title": "Energy source definition",
+      "image": null,
+      "en": "In your own words, what is an energy source?",
+      "fr": "Avec tes propres mots, qu’est-ce qu’une source d’énergie ?",
+      "corr_en": "An energy source is a resource that humans use to extract or produce energy, such as electricity.",
+      "corr_fr": "Une source d’énergie est une ressource que l’humain utilise pour extraire ou produire de l’énergie, comme l’électricité."
+    },
+    {
+      "id": 2,
+      "title": "Wind resource",
+      "image": null,
+      "en": "Look at the picture. Which energy resource is used here? Is it renewable or non-renewable?",
+      "fr": "Observe la photo. Quelle ressource d’énergie est utilisée ici ? Est-elle renouvelable ou non renouvelable ?",
+      "corr_en": "The wind. It is a renewable resource: it will never run out.",
+      "corr_fr": "Le vent. C’est une ressource renouvelable : elle ne s’épuisera jamais."
+    },
+    {
+      "id": 3,
+      "title": "Coal: true or false",
+      "image": null,
+      "en": "True or false? Correct the sentence if it is false: ‘Coal is a renewable resource because there is a lot of it on Earth.’",
+      "fr": "Vrai ou faux ? Corrige la phrase si elle est fausse : « Le charbon est une ressource renouvelable car il y en a beaucoup sur Terre. »",
+      "corr_en": "False. Coal is non-renewable: its stock is limited because it takes millions of years to form.",
+      "corr_fr": "Faux. Le charbon est non renouvelable : son stock est limité car il met des millions d’années à se former."
+    },
+    {
+      "id": 4,
+      "title": "Oil pump jack",
+      "image": null,
+      "en": "This machine extracts an energy resource from the ground. What is its English name? Is its natural stock limited or unlimited?",
+      "fr": "Cette machine extrait une ressource d’énergie du sol. Quel est son nom en anglais ? Son stock naturel est-il limité ou illimité ?",
+      "corr_en": "Oil. Its natural stock is limited: it is a non-renewable resource.",
+      "corr_fr": "Le pétrole (oil). Son stock naturel est limité : c’est une ressource non renouvelable."
+    },
+    {
+      "id": 5,
+      "title": "Running out",
+      "image": null,
+      "en": "Complete the sentence: ‘Non-renewable resources take ______ of years to form. If we use them too fast, they will ______.’",
+      "fr": "Complète la phrase : « Les ressources non renouvelables mettent des ______ d’années à se former. Si on les utilise trop vite, elles vont ______. »",
+      "corr_en": "millions – run out.",
+      "corr_fr": "millions – s’épuiser (run out)."
+    },
+    {
+      "id": 6,
+      "title": "Heat from the Earth",
+      "image": null,
+      "en": "This power plant uses the heat coming from inside the Earth. What is the English name of this energy resource? Is it renewable?",
+      "fr": "Cette centrale utilise la chaleur venant de l’intérieur de la Terre. Quel est le nom anglais de cette ressource d’énergie ? Est-elle renouvelable ?",
+      "corr_en": "Geothermal energy. Yes, it is a renewable resource.",
+      "corr_fr": "La géothermie (geothermal energy). Oui, c’est une ressource renouvelable."
+    },
+    {
+      "id": 7,
+      "title": "Six energy forms",
+      "image": null,
+      "en": "Name the 6 forms of energy you learned in this chapter.",
+      "fr": "Cite les 6 formes d’énergie vues dans ce chapitre.",
+      "corr_en": "Chemical, mechanical, electrical, nuclear, thermal and EMW energy.",
+      "corr_fr": "Énergie chimique, mécanique, électrique, nucléaire, thermique et EMW (ondes électromagnétiques)."
+    },
+    {
+      "id": 8,
+      "title": "Hot drink",
+      "image": null,
+      "en": "Which form of energy is present in this hot drink?",
+      "fr": "Quelle forme d’énergie est présente dans cette boisson chaude ?",
+      "corr_en": "Thermal energy (heat).",
+      "corr_fr": "De l’énergie thermique (chaleur)."
+    },
+    {
+      "id": 9,
+      "title": "Conservation of energy",
+      "image": null,
+      "en": "Complete the law of conservation of energy: ‘Energy cannot be ______ and it cannot be ______. It can only be ______ from one form to another.’",
+      "fr": "Complète la loi de conservation de l’énergie : « L’énergie ne peut pas être ______ ni ______. Elle peut seulement être ______ d’une forme à une autre. »",
+      "corr_en": "created – destroyed – transformed.",
+      "corr_fr": "créée – détruite – transformée."
+    },
+    {
+      "id": 10,
+      "title": "Energy flow symbols",
+      "image": null,
+      "en": "This is an energy flow diagram. What do elements 1 (circles), 2 (horizontal arrows) and 3 (diagonal arrows) represent?",
+      "fr": "Voici un diagramme de flux d’énergie. Que représentent les éléments 1 (cercles), 2 (flèches horizontales) et 3 (flèches diagonales) ?",
+      "corr_en": "1 = the objects (source, object, receiver); 2 = transferred energy; 3 = lost energy.",
+      "corr_fr": "1 = les objets (source, objet, récepteur) ; 2 = l’énergie transférée ; 3 = l’énergie perdue."
+    },
+    {
+      "id": 11,
+      "title": "All useful energy?",
+      "image": null,
+      "en": "True or false? Correct the sentence if it is false: ‘During a transformation, all the energy becomes useful energy.’",
+      "fr": "Vrai ou faux ? Corrige la phrase si elle est fausse : « Lors d’une transformation, toute l’énergie devient de l’énergie utile. »",
+      "corr_en": "False. Some energy is always lost as thermal energy (heat) that we cannot use: this is energy loss.",
+      "corr_fr": "Faux. Une partie de l’énergie est toujours perdue sous forme d’énergie thermique (chaleur) inutilisable : c’est la perte d’énergie."
+    },
+    {
+      "id": 12,
+      "title": "Power bank",
+      "image": null,
+      "en": "This power bank is an energy reservoir. In which form is the energy stored inside it?",
+      "fr": "Cette batterie externe est un réservoir d’énergie. Sous quelle forme l’énergie y est-elle stockée ?",
+      "corr_en": "As chemical energy [C].",
+      "corr_fr": "Sous forme d’énergie chimique [C]."
+    },
+    {
+      "id": 13,
+      "title": "Storing electricity",
+      "image": null,
+      "en": "True or false? Correct the sentence if it is false: ‘Electricity is very easy to store directly in giant boxes, without transforming it.’",
+      "fr": "Vrai ou faux ? Corrige la phrase si elle est fausse : « L’électricité est très facile à stocker directement dans de grandes boîtes, sans la transformer. »",
+      "corr_en": "False. We cannot store electricity directly: we must always transform it first (for example into chemical energy in a battery).",
+      "corr_fr": "Faux. On ne peut pas stocker l’électricité directement : il faut toujours la transformer d’abord (par exemple en énergie chimique dans une batterie)."
+    },
+    {
+      "id": 14,
+      "title": "Water behind a dam",
+      "image": null,
+      "en": "The water is trapped high up behind this dam. Which storage code describes it: [C] chemical, [M] mechanical or [T] thermal?",
+      "fr": "L’eau est retenue en hauteur derrière ce barrage. Quel code de stockage la décrit : [C] chimique, [M] mécanique ou [T] thermique ?",
+      "corr_en": "[M]: the water stores mechanical energy because of its height.",
+      "corr_fr": "[M] : l’eau stocke de l’énergie mécanique grâce à sa hauteur."
+    },
+    {
+      "id": 15,
+      "title": "Unit of power",
+      "image": null,
+      "en": "In which unit is electrical power measured? What does a higher power mean?",
+      "fr": "En quelle unité mesure-t-on la puissance électrique ? Que signifie une puissance plus élevée ?",
+      "corr_en": "In watts (W). A higher power means the device uses more energy every second.",
+      "corr_fr": "En watts (W). Une puissance plus élevée signifie que l’appareil utilise plus d’énergie chaque seconde."
+    },
+    {
+      "id": 16,
+      "title": "Turbine and generator",
+      "image": null,
+      "en": "Name machines 1 and 2. What energy does machine 1 produce, and what does machine 2 do with it?",
+      "fr": "Nomme les machines 1 et 2. Quelle énergie la machine 1 produit-elle et que fait la machine 2 avec cette énergie ?",
+      "corr_en": "1 = turbine: it produces mechanical energy. 2 = generator: it transforms mechanical energy into electrical energy.",
+      "corr_fr": "1 = turbine : elle produit de l’énergie mécanique. 2 = générateur : il transforme l’énergie mécanique en énergie électrique."
+    },
+    {
+      "id": 17,
+      "title": "Why electricity?",
+      "image": null,
+      "en": "Complete the sentence: ‘Electricity is important for humans because it is easy to ______ and easy to ______.’",
+      "fr": "Complète la phrase : « L’électricité est importante pour l’humain car elle est facile à ______ et facile à ______. »",
+      "corr_en": "transform – transport.",
+      "corr_fr": "transformer – transporter."
+    },
+    {
+      "id": 18,
+      "title": "Nuclear power plant",
+      "image": null,
+      "en": "What type of power plant is shown here? Which energy resource does it use?",
+      "fr": "Quel type de centrale électrique est représenté ici ? Quelle ressource d’énergie utilise-t-elle ?",
+      "corr_en": "A nuclear power plant. It uses uranium, a non-renewable resource.",
+      "corr_fr": "Une centrale nucléaire. Elle utilise l’uranium, une ressource non renouvelable."
+    },
+    {
+      "id": 19,
+      "title": "Belgian power plants",
+      "image": null,
+      "en": "Name the 4 main types of industrial power plants used in Belgium.",
+      "fr": "Cite les 4 principaux types de centrales électriques industrielles utilisées en Belgique.",
+      "corr_en": "Nuclear power plants, gas power plants, wind farms and hydroelectric power plants.",
+      "corr_fr": "Les centrales nucléaires, les centrales au gaz, les parcs éoliens et les centrales hydroélectriques."
+    },
+    {
+      "id": 20,
+      "title": "Biomass pellets",
+      "image": null,
+      "en": "These pellets are made from wood and plant waste. What is the name of this energy resource? Under which condition is it renewable?",
+      "fr": "Ces granulés sont fabriqués à partir de bois et de déchets végétaux. Quel est le nom de cette ressource d’énergie ? À quelle condition est-elle renouvelable ?",
+      "corr_en": "Biomass. It is renewable only if humans manage it responsibly.",
+      "corr_fr": "La biomasse. Elle n’est renouvelable que si l’humain la gère de manière responsable."
+    }
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Wood versus coal",
+      "image": null,
+      "en": "Wood and coal can both be burned to produce heat. Explain why wood is a renewable resource but coal is not.",
+      "fr": "Le bois et le charbon peuvent tous deux être brûlés pour produire de la chaleur. Explique pourquoi le bois est une ressource renouvelable, mais pas le charbon.",
+      "corr_en": "Wood comes from trees that grow back quickly (if forests are managed responsibly). Coal takes millions of years to form, so its stock on Earth is limited and will run out.",
+      "corr_fr": "Le bois provient d’arbres qui repoussent rapidement (si les forêts sont gérées de manière responsable). Le charbon met des millions d’années à se former : son stock sur Terre est limité et s’épuisera."
+    },
+    {
+      "id": 2,
+      "title": "Resource sorting key",
+      "image": null,
+      "en": "Use this key to classify resources 1 to 6. Question A: Does the resource depend on a permanent natural phenomenon or regenerate quickly? YES → Renewable. NO → go to question B. Question B: Is the resource burned to release its energy? YES → Non-renewable, burned. NO → Non-renewable, not burned.",
+      "fr": "Utilise cette clé pour classer les ressources 1 à 6. Question A : La ressource dépend-elle d’un phénomène naturel permanent ou se régénère-t-elle rapidement ? OUI → Renouvelable. NON → va à la question B. Question B : La ressource est-elle brûlée pour libérer son énergie ? OUI → Non renouvelable, brûlée. NON → Non renouvelable, non brûlée.",
+      "corr_en": "Renewable: 1 (sun), 3 (water), 5 (geothermal energy). Non-renewable, burned: 2 (natural gas), 6 (coal). Non-renewable, not burned: 4 (uranium).",
+      "corr_fr": "Renouvelables : 1 (soleil), 3 (eau), 5 (géothermie). Non renouvelables, brûlées : 2 (gaz naturel), 6 (charbon). Non renouvelable, non brûlée : 4 (uranium)."
+    },
+    {
+      "id": 3,
+      "title": "PhET bicycle colours",
+      "image": null,
+      "en": "In the PhET bicycle investigation, the girl pedals and the water in the beaker gets hotter. Give the form of energy at each step: in the girl’s body (green blocks), in the wheel (grey blocks), in the wires (blue blocks) and in the water.",
+      "fr": "Dans l’investigation PhET du vélo, la fille pédale et l’eau du bécher se réchauffe. Donne la forme d’énergie à chaque étape : dans le corps de la fille (blocs verts), dans la roue (blocs gris), dans les fils (blocs bleus) et dans l’eau.",
+      "corr_en": "Body: chemical energy → wheel: mechanical energy → wires: electrical energy → water: thermal energy, so the temperature of the water goes up.",
+      "corr_fr": "Corps : énergie chimique → roue : énergie mécanique → fils : énergie électrique → eau : énergie thermique, donc la température de l’eau monte."
+    },
+    {
+      "id": 4,
+      "title": "Toaster transformation",
+      "image": null,
+      "en": "Identify the form of energy before and after the transformation in a toaster. Which energy is useful here?",
+      "fr": "Identifie la forme d’énergie avant et après la transformation dans un grille-pain. Quelle énergie est utile ici ?",
+      "corr_en": "Before: electrical energy. After: thermal energy (and a little EMW energy, the red light). The useful energy is the thermal energy that toasts the bread.",
+      "corr_fr": "Avant : énergie électrique. Après : énergie thermique (et un peu d’énergie EMW, la lumière rouge). L’énergie utile est l’énergie thermique qui grille le pain."
+    },
+    {
+      "id": 5,
+      "title": "Fact or judgment?",
+      "image": null,
+      "en": "Classify each statement as a fact or a judgment, and explain the difference. a) A nuclear power plant does not release CO2 when it produces electricity. b) Wind turbines are ugly and ruin the landscape. c) A gas power plant releases CO2 when it burns gas.",
+      "fr": "Classe chaque affirmation comme un fait ou un jugement, et explique la différence. a) Une centrale nucléaire ne rejette pas de CO2 quand elle produit de l’électricité. b) Les éoliennes sont moches et abîment le paysage. c) Une centrale au gaz rejette du CO2 quand elle brûle du gaz.",
+      "corr_en": "a) fact, b) judgment, c) fact. A fact can be checked and is true for everyone; a judgment is a personal opinion that can change from one person to another.",
+      "corr_fr": "a) fait, b) jugement, c) fait. Un fait peut être vérifié et est vrai pour tout le monde ; un jugement est une opinion personnelle qui peut changer d’une personne à l’autre."
+    },
+    {
+      "id": 6,
+      "title": "Braking bicycle",
+      "image": null,
+      "en": "When you brake, your bicycle stops. Has its movement energy been destroyed? Explain where it goes.",
+      "fr": "Quand tu freines, ton vélo s’arrête. Son énergie de mouvement a-t-elle été détruite ? Explique où elle va.",
+      "corr_en": "No, energy cannot be destroyed. The mechanical energy of the bicycle is transformed into thermal energy in the brakes, which get hot, and this heat is lost into the air.",
+      "corr_fr": "Non, l’énergie ne peut pas être détruite. L’énergie mécanique du vélo est transformée en énergie thermique dans les freins, qui chauffent, et cette chaleur est perdue dans l’air."
+    },
+    {
+      "id": 7,
+      "title": "Hot while running",
+      "image": null,
+      "en": "Why does your body become hot when you run or ride a bicycle very fast?",
+      "fr": "Pourquoi ton corps devient-il chaud quand tu cours ou roules très vite à vélo ?",
+      "corr_en": "Your body transforms the chemical energy from food into mechanical energy (movement), but part of it is lost as thermal energy (heat). This is energy loss.",
+      "corr_fr": "Ton corps transforme l’énergie chimique des aliments en énergie mécanique (mouvement), mais une partie est perdue sous forme d’énergie thermique (chaleur). C’est la perte d’énergie."
+    },
+    {
+      "id": 8,
+      "title": "Kettle energy flow",
+      "image": null,
+      "questions": [
+        {
+          "en": "This is the energy flow diagram of an electric kettle. Which form of energy is transferred by arrow 1?",
+          "fr": "Voici le diagramme de flux d’énergie d’une bouilloire électrique. Quelle forme d’énergie est transférée par la flèche 1 ?",
+          "corr_en": "Electrical energy, from the socket to the kettle.",
+          "corr_fr": "De l’énergie électrique, de la prise vers la bouilloire."
+        },
+        {
+          "en": "Which form of energy is transferred by arrow 2, from the kettle to the water?",
+          "fr": "Quelle forme d’énergie est transférée par la flèche 2, de la bouilloire vers l’eau ?",
+          "corr_en": "Thermal energy (heat).",
+          "corr_fr": "De l’énergie thermique (chaleur)."
+        },
+        {
+          "en": "What does arrow 3 represent? Give an example.",
+          "fr": "Que représente la flèche 3 ? Donne un exemple.",
+          "corr_en": "Lost energy: thermal energy that heats the kettle itself and the air around it instead of the water.",
+          "corr_fr": "L’énergie perdue : de l’énergie thermique qui chauffe la bouilloire elle-même et l’air autour, au lieu de l’eau."
+        },
+        {
+          "en": "What does arrow 4 represent?",
+          "fr": "Que représente la flèche 4 ?",
+          "corr_en": "The useful energy: the thermal energy of the hot water that we use, for example to make tea.",
+          "corr_fr": "L’énergie utile : l’énergie thermique de l’eau chaude que l’on utilise, par exemple pour faire du thé."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "The generator’s job",
+      "image": null,
+      "en": "In the PhET bicycle system, what is the job of the generator? Explain using energy forms.",
+      "fr": "Dans le système PhET du vélo, quel est le rôle du générateur ? Explique en utilisant les formes d’énergie.",
+      "corr_en": "The generator transforms the mechanical energy of the turning wheel into electrical energy, which is sent through the wires to heat the water.",
+      "corr_fr": "Le générateur transforme l’énergie mécanique de la roue qui tourne en énergie électrique, envoyée dans les fils pour chauffer l’eau."
+    },
+    {
+      "id": 10,
+      "title": "Thermos flask",
+      "image": null,
+      "en": "A thermos flask is an energy reservoir. Which storage code is it: [C], [M] or [T]? Why does the drink still get cold after many hours?",
+      "fr": "Une bouteille thermos est un réservoir d’énergie. Quel est son code de stockage : [C], [M] ou [T] ? Pourquoi la boisson finit-elle quand même par refroidir après de nombreuses heures ?",
+      "corr_en": "[T]: it stores thermal energy (trapped heat). But a little heat always escapes into the colder air around it, so the drink slowly cools down.",
+      "corr_fr": "[T] : elle stocke de l’énergie thermique (chaleur piégée). Mais un peu de chaleur s’échappe toujours dans l’air plus froid autour, donc la boisson refroidit lentement."
+    },
+    {
+      "id": 11,
+      "title": "Gas versus nuclear",
+      "image": null,
+      "en": "Compare how the turbine spins in a gas power plant and in a nuclear power plant. Give one similarity and one difference.",
+      "fr": "Compare comment la turbine tourne dans une centrale au gaz et dans une centrale nucléaire. Donne une ressemblance et une différence.",
+      "corr_en": "Similarity: in both, high-pressure steam spins the turbine. Difference: in a gas plant the steam is made by burning gas; in a nuclear plant it is made by splitting uranium atoms.",
+      "corr_fr": "Ressemblance : dans les deux, de la vapeur à haute pression fait tourner la turbine. Différence : dans une centrale au gaz, la vapeur est produite en brûlant du gaz ; dans une centrale nucléaire, en cassant des atomes d’uranium."
+    },
+    {
+      "id": 12,
+      "title": "Power bar chart",
+      "image": null,
+      "questions": [
+        {
+          "en": "This bar chart shows the electrical power of 7 household devices. Which device uses the most energy per second? Give its power.",
+          "fr": "Ce diagramme en bâtonnets montre la puissance électrique de 7 appareils ménagers. Quel appareil utilise le plus d’énergie par seconde ? Donne sa puissance.",
+          "corr_en": "The dishwasher, with 2000 W.",
+          "corr_fr": "Le lave-vaisselle, avec 2000 W."
+        },
+        {
+          "en": "How many times more power does the hair dryer need than the traditional light bulb?",
+          "fr": "Combien de fois plus de puissance le sèche-cheveux demande-t-il que l’ampoule classique ?",
+          "corr_en": "1200 W ÷ 60 W = 20 times more power.",
+          "corr_fr": "1200 W ÷ 60 W = 20 fois plus de puissance."
+        },
+        {
+          "en": "An LED bulb and a traditional bulb give the same light. Use the chart to explain why the LED bulb is a better choice.",
+          "fr": "Une ampoule LED et une ampoule classique donnent la même lumière. Utilise le graphique pour expliquer pourquoi l’ampoule LED est un meilleur choix.",
+          "corr_en": "The LED bulb only needs 10 W instead of 60 W: it uses 6 times less energy every second for the same light.",
+          "corr_fr": "L’ampoule LED n’a besoin que de 10 W au lieu de 60 W : elle utilise 6 fois moins d’énergie chaque seconde pour la même lumière."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Log and battery",
+      "image": null,
+      "en": "True or false? Justify: ‘A wooden log and a battery use the exact same type of storage [C].’",
+      "fr": "Vrai ou faux ? Justifie : « Une bûche de bois et une batterie utilisent exactement le même type de stockage [C]. »",
+      "corr_en": "True. Both store chemical energy inside atoms and molecules: the log releases it when it burns, the battery when it produces electricity.",
+      "corr_fr": "Vrai. Les deux stockent de l’énergie chimique dans les atomes et les molécules : la bûche la libère en brûlant, la batterie en produisant de l’électricité."
+    },
+    {
+      "id": 14,
+      "title": "From dam to wires",
+      "image": null,
+      "en": "Describe the energy transformations in a hydroelectric power plant, from the water behind the dam to the electricity in the wires.",
+      "fr": "Décris les transformations d’énergie dans une centrale hydroélectrique, de l’eau derrière le barrage jusqu’à l’électricité dans les câbles.",
+      "corr_en": "The water high behind the dam stores mechanical energy. When it falls, its movement (mechanical energy) spins the turbine, and the generator transforms this mechanical energy into electrical energy.",
+      "corr_fr": "L’eau retenue en hauteur derrière le barrage stocke de l’énergie mécanique. En tombant, son mouvement (énergie mécanique) fait tourner la turbine, et le générateur transforme cette énergie mécanique en énergie électrique."
+    },
+    {
+      "id": 15,
+      "title": "Never running forever",
+      "image": null,
+      "en": "Explain why a machine can never run indefinitely on its own, even though energy is conserved.",
+      "fr": "Explique pourquoi une machine ne peut jamais fonctionner indéfiniment toute seule, alors que l’énergie est conservée.",
+      "corr_en": "At each transformation, part of the energy is lost as thermal energy (heat) that we cannot use. The energy is not destroyed, but the useful energy gets smaller and smaller until the machine stops.",
+      "corr_fr": "À chaque transformation, une partie de l’énergie est perdue sous forme d’énergie thermique (chaleur) inutilisable. L’énergie n’est pas détruite, mais l’énergie utile diminue de plus en plus jusqu’à ce que la machine s’arrête."
+    },
+    {
+      "id": 16,
+      "title": "Cloudy solar panels",
+      "image": null,
+      "en": "On a very cloudy day, does a solar panel produce as much electricity as on a sunny day? Explain using the forms of energy.",
+      "fr": "Par un jour très nuageux, un panneau solaire produit-il autant d’électricité qu’un jour ensoleillé ? Explique en utilisant les formes d’énergie.",
+      "corr_en": "No, it produces less. The clouds block part of the EMW energy (light) from the sun, so the panel receives less light to transform into electrical energy.",
+      "corr_fr": "Non, il en produit moins. Les nuages bloquent une partie de l’énergie EMW (lumière) du soleil, donc le panneau reçoit moins de lumière à transformer en énergie électrique."
+    },
+    {
+      "id": 17,
+      "title": "Steps of science",
+      "image": null,
+      "en": "Tom notices that his phone battery empties faster in winter. Match each sentence to a step of the scientific method (observation, question, hypothesis): a) ‘My phone battery empties faster when it is cold outside.’ b) ‘Does the cold affect the energy stored in my battery?’ c) ‘I think the cold slows down the release of chemical energy in the battery.’",
+      "fr": "Tom remarque que la batterie de son téléphone se vide plus vite en hiver. Associe chaque phrase à une étape de la démarche scientifique (observation, question, hypothèse) : a) « La batterie de mon téléphone se vide plus vite quand il fait froid dehors. » b) « Le froid influence-t-il l’énergie stockée dans ma batterie ? » c) « Je pense que le froid ralentit la libération de l’énergie chimique dans la batterie. »",
+      "corr_en": "a) observation, b) question, c) hypothesis: a possible answer to the question that can be tested by an experiment.",
+      "corr_fr": "a) observation, b) question, c) hypothèse : une réponse possible à la question, qui peut être testée par une expérience."
+    },
+    {
+      "id": 18,
+      "title": "Offshore wind farm",
+      "image": null,
+      "en": "Using the scientific report of the French challenge, give one advantage and one disadvantage of wind turbines for Belgium’s electricity.",
+      "fr": "À l’aide du rapport scientifique du French challenge, donne un avantage et un inconvénient des éoliennes pour l’électricité de la Belgique.",
+      "corr_en": "Advantage: wind is renewable and the turbines release no CO2. Disadvantage: they depend on the weather (no wind, no electricity) and they need a lot of space.",
+      "corr_fr": "Avantage : le vent est renouvelable et les éoliennes ne rejettent pas de CO2. Inconvénient : elles dépendent de la météo (pas de vent, pas d’électricité) et demandent beaucoup d’espace."
+    },
+    {
+      "id": 19,
+      "title": "Peak hours",
+      "image": null,
+      "en": "Why is it a bad idea to run your dishwasher (2000 W) during peak hours?",
+      "fr": "Pourquoi est-ce une mauvaise idée de faire tourner ton lave-vaisselle (2000 W) pendant les heures de pointe ?",
+      "corr_en": "At peak hours, many people use electricity at the same time. A powerful dishwasher adds even more demand, so extra power plants (often gas plants that release CO2) must be started, and the risk of a blackout increases.",
+      "corr_fr": "Aux heures de pointe, beaucoup de gens utilisent l’électricité en même temps. Un lave-vaisselle puissant ajoute encore de la demande : il faut démarrer des centrales supplémentaires (souvent au gaz, qui rejettent du CO2) et le risque de blackout augmente."
+    },
+    {
+      "id": 20,
+      "title": "Storage codes",
+      "image": null,
+      "en": "These 4 objects are energy reservoirs. Give the storage code of each one ([C] chemical, [M] mechanical, [T] thermal) and justify briefly.",
+      "fr": "Ces 4 objets sont des réservoirs d’énergie. Donne le code de stockage de chacun ([C] chimique, [M] mécanique, [T] thermique) et justifie brièvement.",
+      "corr_en": "1 [M]: tension of the bow. 2 [C]: chemical energy in the fuel. 3 [T]: trapped heat. 4 [M]: height of the rock.",
+      "corr_fr": "1 [M] : tension de l’arc. 2 [C] : énergie chimique du carburant. 3 [T] : chaleur piégée. 4 [M] : hauteur du rocher."
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "Iceland’s electricity",
+      "image": null,
+      "en": "Iceland is a volcanic island. It produces almost all its electricity with geothermal and hydroelectric power plants. Explain why these are good choices for the future, using what you know about resources and power plants.",
+      "fr": "L’Islande est une île volcanique. Elle produit presque toute son électricité avec des centrales géothermiques et hydroélectriques. Explique pourquoi ce sont de bons choix pour l’avenir, en utilisant ce que tu sais des ressources et des centrales.",
+      "corr_en": "Both resources are renewable: the heat inside the Earth and the water cycle are permanent natural phenomena, so they will never run out, unlike gas or uranium. Nothing is burned, so no CO2 is released. Like other power plants, they use a turbine and a generator to transform mechanical energy into electrical energy.",
+      "corr_fr": "Les deux ressources sont renouvelables : la chaleur de la Terre et le cycle de l’eau sont des phénomènes naturels permanents, ils ne s’épuiseront jamais, contrairement au gaz ou à l’uranium. Rien n’est brûlé, donc pas de rejet de CO2. Comme les autres centrales, elles utilisent une turbine et un générateur pour transformer l’énergie mécanique en énergie électrique."
+    },
+    {
+      "id": 2,
+      "title": "Solar production curve",
+      "image": null,
+      "questions": [
+        {
+          "en": "This line graph shows the electrical power produced by the same solar panel on a sunny day and on a cloudy day. At what time is the production highest on the sunny day, and how much is it?",
+          "fr": "Ce graphique évolutif montre la puissance électrique produite par le même panneau solaire un jour ensoleillé et un jour nuageux. À quelle heure la production est-elle la plus élevée le jour ensoleillé, et combien vaut-elle ?",
+          "corr_en": "At 12:00 (noon), with 350 W.",
+          "corr_fr": "À 12 h (midi), avec 350 W."
+        },
+        {
+          "en": "Compare the two curves and explain the difference using energy forms.",
+          "fr": "Compare les deux courbes et explique la différence en utilisant les formes d’énergie.",
+          "corr_en": "The cloudy-day curve is always lower (maximum 110 W instead of 350 W). The clouds block part of the sun’s EMW energy (light), so the panel has less light to transform into electrical energy.",
+          "corr_fr": "La courbe du jour nuageux est toujours plus basse (maximum 110 W au lieu de 350 W). Les nuages bloquent une partie de l’énergie EMW (lumière) du soleil, donc le panneau a moins de lumière à transformer en énergie électrique."
+        },
+        {
+          "en": "Why is a line graph (evolutive graph) the right choice here, rather than a pie chart?",
+          "fr": "Pourquoi un graphique évolutif (courbe) est-il le bon choix ici, plutôt qu’un diagramme circulaire ?",
+          "corr_en": "Because we want to show how the power changes over time. A pie chart only shows how a whole is divided into parts, at one moment.",
+          "corr_fr": "Parce qu’on veut montrer comment la puissance évolue au cours du temps. Un diagramme circulaire montre seulement comment un tout est divisé en parts, à un moment donné."
+        },
+        {
+          "en": "At 20:00, the production is 0 W. What problem does this create for a house that wants to use solar electricity in the evening, and how can it be solved?",
+          "fr": "À 20 h, la production vaut 0 W. Quel problème cela pose-t-il pour une maison qui veut utiliser l’électricité solaire le soir, et comment le résoudre ?",
+          "corr_en": "There is no light at night, so no electricity. We cannot store electricity directly: during the day, we must transform it, for example into chemical energy in a battery, then transform it back into electrical energy in the evening.",
+          "corr_fr": "La nuit, il n’y a pas de lumière, donc pas d’électricité. On ne peut pas stocker l’électricité directement : en journée, il faut la transformer, par exemple en énergie chimique dans une batterie, puis la retransformer en énergie électrique le soir."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Campfire energy",
+      "image": null,
+      "en": "During a camping trip, you cook sausages over a wood campfire. Describe where the energy is stored at the start, the energy transformations, and what happens to the energy that is not used for cooking.",
+      "fr": "Pendant un camp, tu cuis des saucisses sur un feu de bois. Décris où l’énergie est stockée au départ, les transformations d’énergie, et ce que devient l’énergie qui ne sert pas à la cuisson.",
+      "corr_en": "At the start, the wood stores chemical energy. When it burns, this chemical energy is transformed into thermal energy and EMW energy (light). Only part of the heat cooks the sausages (useful energy); the rest is lost into the air around the fire. The energy is not destroyed: it is spread into the environment.",
+      "corr_fr": "Au départ, le bois stocke de l’énergie chimique. En brûlant, cette énergie chimique est transformée en énergie thermique et en énergie EMW (lumière). Seule une partie de la chaleur cuit les saucisses (énergie utile) ; le reste est perdu dans l’air autour du feu. L’énergie n’est pas détruite : elle est dispersée dans l’environnement."
+    },
+    {
+      "id": 4,
+      "title": "Tidal power station",
+      "image": null,
+      "en": "In France, the La Rance power station uses the tides: twice a day, huge quantities of seawater move in and out through its turbines. Is this resource renewable? Describe the energy transformations and give one advantage and one disadvantage compared with a gas power plant.",
+      "fr": "En France, la centrale de la Rance utilise les marées : deux fois par jour, d’énormes quantités d’eau de mer entrent et sortent à travers ses turbines. Cette ressource est-elle renouvelable ? Décris les transformations d’énergie et donne un avantage et un inconvénient par rapport à une centrale au gaz.",
+      "corr_en": "Yes: tides are a permanent natural phenomenon, so the resource is renewable. The moving water (mechanical energy) spins the turbines, and the generators transform this mechanical energy into electrical energy. Advantage: nothing is burned, so no CO2, and it will never run out. Disadvantage: it only produces when the water moves, while a gas plant can be started quickly whenever we need it.",
+      "corr_fr": "Oui : les marées sont un phénomène naturel permanent, la ressource est donc renouvelable. L’eau en mouvement (énergie mécanique) fait tourner les turbines, et les générateurs transforment cette énergie mécanique en énergie électrique. Avantage : rien n’est brûlé, donc pas de CO2, et elle ne s’épuisera jamais. Inconvénient : elle ne produit que quand l’eau bouge, alors qu’une centrale au gaz peut être démarrée rapidement dès qu’on en a besoin."
+    },
+    {
+      "id": 5,
+      "title": "Solar panel experiment",
+      "image": null,
+      "en": "Sarah wants to know if the angle of a small solar panel facing a lamp changes the electricity it produces. Write her hypothesis, the variable she tests, two variables she must keep the same, and what she must observe.",
+      "fr": "Sarah veut savoir si l’angle d’un petit panneau solaire placé face à une lampe change l’électricité qu’il produit. Écris son hypothèse, la variable qu’elle teste, deux variables qu’elle doit garder identiques, et ce qu’elle doit observer.",
+      "corr_en": "Hypothesis: if the panel faces the lamp directly, it receives more light (EMW energy), so it produces more electrical energy. Tested variable: the angle of the panel. Keep the same: the lamp and the distance between the lamp and the panel. Observation: the brightness of a small bulb connected to the panel (or the value shown on a meter).",
+      "corr_fr": "Hypothèse : si le panneau est bien face à la lampe, il reçoit plus de lumière (énergie EMW), donc il produit plus d’énergie électrique. Variable testée : l’angle du panneau. À garder identiques : la lampe et la distance entre la lampe et le panneau. Observation : la luminosité d’une petite ampoule branchée au panneau (ou la valeur affichée par un appareil de mesure)."
+    },
+    {
+      "id": 6,
+      "title": "Nuclear plant analysis",
+      "image": null,
+      "questions": [
+        {
+          "en": "This diagram shows a nuclear power plant. In which form is the energy stored in the uranium, and what happens to it in part 1 (the reactor)?",
+          "fr": "Ce schéma montre une centrale nucléaire. Sous quelle forme l’énergie est-elle stockée dans l’uranium, et que lui arrive-t-il dans la partie 1 (le réacteur) ?",
+          "corr_en": "Uranium stores nuclear energy. In the reactor, uranium atoms are split, and the nuclear energy is transformed into thermal energy (heat).",
+          "corr_fr": "L’uranium stocke de l’énergie nucléaire. Dans le réacteur, les atomes d’uranium sont cassés et l’énergie nucléaire est transformée en énergie thermique (chaleur)."
+        },
+        {
+          "en": "Explain the role of the steam (part 2) and of parts 3 and 4.",
+          "fr": "Explique le rôle de la vapeur (partie 2) et des parties 3 et 4.",
+          "corr_en": "The heat turns water into high-pressure steam (2). The steam spins the turbine (3), which produces mechanical energy. The generator (4) transforms this mechanical energy into electrical energy.",
+          "corr_fr": "La chaleur transforme l’eau en vapeur à haute pression (2). La vapeur fait tourner la turbine (3), qui produit de l’énergie mécanique. Le générateur (4) transforme cette énergie mécanique en énergie électrique."
+        },
+        {
+          "en": "Part 5, the cooling tower, releases a lot of warm steam into the air. What does this show about energy transformations?",
+          "fr": "La partie 5, la tour de refroidissement, rejette beaucoup de vapeur tiède dans l’air. Que montre cela à propos des transformations d’énergie ?",
+          "corr_en": "A lot of thermal energy is lost into the air and cannot be used: energy transformations are always accompanied by energy losses as heat. The energy is not destroyed, but it is no longer useful.",
+          "corr_fr": "Beaucoup d’énergie thermique est perdue dans l’air et ne peut pas être utilisée : les transformations d’énergie s’accompagnent toujours de pertes sous forme de chaleur. L’énergie n’est pas détruite, mais elle n’est plus utile."
+        },
+        {
+          "en": "Write the energy flow of the whole plant in words, from the uranium to the power lines.",
+          "fr": "Écris en mots le flux d’énergie de toute la centrale, de l’uranium jusqu’aux lignes électriques.",
+          "corr_en": "Nuclear energy (uranium) → thermal energy (reactor, steam) → mechanical energy (turbine) → electrical energy (generator, power lines), with thermal energy lost at each step.",
+          "corr_fr": "Énergie nucléaire (uranium) → énergie thermique (réacteur, vapeur) → énergie mécanique (turbine) → énergie électrique (générateur, lignes électriques), avec de l’énergie thermique perdue à chaque étape."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Regenerative braking",
+      "image": null,
+      "en": "Some electric cars recover energy when they brake: the turning wheels drive a generator that recharges the battery. Describe the energy transformations when the car brakes and later accelerates again. Why can the car still not drive forever this way?",
+      "fr": "Certaines voitures électriques récupèrent de l’énergie au freinage : les roues qui tournent entraînent un générateur qui recharge la batterie. Décris les transformations d’énergie quand la voiture freine puis réaccélère. Pourquoi la voiture ne peut-elle quand même pas rouler éternellement ainsi ?",
+      "corr_en": "When braking, the car’s mechanical energy is transformed by the generator into electrical energy, then stored as chemical energy in the battery. When accelerating, the battery transforms chemical energy back into electrical energy, and the motor into mechanical energy. At each step, part of the energy is lost as heat, so the useful energy decreases: energy is never created.",
+      "corr_fr": "Au freinage, l’énergie mécanique de la voiture est transformée par le générateur en énergie électrique, puis stockée sous forme d’énergie chimique dans la batterie. À l’accélération, la batterie retransforme l’énergie chimique en énergie électrique, puis le moteur en énergie mécanique. À chaque étape, une partie de l’énergie est perdue en chaleur : l’énergie utile diminue, l’énergie n’est jamais créée."
+    },
+    {
+      "id": 8,
+      "title": "Trampoline bounces",
+      "image": null,
+      "en": "A child jumps on a trampoline. At the top of the jump she is high up; at the bottom, the springs are stretched. Explain how energy is stored and transformed during a bounce, and why the bounces get lower if she stops pushing with her legs.",
+      "fr": "Une enfant saute sur un trampoline. En haut du saut, elle est en hauteur ; en bas, les ressorts sont étirés. Explique comment l’énergie est stockée et transformée pendant un rebond, et pourquoi les rebonds deviennent plus bas si elle arrête de pousser avec ses jambes.",
+      "corr_en": "High up, energy is stored as mechanical energy due to height. When she falls, it becomes mechanical energy of movement, then is stored in the stretched springs (mechanical energy due to tension), which push her up again. At each bounce, part of the energy is lost as thermal energy and sound, so less useful energy remains and the bounces get lower.",
+      "corr_fr": "En hauteur, l’énergie est stockée sous forme d’énergie mécanique due à la hauteur. Quand elle tombe, elle devient de l’énergie mécanique de mouvement, puis est stockée dans les ressorts étirés (énergie mécanique due à la tension), qui la renvoient vers le haut. À chaque rebond, une partie de l’énergie est perdue en énergie thermique et en son : il reste moins d’énergie utile et les rebonds diminuent."
+    },
+    {
+      "id": 9,
+      "title": "Producing energy?",
+      "image": null,
+      "en": "A classmate says: ‘A power plant produces energy.’ Is this scientifically correct? Correct the sentence and explain using the law of conservation of energy.",
+      "fr": "Un camarade dit : « Une centrale électrique produit de l’énergie. » Est-ce scientifiquement correct ? Corrige la phrase et explique à l’aide de la loi de conservation de l’énergie.",
+      "corr_en": "No. Energy cannot be created or destroyed, only transformed. A power plant transforms the energy of a resource (chemical energy of gas, nuclear energy of uranium, mechanical energy of wind or water) into electrical energy, and part of it is lost as heat. Correct sentence: ‘A power plant produces electricity by transforming energy.’",
+      "corr_fr": "Non. L’énergie ne peut être ni créée ni détruite, seulement transformée. Une centrale transforme l’énergie d’une ressource (énergie chimique du gaz, nucléaire de l’uranium, mécanique du vent ou de l’eau) en énergie électrique, et une partie est perdue en chaleur. Phrase correcte : « Une centrale produit de l’électricité en transformant de l’énergie. »"
+    },
+    {
+      "id": 10,
+      "title": "Desert solar plant",
+      "image": null,
+      "en": "Morocco has built one of the biggest solar power plants in the world, in the desert. Why is the desert a good place for it? Give two advantages compared with a coal power plant, and one limit of solar energy.",
+      "fr": "Le Maroc a construit l’une des plus grandes centrales solaires du monde, dans le désert. Pourquoi le désert est-il un bon endroit ? Donne deux avantages par rapport à une centrale au charbon, et une limite de l’énergie solaire.",
+      "corr_en": "In the desert, the sun shines almost every day, so the plant receives a lot of EMW energy (light). Advantages: the sun is a renewable resource that will never run out, and nothing is burned, so no CO2 is released. Limit: there is no production at night, and electricity cannot be stored directly, so it must first be transformed and stored in another form.",
+      "corr_fr": "Dans le désert, le soleil brille presque tous les jours : la centrale reçoit beaucoup d’énergie EMW (lumière). Avantages : le soleil est une ressource renouvelable qui ne s’épuisera jamais, et rien n’est brûlé, donc pas de CO2. Limite : pas de production la nuit, et l’électricité ne se stocke pas directement, il faut d’abord la transformer et la stocker sous une autre forme."
+    },
+    {
+      "id": 11,
+      "title": "Nuclear or gas?",
+      "image": null,
+      "en": "Belgium wants to reduce its CO2 emissions but also avoid blackouts when demand peaks at 18:00. Using the report of the French challenge, compare nuclear and gas power plants and argue which one is best for each goal.",
+      "fr": "La Belgique veut réduire ses émissions de CO2, mais aussi éviter les blackouts lors du pic de consommation de 18 h. À l’aide du rapport du French challenge, compare les centrales nucléaires et au gaz, et argumente laquelle est la meilleure pour chaque objectif.",
+      "corr_en": "To reduce CO2, nuclear is better: it releases no CO2 and produces constantly, whatever the weather. But uranium is non-renewable and creates dangerous radioactive waste. Gas plants release a lot of CO2, but they are cheap and very fast to start, so they are useful only for short demand peaks, to avoid blackouts.",
+      "corr_fr": "Pour réduire le CO2, le nucléaire est meilleur : il ne rejette pas de CO2 et produit en continu, quelle que soit la météo. Mais l’uranium est non renouvelable et crée des déchets radioactifs dangereux. Les centrales au gaz rejettent beaucoup de CO2, mais elles sont bon marché et très rapides à démarrer : elles sont donc utiles seulement pour les pics de demande, afin d’éviter les blackouts."
+    },
+    {
+      "id": 12,
+      "title": "Solaria pie chart",
+      "image": null,
+      "questions": [
+        {
+          "en": "This pie chart shows how the imaginary country Solaria produced its electricity last year. What percentage came from renewable resources? Show your calculation.",
+          "fr": "Ce diagramme circulaire montre comment le pays imaginaire Solaria a produit son électricité l’an dernier. Quel pourcentage provient de ressources renouvelables ? Montre ton calcul.",
+          "corr_en": "Wind 20% + solar 10% + hydroelectric 5% = 35%.",
+          "corr_fr": "Éolien 20 % + solaire 10 % + hydroélectrique 5 % = 35 %."
+        },
+        {
+          "en": "Why is a pie chart a good choice to present these data?",
+          "fr": "Pourquoi un diagramme circulaire est-il un bon choix pour présenter ces données ?",
+          "corr_en": "Because it shows how a whole (100% of the electricity) is divided into parts, so we can easily compare the share of each resource.",
+          "corr_fr": "Parce qu’il montre comment un tout (100 % de l’électricité) est divisé en parts, ce qui permet de comparer facilement la part de chaque ressource."
+        },
+        {
+          "en": "Solaria wants to reduce its CO2 emissions. Which two resources should it reduce first? Justify with the energy transformations involved.",
+          "fr": "Solaria veut réduire ses émissions de CO2. Quelles sont les deux ressources à réduire en priorité ? Justifie avec les transformations d’énergie concernées.",
+          "corr_en": "Natural gas and coal: they are burned, so their chemical energy is transformed into thermal energy by combustion, which releases CO2. They are also non-renewable and will run out.",
+          "corr_fr": "Le gaz naturel et le charbon : ils sont brûlés, leur énergie chimique est transformée en énergie thermique par combustion, ce qui rejette du CO2. En plus, ils sont non renouvelables et vont s’épuiser."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "From wind to smartphone",
+      "image": null,
+      "en": "Your smartphone is charged with electricity from a wind farm. Describe the whole energy chain, from the wind to the light of your screen, including where energy is stored and where it is lost.",
+      "fr": "Ton smartphone est chargé avec de l’électricité venant d’un parc éolien. Décris toute la chaîne énergétique, du vent jusqu’à la lumière de ton écran, en précisant où l’énergie est stockée et où elle est perdue.",
+      "corr_en": "The wind (mechanical energy) spins the turbine; the generator transforms it into electrical energy, transported through wires to your charger. The battery stores it as chemical energy. When you use the phone, chemical energy becomes electrical energy, then EMW energy (light of the screen). At each step some energy is lost as heat: the phone gets warm.",
+      "corr_fr": "Le vent (énergie mécanique) fait tourner la turbine ; le générateur la transforme en énergie électrique, transportée par les câbles jusqu’à ton chargeur. La batterie la stocke sous forme d’énergie chimique. Quand tu utilises le téléphone, l’énergie chimique redevient électrique, puis EMW (lumière de l’écran). À chaque étape, un peu d’énergie est perdue en chaleur : le téléphone chauffe."
+    },
+    {
+      "id": 14,
+      "title": "LED versus traditional",
+      "image": null,
+      "en": "A traditional light bulb (60 W) and an LED bulb (10 W) give the same amount of light. Using the idea of an energy flow diagram, explain this difference and why using LED bulbs helps protect the planet.",
+      "fr": "Une ampoule classique (60 W) et une ampoule LED (10 W) donnent la même quantité de lumière. En t’appuyant sur l’idée du diagramme de flux d’énergie, explique cette différence et pourquoi utiliser des LED aide à protéger la planète.",
+      "corr_en": "Both transform electrical energy into EMW energy (light) and thermal energy. The traditional bulb loses most of its energy as heat (it gets very hot), while the LED loses much less. So the LED needs 6 times less power for the same useful light. Less electricity is needed, so power plants burn less gas and release less CO2.",
+      "corr_fr": "Les deux transforment l’énergie électrique en énergie EMW (lumière) et en énergie thermique. L’ampoule classique perd la plus grande partie de son énergie en chaleur (elle devient très chaude), alors que la LED en perd beaucoup moins. La LED a donc besoin de 6 fois moins de puissance pour la même lumière utile. Il faut moins d’électricité, donc les centrales brûlent moins de gaz et rejettent moins de CO2."
+    },
+    {
+      "id": 15,
+      "title": "Satellite in the shadow",
+      "image": null,
+      "en": "A satellite orbits the Earth. It uses solar panels, but for part of each orbit it is in the Earth’s shadow. Explain how it can keep working in the shadow, using the ideas of transformation and storage.",
+      "fr": "Un satellite tourne autour de la Terre. Il utilise des panneaux solaires, mais pendant une partie de chaque tour, il est dans l’ombre de la Terre. Explique comment il peut continuer à fonctionner dans l’ombre, en utilisant les idées de transformation et de stockage.",
+      "corr_en": "In the sunlight, the solar panels transform EMW energy (light) into electrical energy. Part of it is used directly and part is stored in batteries as chemical energy, because electricity cannot be stored directly. In the shadow, the batteries transform the chemical energy back into electrical energy. Some energy is lost as heat at each step.",
+      "corr_fr": "Au soleil, les panneaux transforment l’énergie EMW (lumière) en énergie électrique. Une partie est utilisée directement et une partie est stockée dans des batteries sous forme d’énergie chimique, car l’électricité ne se stocke pas directement. Dans l’ombre, les batteries retransforment l’énergie chimique en énergie électrique. Un peu d’énergie est perdue en chaleur à chaque étape."
+    },
+    {
+      "id": 16,
+      "title": "Crank flashlight",
+      "image": null,
+      "en": "This flashlight has no battery: you turn a handle to make it shine. Describe the energy chain from your breakfast to the light, and explain what this flashlight has in common with a power plant.",
+      "fr": "Cette lampe de poche n’a pas de pile : on tourne une manivelle pour qu’elle éclaire. Décris la chaîne énergétique de ton petit-déjeuner jusqu’à la lumière, et explique ce que cette lampe a en commun avec une centrale électrique.",
+      "corr_en": "Food stores chemical energy. Your muscles transform it into mechanical energy by turning the handle. A small generator transforms this mechanical energy into electrical energy, and the bulb transforms it into EMW energy (light). Some energy is lost as heat in your body and in the machine. Like in a power plant, a movement spins a generator to produce electricity.",
+      "corr_fr": "La nourriture stocke de l’énergie chimique. Tes muscles la transforment en énergie mécanique en tournant la manivelle. Un petit générateur transforme cette énergie mécanique en énergie électrique, et l’ampoule la transforme en énergie EMW (lumière). Une partie est perdue en chaleur dans ton corps et dans la machine. Comme dans une centrale, un mouvement fait tourner un générateur pour produire de l’électricité."
+    },
+    {
+      "id": 17,
+      "title": "Wind farm debate",
+      "image": null,
+      "en": "Villagers discuss a new wind farm. a) ‘The wind farm will produce less electricity in summer, because there is less wind.’ b) ‘Wind turbines are the most beautiful machines.’ c) ‘Wind turbines release no CO2 when they produce electricity.’ Classify each sentence as a fact, a judgment or a hypothesis, and explain how the hypothesis could be tested.",
+      "fr": "Des villageois discutent d’un nouveau parc éolien. a) « Le parc produira moins d’électricité en été, car il y a moins de vent. » b) « Les éoliennes sont les plus belles machines. » c) « Les éoliennes ne rejettent pas de CO2 quand elles produisent de l’électricité. » Classe chaque phrase comme fait, jugement ou hypothèse, et explique comment l’hypothèse pourrait être testée.",
+      "corr_en": "a) hypothesis, b) judgment, c) fact. To test the hypothesis, we could measure the electricity produced by the wind farm and the wind speed every month for one year, then compare the summer months with the other seasons.",
+      "corr_fr": "a) hypothèse, b) jugement, c) fait. Pour tester l’hypothèse, on pourrait mesurer chaque mois pendant un an l’électricité produite par le parc et la vitesse du vent, puis comparer les mois d’été aux autres saisons."
+    },
+    {
+      "id": 18,
+      "title": "Roller coaster hills",
+      "image": null,
+      "en": "An electric motor pulls a roller coaster up to the top of the first hill, then the train rolls down without a motor. Describe the energy storage and transformations, and explain why the next hill must be lower than the first one.",
+      "fr": "Un moteur électrique tire un grand huit jusqu’au sommet de la première bosse, puis le train descend sans moteur. Décris le stockage et les transformations d’énergie, et explique pourquoi la bosse suivante doit être plus basse que la première.",
+      "corr_en": "The motor transforms electrical energy into mechanical energy, which is stored at the top because of the height. Going down, it becomes mechanical energy of movement (speed). Friction with the rails and the air transforms part of it into thermal energy and sound, which are lost. With less useful energy left, the train cannot climb as high again.",
+      "corr_fr": "Le moteur transforme l’énergie électrique en énergie mécanique, stockée au sommet grâce à la hauteur. En descendant, elle devient de l’énergie mécanique de mouvement (vitesse). Les frottements avec les rails et l’air en transforment une partie en énergie thermique et en son, qui sont perdus. Avec moins d’énergie utile, le train ne peut plus remonter aussi haut."
+    },
+    {
+      "id": 19,
+      "title": "Is wood always good?",
+      "image": null,
+      "en": "A student says: ‘Wood is a renewable resource, so we can burn as much wood as we want: it is always good for the planet.’ Evaluate this statement.",
+      "fr": "Un élève dit : « Le bois est une ressource renouvelable, donc on peut en brûler autant qu’on veut : c’est toujours bon pour la planète. » Évalue cette affirmation.",
+      "corr_en": "Wood is renewable only if humans manage forests responsibly, by replanting trees. If we cut trees faster than they grow back, the stock of wood decreases, like a non-renewable resource. Moreover, burning wood is a combustion that releases CO2, and much of its heat is lost. So we must use it wisely, not as much as we want.",
+      "corr_fr": "Le bois n’est renouvelable que si l’humain gère les forêts de manière responsable, en replantant des arbres. Si on coupe les arbres plus vite qu’ils ne repoussent, le stock de bois diminue, comme une ressource non renouvelable. De plus, brûler du bois est une combustion qui rejette du CO2, et une grande partie de la chaleur est perdue. Il faut donc l’utiliser avec sagesse, pas autant qu’on veut."
+    },
+    {
+      "id": 20,
+      "title": "Pumped storage plant",
+      "image": null,
+      "questions": [
+        {
+          "en": "At Coo (Belgium), a special power plant has two lakes at different heights. At night, when little electricity is used, pumps send water from the lower lake (2) to the upper lake (1). In which form is the energy stored in the upper lake?",
+          "fr": "À Coo (Belgique), une centrale particulière possède deux lacs à des hauteurs différentes. La nuit, quand on utilise peu d’électricité, des pompes envoient l’eau du lac inférieur (2) vers le lac supérieur (1). Sous quelle forme l’énergie est-elle stockée dans le lac supérieur ?",
+          "corr_en": "As mechanical energy, because of the height of the water.",
+          "corr_fr": "Sous forme d’énergie mécanique, grâce à la hauteur de l’eau."
+        },
+        {
+          "en": "At 18:00, during the demand peak, the water falls back down through the turbines (3). Describe the energy transformations.",
+          "fr": "À 18 h, pendant le pic de consommation, l’eau redescend à travers les turbines (3). Décris les transformations d’énergie.",
+          "corr_en": "The falling water (mechanical energy) spins the turbines, and the generators (4) transform this mechanical energy into electrical energy, sent to the power lines (5).",
+          "corr_fr": "L’eau qui tombe (énergie mécanique) fait tourner les turbines, et les générateurs (4) transforment cette énergie mécanique en énergie électrique, envoyée dans les lignes électriques (5)."
+        },
+        {
+          "en": "The plant gives back less electricity than it used to pump the water up. Does this contradict the law of conservation of energy? Explain.",
+          "fr": "La centrale rend moins d’électricité qu’elle n’en a utilisé pour pomper l’eau. Cela contredit-il la loi de conservation de l’énergie ? Explique.",
+          "corr_en": "No. Energy is not destroyed: at each transformation (pumping, falling water, turbine, generator), part of it is lost as thermal energy through friction and heating. The total energy is conserved, but less of it is useful.",
+          "corr_fr": "Non. L’énergie n’est pas détruite : à chaque transformation (pompage, chute d’eau, turbine, générateur), une partie est perdue en énergie thermique par frottements et échauffement. L’énergie totale est conservée, mais une plus petite partie est utile."
+        },
+        {
+          "en": "Why is this kind of power plant very useful in a country with many wind turbines?",
+          "fr": "Pourquoi ce type de centrale est-il très utile dans un pays qui possède beaucoup d’éoliennes ?",
+          "corr_en": "When it is very windy and the electricity is not needed, it can be used to pump water up and store the energy. When there is no wind or at peak hours, the water produces electricity again.",
+          "corr_fr": "Quand il y a beaucoup de vent et qu’on n’a pas besoin de l’électricité, on peut l’utiliser pour remonter l’eau et stocker l’énergie. Quand il n’y a pas de vent ou aux heures de pointe, l’eau reproduit de l’électricité."
+        }
+      ]
+    }
+  ]
 }
