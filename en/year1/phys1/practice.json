@@ -120,7 +120,7 @@
     {
       "id": 14,
       "title": "Water behind a dam",
-      "image": null,
+      "image": "dam-reservoir.jpg",
       "en": "The water is trapped high up behind this dam. Which storage code describes it: [C] chemical, [M] mechanical or [T] thermal?",
       "fr": "L’eau est retenue en hauteur derrière ce barrage. Quel code de stockage la décrit : [C] chimique, [M] mécanique ou [T] thermique ?",
       "corr_en": "[M]: the water stores mechanical energy because of its height.",
@@ -138,7 +138,7 @@
     {
       "id": 16,
       "title": "Turbine and generator",
-      "image": null,
+      "image": "turbine-generator.jpg",
       "en": "Name machines 1 and 2. What energy does machine 1 produce, and what does machine 2 do with it?",
       "fr": "Nomme les machines 1 et 2. Quelle énergie la machine 1 produit-elle et que fait la machine 2 avec cette énergie ?",
       "corr_en": "1 = turbine: it produces mechanical energy. 2 = generator: it transforms mechanical energy into electrical energy.",
@@ -156,7 +156,7 @@
     {
       "id": 18,
       "title": "Nuclear power plant",
-      "image": null,
+      "image": "nuclear-plant.jpg",
       "en": "What type of power plant is shown here? Which energy resource does it use?",
       "fr": "Quel type de centrale électrique est représenté ici ? Quelle ressource d’énergie utilise-t-elle ?",
       "corr_en": "A nuclear power plant. It uses uranium, a non-renewable resource.",
