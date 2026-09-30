@@ -376,7 +376,7 @@
     {
       "id": 18,
       "title": "Offshore wind farm",
-      "image": null,
+      "image": "offshore-wind-farm.jpg",
       "en": "Using the scientific report of the French challenge, give one advantage and one disadvantage of wind turbines for Belgium’s electricity.",
       "fr": "À l’aide du rapport scientifique du French challenge, donne un avantage et un inconvénient des éoliennes pour l’électricité de la Belgique.",
       "corr_en": "Advantage: wind is renewable and the turbines release no CO2. Disadvantage: they depend on the weather (no wind, no electricity) and they need a lot of space.",
@@ -394,7 +394,7 @@
     {
       "id": 20,
       "title": "Storage codes",
-      "image": null,
+      "image": "storage-codes.jpg",
       "en": "These 4 objects are energy reservoirs. Give the storage code of each one ([C] chemical, [M] mechanical, [T] thermal) and justify briefly.",
       "fr": "Ces 4 objets sont des réservoirs d’énergie. Donne le code de stockage de chacun ([C] chimique, [M] mécanique, [T] thermique) et justifie brièvement.",
       "corr_en": "1 [M]: tension of the bow. 2 [C]: chemical energy in the fuel. 3 [T]: trapped heat. 4 [M]: height of the rock.",
@@ -414,7 +414,7 @@
     {
       "id": 2,
       "title": "Solar production curve",
-      "image": null,
+      "image": "solar-curve.png",
       "questions": [
         {
           "en": "This line graph shows the electrical power produced by the same solar panel on a sunny day and on a cloudy day. At what time is the production highest on the sunny day, and how much is it?",
