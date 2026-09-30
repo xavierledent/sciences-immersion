@@ -174,7 +174,7 @@
     {
       "id": 20,
       "title": "Biomass pellets",
-      "image": null,
+      "image": "wood-pellets.jpg",
       "en": "These pellets are made from wood and plant waste. What is the name of this energy resource? Under which condition is it renewable?",
       "fr": "Ces granulés sont fabriqués à partir de bois et de déchets végétaux. Quel est le nom de cette ressource d’énergie ? À quelle condition est-elle renouvelable ?",
       "corr_en": "Biomass. It is renewable only if humans manage it responsibly.",
@@ -194,7 +194,7 @@
     {
       "id": 2,
       "title": "Resource sorting key",
-      "image": null,
+      "image": "resources-key.jpg",
       "en": "Use this key to classify resources 1 to 6. Question A: Does the resource depend on a permanent natural phenomenon or regenerate quickly? YES → Renewable. NO → go to question B. Question B: Is the resource burned to release its energy? YES → Non-renewable, burned. NO → Non-renewable, not burned.",
       "fr": "Utilise cette clé pour classer les ressources 1 à 6. Question A : La ressource dépend-elle d’un phénomène naturel permanent ou se régénère-t-elle rapidement ? OUI → Renouvelable. NON → va à la question B. Question B : La ressource est-elle brûlée pour libérer son énergie ? OUI → Non renouvelable, brûlée. NON → Non renouvelable, non brûlée.",
       "corr_en": "Renewable: 1 (sun), 3 (water), 5 (geothermal energy). Non-renewable, burned: 2 (natural gas), 6 (coal). Non-renewable, not burned: 4 (uranium).",
@@ -248,7 +248,7 @@
     {
       "id": 8,
       "title": "Kettle energy flow",
-      "image": null,
+      "image": "kettle-flow.jpg",
       "questions": [
         {
           "en": "This is the energy flow diagram of an electric kettle. Which form of energy is transferred by arrow 1?",
