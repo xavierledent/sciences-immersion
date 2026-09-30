@@ -46,8 +46,6 @@ Lu par [practice-engine.js](../practice-engine.js).
 - Exercice à sous-questions : les champs `en`, `fr`, `corr_en`, `corr_fr` sont
   remplacés par un tableau `questions`, dont chaque élément porte ces quatre
   mêmes champs. `id`, `title` et `image` restent au niveau de l'exercice.
-- Un bloc `exercisesPage` (titres de cartes) existe dans certains fichiers ; le
-  moteur ne le lit pas.
 
 ## interactive.json — jeux
 
