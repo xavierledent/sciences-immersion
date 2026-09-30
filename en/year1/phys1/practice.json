@@ -212,7 +212,7 @@
     {
       "id": 4,
       "title": "Toaster transformation",
-      "image": null,
+      "image": "toaster.jpg",
       "en": "Identify the form of energy before and after the transformation in a toaster. Which energy is useful here?",
       "fr": "Identifie la forme d’énergie avant et après la transformation dans un grille-pain. Quelle énergie est utile ici ?",
       "corr_en": "Before: electrical energy. After: thermal energy (and a little EMW energy, the red light). The useful energy is the thermal energy that toasts the bread.",
@@ -230,7 +230,7 @@
     {
       "id": 6,
       "title": "Braking bicycle",
-      "image": null,
+      "image": "bicycle-brake.jpg",
       "en": "When you brake, your bicycle stops. Has its movement energy been destroyed? Explain where it goes.",
       "fr": "Quand tu freines, ton vélo s’arrête. Son énergie de mouvement a-t-elle été détruite ? Explique où elle va.",
       "corr_en": "No, energy cannot be destroyed. The mechanical energy of the bicycle is transformed into thermal energy in the brakes, which get hot, and this heat is lost into the air.",
