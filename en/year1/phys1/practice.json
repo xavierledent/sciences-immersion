@@ -454,7 +454,7 @@
     {
       "id": 4,
       "title": "Tidal power station",
-      "image": null,
+      "image": "tidal-power-station.jpg",
       "en": "In France, the La Rance power station uses the tides: twice a day, huge quantities of seawater move in and out through its turbines. Is this resource renewable? Describe the energy transformations and give one advantage and one disadvantage compared with a gas power plant.",
       "fr": "En France, la centrale de la Rance utilise les marées : deux fois par jour, d’énormes quantités d’eau de mer entrent et sortent à travers ses turbines. Cette ressource est-elle renouvelable ? Décris les transformations d’énergie et donne un avantage et un inconvénient par rapport à une centrale au gaz.",
       "corr_en": "Yes: tides are a permanent natural phenomenon, so the resource is renewable. The moving water (mechanical energy) spins the turbines, and the generators transform this mechanical energy into electrical energy. Advantage: nothing is burned, so no CO2, and it will never run out. Disadvantage: it only produces when the water moves, while a gas plant can be started quickly whenever we need it.",
@@ -512,7 +512,7 @@
     {
       "id": 8,
       "title": "Trampoline bounces",
-      "image": null,
+      "image": "trampoline.jpg",
       "en": "A child jumps on a trampoline. At the top of the jump she is high up; at the bottom, the springs are stretched. Explain how energy is stored and transformed during a bounce, and why the bounces get lower if she stops pushing with her legs.",
       "fr": "Une enfant saute sur un trampoline. En haut du saut, elle est en hauteur ; en bas, les ressorts sont étirés. Explique comment l’énergie est stockée et transformée pendant un rebond, et pourquoi les rebonds deviennent plus bas si elle arrête de pousser avec ses jambes.",
       "corr_en": "High up, energy is stored as mechanical energy due to height. When she falls, it becomes mechanical energy of movement, then is stored in the stretched springs (mechanical energy due to tension), which push her up again. At each bounce, part of the energy is lost as thermal energy and sound, so less useful energy remains and the bounces get lower.",
