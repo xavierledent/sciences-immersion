@@ -125,10 +125,10 @@
         createAutoEvaluationContent(data.ficheAutoEvaluation)
       );
 
-      // 3. Création de la carte autonome "Modèles mindmap"
+      // 3. Création de la carte autonome "Modèles de mindmap"
       const fallbackPath = data.ficheAutoEvaluation ? data.ficheAutoEvaluation.basePath : '';
       const mindmapSection = createCard(
-        "Modèles mindmap",
+        (data.mindmap && data.mindmap.title) || "Modèles de mindmap",
         createMindmapContent(data.mindmap, fallbackPath)
       );
 

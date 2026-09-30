@@ -5,7 +5,7 @@
 const { execFileSync } = require('child_process');
 const path = require('path');
 
-const PAGE_TYPES = ['practice', 'vocabulary', 'resources', 'explorations', 'assessment'];
+const PAGE_TYPES = ['practice', 'vocabulary', 'resources', 'explorations', 'assessment', 'index'];
 const checkOnly = process.argv.includes('--check');
 let anyFailed = false;
 

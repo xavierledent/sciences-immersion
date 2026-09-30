@@ -4,6 +4,7 @@
       "folder": "bio1",
       "subjectClass": "subject-bio",
       "titleSuffix": "Bio 1",
+      "hasAssessment": true,
       "h1": { "en": "Bio 1 : Ecosystems", "nl": "Bio 1 : Ecosystemen" },
       "vocabTopic": { "en": "ecosystems", "nl": "ecosystemen" }
     },
@@ -11,6 +12,7 @@
       "folder": "chem1",
       "subjectClass": "subject-chemistry",
       "titleSuffix": "Chem 1",
+      "hasAssessment": true,
       "h1": { "en": "Chemistry 1 : Natural resources and raw materials", "nl": "Chemie 1 : Natuurlijke hulpbronnen en grondstoffen" },
       "vocabTopic": { "en": "natural resources and raw materials", "nl": "natuurlijke hulpbronnen en grondstoffen" }
     },
@@ -18,6 +20,7 @@
       "folder": "phys1",
       "subjectClass": "subject-physics",
       "titleSuffix": "Phys 1",
+      "hasAssessment": true,
       "h1": { "en": "Physics 1 : Natural energy resources", "nl": "Fysica 1 : Natuurlijke energiebronnen" },
       "vocabTopic": { "en": "natural energy resources", "nl": "natuurlijke energiebronnen" }
     },
@@ -25,6 +28,7 @@
       "folder": "chem2",
       "subjectClass": "subject-chemistry",
       "titleSuffix": "Chem 2",
+      "hasAssessment": true,
       "h1": { "en": "Chemistry 2 : Mixtures and pure substances", "nl": "Chemie 2 : Mengsels en zuivere stoffen" },
       "vocabTopic": { "en": "mixtures and pure substances", "nl": "mengsels en zuivere stoffen" }
     },
@@ -32,6 +36,7 @@
       "folder": "phys2",
       "subjectClass": "subject-physics",
       "titleSuffix": "Phys 2",
+      "hasAssessment": true,
       "h1": { "en": "Physics 2 : Energy, expansion and changes of state", "nl": "Fysica 2 : Energie, uitzetting en faseovergangen" },
       "vocabTopic": { "en": "energy, expansion and changes of state", "nl": "energie, uitzetting en faseovergangen" }
     },
@@ -39,6 +44,7 @@
       "folder": "bio2",
       "subjectClass": "subject-bio",
       "titleSuffix": "Bio 2",
+      "hasAssessment": true,
       "h1": { "en": "Bio 2 : Human reproduction and prevention", "nl": "Bio 2 : Voortplanting en preventie" },
       "vocabTopic": { "en": "human reproduction and prevention", "nl": "menselijke voortplanting en preventie" }
     }

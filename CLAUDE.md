@@ -38,7 +38,7 @@ ajouter à un commit ni recopier leur contenu dans un fichier suivi par git.
 | Page Ressources, page Explorations | [resources-engine.js](resources-engine.js), [explorations-engine.js](explorations-engine.js) |
 | Page d'autoévaluation | [autoeval-engine.js](autoeval-engine.js), [assessment.css](assessment.css), `autoeval.json` |
 | Structure HTML d'une page de chapitre | `templates/<type>.{en,nl}.html`, puis régénérer |
-| Titre ou couleur d'un chapitre | [tools/chapters.json](tools/chapters.json) **et** la liste dans [index.html](index.html) |
+| Titre ou couleur d'un chapitre | [tools/chapters.json](tools/chapters.json), puis régénérer (la liste de l'accueil en sort aussi) |
 | Accueil, choix de la langue et de l'année | [index.html](index.html), [welcome-back.js](welcome-back.js) |
 | Barre de navigation entre sections | [chapter-nav.js](chapter-nav.js) |
 | Données enregistrées des élèves | [storage.js](storage.js), seul fichier qui touche à `localStorage` |
@@ -51,9 +51,14 @@ ajouter à un commit ni recopier leur contenu dans un fichier suivi par git.
 
 ```
 node tools/outline.js <fichier> [filtre]   sommaire d'un moteur, avec numéros de ligne
-node tools/generate-all.js                 régénère les 60 pages de chapitre
-node tools/generate-all.js --check         vérifie que les pages correspondent aux templates
+node tools/generate-all.js                 régénère les 60 pages de chapitre et la liste des chapitres de l'accueil
+node tools/check.js                        TOUT vérifier avant un commit (les deux commandes ci-dessous)
+node tools/generate-all.js --check         vérifie que tout correspond aux templates et à chapters.json
+node tools/validate-content.js [chapitre]  vérifie les JSON : fichiers référencés, jeux finissables, parité EN/NL
 ```
+
+Après toute modification d'un template, d'un JSON de chapitre ou de
+`chapters.json`, lancer `node tools/check.js` et rapporter son résultat.
 
 Avant d'ouvrir [practice-engine.js](practice-engine.js) (4 400 lignes) ou sa
 feuille de style (4 100 lignes), lancer `outline.js` avec un filtre, puis ne
@@ -65,7 +70,9 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
 - **Pages générées.** Les fichiers `vocabulary.html`, `practice.html`,
   `resources.html`, `explorations.html` et `assessment.html` de chaque chapitre
   sortent de `templates/`. Modifier le template dans les deux langues, lancer
-  `generate-all.js`, puis `--check`.
+  `generate-all.js`, puis `--check`. Dans [index.html](index.html), seules les
+  lignes entre les repères `// <chapters:…>` sont générées ; le reste s'édite
+  à la main.
 - **Deux filières.** Tout changement de contenu ou d'interface se fait en
   `en/` et en `nl/`. Les libellés d'interface sont dans l'objet `LABELS` en
   tête de chaque moteur.

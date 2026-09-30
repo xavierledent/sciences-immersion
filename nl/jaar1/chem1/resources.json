@@ -1,6 +1,6 @@
 {
   "videos": {
-    "title": "Videos",
+    "title": "Vidéos",
     "basePath": "https://www.youtube.com/embed/",
     "items": [
       {
@@ -64,7 +64,7 @@
     "pdfFile": "FE chimie1.pdf"
   },
   "mindmap": {
-    "title": "Mindmap",
+    "title": "Modèles de mindmap",
     "basePath": "../../../assets",
     "items": [
       {

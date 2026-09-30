@@ -770,6 +770,106 @@
   "matchPairs": [
     {
       "quizTitle": "Ecologische rollen",
+      "instructions": "Koppel elk levend wezen aan zijn trofisch niveau",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "🌳 Eik"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Producent"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "🦌 Hert"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Primaire consument"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "🐺 Wolf"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Secundaire consument"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "🍄 Schimmel"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Reducent"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Organisatieniveaus",
+      "instructions": "Koppel de afbeelding aan het juiste organisatieniveau.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP ind.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Individu"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP pop.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Populatie"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP eco.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Ecosysteem"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/MTP bio.jpg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Biotoop"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Ecosysteemrollen",
       "pairs": [
         {
           "id": 1,
@@ -835,106 +935,6 @@
           "sideB": {
             "type": "text",
             "content": "Biotoop + Biocenose"
-          }
-        }
-      ]
-    },
-    {
-      "quizTitle": "Organisatieniveaus",
-      "instructions": "Koppel de afbeelding aan het juiste organisatieniveau.",
-      "pairs": [
-        {
-          "id": 1,
-          "sideA": {
-            "type": "image",
-            "content": "assets/MTP ind.jpg"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Individu"
-          }
-        },
-        {
-          "id": 2,
-          "sideA": {
-            "type": "image",
-            "content": "assets/MTP pop.webp"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Populatie"
-          }
-        },
-        {
-          "id": 3,
-          "sideA": {
-            "type": "image",
-            "content": "assets/MTP eco.webp"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Ecosysteem"
-          }
-        },
-        {
-          "id": 4,
-          "sideA": {
-            "type": "image",
-            "content": "assets/MTP bio.jpg"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Biotoop"
-          }
-        }
-      ]
-    },
-    {
-      "quizTitle": "Ecosysteemrollen",
-      "instructions": "Koppel elk levend wezen aan zijn trofisch niveau",
-      "pairs": [
-        {
-          "id": 1,
-          "sideA": {
-            "type": "text",
-            "content": "🌳 Eik"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Producent"
-          }
-        },
-        {
-          "id": 2,
-          "sideA": {
-            "type": "text",
-            "content": "🦌 Hert"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Primaire consument"
-          }
-        },
-        {
-          "id": 3,
-          "sideA": {
-            "type": "text",
-            "content": "🐺 Wolf"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Secundaire consument"
-          }
-        },
-        {
-          "id": 4,
-          "sideA": {
-            "type": "text",
-            "content": "🍄 Schimmel"
-          },
-          "sideB": {
-            "type": "text",
-            "content": "Reducent"
           }
         }
       ]
