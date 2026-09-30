@@ -600,7 +600,7 @@
     {
       "id": 16,
       "title": "Crank flashlight",
-      "image": null,
+      "image": "crank-flashlight.jpg",
       "en": "This flashlight has no battery: you turn a handle to make it shine. Describe the energy chain from your breakfast to the light, and explain what this flashlight has in common with a power plant.",
       "fr": "Cette lampe de poche n’a pas de pile : on tourne une manivelle pour qu’elle éclaire. Décris la chaîne énergétique de ton petit-déjeuner jusqu’à la lumière, et explique ce que cette lampe a en commun avec une centrale électrique.",
       "corr_en": "Food stores chemical energy. Your muscles transform it into mechanical energy by turning the handle. A small generator transforms this mechanical energy into electrical energy, and the bulb transforms it into EMW energy (light). Some energy is lost as heat in your body and in the machine. Like in a power plant, a movement spins a generator to produce electricity.",
@@ -636,7 +636,7 @@
     {
       "id": 20,
       "title": "Pumped storage plant",
-      "image": null,
+      "image": "pumped-storage.jpg",
       "questions": [
         {
           "en": "At Coo (Belgium), a special power plant has two lakes at different heights. At night, when little electricity is used, pumps send water from the lower lake (2) to the upper lake (1). In which form is the energy stored in the upper lake?",
