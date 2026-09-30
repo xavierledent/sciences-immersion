@@ -618,7 +618,7 @@
     {
       "id": 18,
       "title": "Roller coaster hills",
-      "image": null,
+      "image": "roller-coaster.jpg",
       "en": "An electric motor pulls a roller coaster up to the top of the first hill, then the train rolls down without a motor. Describe the energy storage and transformations, and explain why the next hill must be lower than the first one.",
       "fr": "Un moteur électrique tire un grand huit jusqu’au sommet de la première bosse, puis le train descend sans moteur. Décris le stockage et les transformations d’énergie, et explique pourquoi la bosse suivante doit être plus basse que la première.",
       "corr_en": "The motor transforms electrical energy into mechanical energy, which is stored at the top because of the height. Going down, it becomes mechanical energy of movement (speed). Friction with the rails and the air transforms part of it into thermal energy and sound, which are lost. With less useful energy left, the train cannot climb as high again.",
