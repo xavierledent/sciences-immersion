@@ -12,7 +12,7 @@
     {
       "id": 2,
       "title": "Wind resource",
-      "image": null,
+      "image": "wind-turbines.jpg",
       "en": "Look at the picture. Which energy resource is used here? Is it renewable or non-renewable?",
       "fr": "Observe la photo. Quelle ressource d’énergie est utilisée ici ? Est-elle renouvelable ou non renouvelable ?",
       "corr_en": "The wind. It is a renewable resource: it will never run out.",
@@ -30,7 +30,7 @@
     {
       "id": 4,
       "title": "Oil pump jack",
-      "image": null,
+      "image": "oil-pump-jack.jpg",
       "en": "This machine extracts an energy resource from the ground. What is its English name? Is its natural stock limited or unlimited?",
       "fr": "Cette machine extrait une ressource d’énergie du sol. Quel est son nom en anglais ? Son stock naturel est-il limité ou illimité ?",
       "corr_en": "Oil. Its natural stock is limited: it is a non-renewable resource.",
@@ -48,7 +48,7 @@
     {
       "id": 6,
       "title": "Heat from the Earth",
-      "image": null,
+      "image": "geothermal-plant.jpg",
       "en": "This power plant uses the heat coming from inside the Earth. What is the English name of this energy resource? Is it renewable?",
       "fr": "Cette centrale utilise la chaleur venant de l’intérieur de la Terre. Quel est le nom anglais de cette ressource d’énergie ? Est-elle renouvelable ?",
       "corr_en": "Geothermal energy. Yes, it is a renewable resource.",
