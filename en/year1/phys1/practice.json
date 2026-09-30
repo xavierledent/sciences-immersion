@@ -306,7 +306,7 @@
     {
       "id": 12,
       "title": "Power bar chart",
-      "image": null,
+      "image": "power-bar-chart.png",
       "questions": [
         {
           "en": "This bar chart shows the electrical power of 7 household devices. Which device uses the most energy per second? Give its power.",
@@ -340,7 +340,7 @@
     {
       "id": 14,
       "title": "From dam to wires",
-      "image": null,
+      "image": "hydro-plant.png",
       "en": "Describe the energy transformations in a hydroelectric power plant, from the water behind the dam to the electricity in the wires.",
       "fr": "Décris les transformations d’énergie dans une centrale hydroélectrique, de l’eau derrière le barrage jusqu’à l’électricité dans les câbles.",
       "corr_en": "The water high behind the dam stores mechanical energy. When it falls, its movement (mechanical energy) spins the turbine, and the generator transforms this mechanical energy into electrical energy.",
@@ -358,7 +358,7 @@
     {
       "id": 16,
       "title": "Cloudy solar panels",
-      "image": null,
+      "image": "solar-panels-cloudy.jpg",
       "en": "On a very cloudy day, does a solar panel produce as much electricity as on a sunny day? Explain using the forms of energy.",
       "fr": "Par un jour très nuageux, un panneau solaire produit-il autant d’électricité qu’un jour ensoleillé ? Explique en utilisant les formes d’énergie.",
       "corr_en": "No, it produces less. The clouds block part of the EMW energy (light) from the sun, so the panel receives less light to transform into electrical energy.",
