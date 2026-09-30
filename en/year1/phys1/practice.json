@@ -66,7 +66,7 @@
     {
       "id": 8,
       "title": "Hot drink",
-      "image": null,
+      "image": "hot-drink.jpg",
       "en": "Which form of energy is present in this hot drink?",
       "fr": "Quelle forme d’énergie est présente dans cette boisson chaude ?",
       "corr_en": "Thermal energy (heat).",
@@ -84,7 +84,7 @@
     {
       "id": 10,
       "title": "Energy flow symbols",
-      "image": null,
+      "image": "energy-flow-symbols.png",
       "en": "This is an energy flow diagram. What do elements 1 (circles), 2 (horizontal arrows) and 3 (diagonal arrows) represent?",
       "fr": "Voici un diagramme de flux d’énergie. Que représentent les éléments 1 (cercles), 2 (flèches horizontales) et 3 (flèches diagonales) ?",
       "corr_en": "1 = the objects (source, object, receiver); 2 = transferred energy; 3 = lost energy.",
@@ -102,7 +102,7 @@
     {
       "id": 12,
       "title": "Power bank",
-      "image": null,
+      "image": "power-bank.jpg",
       "en": "This power bank is an energy reservoir. In which form is the energy stored inside it?",
       "fr": "Cette batterie externe est un réservoir d’énergie. Sous quelle forme l’énergie y est-elle stockée ?",
       "corr_en": "As chemical energy [C].",
