@@ -21,8 +21,9 @@ tools/                               générateurs et outils (Node, sans dépend
 docs/formats-donnees.md              format de chaque JSON
 ```
 
-Chapitres : `bio1`, `chem1`, `phys1`, `chem2`, `phys2`, `bio2`. Seuls `bio1` et
-`chem1` ont du contenu ; les autres ont des JSON vides.
+Chapitres : `bio1`, `chem1`, `phys1`, `chem2`, `phys2`, `bio2`. Tous ont leur
+vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
+`bio1`, `chem1`. Ailleurs, les tableaux sont vides (contenu pas encore rédigé).
 
 `Admin/`, `apps-script/`, `docs/todo/` et `docs/audit-sciences-immersion.md`
 existent en local mais sont exclus du dépôt, qui est public. Ne jamais les
