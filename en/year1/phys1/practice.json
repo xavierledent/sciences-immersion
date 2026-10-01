@@ -222,8 +222,8 @@
       "id": 5,
       "title": "Fact or judgment?",
       "image": null,
-      "en": "Classify each statement as a fact or a judgment, and explain the difference. a) A nuclear power plant does not release CO2 when it produces electricity. b) Wind turbines are ugly and ruin the landscape. c) A gas power plant releases CO2 when it burns gas.",
-      "fr": "Classe chaque affirmation comme un fait ou un jugement, et explique la différence. a) Une centrale nucléaire ne rejette pas de CO2 quand elle produit de l’électricité. b) Les éoliennes sont moches et abîment le paysage. c) Une centrale au gaz rejette du CO2 quand elle brûle du gaz.",
+      "en": "Classify each statement as a fact or a judgment, and explain the difference.<br>a) A nuclear power plant does not release CO2 when it produces electricity.<br>b) Wind turbines are ugly and ruin the landscape.<br>c) A gas power plant releases CO2 when it burns gas.",
+      "fr": "Classe chaque affirmation comme un fait ou un jugement, et explique la différence.<br>a) Une centrale nucléaire ne rejette pas de CO2 quand elle produit de l’électricité.<br>b) Les éoliennes sont moches et abîment le paysage.<br>c) Une centrale au gaz rejette du CO2 quand elle brûle du gaz.",
       "corr_en": "a) fact, b) judgment, c) fact. A fact can be checked and is true for everyone; a judgment is a personal opinion that can change from one person to another.",
       "corr_fr": "a) fait, b) jugement, c) fait. Un fait peut être vérifié et est vrai pour tout le monde ; un jugement est une opinion personnelle qui peut changer d’une personne à l’autre."
     },
@@ -368,8 +368,8 @@
       "id": 17,
       "title": "Steps of science",
       "image": null,
-      "en": "Tom notices that his phone battery empties faster in winter. Match each sentence to a step of the scientific method (observation, question, hypothesis): a) ‘My phone battery empties faster when it is cold outside.’ b) ‘Does the cold affect the energy stored in my battery?’ c) ‘I think the cold slows down the release of chemical energy in the battery.’",
-      "fr": "Tom remarque que la batterie de son téléphone se vide plus vite en hiver. Associe chaque phrase à une étape de la démarche scientifique (observation, question, hypothèse) : a) « La batterie de mon téléphone se vide plus vite quand il fait froid dehors. » b) « Le froid influence-t-il l’énergie stockée dans ma batterie ? » c) « Je pense que le froid ralentit la libération de l’énergie chimique dans la batterie. »",
+      "en": "Tom notices that his phone battery empties faster in winter. Match each sentence to a step of the scientific method (observation, question, hypothesis):<br>a) ‘My phone battery empties faster when it is cold outside.’<br>b) ‘Does the cold affect the energy stored in my battery?’<br>c) ‘I think the cold slows down the release of chemical energy in the battery.’",
+      "fr": "Tom remarque que la batterie de son téléphone se vide plus vite en hiver. Associe chaque phrase à une étape de la démarche scientifique (observation, question, hypothèse) :<br>a) « La batterie de mon téléphone se vide plus vite quand il fait froid dehors. »<br>b) « Le froid influence-t-il l’énergie stockée dans ma batterie ? »<br>c) « Je pense que le froid ralentit la libération de l’énergie chimique dans la batterie. »",
       "corr_en": "a) observation, b) question, c) hypothesis: a possible answer to the question that can be tested by an experiment.",
       "corr_fr": "a) observation, b) question, c) hypothèse : une réponse possible à la question, qui peut être testée par une expérience."
     },
@@ -610,8 +610,8 @@
       "id": 17,
       "title": "Wind farm debate",
       "image": null,
-      "en": "Villagers discuss a new wind farm. a) ‘The wind farm will produce less electricity in summer, because there is less wind.’ b) ‘Wind turbines are the most beautiful machines.’ c) ‘Wind turbines release no CO2 when they produce electricity.’ Classify each sentence as a fact, a judgment or a hypothesis, and explain how the hypothesis could be tested.",
-      "fr": "Des villageois discutent d’un nouveau parc éolien. a) « Le parc produira moins d’électricité en été, car il y a moins de vent. » b) « Les éoliennes sont les plus belles machines. » c) « Les éoliennes ne rejettent pas de CO2 quand elles produisent de l’électricité. » Classe chaque phrase comme fait, jugement ou hypothèse, et explique comment l’hypothèse pourrait être testée.",
+      "en": "Villagers discuss a new wind farm.<br>a) ‘The wind farm will produce less electricity in summer, because there is less wind.’<br>b) ‘Wind turbines are the most beautiful machines.’<br>c) ‘Wind turbines release no CO2 when they produce electricity.’<br>Classify each sentence as a fact, a judgment or a hypothesis, and explain how the hypothesis could be tested.",
+      "fr": "Des villageois discutent d’un nouveau parc éolien.<br>a) « Le parc produira moins d’électricité en été, car il y a moins de vent. »<br>b) « Les éoliennes sont les plus belles machines. »<br>c) « Les éoliennes ne rejettent pas de CO2 quand elles produisent de l’électricité. »<br>Classe chaque phrase comme fait, jugement ou hypothèse, et explique comment l’hypothèse pourrait être testée.",
       "corr_en": "a) hypothesis, b) judgment, c) fact. To test the hypothesis, we could measure the electricity produced by the wind farm and the wind speed every month for one year, then compare the summer months with the other seasons.",
       "corr_fr": "a) hypothèse, b) jugement, c) fait. Pour tester l’hypothèse, on pourrait mesurer chaque mois pendant un an l’électricité produite par le parc et la vitesse du vent, puis comparer les mois d’été aux autres saisons."
     },

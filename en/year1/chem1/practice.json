@@ -258,8 +258,8 @@
       "id": 9,
       "title": "Renewable and biodegradable sort",
       "image": null,
-      "en": "Sort these six materials — cotton, wood, wool, aluminum can, plastic bottle, gold ring — first by renewable vs non-renewable, then by biodegradable vs non-biodegradable. Present your classification as two short lists.",
-      "fr": "Classe ces six matériaux — coton, bois, laine, canette en aluminium, bouteille en plastique, bague en or — d'abord selon renouvelable vs non-renouvelable, puis selon biodégradable vs non-biodégradable. Présente ta classification sous forme de deux listes.",
+      "en": "Sort these six materials: cotton, wood, wool, aluminum can, plastic bottle, gold ring.<br>1) First by renewable vs non-renewable.<br>2) Then by biodegradable vs non-biodegradable.<br>Present your classification as two short lists.",
+      "fr": "Classe ces six matériaux : coton, bois, laine, canette en aluminium, bouteille en plastique, bague en or.<br>1) D'abord selon renouvelable vs non-renouvelable.<br>2) Puis selon biodégradable vs non-biodégradable.<br>Présente ta classification sous forme de deux listes.",
       "corr_en": "Renewable: cotton, wood, wool. Non-renewable: aluminum can, plastic bottle, gold ring. Biodegradable: cotton, wood, wool. Non-biodegradable: aluminum can, plastic bottle, gold ring — the two criteria give the same two groups here, showing that natural organic materials tend to be both renewable and biodegradable.",
       "corr_fr": "Renouvelable : coton, bois, laine. Non-renouvelable : canette en aluminium, bouteille en plastique, bague en or. Biodégradable : coton, bois, laine. Non-biodégradable : canette en aluminium, bouteille en plastique, bague en or — les deux critères donnent ici les deux mêmes groupes, montrant que les matériaux organiques naturels sont souvent à la fois renouvelables et biodégradables."
     },
