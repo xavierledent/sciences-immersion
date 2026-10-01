@@ -1131,6 +1131,378 @@
       ]
     }
   ],
-  "matchPairs": [],
+  "matchPairs": [
+    {
+      "quizTitle": "Forms of energy",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Chemical energy"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Food"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Thermal energy"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Hot radiator"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Mechanical energy"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Moving bicycle"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Electrical energy"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Current in wires"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Nuclear energy"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Uranium atoms"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "EMW energy"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Sunlight"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Power plant and resource",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Wind farm"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Wind"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Nuclear plant"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Uranium"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Gas power plant"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Natural gas"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Hydroelectric plant"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Falling water"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Geothermal plant"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Earth's heat"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Biomass plant"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Plant waste"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Resource detective (images)",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-coal.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Coal"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-wind-turbines.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Wind"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-uranium-pellets.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Uranium"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-oil-pump.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Oil"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-geothermal-steam.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Geothermal energy"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-gas-flame.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Natural gas"
+          }
+        },
+        {
+          "id": 7,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-straw-bale.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Biomass"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "What does it transform?",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Electric fan"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Electrical → mechanical"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Solar calculator"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "EMW → electrical"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Bike dynamo"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Mechanical → electrical"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Electric heater"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Electrical → thermal"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Glow stick"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Chemical → EMW"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Energy words",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Reservoir"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Energy store"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Blackout"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "No electricity"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Steam"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Hot water vapour"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Turbine"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Giant fan"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Generator"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Makes electricity"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Energy loss"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Wasted heat"
+          }
+        },
+        {
+          "id": 7,
+          "sideA": {
+            "type": "text",
+            "content": "Dam"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Water wall"
+          }
+        }
+      ]
+    }
+  ],
   "sorting": []
 }
