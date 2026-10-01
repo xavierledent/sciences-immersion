@@ -659,9 +659,7 @@
         "Tension (M)",
         "Trapped heat (T)",
         "Battery (C)",
-        "Movement (M)",
-        "Stored electricity",
-        "Nuclear energy"
+        "Movement (M)"
       ],
       "dropZones": [
         {
@@ -732,7 +730,407 @@
       ]
     }
   ],
-  "fillBlanks": [],
+  "fillBlanks": [
+    {
+      "quizTitle": "Renewable or not?",
+      "text": "An energy [blank0] is a resource that humans use to produce energy, such as electricity. Coal, oil, natural gas and uranium are [blank1] resources: their stock on Earth is [blank2] because they take [blank3] of years to form. If we use them too fast, they will [blank4]. The sun, the wind and water are [blank5] resources because they depend on permanent natural phenomena. Wood and biomass are only sustainable if humans manage them [blank6].",
+      "blanks": [
+        {
+          "options": [
+            "source",
+            "reservoir",
+            "engine",
+            "form"
+          ],
+          "correctAnswer": "source"
+        },
+        {
+          "options": [
+            "non-renewable",
+            "renewable",
+            "unlimited",
+            "electrical"
+          ],
+          "correctAnswer": "non-renewable"
+        },
+        {
+          "options": [
+            "limited",
+            "unlimited",
+            "growing"
+          ],
+          "correctAnswer": "limited"
+        },
+        {
+          "options": [
+            "millions",
+            "dozens",
+            "hundreds"
+          ],
+          "correctAnswer": "millions"
+        },
+        {
+          "options": [
+            "run out",
+            "grow back",
+            "heat up",
+            "light up"
+          ],
+          "correctAnswer": "run out"
+        },
+        {
+          "options": [
+            "renewable",
+            "non-renewable",
+            "nuclear"
+          ],
+          "correctAnswer": "renewable"
+        },
+        {
+          "options": [
+            "responsibly",
+            "quickly",
+            "electrically",
+            "never"
+          ],
+          "correctAnswer": "responsibly"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "stock",
+          "translation": "stock, réserve"
+        },
+        {
+          "word": "phenomena",
+          "translation": "phénomènes"
+        },
+        {
+          "word": "sustainable",
+          "translation": "durable"
+        },
+        {
+          "word": "manage",
+          "translation": "gérer"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Where does the energy go?",
+      "text": "Energy cannot be created, and it cannot be [blank0]. It can only be [blank1] from one form to another, so the total quantity of energy is [blank2]. During any transformation, some energy is always \"lost\" into the air as [blank3] energy that we cannot use. This is called energy [blank4]. In an energy flow diagram, this lost energy is drawn with a [blank5] arrow. This is why a machine can never run [blank6].",
+      "blanks": [
+        {
+          "options": [
+            "destroyed",
+            "stored",
+            "measured",
+            "moved"
+          ],
+          "correctAnswer": "destroyed"
+        },
+        {
+          "options": [
+            "transformed",
+            "produced",
+            "consumed",
+            "deleted"
+          ],
+          "correctAnswer": "transformed"
+        },
+        {
+          "options": [
+            "conserved",
+            "lost",
+            "doubled",
+            "created"
+          ],
+          "correctAnswer": "conserved"
+        },
+        {
+          "options": [
+            "thermal",
+            "nuclear",
+            "chemical",
+            "electrical"
+          ],
+          "correctAnswer": "thermal"
+        },
+        {
+          "options": [
+            "loss",
+            "storage",
+            "source",
+            "flow"
+          ],
+          "correctAnswer": "loss"
+        },
+        {
+          "options": [
+            "diagonal",
+            "horizontal",
+            "circular",
+            "vertical"
+          ],
+          "correctAnswer": "diagonal"
+        },
+        {
+          "options": [
+            "indefinitely",
+            "slowly",
+            "quietly",
+            "at night"
+          ],
+          "correctAnswer": "indefinitely"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "quantity",
+          "translation": "quantité"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Spin the turbine",
+      "text": "Inside almost every power plant, two machines work together. The [blank0] is like a giant fan: when it spins, it produces [blank1] energy. It is connected to the [blank2], which transforms this energy into [blank3] energy. In a nuclear power plant, the turbine is spun by high-pressure [blank4] made by splitting [blank5] atoms. In a wind farm, the turbine is spun directly by the [blank6]. Electricity is our favourite form of energy because it is easy to transform and easy to [blank7].",
+      "blanks": [
+        {
+          "options": [
+            "turbine",
+            "generator",
+            "reservoir",
+            "dam"
+          ],
+          "correctAnswer": "turbine"
+        },
+        {
+          "options": [
+            "mechanical",
+            "electrical",
+            "nuclear",
+            "chemical"
+          ],
+          "correctAnswer": "mechanical"
+        },
+        {
+          "options": [
+            "generator",
+            "battery",
+            "cooling tower",
+            "boiler"
+          ],
+          "correctAnswer": "generator"
+        },
+        {
+          "options": [
+            "electrical",
+            "thermal",
+            "chemical",
+            "nuclear"
+          ],
+          "correctAnswer": "electrical"
+        },
+        {
+          "options": [
+            "steam",
+            "wind",
+            "oil",
+            "sunlight"
+          ],
+          "correctAnswer": "steam"
+        },
+        {
+          "options": [
+            "uranium",
+            "coal",
+            "water",
+            "gas"
+          ],
+          "correctAnswer": "uranium"
+        },
+        {
+          "options": [
+            "wind",
+            "steam",
+            "sun",
+            "river"
+          ],
+          "correctAnswer": "wind"
+        },
+        {
+          "options": [
+            "transport",
+            "destroy",
+            "see"
+          ],
+          "correctAnswer": "transport"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "spins",
+          "translation": "tourner, faire tourner"
+        },
+        {
+          "word": "spun",
+          "translation": "tourner, faire tourner"
+        },
+        {
+          "word": "high-pressure",
+          "translation": "à haute pression"
+        },
+        {
+          "word": "splitting",
+          "translation": "casser, diviser"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Lena's camping trip",
+      "text": "Lena goes camping in the mountains. In the evening, she lights a campfire: the wood releases its [blank0] energy as heat and light. Only part of the heat cooks her soup; the rest is [blank1] into the cold air. Her small solar charger stayed in the sun all day: it transformed [blank2] energy into electrical energy, then stored it in a battery as [blank3] energy. Before going to sleep, she fills a thermos with hot tea: it is a [blank4] reservoir. The next morning, her tea is only warm: a little heat has [blank5] into the air.",
+      "blanks": [
+        {
+          "options": [
+            "chemical",
+            "nuclear",
+            "electrical",
+            "mechanical"
+          ],
+          "correctAnswer": "chemical"
+        },
+        {
+          "options": [
+            "lost",
+            "stored",
+            "created",
+            "destroyed"
+          ],
+          "correctAnswer": "lost"
+        },
+        {
+          "options": [
+            "EMW",
+            "nuclear",
+            "chemical",
+            "thermal"
+          ],
+          "correctAnswer": "EMW"
+        },
+        {
+          "options": [
+            "chemical",
+            "mechanical",
+            "thermal",
+            "electrical"
+          ],
+          "correctAnswer": "chemical"
+        },
+        {
+          "options": [
+            "thermal",
+            "chemical",
+            "mechanical",
+            "nuclear"
+          ],
+          "correctAnswer": "thermal"
+        },
+        {
+          "options": [
+            "escaped",
+            "been created",
+            "been destroyed"
+          ],
+          "correctAnswer": "escaped"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "campfire",
+          "translation": "feu de camp"
+        },
+        {
+          "word": "charger",
+          "translation": "chargeur"
+        },
+        {
+          "word": "releases",
+          "translation": "libérer"
+        },
+        {
+          "word": "warm",
+          "translation": "tiède"
+        }
+      ]
+    },
+    {
+      "quizTitle": "The village meeting",
+      "text": "In the village of Beaufort, people discuss a project of three new wind turbines. Mrs Lambert says: \"Wind turbines release no CO2 when they produce electricity.\" This is a [blank0], because everybody can check it. Mr Dubois answers: \"Wind turbines are ugly!\" This is a [blank1]: it is a personal opinion. Young Tom says: \"I think the turbines will produce more electricity in winter, because there is more wind.\" This is a [blank2]: it could be tested by [blank3] the electricity produced every month. Everybody agrees on one thing: wind is a [blank4] resource that will never [blank5].",
+      "blanks": [
+        {
+          "options": [
+            "fact",
+            "judgment",
+            "hypothesis"
+          ],
+          "correctAnswer": "fact"
+        },
+        {
+          "options": [
+            "judgment",
+            "fact",
+            "hypothesis"
+          ],
+          "correctAnswer": "judgment"
+        },
+        {
+          "options": [
+            "hypothesis",
+            "fact",
+            "judgment"
+          ],
+          "correctAnswer": "hypothesis"
+        },
+        {
+          "options": [
+            "measuring",
+            "guessing",
+            "voting"
+          ],
+          "correctAnswer": "measuring"
+        },
+        {
+          "options": [
+            "renewable",
+            "non-renewable",
+            "fossil"
+          ],
+          "correctAnswer": "renewable"
+        },
+        {
+          "options": [
+            "run out",
+            "turn",
+            "blow"
+          ],
+          "correctAnswer": "run out"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "check",
+          "translation": "vérifier"
+        },
+        {
+          "word": "ugly",
+          "translation": "moche, laid"
+        },
+        {
+          "word": "agrees",
+          "translation": "être d'accord"
+        }
+      ]
+    }
+  ],
   "matchPairs": [],
   "sorting": []
 }
