@@ -1504,5 +1504,301 @@
       ]
     }
   ],
-  "sorting": []
+  "sorting": [
+    {
+      "quizTitle": "Renewable or non-renewable?",
+      "instructions": "Help the Belgian energy minister! Sort these resources: will they last forever, or will they run out one day?",
+      "categories": [
+        "Renewable 🔄",
+        "Non-renewable ⛔"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Renewable 🔄",
+          "type": "text",
+          "content": "☀️ Sun"
+        },
+        {
+          "id": 2,
+          "category": "Renewable 🔄",
+          "type": "text",
+          "content": "💨 Wind"
+        },
+        {
+          "id": 3,
+          "category": "Renewable 🔄",
+          "type": "text",
+          "content": "💧 Water"
+        },
+        {
+          "id": 4,
+          "category": "Renewable 🔄",
+          "type": "text",
+          "content": "🌋 Geothermal energy"
+        },
+        {
+          "id": 5,
+          "category": "Renewable 🔄",
+          "type": "text",
+          "content": "🪵 Wood"
+        },
+        {
+          "id": 6,
+          "category": "Renewable 🔄",
+          "type": "text",
+          "content": "🌽 Biomass"
+        },
+        {
+          "id": 7,
+          "category": "Non-renewable ⛔",
+          "type": "text",
+          "content": "⚫ Coal"
+        },
+        {
+          "id": 8,
+          "category": "Non-renewable ⛔",
+          "type": "text",
+          "content": "🛢️ Oil"
+        },
+        {
+          "id": 9,
+          "category": "Non-renewable ⛔",
+          "type": "text",
+          "content": "🔥 Natural gas"
+        },
+        {
+          "id": 10,
+          "category": "Non-renewable ⛔",
+          "type": "text",
+          "content": "☢️ Uranium"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Energy in storage",
+      "instructions": "All these things store energy. How is the energy trapped inside them?",
+      "categories": [
+        "Chemical",
+        "Mechanical",
+        "Thermal"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Chemical",
+          "type": "text",
+          "content": "🍌 Banana"
+        },
+        {
+          "id": 2,
+          "category": "Chemical",
+          "type": "text",
+          "content": "🔋 Battery"
+        },
+        {
+          "id": 3,
+          "category": "Chemical",
+          "type": "text",
+          "content": "🪵 Wooden log"
+        },
+        {
+          "id": 4,
+          "category": "Chemical",
+          "type": "text",
+          "content": "🍫 Candy bar"
+        },
+        {
+          "id": 5,
+          "category": "Chemical",
+          "type": "text",
+          "content": "⛽ Petrol"
+        },
+        {
+          "id": 6,
+          "category": "Mechanical",
+          "type": "text",
+          "content": "🌊 Water behind dam"
+        },
+        {
+          "id": 7,
+          "category": "Mechanical",
+          "type": "text",
+          "content": "🌀 Compressed spring"
+        },
+        {
+          "id": 8,
+          "category": "Mechanical",
+          "type": "text",
+          "content": "🪨 Rock on cliff"
+        },
+        {
+          "id": 9,
+          "category": "Mechanical",
+          "type": "text",
+          "content": "🏹 Pulled bow"
+        },
+        {
+          "id": 10,
+          "category": "Thermal",
+          "type": "text",
+          "content": "🫖 Thermos flask"
+        },
+        {
+          "id": 11,
+          "category": "Thermal",
+          "type": "text",
+          "content": "♨️ Hot water bottle"
+        },
+        {
+          "id": 12,
+          "category": "Thermal",
+          "type": "text",
+          "content": "🍲 Hot soup"
+        }
+      ]
+    },
+    {
+      "quizTitle": "What is it for?",
+      "instructions": "All these devices use electricity. Sort them by the USEFUL energy they produce.",
+      "categories": [
+        "Thermal energy",
+        "Mechanical energy",
+        "EMW energy (light)"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Thermal energy",
+          "type": "text",
+          "content": "🔥 Electric oven"
+        },
+        {
+          "id": 2,
+          "category": "Thermal energy",
+          "type": "text",
+          "content": "💇 Hair straightener"
+        },
+        {
+          "id": 3,
+          "category": "Thermal energy",
+          "type": "text",
+          "content": "🛏️ Heated blanket"
+        },
+        {
+          "id": 4,
+          "category": "Thermal energy",
+          "type": "text",
+          "content": "☕ Electric kettle"
+        },
+        {
+          "id": 5,
+          "category": "Mechanical energy",
+          "type": "text",
+          "content": "🌀 Electric fan"
+        },
+        {
+          "id": 6,
+          "category": "Mechanical energy",
+          "type": "text",
+          "content": "🥤 Blender"
+        },
+        {
+          "id": 7,
+          "category": "Mechanical energy",
+          "type": "text",
+          "content": "🔩 Electric drill"
+        },
+        {
+          "id": 8,
+          "category": "Mechanical energy",
+          "type": "text",
+          "content": "🛴 Electric scooter"
+        },
+        {
+          "id": 9,
+          "category": "EMW energy (light)",
+          "type": "text",
+          "content": "🔦 Torch"
+        },
+        {
+          "id": 10,
+          "category": "EMW energy (light)",
+          "type": "text",
+          "content": "🌙 Night light"
+        },
+        {
+          "id": 11,
+          "category": "EMW energy (light)",
+          "type": "text",
+          "content": "📺 TV screen"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Which power plant am I?",
+      "instructions": "You are an energy expert and must advise the government. Sort each feature into the power plant it describes.",
+      "categories": [
+        "Wind turbine",
+        "Nuclear power plant",
+        "Gas power plant"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Wind turbine",
+          "type": "text",
+          "content": "🌬️ Weather dependent"
+        },
+        {
+          "id": 2,
+          "category": "Wind turbine",
+          "type": "text",
+          "content": "🏞️ Needs much space"
+        },
+        {
+          "id": 3,
+          "category": "Wind turbine",
+          "type": "text",
+          "content": "♻️ Renewable resource"
+        },
+        {
+          "id": 4,
+          "category": "Nuclear power plant",
+          "type": "text",
+          "content": "☢️ Radioactive waste"
+        },
+        {
+          "id": 5,
+          "category": "Nuclear power plant",
+          "type": "text",
+          "content": "⚙️ Constant production"
+        },
+        {
+          "id": 6,
+          "category": "Nuclear power plant",
+          "type": "text",
+          "content": "⛔ Limited uranium"
+        },
+        {
+          "id": 7,
+          "category": "Gas power plant",
+          "type": "text",
+          "content": "💨 Releases CO2"
+        },
+        {
+          "id": 8,
+          "category": "Gas power plant",
+          "type": "text",
+          "content": "⚡ Fast to start"
+        },
+        {
+          "id": 9,
+          "category": "Gas power plant",
+          "type": "text",
+          "content": "💶 Cheap to build"
+        }
+      ]
+    }
+  ]
 }
