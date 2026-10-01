@@ -1,5 +1,668 @@
 {
-  "level1": [],
-  "level2": [],
-  "level3": []
+  "level1": [
+    {
+      "id": 1,
+      "title": "Definitie van energiebron",
+      "image": null,
+      "en": "Wat is een energiebron? Leg het uit met je eigen woorden.",
+      "fr": "Avec tes propres mots, qu’est-ce qu’une source d’énergie ?",
+      "corr_en": "Een energiebron is een hulpbron die mensen gebruiken om energie te winnen of te produceren, zoals elektriciteit.",
+      "corr_fr": "Une source d’énergie est une ressource que l’humain utilise pour extraire ou produire de l’énergie, comme l’électricité."
+    },
+    {
+      "id": 2,
+      "title": "Windenergie",
+      "image": "wind-turbines.jpg",
+      "en": "Kijk naar de afbeelding. Welke energiebron wordt hier gebruikt? Is ze hernieuwbaar of niet-hernieuwbaar?",
+      "fr": "Observe la photo. Quelle ressource d’énergie est utilisée ici ? Est-elle renouvelable ou non renouvelable ?",
+      "corr_en": "De wind. Het is een hernieuwbare hulpbron: ze raakt nooit op.",
+      "corr_fr": "Le vent. C’est une ressource renouvelable : elle ne s’épuisera jamais."
+    },
+    {
+      "id": 3,
+      "title": "Steenkool: waar of niet waar",
+      "image": null,
+      "en": "Waar of niet waar? Verbeter de zin als hij niet waar is: ‘Steenkool is een hernieuwbare hulpbron, want er is veel van op aarde.’",
+      "fr": "Vrai ou faux ? Corrige la phrase si elle est fausse : « Le charbon est une ressource renouvelable car il y en a beaucoup sur Terre. »",
+      "corr_en": "Niet waar. Steenkool is niet-hernieuwbaar: de voorraad is beperkt, want het duurt miljoenen jaren voor ze gevormd is.",
+      "corr_fr": "Faux. Le charbon est non renouvelable : son stock est limité car il met des millions d’années à se former."
+    },
+    {
+      "id": 4,
+      "title": "Pompinstallatie voor aardolie",
+      "image": "oil-pump-jack.jpg",
+      "en": "Deze machine haalt een energiebron uit de grond. Wat is de Nederlandse naam van die energiebron? Is de natuurlijke voorraad beperkt of onbeperkt?",
+      "fr": "Cette machine extrait une ressource d’énergie du sol. Quel est son nom en anglais ? Son stock naturel est-il limité ou illimité ?",
+      "corr_en": "Aardolie. De natuurlijke voorraad is beperkt: het is een niet-hernieuwbare hulpbron.",
+      "corr_fr": "Le pétrole (oil). Son stock naturel est limité : c’est une ressource non renouvelable."
+    },
+    {
+      "id": 5,
+      "title": "Op raken",
+      "image": null,
+      "en": "Vul de zin aan: ‘Niet-hernieuwbare hulpbronnen hebben ______ jaren nodig om te ontstaan. Als we ze te snel gebruiken, zullen ze ______.’",
+      "fr": "Complète la phrase : « Les ressources non renouvelables mettent des ______ d’années à se former. Si on les utilise trop vite, elles vont ______. »",
+      "corr_en": "miljoenen – opraken.",
+      "corr_fr": "millions – s’épuiser (run out)."
+    },
+    {
+      "id": 6,
+      "title": "Warmte uit de aarde",
+      "image": "geothermal-plant.jpg",
+      "en": "Deze centrale gebruikt de warmte uit het binnenste van de aarde. Wat is de Nederlandse naam van deze energiebron? Is ze hernieuwbaar?",
+      "fr": "Cette centrale utilise la chaleur venant de l’intérieur de la Terre. Quel est le nom anglais de cette ressource d’énergie ? Est-elle renouvelable ?",
+      "corr_en": "Geothermische energie. Ja, het is een hernieuwbare hulpbron.",
+      "corr_fr": "La géothermie (geothermal energy). Oui, c’est une ressource renouvelable."
+    },
+    {
+      "id": 7,
+      "title": "Zes energievormen",
+      "image": null,
+      "en": "Noem de 6 energievormen die je in dit hoofdstuk hebt geleerd.",
+      "fr": "Cite les 6 formes d’énergie vues dans ce chapitre.",
+      "corr_en": "Chemische, mechanische, elektrische, nucleaire (kern-), thermische en EMG-energie.",
+      "corr_fr": "Énergie chimique, mécanique, électrique, nucléaire, thermique et EMW (ondes électromagnétiques)."
+    },
+    {
+      "id": 8,
+      "title": "Warme drank",
+      "image": "hot-drink.jpg",
+      "en": "Welke energievorm zit er in deze warme drank?",
+      "fr": "Quelle forme d’énergie est présente dans cette boisson chaude ?",
+      "corr_en": "Thermische energie (warmte).",
+      "corr_fr": "De l’énergie thermique (chaleur)."
+    },
+    {
+      "id": 9,
+      "title": "Behoud van energie",
+      "image": null,
+      "en": "Vul de wet van behoud van energie aan: ‘Energie kan niet ______ en niet ______ worden. Ze kan alleen van de ene vorm in de andere worden ______.’",
+      "fr": "Complète la loi de conservation de l’énergie : « L’énergie ne peut pas être ______ ni ______. Elle peut seulement être ______ d’une forme à une autre. »",
+      "corr_en": "gemaakt – vernietigd – omgezet.",
+      "corr_fr": "créée – détruite – transformée."
+    },
+    {
+      "id": 10,
+      "title": "Symbolen van het energiestroomdiagram",
+      "image": "energy-flow-symbols.png",
+      "en": "Dit is een energiestroomdiagram. Wat stellen de elementen 1 (cirkels), 2 (horizontale pijlen) en 3 (schuine pijlen) voor?",
+      "fr": "Voici un diagramme de flux d’énergie. Que représentent les éléments 1 (cercles), 2 (flèches horizontales) et 3 (flèches diagonales) ?",
+      "corr_en": "1 = de voorwerpen (bron, voorwerp, ontvanger); 2 = overgedragen energie; 3 = verloren energie.",
+      "corr_fr": "1 = les objets (source, objet, récepteur) ; 2 = l’énergie transférée ; 3 = l’énergie perdue."
+    },
+    {
+      "id": 11,
+      "title": "Alles nuttige energie?",
+      "image": null,
+      "en": "Waar of niet waar? Verbeter de zin als hij niet waar is: ‘Bij een omzetting wordt alle energie nuttige energie.’",
+      "fr": "Vrai ou faux ? Corrige la phrase si elle est fausse : « Lors d’une transformation, toute l’énergie devient de l’énergie utile. »",
+      "corr_en": "Niet waar. Er gaat altijd energie verloren als thermische energie (warmte) die we niet kunnen gebruiken: dit is energieverlies.",
+      "corr_fr": "Faux. Une partie de l’énergie est toujours perdue sous forme d’énergie thermique (chaleur) inutilisable : c’est la perte d’énergie."
+    },
+    {
+      "id": 12,
+      "title": "Powerbank",
+      "image": "power-bank.jpg",
+      "en": "Deze powerbank is een energiereservoir. In welke vorm is de energie erin opgeslagen?",
+      "fr": "Cette batterie externe est un réservoir d’énergie. Sous quelle forme l’énergie y est-elle stockée ?",
+      "corr_en": "Als chemische energie [C].",
+      "corr_fr": "Sous forme d’énergie chimique [C]."
+    },
+    {
+      "id": 13,
+      "title": "Elektriciteit opslaan",
+      "image": null,
+      "en": "Waar of niet waar? Verbeter de zin als hij niet waar is: ‘Elektriciteit kan heel gemakkelijk rechtstreeks in reusachtige dozen worden opgeslagen, zonder ze om te zetten.’",
+      "fr": "Vrai ou faux ? Corrige la phrase si elle est fausse : « L’électricité est très facile à stocker directement dans de grandes boîtes, sans la transformer. »",
+      "corr_en": "Niet waar. We kunnen elektriciteit niet rechtstreeks opslaan: we moeten ze altijd eerst omzetten (bijvoorbeeld in chemische energie in een batterij).",
+      "corr_fr": "Faux. On ne peut pas stocker l’électricité directement : il faut toujours la transformer d’abord (par exemple en énergie chimique dans une batterie)."
+    },
+    {
+      "id": 14,
+      "title": "Water achter een dam",
+      "image": "dam-reservoir.jpg",
+      "en": "Het water zit hoog opgesloten achter deze dam. Welke opslagcode beschrijft het: [C] chemisch, [M] mechanisch of [T] thermisch?",
+      "fr": "L’eau est retenue en hauteur derrière ce barrage. Quel code de stockage la décrit : [C] chimique, [M] mécanique ou [T] thermique ?",
+      "corr_en": "[M]: het water slaat mechanische energie op door zijn hoogte.",
+      "corr_fr": "[M] : l’eau stocke de l’énergie mécanique grâce à sa hauteur."
+    },
+    {
+      "id": 15,
+      "title": "Eenheid van vermogen",
+      "image": null,
+      "en": "In welke eenheid wordt elektrisch vermogen gemeten? Wat betekent een hoger vermogen?",
+      "fr": "En quelle unité mesure-t-on la puissance électrique ? Que signifie une puissance plus élevée ?",
+      "corr_en": "In watt (W). Een hoger vermogen betekent dat het toestel elke seconde meer energie gebruikt.",
+      "corr_fr": "En watts (W). Une puissance plus élevée signifie que l’appareil utilise plus d’énergie chaque seconde."
+    },
+    {
+      "id": 16,
+      "title": "Turbine en generator",
+      "image": "turbine-generator.jpg",
+      "en": "Benoem machines 1 en 2. Welke energie produceert machine 1 en wat doet machine 2 ermee?",
+      "fr": "Nomme les machines 1 et 2. Quelle énergie la machine 1 produit-elle et que fait la machine 2 avec cette énergie ?",
+      "corr_en": "1 = turbine: ze produceert mechanische energie. 2 = generator: ze zet mechanische energie om in elektrische energie.",
+      "corr_fr": "1 = turbine : elle produit de l’énergie mécanique. 2 = générateur : il transforme l’énergie mécanique en énergie électrique."
+    },
+    {
+      "id": 17,
+      "title": "Waarom elektriciteit?",
+      "image": null,
+      "en": "Vul de zin aan: ‘Elektriciteit is belangrijk voor de mens, want ze is gemakkelijk te ______ en gemakkelijk te ______.’",
+      "fr": "Complète la phrase : « L’électricité est importante pour l’humain car elle est facile à ______ et facile à ______. »",
+      "corr_en": "omzetten – transporteren.",
+      "corr_fr": "transformer – transporter."
+    },
+    {
+      "id": 18,
+      "title": "Kerncentrale",
+      "image": "nuclear-plant.jpg",
+      "en": "Welk type elektriciteitscentrale is hier te zien? Welke energiebron gebruikt ze?",
+      "fr": "Quel type de centrale électrique est représenté ici ? Quelle ressource d’énergie utilise-t-elle ?",
+      "corr_en": "Een kerncentrale. Ze gebruikt uranium, een niet-hernieuwbare hulpbron.",
+      "corr_fr": "Une centrale nucléaire. Elle utilise l’uranium, une ressource non renouvelable."
+    },
+    {
+      "id": 19,
+      "title": "Belgische elektriciteitscentrales",
+      "image": null,
+      "en": "Noem de 4 belangrijkste types industriële elektriciteitscentrales in België.",
+      "fr": "Cite les 4 principaux types de centrales électriques industrielles utilisées en Belgique.",
+      "corr_en": "Kerncentrales, gascentrales, windparken en waterkrachtcentrales.",
+      "corr_fr": "Les centrales nucléaires, les centrales au gaz, les parcs éoliens et les centrales hydroélectriques."
+    },
+    {
+      "id": 20,
+      "title": "Biomassapellets",
+      "image": "wood-pellets.jpg",
+      "en": "Deze pellets zijn gemaakt van hout en plantaardig afval. Hoe heet deze energiebron? Onder welke voorwaarde is ze hernieuwbaar?",
+      "fr": "Ces granulés sont fabriqués à partir de bois et de déchets végétaux. Quel est le nom de cette ressource d’énergie ? À quelle condition est-elle renouvelable ?",
+      "corr_en": "Biomassa. Ze is alleen hernieuwbaar als mensen er verantwoord mee omgaan.",
+      "corr_fr": "La biomasse. Elle n’est renouvelable que si l’humain la gère de manière responsable."
+    }
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Hout of steenkool",
+      "image": null,
+      "en": "Hout en steenkool kunnen allebei worden verbrand om warmte te produceren. Leg uit waarom hout een hernieuwbare hulpbron is, maar steenkool niet.",
+      "fr": "Le bois et le charbon peuvent tous deux être brûlés pour produire de la chaleur. Explique pourquoi le bois est une ressource renouvelable, mais pas le charbon.",
+      "corr_en": "Hout komt van bomen die snel weer aangroeien (als bossen verantwoord worden beheerd). Steenkool heeft miljoenen jaren nodig om te ontstaan, dus de voorraad op aarde is beperkt en raakt op.",
+      "corr_fr": "Le bois provient d’arbres qui repoussent rapidement (si les forêts sont gérées de manière responsable). Le charbon met des millions d’années à se former : son stock sur Terre est limité et s’épuisera."
+    },
+    {
+      "id": 2,
+      "title": "Sleutel om hulpbronnen te sorteren",
+      "image": "resources-key.jpg",
+      "en": "Bekijk de 6 energiebronnen op de afbeelding. Sorteer elke bron in een categorie door de sleutel hieronder te volgen.<br><br><strong>Vraag A:</strong> Hangt de hulpbron af van een permanent natuurverschijnsel, of vernieuwt ze zich snel?<br>• JA → <strong>Hernieuwbaar</strong><br>• NEE → ga naar vraag B<br><br><strong>Vraag B:</strong> Wordt de hulpbron verbrand om haar energie vrij te maken?<br>• JA → <strong>Niet-hernieuwbaar, verbrand</strong><br>• NEE → <strong>Niet-hernieuwbaar, niet verbrand</strong><br><br>Schrijf de categorie van elke hulpbron op (1 tot 6).",
+      "fr": "Observe les 6 ressources d’énergie de l’image. Range chacune dans une catégorie en suivant la clé ci-dessous.<br><br><strong>Question A :</strong> La ressource dépend-elle d’un phénomène naturel permanent, ou se régénère-t-elle rapidement ?<br>• OUI → <strong>Renouvelable</strong><br>• NON → va à la question B<br><br><strong>Question B :</strong> La ressource est-elle brûlée pour libérer son énergie ?<br>• OUI → <strong>Non renouvelable, brûlée</strong><br>• NON → <strong>Non renouvelable, non brûlée</strong><br><br>Écris la catégorie de chaque ressource (1 à 6).",
+      "corr_en": "Hernieuwbaar: 1 (zon), 3 (water), 5 (geothermische energie). Niet-hernieuwbaar, verbrand: 2 (aardgas), 6 (steenkool). Niet-hernieuwbaar, niet verbrand: 4 (uranium).",
+      "corr_fr": "Renouvelables : 1 (soleil), 3 (eau), 5 (géothermie). Non renouvelables, brûlées : 2 (gaz naturel), 6 (charbon). Non renouvelable, non brûlée : 4 (uranium)."
+    },
+    {
+      "id": 3,
+      "title": "PhET-fiets: de kleuren",
+      "image": null,
+      "en": "In het PhET-onderzoek met de fiets trapt het meisje en wordt het water in de beker warmer. Geef de energievorm bij elke stap: in het lichaam van het meisje (groene blokjes), in het wiel (grijze blokjes), in de draden (blauwe blokjes) en in het water.",
+      "fr": "Dans l’investigation PhET du vélo, la fille pédale et l’eau du bécher se réchauffe. Donne la forme d’énergie à chaque étape : dans le corps de la fille (blocs verts), dans la roue (blocs gris), dans les fils (blocs bleus) et dans l’eau.",
+      "corr_en": "Lichaam: chemische energie → wiel: mechanische energie → draden: elektrische energie → water: thermische energie, dus de temperatuur van het water stijgt.",
+      "corr_fr": "Corps : énergie chimique → roue : énergie mécanique → fils : énergie électrique → eau : énergie thermique, donc la température de l’eau monte."
+    },
+    {
+      "id": 4,
+      "title": "Omzetting in een broodrooster",
+      "image": "toaster.jpg",
+      "en": "Bepaal de energievorm voor en na de omzetting in een broodrooster. Welke energie is hier nuttig?",
+      "fr": "Identifie la forme d’énergie avant et après la transformation dans un grille-pain. Quelle énergie est utile ici ?",
+      "corr_en": "Voor: elektrische energie. Na: thermische energie (en een beetje EMG-energie, het rode licht). De nuttige energie is de thermische energie die het brood roostert.",
+      "corr_fr": "Avant : énergie électrique. Après : énergie thermique (et un peu d’énergie EMW, la lumière rouge). L’énergie utile est l’énergie thermique qui grille le pain."
+    },
+    {
+      "id": 5,
+      "title": "Feit of oordeel?",
+      "image": null,
+      "en": "Classificeer elke uitspraak als een feit of een oordeel, en leg het verschil uit.<br>a) Een kerncentrale stoot geen CO2 uit wanneer ze elektriciteit produceert.<br>b) Windturbines zijn lelijk en verpesten het landschap.<br>c) Een gascentrale stoot CO2 uit wanneer ze gas verbrandt.",
+      "fr": "Classe chaque affirmation comme un fait ou un jugement, et explique la différence.<br>a) Une centrale nucléaire ne rejette pas de CO2 quand elle produit de l’électricité.<br>b) Les éoliennes sont moches et abîment le paysage.<br>c) Une centrale au gaz rejette du CO2 quand elle brûle du gaz.",
+      "corr_en": "a) feit, b) oordeel, c) feit. Een feit kan worden gecontroleerd en is voor iedereen waar; een oordeel is een persoonlijke mening die van persoon tot persoon kan verschillen.",
+      "corr_fr": "a) fait, b) jugement, c) fait. Un fait peut être vérifié et est vrai pour tout le monde ; un jugement est une opinion personnelle qui peut changer d’une personne à l’autre."
+    },
+    {
+      "id": 6,
+      "title": "Remmende fiets",
+      "image": "bicycle-brake.jpg",
+      "en": "Wanneer je remt, stopt je fiets. Is de bewegingsenergie vernietigd? Leg uit waar ze naartoe gaat.",
+      "fr": "Quand tu freines, ton vélo s’arrête. Son énergie de mouvement a-t-elle été détruite ? Explique où elle va.",
+      "corr_en": "Nee, energie kan niet vernietigd worden. De mechanische energie van de fiets wordt in de remmen omgezet in thermische energie, waardoor ze warm worden, en die warmte gaat verloren in de lucht.",
+      "corr_fr": "Non, l’énergie ne peut pas être détruite. L’énergie mécanique du vélo est transformée en énergie thermique dans les freins, qui chauffent, et cette chaleur est perdue dans l’air."
+    },
+    {
+      "id": 7,
+      "title": "Warm tijdens het lopen",
+      "image": null,
+      "en": "Waarom wordt je lichaam warm wanneer je heel snel loopt of fietst?",
+      "fr": "Pourquoi ton corps devient-il chaud quand tu cours ou roules très vite à vélo ?",
+      "corr_en": "Je lichaam zet de chemische energie uit voedsel om in mechanische energie (beweging), maar een deel gaat verloren als thermische energie (warmte). Dit is energieverlies.",
+      "corr_fr": "Ton corps transforme l’énergie chimique des aliments en énergie mécanique (mouvement), mais une partie est perdue sous forme d’énergie thermique (chaleur). C’est la perte d’énergie."
+    },
+    {
+      "id": 8,
+      "title": "Energiestroom van een waterkoker",
+      "image": "kettle-flow.jpg",
+      "questions": [
+        {
+          "en": "Dit is het energiestroomdiagram van een elektrische waterkoker. Welke energievorm wordt overgedragen door pijl 1?",
+          "fr": "Voici le diagramme de flux d’énergie d’une bouilloire électrique. Quelle forme d’énergie est transférée par la flèche 1 ?",
+          "corr_en": "Elektrische energie, van het stopcontact naar de waterkoker.",
+          "corr_fr": "De l’énergie électrique, de la prise vers la bouilloire."
+        },
+        {
+          "en": "Welke energievorm wordt overgedragen door pijl 2, van de waterkoker naar het water?",
+          "fr": "Quelle forme d’énergie est transférée par la flèche 2, de la bouilloire vers l’eau ?",
+          "corr_en": "Thermische energie (warmte).",
+          "corr_fr": "De l’énergie thermique (chaleur)."
+        },
+        {
+          "en": "Wat stelt pijl 3 voor? Geef een voorbeeld.",
+          "fr": "Que représente la flèche 3 ? Donne un exemple.",
+          "corr_en": "Verloren energie: thermische energie die de waterkoker zelf en de lucht eromheen opwarmt in plaats van het water.",
+          "corr_fr": "L’énergie perdue : de l’énergie thermique qui chauffe la bouilloire elle-même et l’air autour, au lieu de l’eau."
+        },
+        {
+          "en": "Wat stelt pijl 4 voor?",
+          "fr": "Que représente la flèche 4 ?",
+          "corr_en": "De nuttige energie: de thermische energie van het warme water dat we gebruiken, bijvoorbeeld om thee te zetten.",
+          "corr_fr": "L’énergie utile : l’énergie thermique de l’eau chaude que l’on utilise, par exemple pour faire du thé."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "De taak van de generator",
+      "image": null,
+      "en": "Wat is de taak van de generator in het PhET-fietssysteem? Leg uit met energievormen.",
+      "fr": "Dans le système PhET du vélo, quel est le rôle du générateur ? Explique en utilisant les formes d’énergie.",
+      "corr_en": "De generator zet de mechanische energie van het draaiende wiel om in elektrische energie, die via de draden wordt gestuurd om het water te verwarmen.",
+      "corr_fr": "Le générateur transforme l’énergie mécanique de la roue qui tourne en énergie électrique, envoyée dans les fils pour chauffer l’eau."
+    },
+    {
+      "id": 10,
+      "title": "Thermosfles",
+      "image": "thermos.jpg",
+      "en": "Een thermosfles is een energiereservoir. Welke opslagcode heeft ze: [C], [M] of [T]? Waarom wordt de drank na vele uren toch koud?",
+      "fr": "Une bouteille thermos est un réservoir d’énergie. Quel est son code de stockage : [C], [M] ou [T] ? Pourquoi la boisson finit-elle quand même par refroidir après de nombreuses heures ?",
+      "corr_en": "[T]: ze slaat thermische energie op (opgesloten warmte). Maar er ontsnapt altijd een beetje warmte naar de koudere lucht eromheen, dus de drank koelt langzaam af.",
+      "corr_fr": "[T] : elle stocke de l’énergie thermique (chaleur piégée). Mais un peu de chaleur s’échappe toujours dans l’air plus froid autour, donc la boisson refroidit lentement."
+    },
+    {
+      "id": 11,
+      "title": "Gas of kernenergie",
+      "image": null,
+      "en": "Vergelijk hoe de turbine draait in een gascentrale en in een kerncentrale. Geef één gelijkenis en één verschil.",
+      "fr": "Compare comment la turbine tourne dans une centrale au gaz et dans une centrale nucléaire. Donne une ressemblance et une différence.",
+      "corr_en": "Gelijkenis: in beide centrales laat stoom onder hoge druk de turbine draaien. Verschil: in een gascentrale wordt de stoom gemaakt door gas te verbranden; in een kerncentrale door uraniumatomen te splitsen.",
+      "corr_fr": "Ressemblance : dans les deux, de la vapeur à haute pression fait tourner la turbine. Différence : dans une centrale au gaz, la vapeur est produite en brûlant du gaz ; dans une centrale nucléaire, en cassant des atomes d’uranium."
+    },
+    {
+      "id": 12,
+      "title": "Staafdiagram van het vermogen",
+      "image": "power-bar-chart-nl.png",
+      "questions": [
+        {
+          "en": "Dit staafdiagram toont het elektrisch vermogen van 7 huishoudtoestellen. Welk toestel gebruikt de meeste energie per seconde? Geef zijn vermogen.",
+          "fr": "Ce diagramme en bâtonnets montre la puissance électrique de 7 appareils ménagers. Quel appareil utilise le plus d’énergie par seconde ? Donne sa puissance.",
+          "corr_en": "De vaatwasser, met 2000 W.",
+          "corr_fr": "Le lave-vaisselle, avec 2000 W."
+        },
+        {
+          "en": "Hoeveel keer meer vermogen heeft de haardroger nodig dan de gewone gloeilamp?",
+          "fr": "Combien de fois plus de puissance le sèche-cheveux demande-t-il que l’ampoule classique ?",
+          "corr_en": "1200 W ÷ 60 W = 20 keer meer vermogen.",
+          "corr_fr": "1200 W ÷ 60 W = 20 fois plus de puissance."
+        },
+        {
+          "en": "Een ledlamp en een gewone gloeilamp geven hetzelfde licht. Gebruik het diagram om uit te leggen waarom de ledlamp een betere keuze is.",
+          "fr": "Une ampoule LED et une ampoule classique donnent la même lumière. Utilise le graphique pour expliquer pourquoi l’ampoule LED est un meilleur choix.",
+          "corr_en": "De ledlamp heeft maar 10 W nodig in plaats van 60 W: ze gebruikt 6 keer minder energie per seconde voor hetzelfde licht.",
+          "corr_fr": "L’ampoule LED n’a besoin que de 10 W au lieu de 60 W : elle utilise 6 fois moins d’énergie chaque seconde pour la même lumière."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Boomstam en batterij",
+      "image": null,
+      "en": "Waar of niet waar? Verantwoord: ‘Een houten boomstam en een batterij gebruiken precies hetzelfde type opslag [C].’",
+      "fr": "Vrai ou faux ? Justifie : « Une bûche de bois et une batterie utilisent exactement le même type de stockage [C]. »",
+      "corr_en": "Waar. Beide slaan chemische energie op in atomen en moleculen: de boomstam geeft ze vrij wanneer hij brandt, de batterij wanneer ze elektriciteit produceert.",
+      "corr_fr": "Vrai. Les deux stockent de l’énergie chimique dans les atomes et les molécules : la bûche la libère en brûlant, la batterie en produisant de l’électricité."
+    },
+    {
+      "id": 14,
+      "title": "Van de dam tot de draden",
+      "image": "hydro-plant-nl.png",
+      "en": "Beschrijf de energieomzettingen in een waterkrachtcentrale, van het water achter de dam tot de elektriciteit in de draden.",
+      "fr": "Décris les transformations d’énergie dans une centrale hydroélectrique, de l’eau derrière le barrage jusqu’à l’électricité dans les câbles.",
+      "corr_en": "Het water hoog achter de dam slaat mechanische energie op. Wanneer het valt, laat zijn beweging (mechanische energie) de turbine draaien, en de generator zet deze mechanische energie om in elektrische energie.",
+      "corr_fr": "L’eau retenue en hauteur derrière le barrage stocke de l’énergie mécanique. En tombant, son mouvement (énergie mécanique) fait tourner la turbine, et le générateur transforme cette énergie mécanique en énergie électrique."
+    },
+    {
+      "id": 15,
+      "title": "Nooit eeuwig draaien",
+      "image": null,
+      "en": "Leg uit waarom een machine nooit eeuwig uit zichzelf kan blijven draaien, ook al blijft energie behouden.",
+      "fr": "Explique pourquoi une machine ne peut jamais fonctionner indéfiniment toute seule, alors que l’énergie est conservée.",
+      "corr_en": "Bij elke omzetting gaat een deel van de energie verloren als thermische energie (warmte) die we niet kunnen gebruiken. De energie wordt niet vernietigd, maar de nuttige energie wordt steeds kleiner tot de machine stopt.",
+      "corr_fr": "À chaque transformation, une partie de l’énergie est perdue sous forme d’énergie thermique (chaleur) inutilisable. L’énergie n’est pas détruite, mais l’énergie utile diminue de plus en plus jusqu’à ce que la machine s’arrête."
+    },
+    {
+      "id": 16,
+      "title": "Zonnepanelen bij bewolking",
+      "image": "solar-panels-cloudy.jpg",
+      "en": "Produceert een zonnepaneel op een heel bewolkte dag evenveel elektriciteit als op een zonnige dag? Leg uit met de energievormen.",
+      "fr": "Par un jour très nuageux, un panneau solaire produit-il autant d’électricité qu’un jour ensoleillé ? Explique en utilisant les formes d’énergie.",
+      "corr_en": "Nee, het produceert minder. De wolken houden een deel van de EMG-energie (licht) van de zon tegen, dus het paneel krijgt minder licht om om te zetten in elektrische energie.",
+      "corr_fr": "Non, il en produit moins. Les nuages bloquent une partie de l’énergie EMW (lumière) du soleil, donc le panneau reçoit moins de lumière à transformer en énergie électrique."
+    },
+    {
+      "id": 17,
+      "title": "Stappen van de wetenschap",
+      "image": null,
+      "en": "Tom merkt dat de batterij van zijn gsm sneller leeg raakt in de winter. Koppel elke zin aan een stap van de wetenschappelijke methode (waarneming, vraag, hypothese):<br>a) ‘De batterij van mijn gsm raakt sneller leeg wanneer het buiten koud is.’<br>b) ‘Beïnvloedt de kou de energie die in mijn batterij is opgeslagen?’<br>c) ‘Ik denk dat de kou het vrijkomen van chemische energie in de batterij vertraagt.’",
+      "fr": "Tom remarque que la batterie de son téléphone se vide plus vite en hiver. Associe chaque phrase à une étape de la démarche scientifique (observation, question, hypothèse) :<br>a) « La batterie de mon téléphone se vide plus vite quand il fait froid dehors. »<br>b) « Le froid influence-t-il l’énergie stockée dans ma batterie ? »<br>c) « Je pense que le froid ralentit la libération de l’énergie chimique dans la batterie. »",
+      "corr_en": "a) waarneming, b) vraag, c) hypothese: een mogelijk antwoord op de vraag dat met een experiment kan worden getest.",
+      "corr_fr": "a) observation, b) question, c) hypothèse : une réponse possible à la question, qui peut être testée par une expérience."
+    },
+    {
+      "id": 18,
+      "title": "Windpark op zee",
+      "image": "offshore-wind-farm.jpg",
+      "en": "Geef met het wetenschappelijk rapport van de Franse uitdaging één voordeel en één nadeel van windturbines voor de Belgische elektriciteit.",
+      "fr": "À l’aide du rapport scientifique du French challenge, donne un avantage et un inconvénient des éoliennes pour l’électricité de la Belgique.",
+      "corr_en": "Voordeel: wind is hernieuwbaar en de turbines stoten geen CO2 uit. Nadeel: ze hangen af van het weer (geen wind, geen elektriciteit) en ze hebben veel ruimte nodig.",
+      "corr_fr": "Avantage : le vent est renouvelable et les éoliennes ne rejettent pas de CO2. Inconvénient : elles dépendent de la météo (pas de vent, pas d’électricité) et demandent beaucoup d’espace."
+    },
+    {
+      "id": 19,
+      "title": "Piekuren",
+      "image": null,
+      "en": "Waarom is het een slecht idee om je vaatwasser (2000 W) tijdens de piekuren te laten draaien?",
+      "fr": "Pourquoi est-ce une mauvaise idée de faire tourner ton lave-vaisselle (2000 W) pendant les heures de pointe ?",
+      "corr_en": "Tijdens de piekuren gebruiken veel mensen tegelijk elektriciteit. Een krachtige vaatwasser verhoogt de vraag nog meer, dus er moeten extra centrales worden opgestart (vaak gascentrales die CO2 uitstoten) en het risico op een stroompanne stijgt.",
+      "corr_fr": "Aux heures de pointe, beaucoup de gens utilisent l’électricité en même temps. Un lave-vaisselle puissant ajoute encore de la demande : il faut démarrer des centrales supplémentaires (souvent au gaz, qui rejettent du CO2) et le risque de blackout augmente."
+    },
+    {
+      "id": 20,
+      "title": "Opslagcodes",
+      "image": "storage-codes.jpg",
+      "en": "Deze 4 voorwerpen zijn energiereservoirs. Geef de opslagcode van elk voorwerp ([C] chemisch, [M] mechanisch, [T] thermisch) en verantwoord kort.",
+      "fr": "Ces 4 objets sont des réservoirs d’énergie. Donne le code de stockage de chacun ([C] chimique, [M] mécanique, [T] thermique) et justifie brièvement.",
+      "corr_en": "1 [M]: spanning van de boog. 2 [C]: chemische energie in de brandstof. 3 [T]: opgesloten warmte. 4 [M]: hoogte van de rots.",
+      "corr_fr": "1 [M] : tension de l’arc. 2 [C] : énergie chimique du carburant. 3 [T] : chaleur piégée. 4 [M] : hauteur du rocher."
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "De elektriciteit van IJsland",
+      "image": null,
+      "en": "IJsland is een vulkanisch eiland. Het produceert bijna al zijn elektriciteit met geothermische centrales en waterkrachtcentrales. Leg uit waarom dit goede keuzes zijn voor de toekomst, met wat je weet over hulpbronnen en elektriciteitscentrales.",
+      "fr": "L’Islande est une île volcanique. Elle produit presque toute son électricité avec des centrales géothermiques et hydroélectriques. Explique pourquoi ce sont de bons choix pour l’avenir, en utilisant ce que tu sais des ressources et des centrales.",
+      "corr_en": "Beide hulpbronnen zijn hernieuwbaar: de warmte in het binnenste van de aarde en de waterkringloop zijn permanente natuurverschijnselen, dus ze raken nooit op, in tegenstelling tot gas of uranium. Er wordt niets verbrand, dus er komt geen CO2 vrij. Zoals andere centrales gebruiken ze een turbine en een generator om mechanische energie om te zetten in elektrische energie.",
+      "corr_fr": "Les deux ressources sont renouvelables : la chaleur de la Terre et le cycle de l’eau sont des phénomènes naturels permanents, ils ne s’épuiseront jamais, contrairement au gaz ou à l’uranium. Rien n’est brûlé, donc pas de rejet de CO2. Comme les autres centrales, elles utilisent une turbine et un générateur pour transformer l’énergie mécanique en énergie électrique."
+    },
+    {
+      "id": 2,
+      "title": "Productiecurve van zonnestroom",
+      "image": "solar-curve-nl.png",
+      "questions": [
+        {
+          "en": "Deze lijngrafiek toont het elektrisch vermogen dat hetzelfde zonnepaneel produceert op een zonnige en op een bewolkte dag. Op welk uur is de productie het hoogst op de zonnige dag, en hoeveel bedraagt ze?",
+          "fr": "Ce graphique évolutif montre la puissance électrique produite par le même panneau solaire un jour ensoleillé et un jour nuageux. À quelle heure la production est-elle la plus élevée le jour ensoleillé, et combien vaut-elle ?",
+          "corr_en": "Om 12:00 (middag), met 350 W.",
+          "corr_fr": "À 12 h (midi), avec 350 W."
+        },
+        {
+          "en": "Vergelijk de twee curves en leg het verschil uit met energievormen.",
+          "fr": "Compare les deux courbes et explique la différence en utilisant les formes d’énergie.",
+          "corr_en": "De curve van de bewolkte dag ligt altijd lager (maximum 110 W in plaats van 350 W). De wolken houden een deel van de EMG-energie (licht) van de zon tegen, dus het paneel heeft minder licht om om te zetten in elektrische energie.",
+          "corr_fr": "La courbe du jour nuageux est toujours plus basse (maximum 110 W au lieu de 350 W). Les nuages bloquent une partie de l’énergie EMW (lumière) du soleil, donc le panneau a moins de lumière à transformer en énergie électrique."
+        },
+        {
+          "en": "Waarom is een lijngrafiek (evolutieve grafiek) hier de juiste keuze, en geen cirkeldiagram?",
+          "fr": "Pourquoi un graphique évolutif (courbe) est-il le bon choix ici, plutôt qu’un diagramme circulaire ?",
+          "corr_en": "Omdat we willen tonen hoe het vermogen verandert in de tijd. Een cirkeldiagram toont alleen hoe een geheel op één moment in delen is verdeeld.",
+          "corr_fr": "Parce qu’on veut montrer comment la puissance évolue au cours du temps. Un diagramme circulaire montre seulement comment un tout est divisé en parts, à un moment donné."
+        },
+        {
+          "en": "Om 20:00 is de productie 0 W. Welk probleem veroorzaakt dit voor een huis dat zonne-elektriciteit wil gebruiken in de avond, en hoe kan het worden opgelost?",
+          "fr": "À 20 h, la production vaut 0 W. Quel problème cela pose-t-il pour une maison qui veut utiliser l’électricité solaire le soir, et comment le résoudre ?",
+          "corr_en": "Er is geen licht ’s nachts, dus geen elektriciteit. We kunnen elektriciteit niet rechtstreeks opslaan: overdag moeten we ze omzetten, bijvoorbeeld in chemische energie in een batterij, en ’s avonds weer omzetten in elektrische energie.",
+          "corr_fr": "La nuit, il n’y a pas de lumière, donc pas d’électricité. On ne peut pas stocker l’électricité directement : en journée, il faut la transformer, par exemple en énergie chimique dans une batterie, puis la retransformer en énergie électrique le soir."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Energie bij het kampvuur",
+      "image": null,
+      "en": "Tijdens een kampeertrip bak je worstjes boven een houtvuur. Beschrijf waar de energie aan het begin is opgeslagen, de energieomzettingen en wat er gebeurt met de energie die niet wordt gebruikt om te koken.",
+      "fr": "Pendant un camp, tu cuis des saucisses sur un feu de bois. Décris où l’énergie est stockée au départ, les transformations d’énergie, et ce que devient l’énergie qui ne sert pas à la cuisson.",
+      "corr_en": "Aan het begin slaat het hout chemische energie op. Wanneer het brandt, wordt deze chemische energie omgezet in thermische energie en EMG-energie (licht). Slechts een deel van de warmte bakt de worstjes (nuttige energie); de rest gaat verloren in de lucht rond het vuur. De energie wordt niet vernietigd: ze verspreidt zich in de omgeving.",
+      "corr_fr": "Au départ, le bois stocke de l’énergie chimique. En brûlant, cette énergie chimique est transformée en énergie thermique et en énergie EMW (lumière). Seule une partie de la chaleur cuit les saucisses (énergie utile) ; le reste est perdu dans l’air autour du feu. L’énergie n’est pas détruite : elle est dispersée dans l’environnement."
+    },
+    {
+      "id": 4,
+      "title": "Getijdencentrale",
+      "image": "tidal-power-station.jpg",
+      "en": "In Frankrijk gebruikt de centrale van La Rance de getijden: twee keer per dag stromen enorme hoeveelheden zeewater door haar turbines, heen en weer. Is deze hulpbron hernieuwbaar? Beschrijf de energieomzettingen en geef één voordeel en één nadeel in vergelijking met een gascentrale.",
+      "fr": "En France, la centrale de la Rance utilise les marées : deux fois par jour, d’énormes quantités d’eau de mer entrent et sortent à travers ses turbines. Cette ressource est-elle renouvelable ? Décris les transformations d’énergie et donne un avantage et un inconvénient par rapport à une centrale au gaz.",
+      "corr_en": "Ja: getijden zijn een permanent natuurverschijnsel, dus de hulpbron is hernieuwbaar. Het bewegende water (mechanische energie) laat de turbines draaien, en de generatoren zetten deze mechanische energie om in elektrische energie. Voordeel: er wordt niets verbrand, dus geen CO2, en ze raakt nooit op. Nadeel: ze produceert alleen wanneer het water beweegt, terwijl een gascentrale snel kan worden opgestart wanneer we ze nodig hebben.",
+      "corr_fr": "Oui : les marées sont un phénomène naturel permanent, la ressource est donc renouvelable. L’eau en mouvement (énergie mécanique) fait tourner les turbines, et les générateurs transforment cette énergie mécanique en énergie électrique. Avantage : rien n’est brûlé, donc pas de CO2, et elle ne s’épuisera jamais. Inconvénient : elle ne produit que quand l’eau bouge, alors qu’une centrale au gaz peut être démarrée rapidement dès qu’on en a besoin."
+    },
+    {
+      "id": 5,
+      "title": "Experiment met een zonnepaneel",
+      "image": null,
+      "en": "Sarah wil weten of de hoek van een klein zonnepaneel dat naar een lamp gericht is, de hoeveelheid elektriciteit verandert die het produceert. Schrijf haar hypothese, de variabele die ze test, twee variabelen die ze gelijk moet houden en wat ze moet waarnemen.",
+      "fr": "Sarah veut savoir si l’angle d’un petit panneau solaire placé face à une lampe change l’électricité qu’il produit. Écris son hypothèse, la variable qu’elle teste, deux variables qu’elle doit garder identiques, et ce qu’elle doit observer.",
+      "corr_en": "Hypothese: als het paneel rechtstreeks naar de lamp gericht is, krijgt het meer licht (EMG-energie), dus produceert het meer elektrische energie. Geteste variabele: de hoek van het paneel. Gelijk houden: de lamp en de afstand tussen de lamp en het paneel. Waarneming: de helderheid van een klein lampje dat op het paneel is aangesloten (of de waarde op een meter).",
+      "corr_fr": "Hypothèse : si le panneau est bien face à la lampe, il reçoit plus de lumière (énergie EMW), donc il produit plus d’énergie électrique. Variable testée : l’angle du panneau. À garder identiques : la lampe et la distance entre la lampe et le panneau. Observation : la luminosité d’une petite ampoule branchée au panneau (ou la valeur affichée par un appareil de mesure)."
+    },
+    {
+      "id": 6,
+      "title": "Analyse van een kerncentrale",
+      "image": "nuclear-plant-diagram.jpg",
+      "questions": [
+        {
+          "en": "Dit schema toont een kerncentrale. In welke vorm is de energie in het uranium opgeslagen en wat gebeurt ermee in deel 1 (de reactor)?",
+          "fr": "Ce schéma montre une centrale nucléaire. Sous quelle forme l’énergie est-elle stockée dans l’uranium, et que lui arrive-t-il dans la partie 1 (le réacteur) ?",
+          "corr_en": "Uranium slaat kernenergie op. In de reactor worden uraniumatomen gesplitst en wordt de kernenergie omgezet in thermische energie (warmte).",
+          "corr_fr": "L’uranium stocke de l’énergie nucléaire. Dans le réacteur, les atomes d’uranium sont cassés et l’énergie nucléaire est transformée en énergie thermique (chaleur)."
+        },
+        {
+          "en": "Leg de rol uit van de stoom (deel 2) en van de delen 3 en 4.",
+          "fr": "Explique le rôle de la vapeur (partie 2) et des parties 3 et 4.",
+          "corr_en": "De warmte verandert water in stoom onder hoge druk (2). De stoom laat de turbine draaien (3), die mechanische energie produceert. De generator (4) zet deze mechanische energie om in elektrische energie.",
+          "corr_fr": "La chaleur transforme l’eau en vapeur à haute pression (2). La vapeur fait tourner la turbine (3), qui produit de l’énergie mécanique. Le générateur (4) transforme cette énergie mécanique en énergie électrique."
+        },
+        {
+          "en": "Deel 5, de koeltoren, stoot veel warme stoom uit in de lucht. Wat toont dit over energieomzettingen?",
+          "fr": "La partie 5, la tour de refroidissement, rejette beaucoup de vapeur tiède dans l’air. Que montre cela à propos des transformations d’énergie ?",
+          "corr_en": "Veel thermische energie gaat verloren in de lucht en kan niet worden gebruikt: energieomzettingen gaan altijd gepaard met energieverlies als warmte. De energie wordt niet vernietigd, maar ze is niet meer nuttig.",
+          "corr_fr": "Beaucoup d’énergie thermique est perdue dans l’air et ne peut pas être utilisée : les transformations d’énergie s’accompagnent toujours de pertes sous forme de chaleur. L’énergie n’est pas détruite, mais elle n’est plus utile."
+        },
+        {
+          "en": "Schrijf de energiestroom van de hele centrale in woorden, van het uranium tot de elektriciteitsleidingen.",
+          "fr": "Écris en mots le flux d’énergie de toute la centrale, de l’uranium jusqu’aux lignes électriques.",
+          "corr_en": "Kernenergie (uranium) → thermische energie (reactor, stoom) → mechanische energie (turbine) → elektrische energie (generator, elektriciteitsleidingen), met thermische energie die bij elke stap verloren gaat.",
+          "corr_fr": "Énergie nucléaire (uranium) → énergie thermique (réacteur, vapeur) → énergie mécanique (turbine) → énergie électrique (générateur, lignes électriques), avec de l’énergie thermique perdue à chaque étape."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Regeneratief remmen",
+      "image": null,
+      "en": "Sommige elektrische auto’s winnen energie terug wanneer ze remmen: de draaiende wielen drijven een generator aan die de batterij oplaadt. Beschrijf de energieomzettingen wanneer de auto remt en later weer optrekt. Waarom kan de auto op deze manier toch niet eeuwig blijven rijden?",
+      "fr": "Certaines voitures électriques récupèrent de l’énergie au freinage : les roues qui tournent entraînent un générateur qui recharge la batterie. Décris les transformations d’énergie quand la voiture freine puis réaccélère. Pourquoi la voiture ne peut-elle quand même pas rouler éternellement ainsi ?",
+      "corr_en": "Bij het remmen wordt de mechanische energie van de auto door de generator omgezet in elektrische energie, en daarna opgeslagen als chemische energie in de batterij. Bij het optrekken zet de batterij chemische energie weer om in elektrische energie, en de motor in mechanische energie. Bij elke stap gaat een deel van de energie verloren als warmte, dus de nuttige energie neemt af: energie wordt nooit gemaakt.",
+      "corr_fr": "Au freinage, l’énergie mécanique de la voiture est transformée par le générateur en énergie électrique, puis stockée sous forme d’énergie chimique dans la batterie. À l’accélération, la batterie retransforme l’énergie chimique en énergie électrique, puis le moteur en énergie mécanique. À chaque étape, une partie de l’énergie est perdue en chaleur : l’énergie utile diminue, l’énergie n’est jamais créée."
+    },
+    {
+      "id": 8,
+      "title": "Sprongen op een trampoline",
+      "image": "trampoline.jpg",
+      "en": "Een kind springt op een trampoline. Bovenaan de sprong is ze hoog; onderaan zijn de veren uitgerekt. Leg uit hoe energie wordt opgeslagen en omgezet tijdens een sprong, en waarom de sprongen lager worden als ze stopt met afduwen met haar benen.",
+      "fr": "Une enfant saute sur un trampoline. En haut du saut, elle est en hauteur ; en bas, les ressorts sont étirés. Explique comment l’énergie est stockée et transformée pendant un rebond, et pourquoi les rebonds deviennent plus bas si elle arrête de pousser avec ses jambes.",
+      "corr_en": "Hoog in de lucht is energie opgeslagen als mechanische energie door de hoogte. Wanneer ze valt, wordt dit mechanische energie van beweging, en daarna opgeslagen in de uitgerekte veren (mechanische energie door spanning), die haar weer omhoogduwen. Bij elke sprong gaat een deel van de energie verloren als thermische energie en geluid, dus er blijft minder nuttige energie over en de sprongen worden lager.",
+      "corr_fr": "En hauteur, l’énergie est stockée sous forme d’énergie mécanique due à la hauteur. Quand elle tombe, elle devient de l’énergie mécanique de mouvement, puis est stockée dans les ressorts étirés (énergie mécanique due à la tension), qui la renvoient vers le haut. À chaque rebond, une partie de l’énergie est perdue en énergie thermique et en son : il reste moins d’énergie utile et les rebonds diminuent."
+    },
+    {
+      "id": 9,
+      "title": "Energie produceren?",
+      "image": null,
+      "en": "Een klasgenoot zegt: ‘Een centrale produceert energie.’ Is dit wetenschappelijk juist? Verbeter de zin en leg uit met de wet van behoud van energie.",
+      "fr": "Un camarade dit : « Une centrale électrique produit de l’énergie. » Est-ce scientifiquement correct ? Corrige la phrase et explique à l’aide de la loi de conservation de l’énergie.",
+      "corr_en": "Nee. Energie kan niet gemaakt of vernietigd worden, alleen omgezet. Een centrale zet de energie van een hulpbron (chemische energie van gas, kernenergie van uranium, mechanische energie van wind of water) om in elektrische energie, en een deel gaat verloren als warmte. Juiste zin: ‘Een centrale produceert elektriciteit door energie om te zetten.’",
+      "corr_fr": "Non. L’énergie ne peut être ni créée ni détruite, seulement transformée. Une centrale transforme l’énergie d’une ressource (énergie chimique du gaz, nucléaire de l’uranium, mécanique du vent ou de l’eau) en énergie électrique, et une partie est perdue en chaleur. Phrase correcte : « Une centrale produit de l’électricité en transformant de l’énergie. »"
+    },
+    {
+      "id": 10,
+      "title": "Zonnecentrale in de woestijn",
+      "image": "desert-solar-plant.jpg",
+      "en": "Marokko heeft in de woestijn een van de grootste zonnecentrales ter wereld gebouwd. Waarom is de woestijn een goede plaats daarvoor? Geef twee voordelen in vergelijking met een steenkoolcentrale en één beperking van zonne-energie.",
+      "fr": "Le Maroc a construit l’une des plus grandes centrales solaires du monde, dans le désert. Pourquoi le désert est-il un bon endroit ? Donne deux avantages par rapport à une centrale au charbon, et une limite de l’énergie solaire.",
+      "corr_en": "In de woestijn schijnt de zon bijna elke dag, dus de centrale ontvangt veel EMG-energie (licht). Voordelen: de zon is een hernieuwbare hulpbron die nooit opraakt, en er wordt niets verbrand, dus er komt geen CO2 vrij. Beperking: ’s nachts is er geen productie, en elektriciteit kan niet rechtstreeks worden opgeslagen, dus ze moet eerst worden omgezet en in een andere vorm worden opgeslagen.",
+      "corr_fr": "Dans le désert, le soleil brille presque tous les jours : la centrale reçoit beaucoup d’énergie EMW (lumière). Avantages : le soleil est une ressource renouvelable qui ne s’épuisera jamais, et rien n’est brûlé, donc pas de CO2. Limite : pas de production la nuit, et l’électricité ne se stocke pas directement, il faut d’abord la transformer et la stocker sous une autre forme."
+    },
+    {
+      "id": 11,
+      "title": "Kernenergie of gas?",
+      "image": null,
+      "en": "België wil zijn CO2-uitstoot verminderen, maar ook stroompannes vermijden wanneer de vraag piekt om 18:00. Vergelijk kerncentrales en gascentrales met het rapport van de Franse uitdaging en beargumenteer welke het best is voor elk doel.",
+      "fr": "La Belgique veut réduire ses émissions de CO2, mais aussi éviter les blackouts lors du pic de consommation de 18 h. À l’aide du rapport du French challenge, compare les centrales nucléaires et au gaz, et argumente laquelle est la meilleure pour chaque objectif.",
+      "corr_en": "Om CO2 te verminderen is kernenergie beter: ze stoot geen CO2 uit en produceert constant, ongeacht het weer. Maar uranium is niet-hernieuwbaar en veroorzaakt gevaarlijk radioactief afval. Gascentrales stoten veel CO2 uit, maar ze zijn goedkoop en heel snel op te starten, dus ze zijn alleen nuttig voor korte vraagpieken, om stroompannes te vermijden.",
+      "corr_fr": "Pour réduire le CO2, le nucléaire est meilleur : il ne rejette pas de CO2 et produit en continu, quelle que soit la météo. Mais l’uranium est non renouvelable et crée des déchets radioactifs dangereux. Les centrales au gaz rejettent beaucoup de CO2, mais elles sont bon marché et très rapides à démarrer : elles sont donc utiles seulement pour les pics de demande, afin d’éviter les blackouts."
+    },
+    {
+      "id": 12,
+      "title": "Cirkeldiagram van Solaria",
+      "image": "solaria-pie-chart-nl.png",
+      "questions": [
+        {
+          "en": "Dit cirkeldiagram toont hoe het denkbeeldige land Solaria vorig jaar zijn elektriciteit produceerde. Welk percentage kwam van hernieuwbare hulpbronnen? Toon je berekening.",
+          "fr": "Ce diagramme circulaire montre comment le pays imaginaire Solaria a produit son électricité l’an dernier. Quel pourcentage provient de ressources renouvelables ? Montre ton calcul.",
+          "corr_en": "Wind 20% + zon 10% + waterkracht 5% = 35%.",
+          "corr_fr": "Éolien 20 % + solaire 10 % + hydroélectrique 5 % = 35 %."
+        },
+        {
+          "en": "Waarom is een cirkeldiagram een goede keuze om deze gegevens voor te stellen?",
+          "fr": "Pourquoi un diagramme circulaire est-il un bon choix pour présenter ces données ?",
+          "corr_en": "Omdat het toont hoe een geheel (100% van de elektriciteit) in delen is verdeeld, zodat we gemakkelijk het aandeel van elke hulpbron kunnen vergelijken.",
+          "corr_fr": "Parce qu’il montre comment un tout (100 % de l’électricité) est divisé en parts, ce qui permet de comparer facilement la part de chaque ressource."
+        },
+        {
+          "en": "Solaria wil zijn CO2-uitstoot verminderen. Welke twee hulpbronnen moet het eerst verminderen? Verantwoord met de energieomzettingen die erbij horen.",
+          "fr": "Solaria veut réduire ses émissions de CO2. Quelles sont les deux ressources à réduire en priorité ? Justifie avec les transformations d’énergie concernées.",
+          "corr_en": "Aardgas en steenkool: ze worden verbrand, dus hun chemische energie wordt door verbranding omgezet in thermische energie, waarbij CO2 vrijkomt. Ze zijn ook niet-hernieuwbaar en zullen opraken.",
+          "corr_fr": "Le gaz naturel et le charbon : ils sont brûlés, leur énergie chimique est transformée en énergie thermique par combustion, ce qui rejette du CO2. En plus, ils sont non renouvelables et vont s’épuiser."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Van wind tot gsm",
+      "image": null,
+      "en": "Je gsm wordt opgeladen met elektriciteit van een windpark. Beschrijf de hele energieketen, van de wind tot het licht van je scherm, inclusief waar energie wordt opgeslagen en waar ze verloren gaat.",
+      "fr": "Ton smartphone est chargé avec de l’électricité venant d’un parc éolien. Décris toute la chaîne énergétique, du vent jusqu’à la lumière de ton écran, en précisant où l’énergie est stockée et où elle est perdue.",
+      "corr_en": "De wind (mechanische energie) laat de turbine draaien; de generator zet ze om in elektrische energie, die via draden naar je lader wordt getransporteerd. De batterij slaat ze op als chemische energie. Wanneer je de gsm gebruikt, wordt chemische energie elektrische energie, en daarna EMG-energie (licht van het scherm). Bij elke stap gaat wat energie verloren als warmte: de gsm wordt warm.",
+      "corr_fr": "Le vent (énergie mécanique) fait tourner la turbine ; le générateur la transforme en énergie électrique, transportée par les câbles jusqu’à ton chargeur. La batterie la stocke sous forme d’énergie chimique. Quand tu utilises le téléphone, l’énergie chimique redevient électrique, puis EMW (lumière de l’écran). À chaque étape, un peu d’énergie est perdue en chaleur : le téléphone chauffe."
+    },
+    {
+      "id": 14,
+      "title": "Led of gewone lamp",
+      "image": "led-vs-bulb.jpg",
+      "en": "Een gewone gloeilamp (60 W) en een ledlamp (10 W) geven evenveel licht. Leg dit verschil uit met het idee van een energiestroomdiagram, en waarom het gebruik van ledlampen helpt om de planeet te beschermen.",
+      "fr": "Une ampoule classique (60 W) et une ampoule LED (10 W) donnent la même quantité de lumière. En t’appuyant sur l’idée du diagramme de flux d’énergie, explique cette différence et pourquoi utiliser des LED aide à protéger la planète.",
+      "corr_en": "Beide zetten elektrische energie om in EMG-energie (licht) en thermische energie. De gewone lamp verliest het grootste deel van haar energie als warmte (ze wordt heel heet), terwijl de led veel minder verliest. De led heeft dus 6 keer minder vermogen nodig voor hetzelfde nuttige licht. Er is minder elektriciteit nodig, dus centrales verbranden minder gas en stoten minder CO2 uit.",
+      "corr_fr": "Les deux transforment l’énergie électrique en énergie EMW (lumière) et en énergie thermique. L’ampoule classique perd la plus grande partie de son énergie en chaleur (elle devient très chaude), alors que la LED en perd beaucoup moins. La LED a donc besoin de 6 fois moins de puissance pour la même lumière utile. Il faut moins d’électricité, donc les centrales brûlent moins de gaz et rejettent moins de CO2."
+    },
+    {
+      "id": 15,
+      "title": "Satelliet in de schaduw",
+      "image": null,
+      "en": "Een satelliet draait rond de aarde. Hij gebruikt zonnepanelen, maar tijdens een deel van elke baan bevindt hij zich in de schaduw van de aarde. Leg uit hoe hij in de schaduw kan blijven werken, met de ideeën van omzetting en opslag.",
+      "fr": "Un satellite tourne autour de la Terre. Il utilise des panneaux solaires, mais pendant une partie de chaque tour, il est dans l’ombre de la Terre. Explique comment il peut continuer à fonctionner dans l’ombre, en utilisant les idées de transformation et de stockage.",
+      "corr_en": "In het zonlicht zetten de zonnepanelen EMG-energie (licht) om in elektrische energie. Een deel wordt rechtstreeks gebruikt en een deel wordt opgeslagen in batterijen als chemische energie, want elektriciteit kan niet rechtstreeks worden opgeslagen. In de schaduw zetten de batterijen de chemische energie weer om in elektrische energie. Bij elke stap gaat wat energie verloren als warmte.",
+      "corr_fr": "Au soleil, les panneaux transforment l’énergie EMW (lumière) en énergie électrique. Une partie est utilisée directement et une partie est stockée dans des batteries sous forme d’énergie chimique, car l’électricité ne se stocke pas directement. Dans l’ombre, les batteries retransforment l’énergie chimique en énergie électrique. Un peu d’énergie est perdue en chaleur à chaque étape."
+    },
+    {
+      "id": 16,
+      "title": "Zaklamp met slinger",
+      "image": "crank-flashlight.jpg",
+      "en": "Deze zaklamp heeft geen batterij: je draait aan een handvat om ze te laten schijnen. Beschrijf de energieketen van je ontbijt tot het licht, en leg uit wat deze zaklamp gemeen heeft met een centrale.",
+      "fr": "Cette lampe de poche n’a pas de pile : on tourne une manivelle pour qu’elle éclaire. Décris la chaîne énergétique de ton petit-déjeuner jusqu’à la lumière, et explique ce que cette lampe a en commun avec une centrale électrique.",
+      "corr_en": "Voedsel slaat chemische energie op. Je spieren zetten ze om in mechanische energie door aan het handvat te draaien. Een kleine generator zet deze mechanische energie om in elektrische energie, en het lampje zet ze om in EMG-energie (licht). Bij elke stap gaat wat energie verloren als warmte in je lichaam en in de machine. Zoals in een centrale laat een beweging een generator draaien om elektriciteit te produceren.",
+      "corr_fr": "La nourriture stocke de l’énergie chimique. Tes muscles la transforment en énergie mécanique en tournant la manivelle. Un petit générateur transforme cette énergie mécanique en énergie électrique, et l’ampoule la transforme en énergie EMW (lumière). Une partie est perdue en chaleur dans ton corps et dans la machine. Comme dans une centrale, un mouvement fait tourner un générateur pour produire de l’électricité."
+    },
+    {
+      "id": 17,
+      "title": "Debat over het windpark",
+      "image": null,
+      "en": "Dorpsbewoners bespreken een nieuw windpark.<br>a) ‘Het windpark zal in de zomer minder elektriciteit produceren, omdat er minder wind is.’<br>b) ‘Windturbines zijn de mooiste machines.’<br>c) ‘Windturbines stoten geen CO2 uit wanneer ze elektriciteit produceren.’<br>Classificeer elke zin als een feit, een oordeel of een hypothese, en leg uit hoe de hypothese kan worden getest.",
+      "fr": "Des villageois discutent d’un nouveau parc éolien.<br>a) « Le parc produira moins d’électricité en été, car il y a moins de vent. »<br>b) « Les éoliennes sont les plus belles machines. »<br>c) « Les éoliennes ne rejettent pas de CO2 quand elles produisent de l’électricité. »<br>Classe chaque phrase comme fait, jugement ou hypothèse, et explique comment l’hypothèse pourrait être testée.",
+      "corr_en": "a) hypothese, b) oordeel, c) feit. Om de hypothese te testen, kunnen we een jaar lang elke maand de elektriciteit die het windpark produceert en de windsnelheid meten, en dan de zomermaanden met de andere seizoenen vergelijken.",
+      "corr_fr": "a) hypothèse, b) jugement, c) fait. Pour tester l’hypothèse, on pourrait mesurer chaque mois pendant un an l’électricité produite par le parc et la vitesse du vent, puis comparer les mois d’été aux autres saisons."
+    },
+    {
+      "id": 18,
+      "title": "Heuvels van de achtbaan",
+      "image": "roller-coaster.jpg",
+      "en": "Een elektrische motor trekt een achtbaan naar de top van de eerste heuvel, daarna rolt de trein naar beneden zonder motor. Beschrijf de energieopslag en de omzettingen, en leg uit waarom de volgende heuvel lager moet zijn dan de eerste.",
+      "fr": "Un moteur électrique tire un grand huit jusqu’au sommet de la première bosse, puis le train descend sans moteur. Décris le stockage et les transformations d’énergie, et explique pourquoi la bosse suivante doit être plus basse que la première.",
+      "corr_en": "De motor zet elektrische energie om in mechanische energie, die bovenaan is opgeslagen door de hoogte. Naar beneden wordt ze mechanische energie van beweging (snelheid). Wrijving met de rails en de lucht zet een deel ervan om in thermische energie en geluid, die verloren gaan. Met minder nuttige energie over kan de trein niet meer zo hoog klimmen.",
+      "corr_fr": "Le moteur transforme l’énergie électrique en énergie mécanique, stockée au sommet grâce à la hauteur. En descendant, elle devient de l’énergie mécanique de mouvement (vitesse). Les frottements avec les rails et l’air en transforment une partie en énergie thermique et en son, qui sont perdus. Avec moins d’énergie utile, le train ne peut plus remonter aussi haut."
+    },
+    {
+      "id": 19,
+      "title": "Is hout altijd goed?",
+      "image": null,
+      "en": "Een leerling zegt: ‘Hout is een hernieuwbare hulpbron, dus we mogen zoveel hout verbranden als we willen: het is altijd goed voor de planeet.’ Beoordeel deze uitspraak.",
+      "fr": "Un élève dit : « Le bois est une ressource renouvelable, donc on peut en brûler autant qu’on veut : c’est toujours bon pour la planète. » Évalue cette affirmation.",
+      "corr_en": "Hout is alleen hernieuwbaar als mensen bossen verantwoord beheren door bomen opnieuw te planten. Als we bomen sneller kappen dan ze aangroeien, neemt de voorraad hout af, zoals bij een niet-hernieuwbare hulpbron. Bovendien is het verbranden van hout een verbranding die CO2 uitstoot, en een groot deel van de warmte gaat verloren. We moeten het dus verstandig gebruiken, niet zoveel als we willen.",
+      "corr_fr": "Le bois n’est renouvelable que si l’humain gère les forêts de manière responsable, en replantant des arbres. Si on coupe les arbres plus vite qu’ils ne repoussent, le stock de bois diminue, comme une ressource non renouvelable. De plus, brûler du bois est une combustion qui rejette du CO2, et une grande partie de la chaleur est perdue. Il faut donc l’utiliser avec sagesse, pas autant qu’on veut."
+    },
+    {
+      "id": 20,
+      "title": "Pompcentrale",
+      "image": "pumped-storage.jpg",
+      "questions": [
+        {
+          "en": "In Coo (België) heeft een bijzondere centrale twee meren op verschillende hoogtes. ’s Nachts, wanneer weinig elektriciteit wordt gebruikt, pompen pompen water van het onderste meer (2) naar het bovenste meer (1). In welke vorm is de energie in het bovenste meer opgeslagen?",
+          "fr": "À Coo (Belgique), une centrale particulière possède deux lacs à des hauteurs différentes. La nuit, quand on utilise peu d’électricité, des pompes envoient l’eau du lac inférieur (2) vers le lac supérieur (1). Sous quelle forme l’énergie est-elle stockée dans le lac supérieur ?",
+          "corr_en": "Als mechanische energie, door de hoogte van het water.",
+          "corr_fr": "Sous forme d’énergie mécanique, grâce à la hauteur de l’eau."
+        },
+        {
+          "en": "Om 18:00, tijdens de vraagpiek, valt het water terug naar beneden door de turbines (3). Beschrijf de energieomzettingen.",
+          "fr": "À 18 h, pendant le pic de consommation, l’eau redescend à travers les turbines (3). Décris les transformations d’énergie.",
+          "corr_en": "Het vallende water (mechanische energie) laat de turbines draaien, en de generatoren (4) zetten deze mechanische energie om in elektrische energie, die naar de elektriciteitsleidingen (5) wordt gestuurd.",
+          "corr_fr": "L’eau qui tombe (énergie mécanique) fait tourner les turbines, et les générateurs (4) transforment cette énergie mécanique en énergie électrique, envoyée dans les lignes électriques (5)."
+        },
+        {
+          "en": "De centrale geeft minder elektriciteit terug dan ze gebruikte om het water omhoog te pompen. Is dit in tegenspraak met de wet van behoud van energie? Leg uit.",
+          "fr": "La centrale rend moins d’électricité qu’elle n’en a utilisé pour pomper l’eau. Cela contredit-il la loi de conservation de l’énergie ? Explique.",
+          "corr_en": "Nee. Energie wordt niet vernietigd: bij elke omzetting (pompen, vallend water, turbine, generator) gaat een deel verloren als thermische energie door wrijving en opwarming. De totale energie blijft behouden, maar er is minder nuttige energie.",
+          "corr_fr": "Non. L’énergie n’est pas détruite : à chaque transformation (pompage, chute d’eau, turbine, générateur), une partie est perdue en énergie thermique par frottements et échauffement. L’énergie totale est conservée, mais une plus petite partie est utile."
+        },
+        {
+          "en": "Waarom is dit soort centrale heel nuttig in een land met veel windturbines?",
+          "fr": "Pourquoi ce type de centrale est-il très utile dans un pays qui possède beaucoup d’éoliennes ?",
+          "corr_en": "Wanneer het heel winderig is en de elektriciteit niet nodig is, kan ze worden gebruikt om water omhoog te pompen en zo de energie op te slaan. Wanneer er geen wind is of tijdens de piekuren, produceert het water weer elektriciteit.",
+          "corr_fr": "Quand il y a beaucoup de vent et qu’on n’a pas besoin de l’électricité, on peut l’utiliser pour remonter l’eau et stocker l’énergie. Quand il n’y a pas de vent ou aux heures de pointe, l’eau reproduit de l’électricité."
+        }
+      ]
+    }
+  ]
 }
