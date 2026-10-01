@@ -1,0 +1,723 @@
+{
+  "categories": [
+    {
+      "id": "savoirs",
+      "title": "Savoirs",
+      "items": [
+        {
+          "id": "s1",
+          "isVocabulary": false,
+          "text": "Citer différentes ressources d'énergie : vent, soleil, eau, bois, gaz naturel, pétrole, charbon, uranium, géothermie, biomasse.",
+          "locations": [
+            "PART 1 : Mission 1 (Boîte de mots)",
+            "PART 1 : Mission 2 (Tableau de tri)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 1
+            },
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 2
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "isVocabulary": false,
+          "text": "Distinguer une ressource d'énergie renouvelable d'une ressource non renouvelable permettant de produire de l'électricité.",
+          "locations": [
+            "PART 1 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level1",
+              "id": 3
+            },
+            {
+              "level": "level1",
+              "id": 5
+            },
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "isVocabulary": false,
+          "text": "Identifier la/les forme(s) d'énergie présente(s) avant et après une transformation donnée.",
+          "locations": [
+            "PART 2 : Mission 3 - Lab Activity (PhET)",
+            "PART 2 : Exercise 1 & 2",
+            "PART 5 : Exercise 6, 7 & 8"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 7
+            },
+            {
+              "level": "level1",
+              "id": 8
+            },
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "isVocabulary": false,
+          "text": "Préciser que l'énergie est transformée et ne peut pas être produite ni consommée, car la quantité d'énergie est conservée.",
+          "locations": [
+            "PART 2 : Summary (conservation of energy)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "isVocabulary": false,
+          "text": "Préciser que les transformations d'énergie s'accompagnent souvent d'une dissipation d'énergie sous forme d'énergie thermique.",
+          "locations": [
+            "PART 2 : Section 2.2 Modeling energy flows",
+            "PART 2 : Summary (\"Energy waste...\")"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level1",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 12
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "isVocabulary": false,
+          "text": "Préciser que de l'énergie peut être stockée sous différentes formes.",
+          "locations": [
+            "PART 2 : Section 2.3 Storing energy",
+            "PART 2 : Mission 4",
+            "PART 2 : Exercise 5 (Vrai ou Faux)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 12
+            },
+            {
+              "level": "level1",
+              "id": 13
+            },
+            {
+              "level": "level1",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level2",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s7",
+          "isVocabulary": false,
+          "text": "Citer des types de centrales électriques permettant d'approvisionner la population belge en électricité et les ressources d'énergie qui y sont associées.",
+          "locations": [
+            "PART 3 : Mission 8 - Industrial Power Plants",
+            "PART 3 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level1",
+              "id": 19
+            },
+            {
+              "level": "level2",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 16
+            }
+          ]
+        },
+        {
+          "id": "s8-vocabulaire",
+          "isVocabulary": true,
+          "text": "Utiliser les termes : ressource d'énergie, forme d'énergie, centrale électrique, transformation, stockage d'énergie.",
+          "locations": [
+            "Documents globaux : tous ces termes sont intégrés dans les exercices et fixés dans le Scientific glossary et les encadrés Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 1
+            },
+            {
+              "level": "level1",
+              "id": 7
+            },
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level1",
+              "id": 15
+            },
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "savoirFaire",
+      "title": "Savoir-faire",
+      "items": [
+        {
+          "id": "sf1",
+          "isVocabulary": false,
+          "text": "S-F 13 et S-F 21 : Repérer les modes de stockage, les transformations et les dissipations d'énergie dans une situation donnée, en lien avec un objet donné.",
+          "locations": [
+            "PART 2 : Exercise 3 & 4 (Schématisation)",
+            "PART 2 : Mission 4",
+            "PART 5 : Exercise 6, 7 & 8"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 18
+            }
+          ]
+        },
+        {
+          "id": "sf2",
+          "isVocabulary": false,
+          "text": "S-F 2 et S-F 22 : Trier des ressources d'énergie en renouvelables ou non renouvelables.",
+          "locations": [
+            "PART 1 : Mission 1 (Symboles 🛑 et 🔄)",
+            "PART 1 : Mission 2 (Classification)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level1",
+              "id": 3
+            },
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "competence",
+      "title": "Compétence",
+      "items": [
+        {
+          "id": "c1",
+          "isVocabulary": false,
+          "text": "Décrire et expliquer les transformations d'énergie liées aux centrales/dispositifs d'approvisionnement en électricité, dans le but de comparer des avantages et des inconvénients de plusieurs types de production d'électricité.",
+          "locations": [
+            "PART 4 : THE FRENCH CHALLENGE",
+            "PART 4 : Mission 9 - Le défi citoyen - Les experts de l'énergie"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level2",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
