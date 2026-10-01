@@ -306,7 +306,7 @@
     {
       "id": 12,
       "title": "Staafdiagram van het vermogen",
-      "image": "power-bar-chart.png",
+      "image": "power-bar-chart-nl.png",
       "questions": [
         {
           "en": "Dit staafdiagram toont het elektrisch vermogen van 7 huishoudtoestellen. Welk toestel gebruikt de meeste energie per seconde? Geef zijn vermogen.",
@@ -340,7 +340,7 @@
     {
       "id": 14,
       "title": "Van de dam tot de draden",
-      "image": "hydro-plant.png",
+      "image": "hydro-plant-nl.png",
       "en": "Beschrijf de energieomzettingen in een waterkrachtcentrale, van het water achter de dam tot de elektriciteit in de draden.",
       "fr": "Décris les transformations d’énergie dans une centrale hydroélectrique, de l’eau derrière le barrage jusqu’à l’électricité dans les câbles.",
       "corr_en": "Het water hoog achter de dam slaat mechanische energie op. Wanneer het valt, laat zijn beweging (mechanische energie) de turbine draaien, en de generator zet deze mechanische energie om in elektrische energie.",
@@ -414,7 +414,7 @@
     {
       "id": 2,
       "title": "Productiecurve van zonnestroom",
-      "image": "solar-curve.png",
+      "image": "solar-curve-nl.png",
       "questions": [
         {
           "en": "Deze lijngrafiek toont het elektrisch vermogen dat hetzelfde zonnepaneel produceert op een zonnige en op een bewolkte dag. Op welk uur is de productie het hoogst op de zonnige dag, en hoeveel bedraagt ze?",
@@ -548,7 +548,7 @@
     {
       "id": 12,
       "title": "Cirkeldiagram van Solaria",
-      "image": "solaria-pie-chart.png",
+      "image": "solaria-pie-chart-nl.png",
       "questions": [
         {
           "en": "Dit cirkeldiagram toont hoe het denkbeeldige land Solaria vorig jaar zijn elektriciteit produceerde. Welk percentage kwam van hernieuwbare hulpbronnen? Toon je berekening.",
