@@ -2701,11 +2701,16 @@
   gap: 16px;
 }
 
-/* Reservoir of labels */
+/* Reservoir of labels.
+   Les trois variables --dnd-item-* sont posées par dndFitReservoir : une ligne
+   d'étiquettes en plus prend de la hauteur à l'image, qui est le jeu lui-même.
+   Le moteur réduit donc le texte d'un cran à la fois, jusqu'à 13px, tant que les
+   étiquettes ne tiennent pas sur une ligne. Les valeurs de repli sont la taille
+   normale, la seule jamais dépassée. */
 .dnd-reservoir {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--dnd-item-gap, 12px);
   padding: 16px;
   border-radius: 18px;
   background: rgba(var(--color-current-rgb), 0.05);
@@ -2717,7 +2722,8 @@
 }
 
 .dnd-item {
-  padding: 10px 20px;
+  padding: 10px var(--dnd-item-pad-x, 20px);
+  font-size: var(--dnd-item-font, 1rem);
   background: var(--color-surface);
   border: 1.5px solid var(--color-current);
   border-radius: 12px;

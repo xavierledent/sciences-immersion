@@ -498,7 +498,240 @@
       ]
     }
   ],
-  "dragAndDrop": [],
+  "dragAndDrop": [
+    {
+      "quizTitle": "Build the energy flow diagram",
+      "backgroundImage": "assets/dnd1-energy-flow.webp",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Energy source",
+        "Object",
+        "Receiver",
+        "EMW energy",
+        "Electricity",
+        "Useful light",
+        "Lost heat",
+        "Chemical energy",
+        "Nuclear energy"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 12.43,
+          "y_pourcent": 36.72,
+          "acceptedText": "Energy source"
+        },
+        {
+          "x_pourcent": 41.62,
+          "y_pourcent": 36.85,
+          "acceptedText": "Object"
+        },
+        {
+          "x_pourcent": 70.38,
+          "y_pourcent": 36.98,
+          "acceptedText": "Receiver"
+        },
+        {
+          "x_pourcent": 33.66,
+          "y_pourcent": 57.16,
+          "acceptedText": "EMW energy"
+        },
+        {
+          "x_pourcent": 62.22,
+          "y_pourcent": 57.55,
+          "acceptedText": "Electricity"
+        },
+        {
+          "x_pourcent": 91.12,
+          "y_pourcent": 56.77,
+          "acceptedText": "Useful light"
+        },
+        {
+          "x_pourcent": 85.16,
+          "y_pourcent": 26.95,
+          "acceptedText": "Lost heat"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Inside a hydroelectric power plant",
+      "backgroundImage": "assets/dnd2-hydro-plant.webp",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Reservoir (lake)",
+        "Dam",
+        "Turbine",
+        "Generator",
+        "Power lines",
+        "River",
+        "Cooling tower",
+        "Steam",
+        "Uranium"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 13.71,
+          "y_pourcent": 48.7,
+          "acceptedText": "Reservoir (lake)"
+        },
+        {
+          "x_pourcent": 34.3,
+          "y_pourcent": 53.65,
+          "acceptedText": "Dam"
+        },
+        {
+          "x_pourcent": 69.67,
+          "y_pourcent": 71.48,
+          "acceptedText": "Turbine"
+        },
+        {
+          "x_pourcent": 62.43,
+          "y_pourcent": 49.48,
+          "acceptedText": "Generator"
+        },
+        {
+          "x_pourcent": 84.16,
+          "y_pourcent": 35.29,
+          "acceptedText": "Power lines"
+        },
+        {
+          "x_pourcent": 80.47,
+          "y_pourcent": 82.55,
+          "acceptedText": "River"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Inside a nuclear power plant",
+      "backgroundImage": "assets/dnd3-nuclear-plant.webp",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Reactor (uranium)",
+        "Steam",
+        "Turbine",
+        "Generator",
+        "Power lines",
+        "Cooling tower",
+        "Dam",
+        "Rotor blades",
+        "Solar panel"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 10.8,
+          "y_pourcent": 69.92,
+          "acceptedText": "Reactor (uranium)"
+        },
+        {
+          "x_pourcent": 35.72,
+          "y_pourcent": 38.67,
+          "acceptedText": "Steam"
+        },
+        {
+          "x_pourcent": 47.73,
+          "y_pourcent": 48.18,
+          "acceptedText": "Turbine"
+        },
+        {
+          "x_pourcent": 62.71,
+          "y_pourcent": 47.53,
+          "acceptedText": "Generator"
+        },
+        {
+          "x_pourcent": 95.1,
+          "y_pourcent": 51.17,
+          "acceptedText": "Power lines"
+        },
+        {
+          "x_pourcent": 95.1,
+          "y_pourcent": 29.95,
+          "acceptedText": "Cooling tower"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Energy at the playground",
+      "backgroundImage": "assets/dnd4-playground.webp",
+      "hideOnSuccess": true,
+      "instructions": "Where is the energy, and how is it stored? Drag each label onto the right person or object.",
+      "reservoirItems": [
+        "Height (M)",
+        "Food (C)",
+        "Tension (M)",
+        "Trapped heat (T)",
+        "Battery (C)",
+        "Movement (M)",
+        "Stored electricity",
+        "Nuclear energy"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 28.76,
+          "y_pourcent": 16.8,
+          "acceptedText": "Height (M)"
+        },
+        {
+          "x_pourcent": 16.34,
+          "y_pourcent": 48.57,
+          "acceptedText": "Food (C)"
+        },
+        {
+          "x_pourcent": 25.5,
+          "y_pourcent": 92.58,
+          "acceptedText": "Tension (M)"
+        },
+        {
+          "x_pourcent": 55.82,
+          "y_pourcent": 67.45,
+          "acceptedText": "Trapped heat (T)"
+        },
+        {
+          "x_pourcent": 85.8,
+          "y_pourcent": 79.56,
+          "acceptedText": "Battery (C)"
+        },
+        {
+          "x_pourcent": 90.91,
+          "y_pourcent": 38.02,
+          "acceptedText": "Movement (M)"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Turbine and generator",
+      "backgroundImage": "assets/dnd5-turbine-generator.webp",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Turbine",
+        "Mechanical energy",
+        "Generator",
+        "Electrical energy",
+        "Thermal energy",
+        "Reservoir"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 15.34,
+          "y_pourcent": 50.78,
+          "acceptedText": "Turbine"
+        },
+        {
+          "x_pourcent": 50.71,
+          "y_pourcent": 50.91,
+          "acceptedText": "Mechanical energy"
+        },
+        {
+          "x_pourcent": 74.43,
+          "y_pourcent": 50.78,
+          "acceptedText": "Generator"
+        },
+        {
+          "x_pourcent": 87.86,
+          "y_pourcent": 26.3,
+          "acceptedText": "Electrical energy"
+        }
+      ]
+    }
+  ],
   "fillBlanks": [],
   "matchPairs": [],
   "sorting": []

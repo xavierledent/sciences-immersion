@@ -3020,6 +3020,9 @@
 
         reservoir.appendChild(itemEl);
       });
+      // Les étiquettes de ce jeu changent la hauteur du réservoir : l'image,
+      // peut-être déjà calée plus haut avec celles du jeu précédent, se recale.
+      dndSyncBoardMetrics();
 
       // Reset drop zones on the board
       const board = document.getElementById('dnd-board');
@@ -3100,11 +3103,43 @@
        .dnd-zone dans style.css).
        Mesuré en JS plutôt qu'avec container-type : la containment interdirait au
        plateau de tirer sa largeur de l'image, et il disparaîtrait. */
+    /* Crans de taille des étiquettes, du normal au plus compact. Le rembourrage
+       vertical ne bouge pas : la hauteur d'une étiquette reste une cible
+       confortable au doigt. 13px est le plancher, au-delà le texte devient trop
+       petit pour des élèves de 12 ans sur Chromebook. */
+    const DND_ITEM_STEPS = [
+      { font: '1rem', padX: '20px', gap: '12px' },
+      { font: '0.9375rem', padX: '14px', gap: '10px' },
+      { font: '0.875rem', padX: '12px', gap: '8px' },
+      { font: '0.8125rem', padX: '10px', gap: '6px' }
+    ];
+
+    /* Plus grand cran qui tient les étiquettes sur une seule ligne, mesuré sur
+       les étiquettes réellement affichées. Un seul cran pour tout le jeu, pour
+       qu'aucune étiquette ne paraisse plus importante qu'une autre. Si même le
+       plus petit ne suffit pas, il reste appliqué et les étiquettes passent sur
+       deux lignes. Doit précéder le calage de l'image, dont la hauteur
+       disponible dépend de celle du réservoir. */
+    function dndFitReservoir() {
+      const reservoir = document.getElementById('dnd-reservoir');
+      if (!reservoir || reservoir.clientWidth === 0) return;
+      const items = Array.from(reservoir.querySelectorAll('.dnd-item'));
+      if (!items.length) return;
+      for (const step of DND_ITEM_STEPS) {
+        reservoir.style.setProperty('--dnd-item-font', step.font);
+        reservoir.style.setProperty('--dnd-item-pad-x', step.padX);
+        reservoir.style.setProperty('--dnd-item-gap', step.gap);
+        const firstTop = items[0].offsetTop;
+        if (items.every(item => item.offsetTop === firstTop)) return;
+      }
+    }
+
     function dndSyncBoardMetrics() {
       const bgImg = document.getElementById('dnd-bg-image');
       const board = document.getElementById('dnd-board');
       const container = document.querySelector('.dnd-board-container');
       if (!bgImg || !board) return;
+      dndFitReservoir();
 
       /* Le plateau était dimensionné par des maximums (max-width, max-height),
          qui ne savent que rétrécir : l'image restait donc à sa taille naturelle
