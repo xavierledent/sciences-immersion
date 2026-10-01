@@ -172,6 +172,12 @@ function checkInteractive(file, chapterDir, data) {
     const name = named('multipleChoice', i, quiz);
     checkFileRef(file, chapterDir, quiz.image, `${name}, image`);
     if (!Array.isArray(quiz.questions) || !quiz.questions.length) { error(file, `${name} : aucune question`); return; }
+    // A question's "image": null means "no image, even if the quiz has one"
+    // (the editor's "none" mode); only a missing field inherits the quiz image.
+    // A shared image hidden on every single question is almost surely a slip.
+    if (quiz.image && quiz.questions.every(q => 'image' in q && !q.image)) {
+      warn(file, `${name} : l'image du QCM n'apparaît sur aucune question (toutes ont "image": null ; retirer ce champ pour hériter de l'image du QCM)`);
+    }
     quiz.questions.forEach((q, n) => {
       const where = `${name}, question ${n + 1}`;
       checkFileRef(file, chapterDir, q.image, `${where}, image`);

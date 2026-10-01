@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=block" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #ffffff; }
+  svg { display: block; font-family: 'Poppins', sans-serif; }
+  .title { font-size: 34px; font-weight: 700; fill: #1f1f24; }
+  .tick { font-size: 20px; fill: #5f5f66; }
+  .axis-title { font-size: 22px; fill: #1f1f24; }
+  .device { font-size: 22px; fill: #1f1f24; }
+  .value { font-size: 23px; font-weight: 700; fill: #1f1f24; }
+  .grid { stroke: #e6e6ea; stroke-width: 1; }
+  .baseline { stroke: #5f5f66; stroke-width: 1.5; }
+  .bar { fill: #7f6bbf; }
+</style>
+</head>
+<body>
+<!-- Source du graphique du QCM 5 de Phys 1. Pour la version néerlandaise, ne
+     changer que les textes (TEXT et les libellés de DATA). -->
+<svg id="chart" width="1400" height="780" viewBox="0 0 1400 780"></svg>
+<script>
+  const TEXT = {
+    title: 'Electrical power of household devices',
+    yTitle: 'Power (W)',
+    xTitle: 'Device'
+  };
+  const DATA = [
+    ['LED light bulb', 10],
+    ['Traditional light bulb', 60],
+    ['Laptop computer', 100],
+    ['Refrigerator', 200],
+    ['Microwave oven', 800],
+    ['Hair dryer', 1200],
+    ['Dishwasher', 2000]
+  ];
+  const MAX = 2200, STEP = 200;
+  const plot = { left: 150, right: 1360, top: 120, bottom: 640 };
+  const svg = document.getElementById('chart');
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (name, attrs, text) => {
+    const node = document.createElementNS(NS, name);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (text !== undefined) node.textContent = text;
+    svg.appendChild(node);
+    return node;
+  };
+  const y = v => plot.bottom - (v / MAX) * (plot.bottom - plot.top);
+
+  el('text', { x: plot.left, y: 58, class: 'title' }, TEXT.title);
+
+  for (let v = 0; v <= MAX; v += STEP) {
+    if (v > 0) el('line', { x1: plot.left, x2: plot.right, y1: y(v), y2: y(v), class: 'grid' });
+    el('text', { x: plot.left - 14, y: y(v) + 7, class: 'tick', 'text-anchor': 'end' }, v);
+  }
+  el('text', { class: 'axis-title', 'text-anchor': 'middle',
+    transform: `translate(42 ${(plot.top + plot.bottom) / 2}) rotate(-90)` }, TEXT.yTitle);
+
+  const slot = (plot.right - plot.left) / DATA.length;
+  const barWidth = slot * 0.5;
+  DATA.forEach(([label, value], i) => {
+    const cx = plot.left + slot * (i + 0.5);
+    const top = y(value);
+    const h = Math.max(plot.bottom - top, 3);
+    const r = Math.min(4, h / 2);
+    // Coins arrondis en haut seulement : la barre reste posée sur l'axe.
+    el('path', { class: 'bar', d:
+      `M${cx - barWidth / 2},${plot.bottom} V${plot.bottom - h + r} Q${cx - barWidth / 2},${plot.bottom - h} ${cx - barWidth / 2 + r},${plot.bottom - h}` +
+      ` H${cx + barWidth / 2 - r} Q${cx + barWidth / 2},${plot.bottom - h} ${cx + barWidth / 2},${plot.bottom - h + r} V${plot.bottom} Z` });
+    el('text', { x: cx, y: plot.bottom - h - 12, class: 'value', 'text-anchor': 'middle' }, `${value} W`);
+
+    // Libellé sur deux lignes au plus, coupé après le premier mot.
+    const words = label.split(' ');
+    const lines = words.length > 1 ? [words[0], words.slice(1).join(' ')] : [label];
+    lines.forEach((line, n) =>
+      el('text', { x: cx, y: plot.bottom + 34 + n * 27, class: 'device', 'text-anchor': 'middle' }, line));
+  });
+
+  el('line', { x1: plot.left, x2: plot.right, y1: plot.bottom, y2: plot.bottom, class: 'baseline' });
+  el('text', { x: (plot.left + plot.right) / 2, y: 748, class: 'axis-title', 'text-anchor': 'middle' }, TEXT.xTitle);
+</script>
+</body>
+</html>

@@ -72,7 +72,6 @@ Tous les jeux ont un `quizTitle` et, en option, un champ `instructions`.
     "image": "assets/QCM4.webp",
     "questions": [{
       "question": "What is the correct formula for an ecosystem?",
-      "image": null,
       "options": ["Biotope + Biocenosis", "Individual + Population"],
       "correctAnswer": 0,
       "explanation": "An ecosystem has two parts: …"
@@ -111,7 +110,15 @@ Tous les jeux ont un `quizTitle` et, en option, un champ `instructions`.
 ```
 
 - QCM : `correctAnswer` est l'**index** de la bonne option (à partir de 0).
-  `image` peut être posée sur le quiz entier ou sur une question.
+  `image` peut être posée sur le quiz entier ou sur une question. Pour une
+  question, trois cas, qui correspondent aux trois réglages de l'éditeur
+  `igames.html` :
+  - champ **absent** : la question affiche l'image du quiz, s'il en a une ;
+  - chemin d'image : la question affiche sa propre image ;
+  - `"image": null` : **aucune image**, même si le quiz en a une.
+
+  Pour une image commune à tout un quiz, il faut donc omettre le champ
+  `image` des questions, et non le mettre à `null`.
 - Texte à trous : `correctAnswer` est le **texte** de la bonne option.
   `[blankN]` dans `text` renvoie à `blanks[N]`. `wordBank` est optionnel.
 - Glisser-déposer : `x_pourcent` et `y_pourcent` sont en pourcentage de

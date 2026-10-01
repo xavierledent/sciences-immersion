@@ -1,5 +1,503 @@
 {
-  "multipleChoice": [],
+  "multipleChoice": [
+    {
+      "quizTitle": "Resource detective",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Which energy resource is shown in this picture?",
+          "image": "assets/qcm1-coal.webp",
+          "options": [
+            "Coal",
+            "Oil",
+            "Wood",
+            "Uranium"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Coal is a black rock formed from ancient plants over millions of years; we burn it to release its energy."
+        },
+        {
+          "question": "Which energy resource do these machines use?",
+          "image": "assets/qcm1-wind-turbines.webp",
+          "options": [
+            "Wind",
+            "Sun",
+            "Water",
+            "Natural gas"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Wind turbines use the wind: the moving air spins their blades."
+        },
+        {
+          "question": "This machine extracts a resource from the ground. Which one?",
+          "image": "assets/qcm1-oil-pump.webp",
+          "options": [
+            "Oil",
+            "Water",
+            "Uranium",
+            "Geothermal energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "This pump brings oil (petroleum) up from deep underground."
+        },
+        {
+          "question": "These small pellets are used in nuclear power plants. What are they made of?",
+          "image": "assets/qcm1-uranium-pellets.webp",
+          "options": [
+            "Uranium",
+            "Coal",
+            "Biomass",
+            "Natural gas"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Nuclear power plants use uranium: splitting its atoms releases a huge amount of heat."
+        },
+        {
+          "question": "Hot steam comes out of the ground here. Which energy resource is it?",
+          "image": "assets/qcm1-geothermal-steam.webp",
+          "options": [
+            "Geothermal energy",
+            "Natural gas",
+            "Wind",
+            "Biomass"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Geothermal energy is the heat from inside the Earth, which can turn underground water into steam."
+        },
+        {
+          "question": "Which energy resource is shown, and what is it?",
+          "image": "assets/qcm1-firewood.webp",
+          "options": [
+            "Wood – renewable if managed responsibly",
+            "Wood – non-renewable",
+            "Coal – renewable",
+            "Biomass – unlimited"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Trees grow back, so wood is renewable, but only if we don't cut them faster than they regrow."
+        },
+        {
+          "question": "Which resource is used by this dam?",
+          "image": "assets/qcm1-dam.webp",
+          "options": [
+            "Water",
+            "Wind",
+            "Oil",
+            "Sun"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The dam holds back water; when the water falls, it spins turbines that produce electricity."
+        },
+        {
+          "question": "Is the resource used by these panels renewable?",
+          "image": "assets/qcm1-solar-panels.webp",
+          "options": [
+            "Yes, the sun will never run out",
+            "No, its stock is limited",
+            "No, it takes millions of years to form",
+            "Only at night"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Sunlight is a permanent natural phenomenon: it comes back every day, so it is renewable."
+        }
+      ]
+    },
+    {
+      "quizTitle": "Forms and transformations",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Energy cannot be created or destroyed. It can only be…",
+          "image": null,
+          "options": [
+            "transformed",
+            "produced",
+            "consumed",
+            "deleted"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The total quantity of energy never changes: it only goes from one form to another."
+        },
+        {
+          "question": "A car driving on the road has…",
+          "image": null,
+          "options": [
+            "mechanical energy",
+            "chemical energy",
+            "nuclear energy",
+            "EMW energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Anything that moves has mechanical energy, the energy of movement."
+        },
+        {
+          "question": "Sunlight reaches the Earth as…",
+          "image": null,
+          "options": [
+            "EMW energy",
+            "thermal energy",
+            "chemical energy",
+            "mechanical energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Light travels as electromagnetic waves, so it carries EMW energy."
+        },
+        {
+          "question": "A toaster mainly transforms…",
+          "image": null,
+          "options": [
+            "electrical energy into thermal energy",
+            "thermal energy into electrical energy",
+            "chemical energy into mechanical energy",
+            "mechanical energy into electrical energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The toaster takes electricity from the plug and turns it into heat that toasts the bread."
+        },
+        {
+          "question": "A wind turbine transforms…",
+          "image": null,
+          "options": [
+            "mechanical energy into electrical energy",
+            "electrical energy into mechanical energy",
+            "chemical energy into electrical energy",
+            "thermal energy into EMW energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The wind spins the blades (mechanical energy), and the generator turns this movement into electricity."
+        },
+        {
+          "question": "Food, batteries and fuels all contain…",
+          "image": null,
+          "options": [
+            "chemical energy",
+            "nuclear energy",
+            "mechanical energy",
+            "EMW energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Their energy is stored in chemical substances and is released when they are eaten, used or burned."
+        },
+        {
+          "question": "During a transformation, the energy that is \"lost\" into the air is mostly…",
+          "image": null,
+          "options": [
+            "thermal energy",
+            "nuclear energy",
+            "chemical energy",
+            "electrical energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Machines always warm up a little; this heat escapes into the air and cannot be used."
+        },
+        {
+          "question": "In an energy flow diagram, what do the diagonal arrows represent?",
+          "image": null,
+          "options": [
+            "Lost energy",
+            "Transferred energy",
+            "The objects",
+            "The energy source"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Horizontal arrows show the energy that goes on to the next object; diagonal arrows show the energy lost, mostly as heat."
+        },
+        {
+          "question": "Can we store electricity directly?",
+          "image": null,
+          "options": [
+            "No, we must always transform it first",
+            "Yes, in giant boxes",
+            "Yes, in copper wires",
+            "Yes, but only at night"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Electricity cannot be kept as it is: a battery, for example, stores it as chemical energy."
+        }
+      ]
+    },
+    {
+      "quizTitle": "Power plants in Belgium",
+      "image": "assets/qcm3-power-plants.webp",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "In picture 1, what creates the heat?",
+          "options": [
+            "Splitting uranium atoms",
+            "Burning gas",
+            "Falling water",
+            "The wind"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In a nuclear power plant, splitting uranium atoms releases a huge amount of heat."
+        },
+        {
+          "question": "In picture 2, what spins the turbine?",
+          "options": [
+            "High-pressure steam made by burning gas",
+            "The wind",
+            "Falling water",
+            "Sunlight"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Burning gas heats water into high-pressure steam, which pushes the turbine blades."
+        },
+        {
+          "question": "Which two power plants use a renewable resource?",
+          "options": [
+            "3 and 4",
+            "1 and 2",
+            "1 and 3",
+            "2 and 4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Wind and water will never run out, unlike natural gas and uranium."
+        },
+        {
+          "question": "What do all four power plants have in common?",
+          "options": [
+            "A turbine and a generator",
+            "A cooling tower",
+            "They burn a fuel",
+            "They release CO2"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In every power plant, something spins a turbine, and a generator turns this movement into electricity."
+        },
+        {
+          "question": "Which power plant releases large amounts of CO2?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Burning natural gas releases CO2; the other three plants don't burn anything."
+        },
+        {
+          "question": "Which power plant produces nothing when there is no wind?",
+          "options": [
+            "3",
+            "1",
+            "2",
+            "4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Wind turbines depend on the weather: no wind means no movement, so no electricity."
+        },
+        {
+          "question": "Which power plant creates dangerous radioactive waste?",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Used uranium stays radioactive for a very long time and must be stored safely."
+        },
+        {
+          "question": "At 18:00, demand suddenly peaks. Which power plant is the fastest and easiest to start?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A gas power plant can be switched on very quickly, so it is used when demand suddenly rises."
+        }
+      ]
+    },
+    {
+      "quizTitle": "Energy all around us",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "A solar-powered calculator transforms…",
+          "image": null,
+          "options": [
+            "EMW energy (light) into electrical energy",
+            "electrical energy into EMW energy",
+            "chemical energy into mechanical energy",
+            "thermal energy into electrical energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Its small solar cell captures light (EMW energy) and turns it into electricity."
+        },
+        {
+          "question": "An electric fan transforms…",
+          "image": null,
+          "options": [
+            "electrical energy into mechanical energy",
+            "mechanical energy into electrical energy",
+            "electrical energy into nuclear energy",
+            "chemical energy into thermal energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The motor uses electricity to make the blades turn, which is mechanical energy."
+        },
+        {
+          "question": "A child sitting at the top of a slide stores energy as…",
+          "image": null,
+          "options": [
+            "mechanical energy (height)",
+            "chemical energy",
+            "thermal energy",
+            "electrical energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The higher an object is, the more mechanical energy it stores; this energy is released when the child slides down."
+        },
+        {
+          "question": "You wind up a toy car: its spring is tightly compressed. The energy is stored as…",
+          "image": null,
+          "options": [
+            "mechanical energy (tension)",
+            "chemical energy",
+            "thermal energy",
+            "nuclear energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A compressed or stretched spring stores mechanical energy in its tension."
+        },
+        {
+          "question": "You rub your hands together quickly and they get warm. The mechanical energy became…",
+          "image": null,
+          "options": [
+            "thermal energy",
+            "electrical energy",
+            "chemical energy",
+            "nuclear energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Rubbing turns the movement of your hands into heat."
+        },
+        {
+          "question": "Your phone gets warm while it charges. This heat is…",
+          "image": null,
+          "options": [
+            "lost energy",
+            "useful energy",
+            "stored electricity",
+            "created energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The phone is not meant to heat up, so this heat is energy lost during the transformation."
+        },
+        {
+          "question": "Some countries burn peat, a fuel that takes thousands of years to form in swamps. Peat is…",
+          "image": null,
+          "options": [
+            "non-renewable",
+            "renewable",
+            "unlimited",
+            "an energy form"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Peat forms much more slowly than we burn it, so its stock is limited."
+        },
+        {
+          "question": "A matchstick stores its energy as…",
+          "image": null,
+          "options": [
+            "chemical energy",
+            "mechanical energy",
+            "thermal energy",
+            "electrical energy"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The match head contains chemical substances that release heat and light when they burn."
+        }
+      ]
+    },
+    {
+      "quizTitle": "Reading the power chart",
+      "image": "assets/qcm5-power-chart.png",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Which device uses the most energy every second?",
+          "options": [
+            "The dishwasher",
+            "The hair dryer",
+            "The microwave oven",
+            "The refrigerator"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The dishwasher has the tallest bar: 2000 W, the highest power on the chart."
+        },
+        {
+          "question": "Which device uses the least energy every second?",
+          "options": [
+            "The LED light bulb",
+            "The traditional light bulb",
+            "The laptop computer",
+            "The refrigerator"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The LED bulb has the shortest bar: only 10 W."
+        },
+        {
+          "question": "What is the power of the microwave oven?",
+          "options": [
+            "800 W",
+            "1200 W",
+            "200 W",
+            "2000 W"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The value written on top of the microwave oven's bar is 800 W."
+        },
+        {
+          "question": "How many LED bulbs use the same power as ONE traditional bulb?",
+          "options": [
+            "6",
+            "10",
+            "60",
+            "2"
+          ],
+          "correctAnswer": 0,
+          "explanation": "60 W ÷ 10 W = 6, so six LED bulbs use as much power as one traditional bulb."
+        },
+        {
+          "question": "What type of graph is this?",
+          "options": [
+            "A bar chart (histogram)",
+            "A pie chart",
+            "A line graph",
+            "A table"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Separate bars are used to compare values between different categories, here the devices."
+        },
+        {
+          "question": "You want to show how the power of a refrigerator changes during one whole day. Which graph should you choose?",
+          "options": [
+            "A line graph",
+            "A pie chart",
+            "A bar chart",
+            "No graph is possible"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A line graph shows how a value changes over time."
+        },
+        {
+          "question": "Which sentence is a JUDGMENT, not a fact?",
+          "options": [
+            "\"Hair dryers are useless machines.\"",
+            "\"The dishwasher uses 2000 W.\"",
+            "\"The LED bulb uses 10 W.\"",
+            "\"Power is measured in watts.\""
+          ],
+          "correctAnswer": 0,
+          "explanation": "\"Useless\" is a personal opinion; the other sentences can be checked or measured."
+        }
+      ]
+    }
+  ],
   "dragAndDrop": [],
   "fillBlanks": [],
   "matchPairs": [],
