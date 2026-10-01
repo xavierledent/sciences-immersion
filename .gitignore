@@ -1,8 +1,10 @@
 # Teacher-only admin tools — never pushed online
 Admin/
 
-# Local tooling settings, specific to this machine
-.claude/
+# Claude Code: skills, hooks and shared settings are versioned so cloud
+# sessions get them too; only this machine's own permissions stay local
+.claude/settings.local.json
+.claude/worktrees/
 
 # Separate Google Apps Script project — not part of this public repo
 apps-script/
