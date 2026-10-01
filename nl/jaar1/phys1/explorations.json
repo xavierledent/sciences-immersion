@@ -5,24 +5,35 @@
     "items": [
       {
         "title": "Réseau électrique",
-        "description": "Du lieu de production jusqu'au consommateur, le voyage de l'électricité à travers les lignes haute et basse tension.",
-        "file": "EXPLO 1 - Réseau électrique.pdf"
+        "file": "EXPLO 1 - Réseau électrique.pdf",
+        "description": "Du lieu de production jusqu'au consommateur, le voyage de l'électricité à travers les lignes haute et basse tension."
       },
       {
         "title": "Batteries",
-        "description": "Le fonctionnement chimique et les composants clés qui permettent de stocker et de libérer l'énergie à volonté.",
-        "file": "EXPLO 2 - Batteries.pdf"
+        "file": "EXPLO 2 - Batteries.pdf",
+        "description": "Le fonctionnement chimique et les composants clés qui permettent de stocker et de libérer l'énergie à volonté."
       },
       {
         "title": "Effet photovoltaïque",
-        "description": "La conversion physique de la lumière du soleil en courant électrique au cœur des cellules de silicium.",
-        "file": "EXPLO 3 - Effet photovoltaïque.pdf"
+        "file": "EXPLO 3 - Effet photovoltaïque.pdf",
+        "description": "La conversion physique de la lumière du soleil en courant électrique au cœur des cellules de silicium."
       }
     ]
   },
   "liensUtiles": {
     "title": "Liens utiles",
     "basePath": "",
-    "items": []
+    "items": [
+      {
+        "title": "Simulation PhET : formes d'énergie",
+        "url": "https://phet.colorado.edu/fr/simulations/energy-forms-and-changes",
+        "description": "Refais l'expérience vue en classe : fais pédaler la cycliste, allume le soleil ou chauffe de l'eau, et suis les blocs d'énergie à chaque transformation. Observe aussi l'énergie perdue sous forme de chaleur."
+      },
+      {
+        "title": "Carte wallonne de l'énergie renouvelable",
+        "url": "https://www.wallonie.be/fr/actualites/une-carte-pour-connaitre-en-temps-reel-la-production-denergie-renouvelable",
+        "description": "Découvre, heure par heure, combien d'électricité les panneaux solaires et les éoliennes produisent en Wallonie. Pour ouvrir la carte, clique sur « Consulter la carte dynamique ». Compare un jour ensoleillé et un jour nuageux, ou un jour avec du vent et un jour sans vent."
+      }
+    ]
   }
 }

@@ -1,7 +1,1804 @@
 {
-  "multipleChoice": [],
-  "dragAndDrop": [],
-  "fillBlanks": [],
-  "matchPairs": [],
-  "sorting": []
+  "multipleChoice": [
+    {
+      "quizTitle": "Hulpbronnendetective",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Welke energiebron zie je op deze foto?",
+          "image": "assets/qcm1-coal.webp",
+          "options": [
+            "Steenkool",
+            "Aardolie",
+            "Hout",
+            "Uranium"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Steenkool is een zwart gesteente dat miljoenen jaren geleden uit oude planten is ontstaan; we verbranden het om de energie ervan vrij te maken."
+        },
+        {
+          "question": "Welke energiebron gebruiken deze machines?",
+          "image": "assets/qcm1-wind-turbines.webp",
+          "options": [
+            "Wind",
+            "Zon",
+            "Water",
+            "Aardgas"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Windturbines gebruiken de wind: de bewegende lucht doet hun wieken draaien."
+        },
+        {
+          "question": "Deze machine haalt een hulpbron uit de grond. Welke?",
+          "image": "assets/qcm1-oil-pump.webp",
+          "options": [
+            "Aardolie",
+            "Water",
+            "Uranium",
+            "Geothermische energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Deze pomp haalt aardolie (petroleum) diep uit de grond naar boven."
+        },
+        {
+          "question": "Deze kleine korrels worden gebruikt in kerncentrales. Waaruit bestaan ze?",
+          "image": "assets/qcm1-uranium-pellets.webp",
+          "options": [
+            "Uranium",
+            "Steenkool",
+            "Biomassa",
+            "Aardgas"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Kerncentrales gebruiken uranium: het splitsen van de atomen ervan maakt heel veel warmte vrij."
+        },
+        {
+          "question": "Hier komt hete stoom uit de grond. Welke energiebron is dit?",
+          "image": "assets/qcm1-geothermal-steam.webp",
+          "options": [
+            "Geothermische energie",
+            "Aardgas",
+            "Wind",
+            "Biomassa"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Geothermische energie is de warmte uit het binnenste van de aarde. Die kan ondergronds water in stoom veranderen."
+        },
+        {
+          "question": "Welke energiebron zie je, en wat voor bron is het?",
+          "image": "assets/qcm1-firewood.webp",
+          "options": [
+            "Hout – hernieuwbaar als we het verantwoord beheren",
+            "Hout – niet-hernieuwbaar",
+            "Steenkool – hernieuwbaar",
+            "Biomassa – onbeperkt"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Bomen groeien terug, dus hout is hernieuwbaar, maar alleen als we ze niet sneller kappen dan ze teruggroeien."
+        },
+        {
+          "question": "Welke hulpbron gebruikt deze dam?",
+          "image": "assets/qcm1-dam.webp",
+          "options": [
+            "Water",
+            "Wind",
+            "Aardolie",
+            "Zon"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De dam houdt water tegen; als het water naar beneden valt, doet het turbines draaien die elektriciteit produceren."
+        },
+        {
+          "question": "Is de hulpbron die deze panelen gebruiken hernieuwbaar?",
+          "image": "assets/qcm1-solar-panels.webp",
+          "options": [
+            "Ja, de zon raakt nooit op",
+            "Nee, de voorraad is beperkt",
+            "Nee, het duurt miljoenen jaren om ze te vormen",
+            "Alleen 's nachts"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Zonlicht is een permanent natuurverschijnsel: het komt elke dag terug, dus het is hernieuwbaar."
+        }
+      ]
+    },
+    {
+      "quizTitle": "Vormen en omzettingen",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Energie kan niet gemaakt of vernietigd worden. Ze kan alleen…",
+          "image": null,
+          "options": [
+            "omgezet worden",
+            "geproduceerd worden",
+            "verbruikt worden",
+            "gewist worden"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De totale hoeveelheid energie verandert nooit: ze gaat alleen van de ene vorm over in een andere."
+        },
+        {
+          "question": "Een auto die op de weg rijdt, heeft…",
+          "image": null,
+          "options": [
+            "mechanische energie",
+            "chemische energie",
+            "kernenergie",
+            "EMG-energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Alles wat beweegt, heeft mechanische energie: de energie van beweging."
+        },
+        {
+          "question": "Zonlicht bereikt de aarde als…",
+          "image": null,
+          "options": [
+            "EMG-energie",
+            "thermische energie",
+            "chemische energie",
+            "mechanische energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Licht verplaatst zich als elektromagnetische golven, dus het draagt EMG-energie."
+        },
+        {
+          "question": "Een broodrooster zet energie vooral om…",
+          "image": null,
+          "options": [
+            "van elektrische naar thermische energie",
+            "van thermische naar elektrische energie",
+            "van chemische naar mechanische energie",
+            "van mechanische naar elektrische energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De broodrooster neemt elektriciteit uit het stopcontact en zet die om in warmte die het brood roostert."
+        },
+        {
+          "question": "Een windturbine zet energie om…",
+          "image": null,
+          "options": [
+            "van mechanische naar elektrische energie",
+            "van elektrische naar mechanische energie",
+            "van chemische naar elektrische energie",
+            "van thermische naar EMG-energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De wind doet de wieken draaien (mechanische energie) en de generator zet die beweging om in elektriciteit."
+        },
+        {
+          "question": "Voedsel, batterijen en brandstoffen bevatten allemaal…",
+          "image": null,
+          "options": [
+            "chemische energie",
+            "kernenergie",
+            "mechanische energie",
+            "EMG-energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Hun energie zit opgeslagen in chemische stoffen en komt vrij als we ze eten, gebruiken of verbranden."
+        },
+        {
+          "question": "Bij een omzetting gaat er energie \"verloren\" in de lucht. Die energie is vooral…",
+          "image": null,
+          "options": [
+            "thermische energie",
+            "kernenergie",
+            "chemische energie",
+            "elektrische energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Machines warmen altijd een beetje op; die warmte ontsnapt in de lucht en kunnen we niet gebruiken."
+        },
+        {
+          "question": "Wat stellen de schuine pijlen in een energiestroomdiagram voor?",
+          "image": null,
+          "options": [
+            "Verloren energie",
+            "Overgedragen energie",
+            "De voorwerpen",
+            "De energiebron"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Horizontale pijlen tonen de energie die naar het volgende voorwerp gaat; schuine pijlen tonen de verloren energie, vooral als warmte."
+        },
+        {
+          "question": "Kunnen we elektriciteit rechtstreeks opslaan?",
+          "image": null,
+          "options": [
+            "Nee, we moeten ze altijd eerst omzetten",
+            "Ja, in reusachtige dozen",
+            "Ja, in koperdraden",
+            "Ja, maar alleen 's nachts"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Elektriciteit kan niet bewaard worden zoals ze is: een batterij slaat ze bijvoorbeeld op als chemische energie."
+        }
+      ]
+    },
+    {
+      "quizTitle": "Elektriciteitscentrales in België",
+      "image": "assets/qcm3-power-plants-nl.webp",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Wat maakt de warmte op afbeelding 1?",
+          "options": [
+            "Het splitsen van uraniumatomen",
+            "Het verbranden van gas",
+            "Vallend water",
+            "De wind"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In een kerncentrale maakt het splitsen van uraniumatomen heel veel warmte vrij."
+        },
+        {
+          "question": "Wat doet de turbine draaien op afbeelding 2?",
+          "options": [
+            "Stoom onder hoge druk, gemaakt door gas te verbranden",
+            "De wind",
+            "Vallend water",
+            "Zonlicht"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Brandend gas verhit water tot stoom onder hoge druk, die de schoepen van de turbine duwt."
+        },
+        {
+          "question": "Welke twee centrales gebruiken een hernieuwbare hulpbron?",
+          "options": [
+            "3 en 4",
+            "1 en 2",
+            "1 en 3",
+            "2 en 4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Wind en water raken nooit op, in tegenstelling tot aardgas en uranium."
+        },
+        {
+          "question": "Wat hebben de vier centrales gemeenschappelijk?",
+          "options": [
+            "Een turbine en een generator",
+            "Een koeltoren",
+            "Ze verbranden een brandstof",
+            "Ze stoten CO2 uit"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In elke centrale doet iets een turbine draaien, en een generator zet die beweging om in elektriciteit."
+        },
+        {
+          "question": "Welke centrale stoot veel CO2 uit?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Bij het verbranden van aardgas komt CO2 vrij; de andere drie centrales verbranden niets."
+        },
+        {
+          "question": "Welke centrale produceert niets als er geen wind is?",
+          "options": [
+            "3",
+            "1",
+            "2",
+            "4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Windturbines hangen af van het weer: geen wind betekent geen beweging, dus geen elektriciteit."
+        },
+        {
+          "question": "Welke centrale maakt gevaarlijk radioactief afval?",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Gebruikt uranium blijft heel lang radioactief en moet veilig worden opgeslagen."
+        },
+        {
+          "question": "Om 18.00 uur stijgt de vraag plots sterk. Welke centrale kun je het snelst en het makkelijkst opstarten?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een gascentrale kan heel snel worden aangezet, daarom gebruiken we ze als de vraag plots stijgt."
+        }
+      ]
+    },
+    {
+      "quizTitle": "Energie overal om ons heen",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Een rekenmachine op zonne-energie zet energie om…",
+          "image": null,
+          "options": [
+            "van EMG-energie (licht) naar elektrische energie",
+            "van elektrische naar EMG-energie",
+            "van chemische naar mechanische energie",
+            "van thermische naar elektrische energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Haar kleine zonnecel vangt licht (EMG-energie) op en zet het om in elektriciteit."
+        },
+        {
+          "question": "Een elektrische ventilator zet energie om…",
+          "image": null,
+          "options": [
+            "van elektrische naar mechanische energie",
+            "van mechanische naar elektrische energie",
+            "van elektrische energie naar kernenergie",
+            "van chemische naar thermische energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De motor gebruikt elektriciteit om de wieken te laten draaien: dat is mechanische energie."
+        },
+        {
+          "question": "Een kind dat boven op een glijbaan zit, slaat energie op als…",
+          "image": null,
+          "options": [
+            "mechanische energie (hoogte)",
+            "chemische energie",
+            "thermische energie",
+            "elektrische energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Hoe hoger een voorwerp, hoe meer mechanische energie het opslaat; die energie komt vrij als het kind naar beneden glijdt."
+        },
+        {
+          "question": "Je windt een speelgoedauto op: zijn veer is sterk ingedrukt. De energie zit opgeslagen als…",
+          "image": null,
+          "options": [
+            "mechanische energie (spanning)",
+            "chemische energie",
+            "thermische energie",
+            "kernenergie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een ingedrukte of uitgerekte veer slaat mechanische energie op in haar spanning."
+        },
+        {
+          "question": "Je wrijft snel je handen tegen elkaar en ze worden warm. De mechanische energie is omgezet in…",
+          "image": null,
+          "options": [
+            "thermische energie",
+            "elektrische energie",
+            "chemische energie",
+            "kernenergie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Wrijven zet de beweging van je handen om in warmte."
+        },
+        {
+          "question": "Je gsm wordt warm tijdens het opladen. Die warmte is…",
+          "image": null,
+          "options": [
+            "verloren energie",
+            "nuttige energie",
+            "opgeslagen elektriciteit",
+            "gemaakte energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De gsm is niet bedoeld om op te warmen, dus die warmte is energie die verloren gaat bij de omzetting."
+        },
+        {
+          "question": "Sommige landen verbranden turf, een brandstof die duizenden jaren nodig heeft om zich in moerassen te vormen. Turf is…",
+          "image": null,
+          "options": [
+            "niet-hernieuwbaar",
+            "hernieuwbaar",
+            "onbeperkt",
+            "een energievorm"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Turf vormt zich veel trager dan we het verbranden, dus de voorraad is beperkt."
+        },
+        {
+          "question": "Een lucifer slaat zijn energie op als…",
+          "image": null,
+          "options": [
+            "chemische energie",
+            "mechanische energie",
+            "thermische energie",
+            "elektrische energie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De kop van de lucifer bevat chemische stoffen die warmte en licht vrijmaken als ze branden."
+        }
+      ]
+    },
+    {
+      "quizTitle": "De vermogensgrafiek lezen",
+      "image": "assets/qcm5-power-chart-nl.png",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Welk toestel verbruikt elke seconde de meeste energie?",
+          "options": [
+            "De vaatwasmachine",
+            "De haardroger",
+            "De microgolfoven",
+            "De koelkast"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De vaatwasmachine heeft de hoogste staaf: 2000 W, het hoogste vermogen op de grafiek."
+        },
+        {
+          "question": "Welk toestel verbruikt elke seconde de minste energie?",
+          "options": [
+            "De ledlamp",
+            "De gloeilamp",
+            "De laptop",
+            "De koelkast"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De ledlamp heeft de kortste staaf: maar 10 W."
+        },
+        {
+          "question": "Wat is het vermogen van de microgolfoven?",
+          "options": [
+            "800 W",
+            "1200 W",
+            "200 W",
+            "2000 W"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De waarde boven de staaf van de microgolfoven is 800 W."
+        },
+        {
+          "question": "Hoeveel ledlampen hebben samen hetzelfde vermogen als ÉÉN gloeilamp?",
+          "options": [
+            "6",
+            "10",
+            "60",
+            "2"
+          ],
+          "correctAnswer": 0,
+          "explanation": "60 W ÷ 10 W = 6, dus zes ledlampen verbruiken evenveel als één gloeilamp."
+        },
+        {
+          "question": "Wat voor grafiek is dit?",
+          "options": [
+            "Een staafdiagram (histogram)",
+            "Een cirkeldiagram",
+            "Een lijngrafiek",
+            "Een tabel"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Aparte staven dienen om waarden van verschillende categorieën te vergelijken, hier de toestellen."
+        },
+        {
+          "question": "Je wilt tonen hoe het vermogen van een koelkast verandert tijdens één hele dag. Welke grafiek kies je?",
+          "options": [
+            "Een lijngrafiek",
+            "Een cirkeldiagram",
+            "Een staafdiagram",
+            "Geen enkele grafiek is mogelijk"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een lijngrafiek toont hoe een waarde verandert in de tijd."
+        },
+        {
+          "question": "Welke zin is een OORDEEL en geen feit?",
+          "options": [
+            "\"Haardrogers zijn nutteloze machines.\"",
+            "\"De vaatwasmachine verbruikt 2000 W.\"",
+            "\"De ledlamp verbruikt 10 W.\"",
+            "\"Vermogen wordt gemeten in watt.\""
+          ],
+          "correctAnswer": 0,
+          "explanation": "\"Nutteloos\" is een persoonlijke mening; de andere zinnen kun je controleren of meten."
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "quizTitle": "Bouw het energiestroomdiagram",
+      "backgroundImage": "assets/dnd1-energy-flow.webp",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Energiebron",
+        "Voorwerp",
+        "Ontvanger",
+        "EMG-energie",
+        "Elektriciteit",
+        "Nuttig licht",
+        "Verloren warmte",
+        "Chemische energie",
+        "Kernenergie"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 12.43,
+          "y_pourcent": 36.72,
+          "acceptedText": "Energiebron"
+        },
+        {
+          "x_pourcent": 41.62,
+          "y_pourcent": 36.85,
+          "acceptedText": "Voorwerp"
+        },
+        {
+          "x_pourcent": 70.38,
+          "y_pourcent": 36.98,
+          "acceptedText": "Ontvanger"
+        },
+        {
+          "x_pourcent": 33.66,
+          "y_pourcent": 57.16,
+          "acceptedText": "EMG-energie"
+        },
+        {
+          "x_pourcent": 62.22,
+          "y_pourcent": 57.55,
+          "acceptedText": "Elektriciteit"
+        },
+        {
+          "x_pourcent": 91.12,
+          "y_pourcent": 56.77,
+          "acceptedText": "Nuttig licht"
+        },
+        {
+          "x_pourcent": 85.16,
+          "y_pourcent": 26.95,
+          "acceptedText": "Verloren warmte"
+        }
+      ]
+    },
+    {
+      "quizTitle": "In een waterkrachtcentrale",
+      "backgroundImage": "assets/dnd2-hydro-plant.webp",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Stuwmeer",
+        "Dam",
+        "Turbine",
+        "Generator",
+        "Hoogspanningslijnen",
+        "Rivier",
+        "Koeltoren",
+        "Stoom",
+        "Uranium"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 13.71,
+          "y_pourcent": 48.7,
+          "acceptedText": "Stuwmeer"
+        },
+        {
+          "x_pourcent": 34.3,
+          "y_pourcent": 53.65,
+          "acceptedText": "Dam"
+        },
+        {
+          "x_pourcent": 69.67,
+          "y_pourcent": 71.48,
+          "acceptedText": "Turbine"
+        },
+        {
+          "x_pourcent": 62.43,
+          "y_pourcent": 49.48,
+          "acceptedText": "Generator"
+        },
+        {
+          "x_pourcent": 84.16,
+          "y_pourcent": 35.29,
+          "acceptedText": "Hoogspanningslijnen"
+        },
+        {
+          "x_pourcent": 80.47,
+          "y_pourcent": 82.55,
+          "acceptedText": "Rivier"
+        }
+      ]
+    },
+    {
+      "quizTitle": "In een kerncentrale",
+      "backgroundImage": "assets/dnd3-nuclear-plant.webp",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Reactor (uranium)",
+        "Stoom",
+        "Turbine",
+        "Generator",
+        "Hoogspanningslijnen",
+        "Koeltoren",
+        "Dam",
+        "Wieken",
+        "Zonnepaneel"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 10.8,
+          "y_pourcent": 69.92,
+          "acceptedText": "Reactor (uranium)"
+        },
+        {
+          "x_pourcent": 35.72,
+          "y_pourcent": 38.67,
+          "acceptedText": "Stoom"
+        },
+        {
+          "x_pourcent": 47.73,
+          "y_pourcent": 48.18,
+          "acceptedText": "Turbine"
+        },
+        {
+          "x_pourcent": 62.71,
+          "y_pourcent": 47.53,
+          "acceptedText": "Generator"
+        },
+        {
+          "x_pourcent": 95.1,
+          "y_pourcent": 51.17,
+          "acceptedText": "Hoogspanningslijnen"
+        },
+        {
+          "x_pourcent": 95.1,
+          "y_pourcent": 29.95,
+          "acceptedText": "Koeltoren"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Energie in de speeltuin",
+      "backgroundImage": "assets/dnd4-playground.webp",
+      "hideOnSuccess": true,
+      "instructions": "Waar zit de energie, en hoe is ze opgeslagen? Sleep elk label naar de juiste persoon of het juiste voorwerp.",
+      "reservoirItems": [
+        "Hoogte (M)",
+        "Voedsel (C)",
+        "Spanning (M)",
+        "Opgesloten warmte (T)",
+        "Batterij (C)",
+        "Beweging (M)"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 28.76,
+          "y_pourcent": 16.8,
+          "acceptedText": "Hoogte (M)"
+        },
+        {
+          "x_pourcent": 16.34,
+          "y_pourcent": 48.57,
+          "acceptedText": "Voedsel (C)"
+        },
+        {
+          "x_pourcent": 25.5,
+          "y_pourcent": 92.58,
+          "acceptedText": "Spanning (M)"
+        },
+        {
+          "x_pourcent": 55.82,
+          "y_pourcent": 67.45,
+          "acceptedText": "Opgesloten warmte (T)"
+        },
+        {
+          "x_pourcent": 85.8,
+          "y_pourcent": 79.56,
+          "acceptedText": "Batterij (C)"
+        },
+        {
+          "x_pourcent": 90.91,
+          "y_pourcent": 38.02,
+          "acceptedText": "Beweging (M)"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Turbine en generator",
+      "backgroundImage": "assets/dnd5-turbine-generator.webp",
+      "hideOnSuccess": true,
+      "reservoirItems": [
+        "Turbine",
+        "Mechanische energie",
+        "Generator",
+        "Elektrische energie",
+        "Thermische energie",
+        "Reservoir"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 15.34,
+          "y_pourcent": 50.78,
+          "acceptedText": "Turbine"
+        },
+        {
+          "x_pourcent": 50.71,
+          "y_pourcent": 50.91,
+          "acceptedText": "Mechanische energie"
+        },
+        {
+          "x_pourcent": 74.43,
+          "y_pourcent": 50.78,
+          "acceptedText": "Generator"
+        },
+        {
+          "x_pourcent": 87.86,
+          "y_pourcent": 26.3,
+          "acceptedText": "Elektrische energie"
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "quizTitle": "Hernieuwbaar of niet?",
+      "text": "Een [blank0] is een hulpbron die mensen gebruiken om energie te produceren, zoals elektriciteit. Steenkool, aardolie, aardgas en uranium zijn [blank1] hulpbronnen: hun voorraad op aarde is [blank2], omdat ze [blank3] jaren nodig hebben om zich te vormen. Als we ze te snel gebruiken, zullen ze [blank4]. De zon, de wind en water zijn [blank5] hulpbronnen, omdat ze afhangen van permanente natuurverschijnselen. Hout en biomassa zijn alleen duurzaam als mensen ze [blank6] beheren.",
+      "blanks": [
+        {
+          "options": [
+            "energiebron",
+            "energiereservoir",
+            "motor",
+            "energievorm"
+          ],
+          "correctAnswer": "energiebron"
+        },
+        {
+          "options": [
+            "niet-hernieuwbare",
+            "hernieuwbare",
+            "onbeperkte",
+            "elektrische"
+          ],
+          "correctAnswer": "niet-hernieuwbare"
+        },
+        {
+          "options": [
+            "beperkt",
+            "onbeperkt",
+            "steeds groter"
+          ],
+          "correctAnswer": "beperkt"
+        },
+        {
+          "options": [
+            "miljoenen",
+            "tientallen",
+            "honderden"
+          ],
+          "correctAnswer": "miljoenen"
+        },
+        {
+          "options": [
+            "opraken",
+            "teruggroeien",
+            "opwarmen",
+            "oplichten"
+          ],
+          "correctAnswer": "opraken"
+        },
+        {
+          "options": [
+            "hernieuwbare",
+            "niet-hernieuwbare",
+            "nucleaire"
+          ],
+          "correctAnswer": "hernieuwbare"
+        },
+        {
+          "options": [
+            "verantwoord",
+            "snel",
+            "elektrisch",
+            "nooit"
+          ],
+          "correctAnswer": "verantwoord"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "voorraad",
+          "translation": "stock, réserve"
+        },
+        {
+          "word": "natuurverschijnselen",
+          "translation": "phénomènes naturels"
+        },
+        {
+          "word": "duurzaam",
+          "translation": "durable"
+        },
+        {
+          "word": "beheren",
+          "translation": "gérer"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Waar gaat de energie naartoe?",
+      "text": "Energie kan niet gemaakt worden en ze kan ook niet [blank0] worden. Ze kan alleen [blank1] worden van de ene vorm in een andere, dus de totale hoeveelheid energie [blank2]. Bij elke omzetting gaat er altijd wat energie \"verloren\" in de lucht als [blank3] energie die we niet kunnen gebruiken. Dat noemen we [blank4]. In een energiestroomdiagram tekenen we die verloren energie met een [blank5] pijl. Daarom kan een machine nooit [blank6] werken.",
+      "blanks": [
+        {
+          "options": [
+            "vernietigd",
+            "opgeslagen",
+            "gemeten",
+            "verplaatst"
+          ],
+          "correctAnswer": "vernietigd"
+        },
+        {
+          "options": [
+            "omgezet",
+            "geproduceerd",
+            "verbruikt",
+            "gewist"
+          ],
+          "correctAnswer": "omgezet"
+        },
+        {
+          "options": [
+            "blijft gelijk",
+            "gaat verloren",
+            "verdubbelt",
+            "ontstaat"
+          ],
+          "correctAnswer": "blijft gelijk"
+        },
+        {
+          "options": [
+            "thermische",
+            "nucleaire",
+            "chemische",
+            "elektrische"
+          ],
+          "correctAnswer": "thermische"
+        },
+        {
+          "options": [
+            "energieverlies",
+            "energieopslag",
+            "energiebron",
+            "energiestroom"
+          ],
+          "correctAnswer": "energieverlies"
+        },
+        {
+          "options": [
+            "schuine",
+            "horizontale",
+            "ronde",
+            "verticale"
+          ],
+          "correctAnswer": "schuine"
+        },
+        {
+          "options": [
+            "eindeloos",
+            "traag",
+            "stil",
+            "'s nachts"
+          ],
+          "correctAnswer": "eindeloos"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "hoeveelheid",
+          "translation": "quantité"
+        },
+        {
+          "word": "tekenen",
+          "translation": "dessiner"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Laat de turbine draaien",
+      "text": "In bijna elke elektriciteitscentrale werken twee machines samen. De [blank0] is zoals een reusachtige ventilator: als hij draait, produceert hij [blank1] energie. Hij is verbonden met de [blank2], die deze energie omzet in [blank3] energie. In een kerncentrale doet [blank4] onder hoge druk de turbine draaien. Die stoom ontstaat door atomen van [blank5] te splitsen. In een windpark doet de [blank6] de turbine rechtstreeks draaien. Elektriciteit is onze favoriete energievorm, omdat ze makkelijk om te zetten en makkelijk te [blank7] is.",
+      "blanks": [
+        {
+          "options": [
+            "turbine",
+            "generator",
+            "reservoir",
+            "dam"
+          ],
+          "correctAnswer": "turbine"
+        },
+        {
+          "options": [
+            "mechanische",
+            "elektrische",
+            "nucleaire",
+            "chemische"
+          ],
+          "correctAnswer": "mechanische"
+        },
+        {
+          "options": [
+            "generator",
+            "batterij",
+            "koeltoren",
+            "stoomketel"
+          ],
+          "correctAnswer": "generator"
+        },
+        {
+          "options": [
+            "elektrische",
+            "thermische",
+            "chemische",
+            "nucleaire"
+          ],
+          "correctAnswer": "elektrische"
+        },
+        {
+          "options": [
+            "stoom",
+            "wind",
+            "olie",
+            "zonlicht"
+          ],
+          "correctAnswer": "stoom"
+        },
+        {
+          "options": [
+            "uranium",
+            "steenkool",
+            "water",
+            "gas"
+          ],
+          "correctAnswer": "uranium"
+        },
+        {
+          "options": [
+            "wind",
+            "stoom",
+            "zon",
+            "rivier"
+          ],
+          "correctAnswer": "wind"
+        },
+        {
+          "options": [
+            "vervoeren",
+            "vernietigen",
+            "zien"
+          ],
+          "correctAnswer": "vervoeren"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "draait",
+          "translation": "tourner"
+        },
+        {
+          "word": "draaien",
+          "translation": "faire tourner"
+        },
+        {
+          "word": "hoge druk",
+          "translation": "haute pression"
+        },
+        {
+          "word": "splitsen",
+          "translation": "casser, diviser"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Lena gaat kamperen",
+      "text": "Lena gaat kamperen in de bergen. 's Avonds steekt ze een kampvuur aan: het hout maakt zijn [blank0] energie vrij als warmte en licht. Slechts een deel van de warmte kookt haar soep; de rest [blank1] in de koude lucht. Haar kleine zonnelader lag de hele dag in de zon: hij zette [blank2] om in elektrische energie en sloeg die daarna op in een batterij als [blank3] energie. Voor ze gaat slapen, vult ze een thermosfles met hete thee: dat is een [blank4] reservoir. De volgende ochtend is haar thee nog maar lauw: een beetje warmte is [blank5] in de lucht.",
+      "blanks": [
+        {
+          "options": [
+            "chemische",
+            "nucleaire",
+            "elektrische",
+            "mechanische"
+          ],
+          "correctAnswer": "chemische"
+        },
+        {
+          "options": [
+            "gaat verloren",
+            "wordt opgeslagen",
+            "wordt gemaakt",
+            "wordt vernietigd"
+          ],
+          "correctAnswer": "gaat verloren"
+        },
+        {
+          "options": [
+            "EMG-energie",
+            "kernenergie",
+            "chemische energie",
+            "thermische energie"
+          ],
+          "correctAnswer": "EMG-energie"
+        },
+        {
+          "options": [
+            "chemische",
+            "mechanische",
+            "thermische",
+            "elektrische"
+          ],
+          "correctAnswer": "chemische"
+        },
+        {
+          "options": [
+            "thermisch",
+            "chemisch",
+            "mechanisch",
+            "nucleair"
+          ],
+          "correctAnswer": "thermisch"
+        },
+        {
+          "options": [
+            "ontsnapt",
+            "gemaakt",
+            "vernietigd"
+          ],
+          "correctAnswer": "ontsnapt"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "kampvuur",
+          "translation": "feu de camp"
+        },
+        {
+          "word": "zonnelader",
+          "translation": "chargeur solaire"
+        },
+        {
+          "word": "lauw",
+          "translation": "tiède"
+        }
+      ]
+    },
+    {
+      "quizTitle": "De dorpsvergadering",
+      "text": "In het dorp Beaufort praten de mensen over een project van drie nieuwe windturbines. Mevrouw Lambert zegt: \"Windturbines stoten geen CO2 uit als ze elektriciteit produceren.\" Dit is een [blank0], want iedereen kan het controleren. Meneer Dubois antwoordt: \"Windturbines zijn lelijk!\" Dit is een [blank1]: het is een persoonlijke mening. De jonge Tom zegt: \"Ik denk dat de turbines in de winter meer elektriciteit zullen produceren, omdat er dan meer wind is.\" Dit is een [blank2]: je kunt ze testen door elke maand de geproduceerde elektriciteit te [blank3]. Iedereen is het over één ding eens: wind is een [blank4] hulpbron die nooit zal [blank5].",
+      "blanks": [
+        {
+          "options": [
+            "feit",
+            "oordeel",
+            "hypothese"
+          ],
+          "correctAnswer": "feit"
+        },
+        {
+          "options": [
+            "oordeel",
+            "feit",
+            "hypothese"
+          ],
+          "correctAnswer": "oordeel"
+        },
+        {
+          "options": [
+            "hypothese",
+            "feit",
+            "oordeel"
+          ],
+          "correctAnswer": "hypothese"
+        },
+        {
+          "options": [
+            "meten",
+            "raden",
+            "stemmen"
+          ],
+          "correctAnswer": "meten"
+        },
+        {
+          "options": [
+            "hernieuwbare",
+            "niet-hernieuwbare",
+            "fossiele"
+          ],
+          "correctAnswer": "hernieuwbare"
+        },
+        {
+          "options": [
+            "opraken",
+            "draaien",
+            "waaien"
+          ],
+          "correctAnswer": "opraken"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "controleren",
+          "translation": "vérifier"
+        },
+        {
+          "word": "lelijk",
+          "translation": "moche, laid"
+        },
+        {
+          "word": "eens",
+          "translation": "d'accord (het eens zijn : être d'accord)"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "quizTitle": "Energievormen",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Chemische energie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Voedsel"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Thermische energie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Warme radiator"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Mechanische energie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Rijdende fiets"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Elektrische energie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Stroom in draden"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Kernenergie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Uraniumatomen"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "EMG-energie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Zonlicht"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Centrale en hulpbron",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Windpark"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Wind"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Kerncentrale"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Uranium"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Gascentrale"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Aardgas"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Waterkrachtcentrale"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Vallend water"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Geothermische centrale"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Warmte van de aarde"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Biomassacentrale"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Plantenafval"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Hulpbronnendetective (foto's)",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-coal.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Steenkool"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-wind-turbines.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Wind"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-uranium-pellets.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Uranium"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-oil-pump.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Aardolie"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/qcm1-geothermal-steam.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Geothermische energie"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-gas-flame.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Aardgas"
+          }
+        },
+        {
+          "id": 7,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-straw-bale.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Biomassa"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Wat zet het om?",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Elektrische ventilator"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Elektrisch → mechanisch"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Rekenmachine op zonne-energie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "EMG → elektrisch"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Fietsdynamo"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Mechanisch → elektrisch"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Elektrische verwarming"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Elektrisch → thermisch"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Lichtstaafje"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Chemisch → EMG"
+          }
+        }
+      ]
+    },
+    {
+      "quizTitle": "Energiewoorden",
+      "instructions": "",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Reservoir"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Energievoorraad"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Stroompanne"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Geen elektriciteit"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Stoom"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Hete waterdamp"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Turbine"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Reusachtige ventilator"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Generator"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Maakt elektriciteit"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Energieverlies"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Verspilde warmte"
+          }
+        },
+        {
+          "id": 7,
+          "sideA": {
+            "type": "text",
+            "content": "Dam"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Muur van water"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "quizTitle": "Hernieuwbaar of niet-hernieuwbaar?",
+      "instructions": "Help de Belgische minister van Energie! Sorteer deze hulpbronnen: blijven ze altijd bestaan, of raken ze ooit op?",
+      "categories": [
+        "Hernieuwbaar 🔄",
+        "Niet-hernieuwbaar ⛔"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Hernieuwbaar 🔄",
+          "type": "text",
+          "content": "☀️ Zon"
+        },
+        {
+          "id": 2,
+          "category": "Hernieuwbaar 🔄",
+          "type": "text",
+          "content": "💨 Wind"
+        },
+        {
+          "id": 3,
+          "category": "Hernieuwbaar 🔄",
+          "type": "text",
+          "content": "💧 Water"
+        },
+        {
+          "id": 4,
+          "category": "Hernieuwbaar 🔄",
+          "type": "text",
+          "content": "🌋 Geothermische energie"
+        },
+        {
+          "id": 5,
+          "category": "Hernieuwbaar 🔄",
+          "type": "text",
+          "content": "🪵 Hout"
+        },
+        {
+          "id": 6,
+          "category": "Hernieuwbaar 🔄",
+          "type": "text",
+          "content": "🌽 Biomassa"
+        },
+        {
+          "id": 7,
+          "category": "Niet-hernieuwbaar ⛔",
+          "type": "text",
+          "content": "⚫ Steenkool"
+        },
+        {
+          "id": 8,
+          "category": "Niet-hernieuwbaar ⛔",
+          "type": "text",
+          "content": "🛢️ Aardolie"
+        },
+        {
+          "id": 9,
+          "category": "Niet-hernieuwbaar ⛔",
+          "type": "text",
+          "content": "🔥 Aardgas"
+        },
+        {
+          "id": 10,
+          "category": "Niet-hernieuwbaar ⛔",
+          "type": "text",
+          "content": "☢️ Uranium"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Opgeslagen energie",
+      "instructions": "Al deze dingen slaan energie op. Hoe zit de energie erin opgesloten?",
+      "categories": [
+        "Chemisch",
+        "Mechanisch",
+        "Thermisch"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Chemisch",
+          "type": "text",
+          "content": "🍌 Banaan"
+        },
+        {
+          "id": 2,
+          "category": "Chemisch",
+          "type": "text",
+          "content": "🔋 Batterij"
+        },
+        {
+          "id": 3,
+          "category": "Chemisch",
+          "type": "text",
+          "content": "🪵 Houtblok"
+        },
+        {
+          "id": 4,
+          "category": "Chemisch",
+          "type": "text",
+          "content": "🍫 Chocoladereep"
+        },
+        {
+          "id": 5,
+          "category": "Chemisch",
+          "type": "text",
+          "content": "⛽ Benzine"
+        },
+        {
+          "id": 6,
+          "category": "Mechanisch",
+          "type": "text",
+          "content": "🌊 Water achter een dam"
+        },
+        {
+          "id": 7,
+          "category": "Mechanisch",
+          "type": "text",
+          "content": "🌀 Ingedrukte veer"
+        },
+        {
+          "id": 8,
+          "category": "Mechanisch",
+          "type": "text",
+          "content": "🪨 Rots op een klif"
+        },
+        {
+          "id": 9,
+          "category": "Mechanisch",
+          "type": "text",
+          "content": "🏹 Gespannen boog"
+        },
+        {
+          "id": 10,
+          "category": "Thermisch",
+          "type": "text",
+          "content": "🫖 Thermosfles"
+        },
+        {
+          "id": 11,
+          "category": "Thermisch",
+          "type": "text",
+          "content": "♨️ Warmwaterkruik"
+        },
+        {
+          "id": 12,
+          "category": "Thermisch",
+          "type": "text",
+          "content": "🍲 Hete soep"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Waarvoor dient het?",
+      "instructions": "Al deze toestellen gebruiken elektriciteit. Sorteer ze volgens de NUTTIGE energie die ze produceren.",
+      "categories": [
+        "Thermische energie",
+        "Mechanische energie",
+        "EMG-energie (licht)"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Thermische energie",
+          "type": "text",
+          "content": "🔥 Elektrische oven"
+        },
+        {
+          "id": 2,
+          "category": "Thermische energie",
+          "type": "text",
+          "content": "💇 Stijltang"
+        },
+        {
+          "id": 3,
+          "category": "Thermische energie",
+          "type": "text",
+          "content": "🛏️ Elektrische deken"
+        },
+        {
+          "id": 4,
+          "category": "Thermische energie",
+          "type": "text",
+          "content": "☕ Waterkoker"
+        },
+        {
+          "id": 5,
+          "category": "Mechanische energie",
+          "type": "text",
+          "content": "🌀 Elektrische ventilator"
+        },
+        {
+          "id": 6,
+          "category": "Mechanische energie",
+          "type": "text",
+          "content": "🥤 Blender"
+        },
+        {
+          "id": 7,
+          "category": "Mechanische energie",
+          "type": "text",
+          "content": "🔩 Elektrische boormachine"
+        },
+        {
+          "id": 8,
+          "category": "Mechanische energie",
+          "type": "text",
+          "content": "🛴 Elektrische step"
+        },
+        {
+          "id": 9,
+          "category": "EMG-energie (licht)",
+          "type": "text",
+          "content": "🔦 Zaklamp"
+        },
+        {
+          "id": 10,
+          "category": "EMG-energie (licht)",
+          "type": "text",
+          "content": "🌙 Nachtlampje"
+        },
+        {
+          "id": 11,
+          "category": "EMG-energie (licht)",
+          "type": "text",
+          "content": "📺 Tv-scherm"
+        }
+      ]
+    },
+    {
+      "quizTitle": "Welke centrale ben ik?",
+      "instructions": "Je bent een energie-expert en moet de regering advies geven. Sorteer elk kenmerk bij de centrale die het beschrijft.",
+      "categories": [
+        "Windturbine",
+        "Kerncentrale",
+        "Gascentrale"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Windturbine",
+          "type": "text",
+          "content": "🌬️ Hangt af van het weer"
+        },
+        {
+          "id": 2,
+          "category": "Windturbine",
+          "type": "text",
+          "content": "🏞️ Heeft veel ruimte nodig"
+        },
+        {
+          "id": 3,
+          "category": "Windturbine",
+          "type": "text",
+          "content": "♻️ Hernieuwbare hulpbron"
+        },
+        {
+          "id": 4,
+          "category": "Kerncentrale",
+          "type": "text",
+          "content": "☢️ Radioactief afval"
+        },
+        {
+          "id": 5,
+          "category": "Kerncentrale",
+          "type": "text",
+          "content": "⚙️ Constante productie"
+        },
+        {
+          "id": 6,
+          "category": "Kerncentrale",
+          "type": "text",
+          "content": "⛔ Beperkte voorraad uranium"
+        },
+        {
+          "id": 7,
+          "category": "Gascentrale",
+          "type": "text",
+          "content": "💨 Stoot CO2 uit"
+        },
+        {
+          "id": 8,
+          "category": "Gascentrale",
+          "type": "text",
+          "content": "⚡ Snel op te starten"
+        },
+        {
+          "id": 9,
+          "category": "Gascentrale",
+          "type": "text",
+          "content": "💶 Goedkoop om te bouwen"
+        }
+      ]
+    }
+  ]
 }

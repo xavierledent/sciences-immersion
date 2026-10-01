@@ -2,7 +2,18 @@
   "videos": {
     "title": "Vidéos",
     "basePath": "https://www.youtube.com/embed/",
-    "items": []
+    "items": [
+      {
+        "title": "C'est pas sorcier",
+        "youtubeId": "M0qRHfIoYI0",
+        "description": "Comment produire de l'électricité dans une centrale"
+      },
+      {
+        "title": "Energie durable",
+        "youtubeId": "ZepcQLG_rVA",
+        "description": "C'est quoi, une énergie durable ?"
+      }
+    ]
   },
   "fichesOutils": {
     "title": "Fiches outils",
@@ -53,8 +64,8 @@
   },
   "ficheAutoEvaluation": {
     "title": "Autoévaluation par attendus",
-    "description": "Fiche imprimable, à cocher notion par notion.",
     "basePath": "../../../assets",
+    "description": "Fiche imprimable, à cocher notion par notion.",
     "pdfFile": "FE phys1.pdf"
   },
   "mindmap": {

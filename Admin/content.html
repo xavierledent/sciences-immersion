@@ -1288,13 +1288,13 @@ resBtnSave.addEventListener('click',async()=>{
   try{
     const{fo,auto,mm,vids}=resParseEditor();
     const data={
-      videos:{title:'Videos',basePath:res_basePaths.videos,items:vids.map(l=>{const[title,description,url]=l.split('|').map(p=>p.trim());const it={title,youtubeId:resExtractYtId(url)};if(description)it.description=description;return it;})},
+      videos:{title:'Vidéos',basePath:res_basePaths.videos,items:vids.map(l=>{const[title,description,url]=l.split('|').map(p=>p.trim());const it={title,youtubeId:resExtractYtId(url)};if(description)it.description=description;return it;})},
       fichesOutils:{title:'Fiches outils',basePath:res_basePaths.fichesOutils,...(resFoDescTA.value.trim()&&{description:resFoDescTA.value.trim()}),items:fo.map(l=>{const[label,description,file]=l.split('|').map(p=>p.trim());const it={label,file};if(description)it.description=description;return it;})},
       // Single entry, not items[]: pairs the classic PDF fiche with the
       // interactive "Autoévaluation en ligne" button (autoeval.json, edited
       // elsewhere) — see resAddAutoRow above.
       ficheAutoEvaluation:(()=>{const l=auto[0];const[title,description,pdfFile]=(l||'').split('|').map(p=>p.trim());const o={title:title||'Autoévaluation par attendus',basePath:res_basePaths.ficheAutoEvaluation};if(description)o.description=description;if(pdfFile)o.pdfFile=pdfFile;return o;})(),
-      mindmap:{title:'Mindmap',basePath:res_basePaths.mindmap,items:mm.map(l=>{const[title,description,file]=l.split('|').map(p=>p.trim());const it={title,file};if(description)it.description=description;return it;})}
+      mindmap:{title:'Modèles de mindmap',basePath:res_basePaths.mindmap,items:mm.map(l=>{const[title,description,file]=l.split('|').map(p=>p.trim());const it={title,file};if(description)it.description=description;return it;})}
     };
     const fh=await resGetFH(true),w=await fh.createWritable();await w.write(JSON.stringify(data,null,2));await w.close();
     showAlert(resAlertBox,'success','Sauvegardé OK');resBtnSave.disabled=true;res_verifiedOk=false;
