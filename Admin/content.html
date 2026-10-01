@@ -1,0 +1,1766 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Editor — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f4f6f9; --surface: #ffffff; --surface2: #f0f2f6;
+      --border: #dde1ea; --border-strong: #c4cad8;
+      --text: #1a2035; --text-secondary: #4a5270; --muted: #8890a8;
+      --accent: #2b5ce6; --accent-light: #eef2fd; --accent-hover: #1e47cc;
+      --bio: #1e8a78; --bio-light: #e8f6f4;
+      --chemistry: #b06d00; --chemistry-light: #fdf3e3;
+      --physics: #5c48a0; --physics-light: #f0edf9;
+      --success: #1a7a3f; --success-bg: #edf7f1; --success-border: #a8dbbe;
+      --error: #c0392b; --error-bg: #fdf0ef; --error-border: #f0b9b5;
+      --info: #0d5c8a; --info-bg: #e8f4fd; --info-border: #9fd0ef;
+      --lv1: #0284c7; --lv1-light: #e0f2fe; --lv1-border: #7dd3fc;
+      --lv2: #d97706; --lv2-light: #fffbeb; --lv2-border: #fcd34d;
+      --lv3: #e11d48; --lv3-light: #fff1f2; --lv3-border: #fda4af;
+      --radius: 10px;
+      --shadow-sm: 0 1px 3px rgba(26,32,53,0.07), 0 1px 2px rgba(26,32,53,0.04);
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 36px 24px 60px; font-size: 14px; }
+    .container { max-width: 1060px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 2px solid var(--border); }
+    .header-left { display: flex; align-items: center; gap: 14px; }
+    .header-icon { width: 40px; height: 40px; background: var(--accent); border-radius: 10px; display: grid; place-items: center; color: white; font-size: 18px; flex-shrink: 0; }
+    .header-title { font-size: 1.2rem; font-weight: 700; }
+    .header-sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .header-badge { font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--accent-light); color: var(--accent); border: 1px solid #c7d6fb; letter-spacing: 0.03em; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; }
+    .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); display: flex; align-items: center; gap: 10px; }
+    .step-number { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: white; font-size: 0.72rem; font-weight: 700; display: grid; place-items: center; flex-shrink: 0; }
+    .step-number.done { background: var(--success); }
+    .card-label { font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
+    .card-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+    button { font-family: 'Inter', sans-serif; cursor: pointer; border: none; border-radius: 8px; font-weight: 600; font-size: 0.88rem; transition: background 0.15s, box-shadow 0.15s, transform 0.1s, opacity 0.15s; display: inline-flex; align-items: center; gap: 7px; }
+    button:active:not(:disabled) { transform: translateY(1px); }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-primary { background: var(--accent); color: #fff; padding: 11px 18px; box-shadow: 0 2px 8px rgba(43,92,230,0.25); }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-outline { background: var(--surface); color: var(--text-secondary); border: 1px solid var(--border-strong); padding: 10px 17px; }
+    .btn-outline:hover:not(:disabled) { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+    .btn-reconnect { background: var(--accent-light); color: var(--accent); border: 1px solid #c7d6fb; padding: 10px 17px; }
+    .btn-reconnect:hover:not(:disabled) { background: #dde8fc; }
+    .btn-success { background: var(--success); color: #fff; padding: 10px 17px; box-shadow: 0 2px 8px rgba(26,122,63,0.2); }
+    .btn-success:hover:not(:disabled) { background: #156834; }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-add-row { background: var(--surface2); border: 1px dashed var(--border-strong); color: var(--text-secondary); padding: 9px 16px; font-size: 0.83rem; border-radius: 8px; width: 100%; justify-content: center; }
+    .btn-add-row:hover:not(:disabled) { background: var(--accent-light); border-color: var(--accent); color: var(--accent); border-style: solid; }
+    .access-area { display: flex; flex-direction: column; gap: 10px; }
+    .reconnect-row { display: none; align-items: center; gap: 10px; padding: 10px 14px; background: var(--accent-light); border: 1px solid #c7d6fb; border-radius: 8px; }
+    .reconnect-row.visible { display: flex; }
+    .reconnect-info { flex: 1; font-size: 0.82rem; color: var(--accent); }
+    .reconnect-info strong { display: block; font-weight: 600; margin-bottom: 1px; }
+    .reconnect-info span { color: var(--muted); font-size: 0.75rem; }
+    .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 500; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); }
+    .status-pill.connected { background: var(--success-bg); border-color: var(--success-border); color: var(--success); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .path-row { display: none; align-items: center; gap: 8px; font-size: 0.78rem; }
+    .path-row.visible { display: flex; }
+    .path-label { color: var(--muted); flex-shrink: 0; }
+    .path-value { font-family: 'Cascadia Code','Consolas',monospace; background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 3px 9px; color: var(--accent); font-size: 0.78rem; }
+    .field-label { font-size: 0.78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .radio-group { display: flex; gap: 8px; }
+    .radio-pill { display: inline-flex; align-items: center; gap: 7px; padding: 8px 15px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); cursor: pointer; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); transition: all 0.15s; user-select: none; }
+    .radio-pill input { display: none; }
+    .radio-pill.selected { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+    .radio-pill.disabled { opacity: 0.4; cursor: not-allowed; }
+    .chapter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chap-pill { padding: 7px 15px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .chap-pill:hover { background: var(--surface2); }
+    .chap-pill.sel-bio { background: var(--bio-light); border-color: #a8dcd6; color: var(--bio); }
+    .chap-pill.sel-chemistry { background: var(--chemistry-light); border-color: #f0cc8a; color: var(--chemistry); }
+    .chap-pill.sel-physics { background: var(--physics-light); border-color: #c9c0e8; color: var(--physics); }
+    .section-label { font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+    .divider { height: 1px; background: var(--border); }
+    .alert { display: none; border-radius: 8px; padding: 12px 16px; font-size: 0.83rem; line-height: 1.6; border: 1px solid; white-space: pre-wrap; }
+    .alert.show { display: block; }
+    .alert.success { background: var(--success-bg); border-color: var(--success-border); color: var(--success); }
+    .alert.error { background: var(--error-bg); border-color: var(--error-border); color: var(--error); }
+    .alert.info { background: var(--info-bg); border-color: var(--info-border); color: var(--info); }
+    .optional { font-weight: 400; text-transform: none; letter-spacing: 0; font-style: italic; color: var(--muted); }
+    .fmt-bar { display: flex; gap: 3px; }
+    .fmt-bar-ml { margin-left: auto; }
+    .fmt-btn { width: 24px; height: 24px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary); border-radius: 5px; font-size: 0.8rem; cursor: pointer; display: grid; place-items: center; padding: 0; line-height: 1; transition: background 0.12s, border-color 0.12s, color 0.12s; flex-shrink: 0; }
+    .fmt-btn:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+    .fmt-bar--standalone { margin-bottom: 4px; }
+    /* Live preview of a formatted field. Floats over the layout rather than
+       being inserted into it, so none of the existing grids are disturbed. */
+    .fmt-preview { position: absolute; white-space: pre-line; z-index: 500; display: none; max-width: 560px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--accent); background: var(--surface); color: var(--text); font-size: 0.85rem; line-height: 1.6; box-shadow: 0 10px 24px rgba(26,32,53,0.16); pointer-events: none; }
+    .fmt-preview.show { display: block; }
+    .fmt-preview-label { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    textarea { width: 100%; min-height: 220px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: 8px; color: var(--text); font-family: 'Cascadia Code','Fira Code','Consolas',monospace; font-size: 0.8rem; line-height: 1.8; padding: 14px 16px; resize: vertical; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+    textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
+    textarea::placeholder { color: var(--muted); font-style: italic; }
+    .editor-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+    .format-hint { font-size: 0.75rem; color: var(--muted); }
+    .format-hint code { background: var(--surface2); border: 1px solid var(--border); padding: 1px 5px; border-radius: 4px; font-size: 0.73rem; color: var(--text-secondary); }
+    .word-count { font-size: 0.75rem; font-weight: 600; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); padding: 3px 10px; border-radius: 999px; }
+    .btn-validate { background: var(--accent-light); color: var(--accent); border: 1px solid #c7d6fb; padding: 8px 0; font-size: 0.78rem; border-radius: 7px; justify-content: center; white-space: nowrap; }
+    .btn-validate:hover:not(:disabled) { background: #dde8fc; }
+    .btn-validate.flash { background: var(--success-bg) !important; border-color: var(--success-border) !important; color: var(--success) !important; }
+    .btn-delete-row { background: transparent; border: 1px solid var(--border-strong); color: var(--muted); padding: 8px; font-size: 0.82rem; border-radius: 7px; justify-content: center; line-height: 1; }
+    .btn-delete-row:hover:not(:disabled) { background: var(--error-bg); border-color: var(--error-border); color: var(--error); }
+    .drag-handle { cursor: grab; color: var(--border-strong); font-size: 1rem; display: flex; align-items: center; justify-content: center; user-select: none; transition: color 0.15s; }
+    .drag-handle:hover { color: var(--muted); }
+    .drag-handle:active { cursor: grabbing; }
+    .ex-number { font-size: 0.78rem; font-weight: 700; color: var(--muted); min-width: 18px; text-align: center; flex-shrink: 0; }
+    .row-dragging { opacity: 0.35; }
+    .drop-above { box-shadow: 0 -2px 0 var(--accent); }
+    .drop-below { box-shadow: 0 2px 0 var(--accent); }
+    .btn-pdf-pick { flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border-strong); color: var(--muted); padding: 8px 9px; border-radius: 7px; font-size: 0.82rem; line-height: 1; gap: 0; }
+    .btn-pdf-pick:hover:not(:disabled) { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+    .tab-bar { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .tab-btn { flex: 1; padding: 13px 10px; background: var(--surface2); color: var(--text-secondary); border: none; border-right: 1px solid var(--border); border-radius: 0; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; transform: none; }
+    .tab-btn:last-child { border-right: none; }
+    .tab-btn.active { background: var(--surface); color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
+    .tab-btn:hover:not(.active) { background: var(--surface); color: var(--text); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-card { background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius) var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; }
+    .tab-card-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+    .tab-card-header { padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); display: flex; align-items: center; gap: 10px; }
+    .voc-editor-grid { display: flex; flex-direction: column; gap: 5px; }
+    .voc-grid-header, .voc-row { display: grid; grid-template-columns: 130px 130px 1fr 1fr 68px 34px; gap: 6px; }
+    .voc-grid-header { padding: 0 2px 4px; }
+    .voc-grid-header span { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .voc-row { align-items: center; }
+    .voc-row input { width: 100%; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 0.83rem; color: var(--text); background: var(--surface); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+    .voc-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
+    .voc-row input::placeholder { color: var(--muted); }
+    .ex-count-badge { font-size: 0.75rem; font-weight: 600; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); padding: 3px 10px; border-radius: 999px; margin-left: auto; }
+    .empty-state { text-align: center; padding: 36px 20px; color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+    .empty-state.hidden { display: none; }
+    .ex-list { display: flex; flex-direction: column; gap: 14px; }
+    .ex-block { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+    .ex-block[data-level="1"] { border-left-color: var(--lv1); }
+    .ex-block[data-level="2"] { border-left-color: var(--lv2); }
+    .ex-block[data-level="3"] { border-left-color: var(--lv3); }
+    .ex-block-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--surface2); border-bottom: 1px solid var(--border); border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0; }
+    .ex-level-group { display: flex; align-items: center; gap: 8px; }
+    .ex-level-label { font-size: 0.73rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .level-pill { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 26px; border-radius: 6px; border: 1px solid var(--border-strong); background: var(--surface); cursor: pointer; font-size: 0.83rem; font-weight: 600; color: var(--text-secondary); transition: all 0.15s; user-select: none; }
+    .level-pill input { display: none; }
+    .level-pill[data-level="1"].active { background: var(--lv1-light); border-color: var(--lv1-border); color: var(--lv1); }
+    .level-pill[data-level="2"].active { background: var(--lv2-light); border-color: var(--lv2-border); color: var(--lv2); }
+    .level-pill[data-level="3"].active { background: var(--lv3-light); border-color: var(--lv3-border); color: var(--lv3); }
+    .btn-delete-block { background: var(--error-bg); border: 1px solid var(--error-border); color: var(--error); padding: 6px 12px; font-size: 0.8rem; border-radius: 7px; }
+    .btn-delete-block:hover:not(:disabled) { background: var(--error); color: white; border-color: var(--error); }
+    .ex-fields { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .ex-label { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; }
+    .ex-title-input { width: 100%; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 0.83rem; color: var(--text); background: var(--surface); outline: none; transition: border-color 0.15s; }
+    .ex-title-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
+    .ex-title-input::placeholder { color: var(--muted); }
+    .ex-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ex-field { display: flex; flex-direction: column; gap: 5px; }
+    .ex-fmt-row { display: flex; align-items: center; gap: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+    .ex-fmt-label { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .ex-ta { width: 100%; min-height: 80px; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 0.83rem; color: var(--text); background: var(--surface); resize: vertical; outline: none; transition: border-color 0.15s; line-height: 1.5; }
+    .ex-ta:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
+    .ex-ta::placeholder { color: var(--muted); }
+    .ex-ta.invalid { border-color: var(--error); }
+    .ex-subq-list { display: flex; flex-direction: column; gap: 14px; }
+    .ex-subq { display: flex; flex-direction: column; gap: 10px; }
+    .ex-subq + .ex-subq { padding-top: 14px; border-top: 1px dashed var(--border); }
+    .ex-subq-header { display: flex; align-items: center; justify-content: space-between; }
+    .ex-subq-label { font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .ex-image-zone { display: flex; align-items: center; gap: 12px; padding-top: 10px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .ex-image-preview { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; }
+    .ex-thumb { width: 52px; height: 42px; object-fit: cover; border-radius: 5px; border: 1px solid var(--border); background: var(--border); }
+    .ex-img-name { font-size: 0.78rem; color: var(--text-secondary); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .btn-remove-img { background: transparent; border: 1px solid var(--border-strong); color: var(--muted); padding: 4px 8px; font-size: 0.8rem; border-radius: 6px; }
+    .btn-remove-img:hover { background: var(--error-bg); border-color: var(--error-border); color: var(--error); }
+    .level-filter-bar { padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .filter-bar-label { font-size: 0.73rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 2px; }
+    .filter-tab { padding: 5px 13px; border-radius: 7px; border: 1px solid var(--border-strong); background: var(--surface2); color: var(--text-secondary); font-size: 0.82rem; font-weight: 500; }
+    .filter-tab:hover:not(.active) { background: var(--surface); border-color: var(--accent); color: var(--accent); }
+    .filter-tab.active[data-filter="all"] { background: var(--accent-light); border-color: #c7d6fb; color: var(--accent); }
+    .filter-tab.active[data-filter="1"] { background: var(--lv1-light); border-color: var(--lv1-border); color: var(--lv1); }
+    .filter-tab.active[data-filter="2"] { background: var(--lv2-light); border-color: var(--lv2-border); color: var(--lv2); }
+    .filter-tab.active[data-filter="3"] { background: var(--lv3-light); border-color: var(--lv3-border); color: var(--lv3); }
+    .filter-tab-count { opacity: 0.7; font-weight: 400; }
+    .lv-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+    .lv-dot-1 { background: var(--lv1); } .lv-dot-2 { background: var(--lv2); } .lv-dot-3 { background: var(--lv3); }
+    .ex-header-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-chevron { background: var(--surface); border: 1px solid var(--border-strong); color: var(--muted); padding: 4px 9px; font-size: 0.72rem; border-radius: 5px; line-height: 1; }
+    .btn-chevron:hover:not(:disabled) { background: var(--surface2); color: var(--text); border-color: var(--accent); }
+    .btn-chevron:disabled { opacity: 0.2; cursor: default; transform: none; }
+    .ex-header-left { display: flex; align-items: center; gap: 10px; }
+    .ex-block.drop-above { box-shadow: 0 -2px 0 var(--accent), var(--shadow-sm); }
+    .ex-block.drop-below { box-shadow: 0 2px 0 var(--accent), var(--shadow-sm); }
+    .ex-block.collapsed .ex-fields { display: none; }
+    .ex-block-summary { display: none; align-items: center; gap: 10px; padding: 8px 16px; background: var(--surface); border-top: 1px solid var(--border); font-size: 0.83rem; color: var(--text-secondary); }
+    .ex-block.collapsed .ex-block-summary { display: flex; cursor: pointer; }
+    .ex-summary-thumb { width: 36px; height: 28px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); background: var(--border); flex-shrink: 0; }
+    .ex-summary-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ex-summary-level { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; flex-shrink: 0; }
+    .ex-summary-level.lv1 { background: var(--lv1-light); color: var(--lv1); }
+    .ex-summary-level.lv2 { background: var(--lv2-light); color: var(--lv2); }
+    .ex-summary-level.lv3 { background: var(--lv3-light); color: var(--lv3); }
+    .ex-bulk-actions { display: flex; gap: 8px; margin-bottom: 12px; }
+    #pra-search { max-width: 220px; margin-left: auto; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 0.83rem; color: var(--text); background: var(--surface); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+    #pra-search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
+    #pra-search::placeholder { color: var(--muted); }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(26,32,53,0.55); z-index: 1000; align-items: center; justify-content: center; padding: 24px; }
+    .modal-overlay.visible { display: flex; }
+    .modal-box { background: var(--surface); border-radius: 12px; box-shadow: 0 20px 60px rgba(26,32,53,0.2); width: 100%; max-width: 760px; max-height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .modal-title { font-weight: 700; font-size: 0.95rem; }
+    .modal-close { background: var(--surface2); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px; border-radius: 7px; font-size: 0.83rem; }
+    .modal-close:hover { background: var(--error-bg); border-color: var(--error-border); color: var(--error); }
+    .modal-toolbar { padding: 12px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .modal-toolbar-hint { font-size: 0.75rem; color: var(--muted); }
+    .modal-gallery { padding: 16px 20px; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; flex: 1; }
+    .modal-thumb-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; border: 2px solid var(--border); background: var(--surface2); cursor: pointer; transition: all 0.15s; width: 100%; }
+    .modal-thumb-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+    .modal-thumb-btn img { width: 100%; height: 68px; object-fit: cover; border-radius: 5px; }
+    .modal-thumb-btn span { font-size: 0.67rem; color: var(--text-secondary); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; display: block; }
+    .modal-empty { padding: 30px 20px; text-align: center; color: var(--muted); font-size: 0.85rem; line-height: 1.6; grid-column: 1 / -1; }
+    .subsection-header { display: flex; align-items: center; gap: 10px; padding: 9px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; }
+    .subsection-title { font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); flex: 1; }
+    .subsection-count { font-size: 0.75rem; font-weight: 600; color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 2px 9px; border-radius: 999px; }
+    .res-grid { display: flex; flex-direction: column; gap: 5px; }
+    .res-grid-header { display: grid; gap: 6px; padding: 0 2px 4px; }
+    .res-grid-header span { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .res-row { display: grid; gap: 6px; align-items: center; }
+    .res-fo-grid .res-grid-header, .res-fo-grid .res-row { grid-template-columns: 24px 1fr 1fr 230px 68px 34px; }
+    .res-auto-grid .res-grid-header, .res-auto-grid .res-row { grid-template-columns: 24px 1fr 2fr 230px 68px 34px; }
+    .res-mm-grid .res-grid-header, .res-mm-grid .res-row { grid-template-columns: 24px 1fr 2fr 230px 68px 34px; }
+    .res-vid-grid .res-grid-header, .res-vid-grid .res-row { grid-template-columns: 24px 1fr 2fr 2fr 68px 34px; }
+    .file-cell { display: flex; gap: 4px; align-items: center; }
+    .file-cell input { flex: 1; min-width: 0; }
+    .res-row input { width: 100%; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 0.83rem; color: var(--text); background: var(--surface); outline: none; transition: border-color 0.15s; }
+    .res-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
+    .res-row input::placeholder { color: var(--muted); }
+    .exp-grid { display: flex; flex-direction: column; gap: 5px; }
+    .exp-grid-header { display: grid; gap: 6px; padding: 0 2px 4px; }
+    .exp-grid-header span { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .exp-row { display: grid; gap: 6px; align-items: center; }
+    .exp-doc-grid .exp-grid-header, .exp-doc-grid .exp-row { grid-template-columns: 24px 1fr 230px 2fr 68px 34px; }
+    .exp-link-grid .exp-grid-header, .exp-link-grid .exp-row { grid-template-columns: 24px 1fr 2fr 2fr 68px 34px; }
+    .exp-row input { width: 100%; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 0.83rem; color: var(--text); background: var(--surface); outline: none; transition: border-color 0.15s; }
+    .exp-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
+    .exp-row input::placeholder { color: var(--muted); }
+
+    /* ===== AUTOEVAL TAB =====
+       Attendu blocks reuse .ex-block/.ex-block-header/.ex-fields wholesale
+       (same collapsible-card shape as Practice's exercises) rather than a
+       new visual language — only what's genuinely specific to an attendu
+       (vocabulary flag, locations, linked exercises, the internal id) gets
+       its own rules below. */
+    .ae-cat-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ae-cat-panel { display: none; flex-direction: column; gap: 12px; }
+    .ae-cat-panel.active { display: flex; }
+    .ae-list { display: flex; flex-direction: column; gap: 10px; }
+    .ae-item-idbadge { font-family: 'Cascadia Code','Consolas',monospace; font-size: 0.72rem; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; }
+    .ae-vocab-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-secondary); }
+    .ae-loc-add-row, .ae-ex-add-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .ae-loc-add-row input { flex: 1; min-width: 160px; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 0.83rem; background: var(--surface); color: var(--text); outline: none; }
+    .ae-loc-add-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
+    .ae-loc-list { display: flex; flex-direction: column; gap: 5px; list-style: none; }
+    .ae-loc-item { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; font-size: 0.83rem; }
+    .ae-loc-handle { font-size: 0.85rem; flex: 0 0 auto; }
+    .ae-loc-text { flex: 1; word-break: break-word; }
+    .ae-loc-edit-input { flex: 1; padding: 4px 7px; border: 1px solid var(--accent); border-radius: 5px; font-family: 'Inter', sans-serif; font-size: 0.83rem; background: var(--surface); color: var(--text); outline: none; }
+    .ae-loc-remove, .ae-loc-edit-btn, .ae-ex-chip-remove { background: none; border: none; color: var(--muted); font-size: 0.85rem; padding: 0 2px; line-height: 1; }
+    .ae-loc-remove:hover, .ae-ex-chip-remove:hover { color: var(--error); }
+    .ae-loc-edit-btn:hover { color: var(--accent); }
+    .ae-ex-level, .ae-ex-id-input, .ae-ex-browse { padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 0.83rem; background: var(--surface); color: var(--text); outline: none; }
+    .ae-ex-id-input { width: 90px; }
+    .ae-ex-browse { max-width: 240px; }
+    .ae-ex-preview { font-size: 0.78rem; min-height: 1.2em; }
+    .ae-ex-preview.ok { color: var(--success); }
+    .ae-ex-preview.warn { color: var(--error); }
+    .ae-ex-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    /* Same 6px corner radius as .autoeval-ex-chip on the live site (style.css)
+       — a rounded square, not a pill, so this editor's chip already looks
+       like what the student will actually see. */
+    .ae-ex-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 4px 3px 9px; border-radius: 6px; background: var(--chemistry); color: #fff; font-size: 0.78rem; font-weight: 600; }
+    .ae-advanced { font-size: 0.8rem; color: var(--muted); }
+    .ae-advanced summary { cursor: pointer; user-select: none; }
+    .ae-advanced .ex-field { margin-top: 8px; }
+    .ae-advanced input { padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Cascadia Code','Consolas',monospace; font-size: 0.8rem; background: var(--surface); color: var(--text); outline: none; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="header-left">
+      <div class="header-icon">&#x2699;</div>
+      <div>
+        <div class="header-title">Content Editor</div>
+        <div class="header-sub">Outil d'administration &mdash; Site Sciences</div>
+      </div>
+    </div>
+    <div class="header-badge">Admin</div>
+  </header>
+
+  <!-- Step 1: Folder access -->
+  <div class="card">
+    <div class="card-header"><div class="step-number" id="step1-num">1</div><span class="card-label">Acc&egrave;s au projet</span></div>
+    <div class="card-body">
+      <div class="access-area">
+        <div class="reconnect-row" id="reconnect-row">
+          <div class="reconnect-info"><strong id="reconnect-folder-name">Site sciences</strong><span>Dossier utilis&eacute; pr&eacute;c&eacute;demment</span></div>
+          <button class="btn-reconnect" id="btn-reconnect">Reconnecter</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn-primary" id="btn-open-folder">S&eacute;lectionner le dossier racine du site</button>
+          <div class="status-pill" id="folder-status"><span class="status-dot"></span><span id="folder-status-text">Non connect&eacute;</span></div>
+        </div>
+      </div>
+      <div class="path-row" id="path-row"><span class="path-label">Fichier cible&nbsp;:</span><span class="path-value" id="path-value">-</span></div>
+    </div>
+  </div>
+
+  <!-- Step 2: Year + Chapter -->
+  <div class="card">
+    <div class="card-header"><div class="step-number" id="step2-num">2</div><span class="card-label">Ciblage</span></div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Langue</div>
+        <div class="radio-group" id="lang-group">
+          <label class="radio-pill selected"><input type="radio" name="lang" value="en" checked />Anglais</label>
+          <label class="radio-pill"><input type="radio" name="lang" value="nl" />N&eacute;erlandais</label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="field-label">Ann&eacute;e</div>
+        <div class="radio-group" id="year-group">
+          <label class="radio-pill selected"><input type="radio" name="year" value="year1" checked />Ann&eacute;e 1</label>
+          <label class="radio-pill disabled" title="Non disponible"><input type="radio" name="year" value="year2" disabled />Ann&eacute;e 2</label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="field-label">Chapitre</div>
+        <div class="chapter-group">
+          <button class="chap-pill" data-chapter="bio1" data-subject="bio">Bio 1</button>
+          <button class="chap-pill" data-chapter="bio2" data-subject="bio">Bio 2</button>
+          <button class="chap-pill" data-chapter="chem1" data-subject="chemistry">Chem 1</button>
+          <button class="chap-pill" data-chapter="chem2" data-subject="chemistry">Chem 2</button>
+          <button class="chap-pill" data-chapter="phys1" data-subject="physics">Phys 1</button>
+          <button class="chap-pill" data-chapter="phys2" data-subject="physics">Phys 2</button>
+        </div>
+      </div>
+      <div><button class="btn-outline" id="btn-load" disabled>Afficher les donn&eacute;es</button></div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div>
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="vocabulary">&#x1F4DD; Vocabulary</button>
+      <button class="tab-btn" data-tab="practice">&#x1F9E9; Practice</button>
+      <button class="tab-btn" data-tab="resources">&#x1F4E6; Resources</button>
+      <button class="tab-btn" data-tab="explorations">&#x1F5C2;&#xFE0F; Explorations</button>
+      <button class="tab-btn" data-tab="autoeval">&#x1F4A1; Autoéval</button>
+    </div>
+
+    <!-- VOCABULARY PANEL -->
+    <div class="tab-panel active" id="panel-vocabulary">
+      <div class="tab-card"><div class="tab-card-body">
+        <div class="section-label">Editeur visuel</div>
+        <div class="fmt-bar fmt-bar--standalone" id="voc-fmt-bar">
+          <button class="fmt-btn" type="button" data-tag="strong"><b>G</b></button>
+          <button class="fmt-btn" type="button" data-tag="em"><i>I</i></button>
+          <button class="fmt-btn" type="button" data-tag="u"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button>
+        </div>
+        <div class="voc-editor-grid" id="voc-grid">
+          <div class="voc-grid-header"><span>Mot EN</span><span>Mot FR</span><span>D&eacute;finition EN</span><span>D&eacute;finition FR</span><span></span><span></span></div>
+        </div>
+        <button class="btn-add-row" id="voc-btn-add-row" disabled>+ Ajouter un mot</button>
+        <div class="divider"></div>
+        <div class="section-label">Editeur texte brut</div>
+        <div>
+          <textarea id="voc-editor" placeholder="Les donn&eacute;es apparaîtront ici apr&egrave;s &laquo;&nbsp;Afficher les donn&eacute;es&nbsp;&raquo;..." spellcheck="false"></textarea>
+          <div class="editor-footer">
+            <span class="format-hint">Format&nbsp;: <code>english | french | definitionEnglish | definitionFrench</code></span>
+            <span class="word-count" id="voc-word-count">0 entr&eacute;e</span>
+          </div>
+        </div>
+        <div class="alert" id="voc-alert-box"></div>
+        <div class="btn-row">
+          <button class="btn-outline" id="voc-btn-verify" disabled>🔍 V&eacute;rifier le format</button>
+          <button class="btn-success" id="voc-btn-save" disabled>💾 Sauvegarder</button>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PRACTICE PANEL -->
+    <div class="tab-panel" id="panel-practice">
+      <div class="tab-card">
+        <div class="tab-card-header"><span class="card-label">Exercices</span><span class="ex-count-badge" id="pra-ex-count">0 exercice</span></div>
+        <div class="level-filter-bar">
+          <span class="filter-bar-label">Afficher&nbsp;:</span>
+          <button class="filter-tab active" data-filter="all">Tous <span class="filter-tab-count" id="pra-count-all">(0)</span></button>
+          <button class="filter-tab" data-filter="1"><span class="lv-dot lv-dot-1"></span> Niveau 1 <span class="filter-tab-count" id="pra-count-1">(0)</span></button>
+          <button class="filter-tab" data-filter="2"><span class="lv-dot lv-dot-2"></span> Niveau 2 <span class="filter-tab-count" id="pra-count-2">(0)</span></button>
+          <button class="filter-tab" data-filter="3"><span class="lv-dot lv-dot-3"></span> Niveau 3 <span class="filter-tab-count" id="pra-count-3">(0)</span></button>
+          <input type="search" id="pra-search" placeholder="Rechercher..." />
+        </div>
+        <div class="tab-card-body">
+          <div class="ex-bulk-actions">
+            <button class="btn-outline" id="pra-btn-expand-all" type="button">Tout d&eacute;plier</button>
+            <button class="btn-outline" id="pra-btn-collapse-all" type="button">Tout replier</button>
+          </div>
+          <div class="ex-list" id="pra-ex-list"></div>
+          <div class="empty-state" id="pra-empty-state">Aucun exercice charg&eacute;.<br>Utilisez &laquo;&nbsp;Afficher les donn&eacute;es&nbsp;&raquo; ou ajoutez un exercice ci-dessous.</div>
+          <button class="btn-add-row" id="pra-btn-add-block" disabled>+ Ajouter un exercice</button>
+          <div class="divider"></div>
+          <div class="alert" id="pra-alert-box"></div>
+          <div class="btn-row">
+            <button class="btn-outline" id="pra-btn-verify" disabled>🔍 V&eacute;rifier</button>
+            <button class="btn-success" id="pra-btn-save" disabled>💾 Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESOURCES PANEL -->
+    <div class="tab-panel" id="panel-resources">
+      <div class="tab-card"><div class="tab-card-body">
+        <div class="subsection-header"><span>FO</span><span class="subsection-title">Fiches outils</span><span class="subsection-count" id="res-fo-count">0 fiche</span><div class="fmt-bar fmt-bar-ml" data-section="fo"><button class="fmt-btn" type="button" data-tag="strong"><b>G</b></button><button class="fmt-btn" type="button" data-tag="em"><i>I</i></button><button class="fmt-btn" type="button" data-tag="u"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button></div></div>
+        <div><label class="field-label" for="res-fo-desc">Description g&eacute;n&eacute;rale <span class="optional">(opt.)</span></label><textarea id="res-fo-desc" style="min-height:60px;max-height:100px;resize:vertical" disabled placeholder="Texte affich&eacute; au-dessus de la liste..."></textarea></div>
+        <div class="res-grid res-fo-grid" id="res-fo-grid"><div class="res-grid-header"><span></span><span>Label</span><span>Description</span><span>Fichier PDF</span><span></span><span></span></div></div>
+        <button class="btn-add-row" id="res-btn-add-fo" disabled>+ Ajouter une fiche outil</button>
+        <div class="divider"></div>
+        <div class="subsection-header"><span>AE</span><span class="subsection-title">Fiche autor&eacute;valuation</span><span class="subsection-count" id="res-auto-count">0 entr&eacute;e</span><div class="fmt-bar fmt-bar-ml" data-section="auto"><button class="fmt-btn" type="button" data-tag="strong"><b>G</b></button><button class="fmt-btn" type="button" data-tag="em"><i>I</i></button><button class="fmt-btn" type="button" data-tag="u"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button></div></div>
+        <div class="res-grid res-auto-grid" id="res-auto-grid"><div class="res-grid-header"><span></span><span>Titre</span><span>Description</span><span>Fichier PDF</span><span></span><span></span></div></div>
+        <button class="btn-add-row" id="res-btn-add-auto" disabled>+ Ajouter une fiche autor&eacute;valuation</button>
+        <div class="divider"></div>
+        <div class="subsection-header"><span>MM</span><span class="subsection-title">Mod&egrave;les Mindmap</span><span class="subsection-count" id="res-mm-count">0 mod&egrave;le</span><div class="fmt-bar fmt-bar-ml" data-section="mm"><button class="fmt-btn" type="button" data-tag="strong"><b>G</b></button><button class="fmt-btn" type="button" data-tag="em"><i>I</i></button><button class="fmt-btn" type="button" data-tag="u"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button></div></div>
+        <div class="res-grid res-mm-grid" id="res-mm-grid"><div class="res-grid-header"><span></span><span>Titre</span><span>Description</span><span>Fichier PDF</span><span></span><span></span></div></div>
+        <button class="btn-add-row" id="res-btn-add-mm" disabled>+ Ajouter un mod&egrave;le mindmap</button>
+        <div class="divider"></div>
+        <div class="subsection-header"><span>VD</span><span class="subsection-title">Vid&eacute;os</span><span class="subsection-count" id="res-vid-count">0 vid&eacute;o</span><div class="fmt-bar fmt-bar-ml" data-section="vids"><button class="fmt-btn" type="button" data-tag="strong"><b>G</b></button><button class="fmt-btn" type="button" data-tag="em"><i>I</i></button><button class="fmt-btn" type="button" data-tag="u"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button></div></div>
+        <div class="res-grid res-vid-grid" id="res-vid-grid"><div class="res-grid-header"><span></span><span>Titre</span><span>Description</span><span>URL YouTube</span><span></span><span></span></div></div>
+        <button class="btn-add-row" id="res-btn-add-vid" disabled>+ Ajouter une vid&eacute;o</button>
+        <div class="divider"></div>
+        <div class="section-label">Editeur texte brut</div>
+        <div><textarea id="res-editor" spellcheck="false" placeholder="Les donn&eacute;es apparaîtront ici..."></textarea><div class="editor-footer"><span class="format-hint"><code>[FICHES_OUTILS]</code> <code>[AUTOEVALUATION]</code> <code>[MINDMAP]</code> <code>[VIDEOS]</code></span><span class="word-count" id="res-word-count">0 entr&eacute;e</span></div></div>
+        <div class="alert" id="res-alert-box"></div>
+        <div class="btn-row"><button class="btn-outline" id="res-btn-verify" disabled>🔍 V&eacute;rifier le format</button><button class="btn-success" id="res-btn-save" disabled>💾 Sauvegarder</button></div>
+      </div></div>
+    </div>
+
+    <!-- EXPLORATIONS PANEL -->
+    <div class="tab-panel" id="panel-explorations">
+      <div class="tab-card"><div class="tab-card-body">
+        <div class="subsection-header"><span>DOC</span><span class="subsection-title">Documentation</span><span class="subsection-count" id="exp-doc-count">0 doc</span><div class="fmt-bar fmt-bar-ml" data-section="doc"><button class="fmt-btn" type="button" data-tag="strong"><b>G</b></button><button class="fmt-btn" type="button" data-tag="em"><i>I</i></button><button class="fmt-btn" type="button" data-tag="u"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button></div></div>
+        <div class="exp-grid exp-doc-grid" id="exp-doc-grid"><div class="exp-grid-header"><span></span><span>Titre</span><span>Fichier PDF</span><span>Description <span class="optional">(opt.)</span></span><span></span><span></span></div></div>
+        <button class="btn-add-row" id="exp-btn-add-doc" disabled>+ Ajouter un document</button>
+        <div class="divider"></div>
+        <div class="subsection-header"><span>LNK</span><span class="subsection-title">Liens utiles</span><span class="subsection-count" id="exp-link-count">0 lien</span><div class="fmt-bar fmt-bar-ml" data-section="link"><button class="fmt-btn" type="button" data-tag="strong"><b>G</b></button><button class="fmt-btn" type="button" data-tag="em"><i>I</i></button><button class="fmt-btn" type="button" data-tag="u"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button></div></div>
+        <div class="exp-grid exp-link-grid" id="exp-link-grid"><div class="exp-grid-header"><span></span><span>Titre</span><span>URL</span><span>Description <span class="optional">(opt.)</span></span><span></span><span></span></div></div>
+        <button class="btn-add-row" id="exp-btn-add-link" disabled>+ Ajouter un lien</button>
+        <div class="divider"></div>
+        <div class="section-label">Editeur texte brut</div>
+        <div><textarea id="exp-editor" spellcheck="false" placeholder="Les donn&eacute;es apparaîtront ici..."></textarea><div class="editor-footer"><span class="format-hint"><code>[DOCUMENTATION]</code> <code>[LIENS UTILES]</code></span><span class="word-count" id="exp-word-count">0 entr&eacute;e</span></div></div>
+        <div class="alert" id="exp-alert-box"></div>
+        <div class="btn-row"><button class="btn-outline" id="exp-btn-verify" disabled>🔍 V&eacute;rifier le format</button><button class="btn-success" id="exp-btn-save" disabled>💾 Sauvegarder</button></div>
+      </div></div>
+    </div>
+
+    <!-- AUTOEVAL PANEL -->
+    <div class="tab-panel" id="panel-autoeval">
+      <div class="tab-card"><div class="tab-card-body">
+        <div class="alert info show">💡 La fiche PDF classique se configure dans l'onglet <strong>Resources&nbsp;→&nbsp;Autoévaluation</strong>. Cet onglet gère uniquement l'autoévaluation en ligne (attendus, emplacements, exercices liés).</div>
+
+        <div class="ae-cat-tabs">
+          <button class="filter-tab active" type="button" data-ae-cat="savoirs">Savoirs <span class="filter-tab-count" id="ae-count-savoirs">(0)</span></button>
+          <button class="filter-tab" type="button" data-ae-cat="savoirFaire">Savoir-faire <span class="filter-tab-count" id="ae-count-savoirFaire">(0)</span></button>
+          <button class="filter-tab" type="button" data-ae-cat="competence">Compétence <span class="filter-tab-count" id="ae-count-competence">(0)</span></button>
+        </div>
+
+        <div class="ae-cat-panel active" data-ae-cat-panel="savoirs">
+          <div class="ae-list" id="ae-list-savoirs"></div>
+          <div class="empty-state hidden" id="ae-empty-savoirs">Aucun attendu dans cette catégorie.</div>
+          <button class="btn-add-row ae-btn-add" type="button" data-ae-cat="savoirs" disabled>+ Ajouter un attendu (Savoirs)</button>
+        </div>
+        <div class="ae-cat-panel" data-ae-cat-panel="savoirFaire">
+          <div class="ae-list" id="ae-list-savoirFaire"></div>
+          <div class="empty-state hidden" id="ae-empty-savoirFaire">Aucun attendu dans cette catégorie.</div>
+          <button class="btn-add-row ae-btn-add" type="button" data-ae-cat="savoirFaire" disabled>+ Ajouter un attendu (Savoir-faire)</button>
+        </div>
+        <div class="ae-cat-panel" data-ae-cat-panel="competence">
+          <div class="ae-list" id="ae-list-competence"></div>
+          <div class="empty-state hidden" id="ae-empty-competence">Aucun attendu dans cette catégorie.</div>
+          <button class="btn-add-row ae-btn-add" type="button" data-ae-cat="competence" disabled>+ Ajouter un attendu (Compétence)</button>
+        </div>
+
+        <div class="divider"></div>
+        <div class="alert" id="ae-alert-box"></div>
+        <div class="btn-row"><button class="btn-success" id="ae-btn-save" disabled>💾 Sauvegarder</button></div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Practice image modal -->
+<div id="pra-image-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header"><span class="modal-title">Choisir une image</span><button class="modal-close" id="pra-modal-close-btn">Fermer</button></div>
+    <div class="modal-toolbar"><button class="btn-outline" id="pra-btn-import-img">Importer depuis le disque</button><span class="modal-toolbar-hint">Image copi&eacute;e dans assets/ du chapitre</span></div>
+    <div class="modal-gallery" id="pra-modal-gallery"><p class="modal-empty">S&eacute;lectionnez un chapitre et chargez le fichier.</p></div>
+  </div>
+</div>
+
+<script>
+/* ===== SHARED STATE ===== */
+let rootHandle=null,selectedChap=null,selectedYear='year1',selectedLang='en',activeTab='vocabulary';
+
+/* Le segment d'URL de l'année dépend de la langue (year1 côté EN, jaar1 côté NL),
+   alors que selectedYear reste la clé interne stable. */
+const YEAR_FOLDERS={en:{year1:'year1',year2:'year2'},nl:{year1:'jaar1',year2:'jaar2'}};
+function yearFolder(){return (YEAR_FOLDERS[selectedLang]||{})[selectedYear]||selectedYear;}
+/* Point d'accès unique au dossier du chapitre ciblé : évite de répéter
+   la langue et l'année dans chaque fonction de lecture/écriture. */
+async function chapterDir(){
+  const l=await rootHandle.getDirectoryHandle(selectedLang,{create:false});
+  const y=await l.getDirectoryHandle(yearFolder(),{create:false});
+  return y.getDirectoryHandle(selectedChap,{create:false});
+}
+const DB_NAME='sciences-admin',DB_STORE='handles',HANDLE_KEY='rootDir';
+
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB_NAME,1);r.onupgradeneeded=e=>e.target.result.createObjectStore(DB_STORE);r.onsuccess=e=>res(e.target.result);r.onerror=e=>rej(e.target.error);});}
+async function storeHandle(h){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(h,HANDLE_KEY);tx.oncomplete=res;tx.onerror=e=>rej(e.target.error);});}
+async function loadStoredHandle(){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(DB_STORE,'readonly');const r=tx.objectStore(DB_STORE).get(HANDLE_KEY);r.onsuccess=e=>res(e.target.result||null);r.onerror=e=>rej(e.target.error);});}
+
+function escAttr(str){return String(str??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function wrapSelection(input,tag,cb){if(!input)return;const s=input.selectionStart,e=input.selectionEnd,v=input.value,o='<'+tag+'>',c='</'+tag+'>',sel=v.slice(s,e);let rep,ns,ne;if(sel.startsWith(o)&&sel.endsWith(c)){const inn=sel.slice(o.length,sel.length-c.length);rep=inn;ns=s;ne=s+inn.length;}else{rep=o+sel+c;ns=s+o.length;ne=ns+sel.length;}input.focus();input.setSelectionRange(s,e);document.execCommand('insertText',false,rep);input.setSelectionRange(ns,ne);if(cb)cb();}
+
+function flashValidate(btn){const orig=btn.textContent;btn.classList.add('flash');btn.textContent='OK';setTimeout(()=>{btn.classList.remove('flash');btn.textContent=orig;},900);}
+
+/* Insère du texte au curseur via execCommand, comme wrapSelection, pour que
+   l'annulation (Ctrl+Z) continue de fonctionner normalement. */
+function insertAtCursor(input,text,cb){
+  if(!input)return;
+  input.focus();
+  document.execCommand('insertText',false,text);
+  if(cb)cb();
+}
+
+/* Aiguillage unique des boutons de mise en forme : <br> s'insère au curseur,
+   les autres balises entourent la sélection. */
+function applyFmt(input,tag,cb){
+  if(tag==='br')insertAtCursor(input,'<br>',cb);
+  else wrapSelection(input,tag,cb);
+}
+
+/* Entrée dans un champ d'une seule ligne : la touche n'y produisait rien du
+   tout. Elle insère désormais un <br>, ce qui donne le geste naturel sans
+   toucher au format de stockage ligne par ligne (séparateurs "|"), qui ne
+   supporterait pas un vrai saut de ligne. Les textarea gardent le
+   comportement standard. */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  const el=e.target;
+  if(!el||el.tagName!=='INPUT'||el.type!=='text')return;
+  if(!el.classList.contains('desc-field')&&!el.closest('.voc-row'))return;
+  e.preventDefault();
+  insertAtCursor(el,'<br>');
+  el.dispatchEvent(new Event('input',{bubbles:true}));
+});
+
+/* ===== Aperçu en direct du texte mis en forme =====
+   Le champ reste la source de vérité : ceci n'est qu'un miroir, rendu
+   exactement comme le site le rendra. Il n'apparaît que si le champ contient
+   réellement des balises, pour ne jamais encombrer les champs simples.
+   L'échappement reproduit setRichText() de practice-engine.js : une
+   description peut légitimement contenir "<", ">" ou "&". */
+const FMT_TAGS=/&lt;(\/?)(strong|em|u|br)\s*\/?&gt;/gi;
+// Un simple retour à la ligne n'y figure pas : rich-text.js ne le convertit
+// jamais en <br>, il est ignoré comme un espace ordinaire côté élève — le
+// détecter ici ne ferait qu'afficher l'aperçu pour un texte multi-lignes
+// banal qui ne change rien au rendu final.
+const FMT_DETECT=/<\/?(strong|em|u|br)\s*\/?>/i;
+
+function fmtRender(raw){
+  return String(raw==null?'':raw)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(FMT_TAGS,(m,slash,tag)=>'<'+slash+tag.toLowerCase()+'>');
+}
+
+const fmtPreview=document.createElement('div');
+fmtPreview.className='fmt-preview';
+document.body.appendChild(fmtPreview);
+let fmtTarget=null;
+
+function fmtPlace(){
+  if(!fmtTarget)return;
+  const r=fmtTarget.getBoundingClientRect();
+  fmtPreview.style.top=(window.scrollY+r.bottom+6)+'px';
+  fmtPreview.style.left=(window.scrollX+r.left)+'px';
+  fmtPreview.style.width=Math.min(r.width,560)+'px';
+}
+
+function fmtUpdate(){
+  if(!fmtTarget)return;
+  const v=fmtTarget.value||'';
+  if(!FMT_DETECT.test(v)){fmtPreview.classList.remove('show');return;}
+  fmtPreview.innerHTML='<span class="fmt-preview-label">Aperçu élève</span>'+fmtRender(v);
+  fmtPreview.classList.add('show');
+  fmtPlace();
+}
+
+function fmtHide(){fmtTarget=null;fmtPreview.classList.remove('show');}
+
+document.addEventListener('focusin',e=>{
+  const el=e.target;
+  if(el&&(el.tagName==='INPUT'||el.tagName==='TEXTAREA')&&el.type!=='file'&&el.type!=='number'){fmtTarget=el;fmtUpdate();}
+  else fmtHide();
+});
+document.addEventListener('focusout',e=>{if(e.target===fmtTarget)fmtHide();});
+document.addEventListener('input',e=>{if(e.target===fmtTarget)fmtUpdate();});
+window.addEventListener('scroll',()=>{if(fmtPreview.classList.contains('show'))fmtPlace();},true);
+window.addEventListener('resize',()=>{if(fmtPreview.classList.contains('show'))fmtPlace();});
+
+let dragSrc=null;
+function initDragRow(row,grid,onDrop){
+  const h=row.querySelector('.drag-handle');
+  h.setAttribute('draggable','true');
+  h.addEventListener('dragstart',e=>{dragSrc=row;e.dataTransfer.effectAllowed='move';setTimeout(()=>row.classList.add('row-dragging'),0);});
+  h.addEventListener('dragend',()=>{dragSrc=null;row.classList.remove('row-dragging');grid.querySelectorAll('.drop-above,.drop-below').forEach(el=>el.classList.remove('drop-above','drop-below'));});
+  row.addEventListener('dragover',e=>{if(!dragSrc||dragSrc===row||dragSrc.parentNode!==grid)return;e.preventDefault();e.stopPropagation();e.dataTransfer.dropEffect='move';grid.querySelectorAll('.drop-above,.drop-below').forEach(el=>el.classList.remove('drop-above','drop-below'));const rect=row.getBoundingClientRect();row.classList.add(e.clientY<rect.top+rect.height/2?'drop-above':'drop-below');});
+  row.addEventListener('dragleave',e=>{if(!row.contains(e.relatedTarget))row.classList.remove('drop-above','drop-below');});
+  row.addEventListener('drop',e=>{if(!dragSrc||dragSrc===row||dragSrc.parentNode!==grid)return;e.preventDefault();e.stopPropagation();const rect=row.getBoundingClientRect();if(e.clientY<rect.top+rect.height/2)grid.insertBefore(dragSrc,row);else row.after(dragSrc);row.classList.remove('drop-above','drop-below');if(onDrop)onDrop();});
+}
+
+/* ===== DOM REFS ===== */
+const btnOpenFolder=document.getElementById('btn-open-folder'),btnReconnect=document.getElementById('btn-reconnect'),reconnectRow=document.getElementById('reconnect-row'),reconnectName=document.getElementById('reconnect-folder-name'),folderStatus=document.getElementById('folder-status'),folderStatusText=document.getElementById('folder-status-text'),pathRow=document.getElementById('path-row'),pathValue=document.getElementById('path-value'),btnLoad=document.getElementById('btn-load');
+
+window.addEventListener('DOMContentLoaded',async()=>{
+  praRefreshEmpty();praRefreshCount();
+  try{const s=await loadStoredHandle();if(s){reconnectName.textContent=s.name;reconnectRow.classList.add('visible');}}catch{}
+});
+
+function getActiveAlertBox(){return document.getElementById({vocabulary:'voc-alert-box',practice:'pra-alert-box',resources:'res-alert-box',explorations:'exp-alert-box',autoeval:'ae-alert-box'}[activeTab]);}
+function showAlert(box,type,msg){if(box){box.className='alert show '+type;box.textContent=msg;}}
+function clearAlertEl(box){if(box){box.className='alert';box.textContent='';}}
+
+btnReconnect.addEventListener('click',async()=>{
+  try{const s=await loadStoredHandle();if(!s)return;const perm=await s.requestPermission({mode:'readwrite'});if(perm==='granted'){rootHandle=s;setConnected(rootHandle.name);}else showAlert(getActiveAlertBox(),'error','Permission refusée.');}
+  catch(e){showAlert(getActiveAlertBox(),'error','Erreur : '+e.message);}
+});
+
+btnOpenFolder.addEventListener('click',async()=>{
+  try{const h=await window.showDirectoryPicker({mode:'readwrite'});rootHandle=h;await storeHandle(h);reconnectName.textContent=h.name;reconnectRow.classList.add('visible');setConnected(h.name);}
+  catch(e){if(e.name!=='AbortError')showAlert(getActiveAlertBox(),'error','Erreur : '+e.message);}
+});
+
+function setConnected(name){folderStatus.classList.add('connected');folderStatusText.textContent='✓ '+name;document.getElementById('step1-num').classList.add('done');refreshLoadButton();}
+
+function selectPillIn(groupEl,radio){groupEl.querySelectorAll('.radio-pill').forEach(p=>p.classList.remove('selected'));radio.closest('.radio-pill').classList.add('selected');}
+
+document.querySelectorAll('input[name="year"]').forEach(r=>r.addEventListener('change',()=>{
+  selectedYear=r.value;
+  selectPillIn(document.getElementById('year-group'),r);
+  pra_assetsHandle=null;updatePath();refreshLoadButton();
+}));
+
+document.querySelectorAll('input[name="lang"]').forEach(r=>r.addEventListener('change',()=>{
+  selectedLang=r.value;
+  selectPillIn(document.getElementById('lang-group'),r);
+  // Les données affichées viennent de l'autre langue : on repart d'un état vierge
+  // plutôt que de risquer d'écrire du contenu EN dans un fichier NL.
+  pra_assetsHandle=null;resetAllTabs();updatePath();refreshLoadButton();
+}));
+
+document.querySelectorAll('.chap-pill').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.chap-pill').forEach(b=>b.className='chap-pill');
+  btn.classList.add('sel-'+btn.dataset.subject);
+  selectedChap=btn.dataset.chapter;
+  pra_assetsHandle=null;
+  updatePath();refreshLoadButton();resetAllTabs();
+}));
+
+const TAB_FILES={
+  vocabulary:(y,c)=>selectedLang+'/'+y+'/'+c+'/vocabulary.json',
+  practice:(y,c)=>selectedLang+'/'+y+'/'+c+'/practice.json',
+  resources:(y,c)=>selectedLang+'/'+y+'/'+c+'/resources.json',
+  explorations:(y,c)=>selectedLang+'/'+y+'/'+c+'/explorations.json',
+  autoeval:(y,c)=>selectedLang+'/'+y+'/'+c+'/autoeval.json',
+};
+
+function updatePath(){if(!selectedChap){pathRow.classList.remove('visible');return;}pathValue.textContent=TAB_FILES[activeTab](yearFolder(),selectedChap);pathRow.classList.add('visible');}
+function refreshLoadButton(){btnLoad.disabled=!(rootHandle&&selectedChap);}
+
+document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  activeTab=btn.dataset.tab;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b===btn));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+activeTab));
+  updatePath();
+}));
+
+btnLoad.addEventListener('click',()=>{
+  if(!rootHandle||!selectedChap)return;
+  ({vocabulary:vocLoad,practice:praLoad,resources:resLoad,explorations:expLoad,autoeval:aeLoad}[activeTab]||function(){})();
+});
+
+function resetAllTabs(){vocReset();praReset();resReset();expReset();aeReset();}
+
+/* ===== VOCABULARY TAB ===== */
+let voc_verifiedOk=false,voc_lastFocused=null;
+const vocGrid=document.getElementById('voc-grid'),vocBtnAddRow=document.getElementById('voc-btn-add-row'),vocEditor=document.getElementById('voc-editor'),vocWordCount=document.getElementById('voc-word-count'),vocAlertBox=document.getElementById('voc-alert-box'),vocBtnVerify=document.getElementById('voc-btn-verify'),vocBtnSave=document.getElementById('voc-btn-save');
+
+async function vocLoad(){
+  try{
+    const fh=await vocGetFH(),file=await fh.getFile(),data=JSON.parse(await file.text());
+    vocPopulateGrid(data);vocGridToText();vocRefreshWC();
+    vocBtnVerify.disabled=false;vocBtnAddRow.disabled=false;
+    document.getElementById('step2-num').classList.add('done');
+    voc_verifiedOk=false;vocBtnSave.disabled=true;
+    clearAlertEl(vocAlertBox);showAlert(vocAlertBox,'success','OK – '+data.length+' entrées chargées');
+  }catch(e){showAlert(vocAlertBox,'error','Erreur : '+e.message);}
+}
+
+function vocAddRow(en='',fr='',dEn='',dFr=''){
+  const row=document.createElement('div');row.className='voc-row';
+  row.innerHTML='<input type="text" placeholder="Mot EN" value="'+escAttr(en)+'"><input type="text" placeholder="Mot FR" value="'+escAttr(fr)+'"><input type="text" placeholder="Définition EN" value="'+escAttr(dEn)+'"><input type="text" placeholder="Définition FR" value="'+escAttr(dFr)+'"><button class="btn-validate">Valider</button><button class="btn-delete-row" title="Supprimer">✕</button>';
+  row.querySelectorAll('input').forEach(i=>i.addEventListener('focus',()=>{voc_lastFocused=i;}));
+  row.querySelector('.btn-validate').addEventListener('click',()=>{vocGridToText();flashValidate(row.querySelector('.btn-validate'));});
+  row.querySelector('.btn-delete-row').addEventListener('click',()=>{row.remove();vocGridToText();});
+  vocGrid.appendChild(row);
+}
+
+function vocPopulateGrid(data){vocGrid.querySelectorAll('.voc-row').forEach(r=>r.remove());data.forEach(e=>vocAddRow(e.english,e.french,e.definitionEnglish,e.definitionFrench));}
+function vocGridToText(){const lines=[];vocGrid.querySelectorAll('.voc-row').forEach(row=>{const v=Array.from(row.querySelectorAll('input')).map(i=>i.value.trim());if(v.some(x=>x))lines.push(v.join(' | '));});vocEditor.value=lines.join('\n');vocRefreshWC();voc_verifiedOk=false;vocBtnSave.disabled=true;}
+vocBtnAddRow.addEventListener('click',()=>{vocAddRow();const l=vocGrid.querySelector('.voc-row:last-child');if(l)l.querySelector('input').focus();});
+vocEditor.addEventListener('input',()=>{vocRefreshWC();voc_verifiedOk=false;vocBtnSave.disabled=true;});
+function vocRefreshWC(){const n=vocNEL().length;vocWordCount.textContent=n+' entrée'+(n!==1?'s':'');}
+function vocNEL(){return vocEditor.value.split('\n').filter(l=>l.trim());}
+
+vocBtnVerify.addEventListener('click',()=>{
+  const lines=vocNEL();
+  // Une liste vide est un état valide : elle permet de vider un chapitre
+  // sans devoir y laisser une entrée factice.
+  if(!lines.length){voc_verifiedOk=true;vocBtnSave.disabled=false;showAlert(vocAlertBox,'info','Contenu vide – la sauvegarde écrira une liste vide ([]).');return;}
+  const errs=[];
+  lines.forEach((l,i)=>{const p=l.split('|').map(x=>x.trim());if(p.length!==4){errs.push('Ligne '+(i+1)+' : '+(p.length<4?'champ(s) manquant(s)':'trop de |'));return;}p.forEach((x,j)=>{if(!x)errs.push('Ligne '+(i+1)+' : champ '+(j+1)+' vide');});});
+  if(errs.length){voc_verifiedOk=false;vocBtnSave.disabled=true;showAlert(vocAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));}
+  else{voc_verifiedOk=true;vocBtnSave.disabled=false;showAlert(vocAlertBox,'success','Format valide – '+lines.length+' mot'+(lines.length!==1?'s':'')+'. Prêt à sauvegarder.');}
+});
+
+vocBtnSave.addEventListener('click',async()=>{
+  if(!voc_verifiedOk)return;
+  try{
+    const data=vocNEL().map(l=>{const[english,french,definitionEnglish,definitionFrench]=l.split('|').map(p=>p.trim());return{english,french,definitionEnglish,definitionFrench};});
+    const fh=await vocGetFH(),w=await fh.createWritable();await w.write(JSON.stringify(data,null,2));await w.close();
+    showAlert(vocAlertBox,'success','Sauvegardé – '+data.length+' entrée'+(data.length!==1?'s':''));
+    vocBtnSave.disabled=true;voc_verifiedOk=false;
+  }catch(e){showAlert(vocAlertBox,'error','Erreur : '+e.message);}
+});
+
+async function vocGetFH(){const ch=await chapterDir();return ch.getFileHandle('vocabulary.json',{create:true});}
+
+function vocReset(){vocGrid.querySelectorAll('.voc-row').forEach(r=>r.remove());vocEditor.value='';vocRefreshWC();vocBtnVerify.disabled=true;vocBtnAddRow.disabled=true;voc_verifiedOk=false;vocBtnSave.disabled=true;clearAlertEl(vocAlertBox);}
+document.getElementById('voc-fmt-bar').querySelectorAll('.fmt-btn').forEach(btn=>btn.addEventListener('mousedown',e=>{e.preventDefault();applyFmt(voc_lastFocused,btn.dataset.tag,vocGridToText);}));
+
+/* ===== PRACTICE TAB ===== */
+let pra_exercisesPage=null,pra_assetsHandle=null,pra_blockCounter=0,pra_currentImgTarget=null,pra_modalUrls=[],pra_verifiedOk=false,pra_currentFilter='all',pra_currentSearch='',pra_searchDebounceTimer=null;
+const praExList=document.getElementById('pra-ex-list'),praEmptyState=document.getElementById('pra-empty-state'),praBtnAddBlock=document.getElementById('pra-btn-add-block'),praAlertBox=document.getElementById('pra-alert-box'),praBtnVerify=document.getElementById('pra-btn-verify'),praBtnSave=document.getElementById('pra-btn-save'),praExCount=document.getElementById('pra-ex-count'),praImageModal=document.getElementById('pra-image-modal'),praModalGallery=document.getElementById('pra-modal-gallery'),praSearchInput=document.getElementById('pra-search'),praBtnExpandAll=document.getElementById('pra-btn-expand-all'),praBtnCollapseAll=document.getElementById('pra-btn-collapse-all');
+
+async function praLoad(){
+  try{
+    await praInitAssets();
+    const fh=await praGetFH(),file=await fh.getFile(),data=JSON.parse(await file.text());
+    pra_exercisesPage=data.exercisesPage||null;
+    praExList.innerHTML='';pra_blockCounter=0;
+    const all=[...(data.level1||[]).map(e=>({...e,level:1})),...(data.level2||[]).map(e=>({...e,level:2})),...(data.level3||[]).map(e=>({...e,level:3}))];
+    all.forEach(e=>praExList.appendChild(praCreateBlock(e)));
+    await praRefreshAllThumbs();praApplyFilter(pra_currentFilter);praRefreshCount();
+    praBtnAddBlock.disabled=false;praBtnVerify.disabled=false;pra_verifiedOk=false;praBtnSave.disabled=true;
+    document.getElementById('step2-num').classList.add('done');
+    clearAlertEl(praAlertBox);showAlert(praAlertBox,'success','OK – '+all.length+' exercice(s) chargés');
+  }catch(e){showAlert(praAlertBox,'error','Erreur : '+e.message);}
+}
+
+async function praInitAssets(){
+  try{const c=await chapterDir();pra_assetsHandle=await c.getDirectoryHandle('assets',{create:true});}
+  catch{pra_assetsHandle=null;}
+}
+
+function praCreateBlock(ex,collapsed){
+  ex=ex||{};collapsed=collapsed!==false;const idx=pra_blockCounter++,lv=ex.level||1;
+  const div=document.createElement('div');div.className='ex-block';div.dataset.level=String(lv);
+  div.innerHTML=
+    '<div class="ex-block-header">'+
+      '<div class="ex-header-left">'+
+        '<div class="drag-handle" title="Glisser pour r&eacute;ordonner">☰</div>'+
+        '<span class="ex-number"></span>'+
+        '<button type="button" class="btn-chevron btn-toggle-collapse" title="D&eacute;plier / replier">▸</button>'+
+        '<div class="ex-level-group"><span class="ex-level-label">Niveau&nbsp;:</span>'+
+          '<label class="level-pill '+(lv===1?'active':'')+'" data-level="1"><input type="radio" name="lv'+idx+'" value="1" '+(lv===1?'checked':'')+'>1</label>'+
+          '<label class="level-pill '+(lv===2?'active':'')+'" data-level="2"><input type="radio" name="lv'+idx+'" value="2" '+(lv===2?'checked':'')+'>2</label>'+
+          '<label class="level-pill '+(lv===3?'active':'')+'" data-level="3"><input type="radio" name="lv'+idx+'" value="3" '+(lv===3?'checked':'')+'>3</label>'+
+        '</div>'+
+      '</div>'+
+      '<div class="ex-header-actions"><button class="btn-delete-block">Supprimer</button></div>'+
+    '</div>'+
+    '<div class="ex-block-summary">'+
+      '<img class="ex-summary-thumb" src="" alt="" style="display:none" />'+
+      '<span class="ex-summary-text"></span>'+
+      '<span class="ex-summary-level"></span>'+
+    '</div>'+
+    '<div class="ex-fields">'+
+      '<div class="ex-fmt-row"><span class="ex-fmt-label">Mise en forme</span><div class="fmt-bar"><button class="fmt-btn ex-fmt-btn" type="button" data-tag="strong"><b>G</b></button><button class="fmt-btn ex-fmt-btn" type="button" data-tag="em"><i>I</i></button><button class="fmt-btn ex-fmt-btn" type="button" data-tag="u"><u>S</u></button><button class="fmt-btn ex-fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button></div></div>'+
+      '<div class="ex-field" style="display:flex;flex-direction:column;gap:5px"><span class="ex-label">Titre (opt)</span><input type="text" class="ex-title-input" placeholder="Titre..." /></div>'+
+      '<div class="ex-subq-list"></div>'+
+      '<button type="button" class="btn-add-row btn-add-subq">+ Ajouter une sous-question</button>'+
+      '<div class="ex-image-zone"><span class="ex-label">Image (opt)</span><button class="btn-outline btn-pick-img">Sélectionner une image</button><div class="ex-image-preview" style="display:none"><img class="ex-thumb" src="" alt=""/><span class="ex-img-name"></span><button class="btn-remove-img">Retirer</button></div></div>'+
+    '</div>';
+  div.querySelector('.ex-title-input').value=ex.title||'';
+
+  const subqList=div.querySelector('.ex-subq-list');
+  const initialSubqs=(Array.isArray(ex.questions)&&ex.questions.length)?ex.questions:[{en:ex.en||'',fr:ex.fr||'',corr_en:ex.corr_en||'',corr_fr:ex.corr_fr||''}];
+  initialSubqs.forEach(sq=>subqList.appendChild(praCreateSubQ(sq)));
+  praRefreshSubqUI(div);
+
+  div.querySelectorAll('.level-pill').forEach(pill=>{
+    const r=pill.querySelector('input');
+    r.addEventListener('change',()=>{div.querySelectorAll('.level-pill').forEach(p=>p.classList.remove('active'));pill.classList.add('active');div.dataset.level=r.value;praRefreshCount();praApplyAllFilters();praInvalidate();});
+  });
+  div.querySelector('.btn-delete-block').addEventListener('click',()=>{div.remove();praApplyAllFilters();praRefreshCount();praInvalidate();});
+  let blkTa=null;div.addEventListener('focusin',e=>{if(e.target.classList.contains('ex-ta'))blkTa=e.target;});
+  div.querySelectorAll('.ex-fmt-btn').forEach(btn=>btn.addEventListener('mousedown',e=>{e.preventDefault();applyFmt(blkTa,btn.dataset.tag,praInvalidate);}));
+  div.querySelector('.btn-pick-img').addEventListener('click',()=>{pra_currentImgTarget=div;praOpenModal();});
+  div.querySelector('.btn-remove-img').addEventListener('click',()=>{praSetImg(div,null);praInvalidate();});
+  div.querySelector('.btn-add-subq').addEventListener('click',()=>{
+    const sq=praCreateSubQ({});
+    subqList.appendChild(sq);
+    praRefreshSubqUI(div);
+    praInvalidate();
+    sq.querySelector('.ta-en').focus();
+  });
+
+  const toggleClick=e=>{
+    if(e.target.closest('.drag-handle,.level-pill,.btn-delete-block'))return;
+    praToggleCollapse(div,!div.classList.contains('collapsed'));
+  };
+  div.querySelector('.ex-block-header').addEventListener('click',toggleClick);
+  div.querySelector('.ex-block-summary').addEventListener('click',toggleClick);
+  initDragRow(div,praExList,()=>{praInvalidate();praRenumberBlocks();});
+
+  if(ex.image)praSetImg(div,ex.image.startsWith('assets/')?ex.image:'assets/'+ex.image);
+  praToggleCollapse(div,collapsed);
+  return div;
+}
+
+/* Expands/collapses one exercise block. The compact summary line (image thumb,
+   title/excerpt, level badge) is only ever visible while collapsed, so it's
+   recomputed right when we collapse — fields (and thus their content) can only
+   change while expanded anyway. */
+function praToggleCollapse(blockEl,collapsed){
+  blockEl.classList.toggle('collapsed',collapsed);
+  const btn=blockEl.querySelector('.btn-toggle-collapse');
+  if(btn)btn.textContent=collapsed?'▸':'▾';
+  if(collapsed)praRefreshSummary(blockEl);
+}
+
+function praRefreshSummary(blockEl){
+  const lv=blockEl.dataset.level||'1';
+  const title=blockEl.querySelector('.ex-title-input').value.trim();
+  const firstEn=blockEl.querySelector(':scope > .ex-fields > .ex-subq-list > .ex-subq .ta-en')?.value.trim()||'';
+  const text=title||(firstEn?(firstEn.length>60?firstEn.slice(0,60)+'…':firstEn):'(vide)');
+  blockEl.querySelector('.ex-summary-text').textContent=text;
+  const lvEl=blockEl.querySelector('.ex-summary-level');
+  lvEl.textContent='Niv. '+lv;lvEl.className='ex-summary-level lv'+lv;
+  const thumb=blockEl.querySelector('.ex-summary-thumb'),img=blockEl.dataset.image;
+  if(img){thumb.style.display='block';if(pra_assetsHandle)praLoadThumb(pra_assetsHandle,img.replace(/^assets\//,''),thumb);}
+  else{thumb.style.display='none';thumb.src='';}
+}
+
+/* ---- Sub-question unit: Question EN/FR + Réponse EN/FR, reused for both the
+   single-question (legacy flat) and multi-question exercise formats. ---- */
+function praCreateSubQ(sq){
+  sq=sq||{};
+  const div=document.createElement('div');div.className='ex-subq';
+  div.innerHTML=
+    '<div class="ex-subq-header"><span class="ex-subq-label">Sous-question</span><button type="button" class="btn-delete-row btn-subq-delete" title="Supprimer cette sous-question">✕</button></div>'+
+    '<div class="ex-field-row"><div class="ex-field"><span class="ex-label">Question EN</span><textarea class="ex-ta ta-en" placeholder="Question EN..."></textarea></div><div class="ex-field"><span class="ex-label">Question FR</span><textarea class="ex-ta ta-fr" placeholder="Question FR..."></textarea></div></div>'+
+    '<div class="ex-field-row"><div class="ex-field"><span class="ex-label">Réponse EN</span><textarea class="ex-ta ta-corr-en" placeholder="Réponse EN..."></textarea></div><div class="ex-field"><span class="ex-label">Réponse FR</span><textarea class="ex-ta ta-corr-fr" placeholder="Réponse FR..."></textarea></div></div>';
+  div.querySelector('.ta-en').value=sq.en||'';div.querySelector('.ta-fr').value=sq.fr||'';
+  div.querySelector('.ta-corr-en').value=sq.corr_en||'';div.querySelector('.ta-corr-fr').value=sq.corr_fr||'';
+  div.querySelector('.btn-subq-delete').addEventListener('click',()=>{
+    const list=div.closest('.ex-subq-list'),block=div.closest('.ex-block');
+    if(list&&list.querySelectorAll(':scope > .ex-subq').length<=1)return;
+    div.remove();
+    if(block)praRefreshSubqUI(block);
+    praInvalidate();
+  });
+  return div;
+}
+
+/* a, b, c... rather than 1, 2, 3 to avoid confusion with the exercise number itself. */
+function praSubqLetter(index){return String.fromCharCode(97+index);}
+
+/* Numbers sub-questions and only shows the "Sous-question X" header (with its
+   delete button) once a block has more than one — keeps single-question
+   exercises looking exactly as simple as before. */
+function praRefreshSubqUI(blockEl){
+  const subqs=Array.from(blockEl.querySelectorAll(':scope > .ex-fields > .ex-subq-list > .ex-subq'));
+  const multi=subqs.length>1;
+  subqs.forEach((sq,i)=>{
+    sq.querySelector('.ex-subq-header').style.display=multi?'flex':'none';
+    sq.querySelector('.ex-subq-label').textContent='Sous-question '+praSubqLetter(i);
+  });
+}
+
+function praSetImg(blockEl,imgPath){
+  const preview=blockEl.querySelector('.ex-image-preview'),thumb=blockEl.querySelector('.ex-thumb'),nameEl=blockEl.querySelector('.ex-img-name'),pick=blockEl.querySelector('.btn-pick-img');
+  blockEl.dataset.image=imgPath||'';
+  if(!imgPath){preview.style.display='none';pick.style.display='inline-flex';return;}
+  const fn=imgPath.replace(/^assets\//,'');nameEl.textContent=fn;preview.style.display='flex';pick.style.display='none';
+  if(pra_assetsHandle)praLoadThumb(pra_assetsHandle,fn,thumb);
+}
+async function praLoadThumb(dir,fn,el){try{const fh=await dir.getFileHandle(fn),f=await fh.getFile();el.src=URL.createObjectURL(f);}catch{el.src='';}}
+async function praRefreshAllThumbs(){if(!pra_assetsHandle)return;for(const b of praExList.querySelectorAll('.ex-block')){const img=b.dataset.image;if(img)await praLoadThumb(pra_assetsHandle,img.replace(/^assets\//,''),b.querySelector('.ex-thumb'));}}
+
+praBtnAddBlock.addEventListener('click',()=>{
+  const lv=pra_currentFilter==='all'?1:parseInt(pra_currentFilter);
+  const b=praCreateBlock({level:lv},false);praExList.appendChild(b);
+  praApplyAllFilters();praRefreshCount();praInvalidate();
+  if(b.style.display!=='none'){b.scrollIntoView({behavior:'smooth',block:'nearest'});b.querySelector('.ta-en').focus();}
+});
+praExList.addEventListener('input',praInvalidate);
+
+praBtnExpandAll.addEventListener('click',()=>{praExList.querySelectorAll('.ex-block').forEach(b=>praToggleCollapse(b,false));});
+praBtnCollapseAll.addEventListener('click',()=>{praExList.querySelectorAll('.ex-block').forEach(b=>praToggleCollapse(b,true));});
+
+function praRefreshEmpty(){
+  const total=praExList.querySelectorAll('.ex-block').length,visible=Array.from(praExList.querySelectorAll('.ex-block')).filter(b=>b.style.display!=='none').length;
+  const q=pra_currentSearch.trim();
+  if(total===0){praEmptyState.innerHTML='Aucun exercice chargé.';praEmptyState.classList.remove('hidden');}
+  else if(visible===0){
+    if(q)praEmptyState.innerHTML='Aucun résultat pour «&nbsp;'+escAttr(q)+'&nbsp;»'+(pra_currentFilter!=='all'?' en niveau '+pra_currentFilter:'')+'.';
+    else praEmptyState.innerHTML='Aucun exercice de niveau '+pra_currentFilter+'.';
+    praEmptyState.classList.remove('hidden');
+  }
+  else praEmptyState.classList.add('hidden');
+}
+/* Numbers only the currently visible blocks (per the active level filter / search),
+   so "Niveau 1" always reads 1..N within that level, independently from "Tous". */
+function praRenumberBlocks(){
+  let n=0;
+  praExList.querySelectorAll('.ex-block').forEach(b=>{
+    const num=b.querySelector('.ex-number');
+    if(!num)return;
+    if(b.style.display==='none'){num.textContent='';return;}
+    n++;
+    num.textContent=String(n);
+  });
+}
+function praRefreshCount(){
+  const blocks=Array.from(praExList.querySelectorAll('.ex-block')),l1=blocks.filter(b=>b.dataset.level==='1').length,l2=blocks.filter(b=>b.dataset.level==='2').length,l3=blocks.filter(b=>b.dataset.level==='3').length,total=l1+l2+l3;
+  praExCount.textContent=total===0?'0 exercice':total+' exercice'+(total>1?'s':'')+' – L1 :'+l1+' L2 :'+l2+' L3 :'+l3;
+  document.getElementById('pra-count-all').textContent='('+total+')';
+  document.getElementById('pra-count-1').textContent='('+l1+')';
+  document.getElementById('pra-count-2').textContent='('+l2+')';
+  document.getElementById('pra-count-3').textContent='('+l3+')';
+}
+function praInvalidate(){pra_verifiedOk=false;praBtnSave.disabled=true;}
+
+/* Level filter (.filter-tab) and free-text search combine: a block is visible
+   only when it matches both criteria at once. */
+function praApplyFilter(f){
+  pra_currentFilter=f;
+  document.querySelectorAll('#panel-practice .filter-tab').forEach(t=>t.classList.toggle('active',t.dataset.filter===f));
+  praApplyAllFilters();
+}
+function praApplyAllFilters(){
+  const q=pra_currentSearch.trim().toLowerCase();
+  praExList.querySelectorAll('.ex-block').forEach(b=>{
+    const levelMatch=(pra_currentFilter==='all'||b.dataset.level===pra_currentFilter);
+    const searchMatch=!q||praBlockMatchesSearch(b,q);
+    b.style.display=(levelMatch&&searchMatch)?'':'none';
+  });
+  praRenumberBlocks();
+  praRefreshEmpty();
+}
+function praBlockMatchesSearch(b,q){
+  if(b.querySelector('.ex-title-input').value.toLowerCase().includes(q))return true;
+  return Array.from(b.querySelectorAll(':scope > .ex-fields > .ex-subq-list > .ex-subq .ta-en, :scope > .ex-fields > .ex-subq-list > .ex-subq .ta-fr')).some(ta=>ta.value.toLowerCase().includes(q));
+}
+document.querySelectorAll('#panel-practice .filter-tab').forEach(t=>t.addEventListener('click',()=>praApplyFilter(t.dataset.filter)));
+praSearchInput.addEventListener('input',()=>{
+  clearTimeout(pra_searchDebounceTimer);
+  pra_searchDebounceTimer=setTimeout(()=>{pra_currentSearch=praSearchInput.value;praApplyAllFilters();},180);
+});
+
+async function praOpenModal(){
+  if(!pra_assetsHandle&&rootHandle&&selectedChap)await praInitAssets();
+  if(!pra_assetsHandle){showAlert(praAlertBox,'error','Impossible d’accéder à assets/.');return;}
+  praImageModal.classList.add('visible');await praPopulateGallery();
+}
+function praCloseModal(){praImageModal.classList.remove('visible');pra_currentImgTarget=null;pra_modalUrls.forEach(u=>URL.revokeObjectURL(u));pra_modalUrls=[];}
+async function praPopulateGallery(){
+  pra_modalUrls.forEach(u=>URL.revokeObjectURL(u));pra_modalUrls=[];
+  praModalGallery.innerHTML='<p class="modal-empty">Chargement...</p>';
+  const EXTS=new Set(['jpg','jpeg','png','gif','webp','svg','avif']),items=[];
+  try{for await(const[name,handle]of pra_assetsHandle){if(handle.kind!=='file')continue;if(EXTS.has(name.split('.').pop().toLowerCase()))items.push({name,handle});}}
+  catch(e){praModalGallery.innerHTML='<p class="modal-empty">Erreur : '+e.message+'</p>';return;}
+  if(!items.length){praModalGallery.innerHTML='<p class="modal-empty">Aucune image. Importez-en une.</p>';return;}
+  items.sort((a,b)=>a.name.localeCompare(b.name));praModalGallery.innerHTML='';
+  for(const{name,handle}of items){
+    const file=await handle.getFile(),url=URL.createObjectURL(file);pra_modalUrls.push(url);
+    const btn=document.createElement('button');btn.className='modal-thumb-btn';
+    const img=document.createElement('img');img.src=url;img.alt=name;
+    const span=document.createElement('span');span.textContent=name;
+    btn.appendChild(img);btn.appendChild(span);
+    btn.addEventListener('click',()=>{if(pra_currentImgTarget){praSetImg(pra_currentImgTarget,'assets/'+name);praInvalidate();}praCloseModal();});
+    praModalGallery.appendChild(btn);
+  }
+}
+document.getElementById('pra-modal-close-btn').addEventListener('click',praCloseModal);
+praImageModal.addEventListener('click',e=>{if(e.target===praImageModal)praCloseModal();});
+document.getElementById('pra-btn-import-img').addEventListener('click',async()=>{
+  if(!pra_assetsHandle){showAlert(praAlertBox,'error','Accès assets/ indisponible.');return;}
+  try{
+    const[fh]=await window.showOpenFilePicker({types:[{description:'Images',accept:{'image/*':['.jpg','.jpeg','.png','.gif','.webp','.svg','.avif']}}],multiple:false});
+    const file=await fh.getFile(),dest=await pra_assetsHandle.getFileHandle(file.name,{create:true}),w=await dest.createWritable();
+    await w.write(await file.arrayBuffer());await w.close();await praPopulateGallery();
+  }catch(e){if(e.name!=='AbortError')showAlert(praAlertBox,'error','Erreur import : '+e.message);}
+});
+
+praBtnVerify.addEventListener('click',()=>{
+  const blocks=Array.from(praExList.querySelectorAll('.ex-block'));
+  // Zéro exercice est un état valide : on peut ainsi vider complètement un
+  // chapitre sans devoir y conserver un exercice factice.
+  if(!blocks.length){pra_verifiedOk=true;praBtnSave.disabled=false;showAlert(praAlertBox,'info','Aucun exercice – la sauvegarde écrira des niveaux vides.');return;}
+  praExList.querySelectorAll('.ex-ta').forEach(t=>t.classList.remove('invalid'));
+  const errs=[];
+  let firstErrorBlock=null;
+  blocks.forEach((b,i)=>{
+    const lv=b.dataset.level||'?',num=i+1;
+    const subqs=Array.from(b.querySelectorAll(':scope > .ex-fields > .ex-subq-list > .ex-subq'));
+    let blockHasError=false;
+    subqs.forEach((sq,si)=>{
+      const sqLabel='Ex #'+num+', sous-question '+praSubqLetter(si)+' (Niv.'+lv+')';
+      [{el:sq.querySelector('.ta-en'),name:'Question EN'},{el:sq.querySelector('.ta-fr'),name:'Question FR'},{el:sq.querySelector('.ta-corr-en'),name:'Réponse EN'},{el:sq.querySelector('.ta-corr-fr'),name:'Réponse FR'}].forEach(({el,name})=>{
+        if(!el.value.trim()){errs.push(sqLabel+' : '+name+' vide.');el.classList.add('invalid');blockHasError=true;}
+      });
+    });
+    if(blockHasError){
+      praToggleCollapse(b,false);
+      if(!firstErrorBlock)firstErrorBlock=b;
+    }
+  });
+  if(errs.length){
+    praInvalidate();
+    showAlert(praAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));
+    if(firstErrorBlock){
+      if(firstErrorBlock.style.display==='none'){praSearchInput.value='';pra_currentSearch='';praApplyFilter('all');}
+      firstErrorBlock.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+  }else{pra_verifiedOk=true;praBtnSave.disabled=false;document.getElementById('step2-num').classList.add('done');const t=blocks.length;showAlert(praAlertBox,'success','OK – '+t+' exercice'+(t>1?'s':'')+' validé'+(t>1?'s':'')+' – prêt à sauvegarder.');}
+});
+
+praBtnSave.addEventListener('click',async()=>{
+  if(!pra_verifiedOk)return;
+  try{
+    const l1=[],l2=[],l3=[];
+    praExList.querySelectorAll('.ex-block').forEach(b=>{
+      const lv=parseInt(b.dataset.level)||1,title=b.querySelector('.ex-title-input').value.trim(),imgRaw=b.dataset.image||'',imgFile=imgRaw?imgRaw.replace(/^assets\//,''):null;
+      const subqs=Array.from(b.querySelectorAll(':scope > .ex-fields > .ex-subq-list > .ex-subq')).map(sq=>({
+        en:sq.querySelector('.ta-en').value.trim(),
+        fr:sq.querySelector('.ta-fr').value.trim(),
+        corr_en:sq.querySelector('.ta-corr-en').value.trim(),
+        corr_fr:sq.querySelector('.ta-corr-fr').value.trim()
+      }));
+      const ex={};if(title)ex.title=title;ex.image=imgFile||null;
+      if(subqs.length>1)ex.questions=subqs;
+      else{const sq=subqs[0]||{en:'',fr:'',corr_en:'',corr_fr:''};ex.en=sq.en;ex.fr=sq.fr;ex.corr_en=sq.corr_en;ex.corr_fr=sq.corr_fr;}
+      if(lv===1)l1.push(ex);else if(lv===2)l2.push(ex);else l3.push(ex);
+    });
+    [l1,l2,l3].forEach(arr=>arr.forEach((ex,i)=>{
+      const o={id:i+1};if(ex.title)o.title=ex.title;o.image=ex.image;
+      if(ex.questions)o.questions=ex.questions;
+      else{o.en=ex.en;o.fr=ex.fr;o.corr_en=ex.corr_en;o.corr_fr=ex.corr_fr;}
+      arr[i]=o;
+    }));
+    // On n'écrit exercisesPage que s'il existait : évite d'injecter un null
+    // dans un fichier qui n'avait pas ce bloc.
+    const json={};if(pra_exercisesPage)json.exercisesPage=pra_exercisesPage;
+    json.level1=l1;json.level2=l2;json.level3=l3;
+    const fh=await praGetFH(true),w=await fh.createWritable();
+    await w.write(JSON.stringify(json,null,2));await w.close();
+    const total=l1.length+l2.length+l3.length;
+    showAlert(praAlertBox,'success','Sauvegardé – '+total+' exercice(s) : L1×'+l1.length+' L2×'+l2.length+' L3×'+l3.length);praInvalidate();
+  }catch(e){showAlert(praAlertBox,'error','Erreur : '+e.message);}
+});
+
+// Lowercase first, and always lowercase when creating: GitHub Pages is
+// case-sensitive, so an uppercase .JSON written here would 404 in production.
+// The uppercase read is kept only to still open legacy files.
+async function praGetFH(create=false){
+  const c=await chapterDir();
+  try{return await c.getFileHandle('practice.json',{create:false});}catch{}
+  try{return await c.getFileHandle('practice.JSON',{create:false});}catch{}
+  if(create)return c.getFileHandle('practice.json',{create:true});
+  throw new Error('practice.json introuvable dans ce chapitre.');
+}
+
+function praReset(){praExList.innerHTML='';pra_exercisesPage=null;pra_assetsHandle=null;pra_blockCounter=0;pra_currentFilter='all';pra_currentSearch='';praSearchInput.value='';document.querySelectorAll('#panel-practice .filter-tab').forEach(t=>t.classList.toggle('active',t.dataset.filter==='all'));praRefreshEmpty();praRefreshCount();praBtnAddBlock.disabled=true;praBtnVerify.disabled=true;praInvalidate();clearAlertEl(praAlertBox);}
+
+/* ===== RESOURCES TAB ===== */
+let res_verifiedOk=false,res_lastDesc={};
+let res_basePaths={fichesOutils:'/assets/Fiches Outils/',ficheAutoEvaluation:'../../../assets',mindmap:'../../../assets',videos:'https://www.youtube.com/embed/'};
+const resFoGrid=document.getElementById('res-fo-grid'),resFoDescTA=document.getElementById('res-fo-desc'),resAutoGrid=document.getElementById('res-auto-grid'),resMmGrid=document.getElementById('res-mm-grid'),resVidGrid=document.getElementById('res-vid-grid'),resBtnAddFO=document.getElementById('res-btn-add-fo'),resBtnAddAuto=document.getElementById('res-btn-add-auto'),resBtnAddMM=document.getElementById('res-btn-add-mm'),resBtnAddVid=document.getElementById('res-btn-add-vid'),resFoCount=document.getElementById('res-fo-count'),resAutoCount=document.getElementById('res-auto-count'),resMmCount=document.getElementById('res-mm-count'),resVidCount=document.getElementById('res-vid-count'),resEditor=document.getElementById('res-editor'),resWordCount=document.getElementById('res-word-count'),resAlertBox=document.getElementById('res-alert-box'),resBtnVerify=document.getElementById('res-btn-verify'),resBtnSave=document.getElementById('res-btn-save');
+
+async function resLoad(){
+  try{
+    const fh=await resGetFH(false),file=await fh.getFile(),data=JSON.parse(await file.text());
+    if(data.fichesOutils?.basePath)res_basePaths.fichesOutils=data.fichesOutils.basePath;
+    if(data.ficheAutoEvaluation?.basePath)res_basePaths.ficheAutoEvaluation=data.ficheAutoEvaluation.basePath;
+    if(data.mindmap?.basePath)res_basePaths.mindmap=data.mindmap.basePath;
+    if(data.videos?.basePath)res_basePaths.videos=data.videos.basePath;
+    resPopulateGrids(data);resGridsToText();
+    resBtnVerify.disabled=false;resBtnAddFO.disabled=false;resBtnAddMM.disabled=false;resBtnAddVid.disabled=false;resFoDescTA.disabled=false;
+    // resAddAutoRow already disabled resBtnAddAuto if resPopulateGrids created a row (single-entry field, see resAddAutoRow) — only re-enable it here when there's none.
+    resBtnAddAuto.disabled=resAutoGrid.querySelector('.res-auto-row')!==null;
+    document.getElementById('step2-num').classList.add('done');resResetEditorState();
+    const nfo=(data.fichesOutils?.items||[]).length,nauto=data.ficheAutoEvaluation?.pdfFile?1:(data.ficheAutoEvaluation?.items?data.ficheAutoEvaluation.items.length:(data.ficheAutoEvaluation?.file?1:0)),nmm=data.mindmap?.items?data.mindmap.items.length:(data.mindmap?.file?1:0),nvids=(data.videos?.items||[]).length;
+    showAlert(resAlertBox,'success','OK – '+nfo+' fo / '+nauto+' auto / '+nmm+' mm / '+nvids+' vids');
+  }catch(e){showAlert(resAlertBox,'error','Erreur : '+e.message);}
+}
+
+function resAddFORow(label='',desc='',file=''){
+  const row=document.createElement('div');row.className='res-row res-fo-row';
+  row.innerHTML='<div class="drag-handle">☰</div><input type="text" placeholder="Label" value="'+escAttr(label)+'"><input type="text" class="desc-field" data-section="fo" placeholder="Description" value="'+escAttr(desc)+'"><div class="file-cell"><input type="text" placeholder="fichier.pdf" value="'+escAttr(file)+'"><button class="btn-pdf-pick">PDF</button></div><button class="btn-validate">Valider</button><button class="btn-delete-row">✕</button>';
+  const fi=row.querySelector('.file-cell input'),de=row.querySelector('.desc-field');
+  de.addEventListener('focus',()=>{res_lastDesc['fo']=de;});
+  row.querySelector('.btn-validate').addEventListener('click',()=>{resGridsToText();flashValidate(row.querySelector('.btn-validate'));});
+  row.querySelector('.btn-delete-row').addEventListener('click',()=>{row.remove();resGridsToText();});
+  row.querySelector('.btn-pdf-pick').addEventListener('click',()=>resPickPdfFO(fi));
+  initDragRow(row,resFoGrid,resGridsToText);resFoGrid.appendChild(row);
+}
+
+// A single row, not a repeatable list like FO/MM: ficheAutoEvaluation now
+// serializes to one {title, description, basePath, pdfFile} object (the
+// classic printable fiche, alongside the interactive "Autoévaluation en
+// ligne" button driven separately by autoeval.json) rather than a list of
+// PDF items — see resBtnAddAuto below, which disables itself once a row
+// exists, and this row's own delete handler, which re-enables it.
+function resAddAutoRow(title='',desc='',file=''){
+  const row=document.createElement('div');row.className='res-row res-auto-row';
+  row.innerHTML='<div class="drag-handle">☰</div><input type="text" placeholder="Titre" value="'+escAttr(title)+'"><input type="text" class="desc-field" data-section="auto" placeholder="Description" value="'+escAttr(desc)+'"><div class="file-cell"><input type="text" placeholder="fichier.pdf" value="'+escAttr(file)+'"><button class="btn-pdf-pick">PDF</button></div><button class="btn-validate">Valider</button><button class="btn-delete-row">✕</button>';
+  const fi=row.querySelector('.file-cell input'),de=row.querySelector('.desc-field');
+  de.addEventListener('focus',()=>{res_lastDesc['auto']=de;});
+  row.querySelector('.btn-validate').addEventListener('click',()=>{resGridsToText();flashValidate(row.querySelector('.btn-validate'));});
+  row.querySelector('.btn-delete-row').addEventListener('click',()=>{row.remove();resGridsToText();resBtnAddAuto.disabled=false;});
+  row.querySelector('.btn-pdf-pick').addEventListener('click',()=>resPickPdfChap(fi));
+  initDragRow(row,resAutoGrid,resGridsToText);resAutoGrid.appendChild(row);
+  resBtnAddAuto.disabled=true;
+}
+
+function resAddMMRow(title='',desc='',file=''){
+  const row=document.createElement('div');row.className='res-row res-mm-row';
+  row.innerHTML='<div class="drag-handle">☰</div><input type="text" placeholder="Titre" value="'+escAttr(title)+'"><input type="text" class="desc-field" data-section="mm" placeholder="Description" value="'+escAttr(desc)+'"><div class="file-cell"><input type="text" placeholder="fichier.pdf" value="'+escAttr(file)+'"><button class="btn-pdf-pick">PDF</button></div><button class="btn-validate">Valider</button><button class="btn-delete-row">✕</button>';
+  const fi=row.querySelector('.file-cell input'),de=row.querySelector('.desc-field');
+  de.addEventListener('focus',()=>{res_lastDesc['mm']=de;});
+  row.querySelector('.btn-validate').addEventListener('click',()=>{resGridsToText();flashValidate(row.querySelector('.btn-validate'));});
+  row.querySelector('.btn-delete-row').addEventListener('click',()=>{row.remove();resGridsToText();});
+  row.querySelector('.btn-pdf-pick').addEventListener('click',()=>resPickPdfMM(fi));
+  initDragRow(row,resMmGrid,resGridsToText);resMmGrid.appendChild(row);
+}
+
+function resAddVidRow(title='',desc='',url=''){
+  const row=document.createElement('div');row.className='res-row res-vid-row';
+  row.innerHTML='<div class="drag-handle">☰</div><input type="text" placeholder="Titre" value="'+escAttr(title)+'"><input type="text" class="desc-field" data-section="vids" placeholder="Description" value="'+escAttr(desc)+'"><input type="text" placeholder="https://youtube..." value="'+escAttr(url)+'"><button class="btn-validate">Valider</button><button class="btn-delete-row">✕</button>';
+  const de=row.querySelector('.desc-field');
+  de.addEventListener('focus',()=>{res_lastDesc['vids']=de;});
+  row.querySelector('.btn-validate').addEventListener('click',()=>{resGridsToText();flashValidate(row.querySelector('.btn-validate'));});
+  row.querySelector('.btn-delete-row').addEventListener('click',()=>{row.remove();resGridsToText();});
+  initDragRow(row,resVidGrid,resGridsToText);resVidGrid.appendChild(row);
+}
+
+function resPopulateGrids(data){
+  resFoGrid.querySelectorAll('.res-fo-row').forEach(r=>r.remove());
+  resAutoGrid.querySelectorAll('.res-auto-row').forEach(r=>r.remove());
+  resMmGrid.querySelectorAll('.res-mm-row').forEach(r=>r.remove());
+  resVidGrid.querySelectorAll('.res-vid-row').forEach(r=>r.remove());
+  resFoDescTA.value=data.fichesOutils?.description||'';
+  (data.fichesOutils?.items||[]).forEach(i=>resAddFORow(i.label,i.description||'',i.file));
+  // New single-entry format first ({title, description, basePath, pdfFile});
+  // falls back to the legacy items[] / file shape for chapters not yet
+  // migrated — only the first legacy item, since this is a single row now
+  // (see resAddAutoRow above).
+  if(data.ficheAutoEvaluation?.pdfFile)resAddAutoRow(data.ficheAutoEvaluation.title||'',data.ficheAutoEvaluation.description||'',data.ficheAutoEvaluation.pdfFile);
+  else if(data.ficheAutoEvaluation?.items?.length)resAddAutoRow(data.ficheAutoEvaluation.items[0].title,data.ficheAutoEvaluation.items[0].description||'',data.ficheAutoEvaluation.items[0].file);
+  else if(data.ficheAutoEvaluation?.file)resAddAutoRow(data.ficheAutoEvaluation.title||'',data.ficheAutoEvaluation.description||'',data.ficheAutoEvaluation.file);
+  if(data.mindmap?.items)data.mindmap.items.forEach(i=>resAddMMRow(i.title,i.description,i.file));
+  else if(data.mindmap?.file)resAddMMRow(data.mindmap.title||'',data.mindmap.description||'',data.mindmap.file);
+  (data.videos?.items||[]).forEach(i=>{const url=i.youtubeId?'https://www.youtube.com/watch?v='+i.youtubeId:(i.embedUrl||'');resAddVidRow(i.title,i.description,url);});
+}
+
+function resGridsToText(){
+  const fo=[],auto=[],mm=[],vids=[];
+  resFoGrid.querySelectorAll('.res-fo-row').forEach(r=>{const v=Array.from(r.querySelectorAll('input')).map(i=>i.value.trim());if(v.some(x=>x))fo.push(v.join(' | '));});
+  resAutoGrid.querySelectorAll('.res-auto-row').forEach(r=>{const v=Array.from(r.querySelectorAll('input')).map(i=>i.value.trim());if(v.some(x=>x))auto.push(v.join(' | '));});
+  resMmGrid.querySelectorAll('.res-mm-row').forEach(r=>{const v=Array.from(r.querySelectorAll('input')).map(i=>i.value.trim());if(v.some(x=>x))mm.push(v.join(' | '));});
+  resVidGrid.querySelectorAll('.res-vid-row').forEach(r=>{const v=Array.from(r.querySelectorAll('input')).map(i=>i.value.trim());if(v.some(x=>x))vids.push(v.join(' | '));});
+  resEditor.value=['[FICHES_OUTILS]',...fo,'','[AUTOEVALUATION]',...auto,'','[MINDMAP]',...mm,'','[VIDEOS]',...vids].join('\n');
+  resRefreshCounts(fo.length,auto.length,mm.length,vids.length);res_verifiedOk=false;resBtnSave.disabled=true;
+}
+
+resBtnAddFO.addEventListener('click',()=>{resAddFORow();resGridsToText();const l=resFoGrid.querySelector('.res-fo-row:last-child');if(l)l.querySelector('input').focus();});
+resBtnAddAuto.addEventListener('click',()=>{resAddAutoRow();resGridsToText();const l=resAutoGrid.querySelector('.res-auto-row:last-child');if(l)l.querySelector('input').focus();});
+resBtnAddMM.addEventListener('click',()=>{resAddMMRow();resGridsToText();const l=resMmGrid.querySelector('.res-mm-row:last-child');if(l)l.querySelector('input').focus();});
+resBtnAddVid.addEventListener('click',()=>{resAddVidRow();resGridsToText();const l=resVidGrid.querySelector('.res-vid-row:last-child');if(l)l.querySelector('input').focus();});
+
+async function resPickPdfFO(fi){
+  if(!rootHandle){showAlert(resAlertBox,'error','Connectez-vous d’abord.');return;}
+  try{
+    let si=null;try{const a=await rootHandle.getDirectoryHandle('assets',{create:false});try{si=await a.getDirectoryHandle('Fiches Outils',{create:false});}catch{si=await a.getDirectoryHandle('fiches-outils',{create:false}).catch(()=>a);}}catch{}
+    const[p]=await window.showOpenFilePicker({types:[{description:'PDF',accept:{'application/pdf':['.pdf']}}],multiple:false,...(si?{startIn:si}:{})});
+    const pf=await p.getFile(),fn=pf.name;
+    const a=await rootHandle.getDirectoryHandle('assets',{create:true});
+    let dd;try{dd=await a.getDirectoryHandle('Fiches Outils',{create:false});}catch{dd=await a.getDirectoryHandle('fiches-outils',{create:true});}
+    let present=false;try{await dd.getFileHandle(fn,{create:false});present=true;}catch{}
+    if(!present){const d=await dd.getFileHandle(fn,{create:true}),w=await d.createWritable();await w.write(await pf.arrayBuffer());await w.close();}
+    fi.value=fn;resGridsToText();showAlert(resAlertBox,'info','"'+fn+'" '+(present?'déjà présent':'copié')+' dans assets/Fiches Outils/');
+  }catch(e){if(e.name!=='AbortError')showAlert(resAlertBox,'error','Erreur : '+e.message);}
+}
+
+async function resPickPdfChap(fi){
+  if(!rootHandle||!selectedChap){showAlert(resAlertBox,'error','Sélectionnez un chapitre d’abord.');return;}
+  try{
+    let si=null;try{const c=await chapterDir();si=await c.getDirectoryHandle('PDF',{create:false});}catch{}
+    const[p]=await window.showOpenFilePicker({types:[{description:'PDF',accept:{'application/pdf':['.pdf']}}],multiple:false,...(si?{startIn:si}:{})});
+    const pf=await p.getFile(),fn=pf.name;
+    const c=await chapterDir(),pd=await c.getDirectoryHandle('PDF',{create:true});
+    let present=false;try{await pd.getFileHandle(fn,{create:false});present=true;}catch{}
+    if(!present){const d=await pd.getFileHandle(fn,{create:true}),w=await d.createWritable();await w.write(await pf.arrayBuffer());await w.close();}
+    fi.value=fn;resGridsToText();showAlert(resAlertBox,'info','"'+fn+'" '+(present?'déjà présent':'copié')+' dans PDF/');
+  }catch(e){if(e.name!=='AbortError')showAlert(resAlertBox,'error','Erreur : '+e.message);}
+}
+
+async function resPickPdfMM(fi){
+  if(!rootHandle){showAlert(resAlertBox,'error','Connectez-vous d’abord.');return;}
+  try{
+    let si=null;try{if(selectedChap){const c=await chapterDir();si=await c.getDirectoryHandle('PDF',{create:false});}else{si=await rootHandle.getDirectoryHandle('assets',{create:false});}}catch{}
+    const[p]=await window.showOpenFilePicker({types:[{description:'PDF',accept:{'application/pdf':['.pdf']}}],multiple:false,...(si?{startIn:si}:{})});
+    const pf=await p.getFile(),fn=pf.name,a=await rootHandle.getDirectoryHandle('assets',{create:true});
+    let present=false;try{await a.getFileHandle(fn,{create:false});present=true;}catch{}
+    if(!present){const d=await a.getFileHandle(fn,{create:true}),w=await d.createWritable();await w.write(await pf.arrayBuffer());await w.close();}
+    fi.value=fn;resGridsToText();showAlert(resAlertBox,'info','"'+fn+'" '+(present?'déjà présent':'copié')+' dans assets/');
+  }catch(e){if(e.name!=='AbortError')showAlert(resAlertBox,'error','Erreur : '+e.message);}
+}
+
+resEditor.addEventListener('input',()=>{const{fo,auto,mm,vids}=resParseEditor();resRefreshCounts(fo.length,auto.length,mm.length,vids.length);res_verifiedOk=false;resBtnSave.disabled=true;});
+function resRefreshCounts(nfo,nauto,nmm,nvids){resFoCount.textContent=nfo+' fiche'+(nfo!==1?'s':'');resAutoCount.textContent=nauto+' entrée'+(nauto!==1?'s':'');resMmCount.textContent=nmm+' modèle'+(nmm!==1?'s':'');resVidCount.textContent=nvids+' vidéo'+(nvids!==1?'s':'');const n=nfo+nauto+nmm+nvids;resWordCount.textContent=n+' entrée'+(n!==1?'s':'');}
+
+function resParseEditor(){
+  const lines=resEditor.value.split('\n'),fo=[],auto=[],mm=[],vids=[];let s=null;
+  lines.forEach(l=>{const t=l.trim();if(t==='[FICHES_OUTILS]'){s='fo';return;}if(t==='[AUTOEVALUATION]'){s='auto';return;}if(t==='[MINDMAP]'){s='mm';return;}if(t==='[VIDEOS]'){s='vids';return;}if(!t)return;if(s==='fo')fo.push(t);if(s==='auto')auto.push(t);if(s==='mm')mm.push(t);if(s==='vids')vids.push(t);});
+  return{fo,auto,mm,vids};
+}
+
+resBtnVerify.addEventListener('click',()=>{
+  const raw=resEditor.value,errs=[];
+  ['[FICHES_OUTILS]','[AUTOEVALUATION]','[MINDMAP]','[VIDEOS]'].forEach(tag=>{if(!raw.includes(tag))errs.push('En-tête '+tag+' manquant.');});
+  if(errs.length){showAlert(resAlertBox,'error',errs.join('\n'));res_verifiedOk=false;resBtnSave.disabled=true;return;}
+  {const{auto}=resParseEditor();if(auto.length>1)errs.push('[AUTOEVALUATION] : une seule fiche PDF autorisée désormais (l’autoévaluation en ligne se gère via autoeval.json) — supprimez les lignes en trop.');}
+  const lines=raw.split('\n');let s=null,ln=0;
+  lines.forEach(l=>{ln++;const t=l.trim();if(t==='[FICHES_OUTILS]'){s='fo';return;}if(t==='[AUTOEVALUATION]'){s='auto';return;}if(t==='[MINDMAP]'){s='mm';return;}if(t==='[VIDEOS]'){s='vids';return;}if(!t)return;
+    const p=t.split('|').map(x=>x.trim());
+    if(s==='fo'){if(p.length!==3){errs.push('L'+ln+' [FO] : attendu 3, trouvé '+p.length);return;}if(!p[0])errs.push('L'+ln+' : label vide');if(!p[2])errs.push('L'+ln+' : fichier vide');if(p[2]&&!p[2].toLowerCase().endsWith('.pdf'))errs.push('L'+ln+' : doit être .pdf');}
+    if(s==='auto'||s==='mm'){if(p.length!==3){errs.push('L'+ln+' : attendu 3 champs');return;}if(!p[0])errs.push('L'+ln+' : titre vide');if(!p[2])errs.push('L'+ln+' : fichier vide');if(p[2]&&!p[2].toLowerCase().endsWith('.pdf'))errs.push('L'+ln+' : doit être .pdf');}
+    if(s==='vids'){if(p.length!==3){errs.push('L'+ln+' [VID] : attendu 3');return;}if(!p[0])errs.push('L'+ln+' : titre vide');if(!p[2])errs.push('L'+ln+' : URL vide');if(p[2]&&!p[2].includes('youtube')&&!p[2].includes('youtu.be'))errs.push('L'+ln+' : URL doit contenir youtube');}
+  });
+  if(errs.length){res_verifiedOk=false;resBtnSave.disabled=true;showAlert(resAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));}
+  else{const{fo,auto,mm,vids}=resParseEditor();res_verifiedOk=true;resBtnSave.disabled=false;showAlert(resAlertBox,'success','OK – '+fo.length+' fo / '+auto.length+' auto / '+mm.length+' mm / '+vids.length+' vids – prêt à sauvegarder.');}
+});
+
+function resExtractYtId(url){if(!url)return'';const s=url.match(/youtu\.be\/([^?&/]+)/);if(s)return s[1];const l=url.match(/[?&]v=([^&]+)/);if(l)return l[1];const e=url.match(/embed\/([^?&/]+)/);if(e)return e[1];if(/^[a-zA-Z0-9_-]{11}$/.test(url.trim()))return url.trim();return url;}
+
+resBtnSave.addEventListener('click',async()=>{
+  if(!res_verifiedOk)return;
+  try{
+    const{fo,auto,mm,vids}=resParseEditor();
+    const data={
+      videos:{title:'Videos',basePath:res_basePaths.videos,items:vids.map(l=>{const[title,description,url]=l.split('|').map(p=>p.trim());const it={title,youtubeId:resExtractYtId(url)};if(description)it.description=description;return it;})},
+      fichesOutils:{title:'Fiches outils',basePath:res_basePaths.fichesOutils,...(resFoDescTA.value.trim()&&{description:resFoDescTA.value.trim()}),items:fo.map(l=>{const[label,description,file]=l.split('|').map(p=>p.trim());const it={label,file};if(description)it.description=description;return it;})},
+      // Single entry, not items[]: pairs the classic PDF fiche with the
+      // interactive "Autoévaluation en ligne" button (autoeval.json, edited
+      // elsewhere) — see resAddAutoRow above.
+      ficheAutoEvaluation:(()=>{const l=auto[0];const[title,description,pdfFile]=(l||'').split('|').map(p=>p.trim());const o={title:title||'Autoévaluation par attendus',basePath:res_basePaths.ficheAutoEvaluation};if(description)o.description=description;if(pdfFile)o.pdfFile=pdfFile;return o;})(),
+      mindmap:{title:'Mindmap',basePath:res_basePaths.mindmap,items:mm.map(l=>{const[title,description,file]=l.split('|').map(p=>p.trim());const it={title,file};if(description)it.description=description;return it;})}
+    };
+    const fh=await resGetFH(true),w=await fh.createWritable();await w.write(JSON.stringify(data,null,2));await w.close();
+    showAlert(resAlertBox,'success','Sauvegardé OK');resBtnSave.disabled=true;res_verifiedOk=false;
+  }catch(e){showAlert(resAlertBox,'error','Erreur : '+e.message);}
+});
+
+// Same rule as praGetFH: read lowercase first, fall back to a legacy uppercase
+// file, and never create anything but lowercase.
+async function resGetFH(create=false){
+  const c=await chapterDir();
+  try{return await c.getFileHandle('resources.json',{create:false});}catch{}
+  try{return await c.getFileHandle('resources.JSON',{create:false});}catch{}
+  if(create)return c.getFileHandle('resources.json',{create:true});
+  throw new Error('resources.json introuvable dans ce chapitre.');
+}
+
+function resReset(){resFoGrid.querySelectorAll('.res-fo-row').forEach(r=>r.remove());resAutoGrid.querySelectorAll('.res-auto-row').forEach(r=>r.remove());resMmGrid.querySelectorAll('.res-mm-row').forEach(r=>r.remove());resVidGrid.querySelectorAll('.res-vid-row').forEach(r=>r.remove());resEditor.value='';resRefreshCounts(0,0,0,0);resBtnVerify.disabled=true;resBtnAddFO.disabled=true;resBtnAddAuto.disabled=true;resBtnAddMM.disabled=true;resBtnAddVid.disabled=true;resFoDescTA.value='';resFoDescTA.disabled=true;resResetEditorState();}
+function resResetEditorState(){res_verifiedOk=false;resBtnSave.disabled=true;clearAlertEl(resAlertBox);}
+document.querySelectorAll('#panel-resources .fmt-bar[data-section]').forEach(bar=>{bar.querySelectorAll('.fmt-btn').forEach(btn=>{btn.addEventListener('mousedown',e=>{e.preventDefault();applyFmt(res_lastDesc[bar.dataset.section],btn.dataset.tag,resGridsToText);});});});
+
+/* ===== EXPLORATIONS TAB ===== */
+let exp_verifiedOk=false,exp_lastDesc={};
+const expDocGrid=document.getElementById('exp-doc-grid'),expLinkGrid=document.getElementById('exp-link-grid'),expBtnAddDoc=document.getElementById('exp-btn-add-doc'),expBtnAddLink=document.getElementById('exp-btn-add-link'),expDocCount=document.getElementById('exp-doc-count'),expLinkCount=document.getElementById('exp-link-count'),expEditor=document.getElementById('exp-editor'),expWordCount=document.getElementById('exp-word-count'),expAlertBox=document.getElementById('exp-alert-box'),expBtnVerify=document.getElementById('exp-btn-verify'),expBtnSave=document.getElementById('exp-btn-save');
+
+async function expLoad(){
+  try{
+    const fh=await expGetFH(),file=await fh.getFile(),data=JSON.parse(await file.text());
+    expPopulateGrids(data);expGridsToText();expBtnVerify.disabled=false;expBtnAddDoc.disabled=false;expBtnAddLink.disabled=false;
+    document.getElementById('step2-num').classList.add('done');expResetEditorState();
+    const nd=(data.documentation?.items||[]).length,nl=(data.liensUtiles?.items||[]).length;
+    showAlert(expAlertBox,'success','OK – '+nd+' doc(s) + '+nl+' lien(s)');
+  }catch(e){showAlert(expAlertBox,'error','Erreur : '+e.message);}
+}
+
+function expAddDocRow(title='',file='',desc=''){
+  const row=document.createElement('div');row.className='exp-row exp-doc-row';
+  row.innerHTML='<div class="drag-handle">☰</div><input type="text" placeholder="Titre" value="'+escAttr(title)+'"><div class="file-cell"><input type="text" placeholder="fichier.pdf" value="'+escAttr(file)+'"><button class="btn-pdf-pick">PDF</button></div><input type="text" class="desc-field" data-section="doc" placeholder="Description (opt.)" value="'+escAttr(desc)+'"><button class="btn-validate">Valider</button><button class="btn-delete-row">✕</button>';
+  const fi=row.querySelector('.file-cell input'),de=row.querySelector('.desc-field');
+  de.addEventListener('focus',()=>{exp_lastDesc['doc']=de;});
+  row.querySelector('.btn-validate').addEventListener('click',()=>{expGridsToText();flashValidate(row.querySelector('.btn-validate'));});
+  row.querySelector('.btn-delete-row').addEventListener('click',()=>{row.remove();expGridsToText();});
+  row.querySelector('.btn-pdf-pick').addEventListener('click',()=>expPickPdf(fi));
+  initDragRow(row,expDocGrid,expGridsToText);expDocGrid.appendChild(row);
+}
+
+function expAddLinkRow(title='',url='',desc=''){
+  const row=document.createElement('div');row.className='exp-row exp-link-row';
+  row.innerHTML='<div class="drag-handle">☰</div><input type="text" placeholder="Titre" value="'+escAttr(title)+'"><input type="text" placeholder="https://..." value="'+escAttr(url)+'"><input type="text" class="desc-field" data-section="link" placeholder="Description (opt.)" value="'+escAttr(desc)+'"><button class="btn-validate">Valider</button><button class="btn-delete-row">✕</button>';
+  const de=row.querySelector('.desc-field');
+  de.addEventListener('focus',()=>{exp_lastDesc['link']=de;});
+  row.querySelector('.btn-validate').addEventListener('click',()=>{expGridsToText();flashValidate(row.querySelector('.btn-validate'));});
+  row.querySelector('.btn-delete-row').addEventListener('click',()=>{row.remove();expGridsToText();});
+  initDragRow(row,expLinkGrid,expGridsToText);expLinkGrid.appendChild(row);
+}
+
+function expPopulateGrids(data){
+  expDocGrid.querySelectorAll('.exp-doc-row').forEach(r=>r.remove());expLinkGrid.querySelectorAll('.exp-link-row').forEach(r=>r.remove());
+  (data.documentation?.items||[]).forEach(i=>expAddDocRow(i.title,i.file,i.description));
+  (data.liensUtiles?.items||[]).forEach(i=>expAddLinkRow(i.title,i.url,i.description));
+}
+
+function expGridsToText(){
+  const dl=[],ll=[];
+  expDocGrid.querySelectorAll('.exp-doc-row').forEach(r=>{const v=Array.from(r.querySelectorAll('input')).map(i=>i.value.trim());if(v.some(x=>x!==''))dl.push(v.join(' | '));});
+  expLinkGrid.querySelectorAll('.exp-link-row').forEach(r=>{const v=Array.from(r.querySelectorAll('input')).map(i=>i.value.trim());if(v.some(x=>x!==''))ll.push(v.join(' | '));});
+  expEditor.value='[DOCUMENTATION]\n'+dl.join('\n')+'\n\n[LIENS UTILES]\n'+ll.join('\n');
+  expRefreshCounts(dl.length,ll.length);exp_verifiedOk=false;expBtnSave.disabled=true;
+}
+
+expBtnAddDoc.addEventListener('click',()=>{expAddDocRow();expGridsToText();const l=expDocGrid.querySelector('.exp-doc-row:last-child');if(l)l.querySelector('input').focus();});
+expBtnAddLink.addEventListener('click',()=>{expAddLinkRow();expGridsToText();const l=expLinkGrid.querySelector('.exp-link-row:last-child');if(l)l.querySelector('input').focus();});
+
+async function expPickPdf(fi){
+  if(!rootHandle||!selectedChap){showAlert(expAlertBox,'error','Connectez-vous et sélectionnez un chapitre d’abord.');return;}
+  try{
+    let si=null;try{const c=await chapterDir();si=await c.getDirectoryHandle('PDF',{create:false});}catch{}
+    const[p]=await window.showOpenFilePicker({types:[{description:'PDF',accept:{'application/pdf':['.pdf']}}],multiple:false,...(si?{startIn:si}:{})});
+    const pf=await p.getFile(),fn=pf.name;
+    const c=await chapterDir(),pd=await c.getDirectoryHandle('PDF',{create:true});
+    let present=false;try{await pd.getFileHandle(fn,{create:false});present=true;}catch{}
+    if(!present){const d=await pd.getFileHandle(fn,{create:true}),w=await d.createWritable();await w.write(await pf.arrayBuffer());await w.close();}
+    fi.value=fn;expGridsToText();showAlert(expAlertBox,'info','"'+fn+'" '+(present?'déjà présent':'copié')+' dans PDF/');
+  }catch(e){if(e.name!=='AbortError')showAlert(expAlertBox,'error','Erreur : '+e.message);}
+}
+
+expEditor.addEventListener('input',()=>{const{docs,links}=expParseEditor();expRefreshCounts(docs.length,links.length);exp_verifiedOk=false;expBtnSave.disabled=true;});
+function expRefreshCounts(nd,nl){expDocCount.textContent=nd+' doc'+(nd!==1?'s':'');expLinkCount.textContent=nl+' lien'+(nl!==1?'s':'');const n=nd+nl;expWordCount.textContent=n+' entrée'+(n!==1?'s':'');}
+function expParseEditor(){const lines=expEditor.value.split('\n'),docs=[],links=[];let s=null;lines.forEach(l=>{const t=l.trim();if(t==='[DOCUMENTATION]'){s='doc';return;}if(t==='[LIENS UTILES]'){s='link';return;}if(!t)return;if(s==='doc')docs.push(t);if(s==='link')links.push(t);});return{docs,links};}
+
+expBtnVerify.addEventListener('click',()=>{
+  const raw=expEditor.value,errs=[];
+  if(!raw.includes('[DOCUMENTATION]'))errs.push('[DOCUMENTATION] manquant.');
+  if(!raw.includes('[LIENS UTILES]'))errs.push('[LIENS UTILES] manquant.');
+  if(errs.length){showAlert(expAlertBox,'error',errs.join('\n'));exp_verifiedOk=false;expBtnSave.disabled=true;return;}
+  const lines=raw.split('\n');let s=null,ln=0;
+  lines.forEach(l=>{ln++;const t=l.trim();if(t==='[DOCUMENTATION]'){s='doc';return;}if(t==='[LIENS UTILES]'){s='link';return;}if(!t)return;
+    const p=t.split('|').map(x=>x.trim());
+    if(p.length!==3){errs.push('L'+ln+' : '+(p.length<3?'champ(s) manquant(s)':'trop de |'));return;}
+    if(!p[0]){errs.push('L'+ln+' : titre vide');return;}
+    if(!p[1]){errs.push('L'+ln+' : '+(s==='doc'?'fichier':'URL')+' vide');return;}
+    if(s==='doc'&&!p[1].toLowerCase().endsWith('.pdf'))errs.push('L'+ln+' : fichier doit être .pdf');
+    if(s==='link'&&!p[1].startsWith('http'))errs.push('L'+ln+' : URL doit commencer par http');
+  });
+  if(errs.length){exp_verifiedOk=false;expBtnSave.disabled=true;showAlert(expAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));}
+  else{const{docs,links}=expParseEditor();exp_verifiedOk=true;expBtnSave.disabled=false;showAlert(expAlertBox,'success','OK – '+(docs.length+links.length)+' entrées. Prêt à sauvegarder.');}
+});
+
+expBtnSave.addEventListener('click',async()=>{
+  if(!exp_verifiedOk)return;
+  try{
+    const{docs,links}=expParseEditor();
+    const data={
+      documentation:{title:'Documentation',basePath:'PDF',items:docs.map(l=>{const[title,file,description]=l.split('|').map(p=>p.trim());const it={title,file};if(description)it.description=description;return it;})},
+      liensUtiles:{title:'Liens utiles',basePath:'',items:links.map(l=>{const[title,url,description]=l.split('|').map(p=>p.trim());const it={title,url};if(description)it.description=description;return it;})}
+    };
+    const fh=await expGetFH(),w=await fh.createWritable();await w.write(JSON.stringify(data,null,2));await w.close();
+    const nd=data.documentation.items.length,nl=data.liensUtiles.items.length;
+    showAlert(expAlertBox,'success','Sauvegardé OK – '+nd+' doc(s) + '+nl+' lien(s)');expBtnSave.disabled=true;exp_verifiedOk=false;
+  }catch(e){showAlert(expAlertBox,'error','Erreur : '+e.message);}
+});
+
+async function expGetFH(){const c=await chapterDir();return c.getFileHandle('explorations.json',{create:true});}
+
+function expReset(){expDocGrid.querySelectorAll('.exp-doc-row').forEach(r=>r.remove());expLinkGrid.querySelectorAll('.exp-link-row').forEach(r=>r.remove());expEditor.value='';expRefreshCounts(0,0);expBtnVerify.disabled=true;expBtnAddDoc.disabled=true;expBtnAddLink.disabled=true;expResetEditorState();}
+function expResetEditorState(){exp_verifiedOk=false;expBtnSave.disabled=true;clearAlertEl(expAlertBox);}
+document.querySelectorAll('#panel-explorations .fmt-bar[data-section]').forEach(bar=>{bar.querySelectorAll('.fmt-btn').forEach(btn=>{btn.addEventListener('mousedown',e=>{e.preventDefault();applyFmt(exp_lastDesc[bar.dataset.section],btn.dataset.tag,expGridsToText);});});});
+
+/* ===== AUTOEVAL TAB =====
+   Edits autoeval.json directly as a visual tree (no raw-text "verify" pass
+   like the other tabs) — the nested shape (3 fixed categories → attendus →
+   locations[] → exercises[{level,id}]) doesn't serialize cleanly to flat
+   pipe-delimited lines, and forcing it into one would fight the point of
+   being user-friendly rather than serve it. Attendu blocks reuse the
+   .ex-block markup/CSS from the Practice tab (see praCreateBlock above) so
+   this doesn't invent a second visual language for "a collapsible card".
+   The PDF fiche itself stays owned by the Resources tab (res-auto-*) —
+   never duplicated here, to avoid two sources of truth for the same field. */
+const AE_CATS=[{id:'savoirs',title:'Savoirs'},{id:'savoirFaire',title:'Savoir-faire'},{id:'competence',title:'Compétence'}];
+const AE_PREFIX={savoirs:'s',savoirFaire:'sf',competence:'c'};
+let ae_practiceIndex=null;
+const ae_lists={savoirs:document.getElementById('ae-list-savoirs'),savoirFaire:document.getElementById('ae-list-savoirFaire'),competence:document.getElementById('ae-list-competence')};
+const aeAlertBox=document.getElementById('ae-alert-box'),aeBtnSave=document.getElementById('ae-btn-save');
+
+async function aeGetFH(create=false){
+  const c=await chapterDir();
+  try{return await c.getFileHandle('autoeval.json',{create:false});}catch{}
+  try{return await c.getFileHandle('autoeval.JSON',{create:false});}catch{}
+  if(create)return c.getFileHandle('autoeval.json',{create:true});
+  throw new Error('autoeval.json introuvable dans ce chapitre.');
+}
+
+// Best-effort cross-reference so "Exercices liés" can show a real title
+// instead of a bare number, and flag a level+numéro that doesn't exist —
+// null (not an error) if practice.json can't be read, since a chapter can
+// legitimately not have one yet.
+async function aeLoadPracticeIndex(){
+  try{
+    const c=await chapterDir();
+    let fh;try{fh=await c.getFileHandle('practice.json',{create:false});}catch{fh=await c.getFileHandle('practice.JSON',{create:false});}
+    const file=await fh.getFile(),data=JSON.parse(await file.text());
+    const idx={level1:new Map(),level2:new Map(),level3:new Map()};
+    ['level1','level2','level3'].forEach(lvl=>{
+      (data[lvl]||[]).forEach(ex=>{
+        const firstQ=Array.isArray(ex.questions)&&ex.questions[0]?ex.questions[0].en:'';
+        const label=(ex.title||ex.en||firstQ||('Exercice '+ex.id)).slice(0,70);
+        idx[lvl].set(Number(ex.id),label);
+      });
+    });
+    return idx;
+  }catch{return null;}
+}
+
+function aeLevelBadge(level){return{level1:'N1',level2:'N2',level3:'N3'}[level]||level;}
+function aeLookupExercise(level,id){const m=ae_practiceIndex&&ae_practiceIndex[level];return m?(m.get(Number(id))||null):null;}
+
+// Assigned once at creation (see aeCreateItem) and never recomputed from
+// position — an id is a localStorage key for the student's saved rating on
+// this exact attendu (autoevalRating::<page>::<id>, see resources-engine.js);
+// recalculating it on reorder would silently detach already-saved ratings
+// from the attendu they belong to.
+function aeNextId(catId){
+  const prefix=AE_PREFIX[catId]||catId;
+  const used=new Set(Array.from(ae_lists[catId].querySelectorAll('.ae-item')).map(b=>b.dataset.id));
+  let n=1;while(used.has(prefix+n))n++;
+  return prefix+n;
+}
+
+function aeToggleCollapse(block,collapsed){
+  block.classList.toggle('collapsed',collapsed);
+  const btn=block.querySelector('.btn-toggle-collapse');
+  if(btn)btn.textContent=collapsed?'▸':'▾';
+}
+
+function aeUpdateSummary(block){
+  const text=(block.querySelector('.ae-text').value||'').trim();
+  block.querySelector('.ex-summary-text').textContent=text?(text.length>110?text.slice(0,110)+'…':text):'(texte vide)';
+}
+
+function aeLocEditStart(li){
+  if(li.classList.contains('editing'))return;
+  const span=li.querySelector('.ae-loc-text'),current=span.textContent;
+  li.classList.add('editing');
+  const input=document.createElement('input');input.type='text';input.className='ae-loc-edit-input';input.value=current;
+  span.replaceWith(input);input.focus();input.select();
+  let done=false;
+  const commit=keep=>{
+    if(done)return;done=true;
+    const v=input.value.trim();
+    const newSpan=document.createElement('span');newSpan.className='ae-loc-text';newSpan.textContent=(keep&&v)?v:current;
+    input.replaceWith(newSpan);li.classList.remove('editing');
+    clearAlertEl(aeAlertBox);
+  };
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();commit(true);}else if(e.key==='Escape'){e.preventDefault();commit(false);}});
+  input.addEventListener('blur',()=>commit(true));
+}
+
+function aeAddLocation(ul,text){
+  const li=document.createElement('li');li.className='ae-loc-item';
+  const handle=document.createElement('span');handle.className='drag-handle ae-loc-handle';handle.title='Glisser pour réordonner';handle.textContent='☰';
+  const span=document.createElement('span');span.className='ae-loc-text';span.textContent=text;
+  const editBtn=document.createElement('button');editBtn.type='button';editBtn.className='ae-loc-edit-btn';editBtn.title='Modifier';editBtn.textContent='✎';
+  const btn=document.createElement('button');btn.type='button';btn.className='ae-loc-remove';btn.textContent='✕';
+  editBtn.addEventListener('click',()=>aeLocEditStart(li));
+  li.addEventListener('dblclick',e=>{if(e.target.classList.contains('ae-loc-text'))aeLocEditStart(li);});
+  btn.addEventListener('click',()=>{li.remove();clearAlertEl(aeAlertBox);});
+  li.append(handle,span,editBtn,btn);ul.appendChild(li);
+  initDragRow(li,ul,()=>clearAlertEl(aeAlertBox));
+}
+
+function aeCommitLocation(block){
+  const input=block.querySelector('.ae-loc-input'),v=input.value.trim();
+  if(!v)return;
+  aeAddLocation(block.querySelector('.ae-loc-list'),v);
+  input.value='';input.focus();clearAlertEl(aeAlertBox);
+}
+
+// The chip itself only ever stores level+id (exactly what autoeval.json
+// needs) — the exercise's title is looked up fresh at render time (tooltip)
+// and at add-time (quick-add preview / browse label), never stored on it.
+const AE_LEVEL_ORDER={level1:1,level2:2,level3:3};
+
+// Re-appending in sorted order is enough to reorder a flex-wrapped row of
+// chips — no separate "sort" button needed, this just always runs after an
+// add so the list is never left out of order.
+function aeSortExerciseChips(container){
+  Array.from(container.querySelectorAll('.ae-ex-chip'))
+    .sort((a,b)=>(AE_LEVEL_ORDER[a.dataset.level]||9)-(AE_LEVEL_ORDER[b.dataset.level]||9)||Number(a.dataset.id)-Number(b.dataset.id))
+    .forEach(chip=>container.appendChild(chip));
+}
+
+// Returns false (and adds nothing) for a level+id already linked on this
+// attendu — callers show their own feedback for that case. Used for every
+// insertion path (quick-add, browse, and initial load from autoeval.json),
+// so a chapter's existing data gets silently de-duplicated too if it ever
+// had a stray repeat.
+function aeAddExerciseChip(container,level,id){
+  id=Number(id);
+  if(Array.from(container.querySelectorAll('.ae-ex-chip')).some(c=>c.dataset.level===level&&Number(c.dataset.id)===id))return false;
+  const chip=document.createElement('span');chip.className='ae-ex-chip';chip.dataset.level=level;chip.dataset.id=String(id);
+  chip.title=aeLookupExercise(level,id)||'';
+  const label=document.createElement('span');label.textContent=aeLevelBadge(level)+' · Ex.'+id;
+  const btn=document.createElement('button');btn.type='button';btn.className='ae-ex-chip-remove';btn.textContent='✕';
+  btn.addEventListener('click',()=>{chip.remove();clearAlertEl(aeAlertBox);});
+  chip.append(label,btn);container.appendChild(chip);
+  aeSortExerciseChips(container);
+  return true;
+}
+
+function aeCommitExercise(block){
+  const lvl=block.querySelector('.ae-ex-level').value,idInput=block.querySelector('.ae-ex-id-input'),id=parseInt(idInput.value,10),preview=block.querySelector('.ae-ex-preview');
+  if(!id||id<1)return;
+  if(!aeAddExerciseChip(block.querySelector('.ae-ex-chips'),lvl,id)){
+    preview.textContent='⚠ Déjà lié ('+aeLevelBadge(lvl)+' · Ex.'+id+')';preview.className='ae-ex-preview warn';
+    return;
+  }
+  idInput.value='';
+  preview.textContent='';preview.className='ae-ex-preview';
+  idInput.focus();clearAlertEl(aeAlertBox);
+}
+
+// Live confirmation as you type a number — the whole point of keeping the
+// quick "niveau + numéro" fields usable on their own, without forcing a
+// trip through the browse dropdown just to know the number was right.
+function aeUpdatePreview(block){
+  const lvl=block.querySelector('.ae-ex-level').value,raw=block.querySelector('.ae-ex-id-input').value.trim(),preview=block.querySelector('.ae-ex-preview');
+  if(!raw){preview.textContent='';preview.className='ae-ex-preview';return;}
+  const id=parseInt(raw,10);
+  if(!ae_practiceIndex){preview.textContent='(impossible de vérifier — practice.json introuvable)';preview.className='ae-ex-preview';return;}
+  const title=aeLookupExercise(lvl,id);
+  if(title){preview.textContent='→ '+title;preview.className='ae-ex-preview ok';}
+  else{preview.textContent='⚠ Aucun exercice '+id+' en '+aeLevelBadge(lvl);preview.className='ae-ex-preview warn';}
+}
+
+function aeFillBrowseSelect(select){
+  select.innerHTML='<option value="" selected>Parcourir un exercice…</option>';
+  if(!ae_practiceIndex)return;
+  ['level1','level2','level3'].forEach(lvl=>{
+    const m=ae_practiceIndex[lvl];
+    if(!m||!m.size)return;
+    const og=document.createElement('optgroup');og.label=aeLevelBadge(lvl);
+    Array.from(m.keys()).sort((a,b)=>a-b).forEach(id=>{
+      const opt=document.createElement('option');opt.value=lvl+':'+id;opt.textContent='Ex. '+id+' — '+m.get(id);og.appendChild(opt);
+    });
+    select.appendChild(og);
+  });
+}
+
+function aeCreateItem(catId,item,collapsed){
+  item=item||{};
+  const block=document.createElement('div');
+  block.className='ex-block ae-item';block.dataset.cat=catId;block.dataset.id=item.id||aeNextId(catId);
+  block.innerHTML=
+    '<div class="ex-block-header">'+
+      '<div class="ex-header-left">'+
+        '<div class="drag-handle" title="Glisser pour réordonner">☰</div>'+
+        '<button type="button" class="btn-chevron btn-toggle-collapse">▸</button>'+
+        '<span class="ae-item-idbadge"></span>'+
+      '</div>'+
+      '<div class="ex-header-actions"><button type="button" class="btn-delete-block">Supprimer</button></div>'+
+    '</div>'+
+    '<div class="ex-block-summary"><span class="ex-summary-text"></span></div>'+
+    '<div class="ex-fields">'+
+      '<div class="ex-field"><span class="ex-label">Texte de l\'attendu</span><textarea class="ae-text" rows="2" placeholder="D&eacute;crire ce que l\'&eacute;l&egrave;ve doit savoir faire..."></textarea></div>'+
+      '<label class="ae-vocab-label"><input type="checkbox" class="ae-vocab"> Terme de vocabulaire</label>'+
+      '<div class="ex-field">'+
+        '<span class="ex-label">Emplacement(s) dans le cours</span>'+
+        '<div class="ae-loc-add-row"><input type="text" class="ae-loc-input" placeholder="Ex&nbsp;: PART 1 &mdash; Sch&eacute;ma de..."><button type="button" class="btn-outline ae-loc-add-btn">Ajouter</button></div>'+
+        '<ul class="ae-loc-list"></ul>'+
+      '</div>'+
+      '<div class="ex-field">'+
+        '<span class="ex-label">Exercices li&eacute;s</span>'+
+        '<div class="ae-ex-add-row">'+
+          '<select class="ae-ex-level"><option value="level1">Niveau 1</option><option value="level2">Niveau 2</option><option value="level3">Niveau 3</option></select>'+
+          '<input type="number" min="1" class="ae-ex-id-input" placeholder="N&deg;">'+
+          '<button type="button" class="btn-outline ae-ex-add-btn">+ Ajouter</button>'+
+          '<select class="ae-ex-browse"><option value="" selected>Parcourir un exercice…</option></select>'+
+        '</div>'+
+        '<div class="ae-ex-preview"></div>'+
+        '<div class="ae-ex-chips"></div>'+
+      '</div>'+
+      '<details class="ae-advanced"><summary>Avanc&eacute;</summary>'+
+        '<div class="ex-field"><span class="ex-label">Identifiant interne</span><input type="text" class="ae-id-input"></div>'+
+      '</details>'+
+    '</div>';
+
+  block.querySelector('.ae-text').value=item.text||'';
+  block.querySelector('.ae-vocab').checked=!!item.isVocabulary;
+  block.querySelector('.ae-item-idbadge').textContent=block.dataset.id;
+  block.querySelector('.ae-id-input').value=block.dataset.id;
+
+  const locList=block.querySelector('.ae-loc-list');
+  (item.locations||[]).forEach(loc=>aeAddLocation(locList,loc));
+  const chipsWrap=block.querySelector('.ae-ex-chips');
+  (item.exercises||[]).forEach(ex=>aeAddExerciseChip(chipsWrap,ex.level,ex.id));
+  aeFillBrowseSelect(block.querySelector('.ae-ex-browse'));
+
+  block.querySelector('.ae-text').addEventListener('input',()=>aeUpdateSummary(block));
+  block.querySelector('.btn-delete-block').addEventListener('click',()=>{block.remove();aeRefreshCounts();});
+  const toggleClick=e=>{if(e.target.closest('.drag-handle,.btn-delete-block'))return;aeToggleCollapse(block,!block.classList.contains('collapsed'));};
+  block.querySelector('.ex-block-header').addEventListener('click',toggleClick);
+  block.querySelector('.ex-block-summary').addEventListener('click',toggleClick);
+
+  block.querySelector('.ae-loc-add-btn').addEventListener('click',()=>aeCommitLocation(block));
+  block.querySelector('.ae-loc-input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();aeCommitLocation(block);}});
+
+  block.querySelector('.ae-ex-add-btn').addEventListener('click',()=>aeCommitExercise(block));
+  block.querySelector('.ae-ex-id-input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();aeCommitExercise(block);}});
+  block.querySelector('.ae-ex-id-input').addEventListener('input',()=>aeUpdatePreview(block));
+  block.querySelector('.ae-ex-level').addEventListener('change',()=>aeUpdatePreview(block));
+  block.querySelector('.ae-ex-browse').addEventListener('change',e=>{
+    const v=e.target.value;if(!v)return;
+    const[lvl,id]=v.split(':');
+    aeAddExerciseChip(chipsWrap,lvl,id);
+    e.target.value='';clearAlertEl(aeAlertBox);
+  });
+
+  block.querySelector('.ae-id-input').addEventListener('change',e=>{
+    const v=e.target.value.trim();if(!v)return;
+    block.dataset.id=v;block.querySelector('.ae-item-idbadge').textContent=v;
+  });
+
+  initDragRow(block,ae_lists[catId],()=>clearAlertEl(aeAlertBox));
+  aeUpdateSummary(block);
+  aeToggleCollapse(block,collapsed!==false);
+  return block;
+}
+
+function aeRefreshCounts(){
+  AE_CATS.forEach(cat=>{
+    const n=ae_lists[cat.id].querySelectorAll('.ae-item').length;
+    document.getElementById('ae-count-'+cat.id).textContent='('+n+')';
+    document.getElementById('ae-empty-'+cat.id).classList.toggle('hidden',n>0);
+  });
+}
+
+function aePopulate(data){
+  AE_CATS.forEach(cat=>{ae_lists[cat.id].innerHTML='';});
+  const byId={};(data.categories||[]).forEach(c=>{byId[c.id]=c;});
+  AE_CATS.forEach(cat=>{
+    const items=(byId[cat.id]&&byId[cat.id].items)||[];
+    items.forEach(item=>ae_lists[cat.id].appendChild(aeCreateItem(cat.id,item,true)));
+  });
+  aeRefreshCounts();
+}
+
+async function aeLoad(){
+  try{
+    ae_practiceIndex=await aeLoadPracticeIndex();
+    let data;
+    try{const fh=await aeGetFH(false),file=await fh.getFile();data=JSON.parse(await file.text());}
+    catch{data={categories:AE_CATS.map(c=>({id:c.id,title:c.title,items:[]}))};}
+    aePopulate(data);
+    AE_CATS.forEach(cat=>{document.querySelector('.ae-btn-add[data-ae-cat="'+cat.id+'"]').disabled=false;});
+    aeBtnSave.disabled=false;
+    document.getElementById('step2-num').classList.add('done');
+    const total=AE_CATS.reduce((n,c)=>n+ae_lists[c.id].querySelectorAll('.ae-item').length,0);
+    const idxMsg=ae_practiceIndex?'':' (⚠ practice.json introuvable — vérification des exercices désactivée)';
+    showAlert(aeAlertBox,'success','OK – '+total+' attendu(s) chargé(s)'+idxMsg);
+  }catch(e){showAlert(aeAlertBox,'error','Erreur : '+e.message);}
+}
+
+function aeCollect(){
+  return{categories:AE_CATS.map(cat=>({
+    id:cat.id,title:cat.title,
+    items:Array.from(ae_lists[cat.id].querySelectorAll('.ae-item')).map(block=>({
+      id:block.dataset.id,
+      isVocabulary:block.querySelector('.ae-vocab').checked,
+      text:block.querySelector('.ae-text').value.trim(),
+      locations:Array.from(block.querySelectorAll('.ae-loc-text')).map(s=>s.textContent.trim()).filter(Boolean),
+      exercises:Array.from(block.querySelectorAll('.ae-ex-chip')).map(chip=>({level:chip.dataset.level,id:Number(chip.dataset.id)}))
+    }))
+  }))};
+}
+
+aeBtnSave.addEventListener('click',async()=>{
+  const data=aeCollect();
+  const emptyCats=data.categories.filter(c=>c.items.some(it=>!it.text)).map(c=>c.title);
+  if(emptyCats.length){showAlert(aeAlertBox,'error','Texte manquant pour au moins un attendu dans : '+emptyCats.join(', ')+'. Complète-le ou supprime le bloc avant de sauvegarder.');return;}
+  const allIds=data.categories.flatMap(c=>c.items.map(it=>it.id));
+  const dupes=[...new Set(allIds.filter((id,i)=>allIds.indexOf(id)!==i))];
+  if(dupes.length){showAlert(aeAlertBox,'error','Identifiant en double : '+dupes.join(', ')+'. Corrige-le dans le champ "Avancé" de l\'attendu concerné.');return;}
+  try{
+    const fh=await aeGetFH(true),w=await fh.createWritable();
+    await w.write(JSON.stringify(data,null,2));await w.close();
+    const total=data.categories.reduce((n,c)=>n+c.items.length,0);
+    showAlert(aeAlertBox,'success','Sauvegardé OK – '+total+' attendu(s).');
+  }catch(e){showAlert(aeAlertBox,'error','Erreur : '+e.message);}
+});
+
+document.querySelectorAll('.ae-cat-tabs .filter-tab').forEach(btn=>btn.addEventListener('click',()=>{
+  const cat=btn.dataset.aeCat;
+  document.querySelectorAll('.ae-cat-tabs .filter-tab').forEach(b=>b.classList.toggle('active',b===btn));
+  document.querySelectorAll('.ae-cat-panel').forEach(p=>p.classList.toggle('active',p.dataset.aeCatPanel===cat));
+}));
+
+document.querySelectorAll('.ae-btn-add').forEach(btn=>btn.addEventListener('click',()=>{
+  const cat=btn.dataset.aeCat,block=aeCreateItem(cat,{},false);
+  ae_lists[cat].appendChild(block);
+  aeRefreshCounts();
+  block.querySelector('.ae-text').focus();
+}));
+
+function aeReset(){
+  AE_CATS.forEach(cat=>{ae_lists[cat.id].innerHTML='';document.querySelector('.ae-btn-add[data-ae-cat="'+cat.id+'"]').disabled=true;});
+  ae_practiceIndex=null;aeBtnSave.disabled=true;aeRefreshCounts();clearAlertEl(aeAlertBox);
+}
+</script>
+</body>
+</html>

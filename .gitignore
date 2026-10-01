@@ -1,5 +1,7 @@
-# Teacher-only admin tools — never pushed online
-Admin/
+# Old versions of the admin editors, superseded by Admin/content.html and
+# Admin/igames.html (which are versioned: they only read and write JSON files
+# on the teacher's own disk, so publishing them cannot change the site)
+Admin/Backup ind/
 
 # Claude Code: skills, hooks and shared settings are versioned so cloud
 # sessions get them too; only this machine's own permissions stay local

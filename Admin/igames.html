@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interactive Games Editor — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f4f6f9; --surface: #ffffff; --surface2: #f0f2f6;
+    --border: #dde1ea; --border-strong: #c4cad8;
+    --text: #1a2035; --text-secondary: #4a5270; --muted: #8890a8;
+    --accent: #2b5ce6; --accent-light: #eef2fd; --accent-hover: #1e47cc;
+    --bio: #1e8a78; --bio-light: #e8f6f4;
+    --chemistry: #b06d00; --chemistry-light: #fdf3e3;
+    --physics: #5c48a0; --physics-light: #f0edf9;
+    --success: #1a7a3f; --success-bg: #edf7f1; --success-border: #a8dbbe;
+    --error: #c0392b; --error-bg: #fdf0ef; --error-border: #f0b9b5;
+    --info: #0d5c8a; --info-bg: #e8f4fd; --info-border: #9fd0ef;
+    --radius: 10px;
+    --shadow-sm: 0 1px 3px rgba(26,32,53,0.07), 0 1px 2px rgba(26,32,53,0.04);
+  }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 36px 24px 60px; font-size: 14px; }
+  .container { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 2px solid var(--border); }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .header-icon { width: 40px; height: 40px; background: var(--accent); border-radius: 10px; display: grid; place-items: center; color: white; font-size: 18px; flex-shrink: 0; }
+  .header-title { font-size: 1.2rem; font-weight: 700; }
+  .header-sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+  .header-badge { font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--accent-light); color: var(--accent); border: 1px solid #c7d6fb; letter-spacing: 0.03em; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; }
+  .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); display: flex; align-items: center; gap: 10px; }
+  .step-number { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: white; font-size: 0.72rem; font-weight: 700; display: grid; place-items: center; flex-shrink: 0; }
+  .step-number.done { background: var(--success); }
+  .card-label { font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
+  .card-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  button { font-family: 'Inter', sans-serif; cursor: pointer; border: none; border-radius: 8px; font-weight: 600; font-size: 0.88rem; transition: background 0.15s, box-shadow 0.15s, transform 0.1s, opacity 0.15s; display: inline-flex; align-items: center; gap: 7px; }
+  button:active:not(:disabled) { transform: translateY(1px); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: var(--accent); color: #fff; padding: 11px 18px; box-shadow: 0 2px 8px rgba(43,92,230,0.25); }
+  .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+  .btn-outline { background: var(--surface); color: var(--text-secondary); border: 1px solid var(--border-strong); padding: 10px 17px; }
+  .btn-outline:hover:not(:disabled) { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .btn-reconnect { background: var(--accent-light); color: var(--accent); border: 1px solid #c7d6fb; padding: 10px 17px; }
+  .btn-reconnect:hover:not(:disabled) { background: #dde8fc; }
+  .btn-success { background: var(--success); color: #fff; padding: 10px 17px; box-shadow: 0 2px 8px rgba(26,122,63,0.2); }
+  .btn-success:hover:not(:disabled) { background: #156834; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-add-row { background: var(--surface2); border: 1px dashed var(--border-strong); color: var(--text-secondary); padding: 9px 16px; font-size: 0.83rem; border-radius: 8px; width: 100%; justify-content: center; }
+  .btn-add-row:hover:not(:disabled) { background: var(--accent-light); border-color: var(--accent); color: var(--accent); border-style: solid; }
+  .btn-delete-block { background: var(--error-bg); border: 1px solid var(--error-border); color: var(--error); padding: 7px 14px; font-size: 0.82rem; border-radius: 7px; }
+  .btn-delete-block:hover:not(:disabled) { background: var(--error); color: white; border-color: var(--error); }
+  .btn-remove-img { background: transparent; border: 1px solid var(--border-strong); color: var(--muted); padding: 4px 8px; font-size: 0.8rem; border-radius: 6px; }
+  .btn-remove-img:hover { background: var(--error-bg); border-color: var(--error-border); color: var(--error); }
+  .access-area { display: flex; flex-direction: column; gap: 10px; }
+  .reconnect-row { display: none; align-items: center; gap: 10px; padding: 10px 14px; background: var(--accent-light); border: 1px solid #c7d6fb; border-radius: 8px; }
+  .reconnect-row.visible { display: flex; }
+  .reconnect-info { flex: 1; font-size: 0.82rem; color: var(--accent); }
+  .reconnect-info strong { display: block; font-weight: 600; margin-bottom: 1px; }
+  .reconnect-info span { color: var(--muted); font-size: 0.75rem; }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 500; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); }
+  .status-pill.connected { background: var(--success-bg); border-color: var(--success-border); color: var(--success); }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .path-row { display: none; align-items: center; gap: 8px; font-size: 0.78rem; }
+  .path-row.visible { display: flex; }
+  .path-label { color: var(--muted); flex-shrink: 0; }
+  .path-value { font-family: 'Cascadia Code','Consolas',monospace; background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 3px 9px; color: var(--accent); font-size: 0.78rem; }
+  .field-label { font-size: 0.78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .radio-group { display: flex; gap: 8px; }
+  .radio-pill { display: inline-flex; align-items: center; gap: 7px; padding: 8px 15px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); cursor: pointer; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); transition: all 0.15s; user-select: none; }
+  .radio-pill input { display: none; }
+  .radio-pill.selected { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .radio-pill.disabled { opacity: 0.4; cursor: not-allowed; }
+  .chapter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chap-pill { padding: 7px 15px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+  .chap-pill:hover { background: var(--surface2); }
+  .chap-pill.sel-bio { background: var(--bio-light); border-color: #a8dcd6; color: var(--bio); }
+  .chap-pill.sel-chemistry { background: var(--chemistry-light); border-color: #f0cc8a; color: var(--chemistry); }
+  .chap-pill.sel-physics { background: var(--physics-light); border-color: #c9c0e8; color: var(--physics); }
+  .section-label { font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+  .divider { height: 1px; background: var(--border); }
+  .alert { display: none; border-radius: 8px; padding: 12px 16px; font-size: 0.83rem; line-height: 1.6; border: 1px solid; white-space: pre-wrap; }
+  .alert.show { display: block; }
+  .alert.success { background: var(--success-bg); border-color: var(--success-border); color: var(--success); }
+  .alert.error { background: var(--error-bg); border-color: var(--error-border); color: var(--error); }
+  .alert.info { background: var(--info-bg); border-color: var(--info-border); color: var(--info); }
+  .fmt-bar { display: flex; gap: 3px; }
+  .fmt-btn { width: 24px; height: 24px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary); border-radius: 5px; font-size: 0.8rem; cursor: pointer; display: grid; place-items: center; padding: 0; line-height: 1; transition: background 0.12s, border-color 0.12s, color 0.12s; flex-shrink: 0; }
+  .fmt-btn:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  /* Live preview of a formatted field. Floats over the layout rather than being
+     inserted into it, so none of the existing grids are disturbed. */
+  .fmt-preview { position: absolute; white-space: pre-line; z-index: 500; display: none; max-width: 560px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--accent); background: var(--surface); color: var(--text); font-size: 0.85rem; line-height: 1.6; box-shadow: 0 10px 24px rgba(26,32,53,0.16); pointer-events: none; }
+  .fmt-preview.show { display: block; }
+  .fmt-preview-label { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  input[type="text"], input[type="number"], textarea, select { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--text); background: var(--surface); border: 1px solid var(--border-strong); border-radius: 7px; padding: 8px 10px; outline: none; transition: border-color 0.15s, box-shadow 0.15s; width: 100%; }
+  input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
+  input::placeholder, textarea::placeholder { color: var(--muted); }
+  textarea { resize: vertical; line-height: 1.5; }
+  .tab-bar { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; box-shadow: var(--shadow-sm); }
+  .tab-btn { flex: 1; padding: 13px 10px; background: var(--surface2); color: var(--text-secondary); border: none; border-right: 1px solid var(--border); border-radius: 0; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; transform: none; }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active { background: var(--surface); color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
+  .tab-btn:hover:not(.active) { background: var(--surface); color: var(--text); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .tab-card { background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius) var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; }
+  .tab-card-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .tab-card-header { padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); display: flex; align-items: center; gap: 10px; }
+  .count-badge { font-size: 0.75rem; font-weight: 600; color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 3px 10px; border-radius: 999px; margin-left: auto; }
+  .empty-state { text-align: center; padding: 36px 20px; color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+  .empty-state.hidden { display: none; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(26,32,53,0.55); z-index: 1000; align-items: center; justify-content: center; padding: 24px; }
+  .modal-overlay.visible { display: flex; }
+  .modal-box { background: var(--surface); border-radius: 12px; box-shadow: 0 20px 60px rgba(26,32,53,0.2); width: 100%; max-width: 760px; max-height: 82vh; display: flex; flex-direction: column; overflow: hidden; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .modal-title { font-weight: 700; font-size: 0.95rem; }
+  .modal-close { background: var(--surface2); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px; border-radius: 7px; font-size: 0.83rem; }
+  .modal-close:hover { background: var(--error-bg); border-color: var(--error-border); color: var(--error); }
+  .modal-toolbar { padding: 12px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .modal-toolbar-hint { font-size: 0.75rem; color: var(--muted); }
+  .modal-gallery { padding: 16px 20px; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; flex: 1; }
+  .modal-thumb-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; border: 2px solid var(--border); background: var(--surface2); cursor: pointer; transition: all 0.15s; width: 100%; }
+  .modal-thumb-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+  .modal-thumb-btn img { width: 100%; height: 68px; object-fit: cover; border-radius: 5px; }
+  .modal-thumb-btn span { font-size: 0.67rem; color: var(--text-secondary); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; display: block; }
+  .modal-empty { padding: 30px 20px; text-align: center; color: var(--muted); font-size: 0.85rem; line-height: 1.6; grid-column: 1 / -1; }
+
+  /* ── QCM specific ── */
+  .qcm-list { display: flex; flex-direction: column; gap: 16px; }
+  .qcm-quiz { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .qcm-quiz-header { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--surface2); border-bottom: 1px solid var(--border); border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0; }
+  .qcm-quiz-header-label { font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); flex: 1; }
+  .qcm-quiz-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .qcm-field { display: flex; flex-direction: column; gap: 5px; }
+  .qcm-label { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .qcm-image-zone { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .qcm-img-preview { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; }
+  .qcm-thumb { width: 52px; height: 42px; object-fit: cover; border-radius: 5px; border: 1px solid var(--border); background: var(--border); }
+  .qcm-img-name { font-size: 0.78rem; color: var(--text-secondary); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .qcm-questions-list { display: flex; flex-direction: column; gap: 12px; }
+  .qcm-question { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--physics); border-radius: 8px; }
+  .qcm-question-header { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  .qcm-question-index { font-size: 0.75rem; font-weight: 700; color: var(--muted); flex: 1; }
+  .qcm-question-body { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+  .qcm-imgmode-group { display: flex; flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  .qcm-imgmode-option { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); cursor: pointer; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); transition: all 0.15s; user-select: none; }
+  .qcm-imgmode-option input { margin: 0; flex-shrink: 0; }
+  .qcm-imgmode-option.active { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .qcm-specific-img-zone { margin-top: 4px; display: none; }
+  .qcm-options-list { display: flex; flex-direction: column; gap: 6px; }
+  .qcm-option-row { display: flex; align-items: center; gap: 8px; }
+  .qcm-option-row input[type="text"] { flex: 1; }
+  .qcm-option-correct-badge { display: inline-flex; align-items: center; justify-content: center; gap: 4px; font-size: 0.72rem; font-weight: 600; color: var(--success); background: var(--success-bg); border: 1px solid var(--success-border); border-radius: 999px; padding: 4px 10px; flex-shrink: 0; white-space: nowrap; width: 108px; text-align: center; }
+  .qcm-option-correct-badge.qcm-badge-empty { visibility: hidden; }
+  .btn-delete-option, .btn-delete-question { background: transparent; border: 1px solid var(--border-strong); color: var(--muted); padding: 7px; font-size: 0.8rem; border-radius: 6px; line-height: 1; flex-shrink: 0; }
+  .btn-delete-option:hover:not(:disabled), .btn-delete-question:hover:not(:disabled) { background: var(--error-bg); border-color: var(--error-border); color: var(--error); }
+
+  /* ── QCM quiz tabs ── */
+  .qcm-tabs-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .qcm-quiz-tabs { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+  .qcm-tab, .qcm-tab-all { padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary); font-size: 0.83rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .qcm-tab:hover, .qcm-tab-all:hover { background: var(--surface2); }
+  .qcm-tab.active, .qcm-tab-all.active { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .qcm-tab.row-dragging { opacity: 0.35; }
+  .qcm-tab.drop-left { box-shadow: -2px 0 0 var(--accent); }
+  .qcm-tab.drop-right { box-shadow: 2px 0 0 var(--accent); }
+  .qcm-tab-add { padding: 7px 14px; border-radius: 8px; border: 1px dashed var(--border-strong); background: var(--surface2); color: var(--text-secondary); font-size: 0.83rem; font-weight: 600; }
+  .qcm-tab-add:hover:not(:disabled) { background: var(--accent-light); border-color: var(--accent); color: var(--accent); border-style: solid; }
+
+  /* ── Question reorder chevrons (replaces drag & drop — blocks are too large to drag comfortably) ── */
+  .ex-order-btns { display: flex; gap: 4px; }
+  .btn-chevron { background: var(--surface); border: 1px solid var(--border-strong); color: var(--muted); padding: 4px 9px; font-size: 0.72rem; border-radius: 5px; line-height: 1; }
+  .btn-chevron:hover:not(:disabled) { background: var(--surface2); color: var(--text); border-color: var(--accent); }
+  .btn-chevron:disabled { opacity: 0.2; cursor: default; transform: none; }
+
+  /* ── Drag & Drop specific ── */
+  .dnd-exercise { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .dnd-exercise-header { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--surface2); border-bottom: 1px solid var(--border); border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0; flex-wrap: wrap; }
+  .dnd-exercise-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .dnd-hideonsuccess { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--muted); margin-left: auto; }
+  .dnd-hint { font-size: 0.75rem; color: var(--muted); font-style: italic; }
+  .dnd-dim-row { display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap; }
+  .dnd-dim-field { display: flex; flex-direction: column; gap: 4px; width: 130px; }
+  .dnd-reservoir-list, .dnd-dropzones-list { display: flex; flex-direction: column; gap: 6px; }
+  .dnd-reservoir-row { display: flex; align-items: center; gap: 8px; }
+  .dnd-reservoir-row input { flex: 1; }
+  .dnd-dropzone-row { display: flex; align-items: flex-start; gap: 8px; }
+  .dnd-dropzone-row .dnd-dz-accepted-wrap { flex: 1.6; display: flex; flex-direction: column; gap: 3px; }
+  .dnd-dropzone-row .dnd-dz-num { width: 90px; flex-shrink: 0; }
+  .dnd-dz-warning { font-size: 0.72rem; color: var(--chemistry); display: none; }
+  .dnd-dz-warning.show { display: block; }
+  .dnd-dz-percent { font-size: 0.72rem; color: var(--muted); width: 108px; flex-shrink: 0; padding-top: 9px; white-space: nowrap; }
+  .dnd-preview-wrap { border: 1px solid var(--border); border-radius: 10px; background: var(--surface2); padding: 12px; display: flex; justify-content: center; }
+  .dnd-preview-empty { color: var(--muted); font-size: 0.83rem; padding: 30px; text-align: center; }
+  .dnd-preview-inner { position: relative; display: inline-block; max-width: 100%; }
+  .dnd-preview-img { max-width: 100%; display: block; border-radius: 6px; }
+  .dnd-marker { position: absolute; transform: translate(-50%, -50%); color: var(--error, #c0392b); font-size: 1.6rem; line-height: 1; text-shadow: 0 0 3px rgba(255,255,255,0.9), 0 0 3px rgba(255,255,255,0.9); pointer-events: auto; cursor: grab; user-select: none; }
+  .dnd-marker:active { cursor: grabbing; }
+  .btn-dz-target { padding: 7px 9px; }
+  .btn-dz-target.armed { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .dnd-preview-wrap.armed { border-color: var(--accent); background: var(--accent-light); }
+  .dnd-preview-wrap.armed .dnd-preview-inner { cursor: crosshair; }
+
+  /* ── Match the pairs specific ── */
+  .mtp-pairs-list { display: flex; flex-direction: column; gap: 8px; }
+  .mtp-pair-row { display: flex; align-items: center; gap: 10px; }
+  .mtp-sideA-zone { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .mtp-sideA-zone .mtp-sideA-text { flex: 1; }
+  .mtp-sideA-preview { flex: 1; }
+  .mtp-arrow { color: var(--muted); font-size: 0.9rem; flex-shrink: 0; }
+  .mtp-pair-row .mtp-sideB-text { flex: 1; }
+
+  /* ── Fill in the blanks: word bank (translation on hover, student-side) ── */
+  .fib-wordbank-list { display: flex; flex-direction: column; gap: 8px; }
+  .fib-wordbank-row input[type="text"] { flex: 1; }
+  .fib-wordbank-import { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+
+  /* ── Sorting challenge specific ── */
+  .sort-categories-list { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-start; }
+  .sort-category-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; width: 260px; flex-shrink: 0; }
+  .sort-category-header { display: flex; align-items: center; gap: 6px; }
+  .sort-category-header input { flex: 1; }
+  .sort-words-list { display: flex; flex-direction: column; gap: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="header-left">
+      <div class="header-icon">🎮</div>
+      <div>
+        <div class="header-title">Interactive Games Editor</div>
+        <div class="header-sub">Outil d'administration — Site Sciences</div>
+      </div>
+    </div>
+    <div class="header-badge">Admin</div>
+  </header>
+
+  <!-- Step 1: Folder access -->
+  <div class="card">
+    <div class="card-header"><div class="step-number" id="step1-num">1</div><span class="card-label">Accès au projet</span></div>
+    <div class="card-body">
+      <div class="access-area">
+        <div class="reconnect-row" id="reconnect-row">
+          <div class="reconnect-info"><strong id="reconnect-folder-name">Site sciences</strong><span>Dossier utilisé précédemment</span></div>
+          <button class="btn-reconnect" id="btn-reconnect">🔗 Reconnecter</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn-primary" id="btn-open-folder">📁 Sélectionner le dossier racine du site</button>
+          <div class="status-pill" id="folder-status"><span class="status-dot"></span><span id="folder-status-text">Non connecté</span></div>
+        </div>
+      </div>
+      <div class="path-row" id="path-row"><span class="path-label">Fichier cible :</span><span class="path-value" id="path-value">—</span></div>
+    </div>
+  </div>
+
+  <!-- Step 2: Year + Chapter -->
+  <div class="card">
+    <div class="card-header"><div class="step-number" id="step2-num">2</div><span class="card-label">Ciblage</span></div>
+    <div class="card-body">
+      <div>
+        <div class="field-label">Langue</div>
+        <div class="radio-group" id="lang-group">
+          <label class="radio-pill selected"><input type="radio" name="lang" value="en" checked />Anglais</label>
+          <label class="radio-pill"><input type="radio" name="lang" value="nl" />Néerlandais</label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="field-label">Année</div>
+        <div class="radio-group" id="year-group">
+          <label class="radio-pill selected"><input type="radio" name="year" value="year1" checked />Année 1</label>
+          <label class="radio-pill disabled" title="Non disponible"><input type="radio" name="year" value="year2" disabled />Année 2</label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="field-label">Chapitre</div>
+        <div class="chapter-group">
+          <button class="chap-pill" data-chapter="bio1" data-subject="bio">Bio 1</button>
+          <button class="chap-pill" data-chapter="bio2" data-subject="bio">Bio 2</button>
+          <button class="chap-pill" data-chapter="chem1" data-subject="chemistry">Chem 1</button>
+          <button class="chap-pill" data-chapter="chem2" data-subject="chemistry">Chem 2</button>
+          <button class="chap-pill" data-chapter="phys1" data-subject="physics">Phys 1</button>
+          <button class="chap-pill" data-chapter="phys2" data-subject="physics">Phys 2</button>
+        </div>
+      </div>
+      <div><button class="btn-outline" id="btn-load" disabled>📂 2. Afficher les données</button></div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div>
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="qcm">🧠 QCM</button>
+      <button class="tab-btn" data-tab="dnd">🧲 Drag &amp; Drop</button>
+      <button class="tab-btn" data-tab="fib">✏️ Fill in the blanks</button>
+      <button class="tab-btn" data-tab="mtp">🃏 Match the pairs</button>
+      <button class="tab-btn" data-tab="sort">🗂️ Sorting challenge</button>
+    </div>
+
+    <!-- QCM PANEL -->
+    <div class="tab-panel active" id="panel-qcm">
+      <div class="tab-card">
+        <div class="tab-card-header"><span class="card-label">Quiz à choix multiples</span><span class="count-badge" id="qcm-count-badge">0 quiz</span></div>
+        <div class="tab-card-body">
+          <div class="qcm-tabs-row">
+            <button type="button" class="qcm-tab qcm-tab-all active" id="qcm-tab-all">Tous les quiz</button>
+            <div class="qcm-quiz-tabs" id="qcm-quiz-tabs"></div>
+            <button type="button" class="qcm-tab-add" id="qcm-btn-add-quiz" disabled>+ Ajouter un quiz</button>
+          </div>
+          <div class="qcm-list" id="qcm-list"></div>
+          <div class="empty-state" id="qcm-empty-state">Aucun quiz chargé.<br>Utilisez « 2. Afficher les données » ou ajoutez un quiz ci-dessus.</div>
+          <div class="divider"></div>
+          <div class="alert" id="qcm-alert-box"></div>
+          <div class="btn-row">
+            <button class="btn-outline" id="qcm-btn-verify" disabled>🔍 3. Vérifier le format</button>
+            <button class="btn-success" id="qcm-btn-save" disabled>💾 4. Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DRAG & DROP PANEL -->
+    <div class="tab-panel" id="panel-dnd">
+      <div class="tab-card">
+        <div class="tab-card-header"><span class="card-label">Exercices Drag &amp; Drop</span><span class="count-badge" id="dnd-count-badge">0 exercice</span></div>
+        <div class="tab-card-body">
+          <div class="qcm-tabs-row">
+            <button type="button" class="qcm-tab qcm-tab-all active" id="dnd-tab-all">Tous</button>
+            <div class="qcm-quiz-tabs" id="dnd-exercise-tabs"></div>
+            <button type="button" class="qcm-tab-add" id="dnd-btn-add-exercise" disabled>+ Ajouter un exercice</button>
+          </div>
+          <div class="qcm-list" id="dnd-list"></div>
+          <div class="empty-state" id="dnd-empty-state">Aucun exercice chargé.<br>Utilisez « 2. Afficher les données » ou ajoutez un exercice ci-dessus.</div>
+          <div class="divider"></div>
+          <div class="alert" id="dnd-alert-box"></div>
+          <div class="btn-row">
+            <button class="btn-outline" id="dnd-btn-verify" disabled>🔍 3. Vérifier le format</button>
+            <button class="btn-success" id="dnd-btn-save" disabled>💾 4. Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILL IN THE BLANKS PANEL -->
+    <div class="tab-panel" id="panel-fib">
+      <div class="tab-card">
+        <div class="tab-card-header"><span class="card-label">Textes à trous</span><span class="count-badge" id="fib-count-badge">0 texte</span></div>
+        <div class="tab-card-body">
+          <div class="qcm-tabs-row">
+            <button type="button" class="qcm-tab qcm-tab-all active" id="fib-tab-all">Tous les textes</button>
+            <div class="qcm-quiz-tabs" id="fib-text-tabs"></div>
+            <button type="button" class="qcm-tab-add" id="fib-btn-add-block" disabled>+ Ajouter un texte</button>
+          </div>
+          <div class="qcm-list" id="fib-list"></div>
+          <div class="empty-state" id="fib-empty-state">Aucun texte chargé.<br>Utilisez « 2. Afficher les données » ou ajoutez un texte ci-dessus.</div>
+          <div class="divider"></div>
+          <div class="alert" id="fib-alert-box"></div>
+          <div class="btn-row">
+            <button class="btn-outline" id="fib-btn-verify" disabled>🔍 3. Vérifier le format</button>
+            <button class="btn-success" id="fib-btn-save" disabled>💾 4. Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATCH THE PAIRS PANEL -->
+    <div class="tab-panel" id="panel-mtp">
+      <div class="tab-card">
+        <div class="tab-card-header"><span class="card-label">Jeux d'association</span><span class="count-badge" id="mtp-count-badge">0 jeu</span></div>
+        <div class="tab-card-body">
+          <div class="qcm-tabs-row">
+            <button type="button" class="qcm-tab qcm-tab-all active" id="mtp-tab-all">Tous les jeux</button>
+            <div class="qcm-quiz-tabs" id="mtp-game-tabs"></div>
+            <button type="button" class="qcm-tab-add" id="mtp-btn-add-block" disabled>+ Ajouter un jeu</button>
+          </div>
+          <div class="qcm-list" id="mtp-list"></div>
+          <div class="empty-state" id="mtp-empty-state">Aucun jeu chargé.<br>Utilisez « 2. Afficher les données » ou ajoutez un jeu ci-dessus.</div>
+          <div class="divider"></div>
+          <div class="alert" id="mtp-alert-box"></div>
+          <div class="btn-row">
+            <button class="btn-outline" id="mtp-btn-verify" disabled>🔍 3. Vérifier le format</button>
+            <button class="btn-success" id="mtp-btn-save" disabled>💾 4. Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SORTING CHALLENGE PANEL -->
+    <div class="tab-panel" id="panel-sort">
+      <div class="tab-card">
+        <div class="tab-card-header"><span class="card-label">Jeux de tri par catégories</span><span class="count-badge" id="sort-count-badge">0 jeu</span></div>
+        <div class="tab-card-body">
+          <div class="qcm-tabs-row">
+            <button type="button" class="qcm-tab qcm-tab-all active" id="sort-tab-all">Tous les jeux</button>
+            <div class="qcm-quiz-tabs" id="sort-game-tabs"></div>
+            <button type="button" class="qcm-tab-add" id="sort-btn-add-block" disabled>+ Ajouter un jeu</button>
+          </div>
+          <div class="qcm-list" id="sort-list"></div>
+          <div class="empty-state" id="sort-empty-state">Aucun jeu chargé.<br>Utilisez « 2. Afficher les données » ou ajoutez un jeu ci-dessus.</div>
+          <div class="divider"></div>
+          <div class="alert" id="sort-alert-box"></div>
+          <div class="btn-row">
+            <button class="btn-outline" id="sort-btn-verify" disabled>🔍 3. Vérifier le format</button>
+            <button class="btn-success" id="sort-btn-save" disabled>💾 4. Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image picker modal (shared across all game tabs: QCM quiz/question images, Drag & Drop background images, ...) -->
+<div id="games-image-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header"><span class="modal-title">Choisir une image</span><button class="modal-close" id="games-modal-close-btn">Fermer</button></div>
+    <div class="modal-toolbar"><button class="btn-outline" id="games-btn-import-img">📥 Importer une image depuis ailleurs</button><span class="modal-toolbar-hint">L'image importée est copiée dans assets/ du chapitre</span></div>
+    <div class="modal-gallery" id="games-modal-gallery"><p class="modal-empty">Sélectionnez un chapitre et chargez le fichier.</p></div>
+  </div>
+</div>
+
+<script>
+/* ===== SHARED STATE & HELPERS (identiques aux autres outils Admin) ===== */
+let rootHandle=null,selectedChap=null,selectedYear='year1',selectedLang='en',activeTab='qcm';
+
+/* Le segment d'URL de l'année dépend de la langue (year1 côté EN, jaar1 côté NL),
+   alors que selectedYear reste la clé interne stable. */
+const YEAR_FOLDERS={en:{year1:'year1',year2:'year2'},nl:{year1:'jaar1',year2:'jaar2'}};
+function yearFolder(){return (YEAR_FOLDERS[selectedLang]||{})[selectedYear]||selectedYear;}
+function gamesPath(){return selectedLang+'/'+yearFolder()+'/'+selectedChap+'/interactive.json';}
+/* Point d'accès unique au dossier du chapitre ciblé. */
+async function chapterDir(){
+  const l=await rootHandle.getDirectoryHandle(selectedLang,{create:false});
+  const y=await l.getDirectoryHandle(yearFolder(),{create:false});
+  return y.getDirectoryHandle(selectedChap,{create:false});
+}
+const DB_NAME='sciences-admin',DB_STORE='handles',HANDLE_KEY='rootDir';
+
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB_NAME,1);r.onupgradeneeded=e=>e.target.result.createObjectStore(DB_STORE);r.onsuccess=e=>res(e.target.result);r.onerror=e=>rej(e.target.error);});}
+async function storeHandle(h){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(h,HANDLE_KEY);tx.oncomplete=res;tx.onerror=e=>rej(e.target.error);});}
+async function loadStoredHandle(){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(DB_STORE,'readonly');const r=tx.objectStore(DB_STORE).get(HANDLE_KEY);r.onsuccess=e=>res(e.target.result||null);r.onerror=e=>rej(e.target.error);});}
+
+function escAttr(str){return String(str??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function wrapSelection(input,tag,cb){
+  if(!input)return;
+  const s=input.selectionStart,e=input.selectionEnd,v=input.value,o='<'+tag+'>',c='</'+tag+'>',sel=v.slice(s,e);
+  let rep,ns,ne;
+  if(sel.startsWith(o)&&sel.endsWith(c)){const inn=sel.slice(o.length,sel.length-c.length);rep=inn;ns=s;ne=s+inn.length;}
+  else{rep=o+sel+c;ns=s+o.length;ne=ns+sel.length;}
+  input.focus();input.setSelectionRange(s,e);document.execCommand('insertText',false,rep);input.setSelectionRange(ns,ne);
+  if(cb)cb();
+}
+
+/* Insère du texte au curseur via execCommand, comme wrapSelection, pour que
+   l'annulation (Ctrl+Z) continue de fonctionner normalement. */
+function insertAtCursor(input,text,cb){
+  if(!input)return;
+  input.focus();
+  document.execCommand('insertText',false,text);
+  if(cb)cb();
+}
+
+/* Aiguillage unique des boutons de mise en forme : <br> s'insère au curseur,
+   les autres balises entourent la sélection. */
+function applyFmt(input,tag,cb){
+  if(tag==='br')insertAtCursor(input,'<br>',cb);
+  else wrapSelection(input,tag,cb);
+}
+
+/* Entrée dans un champ d'une seule ligne : la touche n'y produisait rien.
+   Elle insère désormais un <br>. Les textarea gardent le comportement
+   standard, leurs vrais sauts de ligne étant déjà gérés. */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  const el=e.target;
+  if(!el||el.tagName!=='INPUT'||el.type!=='text')return;
+  // Uniquement les champs réellement destinés à du texte rédigé : un <br>
+  // dans un mot accepté de glisser-déposer ou une option de QCM casserait
+  // la comparaison des réponses.
+  if(!/title-input|instructions/.test(el.className||''))return;
+  e.preventDefault();
+  insertAtCursor(el,'<br>');
+  el.dispatchEvent(new Event('input',{bubbles:true}));
+});
+
+/* ===== Aperçu en direct du texte mis en forme =====
+   Même mécanisme que dans content.html : le champ reste la source de vérité,
+   ceci n'en est qu'un miroir rendu comme le site le rendra. N'apparaît que si
+   le champ contient réellement des balises. L'échappement reproduit
+   setRichText() de practice-engine.js, pour qu'un énoncé puisse contenir
+   "<", ">" ou "&" sans être lu comme du balisage. */
+const FMT_TAGS=/&lt;(\/?)(strong|em|u|br)\s*\/?&gt;/gi;
+// Un simple retour à la ligne n'y figure pas : rich-text.js ne le convertit
+// jamais en <br>, il est ignoré comme un espace ordinaire côté élève — le
+// détecter ici ne ferait qu'afficher l'aperçu pour un texte multi-lignes
+// banal qui ne change rien au rendu final.
+const FMT_DETECT=/<\/?(strong|em|u|br)\s*\/?>/i;
+
+function fmtRender(raw){
+  return String(raw==null?'':raw)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(FMT_TAGS,(m,slash,tag)=>'<'+slash+tag.toLowerCase()+'>');
+}
+
+const fmtPreview=document.createElement('div');
+fmtPreview.className='fmt-preview';
+document.body.appendChild(fmtPreview);
+let fmtTarget=null;
+
+function fmtPlace(){
+  if(!fmtTarget)return;
+  const r=fmtTarget.getBoundingClientRect();
+  fmtPreview.style.top=(window.scrollY+r.bottom+6)+'px';
+  fmtPreview.style.left=(window.scrollX+r.left)+'px';
+  fmtPreview.style.width=Math.min(r.width,560)+'px';
+}
+
+function fmtUpdate(){
+  if(!fmtTarget)return;
+  const v=fmtTarget.value||'';
+  if(!FMT_DETECT.test(v)){fmtPreview.classList.remove('show');return;}
+  fmtPreview.innerHTML='<span class="fmt-preview-label">Aperçu élève</span>'+fmtRender(v);
+  fmtPreview.classList.add('show');
+  fmtPlace();
+}
+
+function fmtHide(){fmtTarget=null;fmtPreview.classList.remove('show');}
+
+document.addEventListener('focusin',e=>{
+  const el=e.target;
+  if(el&&(el.tagName==='INPUT'||el.tagName==='TEXTAREA')&&el.type!=='file'&&el.type!=='number'){fmtTarget=el;fmtUpdate();}
+  else fmtHide();
+});
+document.addEventListener('focusout',e=>{if(e.target===fmtTarget)fmtHide();});
+document.addEventListener('input',e=>{if(e.target===fmtTarget)fmtUpdate();});
+window.addEventListener('scroll',()=>{if(fmtPreview.classList.contains('show'))fmtPlace();},true);
+window.addEventListener('resize',()=>{if(fmtPreview.classList.contains('show'))fmtPlace();});
+
+/* Horizontal drag reordering for the quiz tab bar (the tab element itself is the handle) */
+let tabDragSrc=null;
+function initTabDrag(tabEl,container,onDrop){
+  tabEl.setAttribute('draggable','true');
+  tabEl.addEventListener('dragstart',e=>{tabDragSrc=tabEl;e.dataTransfer.effectAllowed='move';setTimeout(()=>tabEl.classList.add('row-dragging'),0);});
+  tabEl.addEventListener('dragend',()=>{tabDragSrc=null;tabEl.classList.remove('row-dragging');container.querySelectorAll('.drop-left,.drop-right').forEach(el=>el.classList.remove('drop-left','drop-right'));});
+  tabEl.addEventListener('dragover',e=>{if(!tabDragSrc||tabDragSrc===tabEl||tabDragSrc.parentElement!==container)return;e.preventDefault();container.querySelectorAll('.drop-left,.drop-right').forEach(el=>el.classList.remove('drop-left','drop-right'));const rect=tabEl.getBoundingClientRect();tabEl.classList.add(e.clientX<rect.left+rect.width/2?'drop-left':'drop-right');});
+  tabEl.addEventListener('dragleave',e=>{if(!tabEl.contains(e.relatedTarget))tabEl.classList.remove('drop-left','drop-right');});
+  tabEl.addEventListener('drop',e=>{if(!tabDragSrc||tabDragSrc===tabEl||tabDragSrc.parentElement!==container)return;e.preventDefault();const rect=tabEl.getBoundingClientRect();const before=e.clientX<rect.left+rect.width/2;if(before)container.insertBefore(tabDragSrc,tabEl);else tabEl.after(tabDragSrc);tabEl.classList.remove('drop-left','drop-right');if(onDrop)onDrop(tabDragSrc,tabEl,before);});
+}
+
+/* ===== DOM REFS (Step 1 / Step 2) ===== */
+const btnOpenFolder=document.getElementById('btn-open-folder'),btnReconnect=document.getElementById('btn-reconnect'),reconnectRow=document.getElementById('reconnect-row'),reconnectName=document.getElementById('reconnect-folder-name'),folderStatus=document.getElementById('folder-status'),folderStatusText=document.getElementById('folder-status-text'),pathRow=document.getElementById('path-row'),pathValue=document.getElementById('path-value'),btnLoad=document.getElementById('btn-load');
+
+window.addEventListener('DOMContentLoaded',async()=>{
+  qcmRefreshEmpty();qcmRefreshCount();
+  dndRefreshEmpty();dndRefreshCount();
+  fibRefreshEmpty();fibRefreshCount();
+  mtpRefreshEmpty();mtpRefreshCount();
+  sortRefreshEmpty();sortRefreshCount();
+  try{const s=await loadStoredHandle();if(s){reconnectName.textContent=s.name;reconnectRow.classList.add('visible');}}catch{}
+});
+
+function showAlert(box,type,msg){if(box){box.className='alert show '+type;box.textContent=msg;}}
+function clearAlertEl(box){if(box){box.className='alert';box.textContent='';}}
+function getAlertBox(){return document.getElementById({qcm:'qcm-alert-box',dnd:'dnd-alert-box',fib:'fib-alert-box',mtp:'mtp-alert-box',sort:'sort-alert-box'}[activeTab]||'qcm-alert-box');}
+
+btnReconnect.addEventListener('click',async()=>{
+  try{const s=await loadStoredHandle();if(!s)return;const perm=await s.requestPermission({mode:'readwrite'});if(perm==='granted'){rootHandle=s;setConnected(rootHandle.name);}else showAlert(getAlertBox(),'error','Permission refusée.');}
+  catch(e){showAlert(getAlertBox(),'error','Erreur : '+e.message);}
+});
+
+btnOpenFolder.addEventListener('click',async()=>{
+  try{const h=await window.showDirectoryPicker({mode:'readwrite'});rootHandle=h;await storeHandle(h);reconnectName.textContent=h.name;reconnectRow.classList.add('visible');setConnected(h.name);}
+  catch(e){if(e.name!=='AbortError')showAlert(getAlertBox(),'error','Erreur : '+e.message);}
+});
+
+function setConnected(name){folderStatus.classList.add('connected');folderStatusText.textContent='✓ '+name;document.getElementById('step1-num').classList.add('done');refreshLoadButton();}
+
+function selectPillIn(groupEl,radio){groupEl.querySelectorAll('.radio-pill').forEach(p=>p.classList.remove('selected'));radio.closest('.radio-pill').classList.add('selected');}
+
+document.querySelectorAll('input[name="year"]').forEach(r=>r.addEventListener('change',()=>{
+  selectedYear=r.value;
+  selectPillIn(document.getElementById('year-group'),r);
+  gamesAssetsHandle=null;updatePath();refreshLoadButton();qcmReset();dndReset();fibReset();mtpReset();sortReset();
+}));
+
+document.querySelectorAll('input[name="lang"]').forEach(r=>r.addEventListener('change',()=>{
+  selectedLang=r.value;
+  selectPillIn(document.getElementById('lang-group'),r);
+  // Les données affichées viennent de l'autre langue : on repart d'un état vierge
+  // plutôt que de risquer d'écrire du contenu EN dans un fichier NL.
+  gamesAssetsHandle=null;interactiveFullData=null;
+  updatePath();refreshLoadButton();qcmReset();dndReset();fibReset();mtpReset();sortReset();
+}));
+
+document.querySelectorAll('.chap-pill').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.chap-pill').forEach(b=>b.className='chap-pill');
+  btn.classList.add('sel-'+btn.dataset.subject);
+  selectedChap=btn.dataset.chapter;
+  gamesAssetsHandle=null;
+  updatePath();refreshLoadButton();qcmReset();dndReset();fibReset();mtpReset();sortReset();
+}));
+
+function updatePath(){if(!selectedChap){pathRow.classList.remove('visible');return;}pathValue.textContent=gamesPath();pathRow.classList.add('visible');}
+function refreshLoadButton(){btnLoad.disabled=!(rootHandle&&selectedChap);}
+
+document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  activeTab=btn.dataset.tab;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b===btn));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+activeTab));
+}));
+
+btnLoad.addEventListener('click',async()=>{
+  if(!rootHandle||!selectedChap)return;
+  try{
+    await gamesInitAssets();
+    // Un chapitre sans interactive.json est un cas normal (chapitre encore vierge) :
+    // on ouvre l'éditeur à vide au lieu de bloquer, le fichier sera créé à la sauvegarde.
+    let fh=null;
+    try{fh=await gamesGetFH(false);}catch{}
+    interactiveFullData=fh?JSON.parse(await (await fh.getFile()).text()):{};
+    qcmPopulate(interactiveFullData.multipleChoice||[]);
+    dndPopulate(interactiveFullData.dragAndDrop||[]);
+    fibPopulate(interactiveFullData.fillBlanks||[]);
+    mtpPopulate(interactiveFullData.matchPairs||[]);
+    sortPopulate(interactiveFullData.sorting||[]);
+    document.getElementById('step2-num').classList.add('done');
+    if(!fh){showAlert(getAlertBox(),'info','Aucun interactive.json dans ce chapitre – éditeur ouvert à vide. Le fichier sera créé lors de la première sauvegarde ('+gamesPath()+').');return;}
+    const nq=(interactiveFullData.multipleChoice||[]).length;
+    const nd=(interactiveFullData.dragAndDrop||[]).length;
+    const nf=(interactiveFullData.fillBlanks||[]).length;
+    const nm=(interactiveFullData.matchPairs||[]).length;
+    const nsG=(interactiveFullData.sorting||[]).length;
+    const nsC=(interactiveFullData.sorting||[]).reduce((s,g)=>s+(g.categories||[]).length,0);
+    const nsW=(interactiveFullData.sorting||[]).reduce((s,g)=>s+(g.items||[]).length,0);
+    showAlert(getAlertBox(),'success','✓ '+nq+' quiz QCM + '+nd+' exercice(s) Drag & Drop + '+nf+' texte(s) à trous + '+nm+' jeu(x) Match the pairs + '+nsG+' jeu(x) Sorting ('+nsC+' catégories / '+nsW+' mots) chargé(s) — '+gamesPath());
+  }catch(e){showAlert(getAlertBox(),'error','Erreur de chargement : '+e.message);}
+});
+
+/* ===== QCM TAB ===== */
+let interactiveFullData=null,gamesAssetsHandle=null,qcm_uidCounter=0,qcm_verifiedOk=false,games_currentImgCallback=null,games_modalUrls=[],qcm_activeTab='all';
+const qcmListEl=document.getElementById('qcm-list'),qcmEmptyState=document.getElementById('qcm-empty-state'),qcmCountBadge=document.getElementById('qcm-count-badge'),qcmBtnAddQuiz=document.getElementById('qcm-btn-add-quiz'),qcmBtnVerify=document.getElementById('qcm-btn-verify'),qcmBtnSave=document.getElementById('qcm-btn-save'),gamesImageModal=document.getElementById('games-image-modal'),gamesModalGallery=document.getElementById('games-modal-gallery'),qcmQuizTabsEl=document.getElementById('qcm-quiz-tabs'),qcmTabAll=document.getElementById('qcm-tab-all'),qcmAlertBox=document.getElementById('qcm-alert-box');
+
+async function gamesInitAssets(){
+  try{
+    const ch=await chapterDir();
+    gamesAssetsHandle=await ch.getDirectoryHandle('assets',{create:true});
+  }catch{gamesAssetsHandle=null;}
+}
+
+async function gamesGetFH(create){
+  const ch=await chapterDir();
+  // On réutilise un fichier déjà présent (quelle que soit sa casse) avant d'en
+  // créer un : sinon écrire dans 'interactive.json' laisserait un
+  // 'interactive.JSON' concurrent et périmé à côté.
+  try{return await ch.getFileHandle('interactive.json',{create:false});}catch{}
+  try{return await ch.getFileHandle('interactive.JSON',{create:false});}catch{}
+  if(create)return ch.getFileHandle('interactive.json',{create:true});
+  throw new Error('interactive.json introuvable dans ce chapitre.');
+}
+
+function qcmInvalidate(){qcm_verifiedOk=false;qcmBtnSave.disabled=true;}
+
+/* ---- Build UI from loaded data ---- */
+function qcmPopulate(quizzes){
+  qcmListEl.innerHTML='';
+  quizzes.forEach(q=>qcmListEl.appendChild(qcmCreateQuizBlock(q)));
+  qcmRefreshAllThumbs();
+  qcmRefreshEmpty();qcmRefreshCount();
+  qcmBtnAddQuiz.disabled=false;qcmBtnVerify.disabled=false;
+  const firstBlock=qcmListEl.querySelector(':scope > .qcm-quiz');
+  qcm_activeTab=firstBlock?firstBlock.dataset.uid:'all';
+  qcmRebuildTabs();
+  qcmInvalidate();clearAlertEl(qcmAlertBox);
+}
+
+function qcmCreateQuizBlock(quiz){
+  quiz=quiz||{};
+  const div=document.createElement('div');div.className='qcm-quiz';
+  div.dataset.uid=String(qcm_uidCounter++);
+  div.dataset.image=quiz.image||'';
+  let lastFocused=null;
+  div.innerHTML=
+    '<div class="qcm-quiz-header">'+
+      '<span class="qcm-quiz-header-label">Quiz</span>'+
+      '<div class="fmt-bar">'+
+        '<button type="button" class="fmt-btn" data-tag="strong" title="Gras"><b>G</b></button>'+
+        '<button type="button" class="fmt-btn" data-tag="em" title="Italique"><i>I</i></button>'+
+        '<button type="button" class="fmt-btn" data-tag="u" title="Souligné"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button>'+
+      '</div>'+
+      '<button type="button" class="btn-delete-block">🗑 Supprimer ce quiz</button>'+
+    '</div>'+
+    '<div class="qcm-quiz-body">'+
+      '<div class="qcm-field"><span class="qcm-label">Titre du quiz</span><input type="text" class="qcm-quiz-title-input" placeholder="Ex : Quiz 1 : Ecosystem Basics" /></div>'+
+      '<div class="qcm-field"><span class="qcm-label">Instructions</span><textarea class="qcm-instructions-ta" style="min-height:60px" placeholder="Ex : Read each question carefully and select the best answer."></textarea></div>'+
+      '<div class="qcm-image-zone">'+
+        '<span class="qcm-label">Image du quiz (opt.)</span>'+
+        '<button type="button" class="btn-outline btn-quiz-pick-img">📎 Image du quiz</button>'+
+        '<div class="qcm-img-preview" style="display:none"><img class="qcm-thumb" src="" alt="" /><span class="qcm-img-name"></span><button type="button" class="btn-remove-img btn-quiz-remove-img">🗑</button></div>'+
+      '</div>'+
+      '<div class="divider"></div>'+
+      '<div class="qcm-questions-list"></div>'+
+      '<button type="button" class="btn-add-row btn-add-question">+ Ajouter une question</button>'+
+    '</div>';
+
+  div.querySelector('.qcm-quiz-title-input').value=quiz.quizTitle||'';
+  div.querySelector('.qcm-instructions-ta').value=quiz.instructions||'';
+
+  // Écoute déléguée plutôt qu'un abonnement par champ : les questions et leurs
+  // options sont créées par une autre fonction et ajoutées plus tard, donc
+  // elles ne pourraient pas s'abonner elles-mêmes à ce lastFocused.
+  // Les options sont formatables sans risque : la bonne réponse est repérée
+  // par son index, jamais par son texte.
+  div.addEventListener('focusin',e=>{
+    if(e.target.matches('.qcm-quiz-title-input,.qcm-instructions-ta,.qcm-question-ta,.qcm-option-row input[type="text"],.qcm-explanation-ta'))lastFocused=e.target;
+  });
+  div.querySelectorAll(':scope > .qcm-quiz-header .fmt-btn').forEach(btn=>btn.addEventListener('mousedown',e=>{e.preventDefault();applyFmt(lastFocused,btn.dataset.tag,qcmInvalidate);}));
+
+  div.querySelector(':scope > .qcm-quiz-header .btn-delete-block').addEventListener('click',()=>{
+    const wasActive=qcm_activeTab===div.dataset.uid;
+    div.remove();
+    if(wasActive)qcm_activeTab='all';
+    qcmRefreshEmpty();qcmRefreshCount();qcmRebuildTabs();qcmInvalidate();
+  });
+
+  const pickBtn=div.querySelector('.btn-quiz-pick-img');
+  pickBtn.addEventListener('click',()=>{gamesOpenModal(path=>{qcmSetQuizImage(div,path);qcmInvalidate();});});
+  div.querySelector('.btn-quiz-remove-img').addEventListener('click',()=>{qcmSetQuizImage(div,null);qcmInvalidate();});
+  qcmRenderQuizImage(div);
+
+  const questionsList=div.querySelector('.qcm-questions-list');
+  (quiz.questions||[]).forEach(q=>{
+    const qb=qcmCreateQuestionBlock(q);
+    questionsList.appendChild(qb);
+  });
+  qcmRefreshQuestionIndexes(div);
+
+  div.querySelector('.btn-add-question').addEventListener('click',()=>{
+    const qb=qcmCreateQuestionBlock({options:['','']});
+    questionsList.appendChild(qb);
+    qcmRefreshQuestionIndexes(div);qcmRefreshCount();qcmInvalidate();
+    qb.querySelector('.qcm-question-ta').focus();
+  });
+
+  return div;
+}
+
+function qcmRenderQuizImage(quizBlock){
+  const preview=quizBlock.querySelector('.qcm-img-preview'),thumb=quizBlock.querySelector('.qcm-thumb'),nameEl=quizBlock.querySelector('.qcm-img-name'),pick=quizBlock.querySelector('.btn-quiz-pick-img');
+  const img=quizBlock.dataset.image;
+  if(!img){preview.style.display='none';pick.style.display='inline-flex';return;}
+  const fn=img.replace(/^assets\//,'');nameEl.textContent=fn;preview.style.display='flex';pick.style.display='none';
+  if(gamesAssetsHandle)qcmLoadThumb(fn,thumb);
+}
+
+function qcmSetQuizImage(quizBlock,path){quizBlock.dataset.image=path||'';qcmRenderQuizImage(quizBlock);}
+
+async function qcmLoadThumb(fn,imgEl){try{const fh=await gamesAssetsHandle.getFileHandle(fn),f=await fh.getFile();imgEl.src=URL.createObjectURL(f);}catch{imgEl.src='';}}
+
+async function qcmRefreshAllThumbs(){
+  if(!gamesAssetsHandle)return;
+  for(const quizBlock of qcmListEl.querySelectorAll(':scope > .qcm-quiz')){
+    if(quizBlock.dataset.image)await qcmLoadThumb(quizBlock.dataset.image.replace(/^assets\//,''),quizBlock.querySelector('.qcm-thumb'));
+    for(const qBlock of quizBlock.querySelectorAll('.qcm-question')){
+      const specImg=qBlock.dataset.specificImage;
+      if(specImg)await qcmLoadThumb(specImg.replace(/^assets\//,''),qBlock.querySelector('.qcm-q-thumb'));
+    }
+  }
+}
+
+/* ---- Question block ---- */
+function qcmCreateQuestionBlock(q){
+  q=q||{};
+  const uid=qcm_uidCounter++;
+  const hasImageKey=Object.prototype.hasOwnProperty.call(q,'image');
+  let mode='inherit',specificImage='';
+  if(hasImageKey){
+    if(q.image===null)mode='none';
+    else{mode='specific';specificImage=q.image||'';}
+  }
+  const div=document.createElement('div');div.className='qcm-question';div.dataset.uid=String(uid);div.dataset.specificImage=specificImage;
+
+  div.innerHTML=
+    '<div class="qcm-question-header">'+
+      '<div class="ex-order-btns"><button type="button" class="btn-chevron btn-question-up" title="Monter">▲</button><button type="button" class="btn-chevron btn-question-down" title="Descendre">▼</button></div>'+
+      '<span class="qcm-question-index">Question</span>'+
+      '<button type="button" class="btn-delete-question" title="Supprimer cette question">🗑 Supprimer cette question</button>'+
+    '</div>'+
+    '<div class="qcm-question-body">'+
+      '<div class="qcm-field"><span class="qcm-label">Texte de la question</span><textarea class="qcm-question-ta" style="min-height:50px" placeholder="Texte de la question en anglais..."></textarea></div>'+
+      '<div class="qcm-field"><span class="qcm-label">Image de la question</span>'+
+        '<div class="qcm-imgmode-group">'+
+          '<label class="qcm-imgmode-option" data-mode="inherit" title="Cette question utilisera l\'image du quiz si elle existe."><input type="radio" name="imgmode-'+uid+'" value="inherit" '+(mode==='inherit'?'checked':'')+' />Hériter du quiz</label>'+
+          '<label class="qcm-imgmode-option" data-mode="specific" title="Choisir une image propre à cette question."><input type="radio" name="imgmode-'+uid+'" value="specific" '+(mode==='specific'?'checked':'')+' />Image spécifique</label>'+
+          '<label class="qcm-imgmode-option" data-mode="none" title="Cette question n\'affichera aucune image même si le quiz en a une."><input type="radio" name="imgmode-'+uid+'" value="none" '+(mode==='none'?'checked':'')+' />Aucune image</label>'+
+        '</div>'+
+        '<div class="qcm-specific-img-zone">'+
+          '<div class="qcm-image-zone">'+
+            '<button type="button" class="btn-outline btn-q-pick-img">📎 Choisir une image</button>'+
+            '<div class="qcm-img-preview" style="display:none"><img class="qcm-thumb qcm-q-thumb" src="" alt="" /><span class="qcm-img-name qcm-q-img-name"></span><button type="button" class="btn-remove-img btn-q-remove-img">🗑</button></div>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="qcm-field"><span class="qcm-label">Options (max. 5) — la 1ère est toujours la bonne réponse</span><div class="qcm-options-list"></div><button type="button" class="btn-add-row btn-add-option" style="margin-top:6px">+ Ajouter une option</button></div>'+
+      '<div class="qcm-field"><span class="qcm-label">Explication (facultative) — affichée après la correction, réponse juste ou fausse</span><textarea class="qcm-explanation-ta" style="min-height:44px" placeholder="1 à 2 phrases, dans la langue du quiz. Ex : The biotope is the non-living part, the biocenosis is all the living things."></textarea></div>'+
+    '</div>';
+
+  div.querySelector('.qcm-question-ta').value=q.question||'';
+  div.querySelector('.qcm-explanation-ta').value=q.explanation||'';
+
+  const optionsList=div.querySelector('.qcm-options-list');
+  const options=(q.options&&q.options.length?q.options.slice():['','']);
+  const correctIdx=typeof q.correctAnswer==='number'?q.correctAnswer:0;
+  if(correctIdx>0&&correctIdx<options.length){
+    const[correctOpt]=options.splice(correctIdx,1);
+    options.unshift(correctOpt);
+  }
+  options.forEach(opt=>optionsList.appendChild(qcmCreateOptionRow(opt)));
+  qcmRefreshOptionBadges(div);
+
+  div.querySelector('.btn-delete-question').addEventListener('click',()=>{
+    const parentQuiz=div.closest('.qcm-quiz');
+    div.remove();
+    if(parentQuiz)qcmRefreshQuestionIndexes(parentQuiz);
+    qcmRefreshCount();qcmInvalidate();
+  });
+
+  div.querySelector('.btn-question-up').addEventListener('click',()=>{
+    const parentQuiz=div.closest('.qcm-quiz');
+    qcmMoveQuestion(div,'up');
+    if(parentQuiz)qcmRefreshQuestionIndexes(parentQuiz);
+    qcmInvalidate();
+  });
+  div.querySelector('.btn-question-down').addEventListener('click',()=>{
+    const parentQuiz=div.closest('.qcm-quiz');
+    qcmMoveQuestion(div,'down');
+    if(parentQuiz)qcmRefreshQuestionIndexes(parentQuiz);
+    qcmInvalidate();
+  });
+
+  /* Image mode radios */
+  div.querySelectorAll('.qcm-imgmode-option').forEach(opt=>{
+    opt.classList.toggle('active',opt.dataset.mode===mode);
+    opt.querySelector('input').addEventListener('change',()=>{
+      div.querySelectorAll('.qcm-imgmode-option').forEach(o=>o.classList.remove('active'));
+      opt.classList.add('active');
+      qcmUpdateSpecificZoneVisibility(div);
+      qcmInvalidate();
+    });
+  });
+  qcmUpdateSpecificZoneVisibility(div);
+
+  const qPick=div.querySelector('.btn-q-pick-img');
+  qPick.addEventListener('click',()=>{gamesOpenModal(path=>{qcmSetQuestionImage(div,path);qcmInvalidate();});});
+  div.querySelector('.btn-q-remove-img').addEventListener('click',()=>{qcmSetQuestionImage(div,null);qcmInvalidate();});
+  qcmRenderQuestionImage(div);
+
+  div.querySelector('.btn-add-option').addEventListener('click',()=>{
+    if(optionsList.querySelectorAll('.qcm-option-row').length>=5)return;
+    const row=qcmCreateOptionRow('');
+    optionsList.appendChild(row);
+    qcmRefreshOptionBadges(div);
+    qcmUpdateAddOptionState(div);qcmInvalidate();
+    row.querySelector('input[type="text"]').focus();
+  });
+  qcmUpdateAddOptionState(div);
+
+  return div;
+}
+
+function qcmUpdateSpecificZoneVisibility(questionBlock){
+  const mode=questionBlock.querySelector('input[name^="imgmode-"]:checked')?.value||'inherit';
+  questionBlock.querySelector('.qcm-specific-img-zone').style.display=(mode==='specific')?'block':'none';
+}
+
+function qcmRenderQuestionImage(questionBlock){
+  const preview=questionBlock.querySelector('.qcm-q-thumb').closest('.qcm-img-preview'),thumb=questionBlock.querySelector('.qcm-q-thumb'),nameEl=questionBlock.querySelector('.qcm-q-img-name'),pick=questionBlock.querySelector('.btn-q-pick-img');
+  const img=questionBlock.dataset.specificImage;
+  if(!img){preview.style.display='none';pick.style.display='inline-flex';return;}
+  const fn=img.replace(/^assets\//,'');nameEl.textContent=fn;preview.style.display='flex';pick.style.display='none';
+  if(gamesAssetsHandle)qcmLoadThumb(fn,thumb);
+}
+
+function qcmSetQuestionImage(questionBlock,path){questionBlock.dataset.specificImage=path||'';qcmRenderQuestionImage(questionBlock);}
+
+function qcmCreateOptionRow(text){
+  const row=document.createElement('div');row.className='qcm-option-row';
+  row.innerHTML=
+    '<span class="qcm-option-correct-badge">✓ Bonne réponse</span>'+
+    '<input type="text" placeholder="Texte de l\'option" value="'+escAttr(text)+'" />'+
+    '<button type="button" class="btn-delete-option" title="Supprimer cette option">✕</button>';
+  row.querySelector('.btn-delete-option').addEventListener('click',()=>{
+    const questionBlock=row.closest('.qcm-question');
+    row.remove();
+    if(questionBlock){qcmUpdateAddOptionState(questionBlock);qcmRefreshOptionBadges(questionBlock);}
+    qcmInvalidate();
+  });
+  return row;
+}
+
+function qcmUpdateAddOptionState(questionBlock){
+  const list=questionBlock.querySelector('.qcm-options-list');
+  questionBlock.querySelector('.btn-add-option').disabled=list.querySelectorAll('.qcm-option-row').length>=5;
+}
+
+function qcmRefreshOptionBadges(questionBlock){
+  const rows=questionBlock.querySelectorAll('.qcm-option-row');
+  rows.forEach((row,i)=>{row.querySelector('.qcm-option-correct-badge').classList.toggle('qcm-badge-empty',i!==0);});
+}
+
+function qcmRefreshQuestionIndexes(quizBlock){
+  const questions=Array.from(quizBlock.querySelectorAll(':scope > .qcm-quiz-body > .qcm-questions-list > .qcm-question'));
+  questions.forEach((qb,i)=>{
+    qb.querySelector('.qcm-question-index').textContent='Question '+(i+1);
+    qb.querySelector('.btn-question-up').disabled=(i===0);
+    qb.querySelector('.btn-question-down').disabled=(i===questions.length-1);
+  });
+}
+
+function qcmMoveQuestion(questionBlock,direction){
+  const list=questionBlock.parentElement;
+  if(direction==='up'&&questionBlock.previousElementSibling)list.insertBefore(questionBlock,questionBlock.previousElementSibling);
+  else if(direction==='down'&&questionBlock.nextElementSibling)questionBlock.nextElementSibling.after(questionBlock);
+}
+
+/* ---- Add quiz / counts / empty state ---- */
+qcmBtnAddQuiz.addEventListener('click',()=>{
+  const qb=qcmCreateQuizBlock({questions:[{options:['','']}]});
+  qcmListEl.appendChild(qb);
+  qcm_activeTab=qb.dataset.uid;
+  qcmRefreshEmpty();qcmRefreshCount();qcmRebuildTabs();qcmInvalidate();
+  qb.querySelector('.qcm-quiz-title-input').focus();
+});
+
+qcmListEl.addEventListener('input',qcmInvalidate);
+
+function qcmRefreshEmpty(){
+  const n=qcmListEl.querySelectorAll(':scope > .qcm-quiz').length;
+  qcmEmptyState.classList.toggle('hidden',n>0);
+}
+function qcmRefreshCount(){
+  const quizzes=qcmListEl.querySelectorAll(':scope > .qcm-quiz');
+  let qCount=0;quizzes.forEach(q=>{qCount+=q.querySelectorAll('.qcm-question').length;});
+  qcmCountBadge.textContent=quizzes.length+' quiz · '+qCount+' question'+(qCount!==1?'s':'');
+}
+
+/* ---- Quiz tabs: one-quiz-at-a-time navigation + drag reorder ---- */
+function qcmRebuildTabs(){
+  const blocks=Array.from(qcmListEl.querySelectorAll(':scope > .qcm-quiz'));
+  qcmQuizTabsEl.innerHTML='';
+  blocks.forEach((block,i)=>{
+    const uid=block.dataset.uid;
+    const tab=document.createElement('button');
+    tab.type='button';tab.className='qcm-tab';tab.dataset.quizUid=uid;
+    tab.textContent='Quiz '+(i+1);
+    tab.addEventListener('click',()=>{qcm_activeTab=uid;qcmApplyActiveTab();});
+    initTabDrag(tab,qcmQuizTabsEl,(srcTab,targetTab,before)=>{
+      const srcBlock=qcmListEl.querySelector('.qcm-quiz[data-uid="'+srcTab.dataset.quizUid+'"]');
+      const targetBlock=qcmListEl.querySelector('.qcm-quiz[data-uid="'+targetTab.dataset.quizUid+'"]');
+      if(before)qcmListEl.insertBefore(srcBlock,targetBlock);else targetBlock.after(srcBlock);
+      qcmRebuildTabs();qcmInvalidate();
+    });
+    qcmQuizTabsEl.appendChild(tab);
+  });
+  qcmApplyActiveTab();
+}
+
+function qcmApplyActiveTab(){
+  const blocks=Array.from(qcmListEl.querySelectorAll(':scope > .qcm-quiz'));
+  blocks.forEach(b=>{b.style.display=(qcm_activeTab==='all'||b.dataset.uid===qcm_activeTab)?'':'none';});
+  qcmTabAll.classList.toggle('active',qcm_activeTab==='all');
+  qcmQuizTabsEl.querySelectorAll('.qcm-tab').forEach(t=>t.classList.toggle('active',t.dataset.quizUid===qcm_activeTab));
+}
+
+qcmTabAll.addEventListener('click',()=>{qcm_activeTab='all';qcmApplyActiveTab();});
+
+/* ---- Image modal (shared quiz/question) ---- */
+async function gamesOpenModal(callback){
+  if(!gamesAssetsHandle&&rootHandle&&selectedChap)await gamesInitAssets();
+  if(!gamesAssetsHandle){showAlert(getAlertBox(),'error','Impossible d’accéder à assets/. Sélectionnez un chapitre d’abord.');return;}
+  games_currentImgCallback=callback;
+  gamesImageModal.classList.add('visible');
+  await gamesPopulateGallery();
+}
+function gamesCloseModal(){gamesImageModal.classList.remove('visible');games_currentImgCallback=null;games_modalUrls.forEach(u=>URL.revokeObjectURL(u));games_modalUrls=[];}
+
+async function gamesPopulateGallery(){
+  games_modalUrls.forEach(u=>URL.revokeObjectURL(u));games_modalUrls=[];
+  gamesModalGallery.innerHTML='<p class="modal-empty">Chargement...</p>';
+  const EXTS=new Set(['jpg','jpeg','png','gif','webp','svg','avif']),items=[];
+  try{for await(const[name,handle]of gamesAssetsHandle){if(handle.kind!=='file')continue;if(EXTS.has(name.split('.').pop().toLowerCase()))items.push({name,handle});}}
+  catch(e){gamesModalGallery.innerHTML='<p class="modal-empty">Erreur : '+e.message+'</p>';return;}
+  if(!items.length){gamesModalGallery.innerHTML='<p class="modal-empty">Aucune image dans assets/. Importez-en une.</p>';return;}
+  items.sort((a,b)=>a.name.localeCompare(b.name));gamesModalGallery.innerHTML='';
+  for(const{name,handle}of items){
+    const file=await handle.getFile(),url=URL.createObjectURL(file);games_modalUrls.push(url);
+    const btn=document.createElement('button');btn.className='modal-thumb-btn';
+    const img=document.createElement('img');img.src=url;img.alt=name;
+    const span=document.createElement('span');span.textContent=name;
+    btn.appendChild(img);btn.appendChild(span);
+    btn.addEventListener('click',()=>{if(games_currentImgCallback)games_currentImgCallback('assets/'+name);gamesCloseModal();});
+    gamesModalGallery.appendChild(btn);
+  }
+}
+document.getElementById('games-modal-close-btn').addEventListener('click',gamesCloseModal);
+gamesImageModal.addEventListener('click',e=>{if(e.target===gamesImageModal)gamesCloseModal();});
+document.getElementById('games-btn-import-img').addEventListener('click',async()=>{
+  if(!gamesAssetsHandle){showAlert(getAlertBox(),'error','Accès assets/ indisponible.');return;}
+  try{
+    const[fh]=await window.showOpenFilePicker({types:[{description:'Images',accept:{'image/*':['.jpg','.jpeg','.png','.gif','.webp','.svg','.avif']}}],multiple:false});
+    const file=await fh.getFile(),dest=await gamesAssetsHandle.getFileHandle(file.name,{create:true}),w=await dest.createWritable();
+    await w.write(await file.arrayBuffer());await w.close();await gamesPopulateGallery();
+  }catch(e){if(e.name!=='AbortError')showAlert(getAlertBox(),'error','Erreur import : '+e.message);}
+});
+
+/* ---- Verify (reads the visual blocks directly, same convention as the other 4 tabs) ---- */
+qcmBtnVerify.addEventListener('click',()=>{
+  const quizBlocks=Array.from(qcmListEl.querySelectorAll(':scope > .qcm-quiz'));
+  // Zéro quiz est un état valide : permet de vider la section sans laisser d'entrée factice.
+  if(!quizBlocks.length){qcm_verifiedOk=true;qcmBtnSave.disabled=false;showAlert(qcmAlertBox,'info','Aucun quiz – la sauvegarde écrira une section vide.');return;}
+  const errs=[];
+  let totalQuestions=0;
+  quizBlocks.forEach((quizBlock,qi)=>{
+    const title=quizBlock.querySelector('.qcm-quiz-title-input').value.trim();
+    const quizLabel='Quiz '+(qi+1)+(title?' ("'+title+'")':'');
+    if(!title)errs.push(quizLabel+' : titre du quiz vide.');
+    const questions=Array.from(quizBlock.querySelectorAll(':scope > .qcm-quiz-body > .qcm-questions-list > .qcm-question'));
+    if(!questions.length)errs.push(quizLabel+' : aucune question.');
+    questions.forEach((qBlock,qqi)=>{
+      const qLabel=quizLabel+' — Question '+(qqi+1);
+      if(!qBlock.querySelector('.qcm-question-ta').value.trim())errs.push(qLabel+' : texte de la question vide.');
+      const optionInputs=Array.from(qBlock.querySelectorAll('.qcm-option-row input[type="text"]'));
+      if(optionInputs.length<2)errs.push(qLabel+' : au moins 2 options requises.');
+      if(optionInputs.some(inp=>!inp.value.trim()))errs.push(qLabel+' : une ou plusieurs options sont vides.');
+      const mode=qBlock.querySelector('input[name^="imgmode-"]:checked')?.value||'inherit';
+      if(mode==='specific'&&!qBlock.dataset.specificImage)errs.push(qLabel+' : mode image spécifique choisi mais aucune image sélectionnée.');
+    });
+    totalQuestions+=questions.length;
+  });
+  if(errs.length){
+    qcmInvalidate();
+    showAlert(qcmAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));
+  }else{
+    qcm_verifiedOk=true;qcmBtnSave.disabled=false;
+    showAlert(qcmAlertBox,'success','✓ Format valide — '+quizBlocks.length+' quiz / '+totalQuestions+' question'+(totalQuestions!==1?'s':'')+'. Prêt à sauvegarder.');
+  }
+});
+
+/* ---- Save ---- */
+qcmBtnSave.addEventListener('click',async()=>{
+  if(!qcm_verifiedOk)return;
+  try{
+    const quizBlocks=Array.from(qcmListEl.querySelectorAll(':scope > .qcm-quiz'));
+    const multipleChoice=quizBlocks.map(quizBlock=>{
+      const obj={quizTitle:quizBlock.querySelector('.qcm-quiz-title-input').value.trim()};
+      if(quizBlock.dataset.image)obj.image=quizBlock.dataset.image;
+      obj.instructions=quizBlock.querySelector('.qcm-instructions-ta').value.trim();
+      const questions=Array.from(quizBlock.querySelectorAll(':scope > .qcm-quiz-body > .qcm-questions-list > .qcm-question'));
+      obj.questions=questions.map(qBlock=>{
+        const o={question:qBlock.querySelector('.qcm-question-ta').value.trim()};
+        const mode=qBlock.querySelector('input[name^="imgmode-"]:checked')?.value||'inherit';
+        if(mode==='specific')o.image=qBlock.dataset.specificImage||'';
+        else if(mode==='none')o.image=null;
+        o.options=Array.from(qBlock.querySelectorAll('.qcm-option-row input[type="text"]')).map(inp=>inp.value.trim());
+        o.correctAnswer=0;
+        // Écrite seulement si remplie : les questions sans explication gardent
+        // exactement le même JSON qu'avant.
+        const explanation=qBlock.querySelector('.qcm-explanation-ta').value.trim();
+        if(explanation)o.explanation=explanation;
+        return o;
+      });
+      return obj;
+    });
+    interactiveFullData=interactiveFullData||{};
+    interactiveFullData.multipleChoice=multipleChoice;
+    const fh=await gamesGetFH(true),w=await fh.createWritable();
+    await w.write(JSON.stringify(interactiveFullData,null,2));await w.close();
+    const nq=multipleChoice.length,nquest=multipleChoice.reduce((s,q)=>s+q.questions.length,0);
+    showAlert(qcmAlertBox,'success','✓ Sauvegardé — '+nq+' quiz / '+nquest+' question'+(nquest!==1?'s':'')+' écrit(e)s dans '+gamesPath());
+    qcmBtnSave.disabled=true;qcm_verifiedOk=false;
+  }catch(e){showAlert(qcmAlertBox,'error','Erreur de sauvegarde : '+e.message);}
+});
+
+function qcmReset(){
+  qcmListEl.innerHTML='';interactiveFullData=null;gamesAssetsHandle=null;qcm_activeTab='all';
+  qcmRefreshEmpty();qcmRefreshCount();qcmRebuildTabs();
+  qcmBtnAddQuiz.disabled=true;qcmBtnVerify.disabled=true;
+  qcmInvalidate();clearAlertEl(qcmAlertBox);
+}
+
+/* ===== DRAG & DROP TAB ===== */
+let dnd_uidCounter=0,dnd_verifiedOk=false,dnd_activeTab='all',dnd_armedDropzoneRow=null;
+const dndListEl=document.getElementById('dnd-list'),dndEmptyState=document.getElementById('dnd-empty-state'),dndCountBadge=document.getElementById('dnd-count-badge'),dndBtnAddExercise=document.getElementById('dnd-btn-add-exercise'),dndBtnVerify=document.getElementById('dnd-btn-verify'),dndBtnSave=document.getElementById('dnd-btn-save'),dndExerciseTabsEl=document.getElementById('dnd-exercise-tabs'),dndTabAll=document.getElementById('dnd-tab-all'),dndAlertBox=document.getElementById('dnd-alert-box');
+
+function dndInvalidate(){dnd_verifiedOk=false;dndBtnSave.disabled=true;}
+
+/* ---- Build UI from loaded data ---- */
+function dndPopulate(exercises){
+  dndListEl.innerHTML='';
+  exercises.forEach(ex=>dndListEl.appendChild(dndCreateExerciseBlock(ex)));
+  dndRefreshEmpty();dndRefreshCount();
+  dndBtnAddExercise.disabled=false;dndBtnVerify.disabled=false;
+  const firstBlock=dndListEl.querySelector(':scope > .dnd-exercise');
+  dnd_activeTab=firstBlock?firstBlock.dataset.uid:'all';
+  dndRebuildTabs();
+  dndInvalidate();clearAlertEl(dndAlertBox);
+}
+
+function dndCreateExerciseBlock(ex){
+  ex=ex||{};
+  const div=document.createElement('div');div.className='dnd-exercise';
+  div.dataset.uid=String(dnd_uidCounter++);
+  div.dataset.image='';
+  let lastFocused=null;
+  div.innerHTML=
+    '<div class="dnd-exercise-header">'+
+      '<span class="qcm-quiz-header-label">Jeu</span>'+
+      '<div class="fmt-bar">'+
+        '<button type="button" class="fmt-btn" data-tag="strong" title="Gras"><b>G</b></button>'+
+        '<button type="button" class="fmt-btn" data-tag="em" title="Italique"><i>I</i></button>'+
+        '<button type="button" class="fmt-btn" data-tag="u" title="Souligné"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button>'+
+      '</div>'+
+      '<label class="dnd-hideonsuccess"><input type="checkbox" checked disabled /> hideOnSuccess (toujours activé)</label>'+
+      '<button type="button" class="btn-delete-block">🗑 Supprimer cet exercice</button>'+
+    '</div>'+
+    '<div class="dnd-exercise-body">'+
+      '<div class="qcm-field"><span class="qcm-label">Titre du jeu</span><input type="text" class="dnd-title-input qcm-quiz-title-input" placeholder="Titre de l\'exercice" /></div>'+
+      '<div class="qcm-field"><span class="qcm-label">Instructions (optionnel)</span><input type="text" class="dnd-instructions-input" placeholder="Instructions optionnelles..." /></div>'+
+      '<div class="qcm-field"><span class="qcm-label">Image de fond</span>'+
+        '<div class="qcm-image-zone">'+
+          '<button type="button" class="btn-outline btn-dnd-pick-img">📎 Sélectionner l\'image de fond</button>'+
+          '<div class="qcm-img-preview" style="display:none"><img class="qcm-thumb dnd-bg-thumb" src="" alt="" /><span class="qcm-img-name dnd-bg-name"></span><button type="button" class="btn-remove-img btn-dnd-remove-img">🗑</button></div>'+
+        '</div>'+
+        '<div class="dnd-dim-row">'+
+          '<div class="dnd-dim-field"><span class="qcm-label">Largeur (W, px)</span><input type="number" class="dnd-width-input" min="1" /></div>'+
+          '<div class="dnd-dim-field"><span class="qcm-label">Hauteur (H, px)</span><input type="number" class="dnd-height-input" min="1" /></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="qcm-field">'+
+        '<span class="qcm-label">Reservoir (leurres inclus)</span>'+
+        '<div class="dnd-reservoir-list"></div>'+
+        '<button type="button" class="btn-add-row btn-add-reservoir">+ Ajouter un item au reservoir</button>'+
+        '<span class="dnd-hint">Le reservoir peut contenir plus d\'items que de dropzones (leurres).</span>'+
+      '</div>'+
+      '<div class="qcm-field">'+
+        '<span class="qcm-label">Dropzones</span>'+
+        '<div class="dnd-dropzones-list"></div>'+
+        '<button type="button" class="btn-add-row btn-add-dropzone">+ Ajouter une dropzone</button>'+
+      '</div>'+
+      '<div class="qcm-field">'+
+        '<span class="qcm-label">Prévisualisation</span>'+
+        '<div class="dnd-preview-wrap"><div class="dnd-preview-empty">Sélectionnez une image de fond pour voir l\'aperçu.</div></div>'+
+      '</div>'+
+    '</div>';
+
+  div.querySelector('.dnd-title-input').value=ex.quizTitle||'';
+  div.querySelector('.dnd-instructions-input').value=ex.instructions||'';
+
+  div.querySelector('.dnd-title-input').addEventListener('focus',()=>{lastFocused=div.querySelector('.dnd-title-input');});
+  div.querySelector('.dnd-instructions-input').addEventListener('focus',()=>{lastFocused=div.querySelector('.dnd-instructions-input');});
+  div.querySelectorAll(':scope > .dnd-exercise-header .fmt-btn').forEach(btn=>btn.addEventListener('mousedown',e=>{e.preventDefault();applyFmt(lastFocused,btn.dataset.tag,dndInvalidate);}));
+
+  const reservoirList=div.querySelector('.dnd-reservoir-list');
+  (ex.reservoirItems&&ex.reservoirItems.length?ex.reservoirItems:['','']).forEach(item=>reservoirList.appendChild(dndCreateReservoirRow(item)));
+
+  const dropzonesList=div.querySelector('.dnd-dropzones-list');
+  (ex.dropZones&&ex.dropZones.length?ex.dropZones:[{}]).forEach(dz=>{
+    dropzonesList.appendChild(dndCreateDropzoneRow(dz.acceptedText||'',dz.x_pourcent,dz.y_pourcent));
+  });
+
+  div.querySelector('.btn-add-reservoir').addEventListener('click',()=>{
+    const row=dndCreateReservoirRow('');
+    reservoirList.appendChild(row);
+    dndRefreshPreview(div);dndInvalidate();
+    row.querySelector('input').focus();
+  });
+
+  div.querySelector('.btn-add-dropzone').addEventListener('click',()=>{
+    const row=dndCreateDropzoneRow('');
+    dropzonesList.appendChild(row);
+    dndRefreshPreview(div);dndRefreshCount();dndInvalidate();
+    row.querySelector('.dnd-dz-accepted').focus();
+  });
+
+  div.querySelector('.btn-dnd-pick-img').addEventListener('click',()=>{
+    gamesOpenModal(path=>{dndSetBackgroundImage(div,path);dndInvalidate();});
+  });
+  div.querySelector('.btn-dnd-remove-img').addEventListener('click',()=>{
+    dndSetBackgroundImage(div,null);dndInvalidate();
+  });
+
+  div.querySelector(':scope > .dnd-exercise-header .btn-delete-block').addEventListener('click',()=>{
+    const wasActive=dnd_activeTab===div.dataset.uid;
+    if(dnd_armedDropzoneRow&&div.contains(dnd_armedDropzoneRow))dnd_armedDropzoneRow=null;
+    div.remove();
+    if(wasActive)dnd_activeTab='all';
+    dndRefreshEmpty();dndRefreshCount();dndRebuildTabs();dndInvalidate();
+  });
+
+  div.dataset.image=ex.backgroundImage||'';
+  dndRenderBackgroundImage(div);
+  dndRefreshPreview(div);
+
+  /* Click on the preview: places the currently "targeted" (🎯) dropzone at the click position */
+  const previewWrap=div.querySelector('.dnd-preview-wrap');
+  previewWrap.addEventListener('click',e=>{
+    if(!dnd_armedDropzoneRow)return;
+    if(e.target.closest('.dnd-marker'))return;
+    const previewInner=e.target.closest('.dnd-preview-inner');
+    if(!previewInner)return;
+    const rect=previewInner.getBoundingClientRect();
+    const W=parseFloat(div.querySelector('.dnd-width-input').value)||0;
+    const H=parseFloat(div.querySelector('.dnd-height-input').value)||0;
+    const xr=Math.min(1,Math.max(0,(e.clientX-rect.left)/rect.width));
+    const yr=Math.min(1,Math.max(0,(e.clientY-rect.top)/rect.height));
+    dnd_armedDropzoneRow.querySelector('.dnd-dz-x').value=Math.round(xr*W);
+    dnd_armedDropzoneRow.querySelector('.dnd-dz-y').value=Math.round(yr*H);
+    dnd_armedDropzoneRow.querySelector('.btn-dz-target').classList.remove('armed');
+    dnd_armedDropzoneRow=null;
+    previewWrap.classList.remove('armed');
+    dndRefreshPreview(div);
+    dndInvalidate();
+  });
+
+  /* Drag an existing marker directly on the preview to reposition its dropzone */
+  previewWrap.addEventListener('mousedown',e=>{
+    const marker=e.target.closest('.dnd-marker');
+    if(!marker)return;
+    e.preventDefault();
+    const previewInner=marker.parentElement;
+    const row=div.querySelector('.dnd-dropzone-row[data-dz-uid="'+marker.dataset.dzUid+'"]');
+    if(!row)return;
+    const W=parseFloat(div.querySelector('.dnd-width-input').value)||0;
+    const H=parseFloat(div.querySelector('.dnd-height-input').value)||0;
+    function onMove(ev){
+      const rect=previewInner.getBoundingClientRect();
+      const xr=Math.min(1,Math.max(0,(ev.clientX-rect.left)/rect.width));
+      const yr=Math.min(1,Math.max(0,(ev.clientY-rect.top)/rect.height));
+      row.querySelector('.dnd-dz-x').value=Math.round(xr*W);
+      row.querySelector('.dnd-dz-y').value=Math.round(yr*H);
+      dndRefreshPreview(div);
+    }
+    function onUp(){
+      document.removeEventListener('mousemove',onMove);
+      document.removeEventListener('mouseup',onUp);
+      dndInvalidate();
+    }
+    document.addEventListener('mousemove',onMove);
+    document.addEventListener('mouseup',onUp);
+  });
+
+  return div;
+}
+
+/* ---- Reservoir rows ---- */
+function dndCreateReservoirRow(text){
+  const row=document.createElement('div');row.className='dnd-reservoir-row';
+  row.innerHTML='<input type="text" placeholder="Item du reservoir" value="'+escAttr(text)+'" /><button type="button" class="btn-delete-option" title="Supprimer">✕</button>';
+  row.querySelector('.btn-delete-option').addEventListener('click',()=>{
+    const exerciseBlock=row.closest('.dnd-exercise');
+    row.remove();
+    if(exerciseBlock)dndRefreshPreview(exerciseBlock);
+    dndInvalidate();
+  });
+  return row;
+}
+
+/* ---- Dropzone rows ---- */
+function dndCreateDropzoneRow(acceptedText,pendingXPercent,pendingYPercent){
+  const row=document.createElement('div');row.className='dnd-dropzone-row';
+  row.dataset.dzUid=String(dnd_uidCounter++);
+  if(pendingXPercent!==undefined&&pendingXPercent!==null)row.dataset.pendingX=String(pendingXPercent);
+  if(pendingYPercent!==undefined&&pendingYPercent!==null)row.dataset.pendingY=String(pendingYPercent);
+  row.dataset.acceptedText=acceptedText||'';
+  row.innerHTML=
+    '<div class="dnd-dz-accepted-wrap">'+
+      '<select class="dnd-dz-accepted"><option value="">— Choisir un item du reservoir —</option></select>'+
+      '<span class="dnd-dz-warning">⚠ Ne correspond à aucun item du reservoir</span>'+
+    '</div>'+
+    '<input type="number" class="dnd-dz-x dnd-dz-num" placeholder="X (px)" />'+
+    '<input type="number" class="dnd-dz-y dnd-dz-num" placeholder="Y (px)" />'+
+    '<span class="dnd-dz-percent">X : — % · Y : — %</span>'+
+    '<button type="button" class="btn-outline btn-dz-target" title="Cliquer sur l\'image pour placer cette dropzone">🎯</button>'+
+    '<button type="button" class="btn-delete-option" title="Supprimer cette dropzone">✕</button>';
+  row.querySelector('.btn-delete-option').addEventListener('click',()=>{
+    const exerciseBlock=row.closest('.dnd-exercise');
+    if(dnd_armedDropzoneRow===row)dnd_armedDropzoneRow=null;
+    row.remove();
+    if(exerciseBlock){dndRefreshPreview(exerciseBlock);dndRefreshCount();}
+    dndInvalidate();
+  });
+  row.querySelector('.btn-dz-target').addEventListener('click',()=>{
+    const btn=row.querySelector('.btn-dz-target');
+    const exerciseBlock=row.closest('.dnd-exercise');
+    if(dnd_armedDropzoneRow===row){
+      dnd_armedDropzoneRow=null;
+      btn.classList.remove('armed');
+      if(exerciseBlock)exerciseBlock.querySelector('.dnd-preview-wrap')?.classList.remove('armed');
+    }else{
+      if(dnd_armedDropzoneRow){
+        dnd_armedDropzoneRow.querySelector('.btn-dz-target').classList.remove('armed');
+        dnd_armedDropzoneRow.closest('.dnd-exercise')?.querySelector('.dnd-preview-wrap')?.classList.remove('armed');
+      }
+      dnd_armedDropzoneRow=row;
+      btn.classList.add('armed');
+      if(exerciseBlock)exerciseBlock.querySelector('.dnd-preview-wrap')?.classList.add('armed');
+    }
+  });
+  return row;
+}
+
+/* Converts pending x_pourcent/y_pourcent (loaded from JSON) into px once W/H are known */
+function dndHydratePendingDropzones(exerciseBlock){
+  const W=parseFloat(exerciseBlock.querySelector('.dnd-width-input').value)||0;
+  const H=parseFloat(exerciseBlock.querySelector('.dnd-height-input').value)||0;
+  if(!W||!H)return;
+  exerciseBlock.querySelectorAll('.dnd-dropzone-row').forEach(row=>{
+    if(row.dataset.pendingX!==undefined){
+      row.querySelector('.dnd-dz-x').value=Math.round(parseFloat(row.dataset.pendingX)/100*W);
+      delete row.dataset.pendingX;
+    }
+    if(row.dataset.pendingY!==undefined){
+      row.querySelector('.dnd-dz-y').value=Math.round(parseFloat(row.dataset.pendingY)/100*H);
+      delete row.dataset.pendingY;
+    }
+  });
+  dndRefreshPreview(exerciseBlock);
+}
+
+/* ---- Background image: pick / remove / auto-detect dimensions / live preview ---- */
+function dndSetBackgroundImage(exerciseBlock,path){
+  exerciseBlock.dataset.image=path||'';
+  dndRenderBackgroundImage(exerciseBlock);
+}
+
+function dndRenderBackgroundImage(exerciseBlock){
+  const preview=exerciseBlock.querySelector('.dnd-bg-thumb').closest('.qcm-img-preview');
+  const thumb=exerciseBlock.querySelector('.dnd-bg-thumb');
+  const nameEl=exerciseBlock.querySelector('.dnd-bg-name');
+  const pick=exerciseBlock.querySelector('.btn-dnd-pick-img');
+  const previewWrap=exerciseBlock.querySelector('.dnd-preview-wrap');
+  const img=exerciseBlock.dataset.image;
+  if(!img){
+    preview.style.display='none';pick.style.display='inline-flex';
+    previewWrap.innerHTML='<div class="dnd-preview-empty">Sélectionnez une image de fond pour voir l\'aperçu.</div>';
+    return;
+  }
+  const fn=img.replace(/^assets\//,'');
+  nameEl.textContent=fn;preview.style.display='flex';pick.style.display='none';
+  if(!gamesAssetsHandle)return;
+  gamesAssetsHandle.getFileHandle(fn).then(fh=>fh.getFile()).then(file=>{
+    const url=URL.createObjectURL(file);
+    thumb.src=url;
+    previewWrap.innerHTML='<div class="dnd-preview-inner"><img class="dnd-preview-img" src="'+url+'" alt="" /></div>';
+    const probe=new Image();
+    probe.onload=()=>{
+      exerciseBlock.querySelector('.dnd-width-input').value=probe.naturalWidth;
+      exerciseBlock.querySelector('.dnd-height-input').value=probe.naturalHeight;
+      dndHydratePendingDropzones(exerciseBlock);
+    };
+    probe.src=url;
+  }).catch(()=>{thumb.src='';});
+}
+
+/* Rebuilds a dropzone's <select> options from the exercise's current
+   reservoir items, so the admin picks the accepted word instead of retyping
+   it (no more risk of a typo silently breaking the match). Runs on every
+   dndRefreshPreview call, i.e. every time a reservoir item is added, edited
+   or removed — the select always reflects the reservoir as it stands now.
+   If the row's current selection has since been renamed/removed from the
+   reservoir, it's kept as an extra flagged option rather than silently
+   dropped, so the existing mismatch warning still has something to point at. */
+function dndSyncDropzoneOptions(row,reservoirValues){
+  const select=row.querySelector('.dnd-dz-accepted');
+  const current=row.dataset.optionsSynced?select.value:(row.dataset.acceptedText||'');
+  row.dataset.optionsSynced='1';
+  delete row.dataset.acceptedText;
+  const uniqueValues=[...new Set(reservoirValues)];
+  let optionsHtml='<option value="">— Choisir un item du reservoir —</option>';
+  uniqueValues.forEach(v=>{optionsHtml+='<option value="'+escAttr(v)+'">'+escAttr(v)+'</option>';});
+  if(current&&!uniqueValues.includes(current)){
+    optionsHtml+='<option value="'+escAttr(current)+'">⚠ '+escAttr(current)+' (absent du reservoir)</option>';
+  }
+  select.innerHTML=optionsHtml;
+  select.value=current;
+}
+
+/* ---- Live preview: percent labels, warnings, markers ---- */
+function dndRefreshPreview(exerciseBlock){
+  const W=parseFloat(exerciseBlock.querySelector('.dnd-width-input').value)||0;
+  const H=parseFloat(exerciseBlock.querySelector('.dnd-height-input').value)||0;
+  const reservoirValues=Array.from(exerciseBlock.querySelectorAll('.dnd-reservoir-row input')).map(i=>i.value.trim()).filter(Boolean);
+  const rows=Array.from(exerciseBlock.querySelectorAll('.dnd-dropzone-row'));
+
+  rows.forEach(row=>{
+    dndSyncDropzoneOptions(row,reservoirValues);
+    const accepted=row.querySelector('.dnd-dz-accepted').value.trim();
+    row.querySelector('.dnd-dz-warning').classList.toggle('show',accepted!==''&&!reservoirValues.includes(accepted));
+
+    const xPx=parseFloat(row.querySelector('.dnd-dz-x').value);
+    const yPx=parseFloat(row.querySelector('.dnd-dz-y').value);
+    const xPct=(W>0&&!isNaN(xPx))?xPx/W*100:null;
+    const yPct=(H>0&&!isNaN(yPx))?yPx/H*100:null;
+    row.querySelector('.dnd-dz-percent').textContent='X : '+(xPct!==null?xPct.toFixed(1):'—')+' % · Y : '+(yPct!==null?yPct.toFixed(1):'—')+' %';
+    row.dataset.computedXPercent=xPct!==null?xPct:'';
+    row.dataset.computedYPercent=yPct!==null?yPct:'';
+  });
+
+  const previewInner=exerciseBlock.querySelector('.dnd-preview-inner');
+  if(previewInner){
+    previewInner.querySelectorAll('.dnd-marker').forEach(m=>m.remove());
+    rows.forEach(row=>{
+      const xPct=row.dataset.computedXPercent,yPct=row.dataset.computedYPercent;
+      if(xPct===''||yPct==='')return;
+      const marker=document.createElement('span');
+      marker.className='dnd-marker';
+      marker.dataset.dzUid=row.dataset.dzUid;
+      marker.textContent='⊕';
+      marker.style.left=xPct+'%';
+      marker.style.top=yPct+'%';
+      marker.title=row.querySelector('.dnd-dz-accepted').value.trim()||'(sans nom)';
+      previewInner.appendChild(marker);
+    });
+  }
+}
+
+/* ---- Add exercise / counts / empty state ---- */
+dndBtnAddExercise.addEventListener('click',()=>{
+  const eb=dndCreateExerciseBlock({dropZones:[{}],reservoirItems:['','']});
+  dndListEl.appendChild(eb);
+  dnd_activeTab=eb.dataset.uid;
+  dndRefreshEmpty();dndRefreshCount();dndRebuildTabs();dndInvalidate();
+  eb.querySelector('.dnd-title-input').focus();
+});
+
+dndListEl.addEventListener('input',e=>{
+  const exerciseBlock=e.target.closest('.dnd-exercise');
+  if(exerciseBlock)dndRefreshPreview(exerciseBlock);
+  dndInvalidate();
+});
+
+function dndRefreshEmpty(){
+  const n=dndListEl.querySelectorAll(':scope > .dnd-exercise').length;
+  dndEmptyState.classList.toggle('hidden',n>0);
+}
+function dndRefreshCount(){
+  const exercises=Array.from(dndListEl.querySelectorAll(':scope > .dnd-exercise'));
+  let dzCount=0;exercises.forEach(e=>{dzCount+=e.querySelectorAll('.dnd-dropzone-row').length;});
+  dndCountBadge.textContent=exercises.length+' exercice'+(exercises.length!==1?'s':'')+' · '+dzCount+' dropzone'+(dzCount!==1?'s':'');
+}
+
+/* ---- Exercise tabs: one-exercise-at-a-time navigation + drag reorder (reuses initTabDrag from the QCM tab) ---- */
+function dndRebuildTabs(){
+  const blocks=Array.from(dndListEl.querySelectorAll(':scope > .dnd-exercise'));
+  dndExerciseTabsEl.innerHTML='';
+  blocks.forEach((block,i)=>{
+    const uid=block.dataset.uid;
+    const tab=document.createElement('button');
+    tab.type='button';tab.className='qcm-tab';tab.dataset.quizUid=uid;
+    tab.textContent='Game '+(i+1);
+    tab.addEventListener('click',()=>{dnd_activeTab=uid;dndApplyActiveTab();});
+    initTabDrag(tab,dndExerciseTabsEl,(srcTab,targetTab,before)=>{
+      const srcBlock=dndListEl.querySelector('.dnd-exercise[data-uid="'+srcTab.dataset.quizUid+'"]');
+      const targetBlock=dndListEl.querySelector('.dnd-exercise[data-uid="'+targetTab.dataset.quizUid+'"]');
+      if(before)dndListEl.insertBefore(srcBlock,targetBlock);else targetBlock.after(srcBlock);
+      dndRebuildTabs();dndInvalidate();
+    });
+    dndExerciseTabsEl.appendChild(tab);
+  });
+  dndApplyActiveTab();
+}
+
+function dndApplyActiveTab(){
+  const blocks=Array.from(dndListEl.querySelectorAll(':scope > .dnd-exercise'));
+  blocks.forEach(b=>{b.style.display=(dnd_activeTab==='all'||b.dataset.uid===dnd_activeTab)?'':'none';});
+  dndTabAll.classList.toggle('active',dnd_activeTab==='all');
+  dndExerciseTabsEl.querySelectorAll('.qcm-tab').forEach(t=>t.classList.toggle('active',t.dataset.quizUid===dnd_activeTab));
+}
+
+dndTabAll.addEventListener('click',()=>{dnd_activeTab='all';dndApplyActiveTab();});
+
+/* ---- Verify ---- */
+dndBtnVerify.addEventListener('click',()=>{
+  const exercises=Array.from(dndListEl.querySelectorAll(':scope > .dnd-exercise'));
+  // Zéro exercice est un état valide : permet de vider la section sans laisser d'entrée factice.
+  if(!exercises.length){dnd_verifiedOk=true;dndBtnSave.disabled=false;showAlert(dndAlertBox,'info','Aucun exercice – la sauvegarde écrira une section vide.');return;}
+  const errs=[];
+  exercises.forEach((ex,i)=>{
+    const num=i+1,title=ex.querySelector('.dnd-title-input').value.trim();
+    const label='Exercice '+num+(title?' ("'+title+'")':'');
+    if(!title)errs.push(label+' : titre vide.');
+    if(!ex.dataset.image)errs.push(label+' : aucune image de fond sélectionnée.');
+    const W=parseFloat(ex.querySelector('.dnd-width-input').value),H=parseFloat(ex.querySelector('.dnd-height-input').value);
+    if(!W||W<=0)errs.push(label+' : largeur (W) manquante ou invalide.');
+    if(!H||H<=0)errs.push(label+' : hauteur (H) manquante ou invalide.');
+    const reservoirValues=Array.from(ex.querySelectorAll('.dnd-reservoir-row input')).map(i=>i.value.trim());
+    if(reservoirValues.some(v=>!v))errs.push(label+' : un ou plusieurs items du reservoir sont vides.');
+    const dzRows=Array.from(ex.querySelectorAll('.dnd-dropzone-row'));
+    if(!dzRows.length)errs.push(label+' : aucune dropzone.');
+    dzRows.forEach((row,di)=>{
+      const dzLabel=label+' — Dropzone '+(di+1);
+      const accepted=row.querySelector('.dnd-dz-accepted').value.trim();
+      if(!accepted)errs.push(dzLabel+' : mot accepté vide.');
+      else if(!reservoirValues.includes(accepted))errs.push(dzLabel+' : "'+accepted+'" ne correspond à aucun item du reservoir.');
+      const x=row.querySelector('.dnd-dz-x').value,y=row.querySelector('.dnd-dz-y').value;
+      if(x===''||isNaN(parseFloat(x)))errs.push(dzLabel+' : X (px) manquant.');
+      if(y===''||isNaN(parseFloat(y)))errs.push(dzLabel+' : Y (px) manquant.');
+    });
+  });
+  if(errs.length){
+    dndInvalidate();
+    showAlert(dndAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));
+  }else{
+    dnd_verifiedOk=true;dndBtnSave.disabled=false;
+    const nd=exercises.length,nz=exercises.reduce((s,e)=>s+e.querySelectorAll('.dnd-dropzone-row').length,0);
+    showAlert(dndAlertBox,'success','✓ Format valide — '+nd+' exercice'+(nd!==1?'s':'')+' / '+nz+' dropzone'+(nz!==1?'s':'')+'. Prêt à sauvegarder.');
+  }
+});
+
+/* ---- Save ---- */
+dndBtnSave.addEventListener('click',async()=>{
+  if(!dnd_verifiedOk)return;
+  try{
+    const exercises=Array.from(dndListEl.querySelectorAll(':scope > .dnd-exercise'));
+    const dragAndDrop=exercises.map(ex=>{
+      const W=parseFloat(ex.querySelector('.dnd-width-input').value)||1;
+      const H=parseFloat(ex.querySelector('.dnd-height-input').value)||1;
+      const obj={quizTitle:ex.querySelector('.dnd-title-input').value.trim(),backgroundImage:ex.dataset.image,hideOnSuccess:true};
+      const instructions=ex.querySelector('.dnd-instructions-input').value.trim();
+      if(instructions)obj.instructions=instructions;
+      obj.reservoirItems=Array.from(ex.querySelectorAll('.dnd-reservoir-row input')).map(i=>i.value.trim());
+      obj.dropZones=Array.from(ex.querySelectorAll('.dnd-dropzone-row')).map(row=>{
+        const x=parseFloat(row.querySelector('.dnd-dz-x').value)||0;
+        const y=parseFloat(row.querySelector('.dnd-dz-y').value)||0;
+        return{
+          x_pourcent:Math.round((x/W*100)*100)/100,
+          y_pourcent:Math.round((y/H*100)*100)/100,
+          acceptedText:row.querySelector('.dnd-dz-accepted').value.trim()
+        };
+      });
+      return obj;
+    });
+    interactiveFullData=interactiveFullData||{};
+    interactiveFullData.dragAndDrop=dragAndDrop;
+    const fh=await gamesGetFH(true),w=await fh.createWritable();
+    await w.write(JSON.stringify(interactiveFullData,null,2));await w.close();
+    const nd=dragAndDrop.length,nz=dragAndDrop.reduce((s,e)=>s+e.dropZones.length,0);
+    showAlert(dndAlertBox,'success','✓ Sauvegardé — '+nd+' exercice'+(nd!==1?'s':'')+' / '+nz+' dropzone'+(nz!==1?'s':'')+' écrit(e)s dans '+gamesPath());
+    dndBtnSave.disabled=true;dnd_verifiedOk=false;
+  }catch(e){showAlert(dndAlertBox,'error','Erreur de sauvegarde : '+e.message);}
+});
+
+function dndReset(){
+  dndListEl.innerHTML='';dnd_activeTab='all';dnd_armedDropzoneRow=null;
+  dndRefreshEmpty();dndRefreshCount();dndRebuildTabs();
+  dndBtnAddExercise.disabled=true;dndBtnVerify.disabled=true;
+  dndInvalidate();clearAlertEl(dndAlertBox);
+}
+
+/* ===== FILL IN THE BLANKS TAB ===== */
+let fib_uidCounter=0,fib_verifiedOk=false,fib_activeTab='all';
+const fibListEl=document.getElementById('fib-list'),fibEmptyState=document.getElementById('fib-empty-state'),fibCountBadge=document.getElementById('fib-count-badge'),fibBtnAddBlock=document.getElementById('fib-btn-add-block'),fibBtnVerify=document.getElementById('fib-btn-verify'),fibBtnSave=document.getElementById('fib-btn-save'),fibTextTabsEl=document.getElementById('fib-text-tabs'),fibTabAll=document.getElementById('fib-tab-all'),fibAlertBox=document.getElementById('fib-alert-box');
+
+function fibInvalidate(){fib_verifiedOk=false;fibBtnSave.disabled=true;}
+
+/* Rebuilds the editable "[correct|wrong1|wrong2]" inline syntax from the saved
+   "[blank0]"/"[blank1]"... placeholders + the blanks array, correct answer first. */
+function fibBlockToEditText(block){
+  const blanks=block.blanks||[];
+  return (block.text||'').replace(/\[blank(\d+)\]/g,(match,idxStr)=>{
+    const b=blanks[parseInt(idxStr,10)];
+    if(!b)return match;
+    const others=(b.options||[]).filter(o=>o!==b.correctAnswer);
+    return '['+[b.correctAnswer,...others].join('|')+']';
+  });
+}
+
+/* Parses the raw "[correct|wrong1|wrong2]" inline syntax back into the saved
+   {text with [blank0]/[blank1].../blanks[]} shape. Returns {text,blanks,errors}. */
+function fibParseBlockText(rawText){
+  const errors=[];
+  const trimmed=(rawText||'').trim();
+  if(!trimmed){errors.push('texte vide.');return{text:'',blanks:[],errors};}
+  let idx=0;
+  const blanks=[];
+  const text=trimmed.replace(/\[([^\[\]]+)\]/g,(match,inner)=>{
+    const parts=inner.split('|').map(p=>p.trim());
+    if(parts.length<2){
+      errors.push('crochet invalide : "['+inner+']" (2 éléments minimum requis, séparés par "|").');
+      return match;
+    }
+    blanks.push({options:parts,correctAnswer:parts[0]});
+    return '[blank'+(idx++)+']';
+  });
+  return{text,blanks,errors};
+}
+
+/* ---- Build UI from loaded data ---- */
+function fibPopulate(blocks){
+  fibListEl.innerHTML='';
+  blocks.forEach(b=>fibListEl.appendChild(fibCreateBlock(b)));
+  fibRefreshEmpty();fibRefreshCount();
+  fibBtnAddBlock.disabled=false;fibBtnVerify.disabled=false;
+  const firstBlock=fibListEl.querySelector(':scope > .dnd-exercise');
+  fib_activeTab=firstBlock?firstBlock.dataset.uid:'all';
+  fibRebuildTabs();
+  fibInvalidate();clearAlertEl(fibAlertBox);
+}
+
+function fibCreateBlock(block){
+  block=block||{};
+  const div=document.createElement('div');div.className='dnd-exercise';
+  div.dataset.uid=String(fib_uidCounter++);
+  let lastFocused=null;
+  div.innerHTML=
+    '<div class="dnd-exercise-header">'+
+      '<span class="qcm-quiz-header-label">Texte à trous</span>'+
+      '<div class="fmt-bar">'+
+        '<button type="button" class="fmt-btn" data-tag="strong" title="Gras"><b>G</b></button>'+
+        '<button type="button" class="fmt-btn" data-tag="em" title="Italique"><i>I</i></button>'+
+        '<button type="button" class="fmt-btn" data-tag="u" title="Souligné"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button>'+
+      '</div>'+
+      '<button type="button" class="btn-delete-block">🗑 Supprimer ce texte</button>'+
+    '</div>'+
+    '<div class="dnd-exercise-body">'+
+      '<div class="qcm-field"><span class="qcm-label">Titre du texte</span><input type="text" class="fib-title-input qcm-quiz-title-input" placeholder="Ex : Ecosystem Basics" /></div>'+
+      '<div class="qcm-field"><span class="qcm-label">Instructions (optionnel)</span><textarea class="fib-instructions-ta qcm-instructions-ta" style="min-height:60px" placeholder="Ex : Fill in each blank with the correct word."></textarea></div>'+
+      '<div class="qcm-field"><span class="qcm-label">Texte (syntaxe [bonne_réponse|mauvaise_option_1|mauvaise_option_2])</span><textarea class="fib-text-ta" style="min-height:160px" placeholder="Plants use [sunlight|water|oxygen] to perform photosynthesis."></textarea></div>'+
+      '<div class="qcm-field">'+
+        '<span class="qcm-label">Mots traduisibles au survol (word bank, optionnel)</span>'+
+        '<div class="fib-wordbank-list"></div>'+
+        '<button type="button" class="btn-add-row btn-fib-wb-add">+ Ajouter un mot</button>'+
+        '<div class="fib-wordbank-import">'+
+          '<span class="qcm-label" style="margin-top:8px">Import rapide (un par ligne, format : mot|traduction — pratique pour coller une liste générée par IA)</span>'+
+          '<textarea class="fib-wordbank-import-ta" style="min-height:70px" placeholder="composed of|constitué de&#10;community|communauté"></textarea>'+
+          '<button type="button" class="btn-outline btn-fib-wb-import">📥 Importer dans la liste</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+
+  div.querySelector('.fib-title-input').value=block.quizTitle||'';
+  div.querySelector('.fib-instructions-ta').value=block.instructions||'';
+  div.querySelector('.fib-text-ta').value=fibBlockToEditText(block);
+
+  // Le texte de l'exercice devient formatable, mais PAS les options des trous :
+  // celles-ci sont comparées telles quelles au choix de l'élève, une balise y
+  // rendrait la bonne réponse impossible à trouver. Elles vivent de toute façon
+  // dans la syntaxe [reponse|leurre] à l'intérieur de ce même champ.
+  div.addEventListener('focusin',e=>{
+    if(e.target.matches('.fib-title-input,.fib-instructions-ta,.fib-text-ta'))lastFocused=e.target;
+  });
+  div.querySelectorAll(':scope > .dnd-exercise-header .fmt-btn').forEach(btn=>btn.addEventListener('mousedown',e=>{e.preventDefault();applyFmt(lastFocused,btn.dataset.tag,fibInvalidate);}));
+
+  const wordBankList=div.querySelector('.fib-wordbank-list');
+  (block.wordBank||[]).forEach(entry=>wordBankList.appendChild(fibCreateWordBankRow(entry)));
+
+  div.querySelector('.btn-fib-wb-add').addEventListener('click',()=>{
+    const row=fibCreateWordBankRow({});
+    wordBankList.appendChild(row);
+    fibInvalidate();
+    row.querySelector('.fib-wb-word').focus();
+  });
+
+  const importTa=div.querySelector('.fib-wordbank-import-ta');
+  div.querySelector('.btn-fib-wb-import').addEventListener('click',()=>{
+    const lines=importTa.value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+    let added=0;
+    lines.forEach(line=>{
+      const sep=line.indexOf('|');
+      if(sep===-1)return;
+      const word=line.slice(0,sep).trim(),translation=line.slice(sep+1).trim();
+      if(!word||!translation)return;
+      wordBankList.appendChild(fibCreateWordBankRow({word,translation}));
+      added++;
+    });
+    if(added){importTa.value='';fibInvalidate();}
+  });
+
+  div.querySelector(':scope > .dnd-exercise-header .btn-delete-block').addEventListener('click',()=>{
+    const wasActive=fib_activeTab===div.dataset.uid;
+    div.remove();
+    if(wasActive)fib_activeTab='all';
+    fibRefreshEmpty();fibRefreshCount();fibRebuildTabs();fibInvalidate();
+  });
+
+  return div;
+}
+
+/* ---- Word bank row: English word/phrase + French translation, shown on hover to the student ---- */
+function fibCreateWordBankRow(entry){
+  entry=entry||{};
+  const row=document.createElement('div');row.className='mtp-pair-row fib-wordbank-row';
+  row.innerHTML=
+    '<input type="text" class="fib-wb-word" placeholder="Mot ou groupe de mots (EN)" />'+
+    '<span class="mtp-arrow">↔</span>'+
+    '<input type="text" class="fib-wb-translation" placeholder="Traduction (FR)" />'+
+    '<button type="button" class="btn-delete-option btn-fib-wb-delete" title="Supprimer ce mot">🗑</button>';
+  row.querySelector('.fib-wb-word').value=entry.word||'';
+  row.querySelector('.fib-wb-translation').value=entry.translation||'';
+  row.querySelector('.btn-fib-wb-delete').addEventListener('click',()=>{
+    row.remove();
+    fibInvalidate();
+  });
+  return row;
+}
+
+/* ---- Add block / counts / empty state ---- */
+fibBtnAddBlock.addEventListener('click',()=>{
+  const b=fibCreateBlock({});
+  fibListEl.appendChild(b);
+  fib_activeTab=b.dataset.uid;
+  fibRefreshEmpty();fibRefreshCount();fibRebuildTabs();fibInvalidate();
+  b.querySelector('.fib-text-ta').focus();
+});
+
+fibListEl.addEventListener('input',fibInvalidate);
+
+function fibRefreshEmpty(){
+  const n=fibListEl.querySelectorAll(':scope > .dnd-exercise').length;
+  fibEmptyState.classList.toggle('hidden',n>0);
+}
+function fibRefreshCount(){
+  const n=fibListEl.querySelectorAll(':scope > .dnd-exercise').length;
+  fibCountBadge.textContent=n+' texte'+(n!==1?'s':'');
+}
+
+/* ---- Text tabs: one-text-at-a-time navigation + drag reorder (reuses initTabDrag) ---- */
+function fibRebuildTabs(){
+  const blocks=Array.from(fibListEl.querySelectorAll(':scope > .dnd-exercise'));
+  fibTextTabsEl.innerHTML='';
+  blocks.forEach((block,i)=>{
+    const uid=block.dataset.uid;
+    const tab=document.createElement('button');
+    tab.type='button';tab.className='qcm-tab';tab.dataset.quizUid=uid;
+    tab.textContent='Text '+(i+1);
+    tab.addEventListener('click',()=>{fib_activeTab=uid;fibApplyActiveTab();});
+    initTabDrag(tab,fibTextTabsEl,(srcTab,targetTab,before)=>{
+      const srcBlock=fibListEl.querySelector('.dnd-exercise[data-uid="'+srcTab.dataset.quizUid+'"]');
+      const targetBlock=fibListEl.querySelector('.dnd-exercise[data-uid="'+targetTab.dataset.quizUid+'"]');
+      if(before)fibListEl.insertBefore(srcBlock,targetBlock);else targetBlock.after(srcBlock);
+      fibRebuildTabs();fibInvalidate();
+    });
+    fibTextTabsEl.appendChild(tab);
+  });
+  fibApplyActiveTab();
+}
+
+function fibApplyActiveTab(){
+  const blocks=Array.from(fibListEl.querySelectorAll(':scope > .dnd-exercise'));
+  blocks.forEach(b=>{b.style.display=(fib_activeTab==='all'||b.dataset.uid===fib_activeTab)?'':'none';});
+  fibTabAll.classList.toggle('active',fib_activeTab==='all');
+  fibTextTabsEl.querySelectorAll('.qcm-tab').forEach(t=>t.classList.toggle('active',t.dataset.quizUid===fib_activeTab));
+}
+
+fibTabAll.addEventListener('click',()=>{fib_activeTab='all';fibApplyActiveTab();});
+
+/* ---- Verify ---- */
+fibBtnVerify.addEventListener('click',()=>{
+  const blocks=Array.from(fibListEl.querySelectorAll(':scope > .dnd-exercise'));
+  // Zéro texte est un état valide : permet de vider la section sans laisser d'entrée factice.
+  if(!blocks.length){fib_verifiedOk=true;fibBtnSave.disabled=false;showAlert(fibAlertBox,'info','Aucun texte – la sauvegarde écrira une section vide.');return;}
+  const errs=[];
+  let totalBlanks=0,totalWords=0;
+  blocks.forEach((block,i)=>{
+    const title=block.querySelector('.fib-title-input').value.trim();
+    const label='Texte '+(i+1)+(title?' ("'+title+'")':'');
+    if(!title)errs.push(label+' : titre du texte vide.');
+    const{blanks,errors}=fibParseBlockText(block.querySelector('.fib-text-ta').value);
+    if(errors.length)errors.forEach(e=>errs.push(label+' : '+e));
+    else{
+      totalBlanks+=blanks.length;
+      // Le texte est formatable, mais pas l'intérieur des crochets : la réponse
+      // de l'élève y est comparée telle quelle, une balise la rendrait
+      // introuvable. Mieux vaut le signaler ici que livrer un trou insoluble.
+      blanks.forEach((b,bi)=>{
+        if((b.options||[]).some(o=>/<\/?(strong|em|u|br)\s*\/?>/i.test(o)))
+          errs.push(label+' — trou '+(bi+1)+' : mise en forme interdite entre crochets (elle empêcherait la bonne réponse d\'être reconnue).');
+      });
+    }
+
+    const wbRows=Array.from(block.querySelectorAll('.fib-wordbank-row'));
+    wbRows.forEach((row,wi)=>{
+      const word=row.querySelector('.fib-wb-word').value.trim();
+      const translation=row.querySelector('.fib-wb-translation').value.trim();
+      if(!word||!translation)errs.push(label+' — mot glossé '+(wi+1)+' : mot ou traduction manquant.');
+    });
+    totalWords+=wbRows.length;
+  });
+  if(errs.length){
+    fibInvalidate();
+    showAlert(fibAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));
+  }else{
+    fib_verifiedOk=true;fibBtnSave.disabled=false;
+    showAlert(fibAlertBox,'success','✓ Format valide — '+blocks.length+' texte'+(blocks.length!==1?'s':'')+' / '+totalBlanks+' trou'+(totalBlanks!==1?'s':'')+' / '+totalWords+' mot'+(totalWords!==1?'s':'')+' glossé(s). Prêt à sauvegarder.');
+  }
+});
+
+/* ---- Save ---- */
+fibBtnSave.addEventListener('click',async()=>{
+  if(!fib_verifiedOk)return;
+  try{
+    const blocks=Array.from(fibListEl.querySelectorAll(':scope > .dnd-exercise'));
+    const fillBlanks=blocks.map(block=>{
+      const{text,blanks}=fibParseBlockText(block.querySelector('.fib-text-ta').value);
+      const obj={quizTitle:block.querySelector('.fib-title-input').value.trim()};
+      const instructions=block.querySelector('.fib-instructions-ta').value.trim();
+      if(instructions)obj.instructions=instructions;
+      obj.text=text;obj.blanks=blanks;
+      const wordBank=Array.from(block.querySelectorAll('.fib-wordbank-row')).map(row=>({
+        word:row.querySelector('.fib-wb-word').value.trim(),
+        translation:row.querySelector('.fib-wb-translation').value.trim()
+      }));
+      if(wordBank.length)obj.wordBank=wordBank;
+      return obj;
+    });
+    interactiveFullData=interactiveFullData||{};
+    interactiveFullData.fillBlanks=fillBlanks;
+    const fh=await gamesGetFH(true),w=await fh.createWritable();
+    await w.write(JSON.stringify(interactiveFullData,null,2));await w.close();
+    const nb=fillBlanks.length,nt=fillBlanks.reduce((s,b)=>s+b.blanks.length,0);
+    showAlert(fibAlertBox,'success','✓ Sauvegardé — '+nb+' texte'+(nb!==1?'s':'')+' / '+nt+' trou'+(nt!==1?'s':'')+' écrit(e)s dans '+gamesPath());
+    fibBtnSave.disabled=true;fib_verifiedOk=false;
+  }catch(e){showAlert(fibAlertBox,'error','Erreur de sauvegarde : '+e.message);}
+});
+
+function fibReset(){
+  fibListEl.innerHTML='';fib_activeTab='all';
+  fibRefreshEmpty();fibRefreshCount();fibRebuildTabs();
+  fibBtnAddBlock.disabled=true;fibBtnVerify.disabled=true;
+  fibInvalidate();clearAlertEl(fibAlertBox);
+}
+
+/* ===== MATCH THE PAIRS TAB ===== */
+let mtp_uidCounter=0,mtp_verifiedOk=false,mtp_activeTab='all';
+const mtpListEl=document.getElementById('mtp-list'),mtpEmptyState=document.getElementById('mtp-empty-state'),mtpCountBadge=document.getElementById('mtp-count-badge'),mtpBtnAddBlock=document.getElementById('mtp-btn-add-block'),mtpBtnVerify=document.getElementById('mtp-btn-verify'),mtpBtnSave=document.getElementById('mtp-btn-save'),mtpGameTabsEl=document.getElementById('mtp-game-tabs'),mtpTabAll=document.getElementById('mtp-tab-all'),mtpAlertBox=document.getElementById('mtp-alert-box');
+
+function mtpInvalidate(){mtp_verifiedOk=false;mtpBtnSave.disabled=true;}
+
+/* ---- Build UI from loaded data ---- */
+function mtpPopulate(games){
+  mtpListEl.innerHTML='';
+  games.forEach(g=>mtpListEl.appendChild(mtpCreateBlock(g)));
+  mtpRefreshAllThumbs();
+  mtpRefreshEmpty();mtpRefreshCount();
+  mtpBtnAddBlock.disabled=false;mtpBtnVerify.disabled=false;
+  const firstBlock=mtpListEl.querySelector(':scope > .dnd-exercise');
+  mtp_activeTab=firstBlock?firstBlock.dataset.uid:'all';
+  mtpRebuildTabs();
+  mtpInvalidate();clearAlertEl(mtpAlertBox);
+}
+
+function mtpCreateBlock(game){
+  game=game||{};
+  const div=document.createElement('div');div.className='dnd-exercise';
+  div.dataset.uid=String(mtp_uidCounter++);
+  let lastFocused=null;
+  div.innerHTML=
+    '<div class="dnd-exercise-header">'+
+      '<span class="qcm-quiz-header-label">Jeu memory</span>'+
+      '<div class="fmt-bar">'+
+        '<button type="button" class="fmt-btn" data-tag="strong" title="Gras"><b>G</b></button>'+
+        '<button type="button" class="fmt-btn" data-tag="em" title="Italique"><i>I</i></button>'+
+        '<button type="button" class="fmt-btn" data-tag="u" title="Souligné"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button>'+
+      '</div>'+
+      '<button type="button" class="btn-delete-block">🗑 Supprimer ce jeu</button>'+
+    '</div>'+
+    '<div class="dnd-exercise-body">'+
+      '<div class="qcm-field"><span class="qcm-label">Titre du jeu</span><input type="text" class="mtp-title-input qcm-quiz-title-input" placeholder="Ex : Match the Pairs - Ecosystem Roles" /></div>'+
+      '<div class="qcm-field"><span class="qcm-label">Instructions (optionnel)</span><textarea class="mtp-instructions-ta qcm-instructions-ta" style="min-height:60px" placeholder="Ex : Match the picture with the correct level of organization."></textarea></div>'+
+      '<div class="qcm-field">'+
+        '<span class="qcm-label">Paires</span>'+
+        '<div class="mtp-pairs-list"></div>'+
+        '<button type="button" class="btn-add-row btn-mtp-add-pair">+ Ajouter une paire</button>'+
+      '</div>'+
+    '</div>';
+
+  div.querySelector('.mtp-title-input').value=game.quizTitle||'';
+  div.querySelector('.mtp-instructions-ta').value=game.instructions||'';
+
+  div.querySelector('.mtp-title-input').addEventListener('focus',()=>{lastFocused=div.querySelector('.mtp-title-input');});
+  div.querySelector('.mtp-instructions-ta').addEventListener('focus',()=>{lastFocused=div.querySelector('.mtp-instructions-ta');});
+  div.querySelectorAll(':scope > .dnd-exercise-header .fmt-btn').forEach(btn=>btn.addEventListener('mousedown',e=>{e.preventDefault();applyFmt(lastFocused,btn.dataset.tag,mtpInvalidate);}));
+
+  const pairsList=div.querySelector('.mtp-pairs-list');
+  (game.pairs||[]).forEach(p=>pairsList.appendChild(mtpCreatePairRow(p)));
+
+  div.querySelector(':scope > .dnd-exercise-header .btn-delete-block').addEventListener('click',()=>{
+    const wasActive=mtp_activeTab===div.dataset.uid;
+    div.remove();
+    if(wasActive)mtp_activeTab='all';
+    mtpRefreshEmpty();mtpRefreshCount();mtpRebuildTabs();mtpInvalidate();
+  });
+
+  div.querySelector('.btn-mtp-add-pair').addEventListener('click',()=>{
+    const row=mtpCreatePairRow({});
+    pairsList.appendChild(row);
+    mtpRefreshCount();mtpInvalidate();
+    row.querySelector('.mtp-sideA-text').focus();
+  });
+
+  return div;
+}
+
+/* ---- Pair row: Side A (text or image) / Side B (text) ---- */
+function mtpCreatePairRow(pair){
+  pair=pair||{};
+  const sideA=pair.sideA||{};
+  const isImg=sideA.type==='image';
+  const row=document.createElement('div');row.className='mtp-pair-row';
+  row.dataset.uid=String(mtp_uidCounter++);
+  row.dataset.image=isImg?(sideA.content||''):'';
+  row.innerHTML=
+    '<div class="mtp-sideA-zone">'+
+      '<input type="text" class="mtp-sideA-text" placeholder="Side A (texte)" />'+
+      '<button type="button" class="btn-outline btn-mtp-pick-img" title="Utiliser une image">🖼</button>'+
+      '<div class="qcm-img-preview mtp-sideA-preview" style="display:none">'+
+        '<img class="qcm-thumb mtp-sideA-thumb" src="" alt="" />'+
+        '<span class="qcm-img-name mtp-sideA-name"></span>'+
+        '<button type="button" class="btn-remove-img btn-mtp-remove-img">🗑</button>'+
+      '</div>'+
+    '</div>'+
+    '<span class="mtp-arrow">↔</span>'+
+    '<input type="text" class="mtp-sideB-text" placeholder="Side B (texte)" />'+
+    '<button type="button" class="btn-delete-option btn-mtp-delete-pair" title="Supprimer cette paire">🗑</button>';
+
+  row.querySelector('.mtp-sideA-text').value=isImg?'':(sideA.content||'');
+  row.querySelector('.mtp-sideB-text').value=(pair.sideB&&pair.sideB.content)||'';
+  mtpRenderSideAImage(row);
+
+  row.querySelector('.btn-mtp-pick-img').addEventListener('click',()=>{
+    gamesOpenModal(path=>{
+      row.dataset.image=path;
+      mtpRenderSideAImage(row);
+      mtpInvalidate();
+    });
+  });
+  row.querySelector('.btn-mtp-remove-img').addEventListener('click',()=>{
+    row.dataset.image='';
+    mtpRenderSideAImage(row);
+    mtpInvalidate();
+  });
+  row.querySelector('.btn-mtp-delete-pair').addEventListener('click',()=>{
+    row.remove();
+    mtpRefreshCount();mtpInvalidate();
+  });
+
+  return row;
+}
+
+function mtpRenderSideAImage(row){
+  const textInput=row.querySelector('.mtp-sideA-text'),pickBtn=row.querySelector('.btn-mtp-pick-img'),preview=row.querySelector('.mtp-sideA-preview'),thumb=row.querySelector('.mtp-sideA-thumb'),nameEl=row.querySelector('.mtp-sideA-name');
+  const img=row.dataset.image;
+  if(!img){textInput.style.display='';pickBtn.style.display='';preview.style.display='none';return;}
+  textInput.style.display='none';pickBtn.style.display='none';preview.style.display='flex';
+  const fn=img.replace(/^assets\//,'');nameEl.textContent=fn;
+  if(gamesAssetsHandle)qcmLoadThumb(fn,thumb);
+}
+
+async function mtpRefreshAllThumbs(){
+  if(!gamesAssetsHandle)return;
+  for(const row of mtpListEl.querySelectorAll('.mtp-pair-row')){
+    if(row.dataset.image)await qcmLoadThumb(row.dataset.image.replace(/^assets\//,''),row.querySelector('.mtp-sideA-thumb'));
+  }
+}
+
+/* ---- Add game / counts / empty state ---- */
+mtpBtnAddBlock.addEventListener('click',()=>{
+  const gb=mtpCreateBlock({pairs:[{},{}]});
+  mtpListEl.appendChild(gb);
+  mtp_activeTab=gb.dataset.uid;
+  mtpRefreshEmpty();mtpRefreshCount();mtpRebuildTabs();mtpInvalidate();
+  gb.querySelector('.mtp-title-input').focus();
+});
+
+mtpListEl.addEventListener('input',mtpInvalidate);
+
+function mtpRefreshEmpty(){
+  const n=mtpListEl.querySelectorAll(':scope > .dnd-exercise').length;
+  mtpEmptyState.classList.toggle('hidden',n>0);
+}
+function mtpRefreshCount(){
+  const blocks=mtpListEl.querySelectorAll(':scope > .dnd-exercise');
+  let pCount=0;blocks.forEach(b=>{pCount+=b.querySelectorAll('.mtp-pair-row').length;});
+  mtpCountBadge.textContent=blocks.length+' jeu'+(blocks.length!==1?'x':'')+' · '+pCount+' paire'+(pCount!==1?'s':'');
+}
+
+/* ---- Game tabs: one-game-at-a-time navigation + drag reorder (reuses initTabDrag) ---- */
+function mtpRebuildTabs(){
+  const blocks=Array.from(mtpListEl.querySelectorAll(':scope > .dnd-exercise'));
+  mtpGameTabsEl.innerHTML='';
+  blocks.forEach((block,i)=>{
+    const uid=block.dataset.uid;
+    const tab=document.createElement('button');
+    tab.type='button';tab.className='qcm-tab';tab.dataset.quizUid=uid;
+    tab.textContent='Game '+(i+1);
+    tab.addEventListener('click',()=>{mtp_activeTab=uid;mtpApplyActiveTab();});
+    initTabDrag(tab,mtpGameTabsEl,(srcTab,targetTab,before)=>{
+      const srcBlock=mtpListEl.querySelector('.dnd-exercise[data-uid="'+srcTab.dataset.quizUid+'"]');
+      const targetBlock=mtpListEl.querySelector('.dnd-exercise[data-uid="'+targetTab.dataset.quizUid+'"]');
+      if(before)mtpListEl.insertBefore(srcBlock,targetBlock);else targetBlock.after(srcBlock);
+      mtpRebuildTabs();mtpInvalidate();
+    });
+    mtpGameTabsEl.appendChild(tab);
+  });
+  mtpApplyActiveTab();
+}
+
+function mtpApplyActiveTab(){
+  const blocks=Array.from(mtpListEl.querySelectorAll(':scope > .dnd-exercise'));
+  blocks.forEach(b=>{b.style.display=(mtp_activeTab==='all'||b.dataset.uid===mtp_activeTab)?'':'none';});
+  mtpTabAll.classList.toggle('active',mtp_activeTab==='all');
+  mtpGameTabsEl.querySelectorAll('.qcm-tab').forEach(t=>t.classList.toggle('active',t.dataset.quizUid===mtp_activeTab));
+}
+
+mtpTabAll.addEventListener('click',()=>{mtp_activeTab='all';mtpApplyActiveTab();});
+
+/* ---- Verify ---- */
+mtpBtnVerify.addEventListener('click',()=>{
+  const blocks=Array.from(mtpListEl.querySelectorAll(':scope > .dnd-exercise'));
+  // Zéro jeu est un état valide : permet de vider la section sans laisser d'entrée factice.
+  if(!blocks.length){mtp_verifiedOk=true;mtpBtnSave.disabled=false;showAlert(mtpAlertBox,'info','Aucun jeu – la sauvegarde écrira une section vide.');return;}
+  const errs=[];
+  let totalPairs=0;
+  blocks.forEach((block,i)=>{
+    const title=block.querySelector('.mtp-title-input').value.trim();
+    const label='Jeu '+(i+1)+(title?' ("'+title+'")':'');
+    if(!title)errs.push(label+' : titre du jeu vide.');
+    const rows=Array.from(block.querySelectorAll('.mtp-pair-row'));
+    if(rows.length<2)errs.push(label+' : au moins 2 paires requises (trouvé '+rows.length+').');
+    rows.forEach((row,ri)=>{
+      const pLabel=label+' — Paire '+(ri+1);
+      const isImg=!!row.dataset.image;
+      if(!isImg&&!row.querySelector('.mtp-sideA-text').value.trim())errs.push(pLabel+' : Side A vide.');
+      if(!row.querySelector('.mtp-sideB-text').value.trim())errs.push(pLabel+' : Side B vide.');
+    });
+    totalPairs+=rows.length;
+  });
+  if(errs.length){
+    mtpInvalidate();
+    showAlert(mtpAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));
+  }else{
+    mtp_verifiedOk=true;mtpBtnSave.disabled=false;
+    showAlert(mtpAlertBox,'success','✓ Format valide — '+blocks.length+' jeu'+(blocks.length!==1?'x':'')+' / '+totalPairs+' paire'+(totalPairs!==1?'s':'')+'. Prêt à sauvegarder.');
+  }
+});
+
+/* ---- Save ---- */
+mtpBtnSave.addEventListener('click',async()=>{
+  if(!mtp_verifiedOk)return;
+  try{
+    const blocks=Array.from(mtpListEl.querySelectorAll(':scope > .dnd-exercise'));
+    const matchPairs=blocks.map(block=>{
+      const obj={quizTitle:block.querySelector('.mtp-title-input').value.trim()};
+      const instructions=block.querySelector('.mtp-instructions-ta').value.trim();
+      if(instructions)obj.instructions=instructions;
+      const rows=Array.from(block.querySelectorAll('.mtp-pair-row'));
+      obj.pairs=rows.map((row,ri)=>{
+        const isImg=!!row.dataset.image;
+        const sideA=isImg?{type:'image',content:row.dataset.image}:{type:'text',content:row.querySelector('.mtp-sideA-text').value.trim()};
+        const sideB={type:'text',content:row.querySelector('.mtp-sideB-text').value.trim()};
+        return{id:ri+1,sideA,sideB};
+      });
+      return obj;
+    });
+    interactiveFullData=interactiveFullData||{};
+    interactiveFullData.matchPairs=matchPairs;
+    const fh=await gamesGetFH(true),w=await fh.createWritable();
+    await w.write(JSON.stringify(interactiveFullData,null,2));await w.close();
+    const ng=matchPairs.length,np=matchPairs.reduce((s,g)=>s+g.pairs.length,0);
+    showAlert(mtpAlertBox,'success','✓ Sauvegardé — '+ng+' jeu'+(ng!==1?'x':'')+' / '+np+' paire'+(np!==1?'s':'')+' écrit(e)s dans '+gamesPath());
+    mtpBtnSave.disabled=true;mtp_verifiedOk=false;
+  }catch(e){showAlert(mtpAlertBox,'error','Erreur de sauvegarde : '+e.message);}
+});
+
+function mtpReset(){
+  mtpListEl.innerHTML='';mtp_activeTab='all';
+  mtpRefreshEmpty();mtpRefreshCount();mtpRebuildTabs();
+  mtpBtnAddBlock.disabled=true;mtpBtnVerify.disabled=true;
+  mtpInvalidate();clearAlertEl(mtpAlertBox);
+}
+
+/* ===== SORTING CHALLENGE TAB ===== */
+let sort_uidCounter=0,sort_verifiedOk=false,sort_activeTab='all',sort_loadAnomalies=[];
+const sortListEl=document.getElementById('sort-list'),sortEmptyState=document.getElementById('sort-empty-state'),sortCountBadge=document.getElementById('sort-count-badge'),sortBtnAddBlock=document.getElementById('sort-btn-add-block'),sortBtnVerify=document.getElementById('sort-btn-verify'),sortBtnSave=document.getElementById('sort-btn-save'),sortGameTabsEl=document.getElementById('sort-game-tabs'),sortTabAll=document.getElementById('sort-tab-all'),sortAlertBox=document.getElementById('sort-alert-box');
+
+function sortInvalidate(){sort_verifiedOk=false;sortBtnSave.disabled=true;}
+
+/* ---- Build UI from loaded data ---- */
+function sortPopulate(games){
+  sortListEl.innerHTML='';
+  sort_loadAnomalies=[];
+  games.forEach(g=>sortListEl.appendChild(sortCreateBlock(g)));
+  sortRefreshAllThumbs();
+  sortRefreshEmpty();sortRefreshCount();
+  sortBtnAddBlock.disabled=false;sortBtnVerify.disabled=false;
+  const firstBlock=sortListEl.querySelector(':scope > .dnd-exercise');
+  sort_activeTab=firstBlock?firstBlock.dataset.uid:'all';
+  sortRebuildTabs();
+  sortInvalidate();
+  if(sort_loadAnomalies.length)showAlert(sortAlertBox,'error',sort_loadAnomalies.length+' anomalie(s) détectée(s) au chargement :\n\n'+sort_loadAnomalies.join('\n'));
+  else clearAlertEl(sortAlertBox);
+}
+
+function sortCreateBlock(game){
+  game=game||{};
+  const div=document.createElement('div');div.className='dnd-exercise';
+  div.dataset.uid=String(sort_uidCounter++);
+  let lastFocused=null;
+  div.innerHTML=
+    '<div class="dnd-exercise-header">'+
+      '<span class="qcm-quiz-header-label">Jeu de tri</span>'+
+      '<div class="fmt-bar">'+
+        '<button type="button" class="fmt-btn" data-tag="strong" title="Gras"><b>G</b></button>'+
+        '<button type="button" class="fmt-btn" data-tag="em" title="Italique"><i>I</i></button>'+
+        '<button type="button" class="fmt-btn" data-tag="u" title="Souligné"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button>'+
+      '</div>'+
+      '<button type="button" class="btn-delete-block">🗑 Supprimer ce jeu</button>'+
+    '</div>'+
+    '<div class="dnd-exercise-body">'+
+      '<div class="qcm-field"><span class="qcm-label">Titre du jeu</span><input type="text" class="sort-title-input qcm-quiz-title-input" placeholder="Ex : Sorting Challenge - Ecological Factors" /></div>'+
+      '<div class="qcm-field"><span class="qcm-label">Instructions (optionnel)</span><textarea class="sort-instructions-ta qcm-instructions-ta" style="min-height:60px" placeholder="Ex : Sort each item into the correct category."></textarea></div>'+
+      '<div class="qcm-field">'+
+        '<span class="qcm-label">Catégories</span>'+
+        '<div class="sort-categories-list"></div>'+
+        '<button type="button" class="btn-add-row btn-sort-add-category">+ Ajouter une catégorie</button>'+
+      '</div>'+
+    '</div>';
+
+  div.querySelector('.sort-title-input').value=game.quizTitle||'';
+  div.querySelector('.sort-instructions-ta').value=game.instructions||'';
+
+  div.querySelector('.sort-title-input').addEventListener('focus',()=>{lastFocused=div.querySelector('.sort-title-input');});
+  div.querySelector('.sort-instructions-ta').addEventListener('focus',()=>{lastFocused=div.querySelector('.sort-instructions-ta');});
+  div.querySelectorAll(':scope > .dnd-exercise-header .fmt-btn').forEach(btn=>btn.addEventListener('mousedown',e=>{e.preventDefault();applyFmt(lastFocused,btn.dataset.tag,sortInvalidate);}));
+
+  const categoriesList=div.querySelector('.sort-categories-list');
+  const categories=game.categories||[];
+  const items=game.items||[];
+  const boxByName=new Map();
+  categories.forEach(name=>{
+    const box=sortCreateCategoryBox(name);
+    categoriesList.appendChild(box);
+    boxByName.set(name,box);
+  });
+  items.forEach(item=>{
+    let box=boxByName.get(item.category);
+    if(!box){
+      box=sortCreateCategoryBox(item.category||'');
+      categoriesList.appendChild(box);
+      boxByName.set(item.category,box);
+      sort_loadAnomalies.push('Jeu "'+(game.quizTitle||'(sans titre)')+'" : mot rattaché à la catégorie "'+(item.category||'(vide)')+'", absente de la liste "categories" — catégorie recréée automatiquement.');
+    }
+    box.querySelector('.sort-words-list').appendChild(sortCreateWordRow(item));
+  });
+
+  div.querySelector(':scope > .dnd-exercise-header .btn-delete-block').addEventListener('click',()=>{
+    const wasActive=sort_activeTab===div.dataset.uid;
+    div.remove();
+    if(wasActive)sort_activeTab='all';
+    sortRefreshEmpty();sortRefreshCount();sortRebuildTabs();sortInvalidate();
+  });
+
+  div.querySelector('.btn-sort-add-category').addEventListener('click',()=>{
+    const box=sortCreateCategoryBox('');
+    categoriesList.appendChild(box);
+    sortRefreshCount();sortInvalidate();
+    box.querySelector('.sort-category-name').focus();
+  });
+
+  return div;
+}
+
+/* ---- Category box: name field + its own words list ---- */
+function sortCreateCategoryBox(name){
+  const box=document.createElement('div');box.className='sort-category-box';
+  box.dataset.uid=String(sort_uidCounter++);
+  box.innerHTML=
+    '<div class="sort-category-header">'+
+      '<input type="text" class="sort-category-name" placeholder="Nom de la catégorie" value="'+escAttr(name||'')+'" />'+
+      '<button type="button" class="btn-delete-option btn-sort-delete-category" title="Supprimer cette catégorie">🗑</button>'+
+    '</div>'+
+    '<div class="sort-words-list"></div>'+
+    '<button type="button" class="btn-add-row btn-sort-add-word">+ Ajouter un mot</button>';
+
+  box.querySelector('.btn-sort-delete-category').addEventListener('click',()=>{
+    const wordsCount=box.querySelectorAll('.sort-word-row').length;
+    if(wordsCount>0&&!confirm('Cette catégorie contient '+wordsCount+' mot'+(wordsCount!==1?'s':'')+'. Supprimer quand même ?'))return;
+    box.remove();
+    sortRefreshCount();sortInvalidate();
+  });
+
+  box.querySelector('.btn-sort-add-word').addEventListener('click',()=>{
+    const row=sortCreateWordRow({});
+    box.querySelector('.sort-words-list').appendChild(row);
+    sortRefreshCount();sortInvalidate();
+    row.querySelector('.mtp-sideA-text').focus();
+  });
+
+  return box;
+}
+
+/* ---- Word row: reuses the exact Match the Pairs "Side A" text/image component
+   (same class names), so mtpRenderSideAImage() and gamesOpenModal() work unchanged. ---- */
+function sortCreateWordRow(item){
+  item=item||{};
+  const isImg=item.type==='image';
+  const row=document.createElement('div');row.className='mtp-pair-row sort-word-row';
+  row.dataset.uid=String(sort_uidCounter++);
+  row.dataset.image=isImg?(item.content||''):'';
+  row.innerHTML=
+    '<div class="mtp-sideA-zone">'+
+      '<input type="text" class="mtp-sideA-text" placeholder="Mot (texte)" />'+
+      '<button type="button" class="btn-outline btn-mtp-pick-img" title="Utiliser une image">🖼</button>'+
+      '<div class="qcm-img-preview mtp-sideA-preview" style="display:none">'+
+        '<img class="qcm-thumb mtp-sideA-thumb" src="" alt="" />'+
+        '<span class="qcm-img-name mtp-sideA-name"></span>'+
+        '<button type="button" class="btn-remove-img btn-mtp-remove-img">🗑</button>'+
+      '</div>'+
+    '</div>'+
+    '<button type="button" class="btn-delete-option btn-sort-delete-word" title="Supprimer ce mot">🗑</button>';
+
+  row.querySelector('.mtp-sideA-text').value=isImg?'':(item.content||'');
+  mtpRenderSideAImage(row);
+
+  row.querySelector('.btn-mtp-pick-img').addEventListener('click',()=>{
+    gamesOpenModal(path=>{
+      row.dataset.image=path;
+      mtpRenderSideAImage(row);
+      sortInvalidate();
+    });
+  });
+  row.querySelector('.btn-mtp-remove-img').addEventListener('click',()=>{
+    row.dataset.image='';
+    mtpRenderSideAImage(row);
+    sortInvalidate();
+  });
+  row.querySelector('.btn-sort-delete-word').addEventListener('click',()=>{
+    row.remove();
+    sortRefreshCount();sortInvalidate();
+  });
+
+  return row;
+}
+
+async function sortRefreshAllThumbs(){
+  if(!gamesAssetsHandle)return;
+  for(const row of sortListEl.querySelectorAll('.sort-word-row')){
+    if(row.dataset.image)await qcmLoadThumb(row.dataset.image.replace(/^assets\//,''),row.querySelector('.mtp-sideA-thumb'));
+  }
+}
+
+/* ---- Add game / counts / empty state ---- */
+sortBtnAddBlock.addEventListener('click',()=>{
+  const gb=sortCreateBlock({categories:['','']});
+  sortListEl.appendChild(gb);
+  sort_activeTab=gb.dataset.uid;
+  sortRefreshEmpty();sortRefreshCount();sortRebuildTabs();sortInvalidate();
+  gb.querySelector('.sort-title-input').focus();
+});
+
+sortListEl.addEventListener('input',sortInvalidate);
+
+function sortRefreshEmpty(){
+  const n=sortListEl.querySelectorAll(':scope > .dnd-exercise').length;
+  sortEmptyState.classList.toggle('hidden',n>0);
+}
+function sortRefreshCount(){
+  const blocks=sortListEl.querySelectorAll(':scope > .dnd-exercise');
+  let catCount=0,wordCount=0;
+  blocks.forEach(b=>{
+    catCount+=b.querySelectorAll('.sort-category-box').length;
+    wordCount+=b.querySelectorAll('.sort-word-row').length;
+  });
+  sortCountBadge.textContent=blocks.length+' jeu'+(blocks.length!==1?'x':'')+' · '+catCount+' catégorie'+(catCount!==1?'s':'')+' · '+wordCount+' mot'+(wordCount!==1?'s':'');
+}
+
+/* ---- Game tabs: one-game-at-a-time navigation + drag reorder (reuses initTabDrag) ---- */
+function sortRebuildTabs(){
+  const blocks=Array.from(sortListEl.querySelectorAll(':scope > .dnd-exercise'));
+  sortGameTabsEl.innerHTML='';
+  blocks.forEach((block,i)=>{
+    const uid=block.dataset.uid;
+    const tab=document.createElement('button');
+    tab.type='button';tab.className='qcm-tab';tab.dataset.quizUid=uid;
+    tab.textContent='Game '+(i+1);
+    tab.addEventListener('click',()=>{sort_activeTab=uid;sortApplyActiveTab();});
+    initTabDrag(tab,sortGameTabsEl,(srcTab,targetTab,before)=>{
+      const srcBlock=sortListEl.querySelector('.dnd-exercise[data-uid="'+srcTab.dataset.quizUid+'"]');
+      const targetBlock=sortListEl.querySelector('.dnd-exercise[data-uid="'+targetTab.dataset.quizUid+'"]');
+      if(before)sortListEl.insertBefore(srcBlock,targetBlock);else targetBlock.after(srcBlock);
+      sortRebuildTabs();sortInvalidate();
+    });
+    sortGameTabsEl.appendChild(tab);
+  });
+  sortApplyActiveTab();
+}
+
+function sortApplyActiveTab(){
+  const blocks=Array.from(sortListEl.querySelectorAll(':scope > .dnd-exercise'));
+  blocks.forEach(b=>{b.style.display=(sort_activeTab==='all'||b.dataset.uid===sort_activeTab)?'':'none';});
+  sortTabAll.classList.toggle('active',sort_activeTab==='all');
+  sortGameTabsEl.querySelectorAll('.qcm-tab').forEach(t=>t.classList.toggle('active',t.dataset.quizUid===sort_activeTab));
+}
+
+sortTabAll.addEventListener('click',()=>{sort_activeTab='all';sortApplyActiveTab();});
+
+/* ---- Verify ---- */
+sortBtnVerify.addEventListener('click',()=>{
+  const blocks=Array.from(sortListEl.querySelectorAll(':scope > .dnd-exercise'));
+  // Zéro jeu est un état valide : permet de vider la section sans laisser d'entrée factice.
+  if(!blocks.length){sort_verifiedOk=true;sortBtnSave.disabled=false;showAlert(sortAlertBox,'info','Aucun jeu – la sauvegarde écrira une section vide.');return;}
+  const errs=[];
+  let totalCats=0,totalWords=0;
+  blocks.forEach((block,i)=>{
+    const title=block.querySelector('.sort-title-input').value.trim();
+    const label='Jeu '+(i+1)+(title?' ("'+title+'")':'');
+    if(!title)errs.push(label+' : titre du jeu vide.');
+    const catBoxes=Array.from(block.querySelectorAll('.sort-category-box'));
+    if(catBoxes.length<2)errs.push(label+' : au moins 2 catégories requises (trouvé '+catBoxes.length+').');
+    const seenNames=new Set();
+    catBoxes.forEach((box,ci)=>{
+      const name=box.querySelector('.sort-category-name').value.trim();
+      const cLabel=label+' — Catégorie '+(ci+1)+(name?' ("'+name+'")':'');
+      if(!name)errs.push(cLabel+' : nom vide.');
+      else if(seenNames.has(name))errs.push(cLabel+' : nom "'+name+'" en double dans ce jeu.');
+      else seenNames.add(name);
+      const wordRows=Array.from(box.querySelectorAll('.sort-word-row'));
+      if(!wordRows.length)errs.push(cLabel+' : aucun mot.');
+      wordRows.forEach((row,wi)=>{
+        const wLabel=cLabel+' — Mot '+(wi+1);
+        const isImg=!!row.dataset.image;
+        if(!isImg&&!row.querySelector('.mtp-sideA-text').value.trim())errs.push(wLabel+' : vide.');
+      });
+      totalWords+=wordRows.length;
+    });
+    totalCats+=catBoxes.length;
+  });
+  if(errs.length){
+    sortInvalidate();
+    showAlert(sortAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));
+  }else{
+    sort_verifiedOk=true;sortBtnSave.disabled=false;
+    showAlert(sortAlertBox,'success','✓ Format valide — '+blocks.length+' jeu'+(blocks.length!==1?'x':'')+' / '+totalCats+' catégorie'+(totalCats!==1?'s':'')+' / '+totalWords+' mot'+(totalWords!==1?'s':'')+'. Prêt à sauvegarder.');
+  }
+});
+
+/* ---- Save ---- */
+sortBtnSave.addEventListener('click',async()=>{
+  if(!sort_verifiedOk)return;
+  try{
+    const blocks=Array.from(sortListEl.querySelectorAll(':scope > .dnd-exercise'));
+    const sorting=blocks.map(block=>{
+      const obj={quizTitle:block.querySelector('.sort-title-input').value.trim()};
+      const instructions=block.querySelector('.sort-instructions-ta').value.trim();
+      if(instructions)obj.instructions=instructions;
+      const catBoxes=Array.from(block.querySelectorAll('.sort-category-box'));
+      obj.categories=catBoxes.map(box=>box.querySelector('.sort-category-name').value.trim());
+      const items=[];
+      let idCounter=1;
+      catBoxes.forEach(box=>{
+        const catName=box.querySelector('.sort-category-name').value.trim();
+        Array.from(box.querySelectorAll('.sort-word-row')).forEach(row=>{
+          const isImg=!!row.dataset.image;
+          items.push({
+            id:idCounter++,
+            category:catName,
+            type:isImg?'image':'text',
+            content:isImg?row.dataset.image:row.querySelector('.mtp-sideA-text').value.trim()
+          });
+        });
+      });
+      obj.items=items;
+      return obj;
+    });
+    interactiveFullData=interactiveFullData||{};
+    interactiveFullData.sorting=sorting;
+    const fh=await gamesGetFH(true),w=await fh.createWritable();
+    await w.write(JSON.stringify(interactiveFullData,null,2));await w.close();
+    const ng=sorting.length,nc=sorting.reduce((s,g)=>s+g.categories.length,0),ni=sorting.reduce((s,g)=>s+g.items.length,0);
+    showAlert(sortAlertBox,'success','✓ Sauvegardé — '+ng+' jeu'+(ng!==1?'x':'')+' / '+nc+' catégorie'+(nc!==1?'s':'')+' / '+ni+' mot'+(ni!==1?'s':'')+' écrit(e)s dans '+gamesPath());
+    sortBtnSave.disabled=true;sort_verifiedOk=false;
+  }catch(e){showAlert(sortAlertBox,'error','Erreur de sauvegarde : '+e.message);}
+});
+
+function sortReset(){
+  sortListEl.innerHTML='';sort_activeTab='all';
+  sortRefreshEmpty();sortRefreshCount();sortRebuildTabs();
+  sortBtnAddBlock.disabled=true;sortBtnVerify.disabled=true;
+  sortInvalidate();clearAlertEl(sortAlertBox);
+}
+</script>
+</body>
+</html>

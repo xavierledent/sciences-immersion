@@ -18,6 +18,7 @@ nl/jaar1/<chapitre>/                 filière néerlandaise
 assets/                              images et PDF communs (fiches outils, mascottes)
 templates/                           source des pages de chapitre
 tools/                               générateurs et outils (Node, sans dépendance)
+Admin/                               éditeurs des JSON, utilisés par l'enseignant
 docs/formats-donnees.md              format de chaque JSON
 ```
 
@@ -25,9 +26,17 @@ Chapitres : `bio1`, `chem1`, `phys1`, `chem2`, `phys2`, `bio2`. Tous ont leur
 vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 `bio1`, `chem1`. Ailleurs, les tableaux sont vides (contenu pas encore rédigé).
 
-`Admin/`, `apps-script/`, `docs/todo/` et `docs/audit-sciences-immersion.md`
-existent en local mais sont exclus du dépôt, qui est public. Ne jamais les
-ajouter à un commit ni recopier leur contenu dans un fichier suivi par git.
+`apps-script/`, `docs/todo/`, `docs/audit-sciences-immersion.md` et
+`Admin/Backup ind/` existent en local mais sont exclus du dépôt, qui est
+public. Ne jamais les ajouter à un commit ni recopier leur contenu dans un
+fichier suivi par git.
+
+Les éditeurs d'`Admin/` (ouverts dans le navigateur de l'enseignant) lisent et
+écrivent les JSON sur son disque, jamais sur le site. `content.html` gère
+`practice`, `vocabulary`, `resources`, `explorations` et `autoeval.json` ;
+`igames.html` gère `interactive.json`. **Tout changement de format d'un JSON
+doit être reporté dans l'éditeur correspondant**, sinon l'enseignant
+réécrirait l'ancien format à la sauvegarde suivante.
 
 ## Où regarder selon la tâche
 
