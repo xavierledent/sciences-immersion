@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8' />
+  <script src='../../../storage.js'></script>
+  <script src='../../../access-control.js'></script>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <title>Virtual lab - Year 1 - Chem 1</title>
+  <link rel='icon' type='image/svg+xml' href='../../../assets/favicon.svg'>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='../../../style.css'>
+  <link rel='stylesheet' href='lab-metals.css'>
+</head>
+
+<!-- PROTOTYPE — page autonome pour juger du rendu d'un labo virtuel.
+     Pas encore de moteur partagé ni de JSON : tout le contenu est dans
+     lab-metals.js. Page non générée, non reliée à la navigation du chapitre. -->
+
+<body class='subject-chemistry'>
+  <main class='page subject-chemistry'>
+    <header>
+      <div class="header-top">
+        <div>
+          <span class='topic-chip'>Virtual lab • English immersion • Year 1</span>
+          <h1>Chemistry 1 : Natural resources and raw materials</h1>
+          <p>Become a lab scientist: test ten mystery samples and find out which ones are metals.</p>
+        </div>
+        <img src="../../../assets/Friends.webp" alt="" class="lab-header-img" />
+      </div>
+    </header>
+
+    <section class='lab-intro-card'>
+      <h2 class='lab-intro-title'>Metal detectives</h2>
+      <p class='lab-intro-question'>Ten samples, all the same shape. Some are metals, some only look like metals.
+        <strong>Which ones are metals, and which metals are they?</strong></p>
+
+      <ol class='lab-intro-steps'>
+        <li><span class='lab-intro-num'>1</span><span><strong>Predict</strong>Look at each sample and make a hypothesis.</span></li>
+        <li><span class='lab-intro-num'>2</span><span><strong>Test</strong>Use five tools and write down what you observe.</span></li>
+        <li><span class='lab-intro-num'>3</span><span><strong>Conclude</strong>Decide which samples are metals and name them.</span></li>
+        <li><span class='lab-intro-num'>4</span><span><strong>Check</strong>See the correction and print your lab report.</span></li>
+      </ol>
+
+      <button type='button' class='resource-button lab-start-btn' id='lab-open'>Enter the lab</button>
+    </section>
+
+    <section class='note-box'>
+      <h3>How does this page work?</h3>
+      <p><strong>In short:</strong> a real lab, on screen. Place a sample on the bench, then drag a tool onto it (or
+        tap the tool). Watch carefully what happens, then write your observation in the notebook yourself — the lab
+        does not do it for you. When all the tests are done, decide which samples are metals. Underlined words can
+        be translated into French.</p>
+      <p class="note-box-tip"><strong>Teacher's tip:</strong> one test is never enough. A sample can look like a
+        metal without being one — let the results decide, not your eyes.</p>
+    </section>
+
+    <section style="margin-top: 38px">
+      <nav class="chapter-nav" id="chapter-nav" aria-label="Chapter navigation"></nav>
+    </section>
+  </main>
+
+  <div class='modal-overlay lab-overlay' id='lab-modal'>
+    <div class='modal-card lab-card' role='dialog' aria-modal='true' aria-labelledby='lab-title'>
+      <div class='lab-header'>
+        <button type='button' class='modal-fullscreen' id='lab-fullscreen' aria-label='Full screen'>⛶</button>
+        <h2 id='lab-title' class='lab-title'>Metal detectives</h2>
+        <ol class='lab-stepper' id='lab-stepper'></ol>
+        <button type='button' class='modal-close' id='lab-close' aria-label='Close'>×</button>
+      </div>
+      <div class='lab-body' id='lab-body'></div>
+      <div class='lab-footer' id='lab-footer'></div>
+      <div class='lab-sheet' id='lab-sheet' hidden></div>
+    </div>
+  </div>
+
+  <div id='lab-drag-ghost' class='lab-drag-ghost' aria-hidden='true'></div>
+  <div id='lab-report' class='lab-report'></div>
+
+  <script src='../../../rich-text.js'></script>
+  <script src='lab-metals.js'></script>
+  <script src='../../../chapter-nav.js'></script>
+</body>
+
+</html>
