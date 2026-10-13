@@ -138,9 +138,13 @@
   font-size: 0.9rem;
 }
 
+/* Not justified (style.css justifies every p): the level groups are
+   unbreakable inline-flex blocks, so justifying only stretches the few
+   spaces between them into wide gaps. Same for .autoeval-advice. */
 .autoeval-item-exercises {
   margin: 0;
   font-size: 0.9rem;
+  text-align: left;
 }
 
 .autoeval-ex-group {
@@ -303,6 +307,7 @@ body.high-contrast .autoeval-bulb:focus-visible {
   background: rgba(var(--autoeval-accent-rgb), 0.14);
   font-size: 0.85rem;
   line-height: 1.5;
+  text-align: left;
 }
 
 .autoeval-advice .autoeval-ex-chip {

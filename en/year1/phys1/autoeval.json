@@ -9,8 +9,8 @@
           "isVocabulary": false,
           "text": "Citer différentes ressources d'énergie : vent, soleil, eau, bois, gaz naturel, pétrole, charbon, uranium, géothermie, biomasse.",
           "locations": [
-            "PART 1 : Mission 1 (Boîte de mots)",
-            "PART 1 : Mission 2 (Tableau de tri)"
+            "PART 1 : Mission 1 (Reconnaître les 10 ressources)",
+            "PART 1 : Summary"
           ],
           "exercises": [
             {
@@ -48,7 +48,15 @@
           "isVocabulary": false,
           "text": "Distinguer une ressource d'énergie renouvelable d'une ressource non renouvelable permettant de produire de l'électricité.",
           "locations": [
-            "PART 1 : Summary"
+            "PART 1 : Mission 2 (Tri avec critère explicite)",
+            "PART 1 : Exercise 1 (Ressource et caractère renouvelable)",
+            "PART 1 : Exercise 3 (Le bois est-il toujours renouvelable ?)",
+            "PART 1 : Summary",
+            "PART 4 : Mission 11 (Tableau des centrales)",
+            "PART 4 : Mission 12 (Graphique : ressources non renouvelables)",
+            "PART 4 : Exercise 9 (Éolienne)",
+            "PART 4 : Exercise 10 (Centrale nucléaire)",
+            "PART 4 : Summary"
           ],
           "exercises": [
             {
@@ -130,9 +138,14 @@
           "isVocabulary": false,
           "text": "Identifier la/les forme(s) d'énergie présente(s) avant et après une transformation donnée.",
           "locations": [
-            "PART 2 : Mission 3 - Lab Activity (PhET)",
-            "PART 2 : Exercise 1 & 2",
-            "PART 5 : Exercise 6, 7 & 8"
+            "PART 2 : Mission 3 (Simulation : formes d'énergie)",
+            "PART 2 : Mission 5 (Diagramme de flux)",
+            "PART 2 : Exercise 4 (Forme avant / après)",
+            "PART 2 : Exercise 6 (Freinage)",
+            "PART 2 : Summary",
+            "PART 3 : Mission 7 (Forme d'énergie obtenue à partir de l'électricité)",
+            "PART 3 : Mission 10 (Chaîne d'énergie turbine → générateur)",
+            "PART 3 : Exercise 8 (Du vent à l'ampoule)"
           ],
           "exercises": [
             {
@@ -226,7 +239,9 @@
           "isVocabulary": false,
           "text": "Préciser que l'énergie est transformée et ne peut pas être produite ni consommée, car la quantité d'énergie est conservée.",
           "locations": [
-            "PART 2 : Summary (conservation of energy)"
+            "PART 2 : Mission 4 (Bilan chiffré : énergie au début et à la fin)",
+            "PART 2 : Exercise 6 (Freinage : « l'énergie a disparu »)",
+            "PART 2 : Summary"
           ],
           "exercises": [
             {
@@ -272,8 +287,12 @@
           "isVocabulary": false,
           "text": "Préciser que les transformations d'énergie s'accompagnent souvent d'une dissipation d'énergie sous forme d'énergie thermique.",
           "locations": [
-            "PART 2 : Section 2.2 Modeling energy flows",
-            "PART 2 : Summary (\"Energy waste...\")"
+            "PART 2 : Mission 3 (Question b)",
+            "PART 2 : Mission 4 (Énergie thermique de la dynamo et de la lampe)",
+            "PART 2 : Mission 5 (Flèches rouges)",
+            "PART 2 : Exercise 6 (Freinage)",
+            "PART 2 : Summary",
+            "PART 5 : French challenge (Étape e : où l'énergie est dissipée)"
           ],
           "exercises": [
             {
@@ -355,9 +374,10 @@
           "isVocabulary": false,
           "text": "Préciser que de l'énergie peut être stockée sous différentes formes.",
           "locations": [
-            "PART 2 : Section 2.3 Storing energy",
-            "PART 2 : Mission 4",
-            "PART 2 : Exercise 5 (Vrai ou Faux)"
+            "PART 2 : Mission 6 (Codes de stockage)",
+            "PART 2 : Exercise 7 (Vrai ou faux)",
+            "PART 2 : Summary",
+            "PART 4 : Mission 12 (Étape f : électricité la nuit)"
           ],
           "exercises": [
             {
@@ -431,8 +451,11 @@
           "isVocabulary": false,
           "text": "Citer des types de centrales électriques permettant d'approvisionner la population belge en électricité et les ressources d'énergie qui y sont associées.",
           "locations": [
-            "PART 3 : Mission 8 - Industrial Power Plants",
-            "PART 3 : Summary"
+            "PART 4 : Mission 11 (Tableau des centrales)",
+            "PART 4 : Mission 12 (Graphique de l'électricité belge, Elia)",
+            "PART 4 : Exercise 9 (Éolienne)",
+            "PART 4 : Exercise 10 (Centrale nucléaire)",
+            "PART 4 : Summary"
           ],
           "exercises": [
             {
@@ -498,7 +521,13 @@
           "isVocabulary": true,
           "text": "Utiliser les termes : ressource d'énergie, forme d'énergie, centrale électrique, transformation, stockage d'énergie.",
           "locations": [
-            "Documents globaux : tous ces termes sont intégrés dans les exercices et fixés dans le Scientific glossary et les encadrés Summary"
+            "PART 1 : Texte introductif (« We use energy every day… » : ressource d'énergie)",
+            "PART 1 : Mission 1",
+            "PART 2 : Mission 3 (forme d'énergie, transformation)",
+            "PART 2 : Mission 6 (stockage d'énergie)",
+            "PART 4 : Mission 11 (centrale électrique)",
+            "PART 4 : Summary",
+            "PART 5 : French challenge (Mots obligatoires)"
           ],
           "exercises": [
             {
@@ -550,9 +579,16 @@
           "isVocabulary": false,
           "text": "S-F 13 et S-F 21 : Repérer les modes de stockage, les transformations et les dissipations d'énergie dans une situation donnée, en lien avec un objet donné.",
           "locations": [
-            "PART 2 : Exercise 3 & 4 (Schématisation)",
-            "PART 2 : Mission 4",
-            "PART 5 : Exercise 6, 7 & 8"
+            "PART 2 : Mission 3 (Simulation PhET)",
+            "PART 2 : Mission 5 (Diagramme de flux)",
+            "PART 2 : Exercise 5 (Dessiner le flux)",
+            "PART 2 : Exercise 6 (Freinage)",
+            "PART 2 : Mission 6 (Stockage)",
+            "PART 2 : Exercise 7 (Vrai ou faux)",
+            "PART 3 : Exercise 8 (Du vent à l'ampoule)",
+            "PART 4 : Mission 12 (Titre et auteur du graphique)",
+            "PART 4 : Exercise 10 (Diagramme de flux du nucléaire)",
+            "PART 5 : French challenge (Étapes c et e, sources citées)"
           ],
           "exercises": [
             {
@@ -614,8 +650,12 @@
           "isVocabulary": false,
           "text": "S-F 2 et S-F 22 : Trier des ressources d'énergie en renouvelables ou non renouvelables.",
           "locations": [
-            "PART 1 : Mission 1 (Symboles 🛑 et 🔄)",
-            "PART 1 : Mission 2 (Classification)"
+            "PART 1 : Mission 2 (Tri avec critère explicite)",
+            "PART 1 : Exercise 1 (Ressource et caractère renouvelable)",
+            "PART 1 : Exercise 2 (Fait ou jugement de valeur)",
+            "PART 1 : Exercise 3",
+            "PART 4 : Mission 11 (Colonne « Renewable or not? »)",
+            "PART 4 : Mission 12 (Étape d)"
           ],
           "exercises": [
             {
@@ -663,8 +703,14 @@
           "isVocabulary": false,
           "text": "Décrire et expliquer les transformations d'énergie liées aux centrales/dispositifs d'approvisionnement en électricité, dans le but de comparer des avantages et des inconvénients de plusieurs types de production d'électricité.",
           "locations": [
-            "PART 4 : THE FRENCH CHALLENGE",
-            "PART 4 : Mission 9 - Le défi citoyen - Les experts de l'énergie"
+            "PART 3 : Mission 10 (Turbine et générateur)",
+            "PART 3 : Exercise 8 (Du vent à l'ampoule)",
+            "PART 3 : Summary",
+            "PART 4 : Mission 11 (Comparer les centrales)",
+            "PART 4 : Exercise 9 (Éolienne)",
+            "PART 4 : Exercise 10 (Centrale nucléaire)",
+            "PART 4 : Summary",
+            "PART 5 : French challenge (Étapes b, c, d et e : avantages, inconvénients, transformations, comparaison)"
           ],
           "exercises": [
             {
