@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8' />
+  <script src='../../../storage.js'></script>
+  <script src='../../../access-control.js'></script>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <title>Virtual lab - Year 1 - Bio 1</title>
+  <link rel='icon' type='image/svg+xml' href='../../../assets/favicon.svg'>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='../../../style.css'>
+  <link rel='stylesheet' href='../../../lab-engine.css'>
+  <link rel='stylesheet' href='lab-decomposition.css'>
+</head>
+
+<!-- Page des labos virtuels du chapitre, écrite à la main (pas encore
+     générée) et reliée à aucune page du site. Une carte par labo : son bouton
+     data-lab-open="<id>" ouvre la modale créée par lab-engine.js. -->
+
+<body class='subject-bio'>
+  <main class='page subject-bio'>
+    <header>
+      <div class="header-top">
+        <div>
+          <span class='topic-chip'>Virtual lab • English immersion • Year 1</span>
+          <h1>Bio 1 : Ecosystems</h1>
+          <p>Become a lab scientist: choose an investigation, run the tests yourself and draw your own conclusions.</p>
+        </div>
+        <img src="../../../assets/Friends-lab.webp" alt="" class="lab-header-img" />
+      </div>
+    </header>
+
+    <section class='lab-method-box'>
+      <h2 class='lab-method-title'>How does a lab work?</h2>
+      <ol class='lab-method'>
+        <li><span class='lab-method-num'>1</span><strong>Predict</strong><span>Read the question and make a hypothesis: what do you think the answer is?</span></li>
+        <li><span class='lab-method-num'>2</span><strong>Experiment</strong><span>Carry out the experiment and write down what you observe.</span></li>
+        <li><span class='lab-method-num'>3</span><strong>Conclude</strong><span>Use your results to answer the question.</span></li>
+        <li><span class='lab-method-num'>4</span><strong>Check</strong><span>See the correction and print your lab report.</span></li>
+      </ol>
+    </section>
+
+    <section class='lab-grid' aria-label='Investigations'>
+      <article class='lab-tile'>
+        <h2 class='lab-tile-title'>The vanishing leaves</h2>
+        <p class='lab-tile-question'>What makes dead leaves disappear?</p>
+        <p class='lab-tile-text'>Every autumn, tons of leaves fall in the forest. A year later, they are gone. Set up your own experiment to find out why.</p>
+        <button type='button' class='resource-button lab-tile-btn' data-lab-open='decomposition'>Enter the lab</button>
+      </article>
+    </section>
+
+    <section class='note-box'>
+      <h3>How does this page work?</h3>
+      <p><strong>In short:</strong> a real lab, on screen. Each lab starts with a question. Make a hypothesis, then
+        do the experiment yourself and watch carefully what happens. Write your observations in your notebook — the
+        lab does not do it for you. At the end, use your results to answer the question. Underlined words can be
+        translated into French.</p>
+      <p class="note-box-tip"><strong>Teacher's tip:</strong> a scientist trusts results, not first impressions. If
+        your results do not match your hypothesis, that is not a mistake. A wrong hypothesis teaches you something
+        too.</p>
+    </section>
+
+    <section style="margin-top: 38px">
+      <nav class="chapter-nav" id="chapter-nav" aria-label="Chapter navigation"></nav>
+    </section>
+  </main>
+
+  <script src='../../../rich-text.js'></script>
+  <script src='../../../lab-engine.js'></script>
+  <script src='lab-decomposition.js'></script>
+  <script src='../../../chapter-nav.js'></script>
+</body>
+
+</html>

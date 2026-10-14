@@ -12,12 +12,13 @@
   <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
   <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' rel='stylesheet'>
   <link rel='stylesheet' href='../../../style.css'>
+  <link rel='stylesheet' href='../../../lab-engine.css'>
   <link rel='stylesheet' href='lab-metals.css'>
 </head>
 
-<!-- PROTOTYPE — page autonome pour juger du rendu d'un labo virtuel.
-     Pas encore de moteur partagé ni de JSON : tout le contenu est dans
-     lab-metals.js. Page non générée, non reliée à la navigation du chapitre. -->
+<!-- Page des labos virtuels du chapitre, écrite à la main (pas encore
+     générée) et reliée à aucune page du site. Une carte par labo : son bouton
+     data-lab-open="<id>" ouvre la modale créée par lab-engine.js. -->
 
 <body class='subject-chemistry'>
   <main class='page subject-chemistry'>
@@ -47,7 +48,7 @@
         <h2 class='lab-tile-title'>Metal detectives</h2>
         <p class='lab-tile-question'>Which ones are metals, and which metals are they?</p>
         <p class='lab-tile-text'>Five samples, all the same shape. Some are metals, some only look like metals.</p>
-        <button type='button' class='resource-button lab-tile-btn' id='lab-open'>Enter the lab</button>
+        <button type='button' class='resource-button lab-tile-btn' data-lab-open='metals'>Enter the lab</button>
       </article>
     </section>
 
@@ -67,24 +68,8 @@
     </section>
   </main>
 
-  <div class='modal-overlay lab-overlay' id='lab-modal'>
-    <div class='modal-card lab-card' role='dialog' aria-modal='true' aria-labelledby='lab-title'>
-      <div class='lab-header'>
-        <button type='button' class='modal-fullscreen' id='lab-fullscreen' aria-label='Full screen'>⛶</button>
-        <h2 id='lab-title' class='lab-title'>Metal detectives</h2>
-        <ol class='lab-stepper' id='lab-stepper'></ol>
-        <button type='button' class='modal-close' id='lab-close' aria-label='Close'>×</button>
-      </div>
-      <div class='lab-body' id='lab-body'></div>
-      <div class='lab-footer' id='lab-footer'></div>
-      <div class='lab-sheet' id='lab-sheet' hidden></div>
-    </div>
-  </div>
-
-  <div id='lab-drag-ghost' class='lab-drag-ghost' aria-hidden='true'></div>
-  <div id='lab-report' class='lab-report'></div>
-
   <script src='../../../rich-text.js'></script>
+  <script src='../../../lab-engine.js'></script>
   <script src='lab-metals.js'></script>
   <script src='../../../chapter-nav.js'></script>
 </body>

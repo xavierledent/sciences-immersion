@@ -1,9 +1,10 @@
-/* ===== Labo virtuel : identifier des métaux — PROTOTYPE =====
+/* ===== Labo virtuel « Metal detectives » (chem1) : identifier des métaux =====
 
-   Page autonome, sans moteur partagé ni JSON : tout le contenu (échantillons,
-   textes, corrections) est dans ce fichier, en anglais seulement. Sert à
-   juger le rendu et le déroulé. L'architecture commune des labos (et la
-   filière NL) sera décidée quand un deuxième labo existera.
+   Contenu et simulation propres à ce labo : échantillons, tests, scènes
+   animées, correction. Le cadre commun (modale, barre d'étapes, verrous,
+   traduction, glisser-déposer, rapport imprimé) est dans lab-engine.js, à la
+   racine du site, chargé avant ce fichier. Textes en anglais seulement pour
+   l'instant.
 
    Déroulé en 4 étapes :
      1. Predict   — hypothèse « métal / pas un métal / je ne sais pas »
@@ -19,13 +20,20 @@
 (function () {
   'use strict';
 
+  const { mulberry32, seedFrom, pick, shuffle, lerp, ease, reduceMotion } = LabEngine.util;
+
+  // Cadre commun, créé en fin de fichier (LabEngine.create).
+  let lab;
+  const $ = sel => lab.$(sel);
+  const gloss = text => lab.gloss(text);
+  const tween = (...args) => lab.tween(...args);
+  const wait = (...args) => lab.wait(...args);
+
   /* ===== Libellés =====
      [mot] ou [mot|clé] : mot du lexique, souligné, traduction française au
      survol ou au toucher (voir GLOSSARY). */
   const LABELS = {
     title: 'Metal detectives',
-    steps: ['Predict', 'Experiment', 'Conclude', 'Check'],
-    close: 'Close',
 
     predictIntro: 'Look carefully at each [sample]. Before any test, do you think it is a metal?',
     predictMetal: 'Metal',
@@ -59,8 +67,6 @@
     backToLab: 'Back to the lab',
     referenceSheet: 'Metal reference sheet',
     checkConclusions: 'Check my conclusions',
-    missingHypotheses: 'Some hypotheses are still missing.',
-    missingConclusions: 'Some conclusions are still missing.',
     notRecorded: '—',
 
     scoreLabel: 'correct identifications',
@@ -75,13 +81,7 @@
     notebookCheck: 'Your notebook',
     youWrote: 'You wrote',
     expected: 'Expected',
-    namePlaceholder: 'Your name',
-    classPlaceholder: 'Class',
-    printReport: 'Print my lab report',
-    restart: 'Restart the lab',
-    restartConfirm: 'Restart the lab? Everything you did will be erased.',
 
-    sheetClose: 'Close',
     refTitle: 'Metal reference sheet',
     refIntro: 'What the five metals of the lab look like after [sanding|sanded], and how they react to two of the tests.',
     refColMetal: 'Metal',
@@ -113,9 +113,6 @@
 
     report: {
       title: 'Laboratory report — Identifying metals',
-      name: 'Name', className: 'Class', date: 'Date',
-      s1: 'Question', s2: 'Hypothesis', s3: 'Materials', s4: 'Procedure',
-      s5: 'Observations & results', s6: 'Interpretation', s7: 'Conclusion',
       question: (range) => `Which of the samples (${range}) are metals? For each metal, which metal is it?`,
       hypothesisIntro: 'Before testing, I looked at each sample and predicted:',
       materials: (n, range) => `${n} samples of the same shape (${range}), sandpaper, a magnet, an electric circuit (battery, bulb, wires, 2 clips), a beaker of hot water on a hot plate, a lab stand, wax, a stopwatch, a hammer, 2 wooden blocks.`,
@@ -133,7 +130,6 @@
       conclusionMetals: (list) => `The metals are: ${list}.`,
       conclusionNone: 'I did not identify any metal.',
       conclusionNot: (list) => `These samples are not metals: ${list}.`,
-      correctionTitle: 'Correction',
       score: (n, total) => `Score: ${n} / ${total} correct identifications.`,
       nothing: 'none'
     }
@@ -237,15 +233,9 @@
     plainNonMetal: ['wood', 'granite']
   };
 
-  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
-
   function drawSamples() {
     const trap = pick(DRAW.trapNonMetal);
-    const mats = [DRAW.always, pick(DRAW.trapMetal), pick(DRAW.lookAlike[trap]), trap, pick(DRAW.plainNonMetal)];
-    for (let i = mats.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [mats[i], mats[j]] = [mats[j], mats[i]];
-    }
+    const mats = shuffle([DRAW.always, pick(DRAW.trapMetal), pick(DRAW.lookAlike[trap]), trap, pick(DRAW.plainNonMetal)]);
     return mats.map((mat, i) => ({ id: 'ABCDEFGHIJ'[i], mat }));
   }
 
@@ -354,14 +344,13 @@
 
   function sampleById(id) { return SAMPLES.find(s => s.id === id); }
 
-  /* ===== État ===== */
+  /* ===== État propre au labo =====
+     L'étape en cours, le verrou de correction et le nom de l'élève sont dans
+     lab.state (cadre commun). */
   let state;
-  function freshState() {
+  function reset() {
     SAMPLES = drawSamples();
-    const s = {
-      step: 1,
-      checked: false,
-      showMissing: false,
+    state = {
       hypotheses: {},
       current: null,
       activeTest: null,
@@ -369,31 +358,12 @@
       notes: {},
       conclusions: {},
       sanded: {},
-      selectedResult: SAMPLES[0].id,
-      studentName: '',
-      studentClass: ''
+      selectedResult: SAMPLES[0].id
     };
     SAMPLES.forEach(sm => {
-      s.done[sm.id] = {};
-      s.notes[sm.id] = {};
-      s.conclusions[sm.id] = { isMetal: null, metal: '' };
-    });
-    return s;
-  }
-  state = freshState();
-
-  /* ===== Outils ===== */
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  }
-
-  // [mot] ou [mot|clé] → mot souligné avec sa traduction.
-  function gloss(text) {
-    return text.replace(/\[([^\]|]+)(?:\|([^\]]+))?\]/g, (all, word, key) => {
-      const k = (key || word).toLowerCase();
-      const fr = GLOSSARY[k];
-      if (!fr) return word;
-      return `<span class="lab-gloss" tabindex="0" data-translation="${escapeHtml(fr)}">${word}</span>`;
+      state.done[sm.id] = {};
+      state.notes[sm.id] = {};
+      state.conclusions[sm.id] = { isMetal: null, metal: '' };
     });
   }
 
@@ -401,57 +371,6 @@
     const s = Math.round(sec);
     return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
   }
-
-  function mulberry32(seed) {
-    return function () {
-      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
-      let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
-      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-      return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    };
-  }
-
-  function seedFrom(str) {
-    let h = 2166136261;
-    for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
-    return h;
-  }
-
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const ease = {
-    inOut: t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2,
-    out: t => 1 - Math.pow(1 - t, 3),
-    in: t => t * t * t,
-    linear: t => t
-  };
-
-  /* Animation interrompue dès que la scène change (autre échantillon, autre
-     test) : chaque tween vérifie qu'il appartient toujours à la scène en
-     cours, sinon il s'arrête sans toucher au DOM. */
-  let sceneToken = 0;
-
-  function tween(token, duration, onUpdate, easing) {
-    const fn = easing || ease.inOut;
-    const d = reduceMotion ? Math.min(duration, 150) : duration;
-    return new Promise(resolve => {
-      const start = performance.now();
-      function frame(now) {
-        if (token !== sceneToken) { resolve(false); return; }
-        const t = Math.min(1, (now - start) / d);
-        onUpdate(fn(t), t);
-        if (t < 1) requestAnimationFrame(frame);
-        else resolve(true);
-      }
-      requestAnimationFrame(frame);
-    });
-  }
-
-  function wait(token, ms) {
-    return new Promise(resolve => setTimeout(() => resolve(token === sceneToken), reduceMotion ? Math.min(ms, 100) : ms));
-  }
-
-  const lerp = (a, b, t) => a + (b - a) * t;
 
   /* ===== Dessin d'une barrette =====
      Chemin plutôt que <rect> pour pouvoir la courber (test du marteau). */
@@ -614,128 +533,11 @@
 
   const LOCK_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
 
-  /* ===== Références DOM ===== */
-  const overlay = document.getElementById('lab-modal');
-  const card = overlay.querySelector('.lab-card');
-  const bodyEl = document.getElementById('lab-body');
-  const footerEl = document.getElementById('lab-footer');
-  const stepperEl = document.getElementById('lab-stepper');
-  const sheetEl = document.getElementById('lab-sheet');
-  const ghostEl = document.getElementById('lab-drag-ghost');
-  const reportEl = document.getElementById('lab-report');
-  const fullscreenBtn = document.getElementById('lab-fullscreen');
-
-  /* ===== Traduction des mots soulignés =====
-     Une seule bulle, placée dans la carte et positionnée en JS au-dessus du
-     mot, ou en dessous s'il n'y a pas la place. Une bulle en CSS pur (::after
-     du mot) était coupée par les zones à overflow: hidden : le mot de la
-     consigne, tout en haut du labo, n'affichait rien. Souris : survol ;
-     doigt et clavier : le mot prend le focus (tabindex) au toucher. */
-  const glossTip = document.createElement('div');
-  glossTip.className = 'lab-gloss-tip';
-  glossTip.setAttribute('role', 'tooltip');
-  card.appendChild(glossTip);
-
-  function showGloss(word) {
-    glossTip.textContent = word.dataset.translation;
-    glossTip.classList.add('is-visible');
-    const c = card.getBoundingClientRect();
-    const w = word.getBoundingClientRect();
-    const t = glossTip.getBoundingClientRect();
-    const gap = 8;
-    let top = w.top - c.top - t.height - gap;
-    if (top < 4) top = w.bottom - c.top + gap;
-    const left = Math.max(4, Math.min(c.width - t.width - 4, w.left - c.left + w.width / 2 - t.width / 2));
-    glossTip.style.top = `${top}px`;
-    glossTip.style.left = `${left}px`;
-  }
-
-  function hideGloss() { glossTip.classList.remove('is-visible'); }
-
-  card.addEventListener('mouseover', e => {
-    const word = e.target.closest('.lab-gloss');
-    if (word) showGloss(word);
-  });
-  card.addEventListener('mouseout', e => {
-    const word = e.target.closest('.lab-gloss');
-    if (word && !word.contains(e.relatedTarget) && document.activeElement !== word) hideGloss();
-  });
-  card.addEventListener('focusin', e => {
-    if (e.target.classList.contains('lab-gloss')) showGloss(e.target);
-  });
-  card.addEventListener('focusout', e => {
-    if (e.target.classList.contains('lab-gloss')) hideGloss();
-  });
-
-  /* ===== Ouverture / fermeture ===== */
-  function openLab() {
-    overlay.classList.add('modal-open');
-    document.body.classList.add('modal-is-open');
-    render();
-  }
-
-  function closeLab() {
-    sceneToken++;
-    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-    overlay.classList.remove('modal-open');
-    document.body.classList.remove('modal-is-open');
-  }
-
-  document.getElementById('lab-open').addEventListener('click', openLab);
-  document.getElementById('lab-close').addEventListener('click', closeLab);
-
-  document.addEventListener('keydown', e => {
-    if (e.key !== 'Escape' || !overlay.classList.contains('modal-open')) return;
-    if (!sheetEl.hidden) { closeSheet(); return; }
-    if (!document.fullscreenElement) closeLab();
-  });
-
-  fullscreenBtn.addEventListener('click', () => {
-    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-    else if (card.requestFullscreen) card.requestFullscreen().catch(() => {});
-  });
-  document.addEventListener('fullscreenchange', () => {
-    fullscreenBtn.classList.toggle('is-fullscreen', document.fullscreenElement === card);
-  });
-
-  /* ===== Rendu général ===== */
-  function render() {
-    sceneToken++;
-    hideGloss();
-    renderStepper();
-    closeSheet();
-    card.dataset.step = String(state.step);
-    if (state.step === 1) renderPredict();
-    else if (state.step === 2) renderTest();
-    else if (state.step === 3) renderConclude();
-    else renderCheck();
-  }
-
-  function goToStep(n) {
-    state.step = n;
-    state.showMissing = false;
-    render();
-  }
-
-  function canReach(n) {
-    if (state.checked) return n === 4;
-    if (n === 1) return true;
-    const allHyp = SAMPLES.every(s => state.hypotheses[s.id]);
-    if (n === 2 || n === 3) return allHyp;
-    return false;
-  }
-
-  function renderStepper() {
-    stepperEl.innerHTML = LABELS.steps.map((label, i) => {
-      const n = i + 1;
-      const cls = n === state.step ? 'is-current' : (n < state.step || (state.checked && n < 4) ? 'is-done' : '');
-      const disabled = n === state.step || !canReach(n);
-      return `<li><button type="button" class="lab-step ${cls}" data-step="${n}" ${disabled ? 'disabled' : ''} ${n === state.step ? 'aria-current="step"' : ''}>` +
-        `<span class="lab-step-num">${n}</span><span class="lab-step-label">${label}</span></button></li>`;
-    }).join('');
-    stepperEl.querySelectorAll('button[data-step]').forEach(b => {
-      b.addEventListener('click', () => goToStep(Number(b.dataset.step)));
-    });
+  /* ===== Accès aux étapes =====
+     Étapes 2 et 3 : toutes les hypothèses d'abord (l'étape 1 et la
+     correction sont gérées par le cadre). */
+  function canReach() {
+    return SAMPLES.every(s => state.hypotheses[s.id]);
   }
 
   /* ===== Étape 1 : hypothèses ===== */
@@ -743,40 +545,33 @@
     const cards = SAMPLES.map(s => {
       const h = state.hypotheses[s.id];
       const opt = (val, label, extra) => `<button type="button" class="lab-choice ${extra || ''} ${h === val ? 'is-selected' : ''}" data-sample="${s.id}" data-hyp="${val}" aria-pressed="${h === val}">${label}</button>`;
-      return `<div class="lab-predict-card ${h ? 'is-answered' : (state.showMissing ? 'is-missing' : '')}">` +
+      return `<div class="lab-predict-card ${h ? 'is-answered' : (lab.state.showMissing ? 'is-missing' : '')}">` +
         `<div class="lab-predict-head"><span class="lab-letter">${s.id}</span></div>` +
         `<div class="lab-predict-visual">${thumbSVG(s.id, { big: true })}</div>` +
         `<div class="lab-predict-choices">${opt('metal', LABELS.predictMetal)}${opt('not', LABELS.predictNot)}${opt('unsure', LABELS.predictUnsure, 'lab-choice-wide')}</div>` +
         `</div>`;
     }).join('');
-    bodyEl.innerHTML = `<div class="lab-predict">` +
+    lab.body.innerHTML = `<div class="lab-predict">` +
       `<p class="lab-instructions">${gloss(LABELS.predictIntro)}</p>` +
       `<div class="lab-predict-grid">${cards}</div></div>`;
 
-    bodyEl.querySelectorAll('[data-hyp]').forEach(b => {
+    lab.body.querySelectorAll('[data-hyp]').forEach(b => {
       b.addEventListener('click', () => {
         state.hypotheses[b.dataset.sample] = b.dataset.hyp;
         renderPredict();
-        renderStepper();
+        lab.renderStepper();
       });
     });
 
     const n = SAMPLES.filter(s => state.hypotheses[s.id]).length;
-    const missing = state.showMissing && n < SAMPLES.length;
-    footerEl.innerHTML = footerInfo(missing ? LABELS.missingHypotheses : LABELS.predictCount(n, SAMPLES.length), missing) +
+    const missing = lab.state.showMissing && n < SAMPLES.length;
+    lab.footer.innerHTML = lab.footerInfo(missing ? lab.L.missingHypotheses : LABELS.predictCount(n, SAMPLES.length), missing) +
       `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" id="lab-next">${LABELS.startTesting} →</button></div>`;
-    document.getElementById('lab-next').addEventListener('click', () => {
-      if (n === SAMPLES.length) { goToStep(2); return; }
-      state.showMissing = true;
+    $('#lab-next').addEventListener('click', () => {
+      if (n === SAMPLES.length) { lab.goToStep(2); return; }
+      lab.state.showMissing = true;
       renderPredict();
     });
-  }
-
-  /* Verrou explicite : le bouton reste actif ; s'il manque quelque chose, il
-     le dit et les éléments à compléter sont mis en évidence (un bouton grisé
-     ne dit rien au doigt). */
-  function footerInfo(text, warn) {
-    return `<span class="lab-footer-info ${warn ? 'is-warning' : ''}" aria-live="polite">${text}</span>`;
   }
 
   /* ===== Étape 2 : paillasse ===== */
@@ -785,7 +580,7 @@
   }
 
   function renderTest() {
-    bodyEl.innerHTML = `<div class="lab-test">` +
+    lab.body.innerHTML = `<div class="lab-test">` +
       `<aside class="lab-tray" aria-label="${LABELS.trayTitle}"><h3 class="lab-panel-title">${LABELS.trayTitle}</h3><div class="lab-tray-grid" id="lab-tray"></div></aside>` +
       `<section class="lab-bench">` +
         `<div class="lab-scene-wrap" id="lab-scene-wrap"><div class="lab-scene" id="lab-scene"></div><button type="button" class="lab-speed" id="lab-speed" hidden>⏩ ${LABELS.speedUp}</button></div>` +
@@ -803,16 +598,16 @@
   }
 
   function renderTestFooter() {
-    footerEl.innerHTML = footerInfo(LABELS.observations(countNotes(), SAMPLES.length * TESTS.length)) +
+    lab.footer.innerHTML = lab.footerInfo(LABELS.observations(countNotes(), SAMPLES.length * TESTS.length)) +
       `<div class="lab-footer-actions">` +
       `<button type="button" class="lab-btn lab-btn-ghost" id="lab-table-btn">${LABELS.resultsTable}</button>` +
       `<button type="button" class="lab-btn lab-btn-primary" id="lab-next">${LABELS.toConclude} →</button></div>`;
-    document.getElementById('lab-table-btn').addEventListener('click', () => openSheet('table'));
-    document.getElementById('lab-next').addEventListener('click', () => goToStep(3));
+    $('#lab-table-btn').addEventListener('click', () => openSheet('table'));
+    $('#lab-next').addEventListener('click', () => lab.goToStep(3));
   }
 
   function renderTray() {
-    const tray = document.getElementById('lab-tray');
+    const tray = $('#lab-tray');
     if (!tray) return;
     tray.innerHTML = SAMPLES.map(s => {
       const n = Object.keys(state.notes[s.id]).length;
@@ -822,8 +617,9 @@
         `<span class="lab-tray-letter">${s.id}</span>${thumbSVG(s.id)}<span class="lab-dots" aria-hidden="true">${dots}</span></button>`;
     }).join('');
     tray.querySelectorAll('.lab-tray-item').forEach(el => {
-      makeDraggable(el, {
+      lab.makeDraggable(el, {
         ghost: () => `<div class="lab-ghost-sample">${thumbSVG(el.dataset.sample, { big: true })}</div>`,
+        targets: () => [$('#lab-scene-wrap')],
         onDrop: () => placeSample(el.dataset.sample),
         onTap: () => placeSample(el.dataset.sample)
       });
@@ -831,7 +627,7 @@
   }
 
   function renderTools() {
-    const tools = document.getElementById('lab-tools');
+    const tools = $('#lab-tools');
     if (!tools) return;
     tools.innerHTML = TESTS.map(t => {
       const done = state.current && state.done[state.current][t.id];
@@ -841,8 +637,9 @@
         (done ? '<span class="lab-tool-check" aria-hidden="true">✓</span>' : '') + `</button>`;
     }).join('');
     tools.querySelectorAll('.lab-tool').forEach(el => {
-      makeDraggable(el, {
+      lab.makeDraggable(el, {
         ghost: () => `<div class="lab-ghost-tool">${toolImg(el.dataset.test)}</div>`,
+        targets: () => [$('#lab-scene-wrap')],
         onDrop: () => runTest(el.dataset.test),
         onTap: () => runTest(el.dataset.test)
       });
@@ -850,7 +647,7 @@
   }
 
   function renderNotebook() {
-    const nb = document.getElementById('lab-notebook');
+    const nb = $('#lab-notebook');
     if (!nb) return;
     if (!state.current) {
       nb.innerHTML = `<h3 class="lab-panel-title">${LABELS.notebookTitle('…')}</h3><p class="lab-notebook-empty">${gloss(LABELS.notebookEmpty)}</p>`;
@@ -889,12 +686,12 @@
   }
 
   function setCaption(html) {
-    const c = document.getElementById('lab-caption');
+    const c = $('#lab-caption');
     if (c) c.innerHTML = `<span>${html}</span>`;
   }
 
   function nudgeTray() {
-    const tray = document.querySelector('.lab-tray');
+    const tray = $('.lab-tray');
     if (!tray) return;
     tray.classList.remove('is-nudged');
     void tray.offsetWidth;
@@ -925,10 +722,9 @@
   }
 
   function showScene(mode) {
-    sceneToken++;
-    const token = sceneToken;
-    const host = document.getElementById('lab-scene');
-    const speed = document.getElementById('lab-speed');
+    const token = lab.newScene();
+    const host = $('#lab-scene');
+    const speed = $('#lab-speed');
     if (!host) return;
     if (speed) speed.hidden = true;
 
@@ -957,12 +753,12 @@
   }
 
   function finishTest(token, sm, testId, captionHtml) {
-    if (token !== sceneToken) return;
+    if (!lab.isScene(token)) return;
     state.done[sm.id][testId] = true;
     setCaption(captionHtml + (state.notes[sm.id][testId] ? '' : gloss(LABELS.captionRecord)));
     renderTools();
     renderNotebook();
-    const row = document.querySelector(`.lab-note-row[data-row="${testId}"]`);
+    const row = $(`.lab-note-row[data-row="${testId}"]`);
     if (row && !state.notes[sm.id][testId]) {
       row.classList.add('is-highlight');
     }
@@ -1245,7 +1041,7 @@
     const drip = host.querySelector('#drip');
     const puddle = host.querySelector('#puddle');
     const clock = host.querySelector('#clock');
-    const speedBtn = document.getElementById('lab-speed');
+    const speedBtn = $('#lab-speed');
 
     function heatFront(p) {
       const f = Math.max(0, Math.min(1, p));
@@ -1284,7 +1080,7 @@
       let last = performance.now();
       const ok = await new Promise(resolve => {
         function frame(now) {
-          if (token !== sceneToken) { resolve(false); return; }
+          if (!lab.isScene(token)) { resolve(false); return; }
           const dt = Math.min(0.1, (now - last) / 1000);
           last = now;
           sim = Math.min(end, sim + dt * (reduceMotion ? HEAT_RATE_FAST * 3 : rate));
@@ -1445,66 +1241,6 @@
     })();
   }
 
-  /* ===== Glisser-déposer (souris et doigt) =====
-     Un geste court = toucher ; au-delà de 8 px, l'élément est saisi et suit
-     le pointeur. Le clavier (Entrée, Espace) passe par le clic. */
-  function makeDraggable(el, opts) {
-    el.addEventListener('pointerdown', e => {
-      if (e.button !== 0 || el.disabled) return;
-      const startX = e.clientX, startY = e.clientY;
-      let dragging = false;
-      el.setPointerCapture(e.pointerId);
-
-      const sceneWrap = () => document.getElementById('lab-scene-wrap');
-      const overScene = (x, y) => {
-        const wrap = sceneWrap();
-        if (!wrap) return false;
-        const r = wrap.getBoundingClientRect();
-        return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
-      };
-
-      function move(ev) {
-        if (!dragging && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 8) {
-          dragging = true;
-          ghostEl.innerHTML = opts.ghost();
-          ghostEl.classList.add('is-visible');
-          el.classList.add('is-dragging');
-        }
-        if (dragging) {
-          ghostEl.style.transform = `translate(${ev.clientX}px, ${ev.clientY}px)`;
-          const wrap = sceneWrap();
-          if (wrap) wrap.classList.toggle('is-drop-target', overScene(ev.clientX, ev.clientY));
-        }
-      }
-
-      function up(ev) {
-        el.removeEventListener('pointermove', move);
-        el.removeEventListener('pointerup', up);
-        el.removeEventListener('pointercancel', up);
-        const wrap = sceneWrap();
-        if (wrap) wrap.classList.remove('is-drop-target');
-        if (dragging) {
-          ghostEl.classList.remove('is-visible');
-          el.classList.remove('is-dragging');
-          if (ev.type === 'pointerup' && overScene(ev.clientX, ev.clientY)) opts.onDrop();
-        } else if (ev.type === 'pointerup') {
-          opts.onTap();
-        }
-        el.dataset.pointerHandled = '1';
-      }
-
-      el.addEventListener('pointermove', move);
-      el.addEventListener('pointerup', up);
-      el.addEventListener('pointercancel', up);
-    });
-
-    // Activation au clavier : clic sans pointeur (detail === 0).
-    el.addEventListener('click', e => {
-      if (el.dataset.pointerHandled) { delete el.dataset.pointerHandled; return; }
-      if (e.detail === 0) opts.onTap();
-    });
-  }
-
   /* ===== Étape 3 : conclusions ===== */
   function resultsTableHTML(withConclusions) {
     const head = `<tr><th scope="col">${LABELS.colSample}</th>` +
@@ -1525,7 +1261,7 @@
           `<td><select class="lab-select" data-metal="${s.id}" ${c.isMetal === true ? '' : 'disabled'} aria-label="${LABELS.colWhich} ${s.id}">` +
           `<option value="">${c.isMetal === false ? '—' : LABELS.choose}</option>${metalOpts}</select></td>`;
       }
-      const missing = withConclusions && state.showMissing && !conclusionDone(s);
+      const missing = withConclusions && lab.state.showMissing && !conclusionDone(s);
       return `<tr class="${missing ? 'is-missing' : ''}"><th scope="row"><span class="lab-row-sample"><span class="lab-letter lab-letter-sm">${s.id}</span>${thumbSVG(s.id)}</span></th>${cells}${concl}</tr>`;
     }).join('');
     return `<table class="lab-table ${withConclusions ? 'has-conclusions' : ''}"><thead>${head}</thead><tbody>${rows}</tbody></table>`;
@@ -1541,10 +1277,10 @@
   }
 
   function renderConclude() {
-    bodyEl.innerHTML = `<div class="lab-conclude"><p class="lab-instructions">${gloss(LABELS.concludeIntro)}</p>` +
+    lab.body.innerHTML = `<div class="lab-conclude"><p class="lab-instructions">${gloss(LABELS.concludeIntro)}</p>` +
       `<div class="lab-table-wrap">${resultsTableHTML(true)}</div></div>`;
 
-    bodyEl.querySelectorAll('[data-concl]').forEach(b => {
+    lab.body.querySelectorAll('[data-concl]').forEach(b => {
       b.addEventListener('click', () => {
         const c = state.conclusions[b.dataset.concl];
         c.isMetal = b.dataset.val === 'yes';
@@ -1552,10 +1288,10 @@
         renderConclude();
       });
     });
-    bodyEl.querySelectorAll('[data-metal]').forEach(sel => {
+    lab.body.querySelectorAll('[data-metal]').forEach(sel => {
       sel.addEventListener('change', () => {
         state.conclusions[sel.dataset.metal].metal = sel.value;
-        if (state.showMissing) sel.closest('tr').classList.toggle('is-missing', !conclusionDone(sampleById(sel.dataset.metal)));
+        if (lab.state.showMissing) sel.closest('tr').classList.toggle('is-missing', !conclusionDone(sampleById(sel.dataset.metal)));
         renderConcludeFooter();
       });
     });
@@ -1564,22 +1300,21 @@
 
   function renderConcludeFooter() {
     const ready = conclusionsComplete();
-    const missing = state.showMissing && !ready;
-    footerEl.innerHTML = `<button type="button" class="lab-btn lab-btn-ghost" id="lab-back">← ${LABELS.backToLab}</button>` +
-      (missing ? footerInfo(LABELS.missingConclusions, true) : '') +
+    const missing = lab.state.showMissing && !ready;
+    lab.footer.innerHTML = `<button type="button" class="lab-btn lab-btn-ghost" id="lab-back">← ${LABELS.backToLab}</button>` +
+      (missing ? lab.footerInfo(lab.L.missingConclusions, true) : '') +
       `<div class="lab-footer-actions">` +
       `<button type="button" class="lab-btn lab-btn-ghost" id="lab-ref">${LABELS.referenceSheet}</button>` +
       `<button type="button" class="lab-btn lab-btn-primary" id="lab-check">${LABELS.checkConclusions}</button></div>`;
-    document.getElementById('lab-back').addEventListener('click', () => goToStep(2));
-    document.getElementById('lab-ref').addEventListener('click', () => openSheet('reference'));
-    document.getElementById('lab-check').addEventListener('click', () => {
+    $('#lab-back').addEventListener('click', () => lab.goToStep(2));
+    $('#lab-ref').addEventListener('click', () => openSheet('reference'));
+    $('#lab-check').addEventListener('click', () => {
       if (!ready) {
-        state.showMissing = true;
+        lab.state.showMissing = true;
         renderConclude();
         return;
       }
-      state.checked = true;
-      goToStep(4);
+      lab.finish();
     });
   }
 
@@ -1629,7 +1364,7 @@
         `<span class="lab-result-mark" aria-label="${ok ? 'correct' : 'incorrect'}">${ok ? '✓' : '✗'}</span></button>`;
     }).join('');
 
-    bodyEl.innerHTML = `<div class="lab-check">` +
+    lab.body.innerHTML = `<div class="lab-check">` +
       `<div class="lab-check-left">` +
         `<div class="lab-score"><span class="lab-score-num">${sc}<small> / ${SAMPLES.length}</small></span><span class="lab-score-label">${LABELS.scoreLabel}</span>` +
         `<span class="lab-score-sub">${LABELS.hypothesesLabel(confirmed, SAMPLES.length)}</span></div>` +
@@ -1639,29 +1374,15 @@
       `<div class="lab-check-detail" id="lab-detail" aria-live="polite"></div>` +
       `</div>`;
 
-    bodyEl.querySelectorAll('[data-result]').forEach(b => {
+    lab.body.querySelectorAll('[data-result]').forEach(b => {
       b.addEventListener('click', () => {
         state.selectedResult = b.dataset.result;
-        bodyEl.querySelectorAll('[data-result]').forEach(x => x.classList.toggle('is-selected', x === b));
+        lab.body.querySelectorAll('[data-result]').forEach(x => x.classList.toggle('is-selected', x === b));
         renderDetail();
       });
     });
     renderDetail();
-
-    footerEl.innerHTML = `<div class="lab-identity">` +
-      `<input type="text" class="lab-input" id="lab-name" placeholder="${LABELS.namePlaceholder}" aria-label="${LABELS.namePlaceholder}" value="${escapeHtml(state.studentName)}" autocomplete="off">` +
-      `<input type="text" class="lab-input lab-input-sm" id="lab-class" placeholder="${LABELS.classPlaceholder}" aria-label="${LABELS.classPlaceholder}" value="${escapeHtml(state.studentClass)}" autocomplete="off"></div>` +
-      `<div class="lab-footer-actions">` +
-      `<button type="button" class="lab-btn lab-btn-ghost" id="lab-restart">${LABELS.restart}</button>` +
-      `<button type="button" class="lab-btn lab-btn-primary" id="lab-print">${LABELS.printReport}</button></div>`;
-    document.getElementById('lab-name').addEventListener('input', e => { state.studentName = e.target.value; });
-    document.getElementById('lab-class').addEventListener('input', e => { state.studentClass = e.target.value; });
-    document.getElementById('lab-print').addEventListener('click', printReport);
-    document.getElementById('lab-restart').addEventListener('click', () => {
-      if (!window.confirm(LABELS.restartConfirm)) return;
-      state = freshState();
-      render();
-    });
+    lab.checkFooter();
   }
 
   function renderDetail() {
@@ -1680,7 +1401,7 @@
         `<span class="lab-check-exp">${good ? '✓' : LABELS.options[exp]}</span></li>`;
     }).join('');
     const checkHead = `<li class="lab-check-headrow"><span></span><span></span><span>${LABELS.youWrote}</span><span>${LABELS.expected}</span></li>`;
-    document.getElementById('lab-detail').innerHTML =
+    $('#lab-detail').innerHTML =
       `<div class="lab-detail-head"><span class="lab-letter">${s.id}</span><div><h3>${m.label}</h3>` +
       `<p class="lab-detail-verdict ${ok ? 'is-ok' : 'is-ko'}">${ok ? '✓ ' + correctLabel(s) : `✗ ${LABELS.colYourAnswer}: ${answerLabel(state.conclusions[s.id])}`}</p></div>` +
       `<div class="lab-detail-thumb">${thumbSVG(s.id, { big: true })}</div></div>` +
@@ -1700,24 +1421,13 @@
       inner = `<h3 class="lab-sheet-title">${LABELS.tableTitle}</h3><p class="lab-sheet-intro">${gloss(LABELS.tableIntro)}</p>` +
         `<div class="lab-table-wrap">${resultsTableHTML(false)}</div>`;
     }
-    sheetEl.innerHTML = `<div class="lab-sheet-card" role="dialog" aria-label="${kind === 'reference' ? LABELS.refTitle : LABELS.tableTitle}">` +
-      `<button type="button" class="modal-close lab-sheet-close" id="lab-sheet-close" aria-label="${LABELS.sheetClose}">×</button>${inner}</div>`;
-    sheetEl.hidden = false;
-    const btn = document.getElementById('lab-sheet-close');
-    btn.addEventListener('click', closeSheet);
-    btn.focus({ preventScroll: true });
-    sheetEl.onclick = e => { if (e.target === sheetEl) closeSheet(); };
+    lab.openSheet(inner, kind === 'reference' ? LABELS.refTitle : LABELS.tableTitle);
   }
 
-  function closeSheet() {
-    sheetEl.hidden = true;
-    sheetEl.innerHTML = '';
-  }
-
-  /* ===== Rapport imprimable (fiche outil FO3 : 7 sections) ===== */
-  function printReport() {
+  /* ===== Rapport imprimable : contenu des 7 sections de la fiche outil FO3
+     (en-tête, numérotation et mise en page : cadre commun) ===== */
+  function buildReport() {
     const R = LABELS.report;
-    const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const hypRows = SAMPLES.map(s => `<td><strong>${s.id}</strong><br>${hypothesisText(state.hypotheses[s.id])}</td>`).join('');
     const obsHead = `<tr><th>${LABELS.colSample}</th>${TESTS.map(t => `<th>${LABELS.tests[t.id].name}</th>`).join('')}</tr>`;
     const obsRows = SAMPLES.map(s => `<tr><th>${s.id}</th>${TESTS.map(t => {
@@ -1736,27 +1446,30 @@
     const notMetals = SAMPLES.filter(s => state.conclusions[s.id].isMetal === false).map(s => s.id);
     const corrRows = SAMPLES.map(s => `<tr><th>${s.id}</th><td>${answerLabel(state.conclusions[s.id])}</td><td>${MATERIALS[s.mat].label}</td><td class="${isCorrect(s) ? 'ok' : 'ko'}">${isCorrect(s) ? '✓' : '✗'}</td></tr>`).join('');
 
-    reportEl.innerHTML =
-      `<h1>${R.title}</h1>` +
-      `<div class="lab-report-id"><span><strong>${R.name}:</strong> ${escapeHtml(state.studentName) || '……………………………'}</span>` +
-      `<span><strong>${R.className}:</strong> ${escapeHtml(state.studentClass) || '………'}</span><span><strong>${R.date}:</strong> ${today}</span></div>` +
-      `<section><h2><span>1</span>${R.s1}</h2><p>${R.question(sampleRange())}</p></section>` +
-      `<section><h2><span>2</span>${R.s2}</h2><p>${R.hypothesisIntro}</p><table class="lab-report-hyp"><tr>${hypRows}</tr></table></section>` +
-      `<section><h2><span>3</span>${R.s3}</h2><p>${R.materials(SAMPLES.length, sampleRange())}</p></section>` +
-      `<section><h2><span>4</span>${R.s4}</h2><ol>${R.procedure.map(p => `<li>${p}</li>`).join('')}</ol></section>` +
-      `<section><h2><span>5</span>${R.s5}</h2><table>${obsHead}${obsRows}</table><p class="lab-report-note">${R.heatNote}</p></section>` +
-      `<section><h2><span>6</span>${R.s6}</h2><ul>${interp}</ul></section>` +
-      `<section><h2><span>7</span>${R.s7}</h2><p>${metals.length ? R.conclusionMetals(metals.join(', ')) : R.conclusionNone} ` +
-      `${notMetals.length ? R.conclusionNot(notMetals.join(', ')) : ''}</p></section>` +
-      `<section class="lab-report-corr"><h2>${R.correctionTitle}</h2><p><strong>${R.score(score(), SAMPLES.length)}</strong></p>` +
-      `<table><tr><th>${LABELS.colSample}</th><th>${LABELS.colYourAnswer}</th><th>${LABELS.colCorrect}</th><th></th></tr>${corrRows}</table></section>`;
-
-    window.print();
+    return {
+      title: R.title,
+      sections: [
+        `<p>${R.question(sampleRange())}</p>`,
+        `<p>${R.hypothesisIntro}</p><table class="lab-report-hyp"><tr>${hypRows}</tr></table>`,
+        `<p>${R.materials(SAMPLES.length, sampleRange())}</p>`,
+        `<ol>${R.procedure.map(p => `<li>${p}</li>`).join('')}</ol>`,
+        `<table>${obsHead}${obsRows}</table><p class="lab-report-note">${R.heatNote}</p>`,
+        `<ul>${interp}</ul>`,
+        `<p>${metals.length ? R.conclusionMetals(metals.join(', ')) : R.conclusionNone} ${notMetals.length ? R.conclusionNot(notMetals.join(', ')) : ''}</p>`
+      ],
+      correction: `<p><strong>${R.score(score(), SAMPLES.length)}</strong></p>` +
+        `<table><tr><th>${LABELS.colSample}</th><th>${LABELS.colYourAnswer}</th><th>${LABELS.colCorrect}</th><th></th></tr>${corrRows}</table>`
+    };
   }
 
-  /* Le prototype n'enregistre rien : prévenir avant de perdre le travail. */
-  window.addEventListener('beforeunload', e => {
-    const started = Object.keys(state.hypotheses).length > 0;
-    if (started && !state.checked) { e.preventDefault(); e.returnValue = ''; }
+  lab = LabEngine.create({
+    id: 'metals',
+    title: LABELS.title,
+    glossary: GLOSSARY,
+    reset,
+    canReach,
+    isStarted: () => Object.keys(state.hypotheses).length > 0,
+    render: { 1: renderPredict, 2: renderTest, 3: renderConclude, 4: renderCheck },
+    report: buildReport
   });
 })();

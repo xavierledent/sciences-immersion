@@ -13,6 +13,8 @@ index.html, credits.html, 404.html   pages écrites à la main
 en/year1/<chapitre>/                 filière anglaise
 nl/jaar1/<chapitre>/                 filière néerlandaise
   *.html                             5 pages GÉNÉRÉES (ne pas éditer)
+  laboratory.html                    labos virtuels, page écrite à la main
+  lab-<nom>.js / .css                un labo : contenu et simulation
   *.json                             contenu du chapitre
   assets/, PDF/                      images et documents du chapitre
 assets/                              images et PDF communs (fiches outils, mascottes)
@@ -25,6 +27,14 @@ docs/formats-donnees.md              format de chaque JSON
 Chapitres : `bio1`, `chem1`, `phys1`, `chem2`, `phys2`, `bio2`. Tous ont leur
 vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 `bio1`, `chem1`. Ailleurs, les tableaux sont vides (contenu pas encore rédigé).
+
+Labos virtuels (prototypes en anglais, pages reliées à aucune autre pour
+l'instant) : `chem1` « Metal detectives », `bio1` « The vanishing leaves ».
+Le cadre commun ([lab-engine.js](lab-engine.js)) impose à tous les labos la
+démarche en 4 étapes (Predict, Experiment, Conclude, Check) et le rapport
+imprimable selon la fiche outil FO3 ; chaque labo garde sa simulation dans ses
+deux fichiers `lab-<nom>`, sans JSON. Chaque labo tire au sort une partie de
+son contenu pour pouvoir être refait.
 
 `apps-script/`, `docs/todo/`, `docs/audit-sciences-immersion.md` et
 `Admin/Backup ind/` existent en local mais sont exclus du dépôt, qui est
@@ -50,6 +60,7 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Structure HTML d'une page de chapitre | `templates/<type>.{en,nl}.html`, puis régénérer |
 | Titre ou couleur d'un chapitre | [tools/chapters.json](tools/chapters.json), puis régénérer (la liste de l'accueil en sort aussi) |
 | Accueil, choix de la langue et de l'année | [index.html](index.html), [welcome-back.js](welcome-back.js) |
+| Labos virtuels : modale, étapes, verrous, rapport | [lab-engine.js](lab-engine.js), [lab-engine.css](lab-engine.css) ; un labo : `<chapitre>/lab-<nom>.{js,css}` |
 | Barre de navigation entre sections | [chapter-nav.js](chapter-nav.js) |
 | Données enregistrées des élèves | [storage.js](storage.js), seul fichier qui touche à `localStorage` |
 | Écran d'accès | [access-control.js](access-control.js) |
