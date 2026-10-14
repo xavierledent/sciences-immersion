@@ -26,35 +26,46 @@
         <div>
           <span class='topic-chip'>Virtual lab • English immersion • Year 1</span>
           <h1>Chemistry 1 : Natural resources and raw materials</h1>
-          <p>Become a lab scientist: test ten mystery samples and find out which ones are metals.</p>
+          <p>Become a lab scientist: choose an investigation, run the tests yourself and draw your own conclusions.</p>
         </div>
         <img src="../../../assets/Friends.webp" alt="" class="lab-header-img" />
       </div>
     </header>
 
-    <section class='lab-intro-card'>
-      <h2 class='lab-intro-title'>Metal detectives</h2>
-      <p class='lab-intro-question'>Ten samples, all the same shape. Some are metals, some only look like metals.
-        <strong>Which ones are metals, and which metals are they?</strong></p>
+    <section class='lab-grid' aria-label='Investigations'>
+      <article class='lab-tile'>
+        <h2 class='lab-tile-title'>Metal detectives</h2>
+        <p class='lab-tile-text'>Ten samples, all the same shape. Some are metals, some only look like metals.</p>
+        <p class='lab-tile-question'>Which ones are metals, and which metals are they?</p>
+        <button type='button' class='resource-button lab-tile-btn' id='lab-open'>Enter the lab</button>
+      </article>
 
-      <ol class='lab-intro-steps'>
-        <li><span class='lab-intro-num'>1</span><span><strong>Predict</strong>Look at each sample and make a hypothesis.</span></li>
-        <li><span class='lab-intro-num'>2</span><span><strong>Test</strong>Use five tools and write down what you observe.</span></li>
-        <li><span class='lab-intro-num'>3</span><span><strong>Conclude</strong>Decide which samples are metals and name them.</span></li>
-        <li><span class='lab-intro-num'>4</span><span><strong>Check</strong>See the correction and print your lab report.</span></li>
-      </ol>
+      <article class='lab-tile is-soon' aria-disabled='true'>
+        <h2 class='lab-tile-title'>Investigation 2</h2>
+        <p class='lab-tile-text'>A new investigation is being prepared.</p>
+        <button type='button' class='resource-button lab-tile-btn' disabled>Coming soon</button>
+      </article>
 
-      <button type='button' class='resource-button lab-start-btn' id='lab-open'>Enter the lab</button>
+      <article class='lab-tile is-soon' aria-disabled='true'>
+        <h2 class='lab-tile-title'>Investigation 3</h2>
+        <p class='lab-tile-text'>A new investigation is being prepared.</p>
+        <button type='button' class='resource-button lab-tile-btn' disabled>Coming soon</button>
+      </article>
     </section>
 
     <section class='note-box'>
-      <h3>How does this page work?</h3>
+      <h3>How does a lab work?</h3>
+      <ol class='lab-method'>
+        <li><span class='lab-method-num'>1</span><span><strong>Predict</strong>Look at the samples and make a hypothesis.</span></li>
+        <li><span class='lab-method-num'>2</span><span><strong>Test</strong>Use the tools and write down what you observe.</span></li>
+        <li><span class='lab-method-num'>3</span><span><strong>Conclude</strong>Use your results to answer the question.</span></li>
+        <li><span class='lab-method-num'>4</span><span><strong>Check</strong>See the correction and print your lab report.</span></li>
+      </ol>
       <p><strong>In short:</strong> a real lab, on screen. Place a sample on the bench, then drag a tool onto it (or
         tap the tool). Watch carefully what happens, then write your observation in the notebook yourself — the lab
-        does not do it for you. When all the tests are done, decide which samples are metals. Underlined words can
-        be translated into French.</p>
-      <p class="note-box-tip"><strong>Teacher's tip:</strong> one test is never enough. A sample can look like a
-        metal without being one — let the results decide, not your eyes.</p>
+        does not do it for you. Underlined words can be translated into French.</p>
+      <p class="note-box-tip"><strong>Teacher's tip:</strong> one test is never enough. Something can look right
+        without being right — let the results decide, not your eyes.</p>
     </section>
 
     <section style="margin-top: 38px">
