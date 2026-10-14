@@ -687,11 +687,21 @@ html[data-pointer='fine'] .lab-tray-item:not(.is-on-bench):hover,
   transition: border-color var(--transition), background var(--transition), transform var(--transition);
 }
 
-.lab-tool-icon svg {
+/* Dessins au crayon sur fond blanc : multiply fond le blanc dans le fond
+   teinté (bouton actif, carnet, correction) sans détourage. */
+.lab-tool-img {
   display: block;
-  width: 26px;
-  height: 26px;
-  color: #13243d;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.lab-tool-icon {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
 }
 
 .lab-tool-label {
@@ -773,11 +783,10 @@ html[data-pointer='fine'] .lab-tool:hover,
   gap: 6px;
 }
 
-.lab-note-icon svg {
-  display: block;
-  width: 18px;
-  height: 18px;
-  color: #13243d;
+.lab-note-icon {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
 }
 
 .lab-note-name {
@@ -919,9 +928,8 @@ html[data-pointer='fine'] .lab-note-opt:not(:disabled):not(.is-selected):hover,
   color: #13243d;
 }
 
-.lab-ghost-tool svg {
-  width: 100%;
-  height: 100%;
+.lab-ghost-tool .lab-tool-img {
+  mix-blend-mode: normal;
 }
 
 /* ===== Tableaux ===== */
@@ -1200,7 +1208,7 @@ html[data-pointer='fine'] .lab-result-row:not(.is-selected):hover,
 
 .lab-check-list li {
   display: grid;
-  grid-template-columns: 20px minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: 24px minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   gap: 6px;
   padding: 3px 8px;
@@ -1210,11 +1218,10 @@ html[data-pointer='fine'] .lab-result-row:not(.is-selected):hover,
   text-align: left;
 }
 
-.lab-check-icon svg {
+.lab-check-icon {
   display: block;
-  width: 16px;
-  height: 16px;
-  color: #13243d;
+  width: 24px;
+  height: 24px;
 }
 
 .lab-check-name { font-weight: 600; }

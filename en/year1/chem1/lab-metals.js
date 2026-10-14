@@ -605,6 +605,13 @@
     hammer: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="14.5" y="11" width="4" height="18" rx="1.5" fill="#d9b07a" stroke="currentColor" stroke-width="1.4" transform="rotate(35 16 16)"/><rect x="5" y="5" width="15" height="8" rx="1.5" fill="#6b7785" stroke="currentColor" stroke-width="1.4" transform="rotate(35 16 16)"/></svg>'
   };
 
+  /* Illustrations au crayon (assets/lab-tool-*.webp, fond blanc fondu par
+     mix-blend-mode dans le CSS). Les icônes SVG ci-dessus restent pour les
+     en-têtes du tableau, trop petits pour un dessin. */
+  function toolImg(id) {
+    return `<img class="lab-tool-img" src="assets/lab-tool-${id}.webp" alt="" draggable="false">`;
+  }
+
   const LOCK_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
 
   /* ===== Références DOM ===== */
@@ -830,12 +837,12 @@
       const done = state.current && state.done[state.current][t.id];
       const active = state.activeTest === t.id;
       return `<button type="button" class="lab-tool ${done ? 'is-done' : ''} ${active ? 'is-active' : ''}" data-test="${t.id}">` +
-        `<span class="lab-tool-icon">${ICONS[t.id]}</span><span class="lab-tool-label">${LABELS.tests[t.id].tool}</span>` +
+        `<span class="lab-tool-icon">${toolImg(t.id)}</span><span class="lab-tool-label">${LABELS.tests[t.id].tool}</span>` +
         (done ? '<span class="lab-tool-check" aria-hidden="true">✓</span>' : '') + `</button>`;
     }).join('');
     tools.querySelectorAll('.lab-tool').forEach(el => {
       makeDraggable(el, {
-        ghost: () => `<div class="lab-ghost-tool">${ICONS[el.dataset.test]}</div>`,
+        ghost: () => `<div class="lab-ghost-tool">${toolImg(el.dataset.test)}</div>`,
         onDrop: () => runTest(el.dataset.test),
         onTap: () => runTest(el.dataset.test)
       });
@@ -855,7 +862,7 @@
       const val = state.notes[id][t.id];
       const opts = t.options.map(o => `<button type="button" class="lab-note-opt ${val === o ? 'is-selected' : ''}" data-test="${t.id}" data-val="${o}" ${done ? '' : 'disabled'} aria-pressed="${val === o}">${LABELS.options[o]}</button>`).join('');
       return `<div class="lab-note-row ${done ? '' : 'is-locked'} ${done && !val ? 'is-pending' : ''} ${t.options.length > 2 ? 'is-four' : ''}" data-row="${t.id}">` +
-        `<div class="lab-note-head"><span class="lab-note-icon">${ICONS[t.id]}</span><span class="lab-note-name">${LABELS.tests[t.id].name}</span>` +
+        `<div class="lab-note-head"><span class="lab-note-icon">${toolImg(t.id)}</span><span class="lab-note-name">${LABELS.tests[t.id].name}</span>` +
         `${done ? '' : `<span class="lab-note-lock" title="${LABELS.notebookLocked}" aria-label="${LABELS.notebookLocked}">${LOCK_ICON}</span>`}</div>` +
         `<p class="lab-note-q">${gloss(LABELS.tests[t.id].question)}</p>` +
         `<div class="lab-note-opts">${opts}</div></div>`;
@@ -1667,7 +1674,7 @@
       const v = state.notes[s.id][t.id];
       const exp = expectedValue(s.mat, t.id);
       const good = v === exp;
-      return `<li class="${v ? (good ? 'is-ok' : 'is-ko') : 'is-empty'}"><span class="lab-check-icon">${ICONS[t.id]}</span>` +
+      return `<li class="${v ? (good ? 'is-ok' : 'is-ko') : 'is-empty'}"><span class="lab-check-icon">${toolImg(t.id)}</span>` +
         `<span class="lab-check-name">${LABELS.tests[t.id].name}</span>` +
         `<span class="lab-check-val">${v ? LABELS.options[v] : LABELS.notRecorded}</span>` +
         `<span class="lab-check-exp">${good ? '✓' : LABELS.options[exp]}</span></li>`;
