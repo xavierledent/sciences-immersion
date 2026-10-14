@@ -387,10 +387,9 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   color: var(--color-current-darker);
 }
 
-/* Lexique : même modèle que .fitb-gloss (practice-engine.css). Le survol
-   révèle la traduction ; au doigt, toucher le mot déclenche le survol. */
+/* Lexique : mot souligné ; sa traduction s'affiche dans une bulle unique
+   positionnée en JS (voir « Traduction des mots soulignés » dans le JS). */
 .lab-gloss {
-  position: relative;
   text-decoration: underline dotted var(--color-current);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
@@ -398,12 +397,15 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   outline: none;
 }
 
-.lab-gloss::after {
-  content: attr(data-translation);
+.lab-gloss:focus-visible {
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px rgba(var(--color-current-rgb), 0.35);
+}
+
+.lab-gloss-tip {
   position: absolute;
-  left: 50%;
-  bottom: 100%;
-  transform: translateX(-50%) translateY(-6px);
+  top: 0;
+  left: 0;
   background: var(--color-current);
   color: var(--color-current-text, #ffffff);
   font-size: 0.8rem;
@@ -415,15 +417,15 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   border-radius: 8px;
   box-shadow: 0 6px 16px rgba(var(--color-current-rgb), 0.3);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-  z-index: 20;
+  transition: opacity 0.15s ease;
+  z-index: 40;
 }
 
-.lab-gloss:hover::after,
-.lab-gloss:focus::after {
+.lab-gloss-tip.is-visible {
   opacity: 1;
-  transform: translateX(-50%) translateY(-10px);
+  visibility: visible;
 }
 
 /* ===== Étape 1 : hypothèses ===== */

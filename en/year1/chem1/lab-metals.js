@@ -572,6 +572,48 @@
   const reportEl = document.getElementById('lab-report');
   const fullscreenBtn = document.getElementById('lab-fullscreen');
 
+  /* ===== Traduction des mots soulignés =====
+     Une seule bulle, placée dans la carte et positionnée en JS au-dessus du
+     mot, ou en dessous s'il n'y a pas la place. Une bulle en CSS pur (::after
+     du mot) était coupée par les zones à overflow: hidden : le mot de la
+     consigne, tout en haut du labo, n'affichait rien. Souris : survol ;
+     doigt et clavier : le mot prend le focus (tabindex) au toucher. */
+  const glossTip = document.createElement('div');
+  glossTip.className = 'lab-gloss-tip';
+  glossTip.setAttribute('role', 'tooltip');
+  card.appendChild(glossTip);
+
+  function showGloss(word) {
+    glossTip.textContent = word.dataset.translation;
+    glossTip.classList.add('is-visible');
+    const c = card.getBoundingClientRect();
+    const w = word.getBoundingClientRect();
+    const t = glossTip.getBoundingClientRect();
+    const gap = 8;
+    let top = w.top - c.top - t.height - gap;
+    if (top < 4) top = w.bottom - c.top + gap;
+    const left = Math.max(4, Math.min(c.width - t.width - 4, w.left - c.left + w.width / 2 - t.width / 2));
+    glossTip.style.top = `${top}px`;
+    glossTip.style.left = `${left}px`;
+  }
+
+  function hideGloss() { glossTip.classList.remove('is-visible'); }
+
+  card.addEventListener('mouseover', e => {
+    const word = e.target.closest('.lab-gloss');
+    if (word) showGloss(word);
+  });
+  card.addEventListener('mouseout', e => {
+    const word = e.target.closest('.lab-gloss');
+    if (word && !word.contains(e.relatedTarget) && document.activeElement !== word) hideGloss();
+  });
+  card.addEventListener('focusin', e => {
+    if (e.target.classList.contains('lab-gloss')) showGloss(e.target);
+  });
+  card.addEventListener('focusout', e => {
+    if (e.target.classList.contains('lab-gloss')) hideGloss();
+  });
+
   /* ===== Ouverture / fermeture ===== */
   function openLab() {
     overlay.classList.add('modal-open');
@@ -606,6 +648,7 @@
   /* ===== Rendu général ===== */
   function render() {
     sceneToken++;
+    hideGloss();
     renderStepper();
     closeSheet();
     card.dataset.step = String(state.step);
