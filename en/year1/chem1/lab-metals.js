@@ -7,7 +7,7 @@
 
    Déroulé en 4 étapes :
      1. Predict   — hypothèse « métal / pas un métal / je ne sais pas »
-     2. Test      — 5 tests sur la paillasse, l'élève note lui-même ses
+     2. Experiment — 5 tests sur la paillasse, l'élève note lui-même ses
                     observations dans le carnet
      3. Conclude  — métal ou non, et lequel (fiche de référence)
      4. Check     — correction commentée, score, rapport imprimable (FO3)
@@ -22,7 +22,7 @@
      survol ou au toucher (voir GLOSSARY). */
   const LABELS = {
     title: 'Metal detectives',
-    steps: ['Predict', 'Test', 'Conclude', 'Check'],
+    steps: ['Predict', 'Experiment', 'Conclude', 'Check'],
     close: 'Close',
 
     predictIntro: 'Look carefully at each [sample]. Before any test, do you think it is a metal?',

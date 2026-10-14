@@ -62,9 +62,11 @@
 
 .lab-tile-question {
   margin: 0;
-  text-align: left;
+  text-align: center;
+  font-size: 1.1rem;
   font-weight: 600;
-  line-height: 1.45;
+  line-height: 1.4;
+  color: var(--color-text);
 }
 
 .lab-tile-btn {
