@@ -274,6 +274,11 @@ html[data-pointer='fine'] .lab-step:not(:disabled):hover,
   font-weight: 500;
 }
 
+.lab-footer-info.is-warning {
+  color: #b83232;
+  font-weight: 600;
+}
+
 .lab-footer-actions {
   display: flex;
   gap: 10px;
@@ -435,12 +440,20 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   grid-template-rows: auto minmax(0, 1fr);
 }
 
+/* Cinq cartes par ligne, autant de lignes que nécessaire ; une ligne seule
+   est plafonnée et centrée plutôt qu'étirée sur toute la hauteur. */
 .lab-predict-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 340px);
+  align-content: center;
   gap: 10px;
   min-height: 0;
+}
+
+.lab-predict-card.is-missing {
+  border-color: #d64545;
+  background: #fff6f5;
 }
 
 .lab-predict-card {
@@ -505,8 +518,8 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(5, minmax(0, 1fr));
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(0, 1fr);
   gap: 6px;
 }
 
@@ -963,6 +976,11 @@ html[data-pointer='fine'] .lab-note-opt:not(:disabled):not(.is-selected):hover,
 
 .lab-table tbody tr:nth-child(even) {
   background: rgba(var(--color-current-rgb), 0.04);
+}
+
+.lab-table tbody tr.is-missing {
+  background: #fff1f0;
+  box-shadow: inset 3px 0 0 #d64545;
 }
 
 .lab-table td.is-empty {

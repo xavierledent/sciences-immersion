@@ -2,8 +2,8 @@
 
    Page autonome, sans moteur partagé ni JSON : tout le contenu (échantillons,
    textes, corrections) est dans ce fichier, en anglais seulement. Sert à
-   juger le rendu et le déroulé avant de concevoir l'architecture définitive
-   (lab-engine.js + lab.json + éditeur Admin, filière NL).
+   juger le rendu et le déroulé. L'architecture commune des labos (et la
+   filière NL) sera décidée quand un deuxième labo existera.
 
    Déroulé en 4 étapes :
      1. Predict   — hypothèse « métal / pas un métal / je ne sais pas »
@@ -12,7 +12,9 @@
      3. Conclude  — métal ou non, et lequel (fiche de référence)
      4. Check     — correction commentée, score, rapport imprimable (FO3)
 
-   Rien n'est enregistré : recharger la page repart de zéro. */
+   Cinq échantillons tirés au sort parmi dix à chaque nouveau labo (voir DRAW).
+   Rien n'est enregistré : recharger la page repart de zéro, avec un nouveau
+   tirage. */
 
 (function () {
   'use strict';
@@ -29,7 +31,7 @@
     predictMetal: 'Metal',
     predictNot: 'Not a metal',
     predictUnsure: 'Not sure',
-    predictCount: (n) => `${n} / 10 hypotheses`,
+    predictCount: (n, total) => `${n} / ${total} hypotheses`,
     startTesting: 'Start testing',
 
     trayTitle: 'Samples',
@@ -43,7 +45,7 @@
     captionNeedSample: 'First, put a [sample] on the [bench].',
     captionRecord: ' Now write what you observed in the [notebook].',
     speedUp: 'Speed up',
-    observations: (n) => `${n} / 50 observations written`,
+    observations: (n, total) => `${n} / ${total} observations written`,
     resultsTable: 'Results table',
     toConclude: 'Next: conclude',
 
@@ -57,10 +59,12 @@
     backToLab: 'Back to the lab',
     referenceSheet: 'Metal reference sheet',
     checkConclusions: 'Check my conclusions',
+    missingHypotheses: 'Some hypotheses are still missing.',
+    missingConclusions: 'Some conclusions are still missing.',
     notRecorded: '—',
 
     scoreLabel: 'correct identifications',
-    hypothesesLabel: (n) => `${n} / 10 hypotheses confirmed`,
+    hypothesesLabel: (n, total) => `${n} / ${total} hypotheses confirmed`,
     colYourAnswer: 'Your answer',
     colCorrect: 'Correct answer',
     notMetal: 'Not a metal',
@@ -112,9 +116,9 @@
       name: 'Name', className: 'Class', date: 'Date',
       s1: 'Question', s2: 'Hypothesis', s3: 'Materials', s4: 'Procedure',
       s5: 'Observations & results', s6: 'Interpretation', s7: 'Conclusion',
-      question: 'Which of the ten samples (A to J) are metals? For each metal, which metal is it?',
+      question: (range) => `Which of the samples (${range}) are metals? For each metal, which metal is it?`,
       hypothesisIntro: 'Before testing, I looked at each sample and predicted:',
-      materials: '10 samples of the same shape (A to J), sandpaper, a magnet, an electric circuit (battery, bulb, wires, 2 clips), a beaker of hot water on a hot plate, a lab stand, wax, a stopwatch, a hammer, 2 wooden blocks.',
+      materials: (n, range) => `${n} samples of the same shape (${range}), sandpaper, a magnet, an electric circuit (battery, bulb, wires, 2 clips), a beaker of hot water on a hot plate, a lab stand, wax, a stopwatch, a hammer, 2 wooden blocks.`,
       procedure: [
         'Rub the sample with sandpaper and observe the sanded area.',
         'Bring the magnet close to the sample.',
@@ -130,7 +134,7 @@
       conclusionNone: 'I did not identify any metal.',
       conclusionNot: (list) => `These samples are not metals: ${list}.`,
       correctionTitle: 'Correction',
-      score: (n) => `Score: ${n} / 10 correct identifications.`,
+      score: (n, total) => `Score: ${n} / ${total} correct identifications.`,
       nothing: 'none'
     }
   };
@@ -168,8 +172,8 @@
     },
     aluminium: {
       label: 'Aluminium', isMetal: true, metal: 'aluminium',
-      surface: ['#c6cbd0', '#9fa6ad'], fresh: ['#f1f3f5', '#bcc3ca'],
-      texture: 'brushed', glossy: false, freshKind: 'metal',
+      surface: ['#a3a7a4', '#7b807d'], fresh: ['#f1f3f5', '#bcc3ca'],
+      texture: 'oxide', glossy: false, freshKind: 'metal',
       magnetic: false, conducts: true, heat: 68, hammer: 'dent', bendAmount: 1
     },
     gold: {
@@ -216,21 +220,38 @@
     }
   };
 
-  /* Ordre fixe : la correction et le rapport imprimé désignent les mêmes
-     lettres pour toute la classe. Paires trompeuses volontairement séparées
-     (or / plastique doré, argent / aluminium / plastique argenté). */
-  const SAMPLES = [
-    { id: 'A', mat: 'copper' },
-    { id: 'B', mat: 'wood' },
-    { id: 'C', mat: 'plasticGold' },
-    { id: 'D', mat: 'iron' },
-    { id: 'E', mat: 'glass' },
-    { id: 'F', mat: 'silver' },
-    { id: 'G', mat: 'granite' },
-    { id: 'H', mat: 'aluminium' },
-    { id: 'I', mat: 'plasticSilver' },
-    { id: 'J', mat: 'gold' }
-  ];
+  /* Tirage de 5 échantillons à chaque nouveau labo (chargement de la page ou
+     « Restart ») : le labo se refait sans connaître les réponses. Lettres A à
+     E dans un ordre mélangé, donc propres à chaque élève ; le rapport imprimé
+     dit quel matériau se cachait derrière chaque lettre.
+       — le fer, toujours ;
+       — un métal piège, qui ne ressemble pas à un métal avant ponçage ;
+       — un non-métal piège, qui ressemble à un métal ;
+       — le métal qui lui ressemble (même aspect, tests différents) ;
+       — un non-métal évident. */
+  const DRAW = {
+    always: 'iron',
+    trapMetal: ['copper', 'aluminium'],
+    trapNonMetal: ['plasticGold', 'plasticSilver', 'glass'],
+    lookAlike: { plasticGold: ['gold'], plasticSilver: ['silver'], glass: ['gold', 'silver'] },
+    plainNonMetal: ['wood', 'granite']
+  };
+
+  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+
+  function drawSamples() {
+    const trap = pick(DRAW.trapNonMetal);
+    const mats = [DRAW.always, pick(DRAW.trapMetal), pick(DRAW.lookAlike[trap]), trap, pick(DRAW.plainNonMetal)];
+    for (let i = mats.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [mats[i], mats[j]] = [mats[j], mats[i]];
+    }
+    return mats.map((mat, i) => ({ id: 'ABCDEFGHIJ'[i], mat }));
+  }
+
+  let SAMPLES = [];
+
+  function sampleRange() { return `A to ${SAMPLES[SAMPLES.length - 1].id}`; }
 
   const METAL_IDS = ['iron', 'copper', 'aluminium', 'gold', 'silver'];
 
@@ -248,7 +269,7 @@
     luster: {
       copper: 'Under the brown, [tarnished] surface, the [sanded] area is orange-pink and [reflects] light strongly.',
       iron: 'Under the dark grey surface, the [sanded] area is silvery grey and [reflects] light strongly.',
-      aluminium: 'The [sanded] area is light grey and [reflects] light strongly.',
+      aluminium: 'Under the dull grey surface, the [sanded] area is light grey and [reflects] light strongly.',
       gold: 'The [sanded] area stays yellow and [reflects] light strongly.',
       silver: 'The [sanded] area is bright white and [reflects] light strongly.',
       plasticGold: 'The yellow [paint] comes off. Underneath, the material is white and does not reflect light.',
@@ -277,15 +298,30 @@
   const EXPLANATIONS = {
     copper: 'This is <strong>copper</strong>. Its sanded surface is shiny, it conducts electricity and heat very fast, and it bends without breaking: it is a metal. It is not attracted by the magnet, and its orange-pink colour sets it apart from the other metals.',
     wood: '<strong>Wood</strong> is not a metal: it stays dull, the bulb stays off, the wax does not melt, and it splits under the hammer.',
-    plasticGold: 'This is <strong>plastic painted gold</strong>. It looked shiny, but only because of the paint: once sanded, it is dull, it does not conduct electricity or heat, and it cracks. Compare it with sample J: same colour, very different results. Looking was not enough!',
+    plasticGold: 'This is <strong>plastic painted gold</strong>. It looked shiny, but only because of the paint: once sanded, it is dull, it does not conduct electricity or heat, and it cracks.',
     iron: 'This is <strong>iron</strong>, the only sample attracted by the magnet. It is shiny once sanded, conducts electricity, conducts heat (more slowly than the other metals of the lab) and bends without breaking.',
     glass: 'This is <strong>mirror glass</strong>. It is very shiny, but it is not a metal: it does not conduct electricity or heat, and it shatters under the hammer. (A mirror shines thanks to a very thin metal layer hidden behind the glass — the glass itself is not a metal.)',
-    silver: 'This is <strong>silver</strong>: bright white once sanded, not magnetic, and the fastest of all to melt the wax. Aluminium (sample H) looks similar, but it is greyer and conducts heat more slowly.',
+    silver: 'This is <strong>silver</strong>: bright white once sanded, not magnetic, conducts electricity, bends without breaking, and is the fastest of all to melt the wax.',
     granite: '<strong>Granite</strong> is a rock, not a metal: it is dull, does not conduct electricity or heat, and does not change shape under the hammer. You met granite in the part of the chapter about rocks.',
-    aluminium: 'This is <strong>aluminium</strong>: light grey and shiny once sanded, not magnetic, conducts electricity and heat (fast, but more slowly than silver and copper), and bends without breaking.',
+    aluminium: 'This is <strong>aluminium</strong>. Its surface was dull grey, covered with a thin layer of oxide, so it did not look like a metal. Once sanded, it is light grey and shiny. It is not magnetic, conducts electricity and heat (fast, but more slowly than silver and copper), and bends without breaking.',
     plasticSilver: 'This is <strong>plastic painted silver</strong>. The paint makes it look like a metal, but under the paint it is dull, it does not conduct electricity or heat, and it cracks.',
-    gold: 'This is <strong>gold</strong>: yellow and shiny, not magnetic, conducts electricity and heat, and bends very easily. Compare it with sample C, the fake gold.'
+    gold: 'This is <strong>gold</strong>: yellow and shiny, not magnetic, conducts electricity and heat, and bends very easily.'
   };
+
+  /* Comparaison avec le sosie tiré au sort, ajoutée à l'explication quand les
+     deux échantillons sont présents. */
+  const COMPARE = {
+    plasticGold: { mat: 'gold', text: id => `Compare it with sample ${id}, the real gold: same look, very different results. Looking was not enough!` },
+    gold: { mat: 'plasticGold', text: id => `Compare it with sample ${id}, the fake gold.` },
+    plasticSilver: { mat: 'silver', text: id => `Compare it with sample ${id}, the real silver: same look, very different results. Looking was not enough!` },
+    silver: { mat: 'plasticSilver', text: id => `Compare it with sample ${id}, the plastic painted silver.` }
+  };
+
+  function explanation(s) {
+    const cmp = COMPARE[s.mat];
+    const other = cmp && SAMPLES.find(x => x.mat === cmp.mat);
+    return EXPLANATIONS[s.mat] + (other ? ' ' + cmp.text(other.id) : '');
+  }
 
   const REFERENCE = [
     { metal: 'iron', colour: 'Silvery grey', magnet: 'Attracted', heat: 'Slowly (> 1:30)' },
@@ -321,9 +357,11 @@
   /* ===== État ===== */
   let state;
   function freshState() {
+    SAMPLES = drawSamples();
     const s = {
       step: 1,
       checked: false,
+      showMissing: false,
       hypotheses: {},
       current: null,
       activeTest: null,
@@ -331,7 +369,7 @@
       notes: {},
       conclusions: {},
       sanded: {},
-      selectedResult: 'A',
+      selectedResult: SAMPLES[0].id,
       studentName: '',
       studentClass: ''
     };
@@ -433,6 +471,14 @@
     if (kind === 'tarnish') {
       for (let i = 0; i < 7; i++) {
         out += `<ellipse cx="${x + rnd() * w}" cy="${y + rnd() * h}" rx="${8 + rnd() * 22}" ry="${3 + rnd() * 6}" fill="#4e2e1c" opacity="0.18"/>`;
+      }
+    } else if (kind === 'oxide') {
+      // Aluminium terni : voile blanchâtre crayeux, aucun reflet.
+      for (let i = 0; i < 9; i++) {
+        out += `<ellipse cx="${x + rnd() * w}" cy="${y + rnd() * h}" rx="${6 + rnd() * 18}" ry="${2 + rnd() * 5}" fill="#eef0ec" opacity="${0.18 + rnd() * 0.18}"/>`;
+      }
+      for (let i = 0; i < Math.round(w / 12); i++) {
+        out += `<circle cx="${x + rnd() * w}" cy="${y + rnd() * h}" r="${0.6 + rnd() * 1.2}" fill="#5f6461" opacity="0.35"/>`;
       }
     } else if (kind === 'rust') {
       for (let i = 0; i < Math.round(w / 9); i++) {
@@ -660,6 +706,7 @@
 
   function goToStep(n) {
     state.step = n;
+    state.showMissing = false;
     render();
   }
 
@@ -689,7 +736,7 @@
     const cards = SAMPLES.map(s => {
       const h = state.hypotheses[s.id];
       const opt = (val, label, extra) => `<button type="button" class="lab-choice ${extra || ''} ${h === val ? 'is-selected' : ''}" data-sample="${s.id}" data-hyp="${val}" aria-pressed="${h === val}">${label}</button>`;
-      return `<div class="lab-predict-card ${h ? 'is-answered' : ''}">` +
+      return `<div class="lab-predict-card ${h ? 'is-answered' : (state.showMissing ? 'is-missing' : '')}">` +
         `<div class="lab-predict-head"><span class="lab-letter">${s.id}</span></div>` +
         `<div class="lab-predict-visual">${thumbSVG(s.id, { big: true })}</div>` +
         `<div class="lab-predict-choices">${opt('metal', LABELS.predictMetal)}${opt('not', LABELS.predictNot)}${opt('unsure', LABELS.predictUnsure, 'lab-choice-wide')}</div>` +
@@ -708,9 +755,21 @@
     });
 
     const n = SAMPLES.filter(s => state.hypotheses[s.id]).length;
-    footerEl.innerHTML = `<span class="lab-footer-info">${LABELS.predictCount(n)}</span>` +
-      `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" id="lab-next" ${n < 10 ? 'disabled' : ''}>${LABELS.startTesting} →</button></div>`;
-    document.getElementById('lab-next').addEventListener('click', () => goToStep(2));
+    const missing = state.showMissing && n < SAMPLES.length;
+    footerEl.innerHTML = footerInfo(missing ? LABELS.missingHypotheses : LABELS.predictCount(n, SAMPLES.length), missing) +
+      `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" id="lab-next">${LABELS.startTesting} →</button></div>`;
+    document.getElementById('lab-next').addEventListener('click', () => {
+      if (n === SAMPLES.length) { goToStep(2); return; }
+      state.showMissing = true;
+      renderPredict();
+    });
+  }
+
+  /* Verrou explicite : le bouton reste actif ; s'il manque quelque chose, il
+     le dit et les éléments à compléter sont mis en évidence (un bouton grisé
+     ne dit rien au doigt). */
+  function footerInfo(text, warn) {
+    return `<span class="lab-footer-info ${warn ? 'is-warning' : ''}" aria-live="polite">${text}</span>`;
   }
 
   /* ===== Étape 2 : paillasse ===== */
@@ -737,7 +796,7 @@
   }
 
   function renderTestFooter() {
-    footerEl.innerHTML = `<span class="lab-footer-info">${LABELS.observations(countNotes())}</span>` +
+    footerEl.innerHTML = footerInfo(LABELS.observations(countNotes(), SAMPLES.length * TESTS.length)) +
       `<div class="lab-footer-actions">` +
       `<button type="button" class="lab-btn lab-btn-ghost" id="lab-table-btn">${LABELS.resultsTable}</button>` +
       `<button type="button" class="lab-btn lab-btn-primary" id="lab-next">${LABELS.toConclude} →</button></div>`;
@@ -1459,16 +1518,19 @@
           `<td><select class="lab-select" data-metal="${s.id}" ${c.isMetal === true ? '' : 'disabled'} aria-label="${LABELS.colWhich} ${s.id}">` +
           `<option value="">${c.isMetal === false ? '—' : LABELS.choose}</option>${metalOpts}</select></td>`;
       }
-      return `<tr><th scope="row"><span class="lab-row-sample"><span class="lab-letter lab-letter-sm">${s.id}</span>${thumbSVG(s.id)}</span></th>${cells}${concl}</tr>`;
+      const missing = withConclusions && state.showMissing && !conclusionDone(s);
+      return `<tr class="${missing ? 'is-missing' : ''}"><th scope="row"><span class="lab-row-sample"><span class="lab-letter lab-letter-sm">${s.id}</span>${thumbSVG(s.id)}</span></th>${cells}${concl}</tr>`;
     }).join('');
     return `<table class="lab-table ${withConclusions ? 'has-conclusions' : ''}"><thead>${head}</thead><tbody>${rows}</tbody></table>`;
   }
 
+  function conclusionDone(s) {
+    const c = state.conclusions[s.id];
+    return c.isMetal === false || (c.isMetal === true && !!c.metal);
+  }
+
   function conclusionsComplete() {
-    return SAMPLES.every(s => {
-      const c = state.conclusions[s.id];
-      return c.isMetal === false || (c.isMetal === true && c.metal);
-    });
+    return SAMPLES.every(conclusionDone);
   }
 
   function renderConclude() {
@@ -1486,6 +1548,7 @@
     bodyEl.querySelectorAll('[data-metal]').forEach(sel => {
       sel.addEventListener('change', () => {
         state.conclusions[sel.dataset.metal].metal = sel.value;
+        if (state.showMissing) sel.closest('tr').classList.toggle('is-missing', !conclusionDone(sampleById(sel.dataset.metal)));
         renderConcludeFooter();
       });
     });
@@ -1494,13 +1557,20 @@
 
   function renderConcludeFooter() {
     const ready = conclusionsComplete();
+    const missing = state.showMissing && !ready;
     footerEl.innerHTML = `<button type="button" class="lab-btn lab-btn-ghost" id="lab-back">← ${LABELS.backToLab}</button>` +
+      (missing ? footerInfo(LABELS.missingConclusions, true) : '') +
       `<div class="lab-footer-actions">` +
       `<button type="button" class="lab-btn lab-btn-ghost" id="lab-ref">${LABELS.referenceSheet}</button>` +
-      `<button type="button" class="lab-btn lab-btn-primary" id="lab-check" ${ready ? '' : 'disabled'}>${LABELS.checkConclusions}</button></div>`;
+      `<button type="button" class="lab-btn lab-btn-primary" id="lab-check">${LABELS.checkConclusions}</button></div>`;
     document.getElementById('lab-back').addEventListener('click', () => goToStep(2));
     document.getElementById('lab-ref').addEventListener('click', () => openSheet('reference'));
     document.getElementById('lab-check').addEventListener('click', () => {
+      if (!ready) {
+        state.showMissing = true;
+        renderConclude();
+        return;
+      }
       state.checked = true;
       goToStep(4);
     });
@@ -1554,8 +1624,8 @@
 
     bodyEl.innerHTML = `<div class="lab-check">` +
       `<div class="lab-check-left">` +
-        `<div class="lab-score"><span class="lab-score-num">${sc}<small> / 10</small></span><span class="lab-score-label">${LABELS.scoreLabel}</span>` +
-        `<span class="lab-score-sub">${LABELS.hypothesesLabel(confirmed)}</span></div>` +
+        `<div class="lab-score"><span class="lab-score-num">${sc}<small> / ${SAMPLES.length}</small></span><span class="lab-score-label">${LABELS.scoreLabel}</span>` +
+        `<span class="lab-score-sub">${LABELS.hypothesesLabel(confirmed, SAMPLES.length)}</span></div>` +
         `<div class="lab-result-head"><span></span><span>${LABELS.colYourAnswer}</span><span>${LABELS.colCorrect}</span><span></span></div>` +
         `<div class="lab-result-list">${list}</div>` +
       `</div>` +
@@ -1608,7 +1678,7 @@
       `<p class="lab-detail-verdict ${ok ? 'is-ok' : 'is-ko'}">${ok ? '✓ ' + correctLabel(s) : `✗ ${LABELS.colYourAnswer}: ${answerLabel(state.conclusions[s.id])}`}</p></div>` +
       `<div class="lab-detail-thumb">${thumbSVG(s.id, { big: true })}</div></div>` +
       `<p class="lab-detail-hyp"><strong>${LABELS.youPredicted}:</strong> ${hypothesisText(state.hypotheses[s.id])} → <span class="lab-verdict-${verdict}">${verdictText}</span></p>` +
-      `<p class="lab-detail-expl">${EXPLANATIONS[s.mat]}</p>` +
+      `<p class="lab-detail-expl">${explanation(s)}</p>` +
       `<h4 class="lab-detail-sub">${LABELS.notebookCheck}</h4><ul class="lab-check-list">${checkHead}${checks}</ul>`;
   }
 
@@ -1663,15 +1733,15 @@
       `<h1>${R.title}</h1>` +
       `<div class="lab-report-id"><span><strong>${R.name}:</strong> ${escapeHtml(state.studentName) || '……………………………'}</span>` +
       `<span><strong>${R.className}:</strong> ${escapeHtml(state.studentClass) || '………'}</span><span><strong>${R.date}:</strong> ${today}</span></div>` +
-      `<section><h2><span>1</span>${R.s1}</h2><p>${R.question}</p></section>` +
+      `<section><h2><span>1</span>${R.s1}</h2><p>${R.question(sampleRange())}</p></section>` +
       `<section><h2><span>2</span>${R.s2}</h2><p>${R.hypothesisIntro}</p><table class="lab-report-hyp"><tr>${hypRows}</tr></table></section>` +
-      `<section><h2><span>3</span>${R.s3}</h2><p>${R.materials}</p></section>` +
+      `<section><h2><span>3</span>${R.s3}</h2><p>${R.materials(SAMPLES.length, sampleRange())}</p></section>` +
       `<section><h2><span>4</span>${R.s4}</h2><ol>${R.procedure.map(p => `<li>${p}</li>`).join('')}</ol></section>` +
       `<section><h2><span>5</span>${R.s5}</h2><table>${obsHead}${obsRows}</table><p class="lab-report-note">${R.heatNote}</p></section>` +
       `<section><h2><span>6</span>${R.s6}</h2><ul>${interp}</ul></section>` +
       `<section><h2><span>7</span>${R.s7}</h2><p>${metals.length ? R.conclusionMetals(metals.join(', ')) : R.conclusionNone} ` +
       `${notMetals.length ? R.conclusionNot(notMetals.join(', ')) : ''}</p></section>` +
-      `<section class="lab-report-corr"><h2>${R.correctionTitle}</h2><p><strong>${R.score(score())}</strong></p>` +
+      `<section class="lab-report-corr"><h2>${R.correctionTitle}</h2><p><strong>${R.score(score(), SAMPLES.length)}</strong></p>` +
       `<table><tr><th>${LABELS.colSample}</th><th>${LABELS.colYourAnswer}</th><th>${LABELS.colCorrect}</th><th></th></tr>${corrRows}</table></section>`;
 
     window.print();
