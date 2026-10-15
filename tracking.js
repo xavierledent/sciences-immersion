@@ -8,6 +8,14 @@
   // Must match the TOKEN constant in apps-script/Code.gs exactly.
   const TRACKING_TOKEN = 'VlyuETgLI98jSA0KT6Jg74jpZnW2xgSOytHJv2nU';
 
+  // Events the site already fires but that are not sent yet: the virtual
+  // labs (lab-engine.js: lab_opened, lab_step_reached, lab_checked) wait for
+  // the Firebase migration, where their storage and dashboard view will be
+  // designed. Until then they only show in the console (Verbose level). To
+  // send them, remove this filter (and, with Apps Script, add the names to
+  // KNOWN_EVENTS).
+  const NOT_SENT_YET = /^lab_/;
+
   // Same storage key/shape as access-control.js's storeAccess(): {mode, email, ...}.
   const ACCESS_STORAGE_KEY = 'accessToken';
 
@@ -35,6 +43,10 @@
   // is fine since nothing here needs to read it back.
   window.logEvent = function (eventName, data) {
     try {
+      if (NOT_SENT_YET.test(eventName)) {
+        console.debug('[tracking, not sent yet]', eventName, data || {});
+        return;
+      }
       const email = getStudentEmail();
       if (!email) return; // no account => no log, ever (visitors included)
       const payload = {

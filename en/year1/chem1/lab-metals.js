@@ -1507,6 +1507,27 @@
     lockReason,
     isStarted: () => Object.keys(state.hypotheses).length > 0,
     render: { 1: renderPredict, 2: renderTest, 3: renderConclude, 4: renderCheck },
-    report: buildReport
+    report: buildReport,
+    version: 1,
+    save: () => ({ samples: SAMPLES, state }),
+    // Un test interrompu n'a rien noté : l'échantillon reste sur la paillasse.
+    load(data) {
+      if (!data.samples.length || !data.samples.every(s => MATERIALS[s.mat] && data.state.done[s.id])) throw new Error('labProgress');
+      SAMPLES = data.samples;
+      state = Object.assign(data.state, { activeTest: null });
+    },
+    // Critères par matériau (les lettres sont tirées au sort) : ce qui est
+    // souvent mal identifié se voit d'un élève à l'autre.
+    summary() {
+      const criteria = {};
+      SAMPLES.forEach(s => { criteria[s.mat] = isCorrect(s); });
+      const answer = c => c.isMetal === true ? (c.metal || 'metal') : c.isMetal === false ? 'notMetal' : null;
+      return {
+        score: score(),
+        total: SAMPLES.length,
+        criteria,
+        details: { answers: Object.fromEntries(SAMPLES.map(s => [s.mat, answer(state.conclusions[s.id])])) }
+      };
+    }
   });
 })();

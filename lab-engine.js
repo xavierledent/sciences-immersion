@@ -26,25 +26,38 @@
      lockReason(n): pourquoi l'étape n n'est pas complète, en une phrase
                   (texte de la bulle sur ce qui reste verrouillé),
      isStarted(): l'élève a-t-il commencé ? (« Restart » ne demande
-                  confirmation que dans ce cas ; pas d'alerte du navigateur
-                  en quittant la page : fermer le labo passe déjà par la
-                  croix, et rouvrir le labo reprend là où on en était),
+                  confirmation que dans ce cas, et rien n'est enregistré
+                  avant ; pas d'alerte du navigateur en quittant la page :
+                  le travail est enregistré, voir Reprise),
      render     : { 1: fn, 2: fn, 3: fn, 4: fn }, chacune remplit lab.body et
                   le pied de page (lab.setFooter, ou lab.checkFooter à l'étape 4),
      report(mark): { title, sections: [7 × html], correction: html } ; chaque
                   erreur de l'élève passe par mark(html, note, { box }) (voir
                   reportHTML : correction au stylo rouge, notes numérotées ;
-                  la version propre de l'élève en sort aussi, sans rien de plus)
+                  la version propre de l'élève en sort aussi, sans rien de plus),
+     version    : numéro de la forme de save() ; l'augmenter dès qu'elle change
+                  (une sauvegarde d'une autre version est ignorée),
+     save()     : tirage et travail de l'élève, en JSON pur,
+     load(data) : les remet en place (et remet à zéro ce qui ne vaut que pendant
+                  une animation) ; lever une erreur si data ne convient pas,
+     summary()  : { score, total, criteria: { clé: bool }, details } pour le
+                  suivi (événement lab_checked)
    }
+
+   Reprise : le travail est enregistré (SiteStorage, famille labProgress) à
+   chaque action, en fermant le labo et en quittant la page. À la première
+   ouverture du labo sur la page, une fenêtre propose « Continue » ou « Start
+   again ». Restart efface la sauvegarde.
+
+   Suivi (tracking.js) : lab_opened, lab_step_reached (étapes 2 et 3),
+   lab_checked (score, critères, temps actif, verrous rencontrés).
 
    Verrous (règle commune à tout ce qui n'est pas encore accessible, barre
    d'étapes comprise) : lab.setLock(el, raison, { missing, key }). L'élément
    reste touchable mais pâli, avec un cadenas ; le toucher le fait refuser
    d'un petit mouvement et ouvre une bulle juste à côté, qui dit ce qui
    manque. missing : signaler aussi en rouge ce qui reste à faire (l'étape
-   est redessinée avec lab.state.showMissing ; key retrouve l'élément ensuite).
-
-   Rien n'est enregistré : recharger la page repart de zéro. */
+   est redessinée avec lab.state.showMissing ; key retrouve l'élément ensuite). */
 
 (function () {
   'use strict';
@@ -73,6 +86,12 @@
       restartText: 'Everything you did will be erased, and a new investigation will be drawn.',
       restartYes: 'Yes, restart',
       cancel: 'Cancel',
+      resumeTitle: 'Lab in progress',
+      resumeText: (n, step) => `You stopped at step ${n} · ${step}.`,
+      resumeDoneTitle: 'Lab finished',
+      resumeDoneText: 'Your correction and your lab report are still here.',
+      resumeYes: 'Continue',
+      resumeNo: 'Start again',
       report: {
         name: 'Name', className: 'Class', date: 'Date',
         sections: ['Question', 'Hypothesis', 'Materials', 'Procedure', 'Observations & results', 'Interpretation', 'Conclusion'],
@@ -103,6 +122,12 @@
       restartText: 'Alles wat je gedaan hebt, wordt gewist, en er wordt een nieuw onderzoek getrokken.',
       restartYes: 'Ja, opnieuw starten',
       cancel: 'Annuleren',
+      resumeTitle: 'Lab bezig',
+      resumeText: (n, step) => `Je bent gestopt bij stap ${n} · ${step}.`,
+      resumeDoneTitle: 'Lab afgewerkt',
+      resumeDoneText: 'Je verbetering en je labverslag zijn er nog.',
+      resumeYes: 'Doorgaan',
+      resumeNo: 'Opnieuw beginnen',
       report: {
         name: 'Naam', className: 'Klas', date: 'Datum',
         sections: ['Onderzoeksvraag', 'Hypothese', 'Materiaal', 'Werkwijze', 'Waarnemingen en resultaten', 'Interpretatie', 'Besluit'],
@@ -207,6 +232,11 @@
     `<path d="M19.6 13.4A7.8 7.8 0 1 1 17.3 6.6" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>` +
     `<path d="M18.6 2.9v4.6H14" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
+  // Lecture dans un cercle : reprendre.
+  const RESUME_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
+    `<circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2.3"/>` +
+    `<path d="M10.2 8.4v7.2l5.6-3.6z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>`;
+
   /* ===== Éléments partagés par tous les labos de la page =====
      Le fantôme qui suit le doigt pendant un glisser, et le rapport imprimé
      (seul élément visible à l'impression, voir lab-engine.css). */
@@ -269,8 +299,9 @@
 
     const glossary = Object.assign({}, COMMON_GLOSSARY, def.glossary || {});
 
+    // reached, activeMs et locksHit servent au suivi (voir Reprise et suivi).
     function freshFrameState() {
-      return { step: 1, checked: false, showMissing: false };
+      return { step: 1, checked: false, showMissing: false, reached: 1, activeMs: 0, locksHit: 0 };
     }
 
     /* Animation interrompue dès que la scène change (autre étape, autre
@@ -342,8 +373,17 @@
       // Seul chemin vers l'étape 4 : la correction verrouille le labo.
       finish() {
         lab.state.checked = true;
+        lab.state.reached = 4;
+        const s = def.summary ? def.summary() : {};
+        track('lab_checked', {
+          score: s.score, total: s.total, criteria: s.criteria || {},
+          minutes: activeMinutes(), locksHit: lab.state.locksHit, details: s.details || {}
+        });
         lab.goToStep(4);
       },
+
+      // Enregistrer tout de suite (le moteur le fait déjà après chaque action).
+      save() { saveProgress(); },
 
       makeDraggable,
       setLock,
@@ -368,13 +408,17 @@
        Dans le style du site, par-dessus le labo (jamais window.confirm).
        lab.confirm({ title, text, confirm, cancel, danger }) → Promise<bool>.
        Annuler : bouton, Échap ou toucher à côté. Le focus va sur « Annuler » :
-       Entrée par réflexe n'efface rien. */
+       Entrée par réflexe n'efface rien. Quand c'est la réponse « oui » qui ne
+       fait rien perdre (reprendre son travail) : focus: 'yes' et dismiss: true
+       (Échap et toucher à côté valent alors « oui »). */
     let dialogResolve = null;
+    let dialogDismiss = false;
 
     function confirmDialog(o) {
-      closeDialog(false);
+      closeDialog(dialogDismiss);
       return new Promise(resolve => {
         dialogResolve = resolve;
+        dialogDismiss = !!o.dismiss;
         dialogEl.innerHTML = `<div class="lab-dialog-card ${o.danger ? 'is-danger' : ''}" role="alertdialog" aria-modal="true" aria-labelledby="lab-dialog-title-${def.id}" aria-describedby="lab-dialog-text-${def.id}">` +
           `<div class="lab-dialog-icon" aria-hidden="true">${o.icon || RESTART_SVG}</div>` +
           `<h3 class="lab-dialog-title" id="lab-dialog-title-${def.id}">${o.title}</h3>` +
@@ -393,8 +437,8 @@
           const i = buttons.indexOf(document.activeElement);
           buttons[(i + (e.shiftKey ? buttons.length - 1 : 1)) % buttons.length].focus();
         };
-        dialogEl.onclick = e => { if (e.target === dialogEl) closeDialog(false); };
-        buttons[0].focus({ preventScroll: true });
+        dialogEl.onclick = e => { if (e.target === dialogEl) closeDialog(dialogDismiss); };
+        buttons[o.focus === 'yes' ? 1 : 0].focus({ preventScroll: true });
       });
     }
 
@@ -417,10 +461,116 @@
     card.querySelector('[data-lab-restart]').addEventListener('click', askRestart);
 
     function restart() {
+      clearProgress();
       lab.state = freshFrameState();
       def.reset();
+      if (activeSince) activeSince = Date.now();
       render();
     }
+
+    /* ===== Reprise et suivi =====
+       Sauvegarde : { v, frame, data }. Rien n'est lu ni écrit avant la
+       première ouverture du labo, et rien n'est écrit tant que l'élève n'a
+       pas commencé. Chaque élève a son propre Chromebook : une sauvegarde
+       par labo et par appareil suffit. */
+    const version = def.version || 1;
+    let progressChecked = false;
+    let saveTimer = 0;
+
+    // Temps actif : labo ouvert et page visible, cumulé d'une séance à l'autre.
+    let activeSince = 0;
+    function startClock() { if (!activeSince) activeSince = Date.now(); }
+    function stopClock() {
+      if (!activeSince) return;
+      lab.state.activeMs += Date.now() - activeSince;
+      activeSince = 0;
+    }
+    function activeMinutes() {
+      const ms = lab.state.activeMs + (activeSince ? Date.now() - activeSince : 0);
+      return Math.round(ms / 6000) / 10;
+    }
+
+    function track(event, data) {
+      if (window.logEvent) window.logEvent(event, Object.assign({ lab: def.id }, data));
+    }
+
+    function readProgress() {
+      try {
+        const saved = JSON.parse(SiteStorage.data.get('labProgress', [def.id]) || 'null');
+        if (!saved || saved.v !== version) return null;
+        return saved;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveProgress() {
+      clearTimeout(saveTimer);
+      if (!progressChecked || !window.SiteStorage || !(def.isStarted() || lab.state.checked)) return;
+      try {
+        const frame = Object.assign({}, lab.state, { showMissing: false });
+        frame.activeMs = lab.state.activeMs + (activeSince ? Date.now() - activeSince : 0);
+        SiteStorage.data.set('labProgress', [def.id], JSON.stringify({ v: version, frame, data: def.save() }));
+      } catch (e) { /* un labo sans save(), ou un état non sérialisable : pas de reprise */ }
+    }
+
+    // Après chaque geste : regroupés, pour ne pas écrire à chaque mouvement.
+    function queueSave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveProgress, 400);
+    }
+
+    function clearProgress() {
+      clearTimeout(saveTimer);
+      if (window.SiteStorage) SiteStorage.data.remove('labProgress', [def.id]);
+    }
+
+    // Remet en place la sauvegarde ; false si rien à reprendre.
+    function loadProgress() {
+      const saved = readProgress();
+      if (!saved) return false;
+      try {
+        def.load(saved.data);
+        lab.state = Object.assign(freshFrameState(), saved.frame, { showMissing: false });
+        return true;
+      } catch (e) {
+        def.reset();
+        lab.state = freshFrameState();
+        return false;
+      }
+    }
+
+    async function askResume() {
+      const st = lab.state;
+      const yes = await confirmDialog({
+        icon: RESUME_SVG,
+        title: st.checked ? L.resumeDoneTitle : L.resumeTitle,
+        text: st.checked ? L.resumeDoneText : L.resumeText(st.step, L.steps[st.step - 1]),
+        confirm: L.resumeYes,
+        cancel: L.resumeNo,
+        focus: 'yes',
+        dismiss: true
+      });
+      // « Start again » passe par la même confirmation que Restart.
+      if (!yes && await confirmDialog({ title: L.restartTitle, text: L.restartText, confirm: L.restartYes, danger: true })) {
+        restart();
+        return false;
+      }
+      return true;
+    }
+
+    card.addEventListener('click', queueSave);
+    card.addEventListener('change', queueSave);
+    card.addEventListener('input', queueSave);
+    document.addEventListener('visibilitychange', () => {
+      if (!overlay.classList.contains('modal-open')) return;
+      if (document.visibilityState === 'hidden') { stopClock(); saveProgress(); }
+      else startClock();
+    });
+    window.addEventListener('pagehide', () => {
+      if (overlay.classList.contains('modal-open')) stopClock();
+      saveProgress();
+    });
 
     /* ===== Traduction des mots soulignés =====
        Une seule bulle, placée dans la carte et positionnée en JS au-dessus du
@@ -531,6 +681,7 @@
       const text = el.dataset.lock;
       const key = el.dataset.lockKey;
       let anchor = el;
+      lab.state.locksHit++;
       // Signaler ce qui manque : l'étape est redessinée, l'élément aussi.
       if (el.dataset.lockMissing && !lab.state.showMissing) {
         lab.state.showMissing = true;
@@ -569,15 +720,25 @@
     }, true);
 
     /* ===== Ouverture / fermeture ===== */
-    function openLab() {
+    async function openLab() {
       overlay.classList.add('modal-open');
       document.body.classList.add('modal-is-open');
+      let resumed = false;
+      if (!progressChecked) {
+        progressChecked = true;
+        resumed = loadProgress();
+      }
+      startClock();
       render();
+      if (resumed) resumed = await askResume();
+      track('lab_opened', { resumed, step: lab.state.step });
     }
 
     function closeLab() {
       sceneToken++;
-      closeDialog(false);
+      closeDialog(dialogDismiss);
+      stopClock();
+      saveProgress();
       hideGloss();
       if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
       overlay.classList.remove('modal-open');
@@ -589,7 +750,7 @@
 
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape' || !overlay.classList.contains('modal-open')) return;
-      if (dialogResolve) { closeDialog(false); return; }
+      if (dialogResolve) { closeDialog(dialogDismiss); return; }
       if (!reportViewEl.hidden) { closeReport(); return; }
       if (!sheetEl.hidden) { closeSheet(); return; }
       if (!document.fullscreenElement) closeLab();
@@ -613,6 +774,12 @@
       renderStepper();
       card.dataset.step = String(lab.state.step);
       def.render[lab.state.step]();
+      // Étape 4 : lab_checked (lab.finish), plus complet.
+      if (lab.state.step > lab.state.reached) {
+        lab.state.reached = lab.state.step;
+        if (lab.state.step < 4) track('lab_step_reached', { step: lab.state.step, minutes: activeMinutes() });
+      }
+      saveProgress();
     }
 
     // Première étape incomplète avant n (null : n est accessible).

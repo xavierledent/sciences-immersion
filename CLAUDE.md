@@ -127,7 +127,14 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   la note du même numéro (pourquoi, bonne réponse) va dans « Correction ».
   Le moteur en tire deux onglets : « My report » (version propre, sans rouge
   ni Correction, ouverte d'abord) et « Corrected report » ; « Print »
-  imprime l'onglet affiché.
+  imprime l'onglet affiché. Reprise : chaque labo fournit `save()` (tirage
+  et travail, en JSON pur), `load(data)` et `version`, à augmenter dès que la
+  forme de `save()` change ; le moteur enregistre (`labProgress` dans
+  [storage.js](storage.js)) et propose « Continue / Start again » à la
+  réouverture. Suivi : `summary()` donne score, critères et détails de
+  l'événement `lab_checked` ; les événements `lab_*` ne sont pas encore
+  envoyés (filtre dans [tracking.js](tracking.js), à lever à la migration
+  Firebase).
 - **Nouveau labo : partir des labos du cours.** Chaque labo virtuel est la
   version d'un labo que les élèves font en vrai en classe. Avant de créer un
   labo pour un chapitre, demander à l'enseignant la liste des labos réels de

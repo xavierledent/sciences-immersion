@@ -1399,6 +1399,25 @@
     lockReason,
     isStarted: () => !!state.hypothesis || state.started,
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
-    report: buildReport
+    report: buildReport,
+    version: 1,
+    save: () => ({ run, state }),
+    // Le sachet sur la balance revient dans son bocal : il suffit de le repeser.
+    load(data) {
+      if (!QUESTIONS[data.run.qid] || !LEAVES[data.run.leaf] || !Array.isArray(data.state.jars)) throw new Error('labProgress');
+      run = data.run;
+      state = Object.assign(data.state, { active: null, lastReading: null });
+      stepperDone = null;
+    },
+    summary() {
+      const ev = evaluate();
+      const criteria = { fair: ev.fair, points: ev.points, answer: ev.answer, verdict: ev.verdict };
+      return {
+        score: Object.values(criteria).filter(Boolean).length,
+        total: 4,
+        criteria,
+        details: { question: run.qid, jars: state.jars.length, hypothesis: state.hypothesis, massesRight: ev.good, masses: ev.total }
+      };
+    }
   });
 })();

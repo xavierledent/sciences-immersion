@@ -60,7 +60,8 @@
     'dndBest',                  // [quizTitle, stat]
     'memoryBest',               // [quizTitle, stat]
     'sortingBest',              // [quizTitle]
-    'autoevalRating'            // [itemId]
+    'autoevalRating',           // [itemId]
+    'labProgress'               // [labId] — JSON {v, frame, data} (lab-engine.js)
   ]);
 
   function dataKey(family, parts) {
