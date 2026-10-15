@@ -243,14 +243,27 @@
   cursor: default;
 }
 
-.lab-step:disabled:not(.is-current):not(.is-done) {
-  opacity: 0.55;
-}
-
-html[data-pointer='fine'] .lab-step:not(:disabled):hover,
+html[data-pointer='fine'] .lab-step:not(:disabled):not(.lab-is-locked):hover,
 .lab-step:not(:disabled):focus-visible {
   background: rgba(var(--color-current-rgb), 0.12);
   outline: none;
+}
+
+/* Étape verrouillée : le cadenas prend la place du numéro */
+.lab-step.lab-is-locked {
+  border-color: var(--lab-locked-border);
+  background: var(--lab-locked-bg);
+  color: var(--lab-locked-text);
+}
+
+.lab-step.lab-is-locked .lab-step-num {
+  background: transparent;
+  color: var(--lab-locked-icon);
+}
+
+.lab-step-num .lab-lock-svg {
+  width: 15px;
+  height: 18px;
 }
 
 .lab-body {
@@ -315,18 +328,112 @@ html[data-pointer='fine'] .lab-step:not(:disabled):hover,
   cursor: not-allowed;
 }
 
-html[data-pointer='fine'] .lab-btn-primary:not(:disabled):hover,
-.lab-btn-primary:not(:disabled):focus-visible {
+html[data-pointer='fine'] .lab-btn-primary:not(:disabled):not(.lab-is-locked):hover,
+.lab-btn-primary:not(:disabled):not(.lab-is-locked):focus-visible {
   background: var(--color-current-dark);
   transform: translateY(-1px);
   outline: none;
 }
 
-html[data-pointer='fine'] .lab-btn-ghost:not(:disabled):hover,
-.lab-btn-ghost:not(:disabled):focus-visible {
+html[data-pointer='fine'] .lab-btn-ghost:not(:disabled):not(.lab-is-locked):hover,
+.lab-btn-ghost:not(:disabled):not(.lab-is-locked):focus-visible {
   background: rgba(var(--color-current-rgb), 0.1);
   transform: translateY(-1px);
   outline: none;
+}
+
+/* ===== Verrous : une seule apparence pour tout ce qui n'est pas encore
+   accessible (boutons, étapes, cases, listes). Pâli, avec un cadenas ;
+   toujours touchable, pour expliquer. ===== */
+.lab-card {
+  --lab-locked-bg: #f1f4f2;
+  --lab-locked-border: #d8dfdb;
+  --lab-locked-text: #7f8b85;
+  --lab-locked-icon: #95a19b;
+}
+
+.lab-is-locked {
+  cursor: not-allowed;
+}
+
+.lab-btn.lab-is-locked,
+.lab-choice.lab-is-locked:not(.is-selected),
+select.lab-is-locked,
+input.lab-is-locked {
+  background: var(--lab-locked-bg);
+  border-color: var(--lab-locked-border);
+  color: var(--lab-locked-text);
+  box-shadow: none;
+}
+
+.lab-btn.lab-is-locked {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lab-lock {
+  display: inline-flex;
+  flex: 0 0 auto;
+  margin-right: 7px;
+  color: var(--lab-locked-icon);
+}
+
+.lab-lock-svg {
+  display: block;
+  width: 14px;
+  height: 17px;
+}
+
+/* Refus : petit mouvement de tête */
+.lab-shake {
+  animation: lab-nudge 0.38s ease;
+}
+
+/* Bulle qui dit ce qui manque, au plus près de l'élément touché */
+.lab-lock-tip {
+  position: absolute;
+  z-index: 60;
+  max-width: 300px;
+  padding: 9px 13px 9px 12px;
+  border-radius: 12px;
+  background: #13243d;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: left;
+  box-shadow: 0 8px 22px rgba(17, 36, 72, 0.25);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.lab-lock-tip.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.lab-lock-tip::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--arrow-x, 50%) - 7px);
+  top: 100%;
+  border: 7px solid transparent;
+  border-top-color: #13243d;
+}
+
+.lab-lock-tip.is-below::after {
+  top: auto;
+  bottom: 100%;
+  border-top-color: transparent;
+  border-bottom-color: #13243d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-shake { animation: none; }
+  .lab-lock-tip { transition: none; }
 }
 
 /* Choix à toucher (hypothèse, oui / non…) : un bouton par option. */

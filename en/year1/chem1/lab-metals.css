@@ -301,8 +301,8 @@ html[data-pointer='fine'] .lab-tool:hover,
 
 .lab-note-lock svg {
   display: block;
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 15px;
 }
 
 .lab-note-q {
@@ -350,12 +350,14 @@ html[data-pointer='fine'] .lab-tool:hover,
   color: var(--color-current-text);
 }
 
-.lab-note-opt:disabled {
-  cursor: not-allowed;
+.lab-note-opt.lab-is-locked {
+  background: var(--lab-locked-bg);
+  border-color: var(--lab-locked-border);
+  color: var(--lab-locked-text);
 }
 
-html[data-pointer='fine'] .lab-note-opt:not(:disabled):not(.is-selected):hover,
-.lab-note-opt:not(:disabled):not(.is-selected):focus-visible {
+html[data-pointer='fine'] .lab-note-opt:not(.lab-is-locked):not(.is-selected):hover,
+.lab-note-opt:not(.lab-is-locked):not(.is-selected):focus-visible {
   background: rgba(var(--color-current-rgb), 0.1);
   outline: none;
 }

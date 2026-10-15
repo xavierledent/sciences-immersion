@@ -46,6 +46,11 @@
     notebookTitle: (id) => `Notebook — sample ${id}`,
     notebookEmpty: 'Put a [sample] on the [bench] to fill in its notebook.',
     notebookLocked: 'Do the test first',
+    lockTests: n => `Finish your tests first: ${n} ${n === 1 ? 'observation' : 'observations'} still to note in the notebook.`,
+    lockHypothesesFixed: 'Your hypotheses are fixed: the tests have started. A scientist does not change the hypothesis after seeing the results!',
+    lockNotebook: 'Do this test first: drag the tool onto the sample.',
+    lockWhichMetal: 'First say whether it is a metal.',
+    lockNotMetal: 'You said it is not a metal: there is nothing to choose.',
     sceneEmpty: 'Drag a sample here',
     sceneEmptySub: 'or tap a sample in the tray',
     captionEmpty: 'Choose a [sample] in the tray and put it on the [bench].',
@@ -531,13 +536,23 @@
     return `<img class="lab-tool-img" src="assets/lab-tool-${id}.webp" alt="" draggable="false">`;
   }
 
-  const LOCK_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+  /* ===== Étapes complètes (progression stricte, voir lab-engine.js) : 1 toutes
+     les hypothèses, 2 toutes les observations notées, 3 toutes les
+     conclusions. */
+  function testsStarted() {
+    return SAMPLES.some(s => Object.keys(state.done[s.id]).length > 0);
+  }
 
-  /* ===== Accès aux étapes =====
-     Étapes 2 et 3 : toutes les hypothèses d'abord (l'étape 1 et la
-     correction sont gérées par le cadre). */
-  function canReach() {
-    return SAMPLES.every(s => state.hypotheses[s.id]);
+  function stepComplete(n) {
+    if (n === 1) return SAMPLES.every(s => state.hypotheses[s.id]);
+    if (n === 2) return countNotes() === SAMPLES.length * TESTS.length;
+    return conclusionsComplete();
+  }
+
+  function lockReason(n) {
+    if (n === 1) return lab.L.missingHypotheses;
+    if (n === 2) return LABELS.lockTests(SAMPLES.length * TESTS.length - countNotes());
+    return lab.L.missingConclusions;
   }
 
   /* ===== Étape 1 : hypothèses ===== */
@@ -563,15 +578,18 @@
       });
     });
 
+    // Hypothèses figées dès le premier test : on les relit, on ne les change plus.
+    if (testsStarted()) {
+      lab.body.querySelectorAll('[data-hyp]').forEach(b => lab.setLock(b, LABELS.lockHypothesesFixed, { icon: false }));
+    }
+
     const n = SAMPLES.filter(s => state.hypotheses[s.id]).length;
     const missing = lab.state.showMissing && n < SAMPLES.length;
     lab.footer.innerHTML = lab.footerInfo(missing ? lab.L.missingHypotheses : LABELS.predictCount(n, SAMPLES.length), missing) +
       `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" id="lab-next">${LABELS.startTesting} →</button></div>`;
-    $('#lab-next').addEventListener('click', () => {
-      if (n === SAMPLES.length) { lab.goToStep(2); return; }
-      lab.state.showMissing = true;
-      renderPredict();
-    });
+    const next = $('#lab-next');
+    next.addEventListener('click', () => lab.goToStep(2));
+    lab.setLock(next, n === SAMPLES.length ? null : lab.L.missingHypotheses, { missing: true, key: 'next' });
   }
 
   /* ===== Étape 2 : paillasse ===== */
@@ -603,7 +621,10 @@
       `<button type="button" class="lab-btn lab-btn-ghost" id="lab-table-btn">${LABELS.resultsTable}</button>` +
       `<button type="button" class="lab-btn lab-btn-primary" id="lab-next">${LABELS.toConclude} →</button></div>`;
     $('#lab-table-btn').addEventListener('click', () => openSheet('table'));
-    $('#lab-next').addEventListener('click', () => lab.goToStep(3));
+    const next = $('#lab-next');
+    next.addEventListener('click', () => lab.goToStep(3));
+    lab.setLock(next, stepComplete(2) ? null : lockReason(2), { missing: true, key: 'next' });
+    lab.renderStepper();
   }
 
   function renderTray() {
@@ -613,7 +634,8 @@
       const n = Object.keys(state.notes[s.id]).length;
       const dots = TESTS.map(t => `<i class="${state.notes[s.id][t.id] ? 'is-on' : ''}"></i>`).join('');
       const onBench = state.current === s.id;
-      return `<button type="button" class="lab-tray-item ${onBench ? 'is-on-bench' : ''}" data-sample="${s.id}" aria-label="Sample ${s.id}, ${n} of 5 observations">` +
+      const missing = lab.state.showMissing && n < TESTS.length;
+      return `<button type="button" class="lab-tray-item ${onBench ? 'is-on-bench' : ''} ${missing ? 'lab-is-missing' : ''}" data-sample="${s.id}" aria-label="Sample ${s.id}, ${n} of 5 observations">` +
         `<span class="lab-tray-letter">${s.id}</span>${thumbSVG(s.id)}<span class="lab-dots" aria-hidden="true">${dots}</span></button>`;
     }).join('');
     tray.querySelectorAll('.lab-tray-item').forEach(el => {
@@ -657,14 +679,15 @@
     const rows = TESTS.map(t => {
       const done = state.done[id][t.id];
       const val = state.notes[id][t.id];
-      const opts = t.options.map(o => `<button type="button" class="lab-note-opt ${val === o ? 'is-selected' : ''}" data-test="${t.id}" data-val="${o}" ${done ? '' : 'disabled'} aria-pressed="${val === o}">${LABELS.options[o]}</button>`).join('');
+      const opts = t.options.map(o => `<button type="button" class="lab-note-opt ${val === o ? 'is-selected' : ''}" data-test="${t.id}" data-val="${o}" aria-pressed="${val === o}">${LABELS.options[o]}</button>`).join('');
       return `<div class="lab-note-row ${done ? '' : 'is-locked'} ${done && !val ? 'is-pending' : ''} ${t.options.length > 2 ? 'is-four' : ''}" data-row="${t.id}">` +
         `<div class="lab-note-head"><span class="lab-note-icon">${toolImg(t.id)}</span><span class="lab-note-name">${LABELS.tests[t.id].name}</span>` +
-        `${done ? '' : `<span class="lab-note-lock" title="${LABELS.notebookLocked}" aria-label="${LABELS.notebookLocked}">${LOCK_ICON}</span>`}</div>` +
+        `${done ? '' : `<span class="lab-note-lock" title="${LABELS.notebookLocked}" aria-label="${LABELS.notebookLocked}">${lab.lockIcon}</span>`}</div>` +
         `<p class="lab-note-q">${gloss(LABELS.tests[t.id].question)}</p>` +
         `<div class="lab-note-opts">${opts}</div></div>`;
     }).join('');
     nb.innerHTML = `<h3 class="lab-panel-title">${LABELS.notebookTitle(id)}</h3><div class="lab-note-rows">${rows}</div>`;
+    nb.querySelectorAll('.lab-note-row.is-locked .lab-note-opt').forEach(b => lab.setLock(b, LABELS.lockNotebook, { icon: false }));
     nb.querySelectorAll('.lab-note-opt').forEach(b => {
       b.addEventListener('click', () => {
         state.notes[id][b.dataset.test] = b.dataset.val;
@@ -1258,7 +1281,7 @@
         concl = `<td><div class="lab-yesno">` +
           `<button type="button" class="lab-choice ${c.isMetal === true ? 'is-selected' : ''}" data-concl="${s.id}" data-val="yes" aria-pressed="${c.isMetal === true}">${LABELS.yes}</button>` +
           `<button type="button" class="lab-choice ${c.isMetal === false ? 'is-selected' : ''}" data-concl="${s.id}" data-val="no" aria-pressed="${c.isMetal === false}">${LABELS.no}</button></div></td>` +
-          `<td><select class="lab-select" data-metal="${s.id}" ${c.isMetal === true ? '' : 'disabled'} aria-label="${LABELS.colWhich} ${s.id}">` +
+          `<td><select class="lab-select" data-metal="${s.id}" aria-label="${LABELS.colWhich} ${s.id}">` +
           `<option value="">${c.isMetal === false ? '—' : LABELS.choose}</option>${metalOpts}</select></td>`;
       }
       const missing = withConclusions && lab.state.showMissing && !conclusionDone(s);
@@ -1289,6 +1312,8 @@
       });
     });
     lab.body.querySelectorAll('[data-metal]').forEach(sel => {
+      const isMetal = state.conclusions[sel.dataset.metal].isMetal;
+      if (isMetal !== true) lab.setLock(sel, isMetal === false ? LABELS.lockNotMetal : LABELS.lockWhichMetal);
       sel.addEventListener('change', () => {
         state.conclusions[sel.dataset.metal].metal = sel.value;
         if (lab.state.showMissing) sel.closest('tr').classList.toggle('is-missing', !conclusionDone(sampleById(sel.dataset.metal)));
@@ -1308,14 +1333,10 @@
       `<button type="button" class="lab-btn lab-btn-primary" id="lab-check">${LABELS.checkConclusions}</button></div>`;
     $('#lab-back').addEventListener('click', () => lab.goToStep(2));
     $('#lab-ref').addEventListener('click', () => openSheet('reference'));
-    $('#lab-check').addEventListener('click', () => {
-      if (!ready) {
-        lab.state.showMissing = true;
-        renderConclude();
-        return;
-      }
-      lab.finish();
-    });
+    const check = $('#lab-check');
+    check.addEventListener('click', () => lab.finish());
+    lab.setLock(check, ready ? null : lab.L.missingConclusions, { missing: true, key: 'check' });
+    lab.renderStepper();
   }
 
   /* ===== Étape 4 : correction ===== */
@@ -1467,7 +1488,8 @@
     title: LABELS.title,
     glossary: GLOSSARY,
     reset,
-    canReach,
+    stepComplete,
+    lockReason,
     isStarted: () => Object.keys(state.hypotheses).length > 0,
     render: { 1: renderPredict, 2: renderTest, 3: renderConclude, 4: renderCheck },
     report: buildReport

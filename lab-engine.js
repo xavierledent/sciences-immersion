@@ -19,13 +19,24 @@
      id, title,
      glossary   : { mot: 'traduction' }, complète le lexique commun,
      reset()    : (re)crée l'état propre au labo, avec un nouveau tirage,
-     canReach(n): étape 2 ou 3 accessible ? (1 l'est toujours ; 4 seulement
-                  par lab.finish(), et après Check plus rien d'autre),
+     stepComplete(n): l'étape 1, 2 ou 3 est-elle complète ? Progression
+                  stricte : une étape ne s'ouvre que si toutes celles d'avant
+                  sont complètes ; on peut toujours revenir en arrière. Check
+                  (4) passe par lab.finish(), et après Check plus rien d'autre,
+     lockReason(n): pourquoi l'étape n n'est pas complète, en une phrase
+                  (texte de la bulle sur ce qui reste verrouillé),
      isStarted(): l'élève a-t-il commencé ? (avertissement avant de quitter),
      render     : { 1: fn, 2: fn, 3: fn, 4: fn }, chacune remplit lab.body et
                   le pied de page (lab.setFooter, ou lab.checkFooter à l'étape 4),
      report()   : { title, sections: [7 × html], correction: html }
    }
+
+   Verrous (règle commune à tout ce qui n'est pas encore accessible, barre
+   d'étapes comprise) : lab.setLock(el, raison, { missing, key }). L'élément
+   reste touchable mais pâli, avec un cadenas ; le toucher le fait refuser
+   d'un petit mouvement et ouvre une bulle juste à côté, qui dit ce qui
+   manque. missing : signaler aussi en rouge ce qui reste à faire (l'étape
+   est redessinée avec lab.state.showMissing ; key retrouve l'élément ensuite).
 
    Rien n'est enregistré : recharger la page repart de zéro. */
 
@@ -42,6 +53,8 @@
       missingHypotheses: 'Some hypotheses are still missing.',
       missingHypothesis: 'Your hypothesis is not complete yet.',
       missingConclusions: 'Some conclusions are still missing.',
+      lockedFinished: 'The lab is finished. Restart it to try again.',
+      lockedCheck: 'Answer all the questions of “Conclude” first.',
       namePlaceholder: 'Your name',
       classPlaceholder: 'Class',
       printReport: 'Print my lab report',
@@ -61,6 +74,8 @@
       missingHypotheses: 'Er ontbreken nog hypotheses.',
       missingHypothesis: 'Je hypothese is nog niet volledig.',
       missingConclusions: 'Er ontbreken nog besluiten.',
+      lockedFinished: 'Het lab is klaar. Start het opnieuw om het nog eens te proberen.',
+      lockedCheck: 'Beantwoord eerst alle vragen van “Besluiten”.',
       namePlaceholder: 'Je naam',
       classPlaceholder: 'Klas',
       printReport: 'Mijn labverslag afdrukken',
@@ -125,6 +140,15 @@
   };
 
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Cadenas des verrous : anse arrondie, corps à reflet, trou de serrure.
+     Couleur du texte (currentColor) : il prend le ton de ce qu'il verrouille. */
+  const LOCK_SVG = `<svg class="lab-lock-svg" viewBox="0 0 20 24" aria-hidden="true" focusable="false">` +
+    `<path d="M5.6 10.5V7.4a4.4 4.4 0 0 1 8.8 0v3.1" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>` +
+    `<rect x="2.4" y="10" width="15.2" height="12.2" rx="3.2" fill="currentColor"/>` +
+    `<rect x="4.1" y="11.5" width="11.8" height="2.4" rx="1.2" fill="#ffffff" fill-opacity="0.28"/>` +
+    `<circle cx="10" cy="16.1" r="1.75" fill="#ffffff"/>` +
+    `<path d="M10 17.2v2.3" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round"/></svg>`;
 
   /* ===== Éléments partagés par tous les labos de la page =====
      Le fantôme qui suit le doigt pendant un glisser, et le rapport imprimé
@@ -254,6 +278,8 @@
       },
 
       makeDraggable,
+      setLock,
+      lockIcon: LOCK_SVG,
       openSheet,
       closeSheet,
 
@@ -325,6 +351,111 @@
       if (e.target.classList.contains('lab-gloss')) hideGloss();
     });
 
+    /* ===== Verrous =====
+       Un élément verrouillé n'est jamais un bouton grisé muet : il porte
+       aria-disabled (le lecteur d'écran l'annonce) mais reste touchable.
+       Les gestes sur lui sont interceptés ici, avant le labo (phase de
+       capture) : pas de clic, pas de glisser, pas d'ouverture de liste. */
+    const lockTip = document.createElement('div');
+    lockTip.className = 'lab-lock-tip';
+    lockTip.setAttribute('role', 'status');
+    card.appendChild(lockTip);
+    let lockTipTimer = 0;
+
+    function setLock(el, reason, opts) {
+      if (!el) return;
+      const o = opts || {};
+      const icon = el.querySelector(':scope > .lab-lock');
+      if (!reason) {
+        el.classList.remove('lab-is-locked');
+        el.removeAttribute('aria-disabled');
+        delete el.dataset.lock;
+        delete el.dataset.lockMissing;
+        if (icon) icon.remove();
+        return;
+      }
+      el.classList.add('lab-is-locked');
+      el.setAttribute('aria-disabled', 'true');
+      el.dataset.lock = reason;
+      if (o.key) el.dataset.lockKey = o.key;
+      if (o.missing) el.dataset.lockMissing = '1';
+      else delete el.dataset.lockMissing;
+      if (o.icon !== false && !icon && !['SELECT', 'INPUT', 'TEXTAREA'].includes(el.tagName)) {
+        el.insertAdjacentHTML('afterbegin', `<span class="lab-lock" aria-hidden="true">${LOCK_SVG}</span>`);
+      }
+    }
+
+    function lockedFrom(e) {
+      const el = e.target.closest ? e.target.closest('.lab-is-locked') : null;
+      return el && card.contains(el) ? el : null;
+    }
+
+    function hideLockTip() {
+      clearTimeout(lockTipTimer);
+      lockTip.classList.remove('is-visible');
+    }
+
+    function showLockTip(anchor, text) {
+      lockTip.textContent = text;
+      lockTip.classList.add('is-visible');
+      const c = card.getBoundingClientRect();
+      const a = anchor.getBoundingClientRect();
+      const t = lockTip.getBoundingClientRect();
+      const gap = 10;
+      let top = a.top - c.top - t.height - gap;
+      let below = false;
+      if (top < 4) { top = a.bottom - c.top + gap; below = true; }
+      const centre = a.left - c.left + a.width / 2;
+      const left = Math.max(6, Math.min(c.width - t.width - 6, centre - t.width / 2));
+      lockTip.style.top = `${top}px`;
+      lockTip.style.left = `${left}px`;
+      lockTip.style.setProperty('--arrow-x', `${centre - left}px`);
+      lockTip.classList.toggle('is-below', below);
+      clearTimeout(lockTipTimer);
+      lockTipTimer = setTimeout(hideLockTip, 4500);
+    }
+
+    function explainLock(el) {
+      const text = el.dataset.lock;
+      const key = el.dataset.lockKey;
+      let anchor = el;
+      // Signaler ce qui manque : l'étape est redessinée, l'élément aussi.
+      if (el.dataset.lockMissing && !lab.state.showMissing) {
+        lab.state.showMissing = true;
+        render();
+        anchor = key ? card.querySelector(`[data-lock-key="${key}"]`) : null;
+      }
+      if (!anchor || !anchor.isConnected) return;
+      anchor.classList.remove('lab-shake');
+      void anchor.offsetWidth;
+      anchor.classList.add('lab-shake');
+      showLockTip(anchor, anchor.dataset.lock || text);
+    }
+
+    const swallow = e => {
+      if (!lockedFrom(e)) return;
+      e.preventDefault();
+      e.stopPropagation();
+    };
+    card.addEventListener('pointerdown', e => { if (!lockedFrom(e)) hideLockTip(); swallow(e); }, true);
+    card.addEventListener('mousedown', swallow, true);
+    card.addEventListener('click', e => {
+      const el = lockedFrom(e);
+      if (!el) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      explainLock(el);
+    }, true);
+    // Clavier : un bouton passe par le clic ; le reste (liste, zone SVG)
+    // s'explique à Entrée ou Espace, et une liste verrouillée ne change pas.
+    card.addEventListener('keydown', e => {
+      const el = lockedFrom(e);
+      if (!el || el.tagName === 'BUTTON' || e.key === 'Tab') return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.key === 'Enter' || e.key === ' ') explainLock(el);
+    }, true);
+
     /* ===== Ouverture / fermeture ===== */
     function openLab() {
       overlay.classList.add('modal-open');
@@ -361,30 +492,54 @@
     function render() {
       sceneToken++;
       hideGloss();
+      hideLockTip();
       closeSheet();
       renderStepper();
       card.dataset.step = String(lab.state.step);
       def.render[lab.state.step]();
     }
 
-    function canReach(n) {
-      if (lab.state.checked) return n === 4;
-      if (n === 1) return true;
-      if (n === 4) return false;
-      return def.canReach(n);
+    // Première étape incomplète avant n (null : n est accessible).
+    function blockingStep(n) {
+      for (let k = 1; k < n; k++) if (!def.stepComplete(k)) return k;
+      return null;
     }
 
+    function canReach(n) {
+      if (lab.state.checked) return n === 4;
+      return blockingStep(n) == null;
+    }
+
+    function stepLockReason(n) {
+      if (lab.state.checked) return L.lockedFinished;
+      const k = blockingStep(n);
+      return k === 3 ? L.lockedCheck : def.lockReason(k);
+    }
+
+    /* Barre d'étapes : l'étape en cours est un repère (inerte) ; les autres
+       s'ouvrent si elles sont accessibles, sinon portent un cadenas qui dit
+       pourquoi, comme partout. Check (4), une fois Conclude complet, fait la
+       même chose que « Check my conclusions ». */
     function renderStepper() {
       const st = lab.state;
       stepperEl.innerHTML = L.steps.map((label, i) => {
         const n = i + 1;
-        const cls = n === st.step ? 'is-current' : (n < st.step || (st.checked && n < 4) ? 'is-done' : '');
-        const disabled = n === st.step || !canReach(n);
-        return `<li><button type="button" class="lab-step ${cls}" data-step="${n}" ${disabled ? 'disabled' : ''} ${n === st.step ? 'aria-current="step"' : ''}>` +
-          `<span class="lab-step-num">${n}</span><span class="lab-step-label">${label}</span></button></li>`;
+        const current = n === st.step;
+        const locked = !current && !canReach(n);
+        const cls = current ? 'is-current' : (n < st.step || (st.checked && n < 4) ? 'is-done' : '');
+        return `<li><button type="button" class="lab-step ${cls}" data-step="${n}" ${current ? 'disabled aria-current="step"' : ''}>` +
+          `<span class="lab-step-num">${locked ? LOCK_SVG : n}</span><span class="lab-step-label">${label}</span></button></li>`;
       }).join('');
       stepperEl.querySelectorAll('button[data-step]').forEach(b => {
-        b.addEventListener('click', () => lab.goToStep(Number(b.dataset.step)));
+        const n = Number(b.dataset.step);
+        if (n !== st.step && !canReach(n)) {
+          // Ce qui bloque est l'étape affichée : on peut le montrer en rouge.
+          setLock(b, stepLockReason(n), { icon: false, key: `step-${n}`, missing: blockingStep(n) === st.step });
+        }
+        b.addEventListener('click', () => {
+          if (n === 4 && !st.checked) lab.finish();
+          else lab.goToStep(n);
+        });
       });
     }
 

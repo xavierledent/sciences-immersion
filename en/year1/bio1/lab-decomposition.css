@@ -495,14 +495,24 @@ html[data-pointer='fine'] .dc-add-card:hover,
   color: var(--color-current-darker);
 }
 
-/* « Conclude » avant la fin de l'expérience : pâli, mais cliquable */
-.lab-footer [data-conclude].lab-btn-ghost {
-  opacity: 0.5;
+/* « Wait 2 weeks » verrouillé : le cadenas remplace le calendrier */
+.dc-wait-btn.lab-is-locked {
+  border-color: var(--lab-locked-border);
+  background: var(--lab-locked-bg);
+  color: var(--lab-locked-text);
 }
 
-html[data-pointer='fine'] .lab-footer [data-conclude].lab-btn-ghost:hover,
-.lab-footer [data-conclude].lab-btn-ghost:focus-visible {
-  opacity: 1;
+.dc-wait-btn.lab-is-locked .dc-wait-icon {
+  display: none;
+}
+
+.dc-wait-btn > .lab-lock {
+  margin-right: 0;
+}
+
+.dc-wait-btn > .lab-lock .lab-lock-svg {
+  width: 20px;
+  height: 24px;
 }
 
 /* Pendant l'attente : seule la barre avance */
@@ -1003,9 +1013,21 @@ html[data-pointer='fine'] .dc-jar-svg:has(.dc-bag-hit:hover) .dc-bag-net,
 
 /* Case pas encore disponible : le sachet n'a pas été pesé */
 .dc-cell-wait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-style: dashed;
   border-color: rgba(17, 36, 72, 0.2);
   background: transparent;
+}
+
+.dc-cell-wait > .lab-lock {
+  margin-right: 0;
+}
+
+.dc-cell-wait .lab-lock-svg {
+  width: 11px;
+  height: 13px;
 }
 
 .dc-cell-input.lab-is-missing,

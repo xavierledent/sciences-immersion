@@ -30,8 +30,7 @@
 (function () {
   'use strict';
 
-  const { escapeHtml, mulberry32, seedFrom, pick, lerp, ease } = LabEngine.util;
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const { escapeHtml, mulberry32, seedFrom, pick, lerp, ease, reduceMotion } = LabEngine.util;
 
   // Cadre commun, créé en fin de fichier (LabEngine.create).
   let lab;
@@ -89,6 +88,12 @@
     setupInfo: n => n === 0 ? 'No jar yet' : n === 1 ? '1 jar prepared' : `${n} jars prepared`,
     setupNoJar: 'Add a jar first.',
     setupOneJar: 'With only one jar, what will you compare it to?',
+    lockHypothesis: 'Complete your hypothesis first.',
+    lockHypothesisFixed: 'Your hypothesis is fixed: the experiment has started. A scientist does not change the hypothesis after seeing the results!',
+    lockNotStarted: 'Prepare your jars and carry out the experiment first.',
+    lockExperiment: n => `Finish your experiment first: ${n} ${n === 1 ? 'mass' : 'masses'} still to write in the table.`,
+    lockWait: left => `First weigh every bag and write its mass: ${left === 1 ? '1 jar' : left + ' jars'} left.`,
+    lockCell: n => `First weigh the bag of jar ${n} on the balance.`,
     startExperiment: 'Start the experiment',
 
     placeLabel: { room: 'Room · 20 °C', fridge: 'Fridge · 4 °C' },
@@ -244,7 +249,6 @@
       weighed: {},         // bocaux pesés pendant la semaine en cours
       active: null,        // bocal dont le sachet est sur la balance
       lastReading: null,   // { jar, value } affiché sur la balance
-      setupWarning: null,  // message du pied de page à la préparation
       conclusion: { pair: [], differ: [], answer: null, verdict: null },
       selected: 'fair'
     };
@@ -591,11 +595,26 @@
     panel.addEventListener('pointerleave', () => { tip.hidden = true; });
   }
 
-  /* ===== Accès aux étapes =====
-     Étapes 2 et 3 : l'hypothèse d'abord. La conclusion reste accessible même
-     si l'expérience n'est pas finie (pas de verrou propre à ce labo). */
-  function canReach() {
-    return !!state.hypothesis;
+  /* ===== Étapes complètes (progression stricte, voir lab-engine.js) =====
+     1 : l'hypothèse ; 2 : l'expérience jusqu'à la semaine 8, toutes les
+     masses notées ; 3 : toutes les questions de la conclusion. */
+  function experimentDone() {
+    return state.started && state.wi === WEEKS.length - 1 && weekComplete();
+  }
+
+  function stepComplete(n) {
+    if (n === 1) return !!state.hypothesis;
+    if (n === 2) return experimentDone();
+    return conclusionsComplete();
+  }
+
+  function lockReason(n) {
+    if (n === 1) return LABELS.lockHypothesis;
+    if (n === 2) {
+      if (!state.started) return LABELS.lockNotStarted;
+      return LABELS.lockExperiment(state.jars.length * (WEEKS.length - 1) - pointsPlaced());
+    }
+    return lab.L.missingConclusions;
   }
 
   /* ===== Étape 1 : hypothèse ===== */
@@ -627,16 +646,21 @@
       renderPredict();
       lab.renderStepper();
     }));
-    $('.dc-because-input').addEventListener('input', e => { state.because = e.target.value; });
+    const because = $('.dc-because-input');
+    because.addEventListener('input', e => { state.because = e.target.value; });
+    // Hypothèse figée dès que l'expérience a commencé : on la relit, on ne la change plus.
+    if (state.started) {
+      $$('[data-hyp]').forEach(btn => lab.setLock(btn, LABELS.lockHypothesisFixed, { icon: false }));
+      because.readOnly = true;
+      lab.setLock(because, LABELS.lockHypothesisFixed);
+    }
 
     const info = missing ? lab.footerInfo(lab.L.missingHypothesis, true)
       : lab.footerInfo(state.hypothesis ? LABELS.hypothesisReady : LABELS.hypothesisPending);
     lab.setFooter(info + `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" data-next>${LABELS.toSetup} →</button></div>`);
-    $('[data-next]').addEventListener('click', () => {
-      if (state.hypothesis) { lab.goToStep(2); return; }
-      lab.state.showMissing = true;
-      renderPredict();
-    });
+    const next = $('[data-next]');
+    next.addEventListener('click', () => lab.goToStep(2));
+    lab.setLock(next, state.hypothesis ? null : LABELS.lockHypothesis, { missing: true, key: 'next' });
   }
 
   function leafIcon() {
@@ -667,7 +691,7 @@
         `<div class="dc-set-rows">${rows}</div></div>`;
     }).join('');
     const add = state.jars.length < MAX_JARS
-      ? `<button type="button" class="dc-add-card ${state.jars.length ? '' : 'is-alone'} ${state.setupWarning === 'none' ? 'lab-is-missing' : ''}" data-add><span class="dc-add-plus" aria-hidden="true">+</span>${LABELS.addJar}</button>` : '';
+      ? `<button type="button" class="dc-add-card ${state.jars.length ? '' : 'is-alone'} ${lab.state.showMissing && state.jars.length < 2 ? 'lab-is-missing' : ''}" data-add><span class="dc-add-plus" aria-hidden="true">+</span>${LABELS.addJar}</button>` : '';
 
     lab.body.innerHTML = `<div class="dc-setup">` +
       `<p class="lab-instructions dc-setup-intro">${gloss(LABELS.setupIntro(LABELS.leaves[run.leaf]))}</p>` +
@@ -680,29 +704,23 @@
     }));
     $$('[data-remove]').forEach(btn => btn.addEventListener('click', () => {
       state.jars.splice(Number(btn.dataset.remove), 1);
-      state.setupWarning = null;
+      lab.state.showMissing = false;
       renderSetup();
     }));
     const addBtn = $('[data-add]');
     if (addBtn) addBtn.addEventListener('click', () => {
       const last = state.jars[state.jars.length - 1];
       state.jars.push(Object.assign({}, last || DEFAULT_JAR));
-      state.setupWarning = null;
+      lab.state.showMissing = false;
       renderSetup();
     });
 
-    const warning = state.setupWarning === 'none' ? LABELS.setupNoJar : state.setupWarning === 'one' ? LABELS.setupOneJar : null;
-    lab.setFooter(lab.footerInfo(warning || LABELS.setupInfo(state.jars.length), !!warning) +
+    lab.setFooter(lab.footerInfo(LABELS.setupInfo(state.jars.length)) +
       `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" data-start>${LABELS.startExperiment} →</button></div>`);
-    $('[data-start]').addEventListener('click', () => {
-      if (state.jars.length < 2) {
-        state.setupWarning = state.jars.length ? 'one' : 'none';
-        renderSetup();
-        return;
-      }
-      state.setupWarning = null;
-      startExperiment();
-    });
+    const start = $('[data-start]');
+    start.addEventListener('click', startExperiment);
+    const n = state.jars.length;
+    lab.setLock(start, n === 0 ? LABELS.setupNoJar : n === 1 ? LABELS.setupOneJar : null, { missing: true, key: 'start' });
   }
 
   function startExperiment() {
@@ -786,9 +804,7 @@
         weigh(j, netRect());
       });
     });
-    $$('[data-wait-cell]').forEach(btn => btn.addEventListener('click', () => {
-      setCaption(state.wi === 0 ? LABELS.captionStart : LABELS.captionNeedWeigh(Number(btn.dataset.waitCell) + 1), true);
-    }));
+    $$('[data-wait-cell]').forEach(btn => lab.setLock(btn, LABELS.lockCell(Number(btn.dataset.waitCell) + 1)));
     $$('[data-cell]').forEach(input => {
       input.addEventListener('input', () => input.classList.remove('is-invalid'));
       input.addEventListener('change', () => recordMass(Number(input.dataset.cell), input));
@@ -841,6 +857,7 @@
     if (title) title.textContent = complete ? LABELS.experimentOver : LABELS.lastWeighing;
     const btn = $('.dc-wait-btn');
     if (btn) btn.classList.toggle('is-ready', complete);
+    if (btn && !last) lab.setLock(btn, complete ? null : LABELS.lockWait(left), { missing: true, key: 'wait' });
     const now = $('[data-tl-now]');
     if (now) now.textContent = complete ? '✓' : LABELS.tlWeigh;
     const node = $('.dc-tl-node.is-now');
@@ -961,6 +978,8 @@
     updateRunFooter();
   }
 
+  let stepperDone = null;
+
   function updateRunFooter() {
     const total = state.jars.length * (WEEKS.length - 1);
     const missing = lab.state.showMissing && !weekComplete();
@@ -969,12 +988,15 @@
       info.textContent = missing ? LABELS.missingPoints : LABELS.runInfo(WEEKS[state.wi], pointsPlaced(), total);
       info.classList.toggle('is-warning', missing);
     }
-    const done = state.wi === WEEKS.length - 1 && weekComplete();
+    const done = experimentDone();
     const concl = $('[data-conclude]');
     if (concl) {
       concl.classList.toggle('lab-btn-primary', done);
       concl.classList.toggle('lab-btn-ghost', !done);
+      lab.setLock(concl, done ? null : lockReason(2), { missing: true, key: 'conclude' });
     }
+    // La barre d'étapes ne change qu'à la fin de l'expérience (Conclude s'ouvre).
+    if (done !== stepperDone) { stepperDone = done; lab.renderStepper(); }
   }
 
   /* Pesée : le sachet quitte son bocal (creux dans le sol) et se pose sur la
@@ -1118,12 +1140,14 @@
     $$('[data-verdict]').forEach(btn => btn.addEventListener('click', () => { c.verdict = btn.dataset.verdict; renderConclude(); }));
 
     const ready = conclusionsComplete();
+    lab.renderStepper();
     lab.setFooter(`<button type="button" class="lab-btn lab-btn-ghost" data-back>← ${LABELS.backToLab}</button>` +
       (lab.state.showMissing && !ready ? lab.footerInfo(lab.L.missingConclusions, true) : '') +
       `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" data-check>${LABELS.checkConclusions}</button></div>`);
     $('[data-back]').addEventListener('click', () => lab.goToStep(2));
-    $('[data-check]').addEventListener('click', () => {
-      if (!ready) { lab.state.showMissing = true; renderConclude(); return; }
+    const check = $('[data-check]');
+    lab.setLock(check, ready ? null : lab.L.missingConclusions, { missing: true, key: 'check' });
+    check.addEventListener('click', () => {
       lab.finish();
     });
   }
@@ -1328,7 +1352,8 @@
     title: LABELS.title,
     glossary: GLOSSARY,
     reset,
-    canReach,
+    stepComplete,
+    lockReason,
     isStarted: () => !!state.hypothesis || state.started,
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport
