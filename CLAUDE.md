@@ -106,8 +106,10 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   signaler (détail dans [docs/formats-donnees.md](docs/formats-donnees.md)).
 - **Texte des JSON.** Seules les balises `<strong>`, `<em>`, `<u>` et `<br>`
   sont interprétées.
-- **Chromebook tactile à 125 %.** Pas de défilement dans les modales, tactile
-  au même niveau que la souris, tailles mesurées en JS plutôt que supposées.
+- **Chromebook tactile (100 %) ; un écran de bureau zoomé à 125 % en donne
+  un aperçu proche.** Les calculs de place se font sur le Chromebook à 100 %
+  (1366 × 768). Pas de défilement dans les modales, tactile au même niveau que
+  la souris, tailles mesurées en JS plutôt que supposées.
 - **Labos virtuels.** Mots soulignés (`[mot]`, `[groupe de mots|clé]`) : ne
   pas souligner les mots transparents avec le français (*decomposition*,
   *bacteria*…) ; souligner l'expression entière quand la traduction mot à mot
