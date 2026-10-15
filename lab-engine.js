@@ -230,9 +230,9 @@
         `<div class="lab-sheet" hidden></div>` +
         `<div class="lab-reportview" hidden>` +
           `<div class="lab-reportview-bar">` +
-            `<button type="button" class="lab-btn lab-btn-ghost" data-report-back>← ${L.backToCheck}</button>` +
             `<h3 class="lab-reportview-title">${L.reportView}</h3>` +
-            `<button type="button" class="lab-btn lab-btn-primary" data-report-print>${PRINT_SVG}${L.printReport}</button>` +
+            `<button type="button" class="lab-btn lab-btn-primary lab-reportview-print" data-report-print>${PRINT_SVG}${L.printReport}</button>` +
+            `<button type="button" class="modal-close" data-report-back aria-label="${L.backToCheck}" title="${L.backToCheck}">×</button>` +
           `</div>` +
           `<div class="lab-reportview-scroll"><article class="lab-paper lab-doc"></article></div>` +
         `</div>` +

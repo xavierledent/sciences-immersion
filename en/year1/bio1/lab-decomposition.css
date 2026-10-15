@@ -215,8 +215,38 @@ html[data-pointer='fine'] .dc-remove:hover,
 
 .dc-set-visual .dc-jar-svg {
   height: 100%;
-  max-height: 128px;
+  max-height: 280px;
   width: auto;
+  max-width: 100%;
+}
+
+/* Un ou deux bocaux : cartes larges, le bocal en grand à gauche, ses
+   réglages à droite (libellé au-dessus des deux boutons) ; toute la hauteur
+   de la carte va au bocal. Avec trois ou quatre, la carte est trop étroite :
+   bocal au-dessus, réglages en dessous. */
+.dc-set-grid-1 .dc-set-card,
+.dc-set-grid-2 .dc-set-card {
+  flex-basis: 450px;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  column-gap: 12px;
+}
+
+.dc-set-grid-1 .dc-set-head,
+.dc-set-grid-2 .dc-set-head {
+  grid-column: 1 / -1;
+}
+
+.dc-set-grid-1 .dc-set-rows,
+.dc-set-grid-2 .dc-set-rows {
+  align-content: center;
+  gap: 8px;
+}
+
+.dc-set-grid-1 .dc-set-row,
+.dc-set-grid-2 .dc-set-row {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
 }
 
 .dc-set-rows {
@@ -271,18 +301,34 @@ html[data-pointer='fine'] .dc-seg-btn:not(.is-selected):hover,
   outline: none;
 }
 
-/* Quatre bocaux : chaque libellé passe au-dessus de ses deux boutons */
+/* Trois ou quatre bocaux : libellés et boutons plus petits, sur une seule ligne,
+   pour laisser la hauteur au bocal */
+.dc-set-grid-3 .dc-set-rows,
 .dc-set-grid-4 .dc-set-rows {
+  gap: 4px;
+}
+
+.dc-set-grid-3 .dc-set-row,
+.dc-set-grid-4 .dc-set-row {
+  grid-template-columns: 74px minmax(0, 1fr);
   gap: 3px;
 }
 
-.dc-set-grid-4 .dc-set-row {
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1px;
+.dc-set-grid-3 .dc-set-label,
+.dc-set-grid-4 .dc-set-label {
+  font-size: 0.64rem;
 }
 
+.dc-set-grid-3 .dc-seg,
+.dc-set-grid-4 .dc-seg {
+  gap: 3px;
+}
+
+.dc-set-grid-3 .dc-seg-btn,
 .dc-set-grid-4 .dc-seg-btn {
   height: 27px;
+  padding: 0 2px;
+  font-size: 0.68rem;
 }
 
 .dc-set-grid-4 .dc-set-card {

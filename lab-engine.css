@@ -1078,19 +1078,35 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   display: none;
 }
 
+/* Barre du rapport, à la hauteur de l'en-tête du labo : le bouton plein
+   écran du labo reste visible à gauche (passé au-dessus du rapport) ; à
+   droite, la croix ramène à la correction et « Print » la précède. Le titre
+   est centré sur toute la largeur, pas entre les boutons. */
 .lab-reportview-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 18px;
+  position: relative;
+  height: 78px;
   background: #ffffff;
   border-bottom: 1px solid rgba(17, 36, 72, 0.08);
 }
 
 .lab-reportview-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  white-space: nowrap;
+}
+
+.lab-reportview-print {
+  position: absolute;
+  top: 18px;
+  right: 72px;
+}
+
+.lab-card .lab-header .modal-fullscreen {
+  z-index: 46;
 }
 
 .lab-reportview-scroll {
