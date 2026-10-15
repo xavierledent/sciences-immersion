@@ -136,6 +136,9 @@
       conclusionNone: 'I did not identify any metal.',
       conclusionNot: (list) => `These samples are not metals: ${list}.`,
       score: (n, total) => `Score: ${n} / ${total} correct identifications.`,
+      noteObs: (id, test, wrote, exp) => `Sample ${id}, ${test}: you wrote “${wrote}”, the right observation is “${exp}”.`,
+      noteMetal: (id, metal) => `Sample ${id} is a metal: ${metal}.`,
+      noteNotMetal: (id, what) => `Sample ${id} is not a metal: it is ${what}.`,
       nothing: 'none'
     }
   };
@@ -1449,14 +1452,24 @@
 
   /* ===== Rapport imprimable : contenu des 7 sections de la fiche outil FO3
      (en-tête, numérotation et mise en page : cadre commun) ===== */
-  function buildReport() {
+  /* Les erreurs passent par mark() (lab-engine.js) : observation fausse dans
+     le tableau, identification fausse dans la conclusion. */
+  function buildReport(mark) {
     const R = LABELS.report;
     const hypRows = SAMPLES.map(s => `<td><strong>${s.id}</strong><br>${hypothesisText(state.hypotheses[s.id])}</td>`).join('');
     const obsHead = `<tr><th>${LABELS.colSample}</th>${TESTS.map(t => `<th>${LABELS.tests[t.id].name}</th>`).join('')}</tr>`;
     const obsRows = SAMPLES.map(s => `<tr><th>${s.id}</th>${TESTS.map(t => {
       const v = state.notes[s.id][t.id];
-      return `<td>${v ? LABELS.options[v] : '—'}</td>`;
+      const exp = expectedValue(s.mat, t.id);
+      const text = v ? LABELS.options[v] : '—';
+      return `<td>${v === exp ? text : mark(text, R.noteObs(s.id, LABELS.tests[t.id].name.toLowerCase(), text, LABELS.options[exp]), { box: true })}</td>`;
     }).join('')}</tr>`).join('');
+    // Échantillon de la conclusion, marqué s'il est mal identifié.
+    const conclItem = (s, text) => {
+      if (isCorrect(s)) return text;
+      const m = MATERIALS[s.mat];
+      return mark(text, m.isMetal ? R.noteMetal(s.id, LABELS.metals[m.metal].toLowerCase()) : R.noteNotMetal(s.id, m.label.toLowerCase()));
+    };
     const interp = SAMPLES.map(s => {
       const c = state.conclusions[s.id];
       const concl = c.isMetal ? `a metal (${LABELS.metals[c.metal].toLowerCase()})` : 'not a metal';
@@ -1465,8 +1478,8 @@
       const verdict = v === 'confirmed' ? LABELS.hypothesisConfirmed : LABELS.hypothesisRejected;
       return `<li>${R.interpretationLine(s.id, hypothesisText(state.hypotheses[s.id]).toLowerCase(), concl, verdict)}</li>`;
     }).join('');
-    const metals = SAMPLES.filter(s => state.conclusions[s.id].isMetal).map(s => `${s.id} (${LABELS.metals[state.conclusions[s.id].metal]})`);
-    const notMetals = SAMPLES.filter(s => state.conclusions[s.id].isMetal === false).map(s => s.id);
+    const metals = SAMPLES.filter(s => state.conclusions[s.id].isMetal).map(s => conclItem(s, `${s.id} (${LABELS.metals[state.conclusions[s.id].metal]})`));
+    const notMetals = SAMPLES.filter(s => state.conclusions[s.id].isMetal === false).map(s => conclItem(s, s.id));
     const corrRows = SAMPLES.map(s => `<tr><th>${s.id}</th><td>${answerLabel(state.conclusions[s.id])}</td><td>${MATERIALS[s.mat].label}</td><td class="${isCorrect(s) ? 'ok' : 'ko'}">${isCorrect(s) ? '✓' : '✗'}</td></tr>`).join('');
 
     return {

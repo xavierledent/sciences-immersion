@@ -168,13 +168,15 @@
       procedureGraph: 'Draw a line graph of the mass of the leaves against time.',
       tableWeek: 'Week',
       tableUnit: 'Mass of the leaves (g)',
-      interpretation: (a, b, diff, ma, mb) => `I compared jar ${a} and jar ${b}. ${diff} After 8 weeks, jar ${a} had ${ma} of leaves left and jar ${b} had ${mb}.`,
+      pair: (a, b) => `jar ${a} and jar ${b}`,
+      interpretation: (pair, a, b, diff, ma, mb) => `I compared ${pair}. ${diff} After 8 weeks, jar ${a} had ${ma} of leaves left and jar ${b} had ${mb}.`,
+      noteAnswer: right => `Look at your graph again. The right conclusion: ${right}`,
+      noteVerdict: (hyp, ans, should) => `Your hypothesis said “${hyp}”, your conclusion says “${ans}”: they ${should === 'confirmed' ? 'say the same thing, so your hypothesis is confirmed' : 'do not say the same thing, so your hypothesis is rejected'}.`,
       differ: list => `They differ by: ${list}.`,
       differNothing: 'They are prepared in the same way.',
       noData: 'no measurement',
       conclusion: (sentence, verdict) => `${sentence} My hypothesis is ${verdict}.`,
-      score: n => `Score: ${n} / 4 checks passed.`,
-      correctAnswer: 'Correct answer:'
+      score: n => `Score: ${n} / 4 checks passed.`
     }
   };
 
@@ -274,11 +276,13 @@
 
   function plain(text) { return String(text).replace(/\[([^\]|]+)(?:\|[^\]]+)?\]/g, '$1'); }
 
-  function sentence(verbStart, cmp, glossed) {
+  // wrapCmp : pour marquer le mot de comparaison (correction du rapport).
+  function sentence(verbStart, cmp, glossed, wrapCmp) {
     const [a, b] = sides();
     const f = question().factor;
     const t = x => glossed ? conditionText(x) : plain(LABELS.conditions[f][x]);
-    return `${verbStart} ${t(a)} ${LABELS.compare[cmp]} ${t(b)}.`;
+    const c = LABELS.compare[cmp];
+    return `${verbStart} ${t(a)} ${wrapCmp ? wrapCmp(c) : c} ${t(b)}.`;
   }
 
   function rate(cfg) {
@@ -1303,9 +1307,15 @@
 
   /* ===== Rapport imprimable : contenu des 7 sections de la fiche outil FO3
      (en-tête, numérotation et mise en page : cadre commun) ===== */
-  function buildReport() {
+  /* Les erreurs passent par mark() (lab-engine.js) : masse mal recopiée dans
+     le tableau, paire de bocaux injuste et différence mal vue dans
+     l'interprétation, mauvaise réponse et mauvais jugement dans la
+     conclusion. Les notes reprennent les explications de l'étape Check. */
+  function buildReport(mark) {
     const R = LABELS.report;
     const ev = evaluate();
+    const q = question();
+    const fName = LABELS.factorNouns[q.factor];
     const leaf = LABELS.leaves[run.leaf];
     const used = f => state.jars.some(cfg => cfg[f.k] === f.v);
     const extras = [
@@ -1316,21 +1326,48 @@
     ].filter(Boolean);
 
     const head = `<tr><th>${R.tableWeek}</th>${state.jars.map((cfg, j) => `<th>${LABELS.jar(j + 1)}</th>`).join('')}</tr>`;
+    const miss = new Map(ev.misses.map(m => [`${m.j}-${WEEKS.indexOf(m.w)}`, m]));
     const body = WEEKS.map((w, i) => `<tr><th>${w}</th>${state.jars.map((cfg, j) => {
       const v = state.started ? state.points[j][i] : (i === 0 ? START_MASS : null);
-      return `<td>${v == null ? '—' : v.toFixed(1)}</td>`;
+      const text = v == null ? '—' : v.toFixed(1);
+      const m = miss.get(`${j}-${i}`);
+      return `<td>${m ? mark(text, CHECK.pointsMiss(j + 1, m.w, m.v, m.r), { box: true }) : text}</td>`;
     }).join('')}</tr>`).join('');
 
     const pair = ev.pair;
     let interp = '—';
     if (pair) {
-      const [a, b] = pair;
-      const diffText = ev.said.length ? R.differ(factorList(ev.said)) : R.differNothing;
+      const [a, b] = pair.map(x => x + 1);
+      let pairText = R.pair(a, b);
+      if (!ev.pairFair) {
+        const why = ev.diff.length === 0 ? CHECK.fairNone(a, b)
+          : ev.diff.length === 1 ? CHECK.fairOther(a, b, LABELS.factorNouns[ev.diff[0]], fName)
+            : CHECK.fairMany(a, b, factorList(ev.diff), ev.diff.length);
+        const better = ev.fairPairs.length ? CHECK.fairBetter(ev.fairPairs[0][0] + 1, ev.fairPairs[0][1] + 1) : CHECK.fairNoPair(fName);
+        pairText = mark(pairText, plain(`${why} ${better}`));
+      }
+      let diffText = ev.said.length ? R.differ(factorList(ev.said)) : R.differNothing;
+      if (!ev.saidOk) {
+        diffText = mark(diffText, CHECK.saidWrong(ev.said.length ? factorList(ev.said) : LABELS.nothing.toLowerCase(), ev.diff.length ? factorList(ev.diff) : LABELS.nothing.toLowerCase()));
+      }
       const last = j => state.started && state.points[j][WEEKS.length - 1] != null ? formatMass(state.points[j][WEEKS.length - 1]) : R.noData;
-      interp = R.interpretation(a + 1, b + 1, diffText, last(a), last(b));
+      interp = R.interpretation(pairText, a, b, diffText, last(a - 1), last(b - 1));
     }
 
-    const verdictWord = LABELS[state.conclusion.verdict] || '—';
+    let conclusion = '—';
+    const c = state.conclusion;
+    if (c.answer) {
+      // Dans l'ordre de lecture : la réponse, puis le jugement (numéros croissants).
+      const answerMark = ev.answer ? null : cmp => mark(cmp, R.noteAnswer(sentence(LABELS.answerStart, truth(), false)));
+      const said = sentence(LABELS.qAnswer, c.answer, false, answerMark);
+      let verdictWord = LABELS[c.verdict] || '—';
+      if (!ev.verdict) {
+        const should = state.hypothesis === c.answer ? 'confirmed' : 'rejected';
+        verdictWord = mark(verdictWord, R.noteVerdict(LABELS.compare[state.hypothesis], LABELS.compare[c.answer], should));
+      }
+      conclusion = R.conclusion(said, verdictWord);
+    }
+
     const correction = ['fair', 'points', 'answer', 'verdict'].map(k => `<tr><th>${LABELS.criteria[k]}</th><td class="${ev[k] ? 'ok' : 'ko'}">${ev[k] ? '✓' : '✗'}</td></tr>`).join('');
 
     return {
@@ -1343,11 +1380,10 @@
         `<div class="dc-report-results"><table class="dc-report-table"><caption>${R.tableUnit}</caption>${head}${body}</table>` +
           `<div class="dc-report-graph">${graphSVG({ mode: 'print', size: [330, 211] })}<div class="dc-report-legend">${state.jars.map((cfg, j) => `<span>${legendKey(j)}${LABELS.jar(j + 1)}</span>`).join('')}</div></div></div>`,
         `<p>${interp}</p>`,
-        `<p>${state.conclusion.answer ? R.conclusion(sentence(LABELS.qAnswer, state.conclusion.answer, false), verdictWord) : '—'}</p>`
+        `<p>${conclusion}</p>`
       ],
       correction: `<p><strong>${R.score(['fair', 'points', 'answer', 'verdict'].filter(k => ev[k]).length)}</strong></p>` +
-        `<table class="dc-report-corr">${correction}</table>` +
-        `<p>${R.correctAnswer} ${sentence(LABELS.answerStart, truth(), false)}</p>`
+        `<table class="dc-report-corr">${correction}</table>`
     };
   }
 

@@ -28,7 +28,9 @@
      isStarted(): l'élève a-t-il commencé ? (avertissement avant de quitter),
      render     : { 1: fn, 2: fn, 3: fn, 4: fn }, chacune remplit lab.body et
                   le pied de page (lab.setFooter, ou lab.checkFooter à l'étape 4),
-     report()   : { title, sections: [7 × html], correction: html }
+     report(mark): { title, sections: [7 × html], correction: html } ; chaque
+                  erreur de l'élève passe par mark(html, note, { box }) (voir
+                  reportHTML : correction au stylo rouge, notes numérotées)
    }
 
    Verrous (règle commune à tout ce qui n'est pas encore accessible, barre
@@ -68,7 +70,9 @@
       report: {
         name: 'Name', className: 'Class', date: 'Date',
         sections: ['Question', 'Hypothesis', 'Materials', 'Procedure', 'Observations & results', 'Interpretation', 'Conclusion'],
-        correction: 'Correction'
+        correction: 'Correction',
+        mistake: 'Mistake',
+        noMistake: 'No mistake in your report. Well done!'
       },
       dateLocale: 'en-GB'
     },
@@ -94,7 +98,9 @@
       report: {
         name: 'Naam', className: 'Klas', date: 'Datum',
         sections: ['Onderzoeksvraag', 'Hypothese', 'Materiaal', 'Werkwijze', 'Waarnemingen en resultaten', 'Interpretatie', 'Besluit'],
-        correction: 'Verbetering'
+        correction: 'Verbetering',
+        mistake: 'Fout',
+        noMistake: 'Geen fouten in je verslag. Goed gedaan!'
       },
       dateLocale: 'nl-BE'
     }
@@ -734,14 +740,28 @@
        main sur la feuille. */
     function reportHTML() {
       const R = L.report;
-      const rep = def.report();
+      /* Correction au stylo rouge : le labo passe chaque erreur par
+         mark(html, note, { box }) — souligné ondulé (ou cadre, pour une case
+         de tableau) et numéro, à l'endroit de l'erreur ; la note (pourquoi,
+         et la bonne réponse) va dans « Correction » sous le même numéro.
+         Le corps du rapport garde les mots de l'élève. */
+      const notes = [];
+      const mark = (html, note, o) => {
+        notes.push(note);
+        return `<span class="lab-mark ${o && o.box ? 'is-box' : ''}">${html}</span>` +
+          `<span class="lab-mark-num" aria-label="${R.mistake} ${notes.length}">${notes.length}</span>`;
+      };
+      const rep = def.report(mark);
+      const notesHTML = notes.length
+        ? `<ol class="lab-report-notes">${notes.map((n, i) => `<li><span class="lab-mark-num">${i + 1}</span><span>${n}</span></li>`).join('')}</ol>`
+        : `<p class="lab-report-allgood">${R.noMistake}</p>`;
       const today = new Date().toLocaleDateString(L.dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
       const name = studentName();
       return `<h1>${rep.title}</h1>` +
         `<div class="lab-report-id"><span><strong>${R.name}:</strong> ${name ? escapeHtml(name) : '<span class="lab-report-blank is-long"></span>'}</span>` +
         `<span><strong>${R.className}:</strong> <span class="lab-report-blank"></span></span><span><strong>${R.date}:</strong> ${today}</span></div>` +
         rep.sections.map((html, i) => `<section><h2><span>${i + 1}</span>${R.sections[i]}</h2>${html}</section>`).join('') +
-        `<section class="lab-report-corr"><h2>${R.correction}</h2>${rep.correction}</section>`;
+        `<section class="lab-report-corr"><h2>${R.correction}</h2>${rep.correction}${notesHTML}</section>`;
     }
 
     function openReport() {

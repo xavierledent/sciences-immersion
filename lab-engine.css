@@ -1059,6 +1059,70 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
 }
 
 .lab-doc .lab-report-corr h2 { color: #4a6483; }
+
+/* Correction au stylo rouge : l'erreur soulignée (ou encadrée dans un
+   tableau) à sa place, un numéro, la note du même numéro en « Correction ».
+   Lisible aussi imprimé en noir et blanc (ondulé, cadre, pastille). */
+.lab-doc {
+  --lab-pen: #d6334f;
+}
+
+.lab-mark {
+  text-decoration: underline wavy var(--lab-pen);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  text-decoration-skip-ink: none;
+}
+
+.lab-mark.is-box {
+  display: inline-block;
+  padding: 0 4px;
+  border: 1.8px solid var(--lab-pen);
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.lab-mark-num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 15px;
+  height: 15px;
+  margin-left: 2px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: var(--lab-pen);
+  color: #ffffff;
+  font-size: 7.5pt;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: 5px;
+}
+
+.lab-doc .lab-report-notes {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.lab-doc .lab-report-notes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.lab-report-notes .lab-mark-num {
+  flex: 0 0 auto;
+  margin: 2px 0 0;
+  vertical-align: baseline;
+}
+
+.lab-doc .lab-report-allgood {
+  margin-top: 6px;
+  color: #0ca37f;
+  font-weight: 700;
+}
 .lab-doc td.ok, .lab-doc .ok { color: #0ca37f; font-weight: 700; }
 .lab-doc td.ko, .lab-doc .ko { color: #d4527a; font-weight: 700; }
 

@@ -115,7 +115,10 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   encore accessible passe par `lab.setLock` (cadenas + bulle qui explique),
   jamais un bouton `disabled` muet ; une étape ne s'ouvre que si les
   précédentes sont complètes (`stepComplete`) ; confirmations par
-  `lab.confirm`, jamais `window.confirm`.
+  `lab.confirm`, jamais `window.confirm`. Rapport : le corps garde les mots de
+  l'élève ; chaque erreur passe par `mark(html, note, { box })` (reçu par
+  `report(mark)`), qui la souligne ou l'encadre à sa place avec un numéro ;
+  la note du même numéro (pourquoi, bonne réponse) va dans « Correction ».
 - **Image venant de Wikimedia Commons** : ajouter sa ligne dans
   [credits.html](credits.html).
 - **Git.** Le site est servi par GitHub Pages : traiter tout push sur `main`
