@@ -125,6 +125,14 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   l'élève ; chaque erreur passe par `mark(html, note, { box })` (reçu par
   `report(mark)`), qui la souligne ou l'encadre à sa place avec un numéro ;
   la note du même numéro (pourquoi, bonne réponse) va dans « Correction ».
+- **Nouveau labo : partir des labos du cours.** Chaque labo virtuel est la
+  version d'un labo que les élèves font en vrai en classe. Avant de créer un
+  labo pour un chapitre, demander à l'enseignant la liste des labos réels de
+  ce chapitre (but, matériel, déroulement, ce que les élèves observent ou
+  mesurent). Proposer ensuite pour chacun une adaptation virtuelle : ce que
+  l'élève manipule, ce qui est tiré au sort, les erreurs relevées dans le
+  rapport. L'enseignant choisit lesquels développer. Ne jamais inventer un
+  labo qui n'est pas dans cette liste.
 - **Image venant de Wikimedia Commons** : ajouter sa ligne dans
   [credits.html](credits.html).
 - **Git.** Le site est servi par GitHub Pages : traiter tout push sur `main`
