@@ -55,9 +55,10 @@
       missingConclusions: 'Some conclusions are still missing.',
       lockedFinished: 'The lab is finished. Restart it to try again.',
       lockedCheck: 'Answer all the questions of “Conclude” first.',
-      namePlaceholder: 'Your name',
-      classPlaceholder: 'Class',
-      printReport: 'Print my lab report',
+      seeReport: 'See my lab report',
+      reportView: 'Your lab report',
+      backToCheck: 'Back to the correction',
+      printReport: 'Print',
       restart: 'Restart the lab',
       restartShort: 'Restart',
       restartTitle: 'Restart the lab?',
@@ -80,9 +81,10 @@
       missingConclusions: 'Er ontbreken nog besluiten.',
       lockedFinished: 'Het lab is klaar. Start het opnieuw om het nog eens te proberen.',
       lockedCheck: 'Beantwoord eerst alle vragen van “Besluiten”.',
-      namePlaceholder: 'Je naam',
-      classPlaceholder: 'Klas',
-      printReport: 'Mijn labverslag afdrukken',
+      seeReport: 'Mijn labverslag bekijken',
+      reportView: 'Je labverslag',
+      backToCheck: 'Terug naar de verbetering',
+      printReport: 'Afdrukken',
       restart: 'Het lab opnieuw starten',
       restartShort: 'Opnieuw',
       restartTitle: 'Het lab opnieuw starten?',
@@ -158,6 +160,34 @@
     `<circle cx="10" cy="16.1" r="1.75" fill="#ffffff"/>` +
     `<path d="M10 17.2v2.3" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round"/></svg>`;
 
+  const PRINT_SVG = `<svg class="lab-btn-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
+    `<path d="M7 9V3.5h10V9" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>` +
+    `<rect x="3" y="9" width="18" height="8" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/>` +
+    `<rect x="7" y="14" width="10" height="6.5" rx="1" fill="#ffffff" stroke="currentColor" stroke-width="2"/></svg>`;
+
+  const REPORT_SVG = `<svg class="lab-btn-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
+    `<path d="M6 2.8h8.5L19 7.3v13.9H6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>` +
+    `<path d="M14 3v4.6h4.6M9 12h7M9 15.5h7M9 19h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+
+  /* Nom de l'élève tiré de son adresse d'école : prenom.nom@domaine →
+     « Prenom Nom » (trait d'union gardé, nom en plusieurs parties accepté,
+     chiffres de fin ignorés). Les accents ne sont pas dans l'adresse. Autre
+     domaine ou pas d'adresse : null (ligne à remplir à la main). */
+  function nameFromEmail(email, domain) {
+    if (!email || !domain) return null;
+    const [local, host] = String(email).toLowerCase().split('@');
+    if (host !== domain) return null;
+    const parts = local.replace(/\d+$/, '').split('.').filter(Boolean);
+    if (!parts.length) return null;
+    const cap = w => w.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('-');
+    return parts.map(cap).join(' ');
+  }
+
+  function studentName() {
+    const ac = window.AccessControl;
+    return ac && ac.currentEmail ? nameFromEmail(ac.currentEmail(), ac.schoolDomain) : null;
+  }
+
   // Flèche qui fait le tour : recommencer.
   const RESTART_SVG = `<svg class="lab-restart-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
     `<path d="M19.6 13.4A7.8 7.8 0 1 1 17.3 6.6" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>` +
@@ -182,6 +212,7 @@
     const ghostEl = sharedElement('lab-drag-ghost', 'lab-drag-ghost');
     ghostEl.setAttribute('aria-hidden', 'true');
     const reportEl = sharedElement('lab-report', 'lab-report');
+    reportEl.classList.add('lab-doc');
 
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay lab-overlay';
@@ -197,6 +228,14 @@
         `<div class="lab-body"></div>` +
         `<div class="lab-footer"></div>` +
         `<div class="lab-sheet" hidden></div>` +
+        `<div class="lab-reportview" hidden>` +
+          `<div class="lab-reportview-bar">` +
+            `<button type="button" class="lab-btn lab-btn-ghost" data-report-back>← ${L.backToCheck}</button>` +
+            `<h3 class="lab-reportview-title">${L.reportView}</h3>` +
+            `<button type="button" class="lab-btn lab-btn-primary" data-report-print>${PRINT_SVG}${L.printReport}</button>` +
+          `</div>` +
+          `<div class="lab-reportview-scroll"><article class="lab-paper lab-doc"></article></div>` +
+        `</div>` +
         `<div class="lab-dialog" hidden></div>` +
       `</div>`;
     document.body.appendChild(overlay);
@@ -207,18 +246,14 @@
     const footerEl = card.querySelector('.lab-footer');
     const sheetEl = card.querySelector('.lab-sheet');
     const dialogEl = card.querySelector('.lab-dialog');
+    const reportViewEl = card.querySelector('.lab-reportview');
+    const paperEl = card.querySelector('.lab-paper');
     const fullscreenBtn = card.querySelector('[data-lab-fullscreen]');
 
     const glossary = Object.assign({}, COMMON_GLOSSARY, def.glossary || {});
 
-    function freshFrameState(keepIdentity) {
-      return {
-        step: 1,
-        checked: false,
-        showMissing: false,
-        studentName: keepIdentity ? lab.state.studentName : '',
-        studentClass: keepIdentity ? lab.state.studentClass : ''
-      };
+    function freshFrameState() {
+      return { step: 1, checked: false, showMissing: false };
     }
 
     /* Animation interrompue dès que la scène change (autre étape, autre
@@ -300,20 +335,16 @@
       closeSheet,
       confirm: confirmDialog,
 
-      // Pied de l'étape Check, identique pour tous les labos.
+      // Pied de l'étape Check, identique pour tous les labos : le rapport
+      // s'affiche d'abord, l'impression se lance depuis là.
       checkFooter() {
-        footerEl.innerHTML = `<div class="lab-identity">` +
-          `<input type="text" class="lab-input" data-lab-name placeholder="${L.namePlaceholder}" aria-label="${L.namePlaceholder}" value="${escapeHtml(lab.state.studentName)}" autocomplete="off">` +
-          `<input type="text" class="lab-input lab-input-sm" data-lab-class placeholder="${L.classPlaceholder}" aria-label="${L.classPlaceholder}" value="${escapeHtml(lab.state.studentClass)}" autocomplete="off"></div>` +
-          `<div class="lab-footer-actions">` +
-          `<button type="button" class="lab-btn lab-btn-primary" data-lab-print>${L.printReport}</button></div>`;
-        footerEl.querySelector('[data-lab-name]').addEventListener('input', e => { lab.state.studentName = e.target.value; });
-        footerEl.querySelector('[data-lab-class]').addEventListener('input', e => { lab.state.studentClass = e.target.value; });
-        footerEl.querySelector('[data-lab-print]').addEventListener('click', printReport);
+        footerEl.innerHTML = `<div class="lab-footer-actions">` +
+          `<button type="button" class="lab-btn lab-btn-primary" data-lab-report>${REPORT_SVG}${L.seeReport}</button></div>`;
+        footerEl.querySelector('[data-lab-report]').addEventListener('click', openReport);
       }
     };
 
-    lab.state = freshFrameState(false);
+    lab.state = freshFrameState();
     def.reset();
 
     /* ===== Fenêtre de confirmation =====
@@ -369,7 +400,7 @@
     card.querySelector('[data-lab-restart]').addEventListener('click', askRestart);
 
     function restart() {
-      lab.state = freshFrameState(true);
+      lab.state = freshFrameState();
       def.reset();
       render();
     }
@@ -542,6 +573,7 @@
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape' || !overlay.classList.contains('modal-open')) return;
       if (dialogResolve) { closeDialog(false); return; }
+      if (!reportViewEl.hidden) { closeReport(); return; }
       if (!sheetEl.hidden) { closeSheet(); return; }
       if (!document.fullscreenElement) closeLab();
     });
@@ -560,6 +592,7 @@
       hideGloss();
       hideLockTip();
       closeSheet();
+      closeReport();
       renderStepper();
       card.dataset.step = String(lab.state.step);
       def.render[lab.state.step]();
@@ -692,21 +725,44 @@
       sheetEl.innerHTML = '';
     }
 
-    /* ===== Rapport imprimable (fiche outil FO3 : 7 sections) =====
+    /* ===== Rapport de labo (fiche outil FO3 : 7 sections) =====
        Le labo fournit le contenu de chaque section ; l'en-tête (nom, classe,
-       date), la numérotation et la mise en page A4 sont les mêmes partout. */
-    function printReport() {
+       date), la numérotation et la mise en page sont les mêmes partout. Il
+       s'affiche d'abord dans le labo, comme une feuille (seul endroit du labo
+       qui défile : c'est un document) ; « Print » imprime la même chose. Le
+       nom vient de l'adresse de connexion ; la classe reste à écrire à la
+       main sur la feuille. */
+    function reportHTML() {
       const R = L.report;
       const rep = def.report();
       const today = new Date().toLocaleDateString(L.dateLocale, { day: 'numeric', month: 'long', year: 'numeric' });
-      reportEl.innerHTML =
-        `<h1>${rep.title}</h1>` +
-        `<div class="lab-report-id"><span><strong>${R.name}:</strong> ${escapeHtml(lab.state.studentName) || '……………………………'}</span>` +
-        `<span><strong>${R.className}:</strong> ${escapeHtml(lab.state.studentClass) || '………'}</span><span><strong>${R.date}:</strong> ${today}</span></div>` +
+      const name = studentName();
+      return `<h1>${rep.title}</h1>` +
+        `<div class="lab-report-id"><span><strong>${R.name}:</strong> ${name ? escapeHtml(name) : '<span class="lab-report-blank is-long"></span>'}</span>` +
+        `<span><strong>${R.className}:</strong> <span class="lab-report-blank"></span></span><span><strong>${R.date}:</strong> ${today}</span></div>` +
         rep.sections.map((html, i) => `<section><h2><span>${i + 1}</span>${R.sections[i]}</h2>${html}</section>`).join('') +
         `<section class="lab-report-corr"><h2>${R.correction}</h2>${rep.correction}</section>`;
+    }
+
+    function openReport() {
+      paperEl.innerHTML = reportHTML();
+      reportViewEl.hidden = false;
+      reportViewEl.querySelector('.lab-reportview-scroll').scrollTop = 0;
+      reportViewEl.querySelector('[data-report-print]').focus({ preventScroll: true });
+    }
+
+    function closeReport() {
+      reportViewEl.hidden = true;
+      paperEl.innerHTML = '';
+    }
+
+    function printReport() {
+      reportEl.innerHTML = reportHTML();
       window.print();
     }
+
+    reportViewEl.querySelector('[data-report-back]').addEventListener('click', closeReport);
+    reportViewEl.querySelector('[data-report-print]').addEventListener('click', printReport);
 
     window.addEventListener('beforeunload', e => {
       if (def.isStarted() && !lab.state.checked) { e.preventDefault(); e.returnValue = ''; }

@@ -1320,48 +1320,46 @@ html[data-pointer='fine'] .dc-crit:not(.is-selected):hover,
   .dc-set-card { flex-basis: 100%; }
 }
 
-/* ===== Rapport imprimé ===== */
-@media print {
-  .dc-report-results {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-  }
+/* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */
+.lab-doc .dc-report-results {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
 
-  .lab-report .dc-report-table {
-    width: auto;
-    min-width: 46mm;
-  }
+.lab-doc .dc-report-table {
+  width: auto;
+  min-width: 46mm;
+}
 
-  .dc-report-table caption {
-    font-size: 8.5pt;
-    color: #5d728f;
-    text-align: left;
-    padding-bottom: 2px;
-  }
+.lab-doc .dc-report-table caption {
+  font-size: 8.5pt;
+  color: #5d728f;
+  text-align: left;
+  padding-bottom: 2px;
+}
 
-  .dc-report-graph svg {
-    display: block;
-  }
+.lab-doc .dc-report-graph svg {
+  display: block;
+}
 
-  .dc-report-legend {
-    display: flex;
-    gap: 12px;
-    font-size: 8.5pt;
-  }
+.lab-doc .dc-report-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 8.5pt;
+}
 
-  .dc-report-legend span {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
+.lab-doc .dc-report-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
 
-  .lab-report .dc-report-corr {
-    width: auto;
-    min-width: 70mm;
-  }
+.lab-doc .dc-report-corr {
+  width: auto;
+  min-width: 70mm;
+}
 
-  .lab-report .dc-report-corr th {
-    text-align: left;
-  }
+.lab-doc .dc-report-corr th {
+  text-align: left;
 }

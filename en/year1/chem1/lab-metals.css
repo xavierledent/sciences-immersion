@@ -668,8 +668,7 @@ html[data-pointer='fine'] .lab-result-row:not(.is-selected):hover,
   .lab-predict-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: none; }
 }
 
-@media print {
-  .lab-report-hyp td {
-    font-size: 8.5pt;
-  }
+/* Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) */
+.lab-doc .lab-report-hyp td {
+  font-size: 8.5pt;
 }

@@ -500,5 +500,13 @@
     return true;
   }
 
-  window.AccessControl = { blockChapterIfNeeded: blockChapterIfNeeded };
+  // Adresse du compte Google connecté (accès complet en cours de validité),
+  // sinon null : mode visiteur, pas encore connecté, accès expiré. Sert aux
+  // labos, pour mettre le nom de l'élève sur son rapport.
+  function currentEmail() {
+    const stored = readStoredAccess();
+    return stored && stored.mode === 'full' && stored.email ? stored.email : null;
+  }
+
+  window.AccessControl = { blockChapterIfNeeded: blockChapterIfNeeded, currentEmail: currentEmail, schoolDomain: SCHOOL_DOMAIN };
 })();
