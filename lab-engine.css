@@ -527,8 +527,8 @@ input.lab-is-locked {
   max-width: 300px;
   padding: 9px 13px 9px 12px;
   border-radius: 12px;
-  background: var(--color-current-darker);
-  color: #ffffff;
+  background: var(--color-current);
+  color: var(--color-current-text);
   font-size: 0.82rem;
   font-weight: 600;
   line-height: 1.35;
@@ -551,14 +551,14 @@ input.lab-is-locked {
   left: calc(var(--arrow-x, 50%) - 7px);
   top: 100%;
   border: 7px solid transparent;
-  border-top-color: var(--color-current-darker);
+  border-top-color: var(--color-current);
 }
 
 .lab-lock-tip.is-below::after {
   top: auto;
   bottom: 100%;
   border-top-color: transparent;
-  border-bottom-color: var(--color-current-darker);
+  border-bottom-color: var(--color-current);
 }
 
 @media (prefers-reduced-motion: reduce) {
