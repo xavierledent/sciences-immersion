@@ -25,7 +25,10 @@
                   (4) passe par lab.finish(), et après Check plus rien d'autre,
      lockReason(n): pourquoi l'étape n n'est pas complète, en une phrase
                   (texte de la bulle sur ce qui reste verrouillé),
-     isStarted(): l'élève a-t-il commencé ? (avertissement avant de quitter),
+     isStarted(): l'élève a-t-il commencé ? (« Restart » ne demande
+                  confirmation que dans ce cas ; pas d'alerte du navigateur
+                  en quittant la page : fermer le labo passe déjà par la
+                  croix, et rouvrir le labo reprend là où on en était),
      render     : { 1: fn, 2: fn, 3: fn, 4: fn }, chacune remplit lab.body et
                   le pied de page (lab.setFooter, ou lab.checkFooter à l'étape 4),
      report(mark): { title, sections: [7 × html], correction: html } ; chaque
@@ -783,10 +786,6 @@
 
     reportViewEl.querySelector('[data-report-back]').addEventListener('click', closeReport);
     reportViewEl.querySelector('[data-report-print]').addEventListener('click', printReport);
-
-    window.addEventListener('beforeunload', e => {
-      if (def.isStarted() && !lab.state.checked) { e.preventDefault(); e.returnValue = ''; }
-    });
 
     return lab;
   }
