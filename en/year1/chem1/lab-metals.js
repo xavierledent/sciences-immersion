@@ -88,19 +88,19 @@
     expected: 'Expected',
 
     refTitle: 'Metal reference sheet',
-    refIntro: 'What the five metals of the lab look like after [sanding|sanded], and how they react to two of the tests.',
+    refIntro: 'What the five metals of the lab look like after [sanding], and how they react to two of the tests.',
     refColMetal: 'Metal',
-    refColColour: 'Colour of the [sanded] area',
+    refColColour: 'Colour of the [sanded area]',
     refColMagnet: 'Magnet',
-    refColHeat: '[Wax] [melts|melt]…',
+    refColHeat: '[Wax melts]…',
     tableTitle: 'Results table',
     tableIntro: 'Everything you wrote in the [notebook], for all the samples.',
 
     tests: {
-      luster: { tool: 'Sandpaper', name: 'Luster', question: 'How does the [sanded] area look?' },
-      magnet: { tool: 'Magnet', name: 'Magnetism', question: 'Is it [attracted] by the [magnet]?' },
+      luster: { tool: 'Sandpaper', name: 'Luster', question: 'How does the [sanded area] look?' },
+      magnet: { tool: 'Magnet', name: 'Magnetism', question: 'Is it attracted by the [magnet]?' },
       electric: { tool: 'Circuit', name: 'Electrical conductivity', question: 'Does it let electricity through?' },
-      heat: { tool: 'Hot water', name: 'Thermal conductivity', question: 'When does the [wax] [melt]?' },
+      heat: { tool: 'Hot water', name: 'Thermal conductivity', question: 'When [does the wax melt]?' },
       hammer: { tool: 'Hammer', name: 'Malleability', question: 'Does it change shape without breaking?' }
     },
     options: {
@@ -141,16 +141,18 @@
   };
 
   const GLOSSARY = {
-    sample: 'échantillon', samples: 'échantillons', bench: 'paillasse', tool: 'outil',
-    sandpaper: 'papier de verre', sanded: 'poncé', sanding: 'ponçage',
-    magnet: 'aimant', attracted: 'attiré', bulb: 'ampoule', 'lights up': 's’allume',
-    wax: 'cire', melt: 'fondre', melts: 'fond', melted: 'fondu',
+    sample: 'échantillon', bench: 'paillasse', tool: 'outil',
+    sandpaper: 'papier de verre', sanding: 'ponçage', 'sanded area': 'zone poncée',
+    magnet: 'aimant', clips: 'pinces',
+    'the bulb lights up': 'l’ampoule s’allume', 'the bulb stays off': 'l’ampoule reste éteinte',
+    wax: 'cire', 'wax melts': 'la cire fond', 'the wax melts': 'la cire fond',
+    'does the wax melt': 'la cire fond-elle', 'the wax has still not melted': 'la cire n’a toujours pas fondu',
+    'dips in hot water': 'trempe dans l’eau chaude',
     hammer: 'marteau', notebook: 'cahier', stopwatch: 'chronomètre',
-    reflects: 'reflète', paint: 'peinture', scratched: 'rayé', cloudy: 'trouble',
-    sawdust: 'sciure', cracks: 'se fissure', shatters: 'vole en éclats', splits: 'se fend',
-    'bounces off': 'rebondit', bends: 'se plie', flattened: 'aplati', chips: 'éclats',
-    'hot plate': 'plaque chauffante', beaker: 'bécher', dips: 'trempe', layer: 'couche',
-    tarnished: 'terni', rock: 'roche', breaks: 'se casse'
+    paint: 'peinture', scratched: 'rayé', cloudy: 'trouble',
+    sawdust: 'sciure', 'cracks and breaks': 'se fissure et se casse', shatters: 'vole en éclats', splits: 'se fend',
+    'the hammer bounces off': 'le marteau rebondit',
+    bends: 'se plie', chips: 'éclats', tarnished: 'terni'
   };
 
   /* ===== Matériaux =====
@@ -262,31 +264,31 @@
   // propriété dans son carnet.
   const CAPTIONS = {
     luster: {
-      copper: 'Under the brown, [tarnished] surface, the [sanded] area is orange-pink and [reflects] light strongly.',
-      iron: 'Under the dark grey surface, the [sanded] area is silvery grey and [reflects] light strongly.',
-      aluminium: 'Under the dull grey surface, the [sanded] area is light grey and [reflects] light strongly.',
-      gold: 'The [sanded] area stays yellow and [reflects] light strongly.',
-      silver: 'The [sanded] area is bright white and [reflects] light strongly.',
+      copper: 'Under the brown, [tarnished] surface, the [sanded area] is orange-pink and reflects light strongly.',
+      iron: 'Under the dark grey surface, the [sanded area] is silvery grey and reflects light strongly.',
+      aluminium: 'Under the dull grey surface, the [sanded area] is light grey and reflects light strongly.',
+      gold: 'The [sanded area] stays yellow and reflects light strongly.',
+      silver: 'The [sanded area] is bright white and reflects light strongly.',
       plasticGold: 'The yellow [paint] comes off. Underneath, the material is white and does not reflect light.',
       plasticSilver: 'The silver [paint] comes off. Underneath, the material is creamy white and does not reflect light.',
-      glass: 'The surface gets [scratched] and [cloudy]. The [sanded] area no longer [reflects] light.',
-      wood: 'Fine [sawdust] falls. The [sanded] area is light brown and does not reflect light.',
-      granite: 'The [rock] is very hard: it is hardly [scratched]. It stays speckled and does not reflect light.'
+      glass: 'The surface gets [scratched] and [cloudy]. The [sanded area] no longer reflects light.',
+      wood: 'Fine [sawdust] falls. The [sanded area] is light brown and does not reflect light.',
+      granite: 'The rock is very hard: it is hardly [scratched]. It stays speckled and does not reflect light.'
     },
     magnetYes: 'The bar jumps up and sticks to the [magnet].',
     magnetNo: 'Nothing happens: the bar stays on the [bench].',
-    electricYes: 'The [bulb] [lights up].',
-    electricNo: 'The [bulb] stays off.',
-    heatMelted: (t) => `The [wax] [melts] after <strong>${t}</strong> (look at the [stopwatch]).`,
-    heatNot: 'After <strong>5:00</strong>, the [wax] has still not [melted].',
-    heatRunning: 'The bottom of the bar [dips] in hot water. Watch the [wax] at the top…',
+    electricYes: '[The bulb lights up].',
+    electricNo: '[The bulb stays off].',
+    heatMelted: (t) => `[The wax melts] after <strong>${t}</strong> (look at the [stopwatch]).`,
+    heatNot: 'After <strong>5:00</strong>, [the wax has still not melted].',
+    heatRunning: 'The bottom of the bar [dips in hot water]. Watch the [wax] at the top…',
     hammer: {
       dent: 'The bar [bends] where the [hammer] hit it. It changes shape, but it does not break.',
       dentSmall: 'The bar [bends] a little where the [hammer] hit it. It changes shape, but it does not break.',
-      crack: 'The bar [cracks] and [breaks] into two pieces.',
+      crack: 'The bar [cracks and breaks] into two pieces.',
       shatter: 'The bar [shatters] into sharp pieces.',
       split: 'The bar [splits] into two pieces.',
-      bounce: 'The [hammer] [bounces off]. The bar does not change shape; only tiny [chips] fly off.'
+      bounce: '[The hammer bounces off]. The bar does not change shape; only tiny [chips] fly off.'
     }
   };
 
@@ -997,7 +999,7 @@
     }
 
     place(0);
-    setCaption(gloss('The two [clips|clips] are connected to the ends of the bar…'));
+    setCaption(gloss('The two [clips] are connected to the ends of the bar…'));
     (async () => {
       let ok = await tween(token, 900, t => place(t));
       if (!ok) return;

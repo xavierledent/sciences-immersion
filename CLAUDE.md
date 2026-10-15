@@ -108,6 +108,14 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   sont interprétées.
 - **Chromebook tactile à 125 %.** Pas de défilement dans les modales, tactile
   au même niveau que la souris, tailles mesurées en JS plutôt que supposées.
+- **Labos virtuels.** Mots soulignés (`[mot]`, `[groupe de mots|clé]`) : ne
+  pas souligner les mots transparents avec le français (*decomposition*,
+  *bacteria*…) ; souligner l'expression entière quand la traduction mot à mot
+  serait fausse (`[the wax melts]` → « la cire fond »). Tout ce qui n'est pas
+  encore accessible passe par `lab.setLock` (cadenas + bulle qui explique),
+  jamais un bouton `disabled` muet ; une étape ne s'ouvre que si les
+  précédentes sont complètes (`stepComplete`) ; confirmations par
+  `lab.confirm`, jamais `window.confirm`.
 - **Image venant de Wikimedia Commons** : ajouter sa ligne dans
   [credits.html](credits.html).
 - **Git.** Le site est servi par GitHub Pages : traiter tout push sur `main`

@@ -45,10 +45,10 @@
     title: 'The vanishing leaves',
 
     questions: {
-      decomposers: 'Do [decomposers] make dead leaves disappear?',
-      worms: 'Do [earthworms] speed up the [decomposition] of dead leaves?',
-      water: 'Does [humidity] change the speed of [decomposition]?',
-      temperature: 'Does temperature change the speed of [decomposition]?'
+      decomposers: 'Do decomposers make [dead leaves] disappear?',
+      worms: 'Do [earthworms] [speed up] the decomposition of [dead leaves]?',
+      water: 'Does humidity change the speed of decomposition?',
+      temperature: 'Does temperature change the speed of decomposition?'
     },
     // Formes sans lexique, pour le rapport imprimé.
     questionsPlain: {
@@ -58,7 +58,7 @@
       temperature: 'Does temperature change the speed of decomposition?'
     },
     conditions: {
-      soil: { living: 'in living soil', sterile: 'in [sterilized] soil' },
+      soil: { living: 'in living soil', sterile: 'in sterilized soil' },
       worms: { yes: 'with [earthworms]', no: 'without [earthworms]' },
       water: { moist: 'in [moist] soil', dry: 'in [dry] soil' },
       place: { room: 'at 20 °C', fridge: 'in the [fridge] (4 °C)' }
@@ -120,16 +120,16 @@
     runInfo: (w, n, total) => `Week ${w} of 8 · ${n} / ${total} masses written`,
     missingPoints: 'Weigh each bag and write its mass in the table first.',
     balanceEmpty: 'Drag a [bag|mesh bag] here',
-    balanceJar: n => `Leaves of jar ${n}<br>(bag [tared])`,
+    balanceJar: n => `Leaves of jar ${n}<br>([bag tared])`,
     weekBadge: w => `Week ${w}`,
     bagOf: n => `Bag of jar ${n}: drag it to the balance, or tap it`,
     captionStart: 'Every bag starts with 10.0 g of leaves: the first masses are already in the table. Press “Wait 2 weeks” to let time pass.',
-    captionWeigh: 'Drag the [bag|mesh bag] of a [jar] onto the [balance], or tap it, to [weigh] the leaves.',
-    captionRecord: n => `Leaves of jar ${n} [weighed]. Read the [balance] and write the mass in the table.`,
+    captionWeigh: 'Drag the [bag|mesh bag] of a [jar] onto the balance, or tap it, to [weigh] the leaves.',
+    captionRecord: n => `Leaves of jar ${n} [weighed]. Read the balance and write the mass in the table.`,
     captionRecorded: 'Mass written down. Weigh the next bag.',
     captionAllPlaced: 'All the bags are weighed. Press “Wait 2 weeks” at the top to let time pass!',
     captionDone: 'Week 8: the experiment is over. Look at your graph, then go on to conclude.',
-    captionNeedWeigh: n => `First [weigh] the bag of jar ${n} on the [balance].`,
+    captionNeedWeigh: n => `First [weigh] the bag of jar ${n} on the balance.`,
     captionBadValue: 'Write the mass shown on the balance, in grams (for example 7.4).',
     captionWaiting: 'Two weeks go by…',
     tableTitle: 'Your measurements',
@@ -179,13 +179,15 @@
   };
 
   const GLOSSARY = {
-    decomposers: 'décomposeurs', decomposer: 'décomposeur', decomposition: 'décomposition',
-    earthworms: 'vers de terre', earthworm: 'ver de terre', humidity: 'humidité',
-    sterilized: 'stérilisé', moist: 'humide', dry: 'sec', fridge: 'frigo',
-    jar: 'bocal', jars: 'bocaux', balance: 'balance', weigh: 'peser', weighed: 'pesé',
-    'mesh bag': 'sachet en filet', tared: 'taré (la balance retire la masse du sachet)',
+    'dead leaves': 'feuilles mortes', 'speed up': 'accélérer',
+    earthworms: 'vers de terre',
+    moist: 'humide', dry: 'sec', fridge: 'frigo',
+    jar: 'bocal', weigh: 'peser', weighed: 'pesé',
+    'mesh bag': 'sachet en filet', 'bag tared': 'sachet taré (la balance retire la masse du sachet)',
     hazel: 'noisetier', oak: 'chêne', beech: 'hêtre',
-    'fair test': 'expérience équitable', control: 'témoin', fungi: 'champignons', bacteria: 'bactéries',
+    'fair test': 'expérience équitable', fungi: 'champignons',
+    'feed on': 'se nourrissent de', 'cold slows decomposers down': 'le froid ralentit les décomposeurs',
+    'food keeps longer': 'la nourriture se conserve plus longtemps',
     'organic matter': 'matière organique', 'mineral matter': 'matière minérale', 'cycle of matter': 'cycle de la matière'
   };
 
@@ -1201,10 +1203,10 @@
   }
 
   const EXPLANATIONS = {
-    decomposers: 'In living soil, [decomposers] — [bacteria] and [fungi], too small to see — feed on the dead leaves. They turn this [organic matter] into [mineral matter], which goes back into the soil. Heating the soil in an oven kills them: in sterilized soil, the leaves hardly change.',
-    worms: '[Earthworms] are [decomposers] too. They pull dead leaves into the soil, eat them and cut them into tiny pieces, so [bacteria] and [fungi] work faster. Without earthworms, the leaves still disappear, but more slowly: the bacteria and fungi are still there.',
-    water: '[Decomposers] need water to live. In dry soil, [bacteria] and [fungi] are much less active, so dead leaves stay much longer.',
-    temperature: 'Cold slows [decomposers] down. In the fridge, [bacteria] and [fungi] are much less active, so the leaves disappear more slowly. This is also why food keeps longer in a fridge.'
+    decomposers: 'In living soil, decomposers — bacteria and [fungi], too small to see — [feed on] the [dead leaves]. They turn this [organic matter] into [mineral matter], which goes back into the soil. Heating the soil in an oven kills them: in sterilized soil, the leaves hardly change.',
+    worms: '[Earthworms] are decomposers too. They pull dead leaves into the soil, eat them and cut them into tiny pieces, so bacteria and [fungi] work faster. Without earthworms, the leaves still disappear, but more slowly: the bacteria and fungi are still there.',
+    water: 'Decomposers need water to live. In dry soil, bacteria and [fungi] are much less active, so dead leaves stay much longer.',
+    temperature: '[Cold slows decomposers down]. In the fridge, bacteria and [fungi] are much less active, so the leaves disappear more slowly. This is also why [food keeps longer] in a fridge.'
   };
   const CYCLE = 'This is how a forest recycles its dead leaves: the [mineral matter] released by the decomposers feeds the plants again (the [cycle of matter]).';
 
