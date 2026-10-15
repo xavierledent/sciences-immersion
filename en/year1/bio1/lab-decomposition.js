@@ -113,7 +113,9 @@
     tlWeigh: 'weigh!',
     tableNow: 'now',
     changeSetup: 'Change the set-up',
-    changeSetupConfirm: 'Change the set-up? Your measurements will be erased.',
+    changeSetupTitle: 'Change the set-up?',
+    changeSetupText: 'Your measurements will be erased: you will prepare your jars again and start from week 0.',
+    changeSetupYes: 'Yes, change it',
     toConclude: 'Next: conclude',
     runInfo: (w, n, total) => `Week ${w} of 8 · ${n} / ${total} masses written`,
     missingPoints: 'Weigh each bag and write its mass in the table first.',
@@ -968,8 +970,8 @@
     lab.setFooter(lab.footerInfo('') + `<div class="lab-footer-actions">` +
       `<button type="button" class="lab-btn lab-btn-ghost" data-setup>${LABELS.changeSetup}</button>` +
       `<button type="button" class="lab-btn lab-btn-ghost" data-conclude>${LABELS.toConclude} →</button></div>`);
-    $('[data-setup]').addEventListener('click', () => {
-      if (pointsPlaced() > 0 && !window.confirm(LABELS.changeSetupConfirm)) return;
+    $('[data-setup]').addEventListener('click', async () => {
+      if (pointsPlaced() > 0 && !(await lab.confirm({ title: LABELS.changeSetupTitle, text: LABELS.changeSetupText, confirm: LABELS.changeSetupYes, danger: true }))) return;
       state.started = false;
       lab.state.showMissing = false;
       renderSetup();

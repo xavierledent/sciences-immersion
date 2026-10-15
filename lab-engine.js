@@ -59,7 +59,11 @@
       classPlaceholder: 'Class',
       printReport: 'Print my lab report',
       restart: 'Restart the lab',
-      restartConfirm: 'Restart the lab? Everything you did will be erased.',
+      restartShort: 'Restart',
+      restartTitle: 'Restart the lab?',
+      restartText: 'Everything you did will be erased, and a new investigation will be drawn.',
+      restartYes: 'Yes, restart',
+      cancel: 'Cancel',
       report: {
         name: 'Name', className: 'Class', date: 'Date',
         sections: ['Question', 'Hypothesis', 'Materials', 'Procedure', 'Observations & results', 'Interpretation', 'Conclusion'],
@@ -80,7 +84,11 @@
       classPlaceholder: 'Klas',
       printReport: 'Mijn labverslag afdrukken',
       restart: 'Het lab opnieuw starten',
-      restartConfirm: 'Het lab opnieuw starten? Alles wat je gedaan hebt, wordt gewist.',
+      restartShort: 'Opnieuw',
+      restartTitle: 'Het lab opnieuw starten?',
+      restartText: 'Alles wat je gedaan hebt, wordt gewist, en er wordt een nieuw onderzoek getrokken.',
+      restartYes: 'Ja, opnieuw starten',
+      cancel: 'Annuleren',
       report: {
         name: 'Naam', className: 'Klas', date: 'Datum',
         sections: ['Onderzoeksvraag', 'Hypothese', 'Materiaal', 'Werkwijze', 'Waarnemingen en resultaten', 'Interpretatie', 'Besluit'],
@@ -150,6 +158,11 @@
     `<circle cx="10" cy="16.1" r="1.75" fill="#ffffff"/>` +
     `<path d="M10 17.2v2.3" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round"/></svg>`;
 
+  // Flèche qui fait le tour : recommencer.
+  const RESTART_SVG = `<svg class="lab-restart-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
+    `<path d="M19.6 13.4A7.8 7.8 0 1 1 17.3 6.6" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>` +
+    `<path d="M18.6 2.9v4.6H14" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
   /* ===== Éléments partagés par tous les labos de la page =====
      Le fantôme qui suit le doigt pendant un glisser, et le rapport imprimé
      (seul élément visible à l'impression, voir lab-engine.css). */
@@ -177,12 +190,14 @@
         `<div class="lab-header">` +
           `<button type="button" class="modal-fullscreen" data-lab-fullscreen aria-label="${L.fullscreen}">⛶</button>` +
           `<h2 id="lab-title-${def.id}" class="lab-title">${def.title}</h2>` +
-          `<ol class="lab-stepper"></ol>` +
+          `<div class="lab-header-tools"><ol class="lab-stepper"></ol>` +
+          `<button type="button" class="lab-restart" data-lab-restart title="${L.restart}" aria-label="${L.restart}">${RESTART_SVG}<span>${L.restartShort}</span></button></div>` +
           `<button type="button" class="modal-close" data-lab-close aria-label="${L.close}">×</button>` +
         `</div>` +
         `<div class="lab-body"></div>` +
         `<div class="lab-footer"></div>` +
         `<div class="lab-sheet" hidden></div>` +
+        `<div class="lab-dialog" hidden></div>` +
       `</div>`;
     document.body.appendChild(overlay);
 
@@ -191,6 +206,7 @@
     const bodyEl = card.querySelector('.lab-body');
     const footerEl = card.querySelector('.lab-footer');
     const sheetEl = card.querySelector('.lab-sheet');
+    const dialogEl = card.querySelector('.lab-dialog');
     const fullscreenBtn = card.querySelector('[data-lab-fullscreen]');
 
     const glossary = Object.assign({}, COMMON_GLOSSARY, def.glossary || {});
@@ -282,6 +298,7 @@
       lockIcon: LOCK_SVG,
       openSheet,
       closeSheet,
+      confirm: confirmDialog,
 
       // Pied de l'étape Check, identique pour tous les labos.
       checkFooter() {
@@ -289,20 +306,67 @@
           `<input type="text" class="lab-input" data-lab-name placeholder="${L.namePlaceholder}" aria-label="${L.namePlaceholder}" value="${escapeHtml(lab.state.studentName)}" autocomplete="off">` +
           `<input type="text" class="lab-input lab-input-sm" data-lab-class placeholder="${L.classPlaceholder}" aria-label="${L.classPlaceholder}" value="${escapeHtml(lab.state.studentClass)}" autocomplete="off"></div>` +
           `<div class="lab-footer-actions">` +
-          `<button type="button" class="lab-btn lab-btn-ghost" data-lab-restart>${L.restart}</button>` +
           `<button type="button" class="lab-btn lab-btn-primary" data-lab-print>${L.printReport}</button></div>`;
         footerEl.querySelector('[data-lab-name]').addEventListener('input', e => { lab.state.studentName = e.target.value; });
         footerEl.querySelector('[data-lab-class]').addEventListener('input', e => { lab.state.studentClass = e.target.value; });
         footerEl.querySelector('[data-lab-print]').addEventListener('click', printReport);
-        footerEl.querySelector('[data-lab-restart]').addEventListener('click', () => {
-          if (!window.confirm(L.restartConfirm)) return;
-          restart();
-        });
       }
     };
 
     lab.state = freshFrameState(false);
     def.reset();
+
+    /* ===== Fenêtre de confirmation =====
+       Dans le style du site, par-dessus le labo (jamais window.confirm).
+       lab.confirm({ title, text, confirm, cancel, danger }) → Promise<bool>.
+       Annuler : bouton, Échap ou toucher à côté. Le focus va sur « Annuler » :
+       Entrée par réflexe n'efface rien. */
+    let dialogResolve = null;
+
+    function confirmDialog(o) {
+      closeDialog(false);
+      return new Promise(resolve => {
+        dialogResolve = resolve;
+        dialogEl.innerHTML = `<div class="lab-dialog-card ${o.danger ? 'is-danger' : ''}" role="alertdialog" aria-modal="true" aria-labelledby="lab-dialog-title-${def.id}" aria-describedby="lab-dialog-text-${def.id}">` +
+          `<div class="lab-dialog-icon" aria-hidden="true">${o.icon || RESTART_SVG}</div>` +
+          `<h3 class="lab-dialog-title" id="lab-dialog-title-${def.id}">${o.title}</h3>` +
+          `<p class="lab-dialog-text" id="lab-dialog-text-${def.id}">${o.text}</p>` +
+          `<div class="lab-dialog-actions">` +
+            `<button type="button" class="lab-btn lab-btn-ghost" data-dialog="no">${o.cancel || L.cancel}</button>` +
+            `<button type="button" class="lab-btn ${o.danger ? 'lab-btn-danger' : 'lab-btn-primary'}" data-dialog="yes">${o.confirm}</button>` +
+          `</div></div>`;
+        dialogEl.hidden = false;
+        const buttons = Array.from(dialogEl.querySelectorAll('[data-dialog]'));
+        buttons.forEach(b => b.addEventListener('click', () => closeDialog(b.dataset.dialog === 'yes')));
+        // Tab reste entre les deux boutons.
+        dialogEl.onkeydown = e => {
+          if (e.key !== 'Tab') return;
+          e.preventDefault();
+          const i = buttons.indexOf(document.activeElement);
+          buttons[(i + (e.shiftKey ? buttons.length - 1 : 1)) % buttons.length].focus();
+        };
+        dialogEl.onclick = e => { if (e.target === dialogEl) closeDialog(false); };
+        buttons[0].focus({ preventScroll: true });
+      });
+    }
+
+    function closeDialog(answer) {
+      if (!dialogResolve) return;
+      const resolve = dialogResolve;
+      dialogResolve = null;
+      dialogEl.hidden = true;
+      dialogEl.innerHTML = '';
+      resolve(answer);
+    }
+
+    // Recommencer : demandé seulement s'il y a quelque chose à perdre.
+    async function askRestart() {
+      if ((def.isStarted() || lab.state.checked) &&
+        !(await confirmDialog({ title: L.restartTitle, text: L.restartText, confirm: L.restartYes, danger: true }))) return;
+      restart();
+    }
+
+    card.querySelector('[data-lab-restart]').addEventListener('click', askRestart);
 
     function restart() {
       lab.state = freshFrameState(true);
@@ -465,6 +529,7 @@
 
     function closeLab() {
       sceneToken++;
+      closeDialog(false);
       hideGloss();
       if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
       overlay.classList.remove('modal-open');
@@ -476,6 +541,7 @@
 
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape' || !overlay.classList.contains('modal-open')) return;
+      if (dialogResolve) { closeDialog(false); return; }
       if (!sheetEl.hidden) { closeSheet(); return; }
       if (!document.fullscreenElement) closeLab();
     });
