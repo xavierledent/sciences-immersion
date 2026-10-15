@@ -458,6 +458,60 @@ html[data-pointer='fine'] .lab-note-opt:not(.lab-is-locked):not(.is-selected):ho
   font-size: 0.8rem;
 }
 
+/* Conclude : cinq échantillons seulement, le tableau prend la place
+   disponible et se lit sans effort (texte, vignettes, boutons agrandis).
+   S'il manque de hauteur, la zone du tableau défile, comme avant. */
+.lab-table.has-conclusions {
+  font-size: 0.98rem;
+}
+
+.lab-table.has-conclusions thead th {
+  padding: 8px 10px;
+  font-size: 0.82rem;
+}
+
+.lab-table.has-conclusions .lab-th-icon svg {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 3px;
+}
+
+.lab-table.has-conclusions td,
+.lab-table.has-conclusions tbody th {
+  height: 64px;
+  padding: 4px 10px;
+}
+
+.lab-table.has-conclusions .lab-row-sample {
+  gap: 12px;
+}
+
+.lab-table.has-conclusions .lab-letter-sm {
+  width: 34px;
+  height: 34px;
+  font-size: 1.05rem;
+}
+
+.lab-table.has-conclusions .lab-row-sample .lab-thumb {
+  width: 104px;
+}
+
+.lab-table.has-conclusions .lab-yesno {
+  gap: 6px;
+}
+
+.lab-table.has-conclusions .lab-yesno .lab-choice {
+  width: 66px;
+  height: 40px;
+  font-size: 0.95rem;
+}
+
+.lab-table.has-conclusions .lab-select {
+  width: 168px;
+  height: 40px;
+  font-size: 0.95rem;
+}
+
 /* ===== Étape 4 : correction ===== */
 .lab-check {
   height: 100%;
