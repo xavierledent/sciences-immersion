@@ -271,6 +271,24 @@ html[data-pointer='fine'] .dc-seg-btn:not(.is-selected):hover,
   outline: none;
 }
 
+/* Quatre bocaux : chaque libellé passe au-dessus de ses deux boutons */
+.dc-set-grid-4 .dc-set-rows {
+  gap: 3px;
+}
+
+.dc-set-grid-4 .dc-set-row {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+}
+
+.dc-set-grid-4 .dc-seg-btn {
+  height: 27px;
+}
+
+.dc-set-grid-4 .dc-set-card {
+  padding: 8px 8px 10px;
+}
+
 .dc-add-card {
   flex: 0 0 120px;
   display: flex;
@@ -301,6 +319,22 @@ html[data-pointer='fine'] .dc-add-card:hover,
 .dc-add-card:focus-visible {
   background: rgba(var(--color-current-rgb), 0.08);
   outline: none;
+}
+
+/* Paillasse vide : la carte d'ajout seule, plus large */
+.dc-add-card.is-alone {
+  flex-basis: 260px;
+  font-size: 1rem;
+}
+
+.dc-add-card.is-alone .dc-add-plus {
+  width: 56px;
+  height: 56px;
+  font-size: 2rem;
+}
+
+.dc-add-card.lab-is-missing {
+  border-color: #d64545;
 }
 
 /* Étiquette du lieu, et fond « frigo » derrière le bocal */
@@ -346,8 +380,8 @@ html[data-pointer='fine'] .dc-add-card:hover,
   min-height: 0;
   min-width: 0;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 8px;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 6px;
 }
 
 .dc-bench-head {
@@ -357,14 +391,200 @@ html[data-pointer='fine'] .dc-add-card:hover,
   min-width: 0;
 }
 
-.dc-week {
+/* Frise des jours de pesée + bouton « Wait 2 weeks » */
+.dc-timeline {
+  --dc-node: 52px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 6px 4px 4px;
+  border-radius: 16px;
+  background: rgba(var(--color-current-rgb), 0.07);
+}
+
+.dc-tl-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+/* La barre relie le centre du premier point à celui du dernier */
+.dc-tl-track {
+  position: absolute;
+  top: 9px;
+  left: calc(var(--dc-node) / 2);
+  right: calc(var(--dc-node) / 2);
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(17, 36, 72, 0.12);
+}
+
+.dc-tl-fill {
+  height: 100%;
+  width: calc(var(--p, 0) * 25%);
+  border-radius: 2px;
+  background: var(--color-current);
+}
+
+.dc-tl {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dc-tl-node {
+  width: var(--dc-node);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+}
+
+.dc-tl-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 3px solid rgba(17, 36, 72, 0.18);
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.dc-tl-node.is-done .dc-tl-dot {
+  border-color: var(--color-current);
+  background: var(--color-current);
+}
+
+.dc-tl-node.is-now .dc-tl-dot {
+  border-color: var(--color-current);
+  box-shadow: 0 0 0 4px rgba(var(--color-current-rgb), 0.22);
+}
+
+.dc-tl-week {
+  margin-top: 2px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.dc-tl-node.is-now .dc-tl-week {
+  color: var(--color-current-darkest);
+  font-weight: 700;
+}
+
+.dc-tl-sub {
+  min-height: 0.85rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--color-current-darker);
+}
+
+.dc-tl-node.is-now .dc-tl-sub {
+  color: #b2401f;
+}
+
+/* Jour de pesée en cours terminé : point plein, coche verte */
+.dc-tl-node.is-now.is-complete .dc-tl-dot {
+  background: var(--color-current);
+}
+
+.dc-tl-node.is-now.is-complete .dc-tl-sub {
+  color: var(--color-current-darker);
+}
+
+/* « Conclude » avant la fin de l'expérience : pâli, mais cliquable */
+.lab-footer [data-conclude].lab-btn-ghost {
+  opacity: 0.5;
+}
+
+html[data-pointer='fine'] .lab-footer [data-conclude].lab-btn-ghost:hover,
+.lab-footer [data-conclude].lab-btn-ghost:focus-visible {
+  opacity: 1;
+}
+
+/* Pendant l'attente : seule la barre avance */
+.dc-timeline.is-moving .dc-tl-node.is-now .dc-tl-dot {
+  box-shadow: none;
+}
+
+.dc-timeline.is-moving .dc-tl-sub[data-tl-now] {
+  visibility: hidden;
+}
+
+.dc-wait-btn {
   flex: 0 0 auto;
-  padding: 4px 12px;
-  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 170px;
+  height: 50px;
+  padding: 0 14px 0 12px;
+  border-radius: 14px;
+  border: 2px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  color: var(--color-current-darkest);
+  text-align: left;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.dc-wait-icon {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+}
+
+.dc-wait-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.dc-wait-text strong {
+  font-size: 0.92rem;
+}
+
+.dc-wait-text small {
+  font-size: 0.7rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+html[data-pointer='fine'] button.dc-wait-btn:hover,
+button.dc-wait-btn:focus-visible {
+  border-color: var(--color-current);
+  outline: none;
+}
+
+/* Tout est noté : le bouton devient l'action à faire, et pulse doucement */
+button.dc-wait-btn.is-ready {
+  border-color: var(--color-current);
   background: var(--color-current);
   color: var(--color-current-text);
-  font-weight: 700;
-  font-size: 0.85rem;
+  animation: dc-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes dc-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--color-current-rgb), 0.45); }
+  50% { box-shadow: 0 0 0 7px rgba(var(--color-current-rgb), 0); }
+}
+
+/* Semaine 8 : plus de temps à faire passer, un simple état */
+.dc-wait-btn.is-final {
+  border-style: dashed;
+  background: transparent;
+}
+
+.dc-wait-btn.is-final.is-ready {
+  border-style: solid;
+  border-color: var(--color-emerald);
+  color: var(--color-emerald);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.dc-wait-btn.is-ready { animation: none; }
 }
 
 .dc-reminder-inline {
@@ -397,6 +617,7 @@ html[data-pointer='fine'] .dc-add-card:hover,
 
 .dc-jars-2 { --dc-n: 2; }
 .dc-jars-3 { --dc-n: 3; }
+.dc-jars-4 { --dc-n: 4; }
 
 .dc-jar {
   position: relative;
@@ -450,33 +671,60 @@ html[data-pointer='fine'] .dc-add-card:hover,
   text-align: center;
 }
 
+/* Bocal dont le sachet est sur la balance */
 .dc-jar.is-active {
-  border-color: var(--color-current);
-  background-color: rgba(var(--color-current-rgb), 0.08);
-}
-
-html[data-pointer='fine'] .dc-jar:not(.is-active):hover,
-.dc-jar:focus-visible {
   border-color: rgba(var(--color-current-rgb), 0.5);
-  outline: none;
-}
-
-.dc-jar.is-dragging {
-  opacity: 0.45;
+  border-style: dashed;
 }
 
 .dc-jar.lab-is-missing {
   border-color: #d64545 !important;
 }
 
+/* Sachet à saisir : la zone couvre tout le haut du bocal. Au survol, le filet
+   se colore ; saisi, le sachet pâlit dans le bocal pendant que son fantôme
+   suit le doigt. */
+.dc-bag-hit {
+  cursor: grab;
+  outline: none;
+}
+
+.dc-bag-hit.is-dragging {
+  cursor: grabbing;
+}
+
+.dc-bag-hit:focus-visible {
+  stroke: var(--color-current);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.dc-bag-net {
+  transition: stroke 0.15s ease;
+}
+
+html[data-pointer='fine'] .dc-jar-svg:has(.dc-bag-hit:hover) .dc-bag-net,
+.dc-jar-svg:has(.dc-bag-hit:focus-visible) .dc-bag-net {
+  stroke: var(--color-current);
+  stroke-width: 2.2;
+}
+
+.dc-jar-svg:has(.dc-bag-hit.is-dragging) .dc-bag-vis {
+  opacity: 0.25;
+}
+
+.dc-bag-num {
+  font-size: 8px;
+  font-weight: 700;
+  fill: #13243d;
+  font-family: var(--font-family);
+}
+
 .dc-jar-badge {
-  position: absolute;
-  top: 4px;
-  right: 6px;
-  display: grid;
+  display: inline-grid;
   place-items: center;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--color-emerald);
   color: #ffffff;
@@ -488,7 +736,11 @@ html[data-pointer='fine'] .dc-jar:not(.is-active):hover,
   background: var(--color-slate);
 }
 
-/* Balance */
+.dc-jar-badge[hidden] {
+  display: none;
+}
+
+/* Balance : elle s'annonce dès qu'un sachet est saisi (is-drop-ready) */
 .dc-balance {
   flex: 0 0 132px;
   display: flex;
@@ -497,17 +749,28 @@ html[data-pointer='fine'] .dc-jar:not(.is-active):hover,
   justify-content: flex-end;
   padding: 8px 4px 10px;
   border-radius: 16px;
-  transition: box-shadow var(--transition);
+  transition: box-shadow var(--transition), background var(--transition);
+}
+
+.dc-balance.is-drop-ready {
+  background: rgba(var(--color-current-rgb), 0.07);
+  box-shadow: inset 0 0 0 2px rgba(var(--color-current-rgb), 0.45);
+}
+
+.dc-balance.is-drop-ready.is-drop-target {
+  background: rgba(var(--color-current-rgb), 0.14);
+  box-shadow: inset 0 0 0 3px var(--color-current);
 }
 
 .dc-balance-load {
-  height: 30px;
-  width: 104px;
+  height: 48px;
+  width: 112px;
   display: flex;
   align-items: flex-end;
 }
 
-.dc-pile {
+.dc-bag-svg {
+  display: block;
   width: 100%;
   height: auto;
 }
@@ -569,16 +832,10 @@ html[data-pointer='fine'] .dc-jar:not(.is-active):hover,
   line-height: 1.25;
 }
 
-.dc-ghost-jar {
-  width: 92px;
-  transform: translate(-50%, -50%) rotate(-4deg);
-  filter: drop-shadow(0 10px 16px rgba(17, 36, 72, 0.25));
-}
-
-.dc-ghost-jar .dc-jar-svg {
-  display: block;
-  width: 100%;
-  height: auto;
+.dc-ghost-bag {
+  width: 120px;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  filter: drop-shadow(0 10px 16px rgba(17, 36, 72, 0.28));
 }
 
 .lab-caption.is-warning {
@@ -622,28 +879,155 @@ html[data-pointer='fine'] .dc-jar:not(.is-active):hover,
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  height: 28px;
+  height: 26px;
   padding: 0 10px;
   border-radius: 999px;
-  border: 1.5px solid transparent;
   background: #ffffff;
   color: var(--color-text);
   font-size: 0.76rem;
   font-weight: 600;
 }
 
-button.dc-legend-item:disabled {
-  cursor: default;
+/* Tableau des masses, au-dessus du graphique qu'il alimente */
+.dc-results {
+  gap: 5px;
 }
 
-button.dc-legend-item.is-active {
-  border-color: var(--color-current);
+.dc-table-unit {
+  font-size: 0.74rem;
+  color: var(--color-muted);
 }
 
-html[data-pointer='fine'] button.dc-legend-item:not(:disabled):not(.is-active):hover,
-button.dc-legend-item:not(:disabled):focus-visible {
-  border-color: rgba(var(--color-current-rgb), 0.5);
+.dc-table-wrap {
+  flex: 0 0 auto;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.dc-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.dc-table th,
+.dc-table td {
+  height: 28px;
+  padding: 2px 4px;
+  border-bottom: 1px solid #eef0ec;
+  text-align: center;
+}
+
+.dc-table tr:last-child th,
+.dc-table tr:last-child td {
+  border-bottom: none;
+}
+
+.dc-table th:first-child {
+  width: 30%;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.dc-table tr:first-child th {
+  height: 24px;
+  font-size: 0.72rem;
+  color: var(--color-muted);
+}
+
+.dc-table .is-now {
+  background: rgba(var(--color-current-rgb), 0.08);
+}
+
+.dc-table tr:first-child th.is-now {
+  color: var(--color-current-darkest);
+}
+
+.dc-th-now {
+  display: inline-block;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--color-current);
+  color: var(--color-current-text);
+  font-size: 0.6rem;
+  line-height: 1.5;
+  vertical-align: 1px;
+}
+
+.dc-th-wait {
+  font-size: 0.68rem;
+  opacity: 0.6;
+}
+
+.dc-row-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.dc-cell-empty {
+  color: var(--color-muted);
+}
+
+.dc-cell-input,
+.dc-cell-wait {
+  display: block;
+  width: 100%;
+  height: 24px;
+  padding: 0 2px;
+  border-radius: 7px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.dc-cell-input:focus {
   outline: none;
+  border-color: var(--color-current);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+}
+
+.dc-cell-input.is-invalid {
+  border-color: #d64545;
+  background: #fff1f0;
+}
+
+/* Case pas encore disponible : le sachet n'a pas été pesé */
+.dc-cell-wait {
+  border-style: dashed;
+  border-color: rgba(17, 36, 72, 0.2);
+  background: transparent;
+}
+
+.dc-cell-input.lab-is-missing,
+.dc-cell-wait.lab-is-missing {
+  border-color: #d64545;
+}
+
+/* Point qui vient d'apparaître */
+.dc-graph-svg .is-fresh {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dc-pop 0.45s ease-out;
+}
+
+@keyframes dc-pop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-graph-svg .is-fresh { animation: none; }
 }
 
 .dc-legend-note {
@@ -685,47 +1069,8 @@ button.dc-legend-item:not(:disabled):focus-visible {
   fill: #13243d;
 }
 
-.dc-plot-hit {
-  cursor: crosshair;
-  touch-action: none;
-}
-
 .dc-pt {
   cursor: pointer;
-}
-
-.dc-nudge {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-}
-
-.dc-nudge[hidden] {
-  display: none;
-}
-
-.dc-nudge-label {
-  margin-right: auto;
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: var(--color-muted);
-}
-
-.dc-nudge-btn {
-  width: 40px;
-  height: 32px;
-  border-radius: 10px;
-  border: 1.5px solid rgba(var(--color-current-rgb), 0.5);
-  background: #ffffff;
-  color: var(--color-current-darker);
-  font-size: 0.8rem;
-}
-
-html[data-pointer='fine'] .dc-nudge-btn:hover,
-.dc-nudge-btn:focus-visible {
-  background: rgba(var(--color-current-rgb), 0.12);
-  outline: none;
 }
 
 .dc-tip {

@@ -13,12 +13,15 @@
 
    Déroulé :
      1. Predict    — compléter une phrase d'hypothèse (+ « because » libre)
-     2. Experiment — préparer 2 ou 3 bocaux en réglant 4 facteurs, puis faire
-                     passer le temps par 2 semaines : peser chaque bocal sur la
-                     balance et placer soi-même le point sur le graphique
+     2. Experiment — préparer ses bocaux (paillasse vide au départ, jusqu'à 4,
+                     sans indice sur le nombre attendu) en réglant 4 facteurs,
+                     puis faire passer le temps par 2 semaines : sortir le
+                     sachet de feuilles de chaque bocal, le peser (sachet taré),
+                     noter la masse dans le tableau ; le graphique se trace
+                     à partir du tableau
      3. Conclude   — quels bocaux comparer, ce qui les distingue, la réponse,
                      hypothèse confirmée ou infirmée
-     4. Check      — 4 vérifications : expérience juste, points du graphique,
+     4. Check      — 4 vérifications : expérience juste, masses notées,
                      conclusion, jugement de l'hypothèse ; rapport (FO3)
 
    Rien n'est enregistré : recharger la page repart de zéro, avec un nouveau
@@ -28,6 +31,7 @@
   'use strict';
 
   const { escapeHtml, mulberry32, seedFrom, pick, lerp, ease } = LabEngine.util;
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Cadre commun, créé en fin de fichier (LabEngine.create).
   let lab;
@@ -73,7 +77,7 @@
     hypothesisPending: 'Tap the words that complete your hypothesis.',
     toSetup: 'Next: plan your experiment',
 
-    setupIntro: leaf => `Prepare 2 or 3 [jars|jar]. Each jar gets <strong>10.0 g</strong> of dead ${leaf} leaves. Choose the conditions in each jar: only change what you want to test!`,
+    setupIntro: leaf => `Prepare your [jars|jar]. Each jar gets a [mesh bag] with <strong>10.0 g</strong> of dead ${leaf} leaves: you can take the bag out to [weigh] the leaves. Choose the conditions in each jar: only change what you want to test!`,
     jar: n => `Jar ${n}`,
     addJar: 'Add a jar',
     removeJar: n => `Remove jar ${n}`,
@@ -82,7 +86,9 @@
     factorNouns: { soil: 'soil (living or sterilized)', worms: 'earthworms', water: 'water', place: 'temperature' },
     answerStart: 'Dead leaves disappear',
     options: { living: 'Living', sterile: 'Sterilized', yes: 'Yes', no: 'No', moist: 'Moist', dry: 'Dry', room: 'Room 20 °C', fridge: 'Fridge 4 °C' },
-    setupInfo: n => `${n} jars prepared`,
+    setupInfo: n => n === 0 ? 'No jar yet' : n === 1 ? '1 jar prepared' : `${n} jars prepared`,
+    setupNoJar: 'Add a jar first.',
+    setupOneJar: 'With only one jar, what will you compare it to?',
     startExperiment: 'Start the experiment',
 
     placeLabel: { room: 'Room · 20 °C', fridge: 'Fridge · 4 °C' },
@@ -93,28 +99,39 @@
       place: { room: '20 °C', fridge: 'fridge 4 °C' }
     },
     waitTwoWeeks: 'Wait 2 weeks',
+    waitReady: 'Ready: let time pass!',
+    jarsLeft: n => n === 1 ? '1 jar left to weigh' : `${n} jars left to weigh`,
+    lastWeighing: 'Last weighing',
+    experimentOver: 'Experiment over',
+    goConclude: 'Go on to conclude',
+    timelineLabel: 'Weighing days',
+    tlWeigh: 'weigh!',
+    tableNow: 'now',
     changeSetup: 'Change the set-up',
     changeSetupConfirm: 'Change the set-up? Your measurements will be erased.',
     toConclude: 'Next: conclude',
-    runInfo: (w, n, total) => `Week ${w} of 8 · ${n} / ${total} points placed`,
-    missingPoints: 'Weigh each jar and place its point on the graph first.',
-    balanceEmpty: 'Drag a jar here',
-    balanceJar: n => `Leaves of jar ${n}`,
+    runInfo: (w, n, total) => `Week ${w} of 8 · ${n} / ${total} masses written`,
+    missingPoints: 'Weigh each bag and write its mass in the table first.',
+    balanceEmpty: 'Drag a [bag|mesh bag] here',
+    balanceJar: n => `Leaves of jar ${n}<br>(bag [tared])`,
     weekBadge: w => `Week ${w}`,
-    captionStart: 'Every jar starts with 10.0 g of leaves: the first points are already on the graph. Press “Wait 2 weeks” to let time pass.',
-    captionWeigh: 'Drag each [jar] onto the [balance], or tap it, to [weigh] its leaves.',
-    captionPlace: n => `Leaves of jar ${n} weighed. Now place the point for jar ${n} on the graph: tap it at the right height.`,
-    captionPlaced: 'Point placed. You can still move it. Weigh the next jar.',
-    captionAllPlaced: 'All the points are placed. Press “Wait 2 weeks” to go on.',
+    bagOf: n => `Bag of jar ${n}: drag it to the balance, or tap it`,
+    captionStart: 'Every bag starts with 10.0 g of leaves: the first masses are already in the table. Press “Wait 2 weeks” to let time pass.',
+    captionWeigh: 'Drag the [bag|mesh bag] of a [jar] onto the [balance], or tap it, to [weigh] the leaves.',
+    captionRecord: n => `Leaves of jar ${n} [weighed]. Read the [balance] and write the mass in the table.`,
+    captionRecorded: 'Mass written down. Weigh the next bag.',
+    captionAllPlaced: 'All the bags are weighed. Press “Wait 2 weeks” at the top to let time pass!',
     captionDone: 'Week 8: the experiment is over. Look at your graph, then go on to conclude.',
-    captionNeedWeigh: 'First [weigh] a [jar] on the [balance].',
+    captionNeedWeigh: n => `First [weigh] the bag of jar ${n} on the [balance].`,
+    captionBadValue: 'Write the mass shown on the balance, in grams (for example 7.4).',
     captionWaiting: 'Two weeks go by…',
+    tableTitle: 'Your measurements',
+    tableUnit: 'mass of leaves (g)',
+    tableWeek: 'Week',
+    cellLabel: (n, w) => `Mass of the leaves of jar ${n}, week ${w}, in grams`,
     graphTitle: 'Your graph',
     axisY: 'Mass of leaves (g)',
     axisX: 'Time (weeks)',
-    nudgeUp: 'Move the point up',
-    nudgeDown: 'Move the point down',
-    placing: n => `Placing: jar ${n}`,
 
     concludeIntro: 'Use your graph to answer the question.',
     qPair: 'Which two jars do you compare?',
@@ -129,19 +146,18 @@
     backToLab: 'Back to the lab',
 
     scoreLabel: 'checks passed',
-    criteria: { fair: 'Fair test', points: 'Graph points', answer: 'Conclusion', verdict: 'Hypothesis' },
-    criteriaSub: { fair: 'Your experiment', points: 'Your measurements', answer: 'Your answer', verdict: 'Your judgement' },
-    legendStudent: 'your points',
+    criteria: { fair: 'Fair test', points: 'Measurements', answer: 'Conclusion', verdict: 'Hypothesis' },
+    criteriaSub: { fair: 'Your experiment', points: 'Your table', answer: 'Your answer', verdict: 'Your judgement' },
     legendReading: 'balance readings',
 
     report: {
       title: 'Laboratory report — The decomposition of dead leaves',
       because: 'Because',
-      materials: (n, leaf, extras) => `${n} glass jars with a lid, soil, ${(n * 10).toFixed(0)} g of dead ${leaf} leaves (10.0 g per jar)${extras.length ? ', ' + extras.join(', ') : ''}, a balance.`,
+      materials: (n, leaf, extras) => `${n} glass jars with a lid, soil, ${n} mesh bags, ${(n * 10).toFixed(0)} g of dead ${leaf} leaves (10.0 g per bag)${extras.length ? ', ' + extras.join(', ') : ''}, a balance.`,
       extras: { oven: 'an oven (to sterilize the soil)', worms: 'earthworms', spray: 'a water spray', fridge: 'a fridge (4 °C)' },
-      procedureStart: 'Put soil in each jar, then 10.0 g of dead leaves on top.',
+      procedureStart: 'Put soil in each jar, then a mesh bag with 10.0 g of dead leaves on top.',
       procedureJar: (n, desc) => `Jar ${n}: ${desc}.`,
-      procedureWeigh: 'Every 2 weeks, take out the leaves, weigh them and put them back. Do this for 8 weeks.',
+      procedureWeigh: 'Every 2 weeks, take out each bag, weigh the leaves (bag tared) and put the bag back. Do this for 8 weeks.',
       procedureGraph: 'Draw a line graph of the mass of the leaves against time.',
       tableWeek: 'Week',
       tableUnit: 'Mass of the leaves (g)',
@@ -160,6 +176,7 @@
     earthworms: 'vers de terre', earthworm: 'ver de terre', humidity: 'humidité',
     sterilized: 'stérilisé', moist: 'humide', dry: 'sec', fridge: 'frigo',
     jar: 'bocal', jars: 'bocaux', balance: 'balance', weigh: 'peser', weighed: 'pesé',
+    'mesh bag': 'sachet en filet', tared: 'taré (la balance retire la masse du sachet)',
     hazel: 'noisetier', oak: 'chêne', beech: 'hêtre',
     'fair test': 'expérience équitable', control: 'témoin', fungi: 'champignons', bacteria: 'bactéries',
     'organic matter': 'matière organique', 'mineral matter': 'matière minérale', 'cycle of matter': 'cycle de la matière'
@@ -175,9 +192,8 @@
      graphique en 8 semaines, quelle que soit l'espèce. */
   const WEEKS = [0, 2, 4, 6, 8];
   const START_MASS = 10;
-  const TOLERANCE = 0.3;     // g : écart accepté entre le point placé et la pesée
-  const MIN_JARS = 2;
-  const MAX_JARS = 3;
+  const TOLERANCE = 0.05;    // g : la masse notée doit être celle de la balance (au dixième)
+  const MAX_JARS = 4;        // au-delà du nécessaire : le maximum ne souffle pas la réponse
 
   const FACTORS = ['soil', 'worms', 'water', 'place'];
   const OPTIONS = { soil: ['living', 'sterile'], worms: ['yes', 'no'], water: ['moist', 'dry'], place: ['room', 'fridge'] };
@@ -197,12 +213,14 @@
     beech: { k: 0.05, colour: '#b5703a' }
   };
 
-  // Catégoriel validé (palette de référence dataviz, 3 premières teintes) ;
-  // la forme du point double la couleur (daltonisme, impression N&B).
+  // Catégoriel validé (palette de référence dataviz, 4 premières teintes) ;
+  // la forme du point double la couleur (daltonisme, impression N&B), et le
+  // tableau des masses donne les valeurs (aqua et jaune sous 3:1 sur blanc).
   const SERIES = [
     { colour: '#2a78d6', shape: 'circle' },
     { colour: '#eb6834', shape: 'square' },
-    { colour: '#1baf7a', shape: 'triangle' }
+    { colour: '#1baf7a', shape: 'triangle' },
+    { colour: '#eda100', shape: 'diamond' }
   ];
 
   let run;      // tirage : question, ordre de la phrase, feuille, graine
@@ -218,14 +236,15 @@
     state = {
       hypothesis: null,
       because: '',
-      jars: [Object.assign({}, DEFAULT_JAR), Object.assign({}, DEFAULT_JAR)],
+      jars: [],            // paillasse vide : l'élève choisit combien de bocaux
       started: false,
       wi: 0,               // indice dans WEEKS
       readings: [],        // pesées réelles [bocal][semaine]
-      points: [],          // points placés par l'élève [bocal][semaine]
+      points: [],          // masses notées par l'élève [bocal][semaine]
       weighed: {},         // bocaux pesés pendant la semaine en cours
-      active: null,        // bocal dont l'élève place le point
+      active: null,        // bocal dont le sachet est sur la balance
       lastReading: null,   // { jar, value } affiché sur la balance
+      setupWarning: null,  // message du pied de page à la préparation
       conclusion: { pair: [], differ: [], answer: null, verdict: null },
       selected: 'fair'
     };
@@ -345,14 +364,44 @@
 
   let svgUid = 0;
 
-  function jarSVG(cfg, mass, j) {
+  // Filet du sachet : treillis clair en losanges.
+  function meshPattern(id) {
+    return `<pattern id="${id}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">` +
+      `<path d="M0,0 L0,6 M0,0 L6,0" stroke="#fffaf0" stroke-width="0.7" stroke-opacity="0.6"/></pattern>`;
+  }
+
+  // Étiquette du sachet, au bout de sa ficelle : numéro du bocal.
+  function bagTag(x, y, j) {
+    return `<rect x="${x - 8}" y="${y}" width="16" height="11" rx="2" fill="#ffffff" stroke="${SERIES[j].colour}" stroke-width="1.4"/>` +
+      `<text x="${x}" y="${y + 8.3}" text-anchor="middle" class="dc-bag-num">${j + 1}</text>`;
+  }
+
+  /* Sachet sorti du bocal (balance, glisser) : feuilles dans le filet,
+     ficelle et étiquette. viewBox 110 × 46. */
+  function bagSVG(j, mass) {
+    const uid = `dcb${++svgUid}`;
+    const decay = Math.max(0, Math.min(1, 1 - mass / START_MASS));
+    return `<svg class="dc-bag-svg" viewBox="0 0 110 46" aria-hidden="true" focusable="false">` +
+      `<defs>${meshPattern(uid)}</defs>` +
+      `<path d="M55,22 C52,16 58,13 55,11" fill="none" stroke="#b9ab8c" stroke-width="1.2"/>${bagTag(55, 1, j)}` +
+      leavesSVG([[30, 36, -14], [55, 33, 10], [78, 36, -4], [44, 29, 24], [66, 29, -26]], decay, j, '#ffffff', 0.9, 0) +
+      `<path d="M8,44 Q5,26 20,22 L90,22 Q105,26 102,44 Z" fill="url(#${uid})" fill-opacity="0.9" stroke="#d9cfb6" stroke-width="1.4"/>` +
+      `</svg>`;
+  }
+
+  /* opts.bag : 'in' (sachet dans le bocal, par défaut) ou 'out' (sur la
+     balance : creux dans le sol) ; opts.hit : zone à saisir pour peser,
+     posée par-dessus tout le haut du bocal (cible large au doigt). */
+  function jarSVG(cfg, mass, j, opts) {
+    const o = opts || {};
+    const bagIn = o.bag !== 'out';
     const uid = `dcj${++svgUid}`;
     const decay = Math.max(0, Math.min(1, 1 - mass / START_MASS));
     const soil = soilColour(cfg);
     const rnd = mulberry32(seedFrom(run.seed + 'jar' + j));
     const top = 112;
     let out = `<svg class="dc-jar-svg" viewBox="0 0 120 170" aria-hidden="true" focusable="false">` +
-      `<defs><clipPath id="${uid}"><path d="M14,30 Q14,24 20,24 L100,24 Q106,24 106,30 L106,152 Q106,164 94,164 L26,164 Q14,164 14,152 Z"/></clipPath></defs>` +
+      `<defs><clipPath id="${uid}"><path d="M14,30 Q14,24 20,24 L100,24 Q106,24 106,30 L106,152 Q106,164 94,164 L26,164 Q14,164 14,152 Z"/></clipPath>${meshPattern(uid + 'm')}</defs>` +
       `<path d="M14,30 Q14,24 20,24 L100,24 Q106,24 106,30 L106,152 Q106,164 94,164 L26,164 Q14,164 14,152 Z" fill="#f3f8fb"/>` +
       `<g clip-path="url(#${uid})">` +
       `<rect x="0" y="${top}" width="120" height="60" fill="${soil}"/>`;
@@ -367,8 +416,9 @@
       out += `<path d="M24,${top + 34} q6,-7 12,0 t12,0 t10,-2" fill="none" stroke="#d98b86" stroke-width="4" stroke-linecap="round"/>` +
         `<path d="M70,${top + 20} q5,6 10,0 t10,1" fill="none" stroke="#cf7f7a" stroke-width="3.6" stroke-linecap="round"/>`;
     }
-    // Feuilles sur le sol, puis débris sombres
-    out += leavesSVG([[34, top - 3, -18], [60, top - 5, 12], [84, top - 2, -6], [48, top - 9, 28], [74, top - 10, -30]], decay, j, soil, 1, 4);
+    // Feuilles dans le sachet, ou creux laissé par le sachet sorti ; puis débris sombres
+    if (bagIn) out += `<g class="dc-bag-vis">${leavesSVG([[34, top - 3, -18], [60, top - 5, 12], [84, top - 2, -6], [48, top - 9, 28], [74, top - 10, -30]], decay, j, soil, 1, 4)}</g>`;
+    else out += `<ellipse cx="60" cy="${top + 1}" rx="40" ry="3.5" fill="#000" opacity="0.2"/>`;
     const debris = Math.round(decay * 16);
     for (let i = 0; i < debris; i++) {
       out += `<ellipse cx="${(20 + rnd() * 80).toFixed(1)}" cy="${(top - 1 + rnd() * 4).toFixed(1)}" rx="${(1.2 + rnd() * 2).toFixed(1)}" ry="${(0.8 + rnd() * 0.8).toFixed(1)}" fill="${mixColour(LEAVES[run.leaf].colour, '#2b1d14', 0.65)}" opacity="0.85"/>`;
@@ -380,6 +430,13 @@
         const x = 22 + rnd() * 76, y = top - 12 + rnd() * 18;
         out += `<path d="M${x.toFixed(1)},${y.toFixed(1)} q${(rnd() * 8 - 4).toFixed(1)},${(-3 - rnd() * 4).toFixed(1)} ${(rnd() * 12 - 6).toFixed(1)},${(-rnd() * 3).toFixed(1)}" fill="none" stroke="#ffffff" stroke-opacity="${(0.55 + rnd() * 0.35).toFixed(2)}" stroke-width="0.8"/>`;
       }
+    }
+    // Filet du sachet par-dessus les feuilles, ficelle jusqu'à l'étiquette sous le couvercle
+    if (bagIn) {
+      out += `<g class="dc-bag-vis">` +
+        `<path class="dc-bag-net" d="M17,${top + 2} Q15,${top - 16} 30,${top - 19} L90,${top - 19} Q105,${top - 16} 103,${top + 2} Z" fill="url(#${uid}m)" fill-opacity="0.9" stroke="#e3d9c0" stroke-width="1.4"/>` +
+        `<path d="M60,${top - 19} C55,${top - 40} 65,${top - 55} 60,42" fill="none" stroke="#b9ab8c" stroke-width="1.2"/>` +
+        bagTag(60, 31, j) + `</g>`;
     }
     out += `</g>`;
     // Buée
@@ -393,19 +450,12 @@
       `<path d="M14,30 Q14,24 20,24 L100,24 Q106,24 106,30 L106,152 Q106,164 94,164 L26,164 Q14,164 14,152 Z" fill="none" stroke="#8ea6b6" stroke-width="2"/>` +
       `<rect x="10" y="10" width="100" height="16" rx="4" fill="#8a96a3"/>` +
       `<rect x="10" y="10" width="100" height="5" rx="2.5" fill="#ffffff" fill-opacity="0.25"/>` +
-      [30, 45, 60, 75, 90].map(x => `<circle cx="${x}" cy="19" r="1.6" fill="#4d5761"/>`).join('') +
-      `</svg>`;
-    return out;
-  }
-
-  // Petit tas de feuilles sur le plateau de la balance.
-  function pileSVG(j) {
-    const cfg = state.jars[j];
-    const mass = state.lastReading ? state.lastReading.value : START_MASS;
-    const decay = Math.max(0, Math.min(1, 1 - mass / START_MASS));
-    return `<svg class="dc-pile" viewBox="0 0 110 26" aria-hidden="true" focusable="false">` +
-      leavesSVG([[30, 18, -14], [55, 15, 10], [78, 18, -4], [44, 11, 24], [66, 11, -26]], decay, j, '#ffffff', 0.9, 0) +
-      `</svg>`;
+      [30, 45, 60, 75, 90].map(x => `<circle cx="${x}" cy="19" r="1.6" fill="#4d5761"/>`).join('');
+    // Zone à saisir : tout l'intérieur du bocal au-dessus du sol.
+    if (o.hit && bagIn) {
+      out += `<rect class="dc-bag-hit" data-bag="${j}" x="16" y="27" width="88" height="${top - 21}" rx="6" fill="transparent" tabindex="0" role="button" aria-label="${LABELS.bagOf(j + 1)}"/>`;
+    }
+    return out + `</svg>`;
   }
 
   function markerSVG(shape, x, y, colour, opts) {
@@ -416,6 +466,10 @@
     const sw = o.hollow ? 1.6 : 2;
     const attrs = `fill="${fill}" stroke="${stroke}" stroke-width="${sw}"${o.extra || ''}`;
     if (shape === 'square') return `<rect x="${(x - r).toFixed(1)}" y="${(y - r).toFixed(1)}" width="${2 * r}" height="${2 * r}" rx="1.5" ${attrs}/>`;
+    if (shape === 'diamond') {
+      const h = r * 1.3;
+      return `<path d="M${x.toFixed(1)},${(y - h).toFixed(1)} L${(x + h).toFixed(1)},${y.toFixed(1)} L${x.toFixed(1)},${(y + h).toFixed(1)} L${(x - h).toFixed(1)},${y.toFixed(1)} Z" stroke-linejoin="round" ${attrs}/>`;
+    }
     if (shape === 'triangle') {
       const h = r * 1.25;
       return `<path d="M${x.toFixed(1)},${(y - h).toFixed(1)} L${(x + h).toFixed(1)},${(y + h * 0.75).toFixed(1)} L${(x - h).toFixed(1)},${(y + h * 0.75).toFixed(1)} Z" stroke-linejoin="round" ${attrs}/>`;
@@ -430,18 +484,18 @@
 
   /* ===== Graphique évolutif =====
      Masse (0–10 g) en fonction du temps (0–8 semaines). Une seule échelle ;
-     quadrillage fin tous les 0,5 g pour lire au dixième près ; segments de
-     2 px, points de 10 px cerclés de blanc, une forme par bocal ; légende
-     toujours présente, étiquettes en bout de courbe seulement si elles ne se
-     chevauchent pas.
-     Pendant l'expérience, aucune valeur n'est affichée au survol : c'est à
-     l'élève de lire l'échelle pour placer son point (but de l'exercice).
-     Ensuite (conclusion, correction), toucher un point affiche sa valeur. */
+     quadrillage fin tous les 0,5 g ; segments de 2 px, points de 10 px
+     cerclés de blanc, une forme par bocal ; légende toujours présente,
+     étiquettes en bout de courbe seulement si elles ne se chevauchent pas.
+     Il se trace tout seul à partir des masses notées dans le tableau (même
+     fausses : la correction les compare aux pesées). Toucher un point
+     affiche sa valeur. */
   const G = { W: 470, H: 300, L: 54, R: 54, T: 14, B: 46 };
   const gx = w => G.L + (w / 8) * (G.W - G.L - G.R);
-  const gy = m => G.T + (1 - m / 10) * (G.H - G.T - G.B);
-  const gm = y => Math.max(0, Math.min(10, 10 * (1 - (y - G.T) / (G.H - G.T - G.B))));
+  const gy = m => G.T + (1 - Math.max(0, Math.min(10, m)) / 10) * (G.H - G.T - G.B);
 
+  // opts.mode : 'run' (paillasse), 'read' (conclusion, correction), 'print' ;
+  // opts.fresh : [bocal, semaine] du point qui vient d'apparaître.
   function graphSVG(opts) {
     const o = opts || {};
     const mode = o.mode || 'read';
@@ -462,10 +516,10 @@
       `<text class="dc-axis" x="${(G.L + G.W - G.R) / 2}" y="${G.H - 6}" text-anchor="middle">${LABELS.axisX}</text>` +
       `<text class="dc-axis" transform="translate(13 ${(G.T + G.H - G.B) / 2}) rotate(-90)" text-anchor="middle">${LABELS.axisY}</text>`;
 
-    // Colonne de la semaine en cours (placement)
-    if (mode === 'edit' && state.started) {
+    // Colonne de la semaine en cours
+    if (mode === 'run' && state.started && state.wi > 0) {
       const x = gx(WEEKS[state.wi]);
-      out += `<rect x="${x - 13}" y="${G.T}" width="26" height="${gy(0) - G.T}" rx="6" fill="${state.active != null ? SERIES[state.active].colour : '#7d8a80'}" fill-opacity="${state.active != null ? 0.1 : 0.05}"/>`;
+      out += `<rect x="${x - 13}" y="${G.T}" width="26" height="${gy(0) - G.T}" rx="6" fill="#7d8a80" fill-opacity="0.07"/>`;
     }
 
     // Pesées réelles (correction) : points creux, sous ceux de l'élève.
@@ -494,8 +548,10 @@
       if (d) out += `<path d="${d}" fill="none" stroke="${s.colour}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
       pts.forEach(p => {
         if (!p) return;
-        const tip = mode === 'edit' ? '' : ` data-tip="${LABELS.jar(j + 1)} · ${LABELS.weekBadge(WEEKS[p[3]])} · ${formatMass(p[2])}"`;
-        out += markerSVG(s.shape, p[0], p[1], s.colour, { extra: tip + (tip ? ' class="dc-pt"' : '') });
+        const fresh = o.fresh && o.fresh[0] === j && o.fresh[1] === p[3];
+        const tip = mode === 'print' ? '' : ` data-tip="${LABELS.jar(j + 1)} · ${LABELS.weekBadge(WEEKS[p[3]])} · ${formatMass(p[2])}"`;
+        const cls = [tip && 'dc-pt', fresh && 'is-fresh'].filter(Boolean).join(' ');
+        out += markerSVG(s.shape, p[0], p[1], s.colour, { extra: tip + (cls ? ` class="${cls}"` : '') });
       });
       const last = pts.filter(Boolean).pop();
       if (last) ends.push({ j, x: last[0], y: last[1] });
@@ -508,22 +564,12 @@
       ends.forEach(e => { out += `<text class="dc-endlabel" x="${e.x + 9}" y="${e.y + 4}">${LABELS.jar(e.j + 1)}</text>`; });
     }
 
-    // Aperçu du point en cours de placement + zone sensible
-    if (mode === 'edit') {
-      out += `<g class="dc-preview"></g>`;
-      out += `<rect class="dc-plot-hit" x="${G.L - 6}" y="${G.T - 6}" width="${G.W - G.L - G.R + 12}" height="${gy(0) - G.T + 12}" fill="transparent"/>`;
-    }
     return out + `</svg>`;
   }
 
   function graphLegend(opts) {
     const o = opts || {};
-    const items = state.jars.map((cfg, j) => {
-      const weighed = o.edit && state.weighed[j] && state.wi > 0;
-      const tag = o.edit ? 'button' : 'span';
-      const attrs = o.edit ? ` type="button" data-legend="${j}" ${weighed ? '' : 'disabled'} aria-pressed="${state.active === j}"` : '';
-      return `<${tag} class="dc-legend-item ${state.active === j && o.edit ? 'is-active' : ''}"${attrs}>${legendKey(j)}${LABELS.jar(j + 1)}</${tag}>`;
-    }).join('');
+    const items = state.jars.map((cfg, j) => `<span class="dc-legend-item">${legendKey(j)}${LABELS.jar(j + 1)}</span>`).join('');
     const extra = o.readings ? `<span class="dc-legend-item dc-legend-note"><svg class="dc-key" viewBox="0 0 16 16" aria-hidden="true">${markerSVG('circle', 8, 8, '#7d8a80', { r: 4.5, hollow: true })}</svg>${LABELS.legendReading}</span>` : '';
     return `<div class="dc-legend">${items}${extra}</div>`;
   }
@@ -605,24 +651,28 @@
     else renderRun();
   }
 
-  /* --- Préparation des bocaux --- */
+  /* --- Préparation des bocaux ---
+     Paillasse vide au départ, jusqu'à MAX_JARS bocaux : ni le nombre affiché
+     ni la limite ne soufflent combien il en faut. Un nouveau bocal copie le
+     précédent. Le départ est refusé sans bocal, et avec un seul bocal par une
+     question qui fait chercher pourquoi il en faut au moins deux. */
   function renderSetup() {
     const cards = state.jars.map((cfg, j) => {
       const rows = FACTORS.map(f => `<div class="dc-set-row"><span class="dc-set-label">${LABELS.factors[f]}</span>` +
         `<div class="dc-seg">${OPTIONS[f].map(v => `<button type="button" class="dc-seg-btn ${cfg[f] === v ? 'is-selected' : ''}" data-jar="${j}" data-f="${f}" data-v="${v}" aria-pressed="${cfg[f] === v}">${LABELS.options[v]}</button>`).join('')}</div></div>`).join('');
       return `<div class="dc-set-card">` +
         `<div class="dc-set-head">${legendKey(j)}<span>${LABELS.jar(j + 1)}</span>` +
-        (state.jars.length > MIN_JARS ? `<button type="button" class="dc-remove" data-remove="${j}" aria-label="${LABELS.removeJar(j + 1)}">×</button>` : '') + `</div>` +
+        `<button type="button" class="dc-remove" data-remove="${j}" aria-label="${LABELS.removeJar(j + 1)}">×</button></div>` +
         `<div class="dc-set-visual ${cfg.place === 'fridge' ? 'is-fridge' : ''}"><span class="dc-place-tag">${LABELS.placeLabel[cfg.place]}</span>${jarSVG(cfg, START_MASS, j)}</div>` +
         `<div class="dc-set-rows">${rows}</div></div>`;
     }).join('');
     const add = state.jars.length < MAX_JARS
-      ? `<button type="button" class="dc-add-card" data-add><span class="dc-add-plus" aria-hidden="true">+</span>${LABELS.addJar}</button>` : '';
+      ? `<button type="button" class="dc-add-card ${state.jars.length ? '' : 'is-alone'} ${state.setupWarning === 'none' ? 'lab-is-missing' : ''}" data-add><span class="dc-add-plus" aria-hidden="true">+</span>${LABELS.addJar}</button>` : '';
 
     lab.body.innerHTML = `<div class="dc-setup">` +
       `<p class="lab-instructions dc-setup-intro">${gloss(LABELS.setupIntro(LABELS.leaves[run.leaf]))}</p>` +
       `<p class="dc-reminder">${gloss(LABELS.questions[run.qid])}</p>` +
-      `<div class="dc-set-grid">${cards}${add}</div></div>`;
+      `<div class="dc-set-grid dc-set-grid-${state.jars.length}">${cards}${add}</div></div>`;
 
     $$('.dc-seg-btn').forEach(btn => btn.addEventListener('click', () => {
       state.jars[Number(btn.dataset.jar)][btn.dataset.f] = btn.dataset.v;
@@ -630,17 +680,29 @@
     }));
     $$('[data-remove]').forEach(btn => btn.addEventListener('click', () => {
       state.jars.splice(Number(btn.dataset.remove), 1);
+      state.setupWarning = null;
       renderSetup();
     }));
     const addBtn = $('[data-add]');
     if (addBtn) addBtn.addEventListener('click', () => {
-      state.jars.push(Object.assign({}, state.jars[state.jars.length - 1]));
+      const last = state.jars[state.jars.length - 1];
+      state.jars.push(Object.assign({}, last || DEFAULT_JAR));
+      state.setupWarning = null;
       renderSetup();
     });
 
-    lab.setFooter(lab.footerInfo(LABELS.setupInfo(state.jars.length)) +
+    const warning = state.setupWarning === 'none' ? LABELS.setupNoJar : state.setupWarning === 'one' ? LABELS.setupOneJar : null;
+    lab.setFooter(lab.footerInfo(warning || LABELS.setupInfo(state.jars.length), !!warning) +
       `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" data-start>${LABELS.startExperiment} →</button></div>`);
-    $('[data-start]').addEventListener('click', startExperiment);
+    $('[data-start]').addEventListener('click', () => {
+      if (state.jars.length < 2) {
+        state.setupWarning = state.jars.length ? 'one' : 'none';
+        renderSetup();
+        return;
+      }
+      state.setupWarning = null;
+      startExperiment();
+    });
   }
 
   function startExperiment() {
@@ -669,67 +731,206 @@
   }
 
   function renderRun(caption) {
-    const w = WEEKS[state.wi];
     const jars = state.jars.map((cfg, j) => {
-      const placed = state.wi > 0 && state.points[j][state.wi] != null;
-      const weighed = state.wi > 0 && state.weighed[j];
-      const missing = lab.state.showMissing && state.wi > 0 && !placed;
-      return `<button type="button" class="dc-jar ${cfg.place === 'fridge' ? 'is-fridge' : ''} ${state.active === j ? 'is-active' : ''} ${missing ? 'lab-is-missing' : ''}" data-jar="${j}" aria-label="${LABELS.jar(j + 1)}, ${jarDescription(cfg)}">` +
+      const out = state.active === j;
+      return `<div class="dc-jar ${cfg.place === 'fridge' ? 'is-fridge' : ''} ${out ? 'is-active' : ''}" data-jar="${j}">` +
         `<span class="dc-place-tag">${LABELS.placeLabel[cfg.place]}</span>` +
-        `<span class="dc-jar-visual">${jarSVG(cfg, visualMass(j), j)}</span>` +
-        `<span class="dc-jar-name">${legendKey(j)}${LABELS.jar(j + 1)}</span>` +
+        `<span class="dc-jar-visual">${jarSVG(cfg, visualMass(j), j, { bag: out ? 'out' : 'in', hit: true })}</span>` +
+        `<span class="dc-jar-name">${legendKey(j)}${LABELS.jar(j + 1)}<span class="dc-jar-badge" data-badge="${j}" aria-hidden="true"></span></span>` +
         `<span class="dc-jar-cond">${LABELS.condShort.soil[cfg.soil]} · ${LABELS.condShort.worms[cfg.worms]} · ${LABELS.condShort.water[cfg.water]}</span>` +
-        (placed ? `<span class="dc-jar-badge" aria-hidden="true">✓</span>` : weighed ? `<span class="dc-jar-badge is-weighed" aria-hidden="true">g</span>` : '') +
-        `</button>`;
+        `</div>`;
     }).join('');
     const reading = state.lastReading;
 
     lab.body.innerHTML = `<div class="dc-run">` +
       `<section class="dc-bench">` +
-        `<div class="dc-bench-head"><span class="dc-week" data-week>${LABELS.weekBadge(w)}</span><span class="dc-reminder dc-reminder-inline">${gloss(LABELS.questions[run.qid])}</span></div>` +
+        `<div class="dc-bench-head"><span class="dc-reminder dc-reminder-inline">${gloss(LABELS.questions[run.qid])}</span></div>` +
+        timelineHTML() +
         `<div class="dc-stage">` +
           `<div class="dc-jars dc-jars-${state.jars.length}">${jars}</div>` +
           `<div class="dc-balance" data-balance>` +
-            `<div class="dc-balance-load">${reading ? pileSVG(reading.jar) : ''}</div>` +
+            `<div class="dc-balance-load">${reading ? bagSVG(reading.jar, reading.value) : ''}</div>` +
             `<div class="dc-balance-pan"></div><div class="dc-balance-stem"></div>` +
             `<div class="dc-balance-body"><span class="dc-balance-display" data-display>${reading ? reading.value.toFixed(1) : '0.0'}<small> g</small></span></div>` +
-            `<span class="dc-balance-label">${reading ? LABELS.balanceJar(reading.jar + 1) : gloss(LABELS.balanceEmpty)}</span>` +
+            `<span class="dc-balance-label">${gloss(reading ? LABELS.balanceJar(reading.jar + 1) : LABELS.balanceEmpty)}</span>` +
           `</div>` +
         `</div>` +
         `<p class="lab-caption" data-caption aria-live="polite"></p>` +
       `</section>` +
-      `<section class="dc-graph-panel">` +
-        `<div class="dc-graph-head"><h3 class="lab-panel-title">${LABELS.graphTitle}</h3>${graphLegend({ edit: true })}</div>` +
-        `<div class="dc-graph-wrap">${graphSVG({ mode: 'edit' })}</div>` +
-        `<div class="dc-nudge" ${state.active != null && state.wi > 0 ? '' : 'hidden'}>` +
-          `<span class="dc-nudge-label">${state.active != null ? LABELS.placing(state.active + 1) : ''}</span>` +
-          `<button type="button" class="dc-nudge-btn" data-nudge="0.1" aria-label="${LABELS.nudgeUp}">▲</button>` +
-          `<button type="button" class="dc-nudge-btn" data-nudge="-0.1" aria-label="${LABELS.nudgeDown}">▼</button>` +
-        `</div>` +
+      `<section class="dc-graph-panel dc-results">` +
+        `<div class="dc-graph-head"><h3 class="lab-panel-title">${LABELS.tableTitle}</h3><span class="dc-table-unit">${LABELS.tableUnit}</span></div>` +
+        `<div class="dc-table-wrap">${tableHTML()}</div>` +
+        `<div class="dc-graph-head"><h3 class="lab-panel-title">${LABELS.graphTitle}</h3>${graphLegend()}</div>` +
+        `<div class="dc-graph-wrap">${graphSVG({ mode: 'run' })}</div><div class="dc-tip" hidden></div>` +
       `</section></div>`;
 
-    $$('.dc-jar').forEach(el => {
+    $$('.dc-bag-hit').forEach(el => {
+      const j = Number(el.dataset.bag);
+      const netRect = () => {
+        const net = el.closest('svg').querySelector('.dc-bag-net');
+        return net ? net.getBoundingClientRect() : null;
+      };
       lab.makeDraggable(el, {
-        ghost: () => `<div class="dc-ghost-jar">${jarSVG(state.jars[Number(el.dataset.jar)], visualMass(Number(el.dataset.jar)), Number(el.dataset.jar))}</div>`,
+        ghost: () => `<div class="dc-ghost-bag">${bagSVG(j, visualMass(j))}</div>`,
         targets: () => [$('[data-balance]')],
-        onDrop: () => weigh(Number(el.dataset.jar)),
-        onTap: () => weigh(Number(el.dataset.jar))
+        onDrop: () => {
+          const ghost = document.querySelector('#lab-drag-ghost .dc-bag-svg');
+          weigh(j, ghost ? ghost.getBoundingClientRect() : null);
+        },
+        onTap: () => weigh(j, netRect())
+      });
+      // Clavier : la zone est un rect SVG, sans clic natif à Entrée.
+      el.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        weigh(j, netRect());
       });
     });
-    $$('[data-legend]').forEach(btn => btn.addEventListener('click', () => {
-      state.active = Number(btn.dataset.legend);
-      renderRun();
+    $$('[data-wait-cell]').forEach(btn => btn.addEventListener('click', () => {
+      setCaption(state.wi === 0 ? LABELS.captionStart : LABELS.captionNeedWeigh(Number(btn.dataset.waitCell) + 1), true);
     }));
-    $$('[data-nudge]').forEach(btn => btn.addEventListener('click', () => nudge(Number(btn.dataset.nudge))));
-    bindPlot();
+    $$('[data-cell]').forEach(input => {
+      input.addEventListener('input', () => input.classList.remove('is-invalid'));
+      input.addEventListener('change', () => recordMass(Number(input.dataset.cell), input));
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } });
+    });
+    $('[data-wait]')?.addEventListener('click', waitTwoWeeks);
+    bindTips($('.dc-results'));
+    updateMarks();
+    updateTimeline();
 
     setCaption(caption || defaultCaption());
     renderRunFooter();
   }
 
+  /* Frise des jours de pesée, et au bout le bouton qui fait passer le temps.
+     Le rythme (une pesée toutes les 2 semaines, 5 en tout) se voit sans lire
+     la consigne. La barre --p (0 à 4) avance pendant l'attente. Le bouton
+     reste actif : appuyé trop tôt, il signale ce qui manque. */
+  const CALENDAR_ICON = `<svg class="dc-wait-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
+    `<rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>` +
+    `<path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>` +
+    `<path d="M10 13.5l3 2.5-3 2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  function timelineHTML() {
+    const last = state.wi === WEEKS.length - 1;
+    const nodes = WEEKS.map((w, i) => {
+      const cls = i < state.wi ? 'is-done' : i === state.wi ? 'is-now' : '';
+      const sub = i < state.wi ? '✓' : '';
+      return `<li class="dc-tl-node ${cls}"><span class="dc-tl-dot" aria-hidden="true"></span>` +
+        `<span class="dc-tl-week">${LABELS.weekBadge(w)}</span>` +
+        `<span class="dc-tl-sub" ${i === state.wi ? 'data-tl-now' : ''}>${sub}</span></li>`;
+    }).join('');
+    const action = last
+      ? `<div class="dc-wait-btn is-final"><span class="dc-wait-text"><strong data-wait-title></strong><small data-wait-sub></small></span></div>`
+      : `<button type="button" class="dc-wait-btn" data-wait>${CALENDAR_ICON}<span class="dc-wait-text"><strong>${LABELS.waitTwoWeeks}</strong><small data-wait-sub></small></span></button>`;
+    return `<div class="dc-timeline" data-timeline style="--p: ${state.wi}">` +
+      `<div class="dc-tl-wrap"><div class="dc-tl-track"><div class="dc-tl-fill"></div></div>` +
+      `<ol class="dc-tl" aria-label="${LABELS.timelineLabel}">${nodes}</ol></div>${action}</div>`;
+  }
+
+  // Mise à jour sur place (comme refreshRecords) : bouton et frise restent
+  // les mêmes éléments, un appui en cours n'est pas perdu.
+  function updateTimeline() {
+    const left = state.jars.filter((cfg, j) => state.points[j][state.wi] == null).length;
+    const complete = left === 0;
+    const last = state.wi === WEEKS.length - 1;
+    const sub = $('[data-wait-sub]');
+    if (sub) sub.textContent = complete ? (last ? LABELS.goConclude : LABELS.waitReady) : LABELS.jarsLeft(left);
+    const title = $('[data-wait-title]');
+    if (title) title.textContent = complete ? LABELS.experimentOver : LABELS.lastWeighing;
+    const btn = $('.dc-wait-btn');
+    if (btn) btn.classList.toggle('is-ready', complete);
+    const now = $('[data-tl-now]');
+    if (now) now.textContent = complete ? '✓' : LABELS.tlWeigh;
+    const node = $('.dc-tl-node.is-now');
+    if (node) node.classList.toggle('is-complete', complete);
+  }
+
+  /* Tableau des masses : une ligne par bocal, une colonne par semaine (comme
+     l'axe du temps du graphique, juste en dessous). Les semaines passées se
+     lisent ; dans la colonne de la semaine en cours, la case d'un bocal ne
+     devient un champ qu'une fois son sachet pesé : impossible de deviner. */
+  function tableHTML() {
+    const head = `<tr><th scope="col">${LABELS.tableWeek}</th>` +
+      WEEKS.map((w, i) => {
+        const now = i === state.wi && i > 0;
+        const tag = now ? ` <span class="dc-th-now">${LABELS.tableNow}</span>` : i > state.wi ? ` <span class="dc-th-wait" aria-hidden="true">⏳</span>` : '';
+        return `<th scope="col" class="${now ? 'is-now' : ''}">${w}${tag}</th>`;
+      }).join('') + `</tr>`;
+    const rows = state.jars.map((cfg, j) => `<tr><th scope="row"><span class="dc-row-head">${legendKey(j)}${LABELS.jar(j + 1)}</span></th>` +
+      WEEKS.map((w, i) => `<td class="${i === state.wi && i > 0 ? 'is-now' : ''}">${cellHTML(j, i)}</td>`).join('') + `</tr>`).join('');
+    return `<table class="dc-table">${head}${rows}</table>`;
+  }
+
+  function cellHTML(j, i) {
+    const v = state.points[j][i];
+    if (i === 0 || i < state.wi) return v == null ? `<span class="dc-cell-empty">—</span>` : v.toFixed(1);
+    if (i > state.wi) return '';
+    const label = LABELS.cellLabel(j + 1, WEEKS[i]);
+    if (!state.weighed[j] && v == null) {
+      return `<button type="button" class="dc-cell-wait" data-wait-cell="${j}" aria-label="${label}"></button>`;
+    }
+    return `<input type="text" inputmode="decimal" class="dc-cell-input" data-cell="${j}" value="${v == null ? '' : v.toFixed(1)}" maxlength="5" autocomplete="off" spellcheck="false" aria-label="${label}">`;
+  }
+
+  /* Masse notée : virgule ou point, entre 0 et 10 g, arrondie au dixième.
+     Une masse fausse mais plausible est acceptée et tracée : c'est la
+     correction qui la compare à la pesée. */
+  function recordMass(j, input) {
+    const raw = input.value.trim().replace(',', '.');
+    let fresh = null;
+    if (raw === '') state.points[j][state.wi] = null;
+    else {
+      const v = /^(\d{1,2}(\.\d*)?|\.\d+)$/.test(raw) ? Number(raw) : NaN;
+      if (!(v >= 0 && v <= START_MASS)) {
+        input.classList.add('is-invalid');
+        state.points[j][state.wi] = null;
+        refreshRecords(null);
+        setCaption(LABELS.captionBadValue, true);
+        return;
+      }
+      state.points[j][state.wi] = Math.round(v * 10) / 10;
+      input.value = state.points[j][state.wi].toFixed(1);
+      fresh = [j, state.wi];
+    }
+    refreshRecords(fresh);
+  }
+
+  /* Après une saisie, mise à jour sur place (graphique, repères, pied) sans
+     reconstruire la paillasse : la saisie se valide souvent quand l'élève
+     saisit déjà le sachet suivant, et ce geste ne doit pas être coupé. */
+  function refreshRecords(fresh) {
+    if (lab.state.showMissing && weekComplete()) lab.state.showMissing = false;
+    const wrap = $('.dc-results .dc-graph-wrap');
+    if (wrap) wrap.innerHTML = graphSVG({ mode: 'run', fresh });
+    updateMarks();
+    updateTimeline();
+    setCaption(fresh && !weekComplete() ? LABELS.captionRecorded : defaultCaption());
+    updateRunFooter();
+  }
+
+  // Pastilles des bocaux (pesé, noté) et cases encore vides à signaler.
+  function updateMarks() {
+    const now = state.wi;
+    $$('[data-badge]').forEach(el => {
+      const j = Number(el.dataset.badge);
+      const noted = now > 0 && state.points[j][now] != null;
+      const weighed = now > 0 && state.weighed[j];
+      el.textContent = noted ? '✓' : weighed ? 'g' : '';
+      el.hidden = !noted && !weighed;
+      el.classList.toggle('is-weighed', !noted && weighed);
+    });
+    const missing = j => lab.state.showMissing && now > 0 && state.points[j][now] == null;
+    $$('[data-cell], [data-wait-cell]').forEach(el => {
+      el.classList.toggle('lab-is-missing', missing(Number(el.dataset.cell != null ? el.dataset.cell : el.dataset.waitCell)));
+    });
+    $$('.dc-jar').forEach(el => el.classList.toggle('lab-is-missing', missing(Number(el.dataset.jar))));
+  }
+
   function defaultCaption() {
     if (state.wi === 0) return LABELS.captionStart;
-    if (state.active != null && state.points[state.active][state.wi] == null) return LABELS.captionPlace(state.active + 1);
+    if (state.active != null && state.points[state.active][state.wi] == null) return LABELS.captionRecord(state.active + 1);
     if (weekComplete()) return state.wi === WEEKS.length - 1 ? LABELS.captionDone : LABELS.captionAllPlaced;
     return LABELS.captionWeigh;
   }
@@ -742,31 +943,45 @@
     }
   }
 
+  /* Pied de page : le temps passe depuis la frise, plus d'ici. « Conclude »
+     reste secondaire (contour) tant que l'expérience n'est pas finie, puis
+     devient le bouton principal ; il reste cliquable, comme l'étape 3 dans
+     la barre d'étapes. */
   function renderRunFooter() {
-    const total = state.jars.length * (WEEKS.length - 1);
-    const missing = lab.state.showMissing && !weekComplete();
-    const last = state.wi === WEEKS.length - 1;
-    const info = missing ? lab.footerInfo(LABELS.missingPoints, true)
-      : lab.footerInfo(LABELS.runInfo(WEEKS[state.wi], pointsPlaced(), total));
-    const main = last && weekComplete()
-      ? `<button type="button" class="lab-btn lab-btn-primary" data-conclude>${LABELS.toConclude} →</button>`
-      : last ? `<button type="button" class="lab-btn lab-btn-ghost" data-conclude>${LABELS.toConclude} →</button>`
-        : `<button type="button" class="lab-btn lab-btn-primary" data-wait>${LABELS.waitTwoWeeks} →</button>`;
-    lab.setFooter(info + `<div class="lab-footer-actions">` +
-      `<button type="button" class="lab-btn lab-btn-ghost" data-setup>${LABELS.changeSetup}</button>${main}</div>`);
+    lab.setFooter(lab.footerInfo('') + `<div class="lab-footer-actions">` +
+      `<button type="button" class="lab-btn lab-btn-ghost" data-setup>${LABELS.changeSetup}</button>` +
+      `<button type="button" class="lab-btn lab-btn-ghost" data-conclude>${LABELS.toConclude} →</button></div>`);
     $('[data-setup]').addEventListener('click', () => {
       if (pointsPlaced() > 0 && !window.confirm(LABELS.changeSetupConfirm)) return;
       state.started = false;
       lab.state.showMissing = false;
       renderSetup();
     });
-    const wait = $('[data-wait]');
-    if (wait) wait.addEventListener('click', waitTwoWeeks);
-    const concl = $('[data-conclude]');
-    if (concl) concl.addEventListener('click', () => lab.goToStep(3));
+    $('[data-conclude]').addEventListener('click', () => lab.goToStep(3));
+    updateRunFooter();
   }
 
-  function weigh(j) {
+  function updateRunFooter() {
+    const total = state.jars.length * (WEEKS.length - 1);
+    const missing = lab.state.showMissing && !weekComplete();
+    const info = $('.lab-footer .lab-footer-info');
+    if (info) {
+      info.textContent = missing ? LABELS.missingPoints : LABELS.runInfo(WEEKS[state.wi], pointsPlaced(), total);
+      info.classList.toggle('is-warning', missing);
+    }
+    const done = state.wi === WEEKS.length - 1 && weekComplete();
+    const concl = $('[data-conclude]');
+    if (concl) {
+      concl.classList.toggle('lab-btn-primary', done);
+      concl.classList.toggle('lab-btn-ghost', !done);
+    }
+  }
+
+  /* Pesée : le sachet quitte son bocal (creux dans le sol) et se pose sur la
+     balance, depuis l'endroit où il était (from : rectangle à l'écran du
+     sachet dans le bocal, ou du fantôme lâché). Le sachet pesé avant
+     retourne dans son bocal. Puis le curseur va dans la case à remplir. */
+  function weigh(j, from) {
     if (state.wi === 0) {
       setCaption(LABELS.captionStart, true);
       return;
@@ -775,17 +990,28 @@
     state.weighed[j] = true;
     state.active = j;
     state.lastReading = { jar: j, value };
-    lab.state.showMissing = false;
-    renderRun(state.points[j][state.wi] == null ? LABELS.captionPlace(j + 1) : null);
-    // L'affichage de la balance défile jusqu'à la valeur.
+    renderRun(state.points[j][state.wi] == null ? LABELS.captionRecord(j + 1) : null);
     const display = $('[data-display]');
+    const balance = $('[data-balance]');
+    const bag = balance.querySelector('.dc-bag-svg');
+    if (from && bag && bag.animate && !reduceMotion) {
+      const to = bag.getBoundingClientRect();
+      const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+      const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+      const s = to.width ? from.width / to.width : 1;
+      bag.animate([{ transform: `translate(${dx}px, ${dy}px) scale(${s})` }, { transform: 'none' }],
+        { duration: 450, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
+    }
+    // L'affichage de la balance défile jusqu'à la valeur.
     const token = lab.newScene();
-    $('[data-balance]').classList.add('is-weighing');
+    balance.classList.add('is-weighing');
     lab.tween(token, 650, t => { display.innerHTML = `${(value * t).toFixed(1)}<small> g</small>`; }, ease.out).then(ok => {
       const bal = $('[data-balance]');
       if (bal) bal.classList.remove('is-weighing');
       if (ok) display.innerHTML = `${value.toFixed(1)}<small> g</small>`;
     });
+    const input = $(`[data-cell="${j}"]`);
+    if (input && state.points[j][state.wi] == null) input.focus({ preventScroll: true });
   }
 
   function waitTwoWeeks() {
@@ -808,75 +1034,16 @@
     $('.dc-run').classList.add('is-busy');
     $$('.lab-footer button').forEach(b => { b.disabled = true; });
     const token = lab.newScene();
-    const weekEl = $('[data-week]');
+    const timeline = $('[data-timeline]');
     const visuals = $$('.dc-jar-visual');
+    timeline.classList.add('is-moving');
     lab.tween(token, 1600, t => {
       const week = lerp(WEEKS[from], WEEKS[from + 1], t);
-      weekEl.textContent = LABELS.weekBadge(Math.floor(week + 0.001));
+      timeline.style.setProperty('--p', String(from + t));
       state.jars.forEach((cfg, j) => {
         if (visuals[j]) visuals[j].innerHTML = jarSVG(cfg, trueMass(cfg, week), j);
       });
     }, ease.inOut).then(ok => { if (ok) renderRun(); });
-  }
-
-  // Placement du point : toucher ou glisser dans le graphique.
-  function bindPlot() {
-    const svg = $('.dc-graph-wrap .dc-graph-svg');
-    const hit = svg && svg.querySelector('.dc-plot-hit');
-    if (!hit) return;
-    const preview = svg.querySelector('.dc-preview');
-    const massAt = ev => {
-      const pt = svg.createSVGPoint();
-      pt.x = ev.clientX;
-      pt.y = ev.clientY;
-      const p = pt.matrixTransform(svg.getScreenCTM().inverse());
-      return Math.round(gm(p.y) * 10) / 10;
-    };
-    const showPreview = v => {
-      const j = state.active;
-      const x = gx(WEEKS[state.wi]);
-      const y = gy(v);
-      preview.innerHTML = `<line x1="${G.L}" x2="${x}" y1="${y}" y2="${y}" stroke="${SERIES[j].colour}" stroke-opacity="0.55" stroke-width="1"/>` +
-        markerSVG(SERIES[j].shape, x, y, SERIES[j].colour, { r: 6 });
-    };
-    hit.addEventListener('pointerdown', ev => {
-      if (state.wi === 0) { setCaption(LABELS.captionStart, true); return; }
-      if (state.active == null) { setCaption(LABELS.captionNeedWeigh, true); return; }
-      ev.preventDefault();
-      hit.setPointerCapture(ev.pointerId);
-      showPreview(massAt(ev));
-      const move = e => showPreview(massAt(e));
-      const up = e => {
-        hit.removeEventListener('pointermove', move);
-        hit.removeEventListener('pointerup', up);
-        hit.removeEventListener('pointercancel', up);
-        if (e.type === 'pointerup') placePoint(massAt(e));
-        else renderRun();
-      };
-      hit.addEventListener('pointermove', move);
-      hit.addEventListener('pointerup', up);
-      hit.addEventListener('pointercancel', up);
-    });
-  }
-
-  function placePoint(v) {
-    state.points[state.active][state.wi] = Math.round(v * 10) / 10;
-    renderRun(weekComplete() ? null : LABELS.captionPlaced);
-  }
-
-  /* Boutons ▲ ▼ : ajuster au dixième (doigt) ou placer sans souris (clavier).
-     Sans point encore placé, le premier appui le pose à la hauteur de la
-     semaine précédente, puis le déplace. */
-  function nudge(delta) {
-    const j = state.active;
-    if (j == null || state.wi === 0) return;
-    const row = state.points[j];
-    const prev = row.slice(0, state.wi).filter(v => v != null).pop();
-    const base = row[state.wi] != null ? row[state.wi] : (prev != null ? prev : START_MASS);
-    row[state.wi] = Math.max(0, Math.min(10, Math.round((base + delta) * 10) / 10));
-    renderRun(weekComplete() ? null : LABELS.captionPlaced);
-    const again = $(`[data-nudge="${delta}"]`);
-    if (again) again.focus({ preventScroll: true });
   }
 
   /* ===== Étape 3 : conclusion ===== */
@@ -1025,9 +1192,9 @@
     saidOk: 'You saw correctly what is different between the two jars.',
     saidWrong: (said, real) => `You said they differ by: ${said}. In fact, they differ by: ${real}.`,
     noExperiment: 'You did not carry out the experiment: there are no measurements.',
-    pointsScore: (good, total) => `${good} / ${total} points placed correctly (less than ${TOLERANCE} g from the balance reading).`,
-    pointsAllGood: 'All your points match the balance readings. Well read!',
-    pointsMiss: (j, w, v, r) => v == null ? `Jar ${j}, week ${w}: no point (the balance showed ${r.toFixed(1)} g).` : `Jar ${j}, week ${w}: you placed ${v.toFixed(1)} g, the balance showed ${r.toFixed(1)} g.`,
+    pointsScore: (good, total) => `${good} / ${total} masses written correctly (the same as the balance reading).`,
+    pointsAllGood: 'All your masses match the balance readings. Well read!',
+    pointsMiss: (j, w, v, r) => v == null ? `Jar ${j}, week ${w}: nothing written (the balance showed ${r.toFixed(1)} g).` : `Jar ${j}, week ${w}: you wrote ${v.toFixed(1)} g, the balance showed ${r.toFixed(1)} g.`,
     pointsMore: n => `… and ${n} more.`,
     answerOk: 'Correct!',
     answerWrong: 'Not quite. The correct answer:',

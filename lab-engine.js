@@ -390,7 +390,8 @@
 
     /* ===== Glisser-déposer (souris et doigt) =====
        Un geste court = toucher ; au-delà de 8 px, l'élément est saisi et suit
-       le pointeur. Le clavier (Entrée, Espace) passe par le clic.
+       le pointeur. Le clavier (Entrée, Espace) passe par le clic. Pendant la
+       saisie, les cibles portent is-drop-ready ; celle survolée, is-drop-target.
        opts = { ghost: () => html, targets: () => [éléments où déposer],
                 onDrop: cible => …, onTap: () => … } */
     function makeDraggable(el, opts) {
@@ -409,9 +410,15 @@
         function move(ev) {
           if (!dragging && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 8) {
             dragging = true;
+            // En plein écran, seul l'élément plein écran est affiché : le
+            // fantôme doit y être, sinon il reste invisible.
+            const host = document.fullscreenElement || document.body;
+            if (ghostEl.parentNode !== host) host.appendChild(ghostEl);
             ghostEl.innerHTML = opts.ghost();
             ghostEl.classList.add('is-visible');
             el.classList.add('is-dragging');
+            // Les cibles s'annoncent dès la saisie, pas seulement au survol.
+            targets().forEach(t => t.classList.add('is-drop-ready'));
           }
           if (dragging) {
             ghostEl.style.transform = `translate(${ev.clientX}px, ${ev.clientY}px)`;
@@ -424,7 +431,7 @@
           el.removeEventListener('pointermove', move);
           el.removeEventListener('pointerup', up);
           el.removeEventListener('pointercancel', up);
-          targets().forEach(t => t.classList.remove('is-drop-target'));
+          targets().forEach(t => t.classList.remove('is-drop-target', 'is-drop-ready'));
           if (dragging) {
             ghostEl.classList.remove('is-visible');
             el.classList.remove('is-dragging');
