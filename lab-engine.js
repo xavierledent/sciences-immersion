@@ -33,7 +33,8 @@
                   le pied de page (lab.setFooter, ou lab.checkFooter à l'étape 4),
      report(mark): { title, sections: [7 × html], correction: html } ; chaque
                   erreur de l'élève passe par mark(html, note, { box }) (voir
-                  reportHTML : correction au stylo rouge, notes numérotées)
+                  reportHTML : correction au stylo rouge, notes numérotées ;
+                  la version propre de l'élève en sort aussi, sans rien de plus)
    }
 
    Verrous (règle commune à tout ce qui n'est pas encore accessible, barre
@@ -62,6 +63,8 @@
       lockedCheck: 'Answer all the questions of “Conclude” first.',
       seeReport: 'See my lab report',
       reportView: 'Your lab report',
+      reportMine: 'My report',
+      reportCorrected: 'Corrected report',
       backToCheck: 'Back to the correction',
       printReport: 'Print',
       restart: 'Restart the lab',
@@ -90,6 +93,8 @@
       lockedCheck: 'Beantwoord eerst alle vragen van “Besluiten”.',
       seeReport: 'Mijn labverslag bekijken',
       reportView: 'Je labverslag',
+      reportMine: 'Mijn verslag',
+      reportCorrected: 'Verbeterd verslag',
       backToCheck: 'Terug naar de verbetering',
       printReport: 'Afdrukken',
       restart: 'Het lab opnieuw starten',
@@ -239,7 +244,10 @@
         `<div class="lab-sheet" hidden></div>` +
         `<div class="lab-reportview" hidden>` +
           `<div class="lab-reportview-bar">` +
-            `<h3 class="lab-reportview-title">${L.reportView}</h3>` +
+            `<div class="lab-reportview-tabs" role="tablist" aria-label="${L.reportView}">` +
+              `<button type="button" role="tab" class="lab-reportview-tab" data-report-tab="mine">${L.reportMine}</button>` +
+              `<button type="button" role="tab" class="lab-reportview-tab" data-report-tab="corrected">${L.reportCorrected}</button>` +
+            `</div>` +
             `<button type="button" class="lab-btn lab-btn-primary lab-reportview-print" data-report-print>${PRINT_SVG}${L.printReport}</button>` +
             `<button type="button" class="modal-close" data-report-back aria-label="${L.backToCheck}" title="${L.backToCheck}">×</button>` +
           `</div>` +
@@ -740,16 +748,22 @@
        s'affiche d'abord dans le labo, comme une feuille (seul endroit du labo
        qui défile : c'est un document) ; « Print » imprime la même chose. Le
        nom vient de l'adresse de connexion ; la classe reste à écrire à la
-       main sur la feuille. */
-    function reportHTML() {
+       main sur la feuille. Deux onglets : « My report » (sa version propre,
+       ouverte d'abord) et « Corrected report » ; « Print » imprime l'onglet
+       affiché. */
+    let reportTab = 'mine';
+
+    function reportHTML(corrected) {
       const R = L.report;
       /* Correction au stylo rouge : le labo passe chaque erreur par
          mark(html, note, { box }) — souligné ondulé (ou cadre, pour une case
          de tableau) et numéro, à l'endroit de l'erreur ; la note (pourquoi,
          et la bonne réponse) va dans « Correction » sous le même numéro.
-         Le corps du rapport garde les mots de l'élève. */
+         Le corps du rapport garde les mots de l'élève. Version propre : mark
+         rend le texte tel quel, et la section « Correction » disparaît. */
       const notes = [];
       const mark = (html, note, o) => {
+        if (!corrected) return html;
         notes.push(note);
         return `<span class="lab-mark ${o && o.box ? 'is-box' : ''}">${html}</span>` +
           `<span class="lab-mark-num" aria-label="${R.mistake} ${notes.length}">${notes.length}</span>`;
@@ -764,13 +778,36 @@
         `<div class="lab-report-id"><span><strong>${R.name}:</strong> ${name ? escapeHtml(name) : '<span class="lab-report-blank is-long"></span>'}</span>` +
         `<span><strong>${R.className}:</strong> <span class="lab-report-blank"></span></span><span><strong>${R.date}:</strong> ${today}</span></div>` +
         rep.sections.map((html, i) => `<section><h2><span>${i + 1}</span>${R.sections[i]}</h2>${html}</section>`).join('') +
-        `<section class="lab-report-corr"><h2>${R.correction}</h2>${rep.correction}${notesHTML}</section>`;
+        (corrected ? `<section class="lab-report-corr"><h2>${R.correction}</h2>${rep.correction}${notesHTML}</section>` : '');
     }
 
-    function openReport() {
-      paperEl.innerHTML = reportHTML();
-      reportViewEl.hidden = false;
+    const reportTabs = [...reportViewEl.querySelectorAll('[data-report-tab]')];
+
+    function showReportTab(tab) {
+      reportTab = tab;
+      reportTabs.forEach(b => {
+        const on = b.dataset.reportTab === tab;
+        b.setAttribute('aria-selected', String(on));
+        b.tabIndex = on ? 0 : -1;
+      });
+      paperEl.innerHTML = reportHTML(tab === 'corrected');
       reportViewEl.querySelector('.lab-reportview-scroll').scrollTop = 0;
+    }
+
+    reportTabs.forEach((b, i) => {
+      b.addEventListener('click', () => showReportTab(b.dataset.reportTab));
+      b.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        e.preventDefault();
+        const next = reportTabs[(i + (e.key === 'ArrowRight' ? 1 : reportTabs.length - 1)) % reportTabs.length];
+        showReportTab(next.dataset.reportTab);
+        next.focus();
+      });
+    });
+
+    function openReport() {
+      showReportTab('mine');
+      reportViewEl.hidden = false;
       reportViewEl.querySelector('[data-report-print]').focus({ preventScroll: true });
     }
 
@@ -780,7 +817,7 @@
     }
 
     function printReport() {
-      reportEl.innerHTML = reportHTML();
+      reportEl.innerHTML = reportHTML(reportTab === 'corrected');
       window.print();
     }
 

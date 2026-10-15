@@ -125,6 +125,9 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   l'élève ; chaque erreur passe par `mark(html, note, { box })` (reçu par
   `report(mark)`), qui la souligne ou l'encadre à sa place avec un numéro ;
   la note du même numéro (pourquoi, bonne réponse) va dans « Correction ».
+  Le moteur en tire deux onglets : « My report » (version propre, sans rouge
+  ni Correction, ouverte d'abord) et « Corrected report » ; « Print »
+  imprime l'onglet affiché.
 - **Nouveau labo : partir des labos du cours.** Chaque labo virtuel est la
   version d'un labo que les élèves font en vrai en classe. Avant de créer un
   labo pour un chapitre, demander à l'enseignant la liste des labos réels de

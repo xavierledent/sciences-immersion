@@ -1161,8 +1161,9 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
 
 /* Barre du rapport, à la hauteur de l'en-tête du labo : le bouton plein
    écran du labo reste visible à gauche (passé au-dessus du rapport) ; à
-   droite, la croix ramène à la correction et « Print » la précède. Le titre
-   est centré sur toute la largeur, pas entre les boutons. */
+   droite, la croix ramène à la correction et « Print » la précède. Les deux
+   onglets (sa version, la version corrigée) sont centrés sur toute la
+   largeur, pas entre les boutons. */
 .lab-reportview-bar {
   position: relative;
   height: 78px;
@@ -1170,14 +1171,45 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   border-bottom: 1px solid rgba(17, 36, 72, 0.08);
 }
 
-.lab-reportview-title {
+.lab-reportview-tabs {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  margin: 0;
-  font-size: 1.15rem;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 16px;
+  background: rgba(var(--color-current-rgb), 0.12);
   white-space: nowrap;
+}
+
+.lab-reportview-tab {
+  height: 38px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--color-current-darker);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.lab-reportview-tab[aria-selected='true'] {
+  background: var(--color-current);
+  color: var(--color-current-text);
+  box-shadow: 0 2px 6px rgba(var(--color-current-rgb), 0.35);
+}
+
+html[data-pointer='fine'] .lab-reportview-tab[aria-selected='false']:hover {
+  background: rgba(var(--color-current-rgb), 0.2);
+}
+
+.lab-reportview-tab:focus-visible {
+  outline: 3px solid var(--color-current-dark);
+  outline-offset: 2px;
 }
 
 .lab-reportview-print {
