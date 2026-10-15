@@ -447,16 +447,19 @@
     if (bagIn) {
       out += `<g class="dc-bag-vis">` +
         `<path class="dc-bag-net" d="M17,${top + 2} Q15,${top - 16} 30,${top - 19} L90,${top - 19} Q105,${top - 16} 103,${top + 2} Z" fill="url(#${uid}m)" fill-opacity="0.9" stroke="#e3d9c0" stroke-width="1.4"/>` +
-        `<path d="M60,${top - 19} C55,${top - 40} 65,${top - 55} 60,42" fill="none" stroke="#b9ab8c" stroke-width="1.2"/>` +
-        bagTag(60, 31, j) + `</g>`;
+        `<path d="M60,${top - 19} C55,${top - 40} 65,${top - 55} 60,42" fill="none" stroke="#b9ab8c" stroke-width="1.2"/></g>`;
     }
     out += `</g>`;
-    // Buée
+    // Buée : tirage à part, pour que les gouttes ne bougent pas d'une semaine
+    // à l'autre (le nombre de débris et de filaments, lui, change).
     if (cfg.water === 'moist') {
+      const fog = mulberry32(seedFrom(run.seed + 'fog' + j));
       for (let i = 0; i < 9; i++) {
-        out += `<circle cx="${(20 + rnd() * 80).toFixed(1)}" cy="${(34 + rnd() * 60).toFixed(1)}" r="${(1 + rnd() * 1.6).toFixed(1)}" fill="#ffffff" fill-opacity="0.75" stroke="#9fb6c4" stroke-opacity="0.5" stroke-width="0.5"/>`;
+        out += `<circle cx="${(20 + fog() * 80).toFixed(1)}" cy="${(34 + fog() * 60).toFixed(1)}" r="${(1 + fog() * 1.6).toFixed(1)}" fill="#ffffff" fill-opacity="0.75" stroke="#9fb6c4" stroke-opacity="0.5" stroke-width="0.5"/>`;
       }
     }
+    // Étiquette du sachet au premier plan : jamais cachée par la buée.
+    if (bagIn) out += `<g class="dc-bag-vis">${bagTag(60, 31, j)}</g>`;
     // Reflet, contour, couvercle percé
     out += `<path d="M24,36 L24,150" stroke="#ffffff" stroke-opacity="0.7" stroke-width="5" stroke-linecap="round"/>` +
       `<path d="M14,30 Q14,24 20,24 L100,24 Q106,24 106,30 L106,152 Q106,164 94,164 L26,164 Q14,164 14,152 Z" fill="none" stroke="#8ea6b6" stroke-width="2"/>` +
