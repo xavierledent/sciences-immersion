@@ -53,11 +53,12 @@
     <section class="note-box">
       <h3>Comment utiliser cette page ?</h3>
       <p><strong>En bref :</strong> <span id="note-text">chaque chapitre combine vocabulaire à écouter, exercices et
-        jeux interactifs, fiches outils et lectures pour aller plus loin, et une auto-évaluation pour faire le
-        point. Tu es libre de naviguer entre les sections comme tu veux.</span></p>
+        jeux interactifs, fiches outils et lectures pour aller plus loin, un labo virtuel pour expérimenter, et une
+        auto-évaluation pour faire le point. Tu es libre de naviguer entre les sections comme tu veux.</span></p>
       <p class="note-box-tip"><strong>Conseil du prof :</strong> commence par le vocabulaire pour connaître les
-        mots-clés, puis enchaîne avec les exercices à ton rythme. Garde l'auto-évaluation pour la fin : c'est le
-        bilan général à faire juste avant un contrôle, pour vérifier que tu es prêt·e.</p>
+        mots-clés, puis enchaîne avec les exercices à ton rythme. Fais le labo après les exercices, pour mettre la
+        démarche scientifique en pratique. Garde l'auto-évaluation pour la fin : c'est le bilan général à faire
+        juste avant un contrôle, pour vérifier que tu es prêt·e.</p>
     </section>
   </main>
 
@@ -70,8 +71,6 @@
         <div class="modal-chip" id="chapter-modal-chip">Subject</div>
         <h2 id="chapter-modal-title">Choose a section</h2>
         <div class="modal-grid" id="chapter-modal-options"></div>
-        <hr class="modal-grid-divider" id="chapter-modal-divider" hidden>
-        <div class="modal-grid-assessment" id="chapter-modal-assessment-row" hidden></div>
       </div>
     </div>
   </div>
@@ -91,12 +90,12 @@
             chapters: {
               year1: [
                 // <chapters:en> generated from tools/chapters.json — run node tools/generate-index.js
-                { folder: 'bio1', title: 'Bio 1 : Ecosystems', hasAssessment: true },
-                { folder: 'chem1', title: 'Chemistry 1 : Natural resources and raw materials', hasAssessment: true },
-                { folder: 'phys1', title: 'Physics 1 : Natural energy resources', hasAssessment: true },
-                { folder: 'chem2', title: 'Chemistry 2 : Mixtures and pure substances', hasAssessment: true },
-                { folder: 'phys2', title: 'Physics 2 : Energy, expansion and changes of state', hasAssessment: true },
-                { folder: 'bio2', title: 'Bio 2 : Human reproduction and prevention', hasAssessment: true }
+                { folder: 'bio1', title: 'Bio 1 : Ecosystems', hasAssessment: true, hasLab: true },
+                { folder: 'chem1', title: 'Chemistry 1 : Natural resources and raw materials', hasAssessment: true, hasLab: true },
+                { folder: 'phys1', title: 'Physics 1 : Natural energy resources', hasAssessment: true, hasLab: false },
+                { folder: 'chem2', title: 'Chemistry 2 : Mixtures and pure substances', hasAssessment: true, hasLab: false },
+                { folder: 'phys2', title: 'Physics 2 : Energy, expansion and changes of state', hasAssessment: true, hasLab: false },
+                { folder: 'bio2', title: 'Bio 2 : Human reproduction and prevention', hasAssessment: true, hasLab: false }
                 // </chapters:en>
               ],
               year2: []
@@ -109,12 +108,12 @@
             chapters: {
               year1: [
                 // <chapters:nl> generated from tools/chapters.json — run node tools/generate-index.js
-                { folder: 'bio1', title: 'Bio 1 : Ecosystemen', hasAssessment: true },
-                { folder: 'chem1', title: 'Chemie 1 : Natuurlijke hulpbronnen en grondstoffen', hasAssessment: true },
-                { folder: 'phys1', title: 'Fysica 1 : Natuurlijke energiebronnen', hasAssessment: true },
-                { folder: 'chem2', title: 'Chemie 2 : Mengsels en zuivere stoffen', hasAssessment: true },
-                { folder: 'phys2', title: 'Fysica 2 : Energie, uitzetting en faseovergangen', hasAssessment: true },
-                { folder: 'bio2', title: 'Bio 2 : Voortplanting en preventie', hasAssessment: true }
+                { folder: 'bio1', title: 'Bio 1 : Ecosystemen', hasAssessment: true, hasLab: false },
+                { folder: 'chem1', title: 'Chemie 1 : Natuurlijke hulpbronnen en grondstoffen', hasAssessment: true, hasLab: false },
+                { folder: 'phys1', title: 'Fysica 1 : Natuurlijke energiebronnen', hasAssessment: true, hasLab: false },
+                { folder: 'chem2', title: 'Chemie 2 : Mengsels en zuivere stoffen', hasAssessment: true, hasLab: false },
+                { folder: 'phys2', title: 'Fysica 2 : Energie, uitzetting en faseovergangen', hasAssessment: true, hasLab: false },
+                { folder: 'bio2', title: 'Bio 2 : Voortplanting en preventie', hasAssessment: true, hasLab: false }
                 // </chapters:nl>
               ],
               year2: []
@@ -129,7 +128,8 @@
           { key: 'vocabulary', label_en: 'Vocabulary', label_nl: 'Woordenschat' },
           { key: 'practice', label_en: 'Practice', label_nl: 'Oefeningen' },
           { key: 'resources', label_en: 'Resources', label_nl: 'Hulpbronnen' },
-          { key: 'explorations', label_en: 'Explorations', label_nl: 'Exploraties' }
+          { key: 'explorations', label_en: 'Explorations', label_nl: 'Exploraties' },
+          { key: 'laboratory', label_en: 'Lab', label_nl: 'Labo' }
         ]
       };
 
@@ -140,7 +140,7 @@
           step1: "1. Choisis ta langue d'immersion",
           step2: '2. Choisis ton année',
           step3: '3. Choisis un chapitre',
-          note: 'chaque chapitre combine vocabulaire à écouter, exercices et jeux interactifs, fiches outils et lectures pour aller plus loin, et une auto-évaluation pour faire le point. Tu es libre de naviguer entre les sections comme tu veux.'
+          note: 'chaque chapitre combine vocabulaire à écouter, exercices et jeux interactifs, fiches outils et lectures pour aller plus loin, un labo virtuel pour expérimenter, et une auto-évaluation pour faire le point. Tu es libre de naviguer entre les sections comme tu veux.'
         },
         nl: {
           title: 'Welkom in je wetenschapsruimte',
@@ -163,8 +163,6 @@
       const modalCard = document.querySelector('.modal-card');
       const modalChip = document.getElementById('chapter-modal-chip');
       const modalClose = document.getElementById('chapter-modal-close');
-      const modalDivider = document.getElementById('chapter-modal-divider');
-      const modalAssessmentRow = document.getElementById('chapter-modal-assessment-row');
       const titleHeading = document.querySelector('h1');
       const subtitleParagraph = document.querySelector('.subtitle');
       const step1Heading = document.querySelector('#language-row h2');
@@ -323,28 +321,20 @@
           modalOptions.appendChild(card);
         });
 
-        // Assessment: a 5th option below the regular section grid rather
-        // than a 5th equal grid cell — the online self-assessment tool
-        // deserves more visibility than it had buried in Resources. Styled
-        // identically to the 4 cards above (see style.css): what makes it
-        // findable is having its own page, its own nav entry and this
-        // button, not a louder button — the dashed divider above it is the
-        // only thing marking it as a step apart. Every chapter now has its
+        // Assessment: the 6th and last card of the grid, after Lab. With Lab
+        // the chapter has 5 sections (an odd number): Assessment joins the
+        // grid to make an even 2 x 3, where its own fixed slate colour (see
+        // assessment.css) is what marks it as the final step — it used to
+        // sit on its own row below a dashed divider. Every chapter has its
         // own assessment.html (`hasAssessment` kept as a flag rather than
         // removed, so a future chapter added without one yet doesn't get a
         // button pointing at a missing page).
-        modalAssessmentRow.innerHTML = '';
         if (chapter.hasAssessment) {
           const assessmentCard = document.createElement('a');
           assessmentCard.className = 'section-card assessment-card';
           assessmentCard.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/assessment.html`;
           assessmentCard.textContent = selectedLanguage.code === 'nl' ? 'Zelfevaluatie' : 'Assessment';
-          modalAssessmentRow.appendChild(assessmentCard);
-          modalDivider.hidden = false;
-          modalAssessmentRow.hidden = false;
-        } else {
-          modalDivider.hidden = true;
-          modalAssessmentRow.hidden = true;
+          modalOptions.appendChild(assessmentCard);
         }
 
         modalOverlay.classList.add('modal-open');
@@ -421,7 +411,9 @@
          disparaît d'elle-même. Elle remplace la phrase d'invitation affichée
          d'emblée (pas de saut de mise en page pour un chapitre complet).
          Vocabulaire, ressources et explorations existent déjà partout : seuls
-         Practice et Assessment sont vérifiés, avec un seuil pour qu'un chapitre
+         Practice, Lab et Assessment sont vérifiés. Lab, d'après la liste des
+         labos de tools/chapters.json (hasLab) ; les deux autres, d'après leur
+         JSON, avec un seuil pour qu'un chapitre
          à peine commencé ne passe pas pour prêt — Practice : au moins
          MIN_EXERCISES_PER_LEVEL exercices dans CHACUN des 3 niveaux ;
          Assessment : autoeval.json avec ses 3 catégories (Savoirs,
@@ -453,6 +445,11 @@
             if (!practiceReady) {
               missing.push(getSectionLabel(siteData.sections.find(section => section.key === 'practice')));
             }
+            // Lab : prêt dès qu'au moins un labo est déclaré pour ce chapitre
+            // dans cette langue (tools/chapters.json → hasLab, généré).
+            if (!chapter.hasLab) {
+              missing.push(getSectionLabel(siteData.sections.find(section => section.key === 'laboratory')));
+            }
             const categories = autoeval && Array.isArray(autoeval.categories) ? autoeval.categories : [];
             const assessmentReady = categories.length >= 3 && categories
               .every(category => Array.isArray(category.items) && category.items.length > 0);
@@ -461,9 +458,12 @@
             }
             if (!missing.length) return;
             const plural = missing.length > 1;
+            // « Practice, Lab and Assessment » : virgules, puis « and » / « en » avant le dernier.
+            const and = language.code === 'nl' ? ' en ' : ' and ';
+            const list = plural ? missing.slice(0, -1).join(', ') + and + missing[missing.length - 1] : missing[0];
             statusEl.textContent = language.code === 'nl'
-              ? `${missing.join(' en ')} ${plural ? 'zijn' : 'is'} nog in ontwikkeling.`
-              : `${missing.join(' and ')} ${plural ? 'are' : 'is'} still in development.`;
+              ? `${list} ${plural ? 'zijn' : 'is'} nog in ontwikkeling.`
+              : `${list} ${plural ? 'are' : 'is'} still in development.`;
           });
       }
 

@@ -4,8 +4,8 @@
   const pageLang = location.pathname.split('/').includes('nl') ? 'nl' : 'en';
 
   const LABELS = {
-    en: { home: 'Home', vocabulary: 'Vocabulary', practice: 'Practice', resources: 'Resources', explorations: 'Explorations', assessment: 'Assessment' },
-    nl: { home: 'Home', vocabulary: 'Woordenschat', practice: 'Oefeningen', resources: 'Hulpbronnen', explorations: 'Exploraties', assessment: 'Zelfevaluatie' }
+    en: { home: 'Home', vocabulary: 'Vocabulary', practice: 'Practice', resources: 'Resources', explorations: 'Explorations', lab: 'Lab', assessment: 'Assessment' },
+    nl: { home: 'Home', vocabulary: 'Woordenschat', practice: 'Oefeningen', resources: 'Hulpbronnen', explorations: 'Exploraties', lab: 'Labo', assessment: 'Zelfevaluatie' }
   };
   const L = LABELS[pageLang];
 
@@ -14,6 +14,7 @@
     { file: 'practice.html', label: L.practice },
     { file: 'resources.html', label: L.resources },
     { file: 'explorations.html', label: L.explorations },
+    { file: 'laboratory.html', label: L.lab },
     { file: 'assessment.html', label: L.assessment }
   ];
 

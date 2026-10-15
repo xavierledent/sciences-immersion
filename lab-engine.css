@@ -150,6 +150,23 @@
   margin-top: auto;
 }
 
+/* Chapitre sans labo : la carte annonce qu'il est en développement (même
+   phrase que sur la carte du chapitre à l'accueil). Contour pointillé : une
+   place réservée, pas encore un labo. */
+.lab-tile.lab-tile-soon {
+  border: 2px dashed rgba(var(--color-current-rgb), 0.45);
+  box-shadow: none;
+  background: rgba(var(--color-current-rgb), 0.05);
+}
+
+.lab-tile-soon .lab-tile-title {
+  color: var(--color-current-darker);
+}
+
+.lab-tile-soon .lab-tile-text {
+  text-align: center;
+}
+
 /* ===== Modale du labo ===== */
 .lab-card.modal-card {
   width: min(1240px, 100%);

@@ -25,7 +25,7 @@ function renderBlock(html, chapters, lang) {
 
   return html.replace(block, (match, indent, openMarker, eol) => {
     const entries = chapters.map(chapter =>
-      `${indent}{ folder: ${jsString(chapter.folder)}, title: ${jsString(chapter.h1[lang])}, hasAssessment: ${chapter.hasAssessment !== false} }`
+      `${indent}{ folder: ${jsString(chapter.folder)}, title: ${jsString(chapter.h1[lang])}, hasAssessment: ${chapter.hasAssessment !== false}, hasLab: ${!!(chapter.labs && chapter.labs[lang] && chapter.labs[lang].length)} }`
     );
     return [indent + openMarker, entries.join(',' + eol), `${indent}// </chapters:${lang}>`].join(eol);
   });

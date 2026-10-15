@@ -450,3 +450,28 @@ html[data-pointer='fine'] .assessment-card:hover,
   border-color: var(--autoeval-accent);
   box-shadow: 0 24px 50px rgba(var(--autoeval-accent-rgb), 0.25);
 }
+
+/* Dans la fenêtre de l'accueil, Assessment est la 6e carte de la grille
+   (.modal-grid), dont les couleurs par matière (style.css) sont plus
+   spécifiques que .assessment-card : on reprend l'ardoise au même niveau de
+   spécificité, et ce fichier, chargé après style.css, l'emporte. En contraste
+   élevé, le texte passe au noir comme les autres cartes, sauf au survol, où
+   il reste blanc sur l'ardoise pleine. */
+.modal-card .modal-grid .section-card.assessment-card {
+  color: var(--autoeval-accent-dark);
+  border-color: rgba(var(--autoeval-accent-rgb), 0.65);
+}
+
+html[data-pointer='fine'] .modal-card .modal-grid .section-card.assessment-card:hover,
+.modal-card .modal-grid .section-card.assessment-card:focus-visible,
+html[data-pointer='fine'] body.high-contrast .modal-card .modal-grid .section-card.assessment-card:hover,
+body.high-contrast .modal-card .modal-grid .section-card.assessment-card:focus-visible {
+  background-color: var(--autoeval-accent);
+  color: #ffffff;
+  border-color: var(--autoeval-accent);
+  box-shadow: 0 24px 50px rgba(var(--autoeval-accent-rgb), 0.25);
+}
+
+body.high-contrast .modal-card .modal-grid .section-card.assessment-card {
+  color: #000000;
+}

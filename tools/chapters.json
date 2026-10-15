@@ -6,7 +6,12 @@
       "titleSuffix": "Bio 1",
       "hasAssessment": true,
       "h1": { "en": "Bio 1 : Ecosystems", "nl": "Bio 1 : Ecosystemen" },
-      "vocabTopic": { "en": "ecosystems", "nl": "ecosystemen" }
+      "vocabTopic": { "en": "ecosystems", "nl": "ecosystemen" },
+      "labs": {
+        "en": [
+          { "id": "decomposition", "file": "lab-decomposition", "title": "The vanishing leaves", "question": "What makes dead leaves disappear?", "text": "Every autumn, tons of leaves fall in the forest. A year later, they are gone. Set up your own experiment to find out why." }
+        ]
+      }
     },
     {
       "folder": "chem1",
@@ -14,7 +19,12 @@
       "titleSuffix": "Chem 1",
       "hasAssessment": true,
       "h1": { "en": "Chemistry 1 : Natural resources and raw materials", "nl": "Chemie 1 : Natuurlijke hulpbronnen en grondstoffen" },
-      "vocabTopic": { "en": "natural resources and raw materials", "nl": "natuurlijke hulpbronnen en grondstoffen" }
+      "vocabTopic": { "en": "natural resources and raw materials", "nl": "natuurlijke hulpbronnen en grondstoffen" },
+      "labs": {
+        "en": [
+          { "id": "metals", "file": "lab-metals", "title": "Metal detectives", "question": "Which ones are metals, and which metals are they?", "text": "Five samples, all the same shape. Some are metals, some only look like metals." }
+        ]
+      }
     },
     {
       "folder": "phys1",

@@ -835,21 +835,17 @@ html[data-pointer='fine'] .section-card a:hover,
     position: relative;
   }
 
-  /* The 4 section buttons, the dashed divider and Assessment are all pinned
-     to the same 400px width (narrower than the 540px modal itself) so their
-     left/right edges line up vertically, and so the buttons read as a
-     roughly square 2x2 grid rather than flat/rectangular tiles — the modal
-     stays wider than that so the chapter title still wraps to 2 lines
-     instead of 3. Piloted on phys2 first, then generalized here.
+  /* The 6 cards (5 sections + Assessment) are pinned to a 400px-wide grid
+     (narrower than the 540px modal itself) so they read as roughly square
+     tiles in 2 columns rather than flat/rectangular ones — the modal stays
+     wider than that so the chapter title still wraps to 2 lines instead of
+     3. Piloted on phys2 first, then generalized here.
 
      Fixed `width`, not `max-width`: a CSS grid child with only a max-width
      doesn't stretch up to that limit, it shrinks to its own content's
-     natural width (here, the inner button grid) — and auto margins then
-     have no leftover space to center into, so the divider ends up 0px wide
-     and invisible. */
-  .modal-grid,
-  .modal-grid-divider,
-  .modal-grid-assessment {
+     natural width — and auto margins then have no leftover space to center
+     into. */
+  .modal-grid {
     width: 400px;
     margin-left: auto;
     margin-right: auto;
@@ -1097,37 +1093,13 @@ body.high-contrast .modal-card.subject-chemistry .modal-grid .section-card:focus
   color: #000000;
 }
 
-/* Assessment: a 5th option below the regular section grid (see index.html
-   openChapterMenu), on its own full-width row rather than inside
-   .modal-grid — same structural tile as the 4 regular .section-cards, but
-   its own fixed slate colour rather than the subject's (see above). The
-   earlier cream fill, accent bar, icon+subtitle and chevron were all tried
-   and dropped once the tool got its own page, its own index button and its
-   own nav entry — that's what makes it findable now. The one remaining
-   marker beyond colour is the dashed divider above it, saying "this is a
-   step apart" without touching the button itself. */
-.modal-grid-divider {
-  border: none;
-  border-top: 2px dashed rgba(12, 163, 127, 0.4);
-  margin: 0 auto;
-}
-
-.modal-grid-divider[hidden],
-.modal-grid-assessment[hidden] {
-  display: none;
-}
-
-.modal-card.subject-bio .modal-grid-divider {
-  border-top-color: rgba(98, 181, 170, 0.5);
-}
-
-.modal-card.subject-physics .modal-grid-divider {
-  border-top-color: rgba(139, 123, 181, 0.5);
-}
-
-.modal-card.subject-chemistry .modal-grid-divider {
-  border-top-color: rgba(231, 195, 96, 0.5);
-}
+/* Assessment: the 6th and last card of the grid (see index.html
+   openChapterMenu), after Lab — same structural tile as the 5 section
+   cards, but its own fixed slate colour rather than the subject's (rules in
+   assessment.css). With Lab the chapter has 5 sections, an odd number; the
+   dashed divider that used to set Assessment apart on its own row gave way
+   to an even 2 x 3 grid, and the slate colour alone now marks it as the
+   final step. */
 
 .friends-card {
   display: grid;
