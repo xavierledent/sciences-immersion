@@ -72,7 +72,7 @@
       missingHypotheses: 'Some hypotheses are still missing.',
       missingHypothesis: 'Your hypothesis is not complete yet.',
       missingConclusions: 'Some conclusions are still missing.',
-      lockedFinished: 'The lab is finished. Restart it to try again.',
+      frozen: 'Lab finished: you can look, but not change anything.',
       lockedCheck: 'Answer all the questions of “Conclude” first.',
       seeReport: 'See my lab report',
       reportView: 'Your lab report',
@@ -108,7 +108,7 @@
       missingHypotheses: 'Er ontbreken nog hypotheses.',
       missingHypothesis: 'Je hypothese is nog niet volledig.',
       missingConclusions: 'Er ontbreken nog besluiten.',
-      lockedFinished: 'Het lab is klaar. Start het opnieuw om het nog eens te proberen.',
+      frozen: 'Lab afgewerkt: je kunt alles bekijken, maar niets meer veranderen.',
       lockedCheck: 'Beantwoord eerst alle vragen van “Besluiten”.',
       seeReport: 'Mijn labverslag bekijken',
       reportView: 'Je labverslag',
@@ -613,6 +613,45 @@
       if (e.target.classList.contains('lab-gloss')) hideGloss();
     });
 
+    /* ===== Labo corrigé : les étapes 1 à 3 se revoient, figées =====
+       Après le Check, l'élève revient aux étapes précédentes pour revoir ses
+       erreurs, sans rien y changer. Tout geste dans la zone du labo est
+       arrêté ici, avant le labo et avant les verrous (phase de capture,
+       écouteurs posés avant ceux des verrous). Un mot souligné garde son
+       comportement par défaut (il prend le focus et montre sa traduction),
+       sans que le geste atteigne le labo. Le pied de page du labo est
+       remplacé par celui du mode figé, même s'il est réécrit plus tard. */
+    const isFrozen = () => lab.state.checked && lab.state.step < 4;
+    const stopFrozen = e => {
+      if (!isFrozen() || !bodyEl.contains(e.target)) return;
+      if (e.type === 'keydown' && e.key === 'Tab') return;
+      const onGloss = e.target.closest && e.target.closest('.lab-gloss');
+      e.stopImmediatePropagation();
+      if (onGloss) return;
+      e.preventDefault();
+      if (e.type === 'pointerdown' || e.type === 'keydown') nudgeFrozen();
+    };
+    ['pointerdown', 'mousedown', 'click', 'dblclick', 'keydown', 'beforeinput', 'paste', 'drop', 'dragstart', 'input', 'change']
+      .forEach(t => card.addEventListener(t, stopFrozen, true));
+
+    function frozenFooter() {
+      footerEl.innerHTML = `<span class="lab-footer-info lab-frozen-info" data-lab-frozen>${LOCK_SVG}<span>${L.frozen}</span></span>` +
+        `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" data-lab-back-check>${L.backToCheck} →</button></div>`;
+      footerEl.querySelector('[data-lab-back-check]').addEventListener('click', () => lab.goToStep(4));
+    }
+    new MutationObserver(() => {
+      if (isFrozen() && !footerEl.querySelector('[data-lab-frozen]')) frozenFooter();
+    }).observe(footerEl, { childList: true });
+
+    // Un geste arrêté : le message du pied de page se secoue.
+    function nudgeFrozen() {
+      const info = footerEl.querySelector('[data-lab-frozen]');
+      if (!info) return;
+      info.classList.remove('lab-shake');
+      void info.offsetWidth;
+      info.classList.add('lab-shake');
+    }
+
     /* ===== Verrous =====
        Un élément verrouillé n'est jamais un bouton grisé muet : il porte
        aria-disabled (le lecteur d'écran l'annonce) mais reste touchable.
@@ -773,7 +812,9 @@
       closeReport();
       renderStepper();
       card.dataset.step = String(lab.state.step);
+      card.classList.toggle('lab-is-frozen', isFrozen());
       def.render[lab.state.step]();
+      if (isFrozen()) frozenFooter();
       // Étape 4 : lab_checked (lab.finish), plus complet.
       if (lab.state.step > lab.state.reached) {
         lab.state.reached = lab.state.step;
@@ -788,13 +829,13 @@
       return null;
     }
 
+    // Labo corrigé : toutes les étapes se revoient (figées, voir isFrozen).
     function canReach(n) {
-      if (lab.state.checked) return n === 4;
+      if (lab.state.checked) return true;
       return blockingStep(n) == null;
     }
 
     function stepLockReason(n) {
-      if (lab.state.checked) return L.lockedFinished;
       const k = blockingStep(n);
       return k === 3 ? L.lockedCheck : def.lockReason(k);
     }

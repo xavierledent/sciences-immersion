@@ -442,6 +442,27 @@ html[data-pointer='fine'] .lab-step:not(:disabled):not(.lab-is-locked):hover,
   font-weight: 600;
 }
 
+/* Labo corrigé, étapes revues : rien ne se touche (voir isFrozen) */
+.lab-frozen-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lab-frozen-info .lab-lock-svg {
+  flex: 0 0 auto;
+  color: var(--color-current-dark);
+}
+
+.lab-is-frozen .lab-body,
+.lab-is-frozen .lab-body * {
+  cursor: default !important;
+}
+
+.lab-is-frozen .lab-body .lab-gloss {
+  cursor: help !important;
+}
+
 .lab-footer-actions {
   display: flex;
   gap: 10px;

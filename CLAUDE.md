@@ -120,7 +120,9 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   serait fausse (`[the wax melts]` → « la cire fond »). Tout ce qui n'est pas
   encore accessible passe par `lab.setLock` (cadenas + bulle qui explique),
   jamais un bouton `disabled` muet ; une étape ne s'ouvre que si les
-  précédentes sont complètes (`stepComplete`) ; confirmations par
+  précédentes sont complètes (`stepComplete`). Après le Check, les étapes 1
+  à 3 se revoient, figées par le moteur : un labo ne doit rien modifier de
+  son état en affichant une étape, seulement sur un geste ; confirmations par
   `lab.confirm`, jamais `window.confirm`. Rapport : le corps garde les mots de
   l'élève ; chaque erreur passe par `mark(html, note, { box })` (reçu par
   `report(mark)`), qui la souligne ou l'encadre à sa place avec un numéro ;

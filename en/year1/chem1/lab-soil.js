@@ -12,16 +12,16 @@
    bac (nombre, place) et son humidité, indépendante de la richesse : du sable
    mouillé n'a pas de vie pour autant. Pièges d'observation : un scarabée mort
    (matière organique, il ne bouge pas), un déchet (pas du sol), et de tout
-   petits éléments (fines racines, collemboles, grains de sable) qu'on ne
-   touche qu'à travers la loupe.
+   petits éléments (fines racines, collemboles, grains de sable), invisibles
+   tant que la loupe n'a pas balayé le bac, puis dessinés en plus grand.
 
    Déroulé :
      1. Predict    — quel échantillon contient le plus d'êtres vivants et de
                      matière organique (+ « because » libre)
      2. Experiment — gants (sinon tout est verrouillé), spatule pour étaler,
-                     loupe, tri dans 4 coupelles par échantillon, toucher pour
-                     l'humidité ; la fiche d'observation se remplit seule, sans
-                     rien valider
+                     loupe (balayage), tri dans 4 coupelles par échantillon,
+                     test « Wet or dry? » pour l'humidité ; la fiche
+                     d'observation se remplit seule, sans rien valider
      3. Conclude   — l'échantillon le plus riche, la composition change-t-elle
                      selon le lieu, de quoi est fait le sol, hypothèse
      4. Check      — 4 critères : tri, observation, conclusion, hypothèse ;
@@ -62,11 +62,11 @@
     lockHypothesis: 'Complete your hypothesis first.',
     lockHypothesisFixed: 'Your hypothesis is fixed: the experiment has started. A scientist does not change the hypothesis after seeing the results!',
 
-    tools: { gloves: 'Gloves', spatula: 'Spatula', magnifier: 'Magnifying glass', touch: 'Touch' },
+    tools: { gloves: 'Gloves', spatula: 'Spatula', magnifier: 'Magnifying glass', touch: 'Wet or dry?' },
     hypReminder: h => h === 'same'
       ? '<b>Your hypothesis:</b> both samples contain about the same amount of [living things] and organic matter.'
       : `<b>Your hypothesis:</b> sample ${h} contains more [living things] and organic matter.`,
-    status: { spread: 'Spread out', lens: 'Looked at with the magnifying glass', touch: 'Touched' },
+    status: { spread: 'Spread out', lens: 'Looked at with the magnifying glass', touch: 'Tested: wet or dry' },
     cats: { living: 'Living things', organic: 'Organic matter', mineral: 'Mineral matter', waste: 'Not part of the soil' },
     catHints: { living: 'insects, worms, roots…', organic: 'dead leaves, wood…', mineral: 'rocks, pebbles, sand…' },
     water: 'Water / humidity',
@@ -77,20 +77,19 @@
     components: 'Components',
     notSoil: list => `Not part of the soil: ${list}`,
     inspectEmpty: 'Tap something in a [tray] to [look closely] at it. Very small things only show under the [magnifying glass].',
-    fromSample: S => `From sample ${S} · drag it into one of its [bowls], or tap the [bowl].`,
     inBowl: (cat, S) => `In the “${cat}” [bowl] of sample ${S}. Drag it to change.`,
     sortedInfo: n => n === 0 ? 'Nothing sorted yet' : n === 1 ? '1 thing sorted' : `${n} things sorted`,
     toConclude: 'Next: conclude',
 
     lockGloves: 'Put on your gloves first: you are going to touch real soil.',
     lockTray: 'Put on your gloves before you touch the soil.',
-    lockWd: S => `Touch the soil of sample ${S} first, with the hand tool.`,
+    lockWd: S => `Test sample ${S} first with the “Wet or dry?” tool.`,
     missing: {
       gloves: 'Put on your gloves first.',
       spread: S => `Spread sample ${S} with the spatula.`,
       lens: S => `Look at sample ${S} with the magnifying glass.`,
       sort: S => `Sort what you find in sample ${S} into its bowls.`,
-      touch: S => `Touch the soil of sample ${S} to feel if it is wet or dry.`,
+      touch: S => `Test sample ${S} with the “Wet or dry?” tool.`,
       note: S => `Note on your sheet if sample ${S} is wet or dry.`
     },
 
@@ -99,21 +98,22 @@
       gloves: 'Your [gloves] are on. Now take the [spatula] and [spread] each sample in its [tray].',
       glovesOn: 'Your [gloves] are on.',
       spatula: 'Tap a [tray] (or drag the [spatula] onto it) to [spread] its sample.',
-      magnifier: 'Touch the soil to put the [magnifying glass] there. Drag it by its frame to move it.',
-      touch: 'Tap a [tray] to feel the soil with your fingers.',
+      magnifier: 'Tap a [tray] (or drag the [magnifying glass] onto it) to look for very small things.',
+      touch: 'Tap a [tray] (or drag the hand onto it) to feel if its soil is wet or dry.',
       noTool: 'Tap something in a [tray] to [look closely] at it.',
       heap: S => `This is still a [heap]. [Spread] sample ${S} with the [spatula] first.`,
       spread: S => `Sample ${S} is [spread out]. Now [look closely] with the [magnifying glass].`,
       already: S => `Sample ${S} is already [spread out].`,
-      lensFirst: 'Look: the [magnifying glass] shows tiny things you cannot see otherwise. Tap or drag what you see inside it.',
-      nothing: 'Nothing here. Move the [magnifying glass] and tap something inside it.',
+      scanning: S => `The [magnifying glass] looks over sample ${S}…`,
+      lensFound: S => `The [magnifying glass] found very small things in sample ${S}. They are now bigger, with a dotted circle: tap or drag them like the others.`,
+      lensNothing: S => `The [magnifying glass] found nothing more in sample ${S}.`,
       tiny: 'There is something very small here. Look with the [magnifying glass].',
       empty: 'Tap something in the [tray] to [look closely] at it, or pick a tool.',
       picked: (name, S) => `Now drag the ${name} into a [bowl] of sample ${S}, or tap the [bowl].`,
       sorted: (name, cat, S) => `You put the ${name} in the “${cat}” [bowl] of sample ${S}.`,
       wrongSample: S => `This comes from sample ${S}. Use a [bowl] of sample ${S}.`,
       tapFirst: 'Tap something in a [tray] first, then tap a [bowl].',
-      noteIt: 'Note it on your sheet.',
+      noteIt: 'Now note it on your sheet: wet or dry?',
       done: 'Everything is observed and noted. You can go on to conclude.'
     },
     touchText: {
@@ -127,8 +127,6 @@
     compareChoices: { A: 'Sample A', B: 'Sample B', same: 'Both the same' },
     qLocation: 'Does the composition of the soil change depending on the location?',
     locationChoices: { yes: 'Yes, it changes', no: 'No, it is the same' },
-    qMade: 'In general, soil is made of… (tap all that apply)',
-    made: { mineral: 'Mineral matter', organic: 'Organic matter', living: 'Living things', water: 'Water', plastic: 'Plastic' },
     qVerdict: 'So my hypothesis is',
     confirmed: 'confirmed',
     rejected: 'rejected',
@@ -163,7 +161,6 @@
         B: 'So sample B contains more living things and organic matter.',
         same: 'So both samples contain about the same amount of living things and organic matter.'
       },
-      made: list => `Soil is made of ${list}.`,
       location: { yes: 'Its composition changes depending on the location.', no: 'Its composition does not change depending on the location.' },
       verdict: v => `My hypothesis is ${v}.`,
       score: n => `Score: ${n} / 4 checks passed.`
@@ -295,10 +292,10 @@
   const RICH = ['forest', 'garden', 'meadow'];
   const POOR = ['sandpit', 'gravel', 'building'];
 
-  const K = 2.6;          // grossissement de la loupe
-  const LENS_R = 46;      // rayon de la lentille (unités du bac)
+  const LENS_R = 46;      // rayon de la lentille qui balaie le bac (unités du bac)
+  const REVEAL = 2.2;     // agrandissement d'un tout petit élément vu à la loupe
+  const SCAN_MS = 3000;   // durée du balayage
   const SOIL = { x: 10, y: 10, w: 400, h: 180 };
-  const MADE_RIGHT = ['mineral', 'organic', 'living', 'water'];
 
   /* ===== État ===== */
   let state;      // tirage et travail de l'élève (enregistré tel quel, voir save)
@@ -337,15 +334,14 @@
       tool: null,
       selected: null,
       samples: {},
-      conclusion: { compare: null, location: null, made: [], verdict: null },
+      conclusion: { compare: null, location: null, verdict: null },
       crit: 'sorting'
     };
     ['A', 'B'].forEach(S => {
       const loc = LOCS[keys[S]];
       state.samples[S] = {
         S, key: keys[S], wet: Math.random() < loc.wet, seed: String(Math.random()),
-        items: placeItems(loc, S), spread: false, lensUsed: false, touched: false, noted: null,
-        lens: { on: false, cx: 210, cy: 100 }
+        items: placeItems(loc, S), spread: false, lensUsed: false, touched: false, noted: null
       };
     });
   }
@@ -355,6 +351,11 @@
   const fromText = S => locOf(S).from;
   const itemByUid = uid => samples().flatMap(s => s.items).find(i => i.uid === uid) || null;
   const nameOf = it => T[it.type].name;
+  // Un tout petit élément n'existe pour l'élève qu'une fois son bac balayé
+  // par la loupe ; il est alors dessiné plus grand, et se prend plus large.
+  const isTiny = it => !!T[it.type].tiny;
+  const isHidden = it => isTiny(it) && !state.samples[it.S].lensUsed;
+  const grabR = it => isTiny(it) ? it.rr * REVEAL : it.rr;
 
   function darken(hex, f) {
     const n = parseInt(hex.slice(1), 16);
@@ -385,7 +386,7 @@
 
   function conclusionsComplete() {
     const c = state.conclusion;
-    return !!(c.compare && c.location && c.made.length && c.verdict);
+    return !!(c.compare && c.location && c.verdict);
   }
 
   function stepComplete(n) {
@@ -473,18 +474,21 @@
   }
 
   /* ===== Étape 2 : la paillasse =====
-     Outils : gants (une fois pour toutes), spatule et main (un geste, puis
-     l'outil se range), loupe (reste active). Loupe active : toucher le sol
-     pose la loupe à cet endroit et y examine l'élément touché ; dans la
-     loupe, un élément se prend comme ailleurs ; son cadre ou une zone vide
-     la déplace. Tri : toucher un élément l'examine (panneau de droite),
-     le glisser le porte dans une coupelle de son échantillon. */
+     Outils : gants (une fois pour toutes) ; spatule, loupe et main « Wet or
+     dry? » : un geste sur un bac, puis l'outil se range. La loupe balaie le
+     bac en zigzag et révèle au passage les tout petits éléments, qui restent
+     ensuite agrandis et cerclés de pointillés ; pendant le balayage, le bac
+     ne réagit pas. La main affiche son résultat dans une bulle sur le bac,
+     jusqu'à ce que l'élève note « wet » ou « dry ». Tri : toucher un élément
+     l'examine (panneau de droite), le glisser le porte dans une coupelle de
+     son échantillon. */
   const TOOL_ICON = {
     gloves: '<svg class="so-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M12 36 V22 L8 14 C7 12 9.5 10.6 11 12.4 L14 17 V7.5 C14 5.4 17.2 5.4 17.2 7.5 V16 V5.6 C17.2 3.5 20.4 3.5 20.4 5.6 V16 V6.6 C20.4 4.5 23.6 4.5 23.6 6.6 V17 V9.6 C23.6 7.6 26.8 7.6 26.8 9.6 V24 C26.8 29 25 32 23 33 V36 Z" fill="#8cc4ee" stroke="#4b86b8" stroke-width="1.4" stroke-linejoin="round"/><path d="M12 33 H23" stroke="#4b86b8" stroke-width="1.4"/></svg>',
     spatula: '<svg class="so-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M6 34 L19 21" stroke="#9c6b3c" stroke-width="5" stroke-linecap="round"/><path d="M18 22 L22 18" stroke="#7f8a94" stroke-width="2.4"/><path d="M21 19 L28 9 C30 6.5 34.5 9 33.2 12 L24.5 21.5 Z" fill="#c9d2da" stroke="#7f8a94" stroke-width="1.4" stroke-linejoin="round"/></svg>',
     magnifier: '<svg class="so-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="10" fill="#e6f3fb" stroke="#2b3440" stroke-width="3.4"/><path d="M11.5 12.5 A6 6 0 0 1 16 10" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/><path d="M23.5 23.5 L34 34" stroke="#2b3440" stroke-width="5" stroke-linecap="round"/></svg>',
-    touch: '<svg class="so-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M15 36 C11 33 8 28 7 24 C6.4 22 8.8 20.8 10 22.6 L13 27 V8.5 C13 6.4 16.4 6.4 16.4 8.5 V20 V17 C16.4 15 19.8 15 19.8 17 V21 V18.5 C19.8 16.5 23.2 16.5 23.2 18.5 V22 V20.5 C23.2 18.6 26.6 18.6 26.6 20.5 V28 C26.6 32 24.5 35 23 36 Z" fill="#8cc4ee" stroke="#4b86b8" stroke-width="1.4" stroke-linejoin="round"/><path d="M5 9 A9 9 0 0 1 9 5 M3 5 A13 13 0 0 1 6 2" fill="none" stroke="#d4a030" stroke-width="1.6" stroke-linecap="round"/></svg>'
+    touch: '<svg class="so-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M15 36 C11 33 8 28 7 24 C6.4 22 8.8 20.8 10 22.6 L13 27 V8.5 C13 6.4 16.4 6.4 16.4 8.5 V20 V17 C16.4 15 19.8 15 19.8 17 V21 V18.5 C19.8 16.5 23.2 16.5 23.2 18.5 V22 V20.5 C23.2 18.6 26.6 18.6 26.6 20.5 V28 C26.6 32 24.5 35 23 36 Z" fill="#8cc4ee" stroke="#4b86b8" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.5 3 C7.6 6.6 9.6 8.8 9.6 11.4 A4.1 4.1 0 0 1 1.4 11.4 C1.4 8.8 3.4 6.6 5.5 3 Z" fill="#4b9fdb" stroke="#2f78ad" stroke-width="1" stroke-linejoin="round"/></svg>'
   };
+  const GLOVE_PATH = TOOL_ICON.touch.match(/<path d="([^"]+)"/)[1];
   const MINI = {
     spread: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20 L12 11" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M12 11 L17 4 C18.5 2.5 21.5 4.5 20.3 6.5 L14 13 Z" fill="currentColor"/></svg>',
     lens: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15 15 L21 21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
@@ -493,23 +497,25 @@
   const TICK = '<svg class="so-tick" viewBox="0 0 24 20" aria-hidden="true" focusable="false"><path d="M3 11.5 C5 12.5 7 14.5 9 17 C12 10 16 5 21.5 2.5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   function renderExperiment() {
+    scanning = {};
     const trayCol = S => `<div class="so-traycol" data-col="${S}">` +
       `<div class="so-tray-head" data-head="${S}"></div>` +
-      `<div class="so-tray-frame" data-frame="${S}"><svg class="so-tray-svg" data-tray="${S}" viewBox="0 0 420 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${LABELS.sample(S)}"></svg></div>` +
+      `<div class="so-tray-frame" data-frame="${S}"><svg class="so-tray-svg" data-tray="${S}" viewBox="0 0 420 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${LABELS.sample(S)}"></svg><div class="so-feel" data-feel="${S}" aria-live="polite" hidden></div></div>` +
       `<div class="so-bowls" data-bowls="${S}"></div></div>`;
     lab.body.innerHTML = `<div class="so-run">` +
       `<section class="so-bench">` +
-        `<div class="so-toolrow"><div class="so-tools" data-tools></div><p class="so-reminder" data-reminder></p></div>` +
+        `<div class="so-toolrow"><div class="so-tools" data-tools></div><div class="so-inspector" data-inspector aria-live="polite"></div></div>` +
         `<div class="so-trays">${trayCol('A')}${trayCol('B')}</div>` +
         `<p class="lab-caption so-caption" data-caption aria-live="polite"></p>` +
       `</section>` +
       `<aside class="so-side">` +
-        `<div class="so-inspector" data-inspector></div>` +
+        `<p class="so-reminder" data-reminder></p>` +
         `<div class="so-sheet-panel"><h3 class="lab-panel-title">${LABELS.sheetTitle}<small>${LABELS.sheetSub}</small></h3><div data-sheet></div></div>` +
       `</aside></div>`;
 
     ['A', 'B'].forEach(S => {
       buildTray(S);
+      renderFeel(S);
       $(`[data-tray="${S}"]`).addEventListener('pointerdown', e => onTrayDown(e, S));
       const bowls = $(`[data-bowls="${S}"]`);
       bowls.addEventListener('pointerdown', onChipDown);
@@ -592,7 +598,9 @@
   function itemMarkup(it) {
     const t = T[it.type];
     const anim = !reduceMotion && t.move ? MOVES[t.move] : '';
-    return `<g class="so-it" data-uid="${it.uid}" ${it.sorted ? 'display="none"' : ''} transform="translate(${it.x} ${it.y}) rotate(${it.rot}) scale(${it.s})"><g>${itemDrawing(it)}${anim}</g></g>`;
+    const s = t.tiny ? it.s * REVEAL : it.s;
+    const ring = t.tiny ? `<circle r="${t.r + 1.5}" fill="#ffffff" fill-opacity=".14" stroke="#ffffff" stroke-width=".7" stroke-dasharray="1.6 1.4"/>` : '';
+    return `<g class="so-it" data-uid="${it.uid}" ${it.sorted || isHidden(it) ? 'display="none"' : ''} transform="translate(${it.x} ${it.y}) rotate(${it.rot}) scale(${s})"><g class="so-pop">${ring}<g>${itemDrawing(it)}${anim}</g></g></g>`;
   }
 
   // Tas : le sol est découpé par une ellipse qui s'agrandit quand on l'étale.
@@ -608,7 +616,6 @@
         `<clipPath id="so-heap-${S}"><ellipse data-heap cx="210" cy="104" rx="${rx}" ry="${ry}"/></clipPath>` +
         `<radialGradient id="so-mound-${S}" cx="46%" cy="34%" r="66%"><stop offset="0" stop-color="#ffffff" stop-opacity=".24"/><stop offset=".6" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#000000" stop-opacity=".28"/></radialGradient>` +
         `<linearGradient id="so-sheen-${S}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".1"/><stop offset=".5" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#ffffff" stop-opacity=".08"/></linearGradient>` +
-        `<clipPath id="so-lensclip-${S}"><circle data-lens-clip r="${LENS_R}"/></clipPath>` +
       `</defs>` +
       `<rect x="1" y="1" width="418" height="198" rx="20" fill="#e6ecf2" stroke="#c4cfda" stroke-width="2"/>` +
       `<rect x="10" y="10" width="400" height="180" rx="14" fill="#f8fafc" stroke="#d3dce5"/>` +
@@ -617,17 +624,21 @@
         `<g data-items opacity="${smp.spread ? 1 : 0}">${smp.items.map(itemMarkup).join('')}</g>` +
       `</g></g>` +
       `<rect x="10" y="10" width="400" height="180" rx="14" fill="none" stroke="#00000014" stroke-width="3"/>` +
-      `<g data-lens display="none" pointer-events="none">` +
-        `<g clip-path="url(#so-lensclip-${S})"><rect x="0" y="0" width="420" height="200" fill="#f8fafc"/><use data-lens-use href="#so-content-${S}"/></g>` +
-        `<circle data-lens-part="glare" r="${LENS_R - 4}" fill="none" stroke="#ffffff" stroke-opacity=".5" stroke-width="1.5"/>` +
-        `<circle data-lens-part="halo" r="${LENS_R}" fill="none" stroke="#ffffff" stroke-opacity=".75" stroke-width="10"/>` +
-        `<circle data-lens-part="ring" r="${LENS_R}" fill="none" stroke="#2b3440" stroke-width="6"/>` +
-        `<line data-lens-handle="halo" stroke="#ffffff" stroke-opacity=".75" stroke-width="13" stroke-linecap="round"/>` +
-        `<line data-lens-handle="bar" stroke="#2b3440" stroke-width="9" stroke-linecap="round"/>` +
-      `</g>` +
-      `<g data-sel pointer-events="none"></g>`;
+      `<g data-sel pointer-events="none"></g>` +
+      `<g data-lens display="none" pointer-events="none">${lensSVG()}</g>`;
+    svg.classList.toggle('is-magnifier', state.tool === 'magnifier');
     lab.setLock(svg, state.gloves ? null : LABELS.lockTray, { icon: false });
-    updateLens(S);
+  }
+
+  // La loupe qui balaie le bac, dessinée autour de (0, 0).
+  function lensSVG() {
+    const d = LENS_R * 0.72;
+    return `<circle r="${LENS_R}" fill="#ffffff" fill-opacity=".16"/>` +
+      `<path d="M${-LENS_R * 0.55} ${-LENS_R * 0.3} A${LENS_R * 0.62} ${LENS_R * 0.62} 0 0 1 ${-LENS_R * 0.2} ${-LENS_R * 0.58}" fill="none" stroke="#ffffff" stroke-opacity=".8" stroke-width="3" stroke-linecap="round"/>` +
+      `<circle r="${LENS_R}" fill="none" stroke="#ffffff" stroke-opacity=".75" stroke-width="10"/>` +
+      `<circle r="${LENS_R}" fill="none" stroke="#2b3440" stroke-width="6"/>` +
+      `<line x1="${d}" y1="${d}" x2="${d + 26}" y2="${d + 26}" stroke="#ffffff" stroke-opacity=".75" stroke-width="13" stroke-linecap="round"/>` +
+      `<line x1="${d}" y1="${d}" x2="${d + 26}" y2="${d + 26}" stroke="#2b3440" stroke-width="9" stroke-linecap="round"/>`;
   }
 
   // Point du bac sous le pointeur (unités du viewBox, quelle que soit la taille).
@@ -638,39 +649,60 @@
     return { x: p.x, y: p.y };
   }
 
-  function updateLens(S) {
-    const svg = $(`[data-tray="${S}"]`);
-    if (!svg) return;
-    const L = state.samples[S].lens;
-    const show = L.on && state.tool === 'magnifier';
-    svg.classList.toggle('is-magnifier', state.tool === 'magnifier');
-    const g = svg.querySelector('[data-lens]');
-    g.setAttribute('display', show ? 'inline' : 'none');
-    if (!show) return;
-    svg.querySelector('[data-lens-clip]').setAttribute('cx', L.cx);
-    svg.querySelector('[data-lens-clip]').setAttribute('cy', L.cy);
-    svg.querySelector('[data-lens-use]').setAttribute('transform', `translate(${L.cx} ${L.cy}) scale(${K}) translate(${-L.cx} ${-L.cy})`);
-    svg.querySelectorAll('[data-lens-part]').forEach(c => { c.setAttribute('cx', L.cx); c.setAttribute('cy', L.cy); });
-    const d = LENS_R * 0.72;
-    svg.querySelectorAll('[data-lens-handle]').forEach(h => {
-      h.setAttribute('x1', L.cx + d); h.setAttribute('y1', L.cy + d);
-      h.setAttribute('x2', L.cx + d + 26); h.setAttribute('y2', L.cy + d + 26);
-    });
-  }
+  /* --- Loupe : balayage en zigzag du bac (lignes assez proches pour que la
+     lentille passe sur tout le sol) --- */
+  const SCAN_PATH = [[40, 42], [380, 42], [380, 100], [40, 100], [40, 158], [380, 158]];
+  let scanning = {};
 
-  function moveLens(S, x, y) {
+  function scanTray(S) {
     const smp = state.samples[S];
-    smp.lens.cx = Math.round(Math.max(12, Math.min(408, x)) * 10) / 10;
-    smp.lens.cy = Math.round(Math.max(12, Math.min(188, y)) * 10) / 10;
-    smp.lens.on = true;
-    if (!smp.lensUsed) {
+    const svg = $(`[data-tray="${S}"]`);
+    const tiny = smp.items.filter(it => isTiny(it) && !it.sorted);
+    const show = it => {
+      const g = svg.querySelector(`.so-it[data-uid="${it.uid}"]`);
+      if (!g || g.getAttribute('display') !== 'none') return;
+      g.removeAttribute('display');
+      if (!reduceMotion) g.querySelector('.so-pop').classList.add('is-revealed');
+    };
+    const finish = () => {
+      scanning[S] = false;
+      svg.classList.remove('is-scanning');
+      svg.querySelector('[data-lens]').setAttribute('display', 'none');
+      tiny.forEach(show);
+      const first = !smp.lensUsed;
       smp.lensUsed = true;
-      setCaption(LABELS.caption.lensFirst);
-      renderStatus();
-      renderFooter();
-    }
-    updateLens(S);
-    renderSelection();
+      setCaption(tiny.length ? LABELS.caption.lensFound(S) : LABELS.caption.lensNothing(S));
+      if (first) { renderStatus(); renderFooter(); }
+      lab.save();
+    };
+    if (reduceMotion) { finish(); return; }
+
+    scanning[S] = true;
+    svg.classList.add('is-scanning');
+    setCaption(LABELS.caption.scanning(S));
+    const lens = svg.querySelector('[data-lens]');
+    lens.setAttribute('transform', `translate(${SCAN_PATH[0][0]} ${SCAN_PATH[0][1]})`);
+    lens.setAttribute('display', 'inline');
+    const segs = SCAN_PATH.slice(1).map((p, i) => Math.hypot(p[0] - SCAN_PATH[i][0], p[1] - SCAN_PATH[i][1]));
+    const total = segs.reduce((a, b) => a + b, 0);
+    const at = dist => {
+      let i = 0;
+      while (i < segs.length - 1 && dist > segs[i]) { dist -= segs[i]; i++; }
+      const k = Math.min(1, dist / segs[i]), a = SCAN_PATH[i], b = SCAN_PATH[i + 1];
+      return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k];
+    };
+    // Animation propre à ce bac (pas lab.tween), comme l'étalement.
+    const t0 = performance.now();
+    const frame = now => {
+      if (!svg.isConnected) { scanning[S] = false; return; }
+      const t = Math.min(1, (now - t0) / SCAN_MS);
+      const [x, y] = at(total * (0.5 - Math.cos(Math.PI * t) / 2));
+      lens.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+      tiny.forEach(it => { if (Math.hypot(it.x - x, it.y - y) < LENS_R - 6) show(it); });
+      if (t < 1) requestAnimationFrame(frame);
+      else finish();
+    };
+    requestAnimationFrame(frame);
   }
 
   function spread(S) {
@@ -707,25 +739,48 @@
   function touchSoil(S) {
     const smp = state.samples[S];
     smp.touched = true;
-    const text = LABELS.touchText[LOCS[smp.key].kind][smp.wet ? 'wet' : 'dry'];
-    setCaption(`<b>${LABELS.sample(S)}:</b> ${text} ${LABELS.caption.noteIt}`);
+    setCaption(LABELS.caption.noteIt);
+    renderFeel(S);
     renderStatus();
     renderSheet();
     renderFooter();
   }
 
-  function hitItem(smp, x, y, viaLens) {
+  // Bulle du test « Wet or dry? » sur le bac, jusqu'à ce que l'élève note
+  // l'humidité sur sa fiche.
+  function renderFeel(S) {
+    const box = $(`[data-feel="${S}"]`);
+    if (!box) return;
+    const smp = state.samples[S];
+    const show = smp.touched && !smp.noted;
+    if (!show) { box.hidden = true; box.innerHTML = ''; return; }
+    if (!box.hidden) return;
+    const wet = smp.wet;
+    const soil = soilColour(smp);
+    const marks = wet
+      ? '<path d="M8 27 C9.6 29.8 11 31.2 11 33 A3 3 0 0 1 5 33 C5 31.2 6.4 29.8 8 27 Z M41 25 C42.4 27.4 43.6 28.6 43.6 30.2 A2.6 2.6 0 0 1 38.4 30.2 C38.4 28.6 39.6 27.4 41 25 Z" fill="#4b9fdb"/>'
+      : `<circle cx="7" cy="36" r="1.6" fill="${darken(soil, 0.25)}"/><circle cx="41" cy="35" r="1.3" fill="${darken(soil, 0.25)}"/><circle cx="44" cy="38" r="1" fill="${darken(soil, 0.25)}"/>`;
+    const pic = `<svg class="so-feel-pic" viewBox="0 0 48 48" aria-hidden="true" focusable="false">` +
+      `<path d="M1 41 Q24 33 47 41 V47 H1 Z" fill="${soil}"/>` +
+      `<g transform="translate(40 44) rotate(180)"><path d="${GLOVE_PATH}" fill="#8cc4ee" stroke="#4b86b8" stroke-width="1.4" stroke-linejoin="round"/></g>${marks}</svg>`;
+    const text = LABELS.touchText[LOCS[smp.key].kind][wet ? 'wet' : 'dry'];
+    box.innerHTML = `${pic}<p><b>${LABELS.sample(S)}:</b> ${gloss(text)}<span class="so-feel-ask">${LABELS.caption.noteIt}</span></p>`;
+    box.hidden = false;
+  }
+
+  // Un tout petit élément ne se prend qu'une fois révélé par la loupe.
+  function hitItem(smp, x, y) {
     let best = null, bd = Infinity;
     smp.items.forEach(it => {
-      if (it.sorted || (T[it.type].tiny && !viaLens)) return;
+      if (it.sorted || isHidden(it)) return;
       const d = Math.hypot(it.x - x, it.y - y);
-      if (d < it.rr + (viaLens ? 2 : 5) && d < bd) { best = it; bd = d; }
+      if (d < grabR(it) + 5 && d < bd) { best = it; bd = d; }
     });
     return best;
   }
 
   function tinyNear(smp, x, y) {
-    return smp.items.some(it => !it.sorted && T[it.type].tiny && Math.hypot(it.x - x, it.y - y) < it.rr + 9);
+    return smp.items.some(it => !it.sorted && isHidden(it) && Math.hypot(it.x - x, it.y - y) < it.rr + 9);
   }
 
   function select(it) {
@@ -735,20 +790,16 @@
     renderBowls();
   }
 
-  // Cercle autour de l'élément examiné ; dans la loupe, autour de son image grossie.
+  // Cercle autour de l'élément examiné.
   function renderSelection() {
     ['A', 'B'].forEach(S => {
       const g = $(`[data-tray="${S}"] [data-sel]`);
       if (!g) return;
       const it = state.selected ? itemByUid(state.selected) : null;
       if (!it || it.S !== S || it.sorted) { g.innerHTML = ''; return; }
-      const L = state.samples[S].lens;
-      let x = it.x, y = it.y, r = it.rr + 5;
-      if (L.on && state.tool === 'magnifier' && Math.hypot(it.x - L.cx, it.y - L.cy) < LENS_R / K) {
-        x = L.cx + (it.x - L.cx) * K; y = L.cy + (it.y - L.cy) * K; r = it.rr * K * 0.9;
-      }
-      g.innerHTML = `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="#ffffff" stroke-width="4" opacity=".7"/>` +
-        `<circle class="so-sel-ring" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke-width="2.4" stroke-dasharray="5 3"/>`;
+      const x = it.x.toFixed(1), y = it.y.toFixed(1), r = (grabR(it) + 5).toFixed(1);
+      g.innerHTML = `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="#ffffff" stroke-width="4" opacity=".7"/>` +
+        `<circle class="so-sel-ring" cx="${x}" cy="${y}" r="${r}" fill="none" stroke-width="2.4" stroke-dasharray="5 3"/>`;
     });
   }
 
@@ -822,15 +873,12 @@
   function onTrayDown(e, S) {
     if (e.button !== 0) return;
     e.preventDefault();
-    const svg = e.currentTarget;
+    if (scanning[S]) return;
     const smp = state.samples[S];
-    const p = trayPoint(svg, e.clientX, e.clientY);
-    const tool = state.tool;
-    if (tool === 'spatula') { setTool(null); spread(S); return; }
+    if (state.tool) { useTool(state.tool, S); return; }
     if (!smp.spread) { setCaption(LABELS.caption.heap(S), true); return; }
-    if (tool === 'touch') { setTool(null); touchSoil(S); return; }
-    if (tool === 'magnifier') { lensDown(e, svg, S, p); return; }
-    const it = hitItem(smp, p.x, p.y, false);
+    const p = trayPoint(e.currentTarget, e.clientX, e.clientY);
+    const it = hitItem(smp, p.x, p.y);
     if (!it) {
       setCaption(tinyNear(smp, p.x, p.y) ? LABELS.caption.tiny : LABELS.caption.empty);
       return;
@@ -838,31 +886,16 @@
     pressItem(e, it);
   }
 
-  // Loupe active : hors de la loupe, elle se pose là (et y examine ce qui est
-  // sous le doigt) ; dans la loupe, un élément se prend, le cadre ou le vide
-  // la déplace.
-  function lensDown(e, svg, S, p) {
+  // Le geste d'un outil sur un bac (outil en main puis bac touché, ou outil
+  // glissé sur le bac) ; l'outil se range ensuite.
+  function useTool(t, S) {
+    if (scanning[S]) return;
     const smp = state.samples[S];
-    const L = smp.lens;
-    const d = Math.hypot(p.x - L.cx, p.y - L.cy);
-    const inside = L.on && d < LENS_R;
-    let jumped = false;
-    if (inside) {
-      if (d <= LENS_R - 9) {
-        const it = hitItem(smp, L.cx + (p.x - L.cx) / K, L.cy + (p.y - L.cy) / K, true);
-        if (it) { pressItem(e, it); return; }
-      }
-    } else {
-      moveLens(S, p.x, p.y);
-      jumped = true;
-      const it = hitItem(smp, p.x, p.y, true);
-      if (it) select(it);
-    }
-    const off = { x: L.cx - p.x, y: L.cy - p.y };
-    press(e, {
-      onMove: ev => { const q = trayPoint(svg, ev.clientX, ev.clientY); moveLens(S, q.x + off.x, q.y + off.y); },
-      onTap: () => { if (!jumped && d <= LENS_R - 9) setCaption(LABELS.caption.nothing); }
-    });
+    setTool(null);
+    if (t === 'spatula') { spread(S); return; }
+    if (!smp.spread) { setCaption(LABELS.caption.heap(S), true); return; }
+    if (t === 'touch') touchSoil(S);
+    else if (t === 'magnifier') scanTray(S);
   }
 
   /* --- Outils --- */
@@ -882,9 +915,10 @@
   function setTool(t) {
     state.tool = t;
     renderTools();
-    updateLens('A');
-    updateLens('B');
-    renderSelection();
+    ['A', 'B'].forEach(S => {
+      const svg = $(`[data-tray="${S}"]`);
+      if (svg) svg.classList.toggle('is-magnifier', t === 'magnifier');
+    });
   }
 
   function toolTap(t) {
@@ -906,18 +940,9 @@
   }
 
   // Outil glissé sur un bac : son geste s'y applique tout de suite.
-  function applyTool(t, S, ev) {
+  function applyTool(t, S) {
     if (t === 'gloves') { toolTap('gloves'); return; }
-    const svg = $(`[data-tray="${S}"]`);
-    const smp = state.samples[S];
-    if (t === 'spatula') { setTool(null); spread(S); return; }
-    if (!smp.spread) { setCaption(LABELS.caption.heap(S), true); return; }
-    if (t === 'touch') { setTool(null); touchSoil(S); return; }
-    if (state.tool !== t) setTool(t);
-    const p = trayPoint(svg, ev.clientX, ev.clientY);
-    moveLens(S, p.x, p.y);
-    const it = hitItem(smp, p.x, p.y, true);
-    if (it) select(it);
+    useTool(t, S);
   }
 
   function onToolDown(e) {
@@ -931,7 +956,7 @@
       onDrop: (target, ev) => {
         const el = document.elementFromPoint(ev.clientX, ev.clientY);
         const tray = el && el.closest ? el.closest('[data-tray]') : null;
-        if (tray) applyTool(t, tray.dataset.tray, ev);
+        if (tray) applyTool(t, tray.dataset.tray);
       }
     });
   }
@@ -960,7 +985,10 @@
     press(e, {
       ghost: discSVG(it, 64),
       onStart: () => select(it),
-      onTap: () => select(state.selected === it.uid ? null : it),
+      onTap: () => {
+        select(state.selected === it.uid ? null : it);
+        if (state.selected) setCaption(LABELS.inBowl(LABELS.cats[it.sorted], it.S));
+      },
       onDrop: t => { if (t) dropInBowl(it, t); }
     });
   }
@@ -1007,9 +1035,8 @@
       return;
     }
     box.className = 'so-inspector';
-    const meta = it.sorted ? LABELS.inBowl(LABELS.cats[it.sorted], it.S) : LABELS.fromSample(it.S);
-    box.innerHTML = `<div class="so-pic" data-pic>${discSVG(it, 96)}</div>` +
-      `<div><h4>${gloss(`[${nameOf(it)}]`)}</h4><p>${gloss(T[it.type].cap)}</p><p class="so-meta">${gloss(meta)}</p></div>`;
+    box.innerHTML = `<div class="so-pic" data-pic>${discSVG(it, 64)}</div>` +
+      `<p><b>${gloss(`[${nameOf(it)}]`)}</b> · <span class="so-from-tag">${LABELS.sample(it.S)}</span><br>${gloss(T[it.type].cap)}</p>`;
     box.querySelector('[data-pic]').addEventListener('pointerdown', e => {
       if (e.button !== 0) return;
       e.preventDefault();
@@ -1017,32 +1044,47 @@
     });
   }
 
-  /* --- Fiche d'observation : se remplit toute seule à partir des coupelles --- */
-  function sheetHTML(readOnly) {
-    const cell = (S, cat) => {
-      const its = state.samples[S].items.filter(i => i.sorted === cat);
-      if (!its.length) return '<span class="so-dash">—</span>';
-      const names = [...new Set(its.map(nameOf))];
-      const txt = names.slice(0, 2).join(', ') + (names.length > 2 ? ` +${names.length - 2}` : '');
-      return `<span class="so-cell">${TICK}<span class="so-names">${escapeHtml(txt)}</span></span>`;
-    };
+  /* --- Fiche d'observation : se remplit toute seule à partir des coupelles.
+     Pendant l'expérience, un bloc par échantillon (A au-dessus de B) ; à la
+     conclusion, A et B côte à côte pour les comparer. --- */
+  function namesIn(S, cat) {
+    return [...new Set(state.samples[S].items.filter(i => i.sorted === cat).map(nameOf))];
+  }
+
+  function cellHTML(S, cat) {
+    const names = namesIn(S, cat);
+    if (!names.length) return '<span class="so-dash">—</span>';
+    return `<span class="so-cell">${TICK}<span class="so-names">${escapeHtml(names.join(', '))}</span></span>`;
+  }
+
+  function wasteFoot() {
+    const waste = samples().flatMap(s => s.items.filter(i => i.sorted === 'waste').map(i => `${nameOf(i)} (${s.S})`));
+    return `<p class="so-sheet-foot">${waste.length ? escapeHtml(LABELS.notSoil(waste.join(', '))) : '&nbsp;'}</p>`;
+  }
+
+  function sheetNoteHTML() {
+    const wd = smp => `<span class="so-wd">` + ['wet', 'dry'].map(v =>
+      `<button type="button" class="${smp.noted === v ? 'is-selected' : ''} ${smp.touched && !smp.noted ? 'is-asking' : ''} ${lab.state.showMissing && !smp.noted ? 'lab-is-missing' : ''}" data-wd="${smp.S}:${v}" aria-pressed="${smp.noted === v}">${LABELS.wd[v]}</button>`).join('') + `</span>`;
+    const row = (k, hint, v) => `<div class="so-note-row"><span class="so-note-k">${k}<small>${hint}</small></span><span class="so-note-v">${v}</span></div>`;
+    return samples().map(smp => `<section class="so-note"><h4><span class="so-letter">${smp.S}</span>${LABELS.sample(smp.S)}</h4>` +
+      ['living', 'organic', 'mineral'].map(cat => row(LABELS.cats[cat], LABELS.catHints[cat], cellHTML(smp.S, cat))).join('') +
+      row(LABELS.water, LABELS.waterHint, wd(smp)) + `</section>`).join('') + wasteFoot();
+  }
+
+  function sheetCompareHTML() {
     const wd = S => {
       const smp = state.samples[S];
-      if (readOnly) return smp.noted ? `<span class="so-wd-read">${LABELS.wd[smp.noted]}</span>` : '<span class="so-dash">—</span>';
-      return `<span class="so-wd">` + ['wet', 'dry'].map(v =>
-        `<button type="button" class="${smp.noted === v ? 'is-selected' : ''} ${lab.state.showMissing && !smp.noted ? 'lab-is-missing' : ''}" data-wd="${S}:${v}" aria-pressed="${smp.noted === v}">${LABELS.wd[v]}</button>`).join('') + `</span>`;
+      return smp.noted ? `<span class="so-wd-read">${LABELS.wd[smp.noted]}</span>` : '<span class="so-dash">—</span>';
     };
-    const waste = samples().flatMap(s => s.items.filter(i => i.sorted === 'waste').map(i => `${nameOf(i)} (${s.S})`));
     return `<table class="so-sheet"><thead><tr><th scope="col">${LABELS.components}</th><th scope="col"><span class="so-letter">A</span></th><th scope="col"><span class="so-letter">B</span></th></tr></thead><tbody>` +
-      ['living', 'organic', 'mineral'].map(cat => `<tr><th scope="row">${LABELS.cats[cat]}<small>${LABELS.catHints[cat]}</small></th><td>${cell('A', cat)}</td><td>${cell('B', cat)}</td></tr>`).join('') +
-      `<tr><th scope="row">${LABELS.water}<small>${LABELS.waterHint}</small></th><td>${wd('A')}</td><td>${wd('B')}</td></tr></tbody></table>` +
-      `<p class="so-sheet-foot">${waste.length ? escapeHtml(LABELS.notSoil(waste.join(', '))) : '&nbsp;'}</p>`;
+      ['living', 'organic', 'mineral'].map(cat => `<tr><th scope="row">${LABELS.cats[cat]}<small>${LABELS.catHints[cat]}</small></th><td>${cellHTML('A', cat)}</td><td>${cellHTML('B', cat)}</td></tr>`).join('') +
+      `<tr><th scope="row">${LABELS.water}<small>${LABELS.waterHint}</small></th><td>${wd('A')}</td><td>${wd('B')}</td></tr></tbody></table>` + wasteFoot();
   }
 
   function renderSheet() {
     const box = $('[data-sheet]');
     if (!box) return;
-    box.innerHTML = sheetHTML(false);
+    box.innerHTML = sheetNoteHTML();
     box.querySelectorAll('[data-wd]').forEach(b => {
       const S = b.dataset.wd.split(':')[0];
       if (!state.samples[S].touched) lab.setLock(b, LABELS.lockWd(S));
@@ -1054,6 +1096,7 @@
     if (!b) return;
     const [S, v] = b.dataset.wd.split(':');
     state.samples[S].noted = v;
+    renderFeel(S);
     renderSheet();
     renderFooter();
     if (!missingReason()) setCaption(LABELS.caption.done);
@@ -1096,27 +1139,25 @@
   /* ===== Étape 3 : conclusion ===== */
   function renderConclude() {
     const c = state.conclusion;
-    const miss = k => lab.state.showMissing && !(k === 'made' ? c.made.length : c[k]) ? 'lab-is-missing' : '';
-    const chips = (key, options, multi) => `<div class="so-chips">` + Object.keys(options).map(v => {
-      const on = multi ? c[key].includes(v) : c[key] === v;
+    const miss = k => lab.state.showMissing && !c[k] ? 'lab-is-missing' : '';
+    const chips = (key, options) => `<div class="so-chips">` + Object.keys(options).map(v => {
+      const on = c[key] === v;
       return `<button type="button" class="lab-choice so-chip ${on ? 'is-selected' : ''}" data-q="${key}" data-v="${v}" aria-pressed="${on}">${options[v]}</button>`;
     }).join('') + `</div>`;
 
     lab.body.innerHTML = `<div class="so-conclude">` +
-      `<section class="so-sheet-panel so-sheet-read"><h3 class="lab-panel-title">${LABELS.sheetTitle}</h3>${sheetHTML(true)}</section>` +
+      `<section class="so-sheet-panel so-sheet-read"><h3 class="lab-panel-title">${LABELS.sheetTitle}</h3>${sheetCompareHTML()}</section>` +
       `<section class="so-form">` +
         `<p class="so-reminder">${gloss(LABELS.question)}</p>` +
         `<div class="so-q ${miss('compare')}"><p class="so-q-title">${LABELS.qCompare}</p>${chips('compare', LABELS.compareChoices)}</div>` +
         `<div class="so-q ${miss('location')}"><p class="so-q-title">${LABELS.qLocation}</p>${chips('location', LABELS.locationChoices)}</div>` +
-        `<div class="so-q ${miss('made')}"><p class="so-q-title">${LABELS.qMade}</p>${chips('made', LABELS.made, true)}</div>` +
         `<div class="so-q ${miss('verdict')}"><div class="so-chips"><span class="so-q-text">${LABELS.qVerdict}</span>` +
           ['confirmed', 'rejected'].map(v => `<button type="button" class="lab-choice so-chip ${c.verdict === v ? 'is-selected' : ''}" data-q="verdict" data-v="${v}" aria-pressed="${c.verdict === v}">${LABELS[v]}</button>`).join('') + `</div></div>` +
       `</section></div>`;
 
     $$('[data-q]').forEach(btn => btn.addEventListener('click', () => {
       const k = btn.dataset.q, v = btn.dataset.v;
-      if (k === 'made') c.made = c.made.includes(v) ? c.made.filter(x => x !== v) : c.made.concat(v);
-      else c[k] = v;
+      c[k] = v;
       renderConclude();
     }));
 
@@ -1147,7 +1188,6 @@
   };
   const whyOf = it => TRAP_WHY[it.type] || WHY[T[it.type].cat];
   const listText = names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '';
-  const sameSet = (a, b) => a.length === b.length && a.every(x => b.includes(x));
   // « a pebble », « an earthworm » ; pas d'article pour un pluriel ou une masse.
   const MASS = ['dry grass', 'gravel'];
   const withArticle = n => {
@@ -1172,9 +1212,6 @@
     compareWrong: 'Not quite. The correct answer:',
     locationOk: 'Yes: two soils from two places do not contain the same things.',
     locationWrong: 'Look at your sheet again: the two samples do not contain the same things. The composition of the soil changes depending on the location.',
-    madeOk: 'Correct: soil is made of mineral matter, organic matter, living things and water.',
-    madeWrong: 'Soil is made of mineral matter (sand, pebbles, bits of rock), organic matter (dead leaves, wood), living things and water.',
-    plastic: 'Plastic is not part of soil: it is waste left by humans, a pollution of the soil.',
     wetPoor: S => `Careful: sample ${S} was wet, but it had almost no life. Water alone does not make a soil rich.`,
     yourHyp: 'Your hypothesis:',
     yourConcl: 'Your conclusion:',
@@ -1205,13 +1242,12 @@
     const c = state.conclusion;
     const compareOk = c.compare === state.richLetter;
     const locationOk = c.location === 'yes';
-    const madeOk = sameSet(c.made, MADE_RIGHT);
     const should = state.hypothesis === c.compare ? 'confirmed' : 'rejected';
     return {
-      sorted, wrong, missed, humidity, compareOk, locationOk, madeOk, should,
+      sorted, wrong, missed, humidity, compareOk, locationOk, should,
       sorting: sorted.length > 0 && wrong.length === 0,
       observation: missed.length === 0 && humidity.every(h => h.ok),
-      conclusion: compareOk && locationOk && madeOk,
+      conclusion: compareOk && locationOk,
       hypothesis: !!c.verdict && c.verdict === should
     };
   }
@@ -1235,13 +1271,10 @@
     }
     if (key === 'conclusion') {
       const rich = state.richLetter, poor = rich === 'A' ? 'B' : 'A';
-      const c = state.conclusion;
       return (ev.compareOk ? `<p class="so-ok">${CHECK.compareOk} ${CHECK.compareRight(rich)}</p>` : `<p class="so-ko">${CHECK.compareWrong}</p><p><strong>${CHECK.compareRight(rich)}</strong></p>`) +
         `<p>${gloss(LOCS[state.samples[rich].key].why)}</p><p>${gloss(LOCS[state.samples[poor].key].why)}</p>` +
         (state.samples[poor].wet ? `<p class="so-muted">${CHECK.wetPoor(poor)}</p>` : '') +
-        `<p class="${ev.locationOk ? 'so-ok' : 'so-ko'}">${ev.locationOk ? CHECK.locationOk : CHECK.locationWrong}</p>` +
-        `<p class="${ev.madeOk ? 'so-ok' : 'so-ko'}">${ev.madeOk ? CHECK.madeOk : CHECK.madeWrong}</p>` +
-        (c.made.includes('plastic') || !ev.madeOk ? `<p class="so-muted">${CHECK.plastic}</p>` : '');
+        `<p class="${ev.locationOk ? 'so-ok' : 'so-ko'}">${ev.locationOk ? CHECK.locationOk : CHECK.locationWrong}</p>`;
     }
     const c = state.conclusion;
     return `<p><strong>${CHECK.yourHyp}</strong> ${LABELS.report.hyp[state.hypothesis]}</p>` +
@@ -1315,10 +1348,7 @@
     const interp = samples().map(s => R.found(s.S, plain(fromText(s.S)), counts(s))).join(' ') + ' ' +
       (c.compare ? (ev.compareOk ? R.compare[c.compare] : mark(R.compare[c.compare], `${CHECK.compareRight(state.richLetter)} ${plain(LOCS[state.samples[state.richLetter].key].why)}`)) : '—');
 
-    const madeNames = c.made.map(m => LABELS.made[m].toLowerCase());
-    const madeText = madeNames.length ? R.made(listText(madeNames)) : '—';
     const conclusion = [
-      ev.madeOk ? madeText : mark(madeText, `${CHECK.madeWrong}${c.made.includes('plastic') ? ' ' + CHECK.plastic : ''}`),
       c.location ? (ev.locationOk ? R.location[c.location] : mark(R.location[c.location], CHECK.locationWrong)) : '—',
       c.verdict ? R.verdict(ev.hypothesis ? LABELS[c.verdict] : mark(LABELS[c.verdict], CHECK.verdictWrong(ev.should))) : '—'
     ].join(' ');
