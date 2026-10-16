@@ -27,8 +27,8 @@ Chapitres : `bio1`, `chem1`, `phys1`, `chem2`, `phys2`, `bio2`. Tous ont leur
 vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 `bio1`, `chem1`. Ailleurs, les tableaux sont vides (contenu pas encore rédigé).
 
-Labos virtuels (en anglais pour l'instant) : `chem1` « Metal detectives »,
-`bio1` « The vanishing leaves ». Chaque chapitre a sa page Lab
+Labos virtuels (en anglais pour l'instant) : `chem1` « Metal detectives » et
+« Under our feet » (composition du sol), `bio1` « The vanishing leaves ». Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans
 [tools/chapters.json](tools/chapters.json) (`labs`). Sans labo, la page et la
