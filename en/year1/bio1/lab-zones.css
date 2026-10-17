@@ -1,0 +1,1418 @@
+/* ===== Labo virtuel « Sun and shade » (bio1) =====
+   Ce qui est propre à ce labo : cartes des zones et hypothèse, terrain
+   (outils, deux zones, carré de comptage vu de dessus), fiche de terrain,
+   comptage, histogramme, conclusion, correction. Le cadre commun (modale,
+   étapes, boutons, verrous, rapport) est dans lab-engine.css, à la racine du
+   site. Classes préfixées zn- (zones) : ce labo partage sa page avec « The
+   vanishing leaves », dont les classes sont en dc-. Tout tient dans la
+   modale d'un Chromebook à 100 % (1366 × 768) sans défilement. */
+
+/* ===== Commun aux étapes ===== */
+.zn-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+}
+
+.zn-reminder {
+  margin: 0;
+  padding: 6px 12px;
+  border-left: 3px solid var(--color-current);
+  border-radius: 0 10px 10px 0;
+  background: rgba(var(--color-current-rgb), 0.08);
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Lettre de la zone, dans la couleur de ses bâtons (bleu A, orange B) */
+.zn-letter {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #2a78d6;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.76rem;
+  line-height: 1;
+}
+
+.zn-letter.is-B {
+  background: #c9531f;
+}
+
+.zn-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.zn-chip.lab-choice {
+  min-width: 72px;
+  padding: 0 10px;
+}
+
+.zn-chips.is-long {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.zn-chip-long.lab-choice {
+  height: auto;
+  min-height: 32px;
+  padding: 5px 10px;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.3;
+}
+
+.zn-ok { color: var(--color-emerald); font-weight: 600; }
+.zn-ko { color: var(--color-rose); font-weight: 600; }
+.zn-muted { color: var(--color-muted); }
+
+.zn-panel {
+  min-height: 0;
+  padding: 8px 12px 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #ffffff;
+}
+
+.zn-panel .lab-panel-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.zn-panel .lab-panel-title small {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-muted);
+}
+
+/* ===== Étape 1 : hypothèse ===== */
+.zn-predict {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.zn-question-card,
+.zn-hyp-card {
+  padding: 12px 22px 14px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.3);
+  background: #ffffff;
+}
+
+.zn-question-card {
+  background: rgba(var(--color-current-rgb), 0.08);
+  border-color: transparent;
+}
+
+.zn-question {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.zn-places {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zn-place {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px 6px 6px;
+  border-radius: 14px;
+  background: #ffffff;
+  text-align: left;
+}
+
+.zn-place .zn-scene-svg {
+  flex: 0 0 auto;
+  width: 136px;
+  height: 102px;
+  border-radius: 10px;
+}
+
+.zn-place-name {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 2px;
+}
+
+.zn-place-name small {
+  grid-column: 1 / -1;
+  font-size: 0.86rem;
+  color: var(--color-text);
+}
+
+.zn-apart,
+.zn-apart-v {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-current-darker);
+}
+
+.zn-apart span,
+.zn-apart-v span {
+  color: rgba(var(--color-current-rgb), 0.8);
+}
+
+.zn-hyp-intro {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.zn-hrows {
+  display: grid;
+  gap: 6px;
+}
+
+.zn-hrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 6px 5px 12px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: rgba(var(--color-current-rgb), 0.05);
+}
+
+.zn-hrow-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.zn-because {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 0.86rem;
+  color: var(--color-muted);
+}
+
+.zn-because-input.lab-input {
+  flex: 1 1 auto;
+  width: auto;
+}
+
+/* ===== Étape 2 : sur le terrain ===== */
+.zn-run {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 370px;
+  gap: 14px;
+}
+
+.zn-bench {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.zn-toolrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 58px;
+}
+
+.zn-tools {
+  display: flex;
+  gap: 6px;
+}
+
+.zn-tools[hidden] {
+  display: none;
+}
+
+.zn-tool {
+  position: relative;
+  width: 84px;
+  height: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 3px 4px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.5);
+  background: #ffffff;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.72rem;
+  line-height: 1.1;
+  text-align: center;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.zn-tool-ic {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+}
+
+.zn-tool.is-active {
+  border-color: var(--color-current-dark);
+  background: rgba(var(--color-current-rgb), 0.16);
+  box-shadow: inset 0 0 0 1px var(--color-current-dark);
+}
+
+html[data-pointer='fine'] .zn-tool:hover,
+.zn-tool:focus-visible {
+  border-color: var(--color-current-dark);
+  outline: none;
+}
+
+/* Où se trouve l'instrument (il n'y en a qu'un de chaque) */
+.zn-tool-at {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #2a78d6;
+  color: #ffffff;
+  font-size: 0.64rem;
+  font-weight: 700;
+}
+
+.zn-tool-at.is-B {
+  background: #c9531f;
+}
+
+/* Onglets : le terrain, l'histogramme */
+.zn-views {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 14px;
+  background: rgba(var(--color-current-rgb), 0.12);
+}
+
+.zn-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1.5px solid transparent;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--color-current-darker);
+  font-weight: 700;
+  font-size: 0.86rem;
+  transition: background var(--transition), color var(--transition);
+}
+
+.zn-view-ic {
+  width: 18px;
+  height: 18px;
+}
+
+.zn-view.is-current {
+  background: var(--color-current);
+  color: var(--color-current-text);
+  box-shadow: 0 2px 6px rgba(var(--color-current-rgb), 0.35);
+}
+
+.zn-view.is-ready {
+  animation: lab-pulse 1.6s ease-in-out infinite;
+  background: #ffffff;
+}
+
+.zn-view.lab-is-locked {
+  color: var(--lab-locked-text);
+}
+
+html[data-pointer='fine'] .zn-view:not(.is-current):not(.lab-is-locked):hover,
+.zn-view:focus-visible {
+  background: rgba(var(--color-current-rgb), 0.2);
+  outline: none;
+}
+
+.zn-stage {
+  position: relative;
+  min-height: 0;
+}
+
+.zn-caption.lab-caption.is-warning {
+  background: #fff1f0;
+  color: #b83232;
+  font-weight: 600;
+}
+
+/* --- Les deux zones --- */
+.zn-zones {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 4px;
+}
+
+.zn-apart-v {
+  flex-direction: column;
+  gap: 0;
+  font-size: 0.74rem;
+}
+
+.zn-zone {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto;
+  border-radius: 16px;
+  border: 1.5px solid rgba(17, 36, 72, 0.12);
+  background: #ffffff;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.zn-zone:focus-visible {
+  outline: none;
+  border-color: var(--color-current-dark);
+}
+
+.zn-zone.has-tool {
+  border-color: rgba(var(--color-current-rgb), 0.7);
+}
+
+.zn-zone.is-over {
+  border-color: var(--color-current-dark);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.35);
+}
+
+/* Outil en main : son dessin suit la souris (followTool) et tient lieu de
+   curseur au-dessus des zones */
+html[data-pointer='fine'] .zn-zone.has-tool {
+  cursor: none;
+}
+
+.zn-zone-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 6px 10px;
+  font-size: 0.86rem;
+  text-align: left;
+}
+
+.zn-zone-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.zn-status {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+}
+
+.zn-status i {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #eef1ee;
+  color: #b4bdb7;
+}
+
+.zn-status i.is-done {
+  background: rgba(var(--color-current-rgb), 0.18);
+  color: var(--color-current-darker);
+}
+
+.zn-status svg {
+  width: 13px;
+  height: 13px;
+}
+
+.zn-scene {
+  position: relative;
+  aspect-ratio: 10 / 9;
+}
+
+.zn-scene .zn-scene-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.zn-lcd {
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 700;
+  fill: #1d2b1f;
+}
+
+.zn-lcd-unit {
+  font-family: var(--font-family);
+  font-size: 8.5px;
+  font-weight: 700;
+  fill: #3d4a3a;
+}
+
+.zn-q-open {
+  cursor: pointer;
+}
+
+.zn-q-tag {
+  font-family: var(--font-family);
+  font-size: 11px;
+  font-weight: 700;
+  fill: #33786f;
+}
+
+/* Main dans le sol : ce qu'on sent, jusqu'à ce que l'élève le note */
+.zn-feel {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 14px;
+  border: 1.5px solid var(--color-current);
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(17, 36, 72, 0.18);
+  animation: zn-feel-in 0.25s ease-out;
+  cursor: default;
+}
+
+.zn-feel .zn-tool-ic {
+  width: 38px;
+  height: 38px;
+}
+
+.zn-feel p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.zn-feel b {
+  color: var(--color-current-darker);
+}
+
+@keyframes zn-feel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Outil saisi (glisser) ou en main (suit la souris) */
+.zn-ghost {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgba(17, 36, 72, 0.35));
+}
+
+.zn-ghost-tool {
+  display: block;
+  width: 58px;
+  height: 58px;
+}
+
+/* --- Le carré vu de dessus --- */
+.zn-qview {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px;
+}
+
+.zn-qhead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.zn-back.lab-btn {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 0.82rem;
+}
+
+.zn-qbody {
+  min-height: 0;
+  display: flex;
+  gap: 12px;
+}
+
+.zn-qframe {
+  flex: 0 0 auto;
+  height: 100%;
+  aspect-ratio: 1;
+  max-width: 62%;
+}
+
+.zn-quadrat {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.zn-it {
+  cursor: pointer;
+  outline: none;
+}
+
+.zn-it-ring {
+  stroke: transparent;
+}
+
+.zn-it.is-counted .zn-it-ring {
+  stroke: #ffffff;
+  stroke-width: 1.8;
+  stroke-dasharray: 3 2.6;
+}
+
+.zn-it:focus-visible .zn-it-ring {
+  stroke: #ffffff;
+  stroke-width: 2.6;
+  stroke-dasharray: none;
+}
+
+.zn-it:not(.is-counted) .zn-it-tick {
+  display: none;
+}
+
+.zn-idcard {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #fbfaf7;
+  text-align: center;
+}
+
+.zn-id-pic {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #eef3e8;
+}
+
+.zn-id-pic .zn-id-ic {
+  width: 84px;
+  height: 84px;
+}
+
+.zn-idcard.is-empty .zn-tool-ic {
+  width: 60px;
+  height: 60px;
+}
+
+.zn-idcard p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.zn-id-name {
+  font-size: 1.05rem !important;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.zn-id-state {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef1ee;
+  color: var(--color-muted);
+  font-weight: 600;
+  font-size: 0.8rem !important;
+}
+
+.zn-id-state.is-counted {
+  background: rgba(29, 154, 108, 0.12);
+  color: #137352;
+}
+
+/* --- Colonne de droite : fiche de terrain et comptage --- */
+.zn-side {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.zn-count-panel {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.zn-data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.zn-data th,
+.zn-data td {
+  padding: 3px 4px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.07);
+  text-align: center;
+}
+
+.zn-data thead th {
+  font-size: 0.78rem;
+  color: var(--color-current-darkest);
+}
+
+.zn-th-zone {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.zn-data tbody th {
+  text-align: left;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.zn-data tbody th small {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.zn-data td {
+  width: 104px;
+  height: 38px;
+}
+
+.zn-cell-input,
+.zn-cell-wait,
+.zn-soil.lab-select {
+  width: 96px;
+  height: 30px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.5);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.zn-soil.lab-select {
+  padding: 0 4px;
+}
+
+.zn-cell-input:focus {
+  outline: none;
+  border-color: var(--color-current-dark);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.22);
+}
+
+.zn-cell-input.is-invalid {
+  border-color: #d64545;
+  background: #fff6f5;
+}
+
+.zn-cell-wait {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-style: dashed;
+}
+
+.zn-cell-wait .lab-lock {
+  margin: 0;
+}
+
+.zn-soil.is-asking {
+  animation: lab-pulse 1.4s ease-in-out infinite;
+  border-color: var(--color-current-dark);
+}
+
+.zn-species-row th,
+.zn-species-row td {
+  border-bottom: 0;
+  background: rgba(var(--color-current-rgb), 0.06);
+  font-weight: 700;
+}
+
+.zn-data.is-read td {
+  width: auto;
+  height: 30px;
+  font-weight: 600;
+}
+
+/* Comptage : une colonne par zone */
+.zn-counts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.zn-count-col {
+  min-width: 0;
+  padding: 4px 6px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+}
+
+.zn-count-col h4 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+}
+
+.zn-count-col h4 small {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.zn-count-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.zn-count-col li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 24px;
+  font-size: 0.78rem;
+  text-align: left;
+}
+
+.zn-ic {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+}
+
+.zn-count-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zn-count-col li b {
+  margin-left: auto;
+  min-width: 22px;
+  text-align: right;
+}
+
+.zn-count-empty {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  text-align: left;
+}
+
+/* ===== L'histogramme ===== */
+.zn-gview {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px;
+}
+
+/* L'échelle sur une ligne, les deux axes sur la suivante */
+.zn-gcontrols {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  align-items: center;
+  gap: 4px 18px;
+}
+
+.zn-gcontrols > .zn-ctl:first-child {
+  grid-column: 1 / -1;
+}
+
+.zn-ctl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  font-size: 0.82rem;
+}
+
+.zn-ctl-label {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.zn-axis-select.lab-select {
+  width: 190px;
+}
+
+.zn-chart-box {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 6px 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #ffffff;
+}
+
+.zn-chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.zn-chart-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.86rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-align: left;
+}
+
+.zn-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.zn-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.zn-key {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: #2a78d6;
+}
+
+.zn-key.is-B {
+  background: repeating-linear-gradient(45deg, #eb6834 0 3px, #f5b39a 3px 5px);
+  border: 1px solid #eb6834;
+}
+
+.zn-chart-wrap {
+  min-height: 0;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+}
+
+.zn-chart {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-family);
+}
+
+.zn-chart.is-edit {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.zn-chart.lab-is-locked {
+  opacity: 0.55;
+}
+
+.zn-chart.is-read .zn-tick { font-size: 15px; }
+.zn-chart.is-read .zn-axis-name { font-size: 16px; }
+.zn-chart.is-read .zn-cat { font-size: 15.5px; }
+.zn-chart.is-read .zn-bar-val { font-size: 14px; }
+
+.zn-tick {
+  font-size: 11px;
+  fill: #5d6b78;
+}
+
+.zn-axis-name {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #23524b;
+}
+
+.zn-axis-name.is-unset {
+  fill: #b3bdb7;
+}
+
+.zn-cat {
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: #33403a;
+}
+
+.zn-bar-val {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #33403a;
+}
+
+.zn-slot {
+  cursor: ns-resize;
+  outline: none;
+}
+
+.zn-slot.is-active .zn-slot-hit,
+.zn-slot:focus-visible .zn-slot-hit {
+  fill: rgba(98, 181, 170, 0.12);
+}
+
+/* ===== Étape 3 : conclusion ===== */
+.zn-conclude {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 520px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.zn-ref {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.zn-ref-graph {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.zn-ref .zn-data.is-read td {
+  height: 27px;
+}
+
+.zn-form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.zn-form-cols {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.zn-form-col {
+  display: grid;
+  gap: 8px;
+}
+
+.zn-q {
+  padding: 7px 10px 8px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.25);
+  background: #ffffff;
+}
+
+.zn-q-title {
+  margin: 0 0 5px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-current-darkest);
+  text-align: left;
+}
+
+.zn-qrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3px 8px;
+  padding: 2px 3px 2px 6px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+}
+
+.zn-qrow + .zn-qrow {
+  margin-top: 3px;
+}
+
+.zn-qrow-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.zn-qrow .zn-chips {
+  margin-left: auto;
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+
+.zn-qrow .zn-chip.lab-choice {
+  min-width: 0;
+  padding: 0 7px;
+}
+
+/* ===== Étape 4 : correction ===== */
+.zn-check {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.zn-check-left {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.zn-crit-list {
+  display: grid;
+  gap: 6px;
+}
+
+.zn-crit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+  min-height: 54px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #ffffff;
+  color: var(--color-text);
+  text-align: left;
+  box-shadow: inset 4px 0 0 var(--zn-crit-accent, transparent);
+}
+
+.zn-crit.is-ok { --zn-crit-accent: var(--color-emerald); background: rgba(12, 163, 127, 0.06); }
+.zn-crit.is-ko { --zn-crit-accent: var(--color-rose); background: rgba(212, 82, 122, 0.07); }
+
+.zn-crit.is-selected {
+  border-color: var(--color-current);
+}
+
+html[data-pointer='fine'] .zn-crit:not(.is-selected):hover,
+.zn-crit:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.5);
+  outline: none;
+}
+
+.zn-crit-text strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.zn-crit-text small {
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.zn-crit-mark {
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.is-ok .zn-crit-mark { color: var(--color-emerald); }
+.is-ko .zn-crit-mark { color: var(--color-rose); }
+
+.zn-check-detail {
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #fbfaf7;
+  text-align: left;
+}
+
+.zn-check-detail h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.zn-check-detail p {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.zn-check-detail .zn-data {
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+.zn-detail-sub {
+  margin-top: 10px !important;
+  font-weight: 700;
+  color: var(--color-current-darkest);
+}
+
+.zn-misslist,
+.zn-checklist,
+.zn-answers {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 5px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.zn-misslist li {
+  padding-left: 12px;
+  border-left: 3px solid var(--color-rose);
+}
+
+.zn-checklist > li {
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.zn-checklist .zn-misslist {
+  margin: 4px 0 0;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.zn-real-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+
+.zn-real-list span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.zn-chart-mini {
+  height: 300px;
+  padding: 6px;
+  background: #ffffff;
+}
+
+.zn-answers li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.zn-answers .zn-mark {
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.zn-ok-item .zn-mark { color: var(--color-emerald); }
+.zn-ko-item .zn-mark { color: var(--color-rose); }
+
+.zn-hyptable {
+  width: 100%;
+  margin-bottom: 10px;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  background: #ffffff;
+}
+
+.zn-hyptable th,
+.zn-hyptable td {
+  padding: 5px 8px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.07);
+  text-align: left;
+}
+
+.zn-hyptable td:last-child {
+  width: 28px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* ===== Écrans plus étroits ===== */
+@media (max-width: 980px) {
+  .zn-run { grid-template-columns: minmax(0, 1fr) 330px; }
+  .zn-tool { width: 70px; font-size: 0.66rem; }
+  .zn-tool-ic { width: 26px; height: 26px; }
+  .zn-check { grid-template-columns: 260px minmax(0, 1fr); }
+  .zn-conclude { grid-template-columns: 400px minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .zn-run,
+  .zn-conclude,
+  .zn-check,
+  .zn-form-cols { grid-template-columns: 1fr; height: auto; }
+  .zn-zones { grid-template-columns: 1fr; }
+  .zn-apart-v { flex-direction: row; justify-content: center; }
+  .zn-places { flex-direction: column; }
+  .zn-toolrow { flex-wrap: wrap; }
+  .zn-tools { flex-wrap: wrap; }
+  .zn-qbody { flex-direction: column; }
+  .zn-qframe { height: auto; width: 100%; max-width: none; }
+}
+
+/* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */
+.lab-doc .zn-report-table caption,
+.lab-doc .zn-report-count caption {
+  font-size: 8.5pt;
+  color: #5d728f;
+  text-align: left;
+  padding-bottom: 2px;
+}
+
+.lab-doc .zn-report-table th:first-child {
+  text-align: left;
+}
+
+.lab-doc .zn-report-results {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.lab-doc .zn-report-count {
+  width: auto;
+  min-width: 48mm;
+  margin-top: 0;
+}
+
+.lab-doc .zn-report-count th:first-child {
+  text-align: left;
+}
+
+.lab-doc .zn-report-graph {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.lab-doc .zn-report-graph-title {
+  font-weight: 700;
+  font-size: 9pt;
+  text-decoration: underline;
+}
+
+.lab-doc .zn-report-chart svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.lab-doc .zn-report-chart .zn-bar-val {
+  display: none;
+}
+
+.lab-doc .zn-report-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 8.5pt;
+}
+
+.lab-doc .zn-report-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lab-doc .zn-key {
+  width: 11px;
+  height: 11px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.lab-doc .zn-report-corr {
+  width: auto;
+  min-width: 70mm;
+}
+
+.lab-doc .zn-report-corr th {
+  text-align: left;
+}

@@ -28,7 +28,9 @@ vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 `bio1`, `chem1`. Ailleurs, les tableaux sont vides (contenu pas encore rédigé).
 
 Labos virtuels (en anglais pour l'instant) : `chem1` « Metal detectives » et
-« Under our feet » (composition du sol), `bio1` « The vanishing leaves ». Chaque chapitre a sa page Lab
+« Under our feet » (composition du sol), `bio1` « The vanishing leaves » et
+« Sun and shade » (mission 1 de la sortie de terrain : facteurs abiotiques,
+carré de comptage, histogramme FO5b). Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans
 [tools/chapters.json](tools/chapters.json) (`labs`). Sans labo, la page et la
