@@ -262,18 +262,19 @@
   };
 
   /* ===== Les lieux ===== (un sol riche et un sol pauvre par tirage)
-     wet : probabilité que l'échantillon soit humide. */
+     wet : probabilité que l'échantillon soit humide. bits : ce qui dépasse
+     du tas avant qu'on l'étale (voir heapArt). */
   const LOCS = {
     forest: { rich: true, from: 'from the [school forest]', kind: 'soil', wet: 0.8,
-      base: '#3f2c1f', parts: ['#2a1c13', '#5b4030', '#6d4e36', '#33261b', '#7a5a3c'], crumbs: '#5a3a1e',
+      base: '#3f2c1f', parts: ['#2a1c13', '#5b4030', '#6d4e36', '#33261b', '#7a5a3c'], crumbs: '#5a3a1e', bits: [['leaf', 4], ['twig', 1]],
       items: [['earthworm', 1], ['woodlouse', 0.7], ['springtail', 1], ['roots', 1], ['leaf', 2], ['twig', 1], ['acorn', 0.7], ['beetleDead', 0.6], ['pebble', 1], ['sand', 1]],
       why: 'In a forest, dead leaves and wood fall on the ground every year, and many small animals and decomposers live in the soil: it is rich in organic matter and life.' },
     garden: { rich: true, from: 'from the [vegetable garden]', kind: 'soil', wet: 0.7,
-      base: '#55392a', parts: ['#3b281c', '#6f4c37', '#7e5a40', '#4a3123'], crumbs: '#3d2a1c',
+      base: '#55392a', parts: ['#3b281c', '#6f4c37', '#7e5a40', '#4a3123'], crumbs: '#3d2a1c', bits: [['root', 3], ['leaf', 1]],
       items: [['earthworm', 1], ['earthworm', 0.5], ['larva', 1], ['roots', 1], ['springtail', 0.6], ['grass', 1], ['bark', 0.6], ['pebble', 2], ['sand', 1], ['beetleDead', 0.5]],
       why: 'A vegetable garden gets plant remains and compost every year, and its soil is full of worms and roots: it is rich in organic matter and life.' },
     meadow: { rich: true, from: 'from the [meadow]', kind: 'soil', wet: 0.6,
-      base: '#5a432f', parts: ['#43301f', '#76593e', '#8a6b47', '#4f3a27'], blades: '#8aa64a',
+      base: '#5a432f', parts: ['#43301f', '#76593e', '#8a6b47', '#4f3a27'], blades: '#8aa64a', bits: [['grass', 6], ['root', 1]],
       items: [['ant', 2], ['earthworm', 0.6], ['roots', 1], ['springtail', 0.5], ['grass', 2], ['leaf', 0.5], ['pebble', 1], ['sand', 1], ['beetleDead', 0.4]],
       why: 'In a meadow, grass dies and grows back every year. Its roots, the dead grass and the small animals make the soil rich in organic matter and life.' },
     sandpit: { rich: false, from: 'from the [playground] [sandpit]', kind: 'sand', wet: 0.4,
@@ -357,9 +358,10 @@
   const isHidden = it => isTiny(it) && !state.samples[it.S].lensUsed;
   const grabR = it => isTiny(it) ? it.rr * REVEAL : it.rr;
 
+  // f négatif : éclaircit.
   function darken(hex, f) {
     const n = parseInt(hex.slice(1), 16);
-    return '#' + [16, 8, 0].map(s => Math.round(((n >> s) & 255) * (1 - f)).toString(16).padStart(2, '0')).join('');
+    return '#' + [16, 8, 0].map(s => Math.min(255, Math.round(((n >> s) & 255) * (1 - f))).toString(16).padStart(2, '0')).join('');
   }
   const soilColour = smp => smp.wet ? darken(LOCS[smp.key].base, 0.22) : LOCS[smp.key].base;
 
@@ -475,10 +477,11 @@
 
   /* ===== Étape 2 : la paillasse =====
      Outils : gants (une fois pour toutes) ; spatule, loupe et main « Wet or
-     dry? » : un geste sur un bac, puis l'outil se range. La loupe balaie le
-     bac en zigzag et révèle au passage les tout petits éléments, qui restent
-     ensuite agrandis et cerclés de pointillés ; pendant le balayage, le bac
-     ne réagit pas. La main affiche son résultat dans une bulle sur le bac,
+     dry? » : un clic les met en main (l'outil suit alors la souris), un
+     geste sur un bac, puis l'outil se range. La spatule étale le tas en deux
+     coups, dessinée dans le bac ; la loupe balaie le bac en zigzag et révèle au passage les tout petits éléments, qui restent
+     ensuite agrandis et cerclés de pointillés ; pendant l'étalement et le
+     balayage, le bac ne réagit pas. La main affiche son résultat dans une bulle sur le bac,
      jusqu'à ce que l'élève note « wet » ou « dry ». Tri : toucher un élément
      l'examine (panneau de droite), le glisser le porte dans une coupelle de
      son échantillon. */
@@ -497,7 +500,7 @@
   const TICK = '<svg class="so-tick" viewBox="0 0 24 20" aria-hidden="true" focusable="false"><path d="M3 11.5 C5 12.5 7 14.5 9 17 C12 10 16 5 21.5 2.5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   function renderExperiment() {
-    scanning = {};
+    busy = {};
     const trayCol = S => `<div class="so-traycol" data-col="${S}">` +
       `<div class="so-tray-head" data-head="${S}"></div>` +
       `<div class="so-tray-frame" data-frame="${S}"><svg class="so-tray-svg" data-tray="${S}" viewBox="0 0 420 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${LABELS.sample(S)}"></svg><div class="so-feel" data-feel="${S}" aria-live="polite" hidden></div></div>` +
@@ -603,30 +606,150 @@
     return `<g class="so-it" data-uid="${it.uid}" ${it.sorted || isHidden(it) ? 'display="none"' : ''} transform="translate(${it.x} ${it.y}) rotate(${it.rot}) scale(${s})"><g class="so-pop">${ring}<g>${itemDrawing(it)}${anim}</g></g></g>`;
   }
 
-  // Tas : le sol est découpé par une ellipse qui s'agrandit quand on l'étale.
-  const HEAP = { rx: 96, ry: 54, fullRx: 330, fullRy: 220 };
+  /* --- Tas de départ, vu d'en haut, éclairé d'en haut à gauche : contour
+     bosselé, mottes (ou cailloux) qui s'empilent vers le sommet, miettes
+     tombées autour, ombre portée. Tiré de la graine de l'échantillon : le
+     même tas à chaque affichage. Étalé, le sol plat (soilTexture) sort de
+     sous le tas, découpé par trois copies du contour (voir spread). --- */
+  const HEAP_C = { x: 210, y: 104 };
+  // bump : relief du contour ; clods : mottes ou cailloux sur le tas, dont
+  // rim au bord ; size : leur rayon ; crumbs : miettes tombées autour.
+  const HEAP_SHAPE = {
+    soil: { rx: 82, ry: 62, bump: 0.045, clods: 260, rim: 46, size: [2.2, 5.4], crumbs: 44 },
+    sand: { rx: 80, ry: 58, bump: 0.02, clods: 0, rim: 0, size: [0, 0], crumbs: 90 },
+    gravel: { rx: 80, ry: 60, bump: 0.055, clods: 160, rim: 36, size: [2.4, 5.8], crumbs: 26 }
+  };
+  const STONES = ['#8a8a86', '#a3a29d', '#77766f', '#bdb9b0'];
+  const fx = n => n.toFixed(1);
+
+  // Chemin fermé et lissé passant près des points (milieux reliés en courbes).
+  function smoothPath(pts) {
+    const mid = (a, b) => `${fx((a[0] + b[0]) / 2)} ${fx((a[1] + b[1]) / 2)}`;
+    const n = pts.length;
+    return `M${mid(pts[n - 1], pts[0])}` + pts.map((p, i) => ` Q${fx(p[0])} ${fx(p[1])} ${mid(p, pts[(i + 1) % n])}`).join('') + 'Z';
+  }
+
+  // Petite forme irrégulière autour de (x, y) : n sommets, rayon s.
+  function lumpPts(r, x, y, s, n) {
+    const a0 = r() * Math.PI * 2;
+    return Array.from({ length: n }, (_, i) => {
+      const a = a0 + i / n * Math.PI * 2, d = s * (0.72 + r() * 0.42);
+      return [x + Math.cos(a) * d, y + Math.sin(a) * d * 0.86];
+    });
+  }
+
+  // Le tas d'un échantillon : contour (centré en 0, 0) et dessin du relief.
+  function heapArt(smp) {
+    const r = mulberry32(seedFrom(smp.seed + 'heap'));
+    const loc = LOCS[smp.key], kind = loc.kind, sh = HEAP_SHAPE[kind];
+    const w = smp.wet ? 0.22 : 0;
+    const waves = [3, 5, 7, 11, 17].map((k, i) => ({ k, a: sh.bump * (0.4 + r() * 0.6) / (1 + i * 0.5), p: r() * Math.PI * 2 }));
+    const radius = th => waves.reduce((f, v) => f + v.a * Math.sin(v.k * th + v.p), 1);
+    const at = (th, rho) => [HEAP_C.x + Math.cos(th) * sh.rx * radius(th) * rho, HEAP_C.y + Math.sin(th) * sh.ry * radius(th) * rho];
+    const outline = smoothPath(Array.from({ length: 48 }, (_, i) => {
+      const th = i / 48 * Math.PI * 2;
+      return [Math.cos(th) * sh.rx * radius(th), Math.sin(th) * sh.ry * radius(th)];
+    }));
+    // Mottes : surtout le fond, plus clair ou plus sombre ; parfois une autre
+    // teinte du sol. Gravier : couleurs des cailloux.
+    const colour = () => kind === 'gravel' ? darken(STONES[Math.floor(r() * 4)], w)
+      : r() < 0.6 ? darken(loc.base, w + r() * 0.5 - 0.32) : darken(loc.parts[Math.floor(r() * loc.parts.length)], w);
+
+    // Motte (sol) ou caillou anguleux (gravier) : ombre, corps, reflet.
+    const clod = (x, y, s) => {
+      const pts = lumpPts(r, x, y, s, kind === 'gravel' ? 5 : 7);
+      const d = kind === 'gravel' ? 'M' + pts.map(p => `${fx(p[0])} ${fx(p[1])}`).join(' L') + 'Z' : smoothPath(pts);
+      const light = kind === 'gravel'
+        ? `<path d="M${fx(pts[2][0])} ${fx(pts[2][1])} L${fx(x)} ${fx(y)} L${fx(pts[4][0])} ${fx(pts[4][1])}" fill="none" stroke="#ffffff" stroke-opacity=".35" stroke-width=".7"/>`
+        : `<ellipse cx="${fx(x - s * 0.3)}" cy="${fx(y - s * 0.35)}" rx="${fx(s * 0.45)}" ry="${fx(s * 0.24)}" fill="#ffffff" fill-opacity=".16" transform="rotate(-25 ${fx(x - s * 0.3)} ${fx(y - s * 0.35)})"/>`;
+      return `<path d="${d}" transform="translate(${fx(s * 0.22)} ${fx(s * 0.3)})" fill="#000000" fill-opacity=".3"/><path d="${d}" fill="${colour()}"/>${light}`;
+    };
+
+    // Mottes : d'abord celles du bord, le sommet en dernier (par-dessus).
+    const lumps = [];
+    for (let i = 0; i < sh.clods; i++) {
+      const rho = i < sh.rim ? 0.9 + r() * 0.14 : Math.sqrt(r()) * 0.9;
+      lumps.push({ th: r() * Math.PI * 2, rho, s: sh.size[0] + r() * (sh.size[1] - sh.size[0]) });
+    }
+    lumps.sort((a, b) => b.rho - a.rho);
+    let relief = lumps.map(l => clod(...at(l.th, l.rho), l.s)).join('');
+
+    // Sable : un cône lisse, grains serrés, versant à l'ombre en bas à droite.
+    if (kind === 'sand') {
+      for (let i = 0; i < 260; i++) {
+        const [x, y] = at(r() * Math.PI * 2, Math.sqrt(r()) * 0.97);
+        relief += `<circle cx="${fx(x)}" cy="${fx(y)}" r="${(0.4 + r() * 0.55).toFixed(2)}" fill="${colour()}"/>`;
+      }
+      relief += `<path d="${outline}" transform="translate(${HEAP_C.x} ${HEAP_C.y})" fill="url(#so-slope-${smp.S})"/>`;
+    }
+
+    // Ce qui dépasse d'un sol riche : bouts de feuilles, racines, herbes.
+    (loc.bits || []).forEach(([bit, n]) => {
+      for (let i = 0; i < n; i++) {
+        const [x, y] = at(r() * Math.PI * 2, 0.2 + r() * 0.6), a = Math.round(r() * 360);
+        if (bit === 'leaf') relief += `<path d="M-4 0 C-2 -3 2 -3 4 -.5 C2 2.5 -2 2.5 -4 0Z" transform="translate(${fx(x)} ${fx(y)}) rotate(${a})" fill="${darken(['#7c4f25', '#93622e', '#6e4520'][i % 3], w)}"/>`;
+        else if (bit === 'twig') relief += `<path d="M-8 0 L8 0 M3 0 L6 -3" transform="translate(${fx(x)} ${fx(y)}) rotate(${a})" stroke="${darken('#6b4a2f', w)}" stroke-width="1.6" stroke-linecap="round"/>`;
+        else if (bit === 'root') relief += `<path d="M-7 1 C-3 -2 1 3 7 -1" transform="translate(${fx(x)} ${fx(y)}) rotate(${a})" fill="none" stroke="#d9ccb0" stroke-opacity=".8" stroke-width=".6" stroke-linecap="round"/>`;
+        else relief += `<path d="M0 0 q${fx(r() * 4 - 2)} -4 ${fx(r() * 6 - 3)} -8" transform="translate(${fx(x)} ${fx(y)})" fill="none" stroke="${darken(i % 2 ? '#8aa64a' : '#c9b06a', w)}" stroke-width="1.3" stroke-linecap="round"/>`;
+      }
+    });
+
+    // Volume : éclairé en haut à gauche, sombre au pied et en bas à droite.
+    // Le sable, en cône bas, a un pied moins marqué qu'une motte de terre.
+    relief += `<path d="${outline}" transform="translate(${HEAP_C.x} ${HEAP_C.y})" fill="url(#so-mound-${smp.S})"${kind === 'sand' ? ' opacity=".5"' : ''}/>`;
+
+    // Miettes tombées autour du tas.
+    for (let i = 0; i < sh.crumbs; i++) {
+      const [x, y] = at(r() * Math.PI * 2, 1.03 + Math.pow(r(), 1.6) * 0.3);
+      if (kind === 'sand') relief += `<circle cx="${fx(x)}" cy="${fx(y)}" r="${(0.5 + r() * 0.7).toFixed(2)}" fill="${colour()}"/>`;
+      else relief += clod(x, y, 0.9 + r() * 1.6);
+    }
+    // Frange de poussière au pied du tas, plus large pour le sable.
+    const fringe = `<path d="${outline}" transform="translate(${HEAP_C.x} ${HEAP_C.y}) scale(${kind === 'sand' ? 1.09 : 1.04})" fill="${darken(loc.base, w)}" fill-opacity=".55" filter="url(#so-blur-${smp.S})"/>`;
+    return { outline, relief, fringe };
+  }
+
+  // La spatule vue d'en haut, lame vers le haut, (0, 0) au bord de la lame.
+  function spatulaSVG(smp) {
+    const blade = 'M-15 2 C-15 -1 -13 -2 -10 -2 H10 C13 -2 15 -1 15 2 L6.5 30 H-6.5 Z';
+    return `<g transform="translate(6 9)" opacity=".24" filter="url(#so-blur-${smp.S})"><path d="${blade}"/><rect x="-6" y="29" width="12" height="66" rx="6"/></g>` +
+      `<rect x="-6" y="37" width="12" height="58" rx="6" fill="#a8743f" stroke="#7a5230" stroke-width="1.4"/>` +
+      `<path d="M-2.4 43 V89" stroke="#c99560" stroke-width="2" stroke-linecap="round"/>` +
+      `<rect x="-5" y="28" width="10" height="10" rx="2" fill="#aab4bd" stroke="#7f8a94" stroke-width="1.2"/>` +
+      `<path d="${blade}" fill="#d3dae1" stroke="#7f8a94" stroke-width="1.4" stroke-linejoin="round"/>` +
+      `<path d="M-15 2 C-15 -1 -13 -2 -10 -2 H10 C13 -2 15 -1 15 2 L13.5 7 C5 8.5 -5 6 -13.5 7 Z" fill="${soilColour(smp)}" opacity=".9"/>` +
+      `<path d="M-9 10 L-4.5 26" stroke="#ffffff" stroke-opacity=".75" stroke-width="2" stroke-linecap="round"/>`;
+  }
 
   function buildTray(S) {
     const smp = state.samples[S];
     const svg = $(`[data-tray="${S}"]`);
-    const rx = smp.spread ? HEAP.fullRx : HEAP.rx, ry = smp.spread ? HEAP.fullRy : HEAP.ry;
+    const heap = heapArt(smp);
+    // Trois copies du contour découpent le sol plat : le tas, puis ce que
+    // chaque coup de spatule pousse d'un côté (voir spread).
+    const blobs = [0, 1, 2].map(i => `<path data-blob d="${heap.outline}" transform="translate(${HEAP_C.x} ${HEAP_C.y}) scale(${smp.spread && !i ? 8 : 1})"/>`).join('');
     svg.innerHTML =
       `<defs>` +
         `<clipPath id="so-soilclip-${S}"><rect x="10" y="10" width="400" height="180" rx="14"/></clipPath>` +
-        `<clipPath id="so-heap-${S}"><ellipse data-heap cx="210" cy="104" rx="${rx}" ry="${ry}"/></clipPath>` +
-        `<radialGradient id="so-mound-${S}" cx="46%" cy="34%" r="66%"><stop offset="0" stop-color="#ffffff" stop-opacity=".24"/><stop offset=".6" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#000000" stop-opacity=".28"/></radialGradient>` +
+        `<clipPath id="so-heap-${S}">${blobs}</clipPath>` +
+        `<radialGradient id="so-mound-${S}" cx="50%" cy="50%" r="52%" fx="36%" fy="30%"><stop offset="0" stop-color="#ffffff" stop-opacity=".2"/><stop offset=".4" stop-color="#ffffff" stop-opacity=".04"/><stop offset=".72" stop-color="#000000" stop-opacity=".1"/><stop offset="1" stop-color="#000000" stop-opacity=".42"/></radialGradient>` +
+        `<linearGradient id="so-slope-${S}" x1=".2" y1=".1" x2=".8" y2=".9"><stop offset="0" stop-color="#ffffff" stop-opacity=".22"/><stop offset=".48" stop-color="#ffffff" stop-opacity="0"/><stop offset=".56" stop-color="#000000" stop-opacity=".06"/><stop offset="1" stop-color="#000000" stop-opacity=".22"/></linearGradient>` +
         `<linearGradient id="so-sheen-${S}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".1"/><stop offset=".5" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#ffffff" stop-opacity=".08"/></linearGradient>` +
+        `<filter id="so-blur-${S}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.5"/></filter>` +
       `</defs>` +
       `<rect x="1" y="1" width="418" height="198" rx="20" fill="#e6ecf2" stroke="#c4cfda" stroke-width="2"/>` +
       `<rect x="10" y="10" width="400" height="180" rx="14" fill="#f8fafc" stroke="#d3dce5"/>` +
       `<g clip-path="url(#so-soilclip-${S})"><g id="so-content-${S}">` +
-        `<g clip-path="url(#so-heap-${S})">${soilTexture(smp)}<ellipse data-mound cx="210" cy="104" rx="${rx}" ry="${ry}" fill="url(#so-mound-${S})" opacity="${smp.spread ? 0 : 1}"/></g>` +
-        `<g data-items opacity="${smp.spread ? 1 : 0}">${smp.items.map(itemMarkup).join('')}</g>` +
+        (smp.spread ? '' : `<g data-heapart><path d="${heap.outline}" transform="translate(${HEAP_C.x + 5} ${HEAP_C.y + 7})" fill="#000000" fill-opacity=".3" filter="url(#so-blur-${S})"/>${heap.fringe}</g>`) +
+        // Les éléments n'apparaissent que là où le sol est étalé.
+        `<g clip-path="url(#so-heap-${S})">${soilTexture(smp)}<g data-items opacity="${smp.spread ? 1 : 0}">${smp.items.map(itemMarkup).join('')}</g></g>` +
+        (smp.spread ? '' : `<g data-heapart>${heap.relief}</g>`) +
       `</g></g>` +
       `<rect x="10" y="10" width="400" height="180" rx="14" fill="none" stroke="#00000014" stroke-width="3"/>` +
       `<g data-sel pointer-events="none"></g>` +
-      `<g data-lens display="none" pointer-events="none">${lensSVG()}</g>`;
-    svg.classList.toggle('is-magnifier', state.tool === 'magnifier');
+      `<g data-lens display="none" pointer-events="none">${lensSVG()}</g>` +
+      `<g data-spat display="none" pointer-events="none">${spatulaSVG(smp)}</g>`;
+    svg.classList.toggle('has-tool', !!state.tool);
     lab.setLock(svg, state.gloves ? null : LABELS.lockTray, { icon: false });
   }
 
@@ -652,7 +775,7 @@
   /* --- Loupe : balayage en zigzag du bac (lignes assez proches pour que la
      lentille passe sur tout le sol) --- */
   const SCAN_PATH = [[40, 42], [380, 42], [380, 100], [40, 100], [40, 158], [380, 158]];
-  let scanning = {};
+  let busy = {};   // bac en cours de balayage ou d'étalement : il ne réagit pas
 
   function scanTray(S) {
     const smp = state.samples[S];
@@ -665,7 +788,7 @@
       if (!reduceMotion) g.querySelector('.so-pop').classList.add('is-revealed');
     };
     const finish = () => {
-      scanning[S] = false;
+      busy[S] = false;
       svg.classList.remove('is-scanning');
       svg.querySelector('[data-lens]').setAttribute('display', 'none');
       tiny.forEach(show);
@@ -677,7 +800,7 @@
     };
     if (reduceMotion) { finish(); return; }
 
-    scanning[S] = true;
+    busy[S] = true;
     svg.classList.add('is-scanning');
     setCaption(LABELS.caption.scanning(S));
     const lens = svg.querySelector('[data-lens]');
@@ -694,7 +817,7 @@
     // Animation propre à ce bac (pas lab.tween), comme l'étalement.
     const t0 = performance.now();
     const frame = now => {
-      if (!svg.isConnected) { scanning[S] = false; return; }
+      if (!svg.isConnected) { busy[S] = false; return; }
       const t = Math.min(1, (now - t0) / SCAN_MS);
       const [x, y] = at(total * (0.5 - Math.cos(Math.PI * t) / 2));
       lens.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
@@ -705,35 +828,79 @@
     requestAnimationFrame(frame);
   }
 
-  function spread(S) {
+  /* --- Spatule : deux coups, d'abord vers le côté touché, puis vers
+     l'autre. La lame part de l'endroit touché ; chaque coup pousse une copie
+     du contour du tas, qui grandit vers son bord du bac (à la fin, les deux
+     couvrent tout le bac), et le relief du tas s'efface. --- */
+  const SPREAD_MS = [560, 780, 1340, 1500];   // fins : 1er coup, reprise, 2e coup, disparition
+  const SPATULA_ANGLE = 50;                    // inclinaison de la spatule (manche vers l'élève)
+
+  function spread(S, p) {
     const smp = state.samples[S];
     if (smp.spread) { setCaption(LABELS.caption.already(S)); return; }
     smp.spread = true;
-    const svg = $(`[data-tray="${S}"]`);
-    const e = svg.querySelector('[data-heap]'), o = svg.querySelector('[data-mound]'), items = svg.querySelector('[data-items]');
-    const set = k => {
-      const rx = HEAP.rx + (HEAP.fullRx - HEAP.rx) * k, ry = HEAP.ry + (HEAP.fullRy - HEAP.ry) * k;
-      e.setAttribute('rx', rx); e.setAttribute('ry', ry);
-      o.setAttribute('rx', rx); o.setAttribute('ry', ry);
-      o.setAttribute('opacity', 1 - k);
-      items.setAttribute('opacity', Math.max(0, (k - 0.35) / 0.65));
-    };
-    if (reduceMotion) set(1);
-    else {
-      // Animation propre à ce bac (pas lab.tween) : étaler l'autre bac
-      // pendant ce temps ne doit pas l'interrompre.
-      const t0 = performance.now();
-      const frame = now => {
-        if (!e.isConnected) return;
-        const t = Math.min(1, (now - t0) / 750);
-        set(1 - Math.pow(1 - t, 3));
-        if (t < 1) requestAnimationFrame(frame);
-      };
-      requestAnimationFrame(frame);
-    }
     setCaption(LABELS.caption.spread(S));
     renderStatus();
     renderFooter();
+    const svg = $(`[data-tray="${S}"]`);
+    const blobs = svg.querySelectorAll('[data-blob]'), art = svg.querySelectorAll('[data-heapart]');
+    const items = svg.querySelector('[data-items]'), spat = svg.querySelector('[data-spat]');
+    const C = HEAP_C, dir = p && p.x < C.x ? -1 : 1;
+    const ends = [{ x: C.x + dir * 165, y: C.y - 10 }, { x: C.x - dir * 165, y: C.y + 8 }];
+    const place = (el, x, y, s, a) => el.setAttribute('transform', `translate(${fx(x)} ${fx(y)}) rotate(${fx(a || 0)}) scale(${s.toFixed(3)})`);
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    // La lame part de l'endroit touché, ramené sur le tas ; le 2e coup part
+    // du milieu.
+    const from = p ? { x: clamp(p.x, C.x - 60, C.x + 60), y: clamp(p.y, C.y - 45, C.y + 45) } : { x: C.x - dir * 30, y: C.y };
+    const back = { x: C.x + dir * 25, y: C.y + 6 };
+    const starts = [from, back];
+    // Sol poussé par un coup : le contour du tas, étiré dans le sens du coup
+    // (son bord arrière ne bouge pas) jusqu'un peu devant la lame, puis
+    // jusqu'au bord du bac ; il gagne aussi en hauteur. u0, lead : distances
+    // au centre du tas dans le sens du coup.
+    const rx = HEAP_SHAPE[LOCS[smp.key].kind].rx;
+    const push = (i, k) => {
+      const d = i ? -dir : dir, u0 = d * (starts[i].x - C.x);
+      const lead = Math.max(rx, u0 + (165 - u0) * k + 20) + 165 * Math.pow(k, 4);
+      const sx = (lead / rx + 1) / 2;
+      blobs[i + 1].setAttribute('transform', `translate(${fx(C.x + d * rx * (sx - 1))} ${C.y}) scale(${sx.toFixed(3)} ${(1 + 1.2 * k).toFixed(3)})`);
+    };
+    // a, b : avancée des deux coups (0 à 1). Le 1er coup aplatit le tas.
+    const set = (a, b) => {
+      push(0, a);
+      push(1, b);
+      if (b >= 1) place(blobs[0], C.x, C.y, 8);
+      art.forEach(g => g.setAttribute('opacity', (1 - a).toFixed(3)));
+      items.setAttribute('opacity', clamp((a - 0.2) / 0.6, 0, 1).toFixed(3));
+    };
+    if (reduceMotion) { set(1, 1); return; }
+
+    const ease = k => 0.5 - Math.cos(Math.PI * clamp(k, 0, 1)) / 2;
+    const lerp = (u, v, k) => ({ x: u.x + (v.x - u.x) * k, y: u.y + (v.y - u.y) * k });
+    const [t1, t2, t3, t4] = SPREAD_MS;
+    busy[S] = true;
+    svg.classList.add('is-spreading');
+    spat.setAttribute('display', 'inline');
+    // Animation propre à ce bac (pas lab.tween) : étaler l'autre bac
+    // pendant ce temps ne doit pas l'interrompre.
+    const t0 = performance.now();
+    const frame = now => {
+      if (!svg.isConnected) { busy[S] = false; return; }
+      const t = now - t0;
+      const a = ease(t / t1), lift = ease((t - t1) / (t2 - t1)), b = ease((t - t2) / (t3 - t2));
+      let pos, ang, s = 1;
+      if (t < t1) { pos = lerp(from, ends[0], a); ang = dir * (SPATULA_ANGLE + 6 * Math.sin(Math.PI * a)); }
+      else if (t < t2) { pos = lerp(ends[0], back, lift); ang = dir * SPATULA_ANGLE * (1 - 2 * lift); s = 1 + 0.1 * Math.sin(Math.PI * lift); }
+      else { pos = lerp(back, ends[1], b); ang = -dir * (SPATULA_ANGLE + 6 * Math.sin(Math.PI * b)); s = 1 + 0.06 * clamp((t - t3) / (t4 - t3), 0, 1); }
+      place(spat, pos.x, pos.y, s, ang);
+      spat.setAttribute('opacity', clamp(Math.min(t / 100, (t4 - t) / (t4 - t3)), 0, 1).toFixed(3));
+      set(a, b);
+      if (t < t4) { requestAnimationFrame(frame); return; }
+      spat.setAttribute('display', 'none');
+      svg.classList.remove('is-spreading');
+      busy[S] = false;
+    };
+    requestAnimationFrame(frame);
   }
 
   function touchSoil(S) {
@@ -873,11 +1040,11 @@
   function onTrayDown(e, S) {
     if (e.button !== 0) return;
     e.preventDefault();
-    if (scanning[S]) return;
+    if (busy[S]) return;
     const smp = state.samples[S];
-    if (state.tool) { useTool(state.tool, S); return; }
-    if (!smp.spread) { setCaption(LABELS.caption.heap(S), true); return; }
     const p = trayPoint(e.currentTarget, e.clientX, e.clientY);
+    if (state.tool) { useTool(state.tool, S, p); return; }
+    if (!smp.spread) { setCaption(LABELS.caption.heap(S), true); return; }
     const it = hitItem(smp, p.x, p.y);
     if (!it) {
       setCaption(tinyNear(smp, p.x, p.y) ? LABELS.caption.tiny : LABELS.caption.empty);
@@ -887,12 +1054,12 @@
   }
 
   // Le geste d'un outil sur un bac (outil en main puis bac touché, ou outil
-  // glissé sur le bac) ; l'outil se range ensuite.
-  function useTool(t, S) {
-    if (scanning[S]) return;
+  // glissé sur le bac) ; l'outil se range ensuite. p : point touché du bac.
+  function useTool(t, S, p) {
+    if (busy[S]) return;
     const smp = state.samples[S];
     setTool(null);
-    if (t === 'spatula') { spread(S); return; }
+    if (t === 'spatula') { spread(S, p); return; }
     if (!smp.spread) { setCaption(LABELS.caption.heap(S), true); return; }
     if (t === 'touch') touchSoil(S);
     else if (t === 'magnifier') scanTray(S);
@@ -917,8 +1084,9 @@
     renderTools();
     ['A', 'B'].forEach(S => {
       const svg = $(`[data-tray="${S}"]`);
-      if (svg) svg.classList.toggle('is-magnifier', t === 'magnifier');
+      if (svg) svg.classList.toggle('has-tool', !!t);
     });
+    followTool();
   }
 
   function toolTap(t) {
@@ -939,10 +1107,37 @@
     setCaption(next ? C[next] : C.noTool);
   }
 
+  /* Outil en main (choisi d'un simple clic) : il suit la souris comme quand
+     on le glisse, jusqu'à ce qu'il serve ou qu'on le repose ; au-dessus des
+     bacs, il remplace le curseur (son centre est le point qui agit). Au
+     doigt, rien à suivre : l'outil se pose là où on touche le bac. Caché
+     pendant un autre glisser, et dès que la paillasse n'est plus affichée. */
+  let hand = null, handAt = null;   // fantôme de l'outil en main ; dernière position de la souris
+
+  function followTool(e) {
+    if (e) handAt = e.pointerType === 'mouse' ? { x: e.clientX, y: e.clientY } : null;
+    if (!hand && !(state && state.tool)) return;
+    const box = $('[data-tools]');
+    const host = document.fullscreenElement || document.body;
+    const t = handAt && state.tool && box && box.getClientRects().length && !document.querySelector('.so-ghost:not(.so-hand)') ? state.tool : null;
+    if (!t) { if (hand) { hand.remove(); hand = null; } return; }
+    if (!hand || hand.dataset.tool !== t || hand.parentNode !== host) {
+      if (hand) hand.remove();
+      hand = document.createElement('div');
+      hand.className = 'so-ghost so-hand';
+      hand.dataset.tool = t;
+      hand.innerHTML = TOOL_ICON[t].replace('class="so-tool-ic"', 'class="so-ghost-tool"');
+      host.appendChild(hand);
+    }
+    hand.style.transform = `translate(${handAt.x}px, ${handAt.y}px) translate(-50%, -50%)`;
+  }
+  window.addEventListener('pointermove', followTool);
+  window.addEventListener('pointerdown', followTool);
+
   // Outil glissé sur un bac : son geste s'y applique tout de suite.
-  function applyTool(t, S) {
+  function applyTool(t, S, p) {
     if (t === 'gloves') { toolTap('gloves'); return; }
-    useTool(t, S);
+    useTool(t, S, p);
   }
 
   function onToolDown(e) {
@@ -952,11 +1147,12 @@
     const t = b.dataset.tool;
     press(e, {
       ghost: TOOL_ICON[t].replace('class="so-tool-ic"', 'class="so-ghost-tool"'),
-      onTap: () => toolTap(t),
+      onStart: () => { if (state.tool) setTool(null); },
+      onTap: ev => { toolTap(t); followTool(ev); },
       onDrop: (target, ev) => {
         const el = document.elementFromPoint(ev.clientX, ev.clientY);
         const tray = el && el.closest ? el.closest('[data-tray]') : null;
-        if (tray) applyTool(t, tray.dataset.tray);
+        if (tray) applyTool(t, tray.dataset.tray, trayPoint(tray, ev.clientX, ev.clientY));
       }
     });
   }

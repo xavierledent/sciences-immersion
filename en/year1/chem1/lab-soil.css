@@ -370,12 +370,19 @@ html[data-pointer='fine'] .so-tool:not(.lab-is-locked):hover,
   -webkit-user-select: none;
 }
 
-.so-tray-svg.is-magnifier {
-  cursor: zoom-in;
+/* Outil en main : son dessin suit la souris (followTool) et tient lieu de
+   curseur au-dessus des bacs */
+.so-tray-svg.has-tool {
+  cursor: none;
 }
 
 .so-tray-svg.is-scanning {
   cursor: progress;
+}
+
+/* La spatule dessinée dans le bac remplace le curseur pendant qu'elle étale */
+.so-tray-svg.is-spreading {
+  cursor: none;
 }
 
 /* Tout petit élément révélé par la loupe au moment où elle passe */
