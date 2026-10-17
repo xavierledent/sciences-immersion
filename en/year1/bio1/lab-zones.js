@@ -1,33 +1,37 @@
-/* ===== Labo virtuel « Sun and shade » (bio1) : pourquoi pas les mêmes êtres vivants ? =====
+/* ===== Labo virtuel « Two worlds, 50 m apart » (bio1) : pourquoi pas les mêmes êtres vivants ? =====
 
    Version virtuelle de la Mission 1 de la sortie de terrain (« FIELD TRIP –
    Investigating our Local Woods ») : deux zones à 50 m l'une de l'autre, où
    l'on relève la température, la lumière, l'humidité de l'air et celle du
-   sol, puis où l'on compte les êtres vivants dans un carré posé au sol. Le
-   cadre commun (modale, barre d'étapes, verrous, traduction, rapport imprimé)
-   est dans lab-engine.js, à la racine du site, chargé avant ce fichier.
-   Textes en anglais seulement pour l'instant.
+   sol, puis où l'on identifie et compte les êtres vivants d'un carré posé au
+   sol. Le cadre commun (modale, barre d'étapes, verrous, traduction, rapport
+   imprimé) est dans lab-engine.js, à la racine du site, chargé avant ce
+   fichier. Textes en anglais seulement pour l'instant.
 
    Tirés au sort à chaque nouveau labo : deux milieux parmi quatre (prairie,
    lisière du bois, ombre profonde sous les arbres, bord de l'étang ; jamais
    l'étang avec l'ombre profonde, où lumière et humidité ne vont plus dans le
-   même sens), les lettres A et B, les valeurs mesurées, les espèces du carré,
-   leur nombre d'individus et leur place, et deux objets non vivants (caillou,
-   feuille morte, brindille, coquille vide) qu'il ne faut pas compter. La
-   zone la plus riche en espèces change d'un tirage à l'autre ; mousses et
-   fougères sont toujours plus nombreuses dans la zone la plus humide, fleurs
-   sauvages et insectes volants dans la plus lumineuse.
+   même sens), les lettres A et B, les valeurs mesurées, les espèces du carré
+   (au moins deux en commun aux deux zones, plus ou moins abondantes selon la
+   lumière et l'humidité qu'elles aiment, et d'autres propres à un milieu),
+   leur nombre d'individus et leur place. La zone la plus riche en espèces
+   change d'un tirage à l'autre ; mousses et fougères sont toujours plus
+   nombreuses dans la zone la plus humide, fleurs sauvages et insectes volants
+   dans la plus lumineuse.
 
    Déroulé :
      1. Predict    — quelle zone est la plus chaude, la plus lumineuse, la
                      plus humide, où trouver le plus de mousses et de fougères
                      (+ « because » libre)
-     2. Experiment — sur le terrain : thermomètre, luxmètre, hygromètre (posés
-                     dans une zone, valeur à recopier dans la fiche), main
-                     (sol sec, humide ou mouillé), carré de comptage (vue de
-                     dessus : toucher un être vivant le compte, le toucher
-                     encore le décompte) ; puis l'histogramme (fiche outil
-                     FO5b) : échelle, nom des axes, bâtons à monter
+     2. Experiment — sur le terrain : thermomètre, luxmètre, hygromètre (un
+                     par zone ; seul le dernier instrument pris reste affiché,
+                     dans les deux zones), valeur à recopier dans la fiche ;
+                     main (sol sec, humide ou mouillé) ; carré de comptage vu
+                     de dessus : toucher un être vivant demande son nom (un
+                     indice si l'élève se trompe), puis entoure tous les
+                     individus de son espèce, que l'élève compte et note.
+                     Enfin l'histogramme (fiche outil FO5b) : un bâton par
+                     espèce et par zone, à monter jusqu'au nombre noté
      3. Conclude   — les questions de la fiche de terrain : quelle zone est la
                      plus chaude…, où sont mousses et fougères, fleurs et
                      insectes volants, la plus grande biodiversité, le facteur
@@ -55,7 +59,7 @@
      survol ou au toucher (voir GLOSSARY). Les raisons des verrous restent en
      texte simple : la bulle du cadre commun n'affiche pas de lexique. */
   const LABELS = {
-    title: 'Sun and shade',
+    title: 'Two worlds, 50 m apart',
     question: "Zone A and zone B are only [50 m apart]. Why don't the same plants and animals live there?",
     yourQuestion: 'Your question',
     yourZones: 'Your two zones',
@@ -86,27 +90,31 @@
       pond: '[Edge of the pond]'
     },
 
-    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Feel the soil', quadrat: 'Quadrat' },
+    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Feel the soil', quadrat: 'Counting square' },
     views: { field: 'In the field', graph: 'Histogram' },
-    toolAt: Z => `in zone ${Z}`,
     sheetTitle: 'Field data sheet',
     factors: { temp: 'Temperature', lux: 'Light intensity', air: 'Air humidity', soil: 'Soil humidity', species: 'Number of species' },
-    units: { temp: '(°C)', lux: '(lux)', air: '(%)', soil: 'dry, moist or wet', species: 'from your count' },
+    units: { temp: '(°C)', lux: '(lux)', air: '(%)', soil: 'dry, moist or wet', species: 'from your count sheet' },
     soilWords: { dry: 'dry', moist: 'moist', wet: 'wet' },
     choose: 'Choose…',
-    countTitle: 'Quadrat count',
+    countTitle: 'Count sheet',
     countSub: 'individuals of each species',
-    notCounted: 'Not counted yet',
+    notFound: 'Nothing found yet',
     nSpecies: n => n === 1 ? '1 species' : `${n} species`,
+    countLabel: (name, Z) => `Number of individuals: ${name}, zone ${Z}`,
     cellLabel: (Z, f) => `Zone ${Z}, ${LABELS.factors[f].toLowerCase()}`,
-    infoField: (v, q) => `${v} / 8 measurements written · ${q} / 2 quadrats counted`,
+    infoField: (v, q) => `${v} / 8 measurements written · ${q} / 2 counting squares done`,
+    toGraph: 'Next: build your histogram',
     toConclude: 'Next: conclude',
     backToZones: 'Back to the zones',
-    quadratHead: Z => `Zone ${Z} · the [quadrat] (1 m × 1 m) seen from above`,
-    tapToCount: 'Tap to count',
-    idEmpty: 'Tap each [living thing] inside the [quadrat] to count it. Tap it again if you made a mistake.',
-    idCounted: n => `Counted. In this quadrat: ${n}.`,
-    idRemoved: 'Not counted. Tap it to count it.',
+    quadratHead: Z => `Zone ${Z} · the [counting square] (1 m × 1 m) seen from above`,
+    tapToOpen: 'Tap to open',
+    unknown: 'a living thing',
+    idEmpty: 'Tap a [living thing] in the [counting square] to find out what it is.',
+    idWhat: 'What is it?',
+    idWrong: wrong => `Not a ${wrong}. Read the descriptions again and compare with what you see!`,
+    idCount: 'All the individuals of this species are [circled]. Count them, then write the number in your count sheet.',
+    idNoted: n => `In your count sheet: ${n}`,
 
     lockCell: {
       temp: Z => `First put the thermometer in zone ${Z}.`,
@@ -114,17 +122,14 @@
       air: Z => `First put the hygrometer in zone ${Z}.`,
       soil: Z => `First feel the soil of zone ${Z} with your hand.`
     },
-    lockGraph: 'Count the living things in both quadrats first.',
-    lockBars: 'Choose your scale first: how many individuals does one square stand for?',
+    lockGraph: 'Count the living things in both counting squares first.',
     missing: {
       temp: Z => `Measure the temperature of zone ${Z} and write it in your data sheet.`,
       lux: Z => `Measure the light in zone ${Z} and write it in your data sheet.`,
       air: Z => `Measure the air humidity of zone ${Z} and write it in your data sheet.`,
       soil: Z => `Feel the soil of zone ${Z} and note if it is dry, moist or wet.`,
-      count: Z => `Put the quadrat in zone ${Z} and count the living things inside.`,
-      scale: 'Choose the scale of your histogram.',
-      y: 'Name the vertical axis (Y) of your histogram.',
-      x: 'Name the horizontal axis (X) of your histogram.',
+      find: Z => `Open the counting square of zone ${Z} and find its living things.`,
+      count: (name, Z) => `Count sheet, zone ${Z}: write the number for “${name}”.`,
       bars: n => `Your histogram is not finished: ${n === 1 ? '1 bar' : n + ' bars'} still to draw.`
     },
 
@@ -132,11 +137,11 @@
       start: 'Pick an instrument, then tap zone A or zone B (or drag the instrument onto the zone).',
       noTool: 'Pick an instrument first, then tap a zone.',
       tool: {
-        thermo: 'Tap a zone to put the thermometer there.',
-        lux: 'Tap a zone to measure its light with the [luxmeter].',
-        hygro: 'Tap a zone to measure the humidity of its air with the [hygrometer].',
+        thermo: 'Tap a zone to put a thermometer there.',
+        lux: 'Tap a zone to measure its light with a [luxmeter].',
+        hygro: 'Tap a zone to measure the humidity of its air with a [hygrometer].',
         hand: 'Tap a zone to feel its soil with your hand.',
-        quadrat: 'Tap a zone to put the [quadrat] on the ground and count the [living things] inside.'
+        quadrat: 'Tap a zone to put the [counting square] on the ground.'
       },
       measured: {
         thermo: Z => `The thermometer is in zone ${Z}. Read it and write the temperature in your data sheet.`,
@@ -144,19 +149,20 @@
         hygro: Z => `The [hygrometer] measures the humidity of the air in zone ${Z}. Write the value in your data sheet.`
       },
       felt: Z => `Now note in your data sheet if the soil of zone ${Z} is dry, moist or wet.`,
-      quadrat: 'Tap each [living thing] inside the [quadrat] to count it. Tap it again if you made a mistake.',
-      counted: (name, n, Z) => `[${capitalize(name)}|${name}]: ${n} counted in zone ${Z}.`,
-      uncounted: name => `[${capitalize(name)}|${name}]: removed from your count.`,
-      quadratOpen: Z => `Zone ${Z}: tap the [quadrat] to count again.`,
-      fieldDone: 'Your data sheet is complete. Now open “Histogram” at the top to build your histogram.',
-      graph: 'Choose your [scale], name the axes, then draw each [bar|bar]: drag it up to its value, or tap at the right height.',
+      quadrat: 'Tap a [living thing] to find out what it is. Then count all the [circled] ones and write the number in your count sheet.',
+      identify: 'Which name is right? Look closely at the living thing.',
+      wrongName: 'Not this one: read the hint and look again.',
+      selected: name => `[${capitalize(name)}|${name}]: count all the [circled] ones and write the number in your count sheet.`,
+      quadratOpen: Z => `Zone ${Z}: tap the [counting square] to open it again.`,
+      fieldDone: 'Your data sheet and your count sheet are complete. Now build your histogram.',
+      graph: 'Drag each bar up to the number in your count sheet, or tap at the right height.',
       graphDone: 'Your histogram is finished. You can go on to conclude.',
       bad: {
         temp: 'Write the temperature shown on the thermometer, in °C (for example 18.5).',
         lux: 'Write the number shown on the luxmeter, in lux (for example 12400).',
-        air: 'Write the number shown on the hygrometer, in % (for example 65).'
-      },
-      saved: 'Written down.'
+        air: 'Write the number shown on the hygrometer, in % (for example 65).',
+        count: 'Write a whole number (for example 6).'
+      }
     },
     feel: {
       dry: 'The soil is hard and dusty. It [crumbles] between your fingers, and your fingers stay dry.',
@@ -167,16 +173,12 @@
 
     graphTitle: 'Your histogram',
     chartTitle: 'Number of individuals of each species in zone A and zone B',
-    scaleLabel: 'Scale: 1 [square] =',
-    scaleOption: s => s === 1 ? '1 individual' : `${s} individuals`,
-    yAxis: 'Vertical axis (Y)',
-    xAxis: 'Horizontal axis (X)',
-    yOptions: { individuals: 'Number of individuals', species: 'Number of species', temp: 'Temperature (°C)', light: 'Light intensity (lux)' },
-    xOptions: { species: 'Species', zones: 'Zones', time: 'Time (min)', individuals: 'Number of individuals' },
-    axisUnset: '?',
+    graphHow: 'For each species, draw <b class="zn-how-A">a blue bar for zone A</b> and <b class="zn-how-B">an orange bar for zone B</b>, as high as the numbers in your count sheet.',
+    yName: 'Number of individuals',
+    xName: 'Species',
+    scaleNote: 'Scale: 1 square = 1 individual',
     barLabel: (name, Z) => `Bar of the ${name}, zone ${Z}`,
 
-    concludeTitle: 'Use your data sheet and your histogram.',
     qFactors: 'Read your data sheet.',
     qLiving: 'Read your histogram.',
     qBio: 'Biodiversity: which zone has the most species?',
@@ -203,25 +205,24 @@
 
     scoreLabel: 'checks passed',
     criteria: { measures: 'Measurements', count: 'Counting', graph: 'Histogram', conclusion: 'Conclusion', verdict: 'Hypothesis' },
-    criteriaSub: { measures: 'Your data sheet', count: 'Your quadrats', graph: 'Tool sheet FO5b', conclusion: 'Your answers', verdict: 'Your judgement' },
+    criteriaSub: { measures: 'Your data sheet', count: 'Your count sheet', graph: 'Your bars', conclusion: 'Your answers', verdict: 'Your judgement' },
 
     report: {
-      title: 'Laboratory report — Sun and shade',
+      title: 'Laboratory report — Two worlds, 50 m apart',
       question: (a, b) => `Zone A (${a}) and zone B (${b}) are only 50 m apart. Why don't the same plants and animals live there?`,
       because: 'Because',
-      materials: 'A thermometer, a luxmeter, a hygrometer, a quadrat (a square of 1 m × 1 m), the field data sheet, squared paper and a ruler.',
+      materials: 'A thermometer, a luxmeter, a hygrometer, a counting square (1 m × 1 m), the field data sheet, a count sheet, squared paper and a ruler.',
       procedure: [
         'In each zone, measure the temperature of the air with the thermometer, the light intensity with the luxmeter and the humidity of the air with the hygrometer.',
         'Touch the soil to feel if it is dry, moist or wet.',
-        'Put the quadrat on the ground and count the individuals of each species of living thing inside it.',
-        'Write everything in the field data sheet.',
+        'Put the counting square on the ground. Identify each species of living thing inside it, and count its individuals.',
+        'Write everything in the field data sheet and in the count sheet.',
         'Draw a histogram of the number of individuals of each species in both zones (tool sheet FO5b).'
       ],
       zoneCol: 'Zone',
-      countCaption: 'Living things in the quadrat (number of individuals)',
+      countCaption: 'Count sheet (number of individuals in the counting square)',
       species: 'Species',
       nothing: 'nothing',
-      axes: (step, y, x) => `Scale: 1 square = ${step}. Vertical axis: ${y}. Horizontal axis: ${x}.`,
       results: 'My results show that',
       keyLine: key => `Above all, mosses and ferns need ${key}.`,
       conclusion: (why, verdict) => `The same living things do not live in both zones because ${why}. My hypothesis is ${verdict}.`,
@@ -243,23 +244,23 @@
   const GLOSSARY = {
     '50 m apart': "à 50 m l'une de l'autre", meadow: 'prairie', 'edge of the woods': 'lisière du bois',
     'deep shade': 'ombre profonde', 'edge of the pond': "bord de l'étang",
-    quadrat: 'carré de comptage', luxmeter: 'luxmètre (il mesure la lumière)', hygrometer: "hygromètre (il mesure l'humidité de l'air)",
+    'counting square': 'carré de comptage', luxmeter: 'luxmètre (il mesure la lumière)', hygrometer: "hygromètre (il mesure l'humidité de l'air)",
     mosses: 'mousses', ferns: 'fougères', wildflowers: 'fleurs sauvages', 'flying insects': 'insectes volants',
-    'living thing': 'être vivant', 'living things': 'êtres vivants',
+    'living thing': 'être vivant', 'living things': 'êtres vivants', circled: 'entourés',
     crumbles: "s'effrite", sticks: 'colle', muddy: 'boueux', press: 'presses',
-    square: 'carreau (du quadrillage)', scale: 'échelle', bar: 'bâton', tuft: 'touffe', toothed: 'dentelées',
-    thorny: 'épineuses', stings: 'pique', fungus: 'champignon', 'see-through': 'transparentes', 'sword-shaped': "en forme d'épée",
+    tuft: 'touffe', toothed: 'dentelées', thorny: 'épineuses', stings: 'pique', fungus: 'champignon',
+    'see-through': 'transparentes', 'sword-shaped': "en forme d'épée",
     grass: 'herbe', daisy: 'pâquerette', dandelion: 'pissenlit', buttercup: "bouton d'or", bramble: 'ronce', nettle: 'ortie',
     ivy: 'lierre', fern: 'fougère', moss: 'mousse', mushroom: 'champignon', rush: 'jonc', 'yellow iris': 'iris des marais',
     butterfly: 'papillon', bee: 'abeille', grasshopper: 'sauterelle', ant: 'fourmi', woodlouse: 'cloporte', snail: 'escargot',
-    dragonfly: 'libellule', frog: 'grenouille', stone: 'caillou', 'dead leaf': 'feuille morte', twig: 'brindille',
-    'empty shell': 'coquille vide', 'feed on': 'se nourrissent de', 'dry out': 'se dessèchent', 'suit it': 'lui conviennent'
+    dragonfly: 'libellule', frog: 'grenouille',
+    'feed on': 'se nourrissent de', 'dry out': 'se dessèchent', 'suit it': 'lui conviennent'
   };
 
   /* ===== Ce qu'on trouve dans un carré =====
      r : rayon du dessin (unités du carré, 400 pour 1 m) ; la zone à toucher
-     fait au moins HIT_MIN. living: false : objet à ne pas compter. layer :
-     ordre de dessin (plantes, objets, fleurs, animaux). move : les animaux
+     fait au moins HIT_MIN. layer : ordre de dessin (plantes, champignons,
+     fleurs, animaux). move : les animaux
      bougent un peu. Dessins vus de dessus, sauf ceux qui ne se reconnaîtraient
      pas ainsi (champignon, escargot, iris), vus de trois quarts. */
   const HIT_MIN = 13;
@@ -413,25 +414,6 @@
       draw: () => '<path d="M-5 5 L-11 9 L-13 5 M-11 9 L-9 13 M5 5 L11 9 L13 5 M11 9 L9 13 M-5 -3 L-10 -5 L-11 -8 M5 -3 L10 -5 L11 -8" stroke="#3f8233" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
         '<ellipse cy="1" rx="7.5" ry="9.5" fill="#5aa04a"/><circle cx="-4" cy="-7" r="2.8" fill="#5aa04a"/><circle cx="4" cy="-7" r="2.8" fill="#5aa04a"/>' +
         '<circle cx="-4" cy="-7.4" r="1.4" fill="#1d2a17"/><circle cx="4" cy="-7.4" r="1.4" fill="#1d2a17"/><circle cx="-2" cy="3" r="1.4" fill="#3f8233"/><circle cx="3" cy="5" r="1.1" fill="#3f8233"/><circle cx="1" cy="-1" r="1" fill="#3f8233"/>' },
-    stone: { name: 'stone', r: 11, layer: 1, living: false,
-      cap: 'A small grey stone. It is hard and cold.',
-      draw: r => {
-        const c = ['#9c948a', '#a59a8c', '#8f8a83'][Math.floor(r() * 3)];
-        return `<path d="M-10 -2 L-5 -8 L5 -8 L10 -2 L8 6 L-2 9 L-9 5 Z" fill="${c}" stroke="#00000030" stroke-width=".8"/><path d="M-5 -6 L3 -6 L-3 -2 Z" fill="#ffffff" opacity=".25"/>`;
-      } },
-    deadLeaf: { name: 'dead leaf', r: 14, layer: 1, living: false,
-      cap: 'A brown, dry leaf that fell from a tree. It is full of holes.',
-      draw: r => {
-        const c = ['#7c4f25', '#93622e', '#8a5a2b'][Math.floor(r() * 3)];
-        return `<path d="M-14 0 C-8 -9 6 -9 14 0 C6 9 -8 9 -14 0 Z" fill="${c}"/><path d="M-14 0 L14 0 M-6 0 L-2 -5 M1 0 L5 -5 M-6 0 L-2 5 M1 0 L5 5" stroke="#55361a" stroke-width=".65" fill="none"/><circle cx="5.5" cy="2.6" r="1.7" fill="#3b2a1c" opacity=".7"/><circle cx="-4" cy="-2.7" r="1.15" fill="#3b2a1c" opacity=".7"/>`;
-      } },
-    twig: { name: 'twig', r: 16, layer: 1, living: false,
-      cap: 'A small piece of dead wood. The bark comes off easily.',
-      draw: () => '<path d="M-16 2 L16 -2" stroke="#6b4a2f" stroke-width="3.3" stroke-linecap="round"/><path d="M3 -.5 L10 -7" stroke="#6b4a2f" stroke-width="2.1" stroke-linecap="round"/><path d="M-11 1.2 L-7 .7 M-2 .2 L1.5 -.2 M7 -.9 L11 -1.4" stroke="#977452" stroke-width=".7"/>' },
-    shell: { name: 'empty shell', r: 10, layer: 1, living: false,
-      cap: 'A snail shell. It is white and broken, and empty: there is no snail inside any more.',
-      draw: () => '<circle r="7" fill="#efe7d6" stroke="#b8a98c" stroke-width=".9"/><path d="M0 0 m-3 0 a3 3 0 1 1 3 3 a4.8 4.8 0 1 1 -4.8 -4.8" fill="none" stroke="#c9b99a" stroke-width=".9"/>' +
-        '<ellipse cx="5" cy="4" rx="2.6" ry="2" fill="#4d4436"/><path d="M2 -6.8 L3.6 -3.2 L6.4 -3.8" stroke="#8a7a5c" stroke-width=".8" fill="none"/>' }
   };
 
   const MOVES = {
@@ -441,8 +423,34 @@
     buzz: '<animateTransform attributeName="transform" type="translate" values="0 0;1 -1;-1 0;0 1;0 0" dur="0.5s" repeatCount="indefinite"/>'
   };
 
-  const isLiving = t => T[t].living !== false;
   const hitR = t => Math.max(HIT_MIN, T[t].r);
+
+  /* Identification : le trait qui reconnaît l'espèce (écrit sous chaque nom
+     proposé) et les noms proposés, le bon en premier (mélangés à l'affichage,
+     toujours dans le même ordre pour une espèce). Les noms proposés se
+     ressemblent : fleurs entre elles, petites bêtes entre elles. */
+  const IDENT = {
+    grass: { key: 'long, thin green leaves', choices: ['grass', 'rush', 'fern'] },
+    moss: { key: 'a soft cushion of tiny leaves', choices: ['moss', 'grass', 'fern'] },
+    fern: { key: 'long leaves cut into many small parts', choices: ['fern', 'nettle', 'moss'] },
+    ivy: { key: 'dark, shiny leaves with points', choices: ['ivy', 'nettle', 'bramble'] },
+    bramble: { key: 'stems with thorns and blackberries', choices: ['bramble', 'ivy', 'nettle'] },
+    nettle: { key: 'toothed leaves, two by two', choices: ['nettle', 'fern', 'ivy'] },
+    rush: { key: 'thin, round, stiff stems', choices: ['rush', 'grass', 'iris'] },
+    iris: { key: 'long flat leaves like swords and a big yellow flower', choices: ['iris', 'buttercup', 'rush'] },
+    mushroom: { key: 'a cap on a white stem', choices: ['mushroom', 'snail', 'moss'] },
+    daisy: { key: 'white petals around a yellow heart', choices: ['daisy', 'dandelion', 'buttercup'] },
+    dandelion: { key: 'a yellow flower made of many thin petals', choices: ['dandelion', 'daisy', 'buttercup'] },
+    buttercup: { key: 'five round, shiny yellow petals', choices: ['buttercup', 'dandelion', 'daisy'] },
+    butterfly: { key: 'big, colourful wings', choices: ['butterfly', 'bee', 'dragonfly'] },
+    bee: { key: 'yellow and black stripes', choices: ['bee', 'butterfly', 'ant'] },
+    dragonfly: { key: 'a long, thin body and four see-through wings', choices: ['dragonfly', 'butterfly', 'bee'] },
+    grasshopper: { key: 'long back legs to jump', choices: ['grasshopper', 'ant', 'woodlouse'] },
+    ant: { key: 'a tiny black body in three parts', choices: ['ant', 'woodlouse', 'bee'] },
+    woodlouse: { key: 'a grey back made of plates', choices: ['woodlouse', 'ant', 'snail'] },
+    snail: { key: 'a shell on its back', choices: ['snail', 'woodlouse', 'frog'] },
+    frog: { key: 'smooth green skin and long back legs', choices: ['frog', 'snail', 'grasshopper'] }
+  };
 
   // Groupes de la fiche de terrain (« Species location »).
   const MOSS_FERN = ['moss', 'fern'];
@@ -452,38 +460,53 @@
      rank : du plus ensoleillé au plus ombragé. Les plages de valeurs ne se
      recouvrent pas : dans chaque paire tirée, la zone la plus ensoleillée est
      aussi la plus chaude et la plus sèche. Lumière en lux arrondie comme sur
-     un luxmètre (centaines au-delà de 10 000). always : espèces toujours
-     présentes ; extra : tirées pour compléter ; counts : nombre d'individus
-     dans le carré, quand il diffère de COUNTS. junk : objets non vivants. */
+     un luxmètre (centaines au-delà de 10 000). */
   const HABITATS = {
-    meadow: { rank: 0, temp: [23, 26], lux: [45000, 80000], air: [38, 50], soil: 'dry',
-      always: ['grass', 'daisy', 'butterfly'], extra: ['dandelion', 'buttercup', 'bee', 'grasshopper', 'ant'],
-      counts: {}, junk: ['stone', 'twig'] },
-    edge: { rank: 1, temp: [19.5, 21.5], lux: [18000, 32000], air: [55, 64], soil: 'dry',
-      always: ['grass', 'bramble', 'fern', 'butterfly'], extra: ['nettle', 'ivy', 'dandelion', 'bee', 'snail', 'ant'],
-      counts: { fern: [1, 2], grass: [3, 7], butterfly: [1, 2] }, junk: ['deadLeaf', 'twig', 'shell'] },
-    pond: { rank: 2, temp: [16.5, 18], lux: [7000, 12000], air: [84, 94], soil: 'wet',
-      always: ['rush', 'moss', 'dragonfly'], extra: ['iris', 'buttercup', 'frog', 'snail', 'grass'],
-      counts: { moss: [3, 7], grass: [2, 5], buttercup: [1, 3] }, junk: ['stone', 'deadLeaf'] },
-    shade: { rank: 3, temp: [13, 15.5], lux: [600, 2500], air: [72, 82], soil: 'moist',
-      always: ['moss', 'fern'], extra: ['ivy', 'mushroom', 'woodlouse', 'snail'],
-      counts: {}, junk: ['deadLeaf', 'twig', 'shell'] }
+    meadow: { rank: 0, temp: [23, 26], lux: [45000, 80000], air: [38, 50], soil: 'dry' },
+    edge: { rank: 1, temp: [19.5, 21.5], lux: [18000, 32000], air: [55, 64], soil: 'dry' },
+    pond: { rank: 2, temp: [16.5, 18], lux: [7000, 12000], air: [84, 94], soil: 'wet' },
+    shade: { rank: 3, temp: [13, 15.5], lux: [600, 2500], air: [72, 82], soil: 'moist' }
   };
   const PAIRS = [['meadow', 'edge'], ['meadow', 'shade'], ['meadow', 'pond'], ['edge', 'shade'], ['edge', 'pond']];
 
-  const COUNTS = {
-    grass: [6, 13], moss: [5, 12], fern: [2, 5], ivy: [3, 7], bramble: [2, 4], nettle: [2, 5], rush: [5, 12], iris: [1, 3],
-    mushroom: [2, 5], daisy: [3, 8], dandelion: [2, 5], buttercup: [2, 5], butterfly: [1, 3], bee: [1, 3], dragonfly: [1, 2],
-    grasshopper: [1, 4], ant: [3, 10], woodlouse: [3, 9], snail: [1, 3], frog: [1, 1]
+  /* Nombre d'individus de chaque espèce dans le carré de chaque milieu
+     [min, max] ; absente du milieu si non citée. Beaucoup d'espèces vivent
+     dans plusieurs milieux, plus ou moins nombreuses selon la lumière et
+     l'humidité qu'elles aiment (beaucoup d'herbe en prairie, de la mousse sous
+     les arbres) ; d'autres ne vivent que dans un milieu. 10 au plus : l'élève
+     compte à l'œil. */
+  const ABUNDANCE = {
+    grass: { meadow: [7, 10], edge: [4, 7], pond: [2, 4], shade: [1, 1] },
+    moss: { meadow: [1, 1], edge: [1, 3], pond: [4, 7], shade: [6, 10] },
+    fern: { edge: [1, 3], pond: [1, 1], shade: [3, 6] },
+    ivy: { edge: [2, 4], pond: [1, 1], shade: [3, 6] },
+    bramble: { edge: [2, 4], shade: [1, 2] },
+    nettle: { edge: [2, 4], pond: [1, 3], shade: [1, 1] },
+    rush: { pond: [5, 9] },
+    iris: { pond: [1, 3] },
+    mushroom: { edge: [1, 1], shade: [2, 4] },
+    daisy: { meadow: [4, 8], edge: [1, 3] },
+    dandelion: { meadow: [3, 6], edge: [2, 4], pond: [1, 1] },
+    buttercup: { meadow: [2, 4], edge: [1, 2], pond: [2, 5] },
+    butterfly: { meadow: [1, 3], edge: [1, 2], pond: [1, 1] },
+    bee: { meadow: [1, 3], edge: [1, 2], pond: [1, 1] },
+    dragonfly: { pond: [1, 2] },
+    grasshopper: { meadow: [1, 4], edge: [1, 2] },
+    ant: { meadow: [4, 8], edge: [2, 4], pond: [1, 1], shade: [1, 2] },
+    woodlouse: { edge: [1, 2], pond: [1, 1], shade: [3, 7] },
+    snail: { meadow: [1, 1], edge: [1, 2], pond: [2, 4], shade: [1, 3] },
+    frog: { pond: [1, 1] }
   };
+  const SPECIES_MIN = 4, SPECIES_MAX = 7;   // espèces dans un carré
+  const CATEGORIES_MAX = 8;                 // espèces des deux zones réunies : l'histogramme reste lisible
+  const SHARED_MIN = 3;                     // espèces communes aux deux zones
+  const GAP_MIN = 2;                        // écart lisible entre zones (mousses et fougères, fleurs et insectes volants)
 
   const FACTORS = ['temp', 'lux', 'air', 'soil'];
   const INSTR = { thermo: 'temp', lux: 'lux', hygro: 'air' };
-  const INSTR_OF = { temp: 'thermo', lux: 'lux', air: 'hygro' };
   const INSTR_NAME = { temp: 'thermometer', lux: 'luxmeter', air: 'hygrometer' };
   const UNIT = { temp: '°C', lux: 'lux', air: '%' };
   const TOOLS = ['thermo', 'lux', 'hygro', 'hand', 'quadrat'];
-  const STEPS = [1, 2, 5];   // échelles proposées : 1 carreau = 1, 2 ou 5 individus (10 carreaux)
 
   // Couleurs des zones (palette de référence dataviz) ; la zone B est
   // hachurée en plus (daltonisme, impression en noir et blanc).
@@ -504,33 +527,47 @@
     };
   }
 
-  function drawSpecies(key, n) {
-    const h = HABITATS[key];
-    const types = h.always.concat(shuffle(h.extra).slice(0, n - h.always.length));
-    const counts = {};
-    types.forEach(t => { counts[t] = intBetween(...(h.counts[t] || COUNTS[t])); });
-    return { types, counts };
+  // n espèces sans remise, celles de plus grand poids ayant plus de chances.
+  function pickWeighted(pool, weight, n) {
+    const left = pool.slice(), out = [];
+    while (out.length < n && left.length) {
+      const total = left.reduce((sum, t) => sum + weight(t), 0);
+      let r = Math.random() * total, i = 0;
+      while (i < left.length - 1 && (r -= weight(left[i])) > 0) i++;
+      out.push(left.splice(i, 1)[0]);
+    }
+    return out;
   }
 
   const groupSum = (living, group) => group.reduce((s, t) => s + (living.counts[t] || 0), 0);
 
-  /* Deux zones au nombre d'espèces différent ; mousses et fougères plus
-     nombreuses dans la zone ombragée, fleurs et insectes volants dans la
-     zone ensoleillée (sinon on tire à nouveau). */
+  /* D'abord les espèces communes aux deux zones (de préférence celles qui
+     abondent dans l'une des deux : le contraste se voit), puis chaque zone
+     est complétée avec ses propres espèces (les plus abondantes du milieu
+     ont plus de chances). Les deux zones n'ont pas le même nombre
+     d'espèces, et l'histogramme n'en compte pas trop ; mousses et fougères
+     sont nettement plus nombreuses dans la zone ombragée, fleurs et insectes
+     volants dans la zone ensoleillée (sinon on tire à nouveau). */
   function drawLiving(keys) {
-    const sizes = keys.map(k => {
-      const h = HABITATS[k];
-      return [Math.max(4, h.always.length), Math.min(6, h.always.length + h.extra.length)];
-    });
+    const here = k => Object.keys(ABUNDANCE).filter(t => ABUNDANCE[t][k]);
+    const max = (t, k) => ABUNDANCE[t][k][1];
+    const both = here(keys[0]).filter(t => ABUNDANCE[t][keys[1]]);
     const sunny = HABITATS[keys[0]].rank < HABITATS[keys[1]].rank ? 0 : 1;
+    const shady = 1 - sunny;
     let z = null;
-    for (let tries = 0; tries < 500; tries++) {
-      const nA = intBetween(...sizes[0]), nB = intBetween(...sizes[1]);
-      if (nA === nB) continue;
-      z = [drawSpecies(keys[0], nA), drawSpecies(keys[1], nB)];
-      const shady = 1 - sunny;
-      if (groupSum(z[shady], MOSS_FERN) > groupSum(z[sunny], MOSS_FERN) &&
-        groupSum(z[sunny], BLOOM) > groupSum(z[shady], BLOOM)) return z;
+    for (let tries = 0; tries < 2000; tries++) {
+      const shared = pickWeighted(both, t => Math.max(max(t, keys[0]), max(t, keys[1])), intBetween(SHARED_MIN, Math.min(SHARED_MIN + 1, both.length)));
+      const sizes = keys.map(k => intBetween(Math.max(SPECIES_MIN, shared.length + 1), Math.min(SPECIES_MAX, here(k).length)));
+      if (sizes[0] === sizes[1]) continue;
+      z = keys.map((k, n) => {
+        const types = shared.concat(pickWeighted(here(k).filter(t => !shared.includes(t)), t => max(t, k), sizes[n] - shared.length));
+        const counts = {};
+        types.forEach(t => { counts[t] = intBetween(...ABUNDANCE[t][k]); });
+        return { types, counts };
+      });
+      if (new Set(z[0].types.concat(z[1].types)).size <= CATEGORIES_MAX &&
+        groupSum(z[shady], MOSS_FERN) >= groupSum(z[sunny], MOSS_FERN) + GAP_MIN &&
+        groupSum(z[sunny], BLOOM) >= groupSum(z[shady], BLOOM) + GAP_MIN) return z;
     }
     return z;
   }
@@ -555,7 +592,6 @@
   function buildZone(Z, key, living) {
     const items = [];
     living.types.forEach(t => { for (let i = 0; i < living.counts[t]; i++) items.push(t); });
-    shuffle(HABITATS[key].junk).slice(0, 2).forEach(t => items.push(t));
     return { key, values: drawValues(key), items: placeItems(items, Z), seed: String(Math.random()) };
   }
 
@@ -571,17 +607,19 @@
       hypothesis: { warmer: null, brighter: null, humid: null, moss: null },
       because: '',
       zones: { A: buildZone('A', keys[0], living[0]), B: buildZone('B', keys[1], living[1]) },
-      placed: { thermo: null, lux: null, hygro: null },   // zone où se trouve chaque instrument
+      shown: null,                                        // instrument affiché dans les zones : le dernier pris
       measured: { A: blank(false), B: blank(false) },     // l'instrument (ou la main) est passé par la zone
-      table: { A: blank(null), B: blank(null) },          // fiche de l'élève
-      feelOpen: { A: false, B: false },                   // bulle « sol » à noter
-      quadrat: { A: false, B: false },
-      counted: { A: [], B: [] },                          // éléments touchés, dans l'ordre
+      table: { A: blank(null), B: blank(null) },          // fiche de terrain de l'élève
+      quadrat: { A: false, B: false },                    // carré posé
+      identified: {},                                     // espèces que l'élève a su nommer
+      found: { A: [], B: [] },                            // espèces trouvées dans chaque carré, dans l'ordre
+      counts: { A: {}, B: {} },                           // fiche de comptage de l'élève
       view: 'field',                                      // field, quadrat ou graph
       qz: 'A',
-      lastItem: null,
+      pick: null,                                         // élément touché dans le carré ouvert
+      tries: [],                                          // noms déjà essayés à tort pour cet élément
       tool: null,
-      graph: { step: null, y: null, x: null, bars: {} },
+      bars: {},                                           // histogramme : espèce → { A, B }
       conclusion: { warmer: null, brighter: null, humid: null, moss: null, bloom: null, bio: null, key: null, why: null, verdict: null },
       crit: 'measures'
     };
@@ -595,39 +633,29 @@
     return ZONES.some(Z => state.quadrat[Z] || FACTORS.some(f => state.measured[Z][f]));
   }
 
-  // Ce que l'élève a compté (espèce → nombre), et dans quel ordre.
-  function tally(Z) {
-    const c = {};
-    state.counted[Z].forEach(uid => {
-      const it = itemOf(Z, uid);
-      if (it) c[it.t] = (c[it.t] || 0) + 1;
-    });
-    return c;
-  }
-
-  function tallyOrder(Z) {
-    return [...new Set(state.counted[Z].map(uid => (itemOf(Z, uid) || {}).t).filter(Boolean))];
-  }
-
-  // Ce qu'il y avait vraiment (êtres vivants seulement).
+  // Ce qu'il y avait vraiment dans le carré : espèce → nombre d'individus.
   function trueTally(Z) {
     const c = {};
-    zoneOf(Z).items.forEach(it => { if (isLiving(it.t)) c[it.t] = (c[it.t] || 0) + 1; });
+    zoneOf(Z).items.forEach(it => { c[it.t] = (c[it.t] || 0) + 1; });
     return c;
   }
 
-  // Catégories de l'histogramme : les espèces notées par l'élève, A puis B.
+  const countOf = (Z, t) => state.found[Z].includes(t) && state.counts[Z][t] != null ? state.counts[Z][t] : 0;
+
+  // Catégories de l'histogramme : les espèces trouvées, dans l'ordre du guide
+  // (plantes, puis animaux), pour que les espèces communes ne soient pas
+  // rangées par zone.
   function categories() {
-    return [...new Set(tallyOrder('A').concat(tallyOrder('B')))];
+    return Object.keys(T).filter(t => state.found.A.includes(t) || state.found.B.includes(t));
   }
 
-  const barValue = (t, Z) => (state.graph.bars[t] && state.graph.bars[t][Z]) || 0;
+  const barValue = (t, Z) => (state.bars[t] && state.bars[t][Z]) || 0;
 
-  function maxTally() {
-    return Math.max(0, ...ZONES.flatMap(Z => Object.values(tally(Z))));
+  // Hauteur de l'axe : 10 carreaux, plus si l'élève a noté plus de 10.
+  function yMax() {
+    const max = Math.max(0, ...ZONES.flatMap(Z => state.found[Z].map(t => countOf(Z, t))));
+    return Math.max(10, Math.ceil(max / 2) * 2);
   }
-
-  const bestStep = () => STEPS.find(s => 10 * s >= maxTally()) || 5;
 
   /* ===== Valeurs : lecture, écriture ===== */
   const fmtLux = v => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -659,6 +687,11 @@
       const v = Number(t);
       return v <= 200000 ? v : NaN;
     }
+    if (f === 'count') {
+      if (!/^\d{1,2}$/.test(s)) return NaN;
+      const v = Number(s);
+      return v <= 30 ? v : NaN;
+    }
     const t = s.replace(/\s|%/g, '');
     if (!/^\d{1,3}$/.test(t)) return NaN;
     const v = Number(t);
@@ -671,37 +704,36 @@
   }
 
   /* ===== Étapes complètes (progression stricte, voir lab-engine.js) =====
-     1 : l'hypothèse (4 choix) ; 2 : la fiche remplie, les deux carrés
-     comptés, l'histogramme construit ; 3 : toutes les questions. */
+     1 : l'hypothèse (4 choix) ; 2 : la fiche de terrain remplie, au moins une
+     espèce trouvée et notée dans chaque carré, tous les bâtons tracés ; 3 :
+     toutes les questions. */
   const HYP_KEYS = ['warmer', 'brighter', 'humid', 'moss'];
   const CONCL_KEYS = ['warmer', 'brighter', 'humid', 'moss', 'bloom', 'bio', 'key', 'why', 'verdict'];
 
   const hypComplete = () => HYP_KEYS.every(k => state.hypothesis[k]);
-  const countsDone = () => ZONES.every(Z => state.counted[Z].length > 0);
-  const quadratsCounted = () => ZONES.filter(Z => state.counted[Z].length > 0).length;
+  const squareDone = Z => state.found[Z].length > 0 && state.found[Z].every(t => state.counts[Z][t] != null);
+  const countsDone = () => ZONES.every(squareDone);
+  const squaresDone = () => ZONES.filter(squareDone).length;
   const valuesWritten = () => ZONES.reduce((n, Z) => n + FACTORS.filter(f => state.table[Z][f] != null).length, 0);
   const fieldDone = () => valuesWritten() === 8 && countsDone();
 
   function barsLeft() {
     let n = 0;
-    categories().forEach(t => ZONES.forEach(Z => { if ((tally(Z)[t] || 0) > 0 && !barValue(t, Z)) n++; }));
+    categories().forEach(t => ZONES.forEach(Z => { if (countOf(Z, t) > 0 && !barValue(t, Z)) n++; }));
     return n;
   }
 
-  const graphDone = () => {
-    const g = state.graph;
-    return countsDone() && !!(g.step && g.y && g.x) && barsLeft() === 0;
-  };
+  const graphDone = () => countsDone() && barsLeft() === 0;
 
   function missingReason() {
     const M = LABELS.missing;
     for (const Z of ZONES) for (const f of ['temp', 'lux', 'air']) if (state.table[Z][f] == null) return M[f](Z);
     for (const Z of ZONES) if (!state.table[Z].soil) return M.soil(Z);
-    for (const Z of ZONES) if (!state.counted[Z].length) return M.count(Z);
-    const g = state.graph;
-    if (!g.step) return M.scale;
-    if (!g.y) return M.y;
-    if (!g.x) return M.x;
+    for (const Z of ZONES) if (!state.found[Z].length) return M.find(Z);
+    for (const Z of ZONES) {
+      const t = state.found[Z].find(x => state.counts[Z][x] == null);
+      if (t) return M.count(T[t].name, Z);
+    }
     const left = barsLeft();
     return left ? M.bars(left) : null;
   }
@@ -834,17 +866,16 @@
       `<circle cx="${x - 13}" cy="${top + 60}" r="4.5" fill="#9aa6b1"/><circle cx="${x + 13}" cy="${top + 60}" r="4.5" fill="#9aa6b1"/></g>`;
   }
 
-  // Carré posé devant, en perspective ; le toucher ouvre la vue de dessus.
-  function quadratInScene(Z) {
-    const tag = state.counted[Z].length ? `${LABELS.tools.quadrat} ✓` : LABELS.tapToCount;
+  // Carré posé devant, en perspective ; le toucher l'ouvre (aussi au labo corrigé).
+  function quadratInScene() {
     const pts = '120,240 280,240 308,292 92,292';
-    return `<g class="zn-q-open" data-open-quadrat>` +
+    return `<g class="zn-q-open" data-open-quadrat data-lab-look>` +
       `<polygon points="${pts}" fill="#ffffff" fill-opacity=".14"/>` +
       `<polygon points="${pts}" fill="none" stroke="#f4f4ef" stroke-width="6" stroke-linejoin="round"/>` +
       `<polygon points="${pts}" fill="none" stroke="#7d877d" stroke-width="1" stroke-linejoin="round"/>` +
       `<path d="M200 240 L200 292 M106 266 L294 266" stroke="#f4f4ef" stroke-width="1.6" opacity=".9"/>` +
       `<g transform="translate(200 266)"><rect x="-50" y="-11" width="100" height="22" rx="11" fill="#ffffff" fill-opacity=".92"/>` +
-      `<text class="zn-q-tag" text-anchor="middle" y="4.5">${escapeHtml(tag)}</text></g></g>`;
+      `<text class="zn-q-tag" text-anchor="middle" y="4.5">${escapeHtml(LABELS.tapToOpen)}</text></g></g>`;
   }
 
   function sceneSVG(Z, opts) {
@@ -856,9 +887,9 @@
       SCENES[zone.key](u, mulberry32(seedFrom(zone.seed + 'scene')));
     if (!o.mini) {
       ['thermo', 'lux', 'hygro'].forEach(k => {
-        if (state.placed[k] === Z) out += instrumentSVG(k, zone.values[INSTR[k]]);
+        if (state.shown === k && state.measured[Z][INSTR[k]]) out += instrumentSVG(k, zone.values[INSTR[k]]);
       });
-      if (state.quadrat[Z]) out += quadratInScene(Z);
+      if (state.quadrat[Z]) out += quadratInScene();
     }
     return out + `</svg>`;
   }
@@ -902,17 +933,18 @@
     return T[it.t].draw(mulberry32(seedFrom(zoneOf(Z).seed + it.uid)));
   }
 
+  // Entouré : un individu de l'espèce touchée, une fois nommée ; avant, seul
+  // l'élément touché est marqué.
   function itemMarkup(Z, it) {
     const t = T[it.t];
-    const counted = state.counted[Z].includes(it.uid);
     const hr = hitR(it.t);
+    const circled = circledType();
+    const cls = circled ? (circled === it.t ? 'is-circled' : '') : (state.pick === it.uid ? 'is-picked' : '');
     const body = t.move ? `<g>${itemDrawing(Z, it)}${MOVES[t.move]}</g>` : itemDrawing(Z, it);
-    return `<g class="zn-it ${counted ? 'is-counted' : ''}" data-uid="${it.uid}" transform="translate(${it.x} ${it.y})" tabindex="0" role="button" aria-pressed="${counted}" aria-label="${escapeHtml(t.name)}">` +
+    return `<g class="zn-it ${cls}" data-uid="${it.uid}" transform="translate(${it.x} ${it.y})" tabindex="0" role="button" aria-label="${escapeHtml(state.identified[it.t] ? t.name : LABELS.unknown)}">` +
       `<g transform="rotate(${it.rot})">${body}</g>` +
       `<circle class="zn-it-ring" r="${hr}" fill="none"/>` +
-      `<circle class="zn-it-hit" r="${hr}" fill="transparent"/>` +
-      `<g class="zn-it-tick" transform="translate(${(hr * 0.72).toFixed(1)} ${(-hr * 0.72).toFixed(1)})"><circle r="6.5" fill="#1d9a6c" stroke="#ffffff" stroke-width="1.5"/>` +
-      `<path d="M-3 .2 L-.8 2.4 L3.2 -2.2" stroke="#ffffff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g>`;
+      `<circle class="zn-it-hit" r="${hr}" fill="transparent"/></g>`;
   }
 
   function quadratSVG(Z) {
@@ -1001,14 +1033,20 @@
 
   /* ===== Étape 2 : sur le terrain, puis l'histogramme =====
      Outils : un clic met l'instrument en main (il suit alors la souris), un
-     geste sur une zone l'y pose ; on peut aussi le glisser sur la zone. Il
-     n'y a qu'un instrument de chaque : le poser dans l'autre zone l'y
-     déplace. Une case de la fiche ne s'ouvre qu'une fois l'instrument passé
-     par la zone : impossible de deviner. Le carré s'ouvre en vue de dessus,
-     où chaque élément touché est compté (ou décompté). L'histogramme se
-     construit dans le second onglet, à partir de ce que l'élève a compté. */
+     geste sur une zone l'y pose ; on peut aussi le glisser sur la zone. Il y
+     a un instrument de chaque sorte par zone, mais seul le dernier pris reste
+     affiché (dans les deux zones, pour comparer). Une case de la fiche ne
+     s'ouvre qu'une fois l'instrument passé par la zone : impossible de
+     deviner. Le carré s'ouvre en vue de dessus : toucher un être vivant
+     demande son nom, puis entoure tous les individus de son espèce, que
+     l'élève compte et note dans la fiche de comptage. L'histogramme se
+     construit dans le second onglet, à partir de cette fiche.
+     Labo corrigé (étapes figées) : seules les commandes data-lab-look, qui
+     ne font que montrer (onglets, ouvrir un carré, revenir aux zones),
+     restent actives. */
+  const corrected = () => lab.state.checked;
+
   function renderExperiment() {
-    if (state.view === 'graph' && !countsDone()) state.view = 'field';
     lab.body.innerHTML = `<div class="zn-run">` +
       `<section class="zn-bench">` +
         `<div class="zn-toolrow"><div class="zn-tools" data-tools></div><div class="zn-views" data-views role="tablist"></div></div>` +
@@ -1031,10 +1069,13 @@
       const b = e.target.closest('[data-view]');
       if (b) setView(b.dataset.view);
     });
-    const sheet = $('[data-datasheet]');
-    sheet.addEventListener('change', onSheetChange);
-    sheet.addEventListener('input', e => { if (e.target.matches('[data-cell]')) e.target.classList.remove('is-invalid'); });
-    sheet.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('[data-cell]')) { e.preventDefault(); e.target.blur(); } });
+    // Fiche de terrain et fiche de comptage : valider à la sortie de la case.
+    ['[data-datasheet]', '[data-counts]'].forEach(sel => {
+      const box = $(sel);
+      box.addEventListener('change', onSheetChange);
+      box.addEventListener('input', e => { if (e.target.matches('input')) e.target.classList.remove('is-invalid'); });
+      box.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('input')) { e.preventDefault(); e.target.blur(); } });
+    });
 
     renderTools();
     renderViews();
@@ -1043,22 +1084,30 @@
     renderCounts();
     setCaption(defaultCaption());
 
-    lab.setFooter(lab.footerInfo('') + `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-ghost" data-conclude>${LABELS.toConclude} →</button></div>`);
-    $('[data-conclude]').addEventListener('click', () => lab.goToStep(3));
+    lab.setFooter(lab.footerInfo('') + `<div class="lab-footer-actions">` +
+      `<button type="button" class="lab-btn lab-btn-primary" data-to-graph hidden>${LABELS.toGraph} →</button>` +
+      `<button type="button" class="lab-btn lab-btn-ghost" data-conclude>${LABELS.toConclude} →</button></div>`);
+    $('[data-to-graph]').addEventListener('click', () => setView('graph'));
+    $('[data-conclude]').addEventListener('click', () => {
+      state.tool = null;
+      lab.goToStep(3);
+    });
     renderFooter();
   }
 
+  // Changer de vue ne change rien au travail : permis aussi au labo corrigé.
   function setView(v) {
-    if (v === state.view || (v === 'field' && state.view === 'quadrat')) {
-      if (v === 'field' && state.view === 'quadrat') { state.view = 'field'; renderStage(); renderViews(); setCaption(defaultCaption()); }
-      return;
-    }
-    state.view = v;
-    setTool(null);
+    const next = v === 'graph' ? 'graph' : 'field';
+    if (state.view === next) return;
+    state.view = next;
+    state.tool = null;
+    followTool();
     renderTools();
     renderViews();
     renderStage();
+    renderCounts();
     setCaption(defaultCaption());
+    renderFooter();
   }
 
   function defaultCaption() {
@@ -1082,19 +1131,14 @@
     const box = $('[data-tools]');
     if (!box) return;
     box.hidden = state.view === 'graph';
-    box.innerHTML = TOOLS.map(t => {
-      const at = state.placed[t];
-      return `<button type="button" class="zn-tool ${state.tool === t ? 'is-active' : ''}" data-tool="${t}" aria-pressed="${state.tool === t}">${TOOL_ICON[t]}<span>${LABELS.tools[t]}</span>` +
-        (at ? `<span class="zn-tool-at is-${at}" title="${LABELS.toolAt(at)}">${at}</span>` : '') + `</button>`;
-    }).join('');
+    box.innerHTML = TOOLS.map(t => `<button type="button" class="zn-tool ${state.tool === t ? 'is-active' : ''}" data-tool="${t}" aria-pressed="${state.tool === t}">${TOOL_ICON[t]}<span>${LABELS.tools[t]}</span></button>`).join('');
   }
 
   function renderViews() {
     const box = $('[data-views]');
     if (!box) return;
     const current = state.view === 'graph' ? 'graph' : 'field';
-    const ready = fieldDone() && !graphDone() && current === 'field';
-    box.innerHTML = ['field', 'graph'].map(v => `<button type="button" role="tab" class="zn-view ${current === v ? 'is-current' : ''} ${v === 'graph' && ready ? 'is-ready' : ''}" data-view="${v}" aria-selected="${current === v}">${VIEW_ICON[v]}<span>${LABELS.views[v]}</span></button>`).join('');
+    box.innerHTML = ['field', 'graph'].map(v => `<button type="button" role="tab" class="zn-view ${current === v ? 'is-current' : ''}" data-view="${v}" data-lab-look aria-selected="${current === v}">${VIEW_ICON[v]}<span>${LABELS.views[v]}</span></button>`).join('');
     const g = box.querySelector('[data-view="graph"]');
     if (!countsDone()) lab.setLock(g, LABELS.lockGraph);
     // Ce qui manque est dans l'autre onglet : c'est l'onglet qui est signalé.
@@ -1113,15 +1157,25 @@
     followTool();
   }
 
+  /* Prendre un instrument range les autres : seul celui-là reste affiché,
+     dans toutes les zones où il a déjà servi. */
+  function show(t) {
+    if (state.shown === t) return;
+    state.shown = t;
+    if (state.view === 'field') renderStage();
+  }
+
   function toolTap(t) {
+    const next = state.tool === t ? null : t;
     if (state.view !== 'field') {
       state.view = 'field';
       renderViews();
       renderStage();
     }
-    const next = state.tool === t ? null : t;
+    if (next) show(next);
     setTool(next);
     setCaption(next ? LABELS.caption.tool[next] : LABELS.caption.noTool);
+    renderFooter();
   }
 
   /* Outil en main (choisi d'un simple clic) : il suit la souris comme quand
@@ -1203,7 +1257,11 @@
     const t = b.dataset.tool;
     press(e, {
       ghost: TOOL_ICON[t].replace('class="zn-tool-ic"', 'class="zn-ghost-tool"'),
-      onStart: () => { if (state.tool) setTool(null); },
+      onStart: () => {
+        if (state.view !== 'field') { state.view = 'field'; renderViews(); renderStage(); }
+        setTool(null);
+        show(t);
+      },
       onTap: ev => { toolTap(t); followTool(ev); },
       onDrop: zone => { if (zone) applyTool(t, zone.dataset.zone); }
     });
@@ -1212,11 +1270,10 @@
   /* Un outil posé dans une zone. */
   function applyTool(t, Z) {
     setTool(null);
-    if (state.view !== 'field') state.view = 'field';
+    show(t);
     if (t === 'quadrat') { openQuadrat(Z); return; }
     if (t === 'hand') {
       state.measured[Z].soil = true;
-      state.feelOpen[Z] = true;
       renderStage();
       renderDatasheet();
       setCaption(LABELS.caption.felt(Z));
@@ -1224,9 +1281,7 @@
       return;
     }
     const f = INSTR[t];
-    state.placed[t] = Z;
     state.measured[Z][f] = true;
-    renderTools();
     renderStage();
     renderDatasheet();
     animateDisplay(t, Z);
@@ -1252,7 +1307,8 @@
     state.quadrat[Z] = true;
     state.view = 'quadrat';
     state.qz = Z;
-    state.lastItem = null;
+    state.pick = null;
+    state.tries = [];
     renderViews();
     renderStage();
     setCaption(LABELS.caption.quadrat);
@@ -1270,7 +1326,7 @@
 
   function zoneStatus(Z) {
     const m = state.measured[Z];
-    const done = { temp: m.temp, lux: m.lux, air: m.air, soil: m.soil, count: state.counted[Z].length > 0 };
+    const done = { temp: m.temp, lux: m.lux, air: m.air, soil: m.soil, count: squareDone(Z) };
     const titles = { temp: LABELS.tools.thermo, lux: LABELS.tools.lux, air: LABELS.tools.hygro, soil: LABELS.tools.hand, count: LABELS.tools.quadrat };
     return `<span class="zn-status">` + Object.keys(done).map(k => `<i class="${done[k] ? 'is-done' : ''}" title="${titles[k]}">${STATUS_ICON[k]}</i>`).join('') + `</span>`;
   }
@@ -1287,7 +1343,7 @@
   function renderFieldStage(box) {
     const show = lab.state.showMissing;
     box.innerHTML = `<div class="zn-zones">` + ZONES.map(Z => {
-      const incomplete = FACTORS.some(f => state.table[Z][f] == null) || !state.counted[Z].length;
+      const incomplete = FACTORS.some(f => state.table[Z][f] == null) || !squareDone(Z);
       return `<div class="zn-zone ${state.tool ? 'has-tool' : ''} ${show && incomplete ? 'lab-is-missing' : ''}" data-zone="${Z}" tabindex="0" role="button" aria-label="${LABELS.zone(Z)}">` +
         `<div class="zn-zone-head">${letter(Z)}<strong>${LABELS.zone(Z)}</strong><span class="zn-zone-name">${gloss(habitatName(Z))}</span>${zoneStatus(Z)}</div>` +
         `<div class="zn-scene">${sceneSVG(Z)}${feelBubble(Z)}</div></div>`;
@@ -1295,61 +1351,104 @@
     $$('[data-zone]').forEach(el => {
       el.addEventListener('click', e => onZoneClick(e, el.dataset.zone));
       el.addEventListener('keydown', e => {
-        if (e.target !== el || (e.key !== 'Enter' && e.key !== ' ')) return;
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        if (e.target !== el && !e.target.closest('[data-open-quadrat]')) return;
         e.preventDefault();
         onZoneClick(e, el.dataset.zone);
       });
     });
   }
 
+  // La main dans le sol : ce qu'on sent, affiché tant que la main est l'outil pris.
   function feelBubble(Z) {
-    if (!state.feelOpen[Z]) return '';
+    if (state.shown !== 'hand' || !state.measured[Z].soil) return '';
     return `<div class="zn-feel" aria-live="polite">${TOOL_ICON.hand}<p>${gloss(LABELS.feel[zoneOf(Z).values.soil])}<br><b>${LABELS.feelNote}</b></p></div>`;
   }
 
   function onZoneClick(e, Z) {
+    const onSquare = state.quadrat[Z] && e.target.closest && e.target.closest('[data-open-quadrat]');
+    // Labo corrigé : on regarde seulement (le carré est la seule chose qui s'ouvre).
+    if (corrected()) { if (onSquare) openQuadrat(Z); return; }
     if (state.tool) { applyTool(state.tool, Z); return; }
-    if (state.quadrat[Z] && e.target.closest && e.target.closest('[data-open-quadrat]')) { openQuadrat(Z); return; }
+    if (onSquare) { openQuadrat(Z); return; }
     setCaption(state.quadrat[Z] ? LABELS.caption.quadratOpen(Z) : LABELS.caption.noTool);
   }
 
+  /* --- Le carré vu de dessus : identifier, puis compter --- */
   function renderQuadratStage(box) {
     const Z = state.qz;
     box.innerHTML = `<div class="zn-qview">` +
-      `<div class="zn-qhead"><button type="button" class="lab-btn lab-btn-ghost zn-back" data-back>← ${LABELS.backToZones}</button>` +
+      `<div class="zn-qhead"><button type="button" class="lab-btn lab-btn-ghost zn-back" data-back data-lab-look>← ${LABELS.backToZones}</button>` +
       `${letter(Z)}<span class="zn-qtitle">${gloss(LABELS.quadratHead(Z))}</span></div>` +
       `<div class="zn-qbody"><div class="zn-qframe">${quadratSVG(Z)}</div><div class="zn-idcard" data-idcard aria-live="polite"></div></div></div>`;
     $('[data-back]').addEventListener('click', () => setView('field'));
     const svg = $('[data-quadrat]');
     svg.addEventListener('click', e => {
       const g = e.target.closest('[data-uid]');
-      if (g) toggleItem(Z, g.dataset.uid);
+      if (g) pickItem(Z, g.dataset.uid);
     });
     svg.addEventListener('keydown', e => {
       const g = e.target.closest('[data-uid]');
       if (!g || (e.key !== 'Enter' && e.key !== ' ')) return;
       e.preventDefault();
-      toggleItem(Z, g.dataset.uid);
+      pickItem(Z, g.dataset.uid);
     });
     renderIdCard();
   }
 
-  // Toucher un élément du carré : compté, ou décompté s'il l'était déjà.
-  function toggleItem(Z, uid) {
-    const list = state.counted[Z];
-    const i = list.indexOf(uid);
-    if (i >= 0) list.splice(i, 1);
-    else list.push(uid);
-    state.lastItem = uid;
-    const counted = i < 0;
-    const g = $(`[data-quadrat] [data-uid="${uid}"]`);
-    if (g) {
-      g.classList.toggle('is-counted', counted);
-      g.setAttribute('aria-pressed', String(counted));
-    }
+  // L'espèce entourée : celle de l'élément touché, une fois nommée.
+  function circledType() {
+    const it = state.pick ? itemOf(state.qz, state.pick) : null;
+    return it && state.identified[it.t] ? it.t : null;
+  }
+
+  function updateItems() {
+    const circled = circledType();
+    $$('[data-quadrat] [data-uid]').forEach(g => {
+      const it = itemOf(state.qz, g.dataset.uid);
+      g.classList.toggle('is-picked', g.dataset.uid === state.pick && !circled);
+      g.classList.toggle('is-circled', !!circled && it.t === circled);
+      g.setAttribute('aria-label', state.identified[it.t] ? T[it.t].name : LABELS.unknown);
+    });
+  }
+
+  function pickItem(Z, uid) {
     const it = itemOf(Z, uid);
-    setCaption(counted ? LABELS.caption.counted(T[it.t].name, tally(Z)[it.t], Z) : LABELS.caption.uncounted(T[it.t].name));
+    if (!it) return;
+    state.pick = uid;
+    state.tries = [];
+    if (state.identified[it.t]) {
+      noteFound(Z, it.t);
+      setCaption(LABELS.caption.selected(T[it.t].name));
+    } else setCaption(LABELS.caption.identify);
+    updateItems();
     renderIdCard();
+  }
+
+  // Le nom choisi : juste, l'espèce entre dans la fiche ; faux, un indice.
+  function chooseName(t) {
+    const it = itemOf(state.qz, state.pick);
+    if (!it) return;
+    if (t === it.t) {
+      state.identified[t] = true;
+      state.tries = [];
+      noteFound(state.qz, t);
+      setCaption(LABELS.caption.selected(T[t].name));
+    } else {
+      if (!state.tries.includes(t)) state.tries.push(t);
+      setCaption(LABELS.caption.wrongName, true);
+    }
+    updateItems();
+    renderIdCard();
+    if (t !== it.t) {
+      const b = $(`[data-name="${t}"]`);
+      if (b) { b.classList.remove('lab-shake'); void b.offsetWidth; b.classList.add('lab-shake'); }
+    }
+  }
+
+  function noteFound(Z, t) {
+    if (state.found[Z].includes(t)) { renderCounts(); return; }
+    state.found[Z].push(t);
     renderCounts();
     updateSpecies();
     renderViews();
@@ -1360,18 +1459,34 @@
     const box = $('[data-idcard]');
     if (!box) return;
     const Z = state.qz;
-    const it = state.lastItem ? itemOf(Z, state.lastItem) : null;
+    const it = state.pick ? itemOf(Z, state.pick) : null;
     if (!it) {
       box.className = 'zn-idcard is-empty';
       box.innerHTML = `<div class="zn-id-pic">${TOOL_ICON.quadrat}</div><p>${gloss(LABELS.idEmpty)}</p>`;
       return;
     }
-    const counted = state.counted[Z].includes(it.uid);
+    const pic = `<div class="zn-id-pic">${iconSVG(it.t, 'zn-id-ic')}</div>`;
+    if (!state.identified[it.t]) {
+      // Ordre des noms propre à l'espèce : il ne change pas d'un essai à l'autre.
+      const rnd = mulberry32(seedFrom(zoneOf(Z).seed + it.t));
+      const names = IDENT[it.t].choices.map(c => ({ c, k: rnd() })).sort((a, b) => a.k - b.k).map(x => x.c);
+      const last = state.tries[state.tries.length - 1];
+      box.className = 'zn-idcard';
+      box.innerHTML = pic + `<p class="zn-id-what">${LABELS.idWhat}</p>` +
+        // Chaque nom avec son trait distinctif, comme dans un guide de terrain :
+        // l'élève compare avec ce qu'il voit (pas de mot souligné dans un
+        // bouton, où toucher le mot devrait à la fois traduire et choisir).
+        `<div class="zn-id-choices">${names.map(c => `<button type="button" class="zn-id-choice ${state.tries.includes(c) ? 'is-wrong' : ''}" data-name="${c}"><b>${T[c].name}</b><small>${IDENT[c].key}</small></button>`).join('')}</div>` +
+        (last ? `<p class="zn-id-hint">${LABELS.idWrong(T[last].name)}</p>` : '');
+      box.querySelectorAll('[data-name]').forEach(b => b.addEventListener('click', () => chooseName(b.dataset.name)));
+      return;
+    }
+    const n = state.counts[Z][it.t];
     box.className = 'zn-idcard';
-    box.innerHTML = `<div class="zn-id-pic">${iconSVG(it.t, 'zn-id-ic')}</div>` +
-      `<p class="zn-id-name">${gloss(`[${T[it.t].name}]`)}</p>` +
+    box.innerHTML = pic + `<p class="zn-id-name">${gloss(`[${T[it.t].name}]`)}</p>` +
       `<p class="zn-id-cap">${gloss(T[it.t].cap)}</p>` +
-      `<p class="zn-id-state ${counted ? 'is-counted' : ''}">${counted ? LABELS.idCounted(tally(Z)[it.t]) : LABELS.idRemoved}</p>`;
+      `<p class="zn-id-count">${gloss(LABELS.idCount)}</p>` +
+      (n != null ? `<p class="zn-id-state">${LABELS.idNoted(n)}</p>` : '');
   }
 
   /* --- Fiche de terrain : une colonne par zone, comme la fiche papier
@@ -1384,16 +1499,14 @@
       return `<button type="button" class="zn-cell-wait ${show ? 'lab-is-missing' : ''}" data-wait="${Z}:${f}" aria-label="${label}"></button>`;
     }
     if (f === 'soil') {
-      return `<select class="lab-select zn-soil ${state.feelOpen[Z] && !v ? 'is-asking' : ''} ${show && !v ? 'lab-is-missing' : ''}" data-soil="${Z}" aria-label="${label}">` +
+      return `<select class="lab-select zn-soil ${state.shown === 'hand' && !v ? 'is-asking' : ''} ${show && !v ? 'lab-is-missing' : ''}" data-soil="${Z}" aria-label="${label}">` +
         `<option value="">${LABELS.choose}</option>` +
         ['dry', 'moist', 'wet'].map(w => `<option value="${w}" ${v === w ? 'selected' : ''}>${LABELS.soilWords[w]}</option>`).join('') + `</select>`;
     }
     return `<input type="text" inputmode="decimal" class="zn-cell-input ${show && v == null ? 'lab-is-missing' : ''}" data-cell="${Z}:${f}" value="${v == null ? '' : fmtValue(f, v)}" maxlength="8" autocomplete="off" spellcheck="false" aria-label="${label}">`;
   }
 
-  function speciesCount(Z) {
-    return state.counted[Z].length ? String(tallyOrder(Z).length) : '—';
-  }
+  const speciesCount = Z => state.found[Z].length ? String(state.found[Z].length) : '—';
 
   function renderDatasheet() {
     const box = $('[data-datasheet]');
@@ -1413,55 +1526,69 @@
     ZONES.forEach(Z => { const td = $(`[data-species="${Z}"]`); if (td) td.textContent = speciesCount(Z); });
   }
 
+  // Saisie dans une des deux fiches : rien n'est reconstruit (la saisie se
+  // valide souvent quand l'élève touche déjà autre chose, et ce geste ne
+  // doit pas être coupé).
   function onSheetChange(e) {
     const el = e.target;
     if (el.matches('[data-soil]')) {
       const Z = el.dataset.soil;
       state.table[Z].soil = el.value || null;
-      if (el.value) state.feelOpen[Z] = false;
       el.classList.remove('is-asking', 'lab-is-missing');
-      const bubble = $(`[data-zone="${Z}"] .zn-feel`);
-      if (bubble && el.value) bubble.remove();
       afterRecord();
       return;
     }
-    if (!el.matches('[data-cell]')) return;
-    const [Z, f] = el.dataset.cell.split(':');
+    let f, slot, set;
+    if (el.matches('[data-cell]')) {
+      const [Z, fac] = el.dataset.cell.split(':');
+      f = fac;
+      slot = state.table[Z];
+      set = v => { slot[fac] = v; };
+    } else if (el.matches('[data-count]')) {
+      const [Z, t] = el.dataset.count.split(':');
+      f = 'count';
+      set = v => { state.counts[Z][t] = v; };
+    } else return;
     const raw = el.value.trim();
-    if (raw === '') { state.table[Z][f] = null; afterRecord(); return; }
+    if (raw === '') { set(null); afterRecord(); return; }
     const v = parseValue(f, raw);
     if (Number.isNaN(v)) {
       el.classList.add('is-invalid');
-      state.table[Z][f] = null;
+      set(null);
       afterRecord();
       setCaption(LABELS.caption.bad[f], true);
       return;
     }
-    state.table[Z][f] = v;
-    el.value = fmtValue(f, v);
-    el.classList.remove('lab-is-missing');
+    set(v);
+    el.value = f === 'count' ? String(v) : fmtValue(f, v);
+    el.classList.remove('lab-is-missing', 'is-asking');
     afterRecord();
   }
 
-  // Après une saisie : rien n'est reconstruit (la saisie se valide souvent
-  // quand l'élève touche déjà autre chose, et ce geste ne doit pas être coupé).
   function afterRecord() {
     renderViews();
     renderFooter();
+    renderIdCard();
     if (state.view === 'field' && !state.tool) setCaption(defaultCaption());
   }
 
-  /* --- Comptage : ce que l'élève a compté dans chaque carré --- */
+  /* --- Fiche de comptage : les espèces trouvées dans chaque carré, et le
+     nombre que l'élève a compté. --- */
   function renderCounts() {
     const box = $('[data-counts]');
     if (!box) return;
+    const show = lab.state.showMissing;
+    const circled = state.view === 'quadrat' ? circledType() : null;
     box.innerHTML = `<div class="zn-counts">` + ZONES.map(Z => {
-      const c = tally(Z);
-      const order = tallyOrder(Z);
-      const rows = order.map(t => `<li>${iconSVG(t)}<span class="zn-count-name">${gloss(`[${T[t].name}]`)}</span><b>${c[t]}</b></li>`).join('');
-      const missing = lab.state.showMissing && !order.length;
-      return `<section class="zn-count-col ${missing ? 'lab-is-missing' : ''}"><h4>${letter(Z)}${LABELS.zone(Z)}<small>${order.length ? LABELS.nSpecies(order.length) : ''}</small></h4>` +
-        (order.length ? `<ul>${rows}</ul>` : `<p class="zn-count-empty">${LABELS.notCounted}</p>`) + `</section>`;
+      const rows = state.found[Z].map(t => {
+        const n = state.counts[Z][t];
+        const current = circled === t && state.qz === Z;
+        return `<li class="${current ? 'is-current' : ''}">${iconSVG(t)}<span class="zn-count-name">${gloss(`[${T[t].name}]`)}</span>` +
+          `<input type="text" inputmode="numeric" class="zn-count-input ${current && n == null ? 'is-asking' : ''} ${show && n == null ? 'lab-is-missing' : ''}" data-count="${Z}:${t}" value="${n == null ? '' : n}" maxlength="2" autocomplete="off" aria-label="${escapeHtml(LABELS.countLabel(T[t].name, Z))}"></li>`;
+      }).join('');
+      const missing = show && !state.found[Z].length;
+      return `<section class="zn-count-col ${missing ? 'lab-is-missing' : ''}"><h4>${letter(Z)}${LABELS.zone(Z)}<small>${state.found[Z].length ? LABELS.nSpecies(state.found[Z].length) : ''}</small></h4>` +
+        (rows ? `<ul>${rows}</ul>` : `<p class="zn-count-empty">${LABELS.notFound}</p>`) + `</section>`;
     }).join('') + `</div>`;
   }
 
@@ -1470,10 +1597,12 @@
 
   function renderFooter() {
     const info = $('.lab-footer .lab-footer-info');
-    if (info) info.textContent = LABELS.infoField(valuesWritten(), quadratsCounted());
+    if (info) info.textContent = LABELS.infoField(valuesWritten(), squaresDone());
     const reason = missingReason();
     const done = !reason;
     if (done && lab.state.showMissing) lab.state.showMissing = false;
+    const toGraph = $('[data-to-graph]');
+    if (toGraph) toGraph.hidden = !(fieldDone() && state.view !== 'graph');
     const btn = $('[data-conclude]');
     if (btn) {
       btn.classList.toggle('lab-btn-primary', done);
@@ -1485,51 +1614,53 @@
   }
 
   /* ===== L'histogramme (fiche outil FO5b) =====
-     Une catégorie par espèce comptée, deux bâtons (zone A, zone B hachurée).
-     10 carreaux de haut ; l'élève choisit ce que vaut un carreau, nomme les
-     axes, puis monte chaque bâton (glisser, ou toucher à la bonne hauteur ;
-     flèches au clavier). Le titre est donné. */
-  const C_EDIT = { W: 720, H: 330, L: 62, R: 18, T: 14, B: 70 };
+     Une catégorie par espèce trouvée, deux bâtons (zone A, zone B hachurée),
+     dont la place est marquée en pointillés, avec la lettre de la zone dessous.
+     Titre, noms des axes et échelle (1 carreau = 1 individu) sont donnés :
+     l'élève monte chaque bâton (glisser, ou toucher à la bonne hauteur ;
+     flèches au clavier). */
+  const C_EDIT = { W: 720, H: 330, L: 62, R: 18, T: 24, B: 84 };
   // Lecture (conclusion, correction) : affiché plus petit, donc écrit plus gros
   // (voir .zn-chart.is-read), avec plus de place pour les noms d'espèces.
-  const C_READ = { W: 720, H: 360, L: 70, R: 18, T: 14, B: 96 };
+  const C_READ = { W: 720, H: 370, L: 70, R: 18, T: 26, B: 112 };
 
   function chartSVG(o) {
     const mode = o.mode;
     const C = mode === 'read' ? C_READ : C_EDIT;
-    const g = state.graph;
     const cats = categories();
-    const step = g.step;
-    const ph = C.H - C.T - C.B, sq = ph / 10, y0 = C.H - C.B;
+    const top = yMax();
+    const ph = C.H - C.T - C.B, sq = ph / top, y0 = C.H - C.B;
     const n = Math.max(1, cats.length), gw = (C.W - C.L - C.R) / n;
     const bw = Math.min(26, gw * 0.34);
     const hid = `znh${++svgUid}`;
     let out = `<svg class="zn-chart is-${mode}" data-chart viewBox="0 0 ${C.W} ${C.H}"${o.size ? ` width="${o.size[0]}" height="${o.size[1]}"` : ''} role="${mode === 'edit' ? 'group' : 'img'}" aria-label="${LABELS.chartTitle}">` +
       `<defs><pattern id="${hid}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="${ZC.B}"/><path d="M0 0 V6" stroke="#ffffff" stroke-width="1.8" stroke-opacity=".6"/></pattern></defs>`;
-    for (let k = 0; k <= 10; k++) {
+    for (let k = 0; k <= top; k++) {
       const y = y0 - k * sq;
       out += `<line x1="${C.L}" x2="${C.W - C.R}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${k ? '#e3e6e1' : '#a9ada4'}" stroke-width="1"/>`;
-      if (step) out += `<text x="${C.L - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end" class="zn-tick">${k * step}</text>`;
+      if (top <= 10 || k % 2 === 0) out += `<text x="${C.L - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end" class="zn-tick">${k}</text>`;
     }
-    // Axes à la latte, terminés par une flèche (FO5b).
-    out += `<path d="M${C.L} ${y0} V${C.T - 6}" stroke="#4d5650" stroke-width="1.4"/><path d="M${C.L - 4} ${C.T - 2} L${C.L} ${C.T - 9} L${C.L + 4} ${C.T - 2} Z" fill="#4d5650"/>`;
-    const yName = g.y ? LABELS.yOptions[g.y] : (mode === 'edit' ? LABELS.axisUnset : '');
-    const xName = g.x ? LABELS.xOptions[g.x] : (mode === 'edit' ? LABELS.axisUnset : '');
-    out += `<text class="zn-axis-name ${g.y ? '' : 'is-unset'}" transform="translate(16 ${((C.T + y0) / 2).toFixed(1)}) rotate(-90)" text-anchor="middle">${escapeHtml(yName)}</text>` +
-      `<text class="zn-axis-name ${g.x ? '' : 'is-unset'}" x="${(C.L + C.W - C.R) / 2}" y="${C.H - 6}" text-anchor="middle">${escapeHtml(xName)}</text>`;
+    // Axes à la latte, terminés par une flèche ; échelle dans un coin (FO5b).
+    out += `<path d="M${C.L} ${y0} V${C.T - 8}" stroke="#4d5650" stroke-width="1.4"/><path d="M${C.L - 4} ${C.T - 4} L${C.L} ${C.T - 11} L${C.L + 4} ${C.T - 4} Z" fill="#4d5650"/>` +
+      `<text class="zn-scale-note" x="${C.W - C.R}" y="${C.T - 8}" text-anchor="end">${LABELS.scaleNote}</text>` +
+      `<text class="zn-axis-name" transform="translate(16 ${((C.T + y0) / 2).toFixed(1)}) rotate(-90)" text-anchor="middle">${LABELS.yName}</text>` +
+      `<text class="zn-axis-name" x="${(C.L + C.W - C.R) / 2}" y="${C.H - 6}" text-anchor="middle">${LABELS.xName}</text>`;
     cats.forEach((t, i) => {
       const cx = C.L + gw * (i + 0.5);
-      out += `<text class="zn-cat" text-anchor="end" transform="translate(${(cx + 5).toFixed(1)} ${y0 + (mode === 'read' ? 18 : 14)}) rotate(-30)">${escapeHtml(T[t].name)}</text>`;
+      out += `<text class="zn-cat" text-anchor="end" transform="translate(${(cx + 5).toFixed(1)} ${y0 + (mode === 'read' ? 34 : 28)}) rotate(-30)">${escapeHtml(T[t].name)}</text>`;
       ZONES.forEach((Z, zi) => {
         const v = barValue(t, Z);
         const x = zi === 0 ? cx - bw - 1.5 : cx + 1.5;
-        const h = step ? Math.min(10, v / step) * sq : 0;
+        const h = Math.min(top, v) * sq;
+        const letterAB = `<text class="zn-ab is-${Z}" x="${(x + bw / 2).toFixed(1)}" y="${y0 + (mode === 'read' ? 17 : 14)}" text-anchor="middle">${Z}</text>`;
         const bar = `<rect class="zn-bar" x="${x.toFixed(1)}" y="${(y0 - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${Z === 'A' ? ZC.A : `url(#${hid})`}" stroke="${ZC[Z]}" stroke-width="1"/>` +
           `<text class="zn-bar-val" x="${(x + bw / 2).toFixed(1)}" y="${(y0 - h - 5).toFixed(1)}" text-anchor="middle">${v || ''}</text>`;
         if (mode === 'edit') {
-          out += `<g class="zn-slot" data-slot="${t}:${Z}" tabindex="0" role="slider" aria-label="${escapeHtml(LABELS.barLabel(T[t].name, Z))}" aria-valuemin="0" aria-valuemax="${step ? 10 * step : 0}" aria-valuenow="${v}">` +
-            `<rect class="zn-slot-hit" x="${(zi === 0 ? cx - gw / 2 : cx).toFixed(1)}" y="${C.T}" width="${(gw / 2).toFixed(1)}" height="${ph.toFixed(1)}" fill="transparent"/>${bar}</g>`;
-        } else out += bar;
+          out += `<g class="zn-slot is-${Z}" data-slot="${t}:${Z}" tabindex="0" role="slider" aria-label="${escapeHtml(LABELS.barLabel(T[t].name, Z))}" aria-valuemin="0" aria-valuemax="${top}" aria-valuenow="${v}">` +
+            `<rect class="zn-slot-hit" x="${(zi === 0 ? cx - gw / 2 : cx).toFixed(1)}" y="${C.T}" width="${(gw / 2).toFixed(1)}" height="${ph.toFixed(1)}" fill="transparent"/>` +
+            `<rect class="zn-slot-guide" x="${x.toFixed(1)}" y="${C.T}" width="${bw.toFixed(1)}" height="${ph.toFixed(1)}" fill="none" stroke="${ZC[Z]}"/>` +
+            `${bar}${letterAB}</g>`;
+        } else out += bar + letterAB;
       });
     });
     out += `<path d="M${C.L} ${y0} H${C.W - C.R + 8}" stroke="#4d5650" stroke-width="1.4"/><path d="M${C.W - C.R + 2} ${y0 - 4} L${C.W - C.R + 9} ${y0} L${C.W - C.R + 2} ${y0 + 4} Z" fill="#4d5650"/>`;
@@ -1540,48 +1671,18 @@
     return `<div class="zn-legend">` + ZONES.map(Z => `<span class="zn-legend-item"><i class="zn-key is-${Z}"></i>${LABELS.zone(Z)}</span>`).join('') + `</div>`;
   }
 
-  function axisSelect(axis, opts) {
-    const g = state.graph;
-    const miss = lab.state.showMissing && !g[axis] ? 'lab-is-missing' : '';
-    return `<select class="lab-select zn-axis-select ${miss}" data-axis="${axis}"><option value="">${LABELS.choose}</option>` +
-      Object.keys(opts).map(k => `<option value="${k}" ${g[axis] === k ? 'selected' : ''}>${opts[k]}</option>`).join('') + `</select>`;
-  }
-
   function renderGraphStage(box) {
-    const g = state.graph;
     const show = lab.state.showMissing;
     box.innerHTML = `<div class="zn-gview">` +
-      `<div class="zn-gcontrols">` +
-        `<div class="zn-ctl ${show && !g.step ? 'lab-is-missing' : ''}"><span class="zn-ctl-label">${gloss(LABELS.scaleLabel)}</span><span class="zn-chips">` +
-          STEPS.map(s => chip('scale', 'step', s, LABELS.scaleOption(s), g.step === s)).join('') + `</span></div>` +
-        `<label class="zn-ctl"><span class="zn-ctl-label">${LABELS.yAxis}</span>${axisSelect('y', LABELS.yOptions)}</label>` +
-        `<label class="zn-ctl"><span class="zn-ctl-label">${LABELS.xAxis}</span>${axisSelect('x', LABELS.xOptions)}</label>` +
-      `</div>` +
+      `<p class="zn-graph-how">${LABELS.graphHow}</p>` +
       `<div class="zn-chart-box"><div class="zn-chart-head"><p class="zn-chart-title">${LABELS.chartTitle}</p>${legendHTML()}</div>` +
-      `<div class="zn-chart-wrap ${show && g.step && barsLeft() ? 'lab-is-missing' : ''}" data-chart-wrap>${chartSVG({ mode: 'edit' })}</div></div></div>`;
-
-    $$('[data-scale]').forEach(b => b.addEventListener('click', () => {
-      const s = Number(b.dataset.scale.split(':')[1]);
-      g.step = s;
-      // Un bâton ne dépasse pas le haut du papier.
-      Object.values(g.bars).forEach(bz => ZONES.forEach(Z => { if (bz[Z] > 10 * s) bz[Z] = 10 * s; }));
-      renderGraphStage(box);
-      afterGraph();
-    }));
-    $$('[data-axis]').forEach(sel => sel.addEventListener('change', () => {
-      g[sel.dataset.axis] = sel.value || null;
-      sel.classList.remove('lab-is-missing');
-      $('[data-chart-wrap]').innerHTML = chartSVG({ mode: 'edit' });
-      bindChart();
-      afterGraph();
-    }));
+      `<div class="zn-chart-wrap ${show && barsLeft() ? 'lab-is-missing' : ''}" data-chart-wrap>${chartSVG({ mode: 'edit' })}</div></div></div>`;
     bindChart();
   }
 
   function bindChart() {
     const svg = $('[data-chart-wrap] svg');
     if (!svg) return;
-    if (!state.graph.step) { lab.setLock(svg, LABELS.lockBars, { icon: false }); return; }
     svg.addEventListener('pointerdown', e => {
       const slot = e.target.closest('[data-slot]');
       if (!slot || e.button !== 0) return;
@@ -1611,7 +1712,7 @@
       if (!d && e.key !== 'Home') return;
       e.preventDefault();
       const [t, Z] = slot.dataset.slot.split(':');
-      setBar(t, Z, e.key === 'Home' ? 0 : Math.max(0, Math.min(10 * state.graph.step, barValue(t, Z) + d)), slot);
+      setBar(t, Z, e.key === 'Home' ? 0 : Math.max(0, Math.min(yMax(), barValue(t, Z) + d)), slot);
       afterGraph();
       lab.save();
     });
@@ -1624,18 +1725,17 @@
     pt.x = 0;
     pt.y = clientY;
     const p = pt.matrixTransform(m.inverse());
-    const C = C_EDIT, sq = (C.H - C.T - C.B) / 10, y0 = C.H - C.B, step = state.graph.step;
-    return Math.max(0, Math.min(10 * step, Math.round((y0 - p.y) / sq * step)));
+    const C = C_EDIT, top = yMax(), sq = (C.H - C.T - C.B) / top, y0 = C.H - C.B;
+    return Math.max(0, Math.min(top, Math.round((y0 - p.y) / sq)));
   }
 
   // Le bâton suit le doigt : seul ce bâton est redessiné.
   function setBar(t, Z, v, slot) {
-    const g = state.graph;
-    if (!g.bars[t]) g.bars[t] = { A: 0, B: 0 };
-    if (g.bars[t][Z] === v) return;
-    g.bars[t][Z] = v;
-    const C = C_EDIT, sq = (C.H - C.T - C.B) / 10, y0 = C.H - C.B;
-    const h = Math.min(10, v / g.step) * sq;
+    if (!state.bars[t]) state.bars[t] = { A: 0, B: 0 };
+    if (state.bars[t][Z] === v) return;
+    state.bars[t][Z] = v;
+    const C = C_EDIT, top = yMax(), sq = (C.H - C.T - C.B) / top, y0 = C.H - C.B;
+    const h = Math.min(top, v) * sq;
     const rect = slot.querySelector('.zn-bar');
     const text = slot.querySelector('.zn-bar-val');
     rect.setAttribute('y', (y0 - h).toFixed(1));
@@ -1734,6 +1834,10 @@
     return same === HYP_KEYS.length ? 'confirmed' : same === 0 ? 'rejected' : 'partly';
   }
 
+  /* Comptage : une espèce du carré jamais trouvée (missed), ou un nombre
+     différent du vrai. Les noms sont toujours justes (l'élève ne passe pas
+     un nom faux). Histogramme : chaque bâton doit avoir la hauteur du
+     nombre de la fiche de comptage, même faux. */
   function evaluate() {
     const measureMiss = [];
     ZONES.forEach(Z => FACTORS.forEach(f => {
@@ -1743,21 +1847,18 @@
 
     const countMiss = [];
     ZONES.forEach(Z => {
-      const mine = tally(Z), real = trueTally(Z);
-      [...new Set(Object.keys(real).concat(Object.keys(mine)))].forEach(t => {
-        const s = mine[t] || 0, r = real[t] || 0;
-        if (s !== r) countMiss.push({ Z, t, said: s, real: r });
+      const real = trueTally(Z);
+      Object.keys(T).filter(t => real[t]).forEach(t => {
+        if (!state.found[Z].includes(t)) countMiss.push({ Z, t, said: null, real: real[t], missed: true });
+        else if (state.counts[Z][t] !== real[t]) countMiss.push({ Z, t, said: state.counts[Z][t], real: real[t] });
       });
     });
 
-    const g = state.graph;
-    const best = bestStep();
     const barMiss = [];
     categories().forEach(t => ZONES.forEach(Z => {
-      const want = tally(Z)[t] || 0, got = barValue(t, Z);
+      const want = countOf(Z, t), got = barValue(t, Z);
       if (want !== got) barMiss.push({ t, Z, want, got });
     }));
-    const scaleOk = g.step === best, yOk = g.y === 'individuals', xOk = g.x === 'species';
 
     const tr = truth();
     const c = state.conclusion;
@@ -1765,10 +1866,10 @@
     const wrongQ = qKeys.filter(k => c[k] !== tr[k]);
 
     return {
-      measureMiss, countMiss, barMiss, best, scaleOk, yOk, xOk, tr, wrongQ, qKeys,
+      measureMiss, countMiss, barMiss, tr, wrongQ, qKeys,
       measures: measureMiss.length === 0,
       count: countMiss.length === 0,
-      graph: scaleOk && yOk && xOk && barMiss.length === 0,
+      graph: barMiss.length === 0,
       conclusion: wrongQ.length === 0,
       verdict: c.verdict === verdictShould()
     };
@@ -1780,9 +1881,9 @@
     humid: 'Where it is cool and shady, less water evaporates: the air and the soil stay humid. Near a pond, the water that evaporates makes the air very humid.',
     moss: '[Mosses] and [ferns] need a lot of water: mosses have no roots and [dry out] quickly, and ferns need water to reproduce. They live where it is humid, often in the shade.',
     bloom: '[Wildflowers] need a lot of light to grow and to flower. Bees and butterflies [feed on] their nectar, and they like warmth.',
-    bio: 'The number of species is what you counted in each quadrat: compare the two numbers in your data sheet.',
+    bio: 'The number of species is the number of different living things you found in each counting square: compare the two numbers in your data sheet.',
     key: '[Mosses] and [ferns] need humidity above all: without water, they dry out.',
-    why: 'Each living thing lives where the physical conditions [suit it]. Two zones only 50 m apart can have very different temperature, light and humidity: so they do not have the same living things.'
+    why: 'Each living thing lives where the physical conditions [suit it]. Two zones only 50 m apart can have very different temperature, light and humidity: so they do not have the same living things, or not as many of them.'
   };
 
   const CHECK = {
@@ -1792,23 +1893,12 @@
       ? `Zone ${Z}, soil: you noted “${said ? LABELS.soilWords[said] : 'nothing'}”, the soil was ${LABELS.soilWords[real]}.`
       : `Zone ${Z}, ${LABELS.factors[f].toLowerCase()}: you wrote ${said == null ? 'nothing' : withUnit(f, said)}, the ${INSTR_NAME[f]} showed ${withUnit(f, real)}.`,
     realValues: 'What the instruments showed',
-    countMiss: (Z, name, said, real) => real === 0
-      ? `Zone ${Z}: you counted the ${name}. It is not a living thing: do not count it.`
-      : said === 0
-        ? `Zone ${Z}, ${name}: you did not count any, but there ${real === 1 ? 'was 1' : `were ${real}`} in the quadrat.`
-        : `Zone ${Z}, ${name}: you counted ${said}, but there ${real === 1 ? 'was 1' : `were ${real}`} in the quadrat.`,
-    mushroom: 'A mushroom is a [fungus]: it is a living thing, even if it is not a plant.',
-    countAllGood: 'You counted every living thing, and nothing else. Well counted!',
-    realCount: Z => `What was really in the quadrat of zone ${Z}:`,
-    scaleOk: (s, max) => `Your scale (1 square = ${LABELS.scaleOption(s)}) fits your biggest number (${max}), and your bars are tall enough to read.`,
-    scaleSmall: (s, max, best) => `With 1 square = ${LABELS.scaleOption(s)}, your histogram only goes up to ${10 * s}: your biggest number (${max}) does not fit. Choose 1 square = ${LABELS.scaleOption(best)}.`,
-    scaleBig: (s, max, best) => `With 1 square = ${LABELS.scaleOption(s)}, your bars are very small. 1 square = ${LABELS.scaleOption(best)} is enough for your biggest number (${max}).`,
-    yOk: 'The vertical axis shows what you counted: the number of individuals.',
-    yWrong: name => `The vertical axis is not “${name}”: it shows what you counted, the number of individuals.`,
-    xOk: 'The horizontal axis shows the categories you compare: the species.',
-    xWrong: name => `The horizontal axis is not “${name}”: it shows the categories you compare, the species.`,
-    barMiss: (name, Z, got, want) => `Bar of the ${name}, zone ${Z}: you drew ${got}, your table says ${want}.`,
-    barsOk: 'All your bars are at the height of your counts.',
+    countMissed: (Z, name, real) => `Zone ${Z}: you did not find the species “${name}” (${real} in the counting square).`,
+    countWrong: (Z, name, said, real) => `Zone ${Z}, ${name}: you wrote ${said == null ? 'nothing' : said}, but there ${real === 1 ? 'was 1' : `were ${real}`} in the counting square.`,
+    countAllGood: 'You found every species and counted every individual. Well done!',
+    realCount: Z => `What was really in the counting square of zone ${Z}:`,
+    barMiss: (name, Z, got, want) => `Bar of the ${name}, zone ${Z}: you drew ${got}, your count sheet says ${want}.`,
+    barsOk: 'All your bars are as high as the numbers in your count sheet. Well drawn!',
     concScore: (good, total) => `${good} / ${total} answers correct.`,
     youSaid: 'You said:',
     right: 'The right answer:',
@@ -1820,17 +1910,15 @@
     answerPart: 'Your answer'
   };
 
+  function countNote(m) {
+    return m.missed ? CHECK.countMissed(m.Z, T[m.t].name, m.real) : CHECK.countWrong(m.Z, T[m.t].name, m.said, m.real);
+  }
+
   function answerText(k, v) {
     if (!v) return '—';
     if (k === 'key') return LABELS.keys[v];
     if (k === 'why') return LABELS.whys[v];
     return PHRASE[k](v);
-  }
-
-  function scaleNote(ev) {
-    const s = state.graph.step, max = maxTally();
-    if (ev.scaleOk) return CHECK.scaleOk(s, max);
-    return 10 * s < max ? CHECK.scaleSmall(s, max, ev.best) : CHECK.scaleBig(s, max, ev.best);
   }
 
   function criterionDetail(key, ev) {
@@ -1841,22 +1929,14 @@
         `<p class="zn-detail-sub">${CHECK.realValues}</p>${datasheetRead({ real: true })}`;
     }
     if (key === 'count') {
-      const notes = ev.countMiss.map(m => `<li>${gloss(CHECK.countMiss(m.Z, `[${T[m.t].name}]`, m.said, m.real))}${m.t === 'mushroom' && m.said < m.real ? ` ${gloss(CHECK.mushroom)}` : ''}</li>`).join('');
       const real = ZONES.map(Z => {
         const c = trueTally(Z);
-        return `<p class="zn-detail-sub">${CHECK.realCount(Z)}</p><p class="zn-real-list">${Object.keys(c).map(t => `<span>${iconSVG(t)}${gloss(`[${T[t].name}]`)} <b>${c[t]}</b></span>`).join('')}</p>`;
+        return `<p class="zn-detail-sub">${CHECK.realCount(Z)}</p><p class="zn-real-list">${Object.keys(T).filter(t => c[t]).map(t => `<span>${iconSVG(t)}${gloss(`[${T[t].name}]`)} <b>${c[t]}</b></span>`).join('')}</p>`;
       }).join('');
-      return (ev.countMiss.length ? `<ul class="zn-misslist">${notes}</ul>` : `<p class="zn-ok">${CHECK.countAllGood}</p>`) + real;
+      return (ev.countMiss.length ? `<ul class="zn-misslist">${ev.countMiss.map(m => `<li>${countNote(m)}</li>`).join('')}</ul>` : `<p class="zn-ok">${CHECK.countAllGood}</p>`) + real;
     }
     if (key === 'graph') {
-      const g = state.graph;
-      const line = (ok, text) => `<li class="${ok ? 'zn-ok' : 'zn-ko'}">${ok ? '✓' : '✗'} ${text}</li>`;
-      const bars = ev.barMiss.map(m => `<li>${CHECK.barMiss(T[m.t].name, m.Z, m.got, m.want)}</li>`).join('');
-      return `<ul class="zn-checklist">` +
-        line(ev.scaleOk, scaleNote(ev)) +
-        line(ev.yOk, ev.yOk ? CHECK.yOk : CHECK.yWrong(LABELS.yOptions[g.y])) +
-        line(ev.xOk, ev.xOk ? CHECK.xOk : CHECK.xWrong(LABELS.xOptions[g.x])) +
-        line(!ev.barMiss.length, ev.barMiss.length ? `<ul class="zn-misslist">${bars}</ul>` : CHECK.barsOk) + `</ul>` +
+      return (ev.barMiss.length ? `<ul class="zn-misslist">${ev.barMiss.map(m => `<li>${CHECK.barMiss(T[m.t].name, m.Z, m.got, m.want)}</li>`).join('')}</ul>` : `<p class="zn-ok">${CHECK.barsOk}</p>`) +
         `<div class="zn-chart-wrap zn-chart-mini">${chartSVG({ mode: 'read' })}</div>`;
     }
     if (key === 'conclusion') {
@@ -1907,9 +1987,9 @@
   /* ===== Rapport imprimable : contenu des 7 sections de la fiche outil FO3
      (en-tête, numérotation et mise en page : cadre commun) =====
      Les erreurs passent par mark() (lab-engine.js) : valeur mal recopiée et
-     comptage faux encadrés dans les tableaux, échelle et noms d'axes
-     soulignés, histogramme encadré si des bâtons sont faux, réponses fausses
-     soulignées dans l'interprétation et la conclusion. */
+     nombre faux encadrés dans les tableaux, espèce oubliée encadrée (ligne
+     ajoutée à la fiche de comptage), histogramme encadré si des bâtons sont
+     faux, réponses fausses soulignées dans l'interprétation et la conclusion. */
   function buildReport(mark) {
     const R = LABELS.report;
     const ev = evaluate();
@@ -1920,47 +2000,38 @@
 
     // Fiche de terrain : les zones en lignes, comme la fiche papier.
     const measMiss = new Map(ev.measureMiss.map(m => [`${m.Z}-${m.f}`, m]));
-    const countMissBy = Z => ev.countMiss.filter(m => m.Z === Z);
     const dataHead = `<tr><th>${R.zoneCol}</th>${FACTORS.map(f => `<th>${LABELS.factors[f]} ${f === 'soil' ? '' : LABELS.units[f]}</th>`).join('')}<th>${LABELS.factors.species}</th></tr>`;
-    const dataBody = ZONES.map(Z => `<tr><th>${Z} · ${plain(habitatName(Z))}</th>` + FACTORS.map(f => {
-      const m = measMiss.get(`${Z}-${f}`);
-      const text = fmtValue(f, state.table[Z][f]);
-      return `<td>${m ? mark(text, CHECK.measMiss(m.Z, m.f, m.said, m.real), { box: true }) : text}</td>`;
-    }).join('') + (() => {
-      const n = state.counted[Z].length ? tallyOrder(Z).length : 0;
-      const real = Object.keys(trueTally(Z)).length;
-      const text = String(n);
-      const wrongSet = countMissBy(Z).some(m => m.said === 0 || m.real === 0);
-      return `<td>${n !== real || wrongSet ? mark(text, `Zone ${Z}: there were ${real} species of living things in the quadrat (${Object.keys(trueTally(Z)).map(t => T[t].name).join(', ')}).`, { box: true }) : text}</td>`;
-    })() + `</tr>`).join('');
+    const dataBody = ZONES.map(Z => {
+      const cells = FACTORS.map(f => {
+        const m = measMiss.get(`${Z}-${f}`);
+        const text = fmtValue(f, state.table[Z][f]);
+        return `<td>${m ? mark(text, CHECK.measMiss(m.Z, m.f, m.said, m.real), { box: true }) : text}</td>`;
+      }).join('');
+      const real = Object.keys(T).filter(t => trueTally(Z)[t]);
+      const n = state.found[Z].length;
+      const species = n === real.length ? String(n)
+        : mark(String(n), `Zone ${Z}: there were ${real.length} species in the counting square (${real.map(t => T[t].name).join(', ')}).`, { box: true });
+      return `<tr><th>${Z} · ${plain(habitatName(Z))}</th>${cells}<td>${species}</td></tr>`;
+    }).join('');
 
-    // Comptage : une ligne par espèce notée (ou oubliée), une colonne par zone.
-    const rowsT = [...new Set(categories().concat(ev.countMiss.map(m => m.t)))];
+    // Fiche de comptage : les espèces trouvées, plus celles oubliées.
+    const rowsT = Object.keys(T).filter(t => categories().includes(t) || ev.countMiss.some(m => m.t === t));
     const countBody = rowsT.map(t => `<tr><th>${T[t].name}</th>${ZONES.map(Z => {
-      const said = tally(Z)[t] || 0;
+      const n = state.found[Z].includes(t) ? state.counts[Z][t] : null;
       const m = ev.countMiss.find(x => x.Z === Z && x.t === t);
-      const text = said ? String(said) : '—';
-      return `<td>${m ? mark(text, plain(CHECK.countMiss(Z, T[t].name, m.said, m.real)), { box: true }) : text}</td>`;
+      const text = n == null ? '—' : String(n);
+      return `<td>${m ? mark(text, countNote(m), { box: true }) : text}</td>`;
     }).join('')}</tr>`).join('') || `<tr><td colspan="3">${R.nothing}</td></tr>`;
 
-    const g = state.graph;
-    const stepText = g.step ? LABELS.scaleOption(g.step) : '—';
-    const yText = g.y ? LABELS.yOptions[g.y] : '—';
-    const xText = g.x ? LABELS.xOptions[g.x] : '—';
     let chart = `<div class="zn-report-chart">${chartSVG({ mode: 'print', size: [520, 238] })}<div class="zn-report-legend">${ZONES.map(Z => `<span><i class="zn-key is-${Z}"></i>${LABELS.zone(Z)}</span>`).join('')}</div></div>`;
     if (ev.barMiss.length) chart = mark(chart, `Bars at the wrong height: ${ev.barMiss.map(m => `${T[m.t].name} zone ${m.Z} (${m.got} instead of ${m.want})`).join(', ')}.`, { box: true });
-    const axes = R.axes(
-      ev.scaleOk ? stepText : mark(stepText, scaleNote(ev)),
-      ev.yOk ? yText : mark(yText, CHECK.yOk),
-      ev.xOk ? xText : mark(xText, CHECK.xOk)
-    );
 
     const said = k => {
       const text = answerText(k, c[k]);
       return ev.wrongQ.includes(k) ? mark(text, `${capitalize(answerText(k, ev.tr[k]))}. ${plain(EXPLAIN[k])}`) : text;
     };
     const interp = `${R.results} ${said('warmer')}, ${said('brighter')} and ${said('humid')}. ` +
-      `In the quadrats, ${said('moss')} and ${said('bloom')}; ${said('bio')}. ${R.keyLine(said('key'))}`;
+      `In the counting squares, ${said('moss')} and ${said('bloom')}; ${said('bio')}. ${R.keyLine(said('key'))}`;
     let verdictWord = LABELS.verdicts[c.verdict] || '—';
     if (!ev.verdict) verdictWord = mark(verdictWord, `${CHECK.verdictWrong(verdictShould())} ${CHECK.verdictRule}`);
     const conclusion = R.conclusion(said('why'), verdictWord);
@@ -1976,7 +2047,7 @@
         `<ol>${R.procedure.map(p => `<li>${p}</li>`).join('')}</ol>`,
         `<table class="zn-report-table"><caption>${LABELS.sheetTitle}</caption>${dataHead}${dataBody}</table>` +
           `<div class="zn-report-results"><table class="zn-report-count"><caption>${R.countCaption}</caption><tr><th>${R.species}</th>${ZONES.map(Z => `<th>${LABELS.zone(Z)}</th>`).join('')}</tr>${countBody}</table>` +
-          `<div class="zn-report-graph"><p class="zn-report-graph-title">${LABELS.chartTitle}</p>${chart}<p class="lab-report-note">${axes}</p></div></div>`,
+          `<div class="zn-report-graph"><p class="zn-report-graph-title">${LABELS.chartTitle}</p>${chart}</div></div>`,
         `<p>${interp}</p>`,
         `<p>${conclusion}</p>`
       ],
@@ -1995,11 +2066,11 @@
     isStarted: () => HYP_KEYS.some(k => state.hypothesis[k]) || started(),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 1,
+    version: 2,
     save: () => ({ state: Object.assign({}, state, { tool: null }) }),
     load(data) {
       const s = data.state;
-      if (!s || !s.zones || !ZONES.every(Z => s.zones[Z] && HABITATS[s.zones[Z].key] && Array.isArray(s.zones[Z].items))) throw new Error('labProgress');
+      if (!s || !s.zones || !s.found || !ZONES.every(Z => s.zones[Z] && HABITATS[s.zones[Z].key] && Array.isArray(s.zones[Z].items))) throw new Error('labProgress');
       state = Object.assign(s, { tool: null });
       stepperDone = null;
     },
@@ -2015,6 +2086,7 @@
           zones: `${zoneOf('A').key}-${zoneOf('B').key}`,
           valuesRight: 8 - ev.measureMiss.length,
           countMistakes: ev.countMiss.length,
+          barMistakes: ev.barMiss.length,
           wrongAnswers: ev.wrongQ
         }
       };

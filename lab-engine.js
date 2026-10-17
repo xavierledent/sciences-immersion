@@ -619,12 +619,16 @@
        arrêté ici, avant le labo et avant les verrous (phase de capture,
        écouteurs posés avant ceux des verrous). Un mot souligné garde son
        comportement par défaut (il prend le focus et montre sa traduction),
-       sans que le geste atteigne le labo. Le pied de page du labo est
-       remplacé par celui du mode figé, même s'il est réécrit plus tard. */
+       sans que le geste atteigne le labo. Seules exceptions : les commandes
+       marquées data-lab-look, qui ne font que montrer autre chose (un
+       onglet, une vue rapprochée) sans rien changer au travail ; le labo s'en
+       charge (lab.state.checked). Le pied de page du labo est remplacé par
+       celui du mode figé, même s'il est réécrit plus tard. */
     const isFrozen = () => lab.state.checked && lab.state.step < 4;
     const stopFrozen = e => {
       if (!isFrozen() || !bodyEl.contains(e.target)) return;
       if (e.type === 'keydown' && e.key === 'Tab') return;
+      if (e.target.closest && e.target.closest('[data-lab-look]')) return;
       const onGloss = e.target.closest && e.target.closest('.lab-gloss');
       e.stopImmediatePropagation();
       if (onGloss) return;

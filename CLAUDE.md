@@ -29,8 +29,8 @@ vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 
 Labos virtuels (en anglais pour l'instant) : `chem1` « Metal detectives » et
 « Under our feet » (composition du sol), `bio1` « The vanishing leaves » et
-« Sun and shade » (mission 1 de la sortie de terrain : facteurs abiotiques,
-carré de comptage, histogramme FO5b). Chaque chapitre a sa page Lab
+« Two worlds, 50 m apart » (mission 1 de la sortie de terrain : facteurs
+abiotiques, carré de comptage, histogramme FO5b). Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans
 [tools/chapters.json](tools/chapters.json) (`labs`). Sans labo, la page et la
@@ -123,8 +123,10 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   encore accessible passe par `lab.setLock` (cadenas + bulle qui explique),
   jamais un bouton `disabled` muet ; une étape ne s'ouvre que si les
   précédentes sont complètes (`stepComplete`). Après le Check, les étapes 1
-  à 3 se revoient, figées par le moteur : un labo ne doit rien modifier de
-  son état en affichant une étape, seulement sur un geste ; confirmations par
+  à 3 se revoient, figées par le moteur (seules restent actives les commandes
+  marquées `data-lab-look`, qui ne font que montrer : onglet, vue rapprochée) :
+  un labo ne doit rien modifier de son état en affichant une étape, seulement
+  sur un geste ; confirmations par
   `lab.confirm`, jamais `window.confirm`. Rapport : le corps garde les mots de
   l'élève ; chaque erreur passe par `mark(html, note, { box })` (reçu par
   `report(mark)`), qui la souligne ou l'encadre à sa place avec un numéro ;

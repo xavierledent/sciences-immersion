@@ -10,7 +10,7 @@
       "labs": {
         "en": [
           { "id": "decomposition", "file": "lab-decomposition", "title": "The vanishing leaves", "question": "What makes dead leaves disappear?", "text": "Every autumn, tons of leaves fall in the forest. A year later, they are gone. Set up your own experiment to find out why." },
-          { "id": "zones", "file": "lab-zones", "title": "Sun and shade", "question": "Why don't the same plants and animals live in zone A and zone B?", "text": "Two zones only 50 m apart. Measure the temperature, the light and the humidity, count the living things in a quadrat and build your histogram." }
+          { "id": "zones", "file": "lab-zones", "title": "Two worlds, 50 m apart", "question": "Why don't the same plants and animals live in zone A and zone B?", "text": "Measure the temperature, the light and the humidity of two zones, then identify and count the living things in a counting square. Your histogram will show the difference." }
         ]
       }
     },
