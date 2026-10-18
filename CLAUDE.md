@@ -116,6 +116,12 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   un aperçu proche.** Les calculs de place se font sur le Chromebook à 100 %
   (1366 × 768). Pas de défilement dans les modales, tactile au même niveau que
   la souris, tailles mesurées en JS plutôt que supposées.
+- **Labos en plein écran : toute la place est utilisée.** Un labo se dessine
+  pour le Chromebook à 100 % ; avec plus de place (plein écran sur un grand
+  écran), le moteur agrandit d'un même facteur le corps et le pied du labo
+  (`fitToScreen` dans [lab-engine.js](lab-engine.js), zoom CSS) : tout
+  grandit au lieu d'ajouter du vide. Rien à faire dans le labo, sinon ne pas
+  s'y opposer.
 - **Labos virtuels.** Mots soulignés (`[mot]`, `[groupe de mots|clé]`) : ne
   pas souligner les mots transparents avec le français (*decomposition*,
   *bacteria*…) ; souligner l'expression entière quand la traduction mot à mot
@@ -141,6 +147,10 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   l'événement `lab_checked` ; les événements `lab_*` ne sont pas encore
   envoyés (filtre dans [tracking.js](tracking.js), à lever à la migration
   Firebase).
+- **Conclude répond aux questions de départ, et à elles seules.** Les
+  questions du labo sont posées à l'étape Predict, avec l'hypothèse ;
+  Conclude y répond d'après les résultats et juge l'hypothèse, sans poser
+  de nouvelle question.
 - **Nouveau labo : partir des labos du cours.** Chaque labo virtuel est la
   version d'un labo que les élèves font en vrai en classe. Avant de créer un
   labo pour un chapitre, demander à l'enseignant la liste des labos réels de

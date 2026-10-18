@@ -60,21 +60,24 @@
      texte simple : la bulle du cadre commun n'affiche pas de lexique. */
   const LABELS = {
     title: 'Two worlds, 50 m apart',
-    question: "Zone A and zone B are only [50 m apart]. Why don't the same plants and animals live there?",
+    question: 'Do abiotic factors (temperature, light, humidity) have an influence on biotic factors (the living things)?',
+    questionCase: 'To [find out], you compare two zones only [50 m apart]: you measure their abiotic factors and you count their living things.',
     yourQuestion: 'Your question',
-    yourZones: 'Your two zones',
     zone: Z => `Zone ${Z}`,
     apart: '50 m',
     same: 'Both the same',
 
     hypothesisTitle: 'Your hypothesis',
-    hypIntro: 'I think that…',
+    hypGroups: { abiotic: 'Abiotic factors · I think that…', biotic: 'Biotic factors · I think that I will find…', answer: 'My answer to the question · I think that…' },
     hypRows: {
       warmer: 'the warmer zone is',
-      brighter: 'the brighter zone (more light) is',
+      brighter: 'the brighter zone is',
       humid: 'the more humid zone is',
-      moss: 'I will find more [mosses] and [ferns] in'
+      moss: 'more [mosses] and [ferns] in',
+      bloom: 'more [wildflowers] and [flying insects] in',
+      influence: 'abiotic factors have an influence on living things:'
     },
+    yesNo: { yes: 'Yes', no: 'No' },
     because: 'Why do you think so? (optional)',
     becausePlaceholder: 'Because…',
     hypothesisReady: 'Your hypothesis is ready.',
@@ -93,11 +96,12 @@
     tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Feel the soil', quadrat: 'Counting square' },
     views: { field: 'In the field', graph: 'Histogram' },
     sheetTitle: 'Field data sheet',
+    abioticHead: 'Abiotic factors',
     factors: { temp: 'Temperature', lux: 'Light intensity', air: 'Air humidity', soil: 'Soil humidity', species: 'Number of species' },
     units: { temp: '(°C)', lux: '(lux)', air: '(%)', soil: 'dry, moist or wet', species: 'from your count sheet' },
     soilWords: { dry: 'dry', moist: 'moist', wet: 'wet' },
     choose: 'Choose…',
-    countTitle: 'Count sheet',
+    countTitle: 'Biotic factors: count sheet',
     countSub: 'individuals of each species',
     notFound: 'Nothing found yet',
     nSpecies: n => n === 1 ? '1 species' : `${n} species`,
@@ -179,24 +183,16 @@
     scaleNote: 'Scale: 1 square = 1 individual',
     barLabel: (name, Z) => `Bar of the ${name}, zone ${Z}`,
 
-    qFactors: 'Read your data sheet.',
-    qLiving: 'Read your histogram.',
-    qBio: 'Biodiversity: which zone has the most species?',
+    qFactors: 'Abiotic factors · read your data sheet.',
+    qLiving: 'Biotic factors · read your histogram.',
+    qAnswer: 'Answer to the question',
     rows: {
       warmer: 'Warmer',
       brighter: 'Brighter',
       humid: 'More humid',
       moss: 'More [mosses] and [ferns]',
       bloom: 'More [wildflowers] and [flying insects]',
-      bio: 'More species'
-    },
-    qKey: 'Above all, [mosses] and [ferns] need…',
-    keys: { warmth: 'warmth', light: 'a lot of light', humidity: 'humidity' },
-    qWhy: 'The same living things do not live in both zones because…',
-    whys: {
-      conditions: 'the physical conditions (temperature, light, humidity) are different, and each living thing lives where they suit it',
-      distance: 'the zones are too far apart: animals and seeds cannot go from one to the other',
-      chance: 'it is just chance'
+      influence: 'Abiotic factors have an influence on living things:'
     },
     qVerdict: 'So my hypothesis is',
     verdicts: { confirmed: 'confirmed', partly: 'partly confirmed', rejected: 'rejected' },
@@ -209,7 +205,8 @@
 
     report: {
       title: 'Laboratory report — Two worlds, 50 m apart',
-      question: (a, b) => `Zone A (${a}) and zone B (${b}) are only 50 m apart. Why don't the same plants and animals live there?`,
+      question: 'Do abiotic factors (temperature, light, humidity) have an influence on biotic factors (the living things)?',
+      questionCase: (a, b) => `To find out, I compared two zones only 50 m apart: zone A (${a}) and zone B (${b}).`,
       because: 'Because',
       materials: 'A thermometer, a luxmeter, a hygrometer, a counting square (1 m × 1 m), the field data sheet, a count sheet, squared paper and a ruler.',
       procedure: [
@@ -220,12 +217,12 @@
         'Draw a histogram of the number of individuals of each species in both zones (tool sheet FO5b).'
       ],
       zoneCol: 'Zone',
-      countCaption: 'Count sheet (number of individuals in the counting square)',
+      sheetCaption: 'Field data sheet: abiotic factors',
+      countCaption: 'Biotic factors: count sheet (number of individuals in the counting square)',
       species: 'Species',
       nothing: 'nothing',
       results: 'My results show that',
-      keyLine: key => `Above all, mosses and ferns need ${key}.`,
-      conclusion: (why, verdict) => `The same living things do not live in both zones because ${why}. My hypothesis is ${verdict}.`,
+      conclusion: (answer, verdict) => `So ${answer}. My hypothesis is ${verdict}.`,
       score: n => `Score: ${n} / 5 checks passed.`
     }
   };
@@ -237,8 +234,9 @@
     humid: v => v === 'same' ? 'both zones are as humid' : `zone ${v} is more humid`,
     moss: v => v === 'same' ? 'there are as many mosses and ferns in both zones' : `there are more mosses and ferns in zone ${v}`,
     bloom: v => v === 'same' ? 'there are as many wildflowers and flying insects in both zones' : `there are more wildflowers and flying insects in zone ${v}`,
-    bio: v => v === 'same' ? 'both zones have the same number of species' : `zone ${v} has the most species`,
-    hypMoss: v => v === 'same' ? 'I will find as many mosses and ferns in both zones' : `I will find more mosses and ferns in zone ${v}`
+    influence: v => v === 'yes' ? 'abiotic factors have an influence on living things' : 'abiotic factors have no influence on living things',
+    hypMoss: v => v === 'same' ? 'I will find as many mosses and ferns in both zones' : `I will find more mosses and ferns in zone ${v}`,
+    hypBloom: v => v === 'same' ? 'as many wildflowers and flying insects in both zones' : `more wildflowers and flying insects in zone ${v}`
   };
 
   const GLOSSARY = {
@@ -246,7 +244,7 @@
     'deep shade': 'ombre profonde', 'edge of the pond': "bord de l'étang",
     'counting square': 'carré de comptage', luxmeter: 'luxmètre (il mesure la lumière)', hygrometer: "hygromètre (il mesure l'humidité de l'air)",
     mosses: 'mousses', ferns: 'fougères', wildflowers: 'fleurs sauvages', 'flying insects': 'insectes volants',
-    'living thing': 'être vivant', 'living things': 'êtres vivants', circled: 'entourés',
+    'living thing': 'être vivant', 'find out': 'le découvrir', 'living things': 'êtres vivants', circled: 'entourés',
     crumbles: "s'effrite", sticks: 'colle', muddy: 'boueux', press: 'presses',
     tuft: 'touffe', toothed: 'dentelées', thorny: 'épineuses', stings: 'pique', fungus: 'champignon',
     'see-through': 'transparentes', 'sword-shaped': "en forme d'épée",
@@ -604,7 +602,7 @@
     const living = drawLiving(keys);
     const blank = v => ({ temp: v, lux: v, air: v, soil: v });
     state = {
-      hypothesis: { warmer: null, brighter: null, humid: null, moss: null },
+      hypothesis: { warmer: null, brighter: null, humid: null, moss: null, bloom: null, influence: null },
       because: '',
       zones: { A: buildZone('A', keys[0], living[0]), B: buildZone('B', keys[1], living[1]) },
       shown: null,                                        // instrument affiché dans les zones : le dernier pris
@@ -620,7 +618,7 @@
       tries: [],                                          // noms déjà essayés à tort pour cet élément
       tool: null,
       bars: {},                                           // histogramme : espèce → { A, B }
-      conclusion: { warmer: null, brighter: null, humid: null, moss: null, bloom: null, bio: null, key: null, why: null, verdict: null },
+      conclusion: { warmer: null, brighter: null, humid: null, moss: null, bloom: null, influence: null, verdict: null },
       crit: 'measures'
     };
   }
@@ -704,11 +702,12 @@
   }
 
   /* ===== Étapes complètes (progression stricte, voir lab-engine.js) =====
-     1 : l'hypothèse (4 choix) ; 2 : la fiche de terrain remplie, au moins une
+     1 : l'hypothèse (6 choix) ; 2 : la fiche de terrain remplie, au moins une
      espèce trouvée et notée dans chaque carré, tous les bâtons tracés ; 3 :
      toutes les questions. */
-  const HYP_KEYS = ['warmer', 'brighter', 'humid', 'moss'];
-  const CONCL_KEYS = ['warmer', 'brighter', 'humid', 'moss', 'bloom', 'bio', 'key', 'why', 'verdict'];
+  // La conclusion reprend exactement les lignes de l'hypothèse, puis la juge.
+  const HYP_KEYS = ['warmer', 'brighter', 'humid', 'moss', 'bloom', 'influence'];
+  const CONCL_KEYS = HYP_KEYS.concat('verdict');
 
   const hypComplete = () => HYP_KEYS.every(k => state.hypothesis[k]);
   const squareDone = Z => state.found[Z].length > 0 && state.found[Z].every(t => state.counts[Z][t] != null);
@@ -984,24 +983,30 @@
       chip(attr, key, v, v === 'same' ? LABELS.same : LABELS.zone(v), current === v)).join('') + `</span>`;
   }
 
+  function yesNoChips(attr, key, current) {
+    return `<span class="zn-chips">` + ['yes', 'no'].map(v => chip(attr, key, v, LABELS.yesNo[v], current === v)).join('') + `</span>`;
+  }
+
   function renderPredict() {
     const h = state.hypothesis;
     const show = lab.state.showMissing;
     const places = ZONES.map(Z => `<div class="zn-place">${sceneSVG(Z, { mini: true })}<span class="zn-place-name">${letter(Z)}<strong>${LABELS.zone(Z)}</strong><small>${gloss(habitatName(Z))}</small></span></div>`)
       .join(`<span class="zn-apart" aria-hidden="true"><span>←</span>${LABELS.apart}<span>→</span></span>`);
-    const rows = HYP_KEYS.map(k => `<div class="zn-hrow ${show && !h[k] ? 'lab-is-missing' : ''}"><span class="zn-hrow-label">${gloss(LABELS.hypRows[k])}</span>${zoneChips('hyp', k, h[k])}</div>`).join('');
+    const row = k => `<div class="zn-hrow ${show && !h[k] ? 'lab-is-missing' : ''}"><span class="zn-hrow-label">${gloss(LABELS.hypRows[k])}</span>` +
+      (k === 'influence' ? yesNoChips('hyp', k, h[k]) : zoneChips('hyp', k, h[k])) + `</div>`;
+    const group = (g, keys) => `<div class="zn-hgroup"><p class="zn-hgroup-title">${LABELS.hypGroups[g]}</p>${keys.map(row).join('')}</div>`;
 
     lab.body.innerHTML = `<div class="zn-predict">` +
       `<div class="zn-question-card">` +
         `<p class="zn-kicker">${LABELS.yourQuestion}</p>` +
         `<p class="zn-question">${gloss(LABELS.question)}</p>` +
-        `<p class="zn-kicker">${LABELS.yourZones}</p>` +
+        `<p class="zn-question-case">${gloss(LABELS.questionCase)}</p>` +
         `<div class="zn-places">${places}</div>` +
       `</div>` +
       `<div class="zn-hyp-card">` +
         `<p class="zn-kicker">${LABELS.hypothesisTitle}</p>` +
-        `<p class="zn-hyp-intro">${LABELS.hypIntro}</p>` +
-        `<div class="zn-hrows">${rows}</div>` +
+        `<div class="zn-hgroups">${group('abiotic', ['warmer', 'brighter', 'humid'])}${group('biotic', ['moss', 'bloom'])}</div>` +
+        group('answer', ['influence']) +
         `<label class="zn-because"><span>${LABELS.because}</span>` +
         `<input type="text" class="lab-input zn-because-input" maxlength="160" placeholder="${LABELS.becausePlaceholder}" value="${escapeHtml(state.because)}" autocomplete="off"></label>` +
       `</div></div>`;
@@ -1513,6 +1518,7 @@
     if (!box) return;
     box.innerHTML = `<table class="zn-data"><thead><tr><th scope="col"></th>` +
       ZONES.map(Z => `<th scope="col"><span class="zn-th-zone">${letter(Z)}${LABELS.zone(Z)}</span></th>`).join('') + `</tr></thead><tbody>` +
+      `<tr class="zn-group-row"><th scope="rowgroup" colspan="3">${LABELS.abioticHead}</th></tr>` +
       FACTORS.map(f => `<tr><th scope="row">${LABELS.factors[f]}<small>${LABELS.units[f]}</small></th>${ZONES.map(Z => `<td>${cellHTML(Z, f)}</td>`).join('')}</tr>`).join('') +
       `<tr class="zn-species-row"><th scope="row">${LABELS.factors.species}<small>${LABELS.units.species}</small></th>${ZONES.map(Z => `<td data-species="${Z}">${speciesCount(Z)}</td>`).join('')}</tr>` +
       `</tbody></table>`;
@@ -1757,6 +1763,7 @@
     const o = opts || {};
     return `<table class="zn-data is-read"><thead><tr><th scope="col"></th>` +
       ZONES.map(Z => `<th scope="col"><span class="zn-th-zone">${letter(Z)}${LABELS.zone(Z)}</span></th>`).join('') + `</tr></thead><tbody>` +
+      `<tr class="zn-group-row"><th scope="rowgroup" colspan="3">${LABELS.abioticHead}</th></tr>` +
       FACTORS.map(f => `<tr><th scope="row">${LABELS.factors[f]}<small>${LABELS.units[f]}</small></th>${ZONES.map(Z => {
         const v = o.real ? zoneOf(Z).values[f] : state.table[Z][f];
         return `<td>${fmtValue(f, v)}</td>`;
@@ -1770,7 +1777,7 @@
     const c = state.conclusion;
     const show = lab.state.showMissing;
     const miss = k => show && !c[k] ? 'lab-is-missing' : '';
-    const row = k => `<div class="zn-qrow ${miss(k)}"><span class="zn-qrow-label">${gloss(LABELS.rows[k])}</span>${zoneChips('c', k, c[k])}</div>`;
+    const row = k => `<div class="zn-qrow ${miss(k)}"><span class="zn-qrow-label">${gloss(LABELS.rows[k])}</span>${k === 'influence' ? yesNoChips('c', k, c[k]) : zoneChips('c', k, c[k])}</div>`;
     const options = (k, opts, long) => `<div class="zn-chips ${long ? 'is-long' : ''}">` +
       Object.keys(opts).map(v => `<button type="button" class="lab-choice zn-chip ${long ? 'zn-chip-long' : ''} ${c[k] === v ? 'is-selected' : ''}" data-c="${k}:${v}" aria-pressed="${c[k] === v}">${opts[v]}</button>`).join('') + `</div>`;
 
@@ -1784,10 +1791,8 @@
         `<div class="zn-form-cols"><div class="zn-form-col">` +
           `<div class="zn-q"><p class="zn-q-title">${LABELS.qFactors}</p>${row('warmer')}${row('brighter')}${row('humid')}</div>` +
           `<div class="zn-q"><p class="zn-q-title">${LABELS.qLiving}</p>${row('moss')}${row('bloom')}</div>` +
-          `<div class="zn-q"><p class="zn-q-title">${LABELS.qBio}</p>${row('bio')}</div>` +
         `</div><div class="zn-form-col">` +
-          `<div class="zn-q ${miss('key')}"><p class="zn-q-title">${gloss(LABELS.qKey)}</p>${options('key', LABELS.keys)}</div>` +
-          `<div class="zn-q ${miss('why')}"><p class="zn-q-title">${LABELS.qWhy}</p>${options('why', LABELS.whys, true)}</div>` +
+          `<div class="zn-q"><p class="zn-q-title">${LABELS.qAnswer}</p>${row('influence')}</div>` +
           `<div class="zn-q ${miss('verdict')}"><p class="zn-q-title">${LABELS.qVerdict}</p>${options('verdict', LABELS.verdicts)}</div>` +
         `</div></div>` +
       `</section></div>`;
@@ -1822,9 +1827,7 @@
       humid: higher(v('A').air, v('B').air),
       moss: higher(groupOf('A', MOSS_FERN), groupOf('B', MOSS_FERN)),
       bloom: higher(groupOf('A', BLOOM), groupOf('B', BLOOM)),
-      bio: higher(Object.keys(trueTally('A')).length, Object.keys(trueTally('B')).length),
-      key: 'humidity',
-      why: 'conditions'
+      influence: 'yes'
     };
   }
 
@@ -1881,9 +1884,7 @@
     humid: 'Where it is cool and shady, less water evaporates: the air and the soil stay humid. Near a pond, the water that evaporates makes the air very humid.',
     moss: '[Mosses] and [ferns] need a lot of water: mosses have no roots and [dry out] quickly, and ferns need water to reproduce. They live where it is humid, often in the shade.',
     bloom: '[Wildflowers] need a lot of light to grow and to flower. Bees and butterflies [feed on] their nectar, and they like warmth.',
-    bio: 'The number of species is the number of different living things you found in each counting square: compare the two numbers in your data sheet.',
-    key: '[Mosses] and [ferns] need humidity above all: without water, they dry out.',
-    why: 'Each living thing lives where the physical conditions [suit it]. Two zones only 50 m apart can have very different temperature, light and humidity: so they do not have the same living things, or not as many of them.'
+    influence: 'Your two zones are only 50 m apart, but their abiotic factors (temperature, light, humidity) are very different, and so are their living things: each species lives where the conditions [suit it]. [Mosses] and [ferns] need humidity above all: without water, they [dry out]. So abiotic factors have an influence on biotic factors.'
   };
 
   const CHECK = {
@@ -1904,7 +1905,7 @@
     right: 'The right answer:',
     verdictOk: v => `You judged your hypothesis “${LABELS.verdicts[v]}”: that is right. Well judged!`,
     verdictWrong: should => `Compare your hypothesis with your answers: your hypothesis is ${LABELS.verdicts[should]}.`,
-    verdictRule: 'All four parts the same as your answers: confirmed. Some of them: partly confirmed. None of them: rejected.',
+    verdictRule: 'All six parts the same as your answers: confirmed. Some of them: partly confirmed. None of them: rejected.',
     rejectedNote: 'A rejected hypothesis is not a mistake: it is how science moves on.',
     hypPart: 'Hypothesis',
     answerPart: 'Your answer'
@@ -1916,8 +1917,6 @@
 
   function answerText(k, v) {
     if (!v) return '—';
-    if (k === 'key') return LABELS.keys[v];
-    if (k === 'why') return LABELS.whys[v];
     return PHRASE[k](v);
   }
 
@@ -1946,14 +1945,15 @@
         const right = answerText(k, ev.tr[k]);
         return `<li class="${ok ? 'zn-ok-item' : 'zn-ko-item'}"><span class="zn-mark">${ok ? '✓' : '✗'}</span><span>` +
           (ok ? `${capitalize(mine)}.` : `${CHECK.youSaid} ${mine}. <b>${CHECK.right} ${right}.</b>`) +
-          (!ok || k === 'why' ? ` <span class="zn-muted">${gloss(EXPLAIN[k])}</span>` : '') + `</span></li>`;
+          (!ok || k === 'influence' ? ` <span class="zn-muted">${gloss(EXPLAIN[k])}</span>` : '') + `</span></li>`;
       }).join('');
       return `<p>${CHECK.concScore(ev.qKeys.length - ev.wrongQ.length, ev.qKeys.length)}</p><ul class="zn-answers">${items}</ul>`;
     }
     const should = verdictShould();
     const rows = HYP_KEYS.map(k => {
       const same = state.hypothesis[k] === state.conclusion[k];
-      return `<tr><td>${k === 'moss' ? PHRASE.hypMoss(state.hypothesis[k]) : PHRASE[k](state.hypothesis[k])}</td><td>${PHRASE[k](state.conclusion[k])}</td><td class="${same ? 'zn-ok' : 'zn-ko'}">${same ? '=' : '≠'}</td></tr>`;
+      const hyp = k === 'moss' ? PHRASE.hypMoss(state.hypothesis[k]) : k === 'bloom' ? `I will find ${PHRASE.hypBloom(state.hypothesis[k])}` : PHRASE[k](state.hypothesis[k]);
+      return `<tr><td>${hyp}</td><td>${PHRASE[k](state.conclusion[k])}</td><td class="${same ? 'zn-ok' : 'zn-ko'}">${same ? '=' : '≠'}</td></tr>`;
     }).join('');
     return `<table class="zn-hyptable"><thead><tr><th>${CHECK.hypPart}</th><th>${CHECK.answerPart}</th><th></th></tr></thead><tbody>${rows}</tbody></table>` +
       `<p class="${ev.verdict ? 'zn-ok' : 'zn-ko'}">${ev.verdict ? CHECK.verdictOk(state.conclusion.verdict) : CHECK.verdictWrong(should)}</p>` +
@@ -1996,7 +1996,8 @@
     const h = state.hypothesis;
     const c = state.conclusion;
 
-    const hyp = `I think that ${PHRASE.warmer(h.warmer)}, ${PHRASE.brighter(h.brighter)} and ${PHRASE.humid(h.humid)}, and that ${PHRASE.hypMoss(h.moss)}.`;
+    const hyp = `I think that ${PHRASE.warmer(h.warmer)}, ${PHRASE.brighter(h.brighter)} and ${PHRASE.humid(h.humid)}. ` +
+      `I think that ${PHRASE.hypMoss(h.moss)}, and ${PHRASE.hypBloom(h.bloom)}. I think that ${PHRASE.influence(h.influence)}.`;
 
     // Fiche de terrain : les zones en lignes, comme la fiche papier.
     const measMiss = new Map(ev.measureMiss.map(m => [`${m.Z}-${m.f}`, m]));
@@ -2031,21 +2032,21 @@
       return ev.wrongQ.includes(k) ? mark(text, `${capitalize(answerText(k, ev.tr[k]))}. ${plain(EXPLAIN[k])}`) : text;
     };
     const interp = `${R.results} ${said('warmer')}, ${said('brighter')} and ${said('humid')}. ` +
-      `In the counting squares, ${said('moss')} and ${said('bloom')}; ${said('bio')}. ${R.keyLine(said('key'))}`;
+      `In the counting squares, ${said('moss')} and ${said('bloom')}.`;
     let verdictWord = LABELS.verdicts[c.verdict] || '—';
     if (!ev.verdict) verdictWord = mark(verdictWord, `${CHECK.verdictWrong(verdictShould())} ${CHECK.verdictRule}`);
-    const conclusion = R.conclusion(said('why'), verdictWord);
+    const conclusion = R.conclusion(said('influence'), verdictWord);
 
     const correction = CRITS.map(k => `<tr><th>${LABELS.criteria[k]}</th><td class="${ev[k] ? 'ok' : 'ko'}">${ev[k] ? '✓' : '✗'}</td></tr>`).join('');
 
     return {
       title: R.title,
       sections: [
-        `<p>${R.question(plain(habitatName('A')).toLowerCase(), plain(habitatName('B')).toLowerCase())}</p>`,
+        `<p>${R.question}</p><p>${R.questionCase(plain(habitatName('A')).toLowerCase(), plain(habitatName('B')).toLowerCase())}</p>`,
         `<p>${hyp}</p>` + (state.because.trim() ? `<p>${R.because}: ${escapeHtml(state.because.trim())}</p>` : ''),
         `<p>${R.materials}</p>`,
         `<ol>${R.procedure.map(p => `<li>${p}</li>`).join('')}</ol>`,
-        `<table class="zn-report-table"><caption>${LABELS.sheetTitle}</caption>${dataHead}${dataBody}</table>` +
+        `<table class="zn-report-table"><caption>${R.sheetCaption}</caption>${dataHead}${dataBody}</table>` +
           `<div class="zn-report-results"><table class="zn-report-count"><caption>${R.countCaption}</caption><tr><th>${R.species}</th>${ZONES.map(Z => `<th>${LABELS.zone(Z)}</th>`).join('')}</tr>${countBody}</table>` +
           `<div class="zn-report-graph"><p class="zn-report-graph-title">${LABELS.chartTitle}</p>${chart}</div></div>`,
         `<p>${interp}</p>`,
@@ -2066,7 +2067,7 @@
     isStarted: () => HYP_KEYS.some(k => state.hypothesis[k]) || started(),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 2,
+    version: 3,
     save: () => ({ state: Object.assign({}, state, { tool: null }) }),
     load(data) {
       const s = data.state;

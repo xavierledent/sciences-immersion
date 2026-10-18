@@ -773,6 +773,7 @@
       }
       startClock();
       render();
+      fitToScreen();
       if (resumed) resumed = await askResume();
       track('lab_opened', { resumed, step: lab.state.step });
     }
@@ -805,6 +806,34 @@
     });
     document.addEventListener('fullscreenchange', () => {
       fullscreenBtn.classList.toggle('is-fullscreen', document.fullscreenElement === card);
+      requestAnimationFrame(fitToScreen);
+    });
+
+    /* ===== Grand écran : le labo grandit avec la place =====
+       Chaque labo est dessiné pour le Chromebook à 100 % (corps du labo de
+       LAB_W × LAB_H). Avec plus de place (plein écran sur un grand écran),
+       le corps et le pied de page sont agrandis d'un même facteur (zoom CSS) :
+       tout grandit, au lieu d'ajouter du vide. Jamais réduits. Les mesures
+       à l'écran (getBoundingClientRect, getScreenCTM) tiennent compte du zoom. */
+    const LAB_W = 1204, LAB_H = 594, ZOOM_MAX = 1.8;
+
+    function fitToScreen() {
+      if (!overlay.classList.contains('modal-open')) return;
+      bodyEl.style.zoom = '';
+      footerEl.style.zoom = '';
+      const b = bodyEl.getBoundingClientRect();
+      const f = footerEl.getBoundingClientRect();
+      const z = Math.min(b.width / LAB_W, (b.height + f.height) / (LAB_H + f.height), ZOOM_MAX);
+      if (z > 1.04) {
+        bodyEl.style.zoom = z.toFixed(3);
+        footerEl.style.zoom = z.toFixed(3);
+      }
+    }
+
+    let fitTimer = 0;
+    window.addEventListener('resize', () => {
+      clearTimeout(fitTimer);
+      fitTimer = setTimeout(fitToScreen, 120);
     });
 
     /* ===== Étapes ===== */
