@@ -1,4 +1,4 @@
-/* ===== Labo virtuel « Two worlds, 50 m apart » (bio1) : pourquoi pas les mêmes êtres vivants ? =====
+/* ===== Labo virtuel « Inside two ecosystems » (bio1) : pourquoi pas les mêmes êtres vivants ? =====
 
    Version virtuelle de la Mission 1 de la sortie de terrain (« FIELD TRIP –
    Investigating our Local Woods ») : deux zones à 50 m l'une de l'autre, où
@@ -59,7 +59,7 @@
      survol ou au toucher (voir GLOSSARY). Les raisons des verrous restent en
      texte simple : la bulle du cadre commun n'affiche pas de lexique. */
   const LABELS = {
-    title: 'Two worlds, 50 m apart',
+    title: 'Inside two ecosystems',
     question: 'Do abiotic factors (temperature, light, humidity) have an influence on biotic factors (the living things)?',
     questionCase: 'To [find out], you compare two zones only [50 m apart]: you measure their abiotic factors and you count their living things.',
     yourQuestion: 'Your question',
@@ -204,7 +204,7 @@
     criteriaSub: { measures: 'Your data sheet', count: 'Your count sheet', graph: 'Your bars', conclusion: 'Your answers', verdict: 'Your judgement' },
 
     report: {
-      title: 'Laboratory report — Two worlds, 50 m apart',
+      title: 'Laboratory report — Inside two ecosystems',
       question: 'Do abiotic factors (temperature, light, humidity) have an influence on biotic factors (the living things)?',
       questionCase: (a, b) => `To find out, I compared two zones only 50 m apart: zone A (${a}) and zone B (${b}).`,
       because: 'Because',

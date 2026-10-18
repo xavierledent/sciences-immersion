@@ -29,7 +29,7 @@ vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 
 Labos virtuels (en anglais pour l'instant) : `chem1` « Metal detectives » et
 « Under our feet » (composition du sol), `bio1` « The vanishing leaves » et
-« Two worlds, 50 m apart » (mission 1 de la sortie de terrain : facteurs
+« Inside two ecosystems » (mission 1 de la sortie de terrain : facteurs
 abiotiques, carré de comptage, histogramme FO5b). Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans
