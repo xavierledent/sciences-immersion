@@ -1305,6 +1305,7 @@
     }));
     const mini = $('.dc-graph-mini');
     if (mini) bindTips(mini);
+    lab.fillSpace(lab.$('.dc-check-detail'));
     lab.checkFooter();
   }
 

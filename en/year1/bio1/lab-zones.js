@@ -1981,6 +1981,7 @@
       state.crit = btn.dataset.crit;
       renderCheck();
     }));
+    lab.fillSpace(lab.$('.zn-check-detail'));
     lab.checkFooter();
   }
 

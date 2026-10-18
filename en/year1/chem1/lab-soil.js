@@ -1499,6 +1499,7 @@
       state.crit = btn.dataset.crit;
       renderCheck();
     }));
+    lab.fillSpace(lab.$('.so-check-detail'));
     lab.checkFooter();
   }
 

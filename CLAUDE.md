@@ -121,7 +121,9 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   écran), le moteur agrandit d'un même facteur le corps et le pied du labo
   (`fitToScreen` dans [lab-engine.js](lab-engine.js), zoom CSS) : tout
   grandit au lieu d'ajouter du vide. Rien à faire dans le labo, sinon ne pas
-  s'y opposer.
+  s'y opposer. À l'étape Check, le labo passe le panneau de détail du
+  critère à `lab.fillSpace(el)` après chaque changement de son contenu : le
+  texte y grandit (×1,5 au plus) tant qu'il tient sans défiler.
 - **Labos virtuels.** Mots soulignés (`[mot]`, `[groupe de mots|clé]`) : ne
   pas souligner les mots transparents avec le français (*decomposition*,
   *bacteria*…) ; souligner l'expression entière quand la traduction mot à mot

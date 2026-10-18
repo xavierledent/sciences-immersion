@@ -392,6 +392,23 @@
       closeSheet,
       confirm: confirmDialog,
 
+      /* Étape Check : le détail d'un critère prend la place libre. Le contenu
+         de el (panneau à hauteur fixe) est agrandi d'un même facteur (zoom
+         CSS, jusqu'à ×1.5) tant qu'il tient sans défiler. À rappeler après
+         chaque changement du contenu ; refait quand l'écran change. */
+      fillSpace(el) {
+        if (!el) return;
+        let inner = el.firstElementChild;
+        if (!inner || !inner.classList.contains('lab-fill') || el.children.length > 1) {
+          inner = document.createElement('div');
+          inner.className = 'lab-fill';
+          while (el.firstChild) inner.appendChild(el.firstChild);
+          el.appendChild(inner);
+        }
+        fillEls.add(el);
+        fitFill(el);
+      },
+
       // Pied de l'étape Check, identique pour tous les labos : le rapport
       // s'affiche d'abord, l'impression se lance depuis là.
       checkFooter() {
@@ -815,7 +832,25 @@
        le corps et le pied de page sont agrandis d'un même facteur (zoom CSS) :
        tout grandit, au lieu d'ajouter du vide. Jamais réduits. Les mesures
        à l'écran (getBoundingClientRect, getScreenCTM) tiennent compte du zoom. */
-    const LAB_W = 1204, LAB_H = 594, ZOOM_MAX = 1.8;
+    const LAB_W = 1204, LAB_H = 594, ZOOM_MAX = 1.8, FILL_MAX = 1.5;
+    const fillEls = new Set();
+
+    function fitFill(el) {
+      const inner = el.querySelector(':scope > .lab-fill');
+      if (!inner) return;
+      inner.style.zoom = '';
+      const fits = () => el.scrollHeight <= el.clientHeight + 1 && el.scrollWidth <= el.clientWidth + 1;
+      if (!el.clientHeight || !fits()) return;
+      let lo = 1, hi = FILL_MAX;
+      inner.style.zoom = String(hi);
+      if (fits()) return;
+      for (let i = 0; i < 7; i++) {
+        const mid = (lo + hi) / 2;
+        inner.style.zoom = mid.toFixed(3);
+        if (fits()) lo = mid; else hi = mid;
+      }
+      inner.style.zoom = lo > 1.02 ? lo.toFixed(3) : '';
+    }
 
     function fitToScreen() {
       if (!overlay.classList.contains('modal-open')) return;
@@ -828,6 +863,7 @@
         bodyEl.style.zoom = z.toFixed(3);
         footerEl.style.zoom = z.toFixed(3);
       }
+      fillEls.forEach(el => { if (el.isConnected) fitFill(el); else fillEls.delete(el); });
     }
 
     let fitTimer = 0;

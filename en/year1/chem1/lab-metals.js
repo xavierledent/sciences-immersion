@@ -1434,6 +1434,7 @@
       `<p class="lab-detail-hyp"><strong>${LABELS.youPredicted}:</strong> ${hypothesisText(state.hypotheses[s.id])} → <span class="lab-verdict-${verdict}">${verdictText}</span></p>` +
       `<p class="lab-detail-expl">${explanation(s)}</p>` +
       `<h4 class="lab-detail-sub">${LABELS.notebookCheck}</h4><ul class="lab-check-list">${checkHead}${checks}</ul>`;
+    lab.fillSpace($('#lab-detail'));
   }
 
   /* ===== Fiche de référence et tableau de résultats (panneau superposé) ===== */
