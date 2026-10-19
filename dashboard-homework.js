@@ -1046,6 +1046,23 @@ export function homeworkSummary(hw, folder) {
   };
 }
 
+/* « Tous les chapitres » : carte pleine largeur, bilan et barre de couleurs
+   (fait, en retard, partiellement, non fait ; à venir en gris), détail des
+   chiffres dans la bulle. hw = null : lecture impossible. */
+export function homeworkOverviewHtml(hw) {
+  if (!hw) return '<h2>Devoirs</h2><p class="t-help is-error">Les devoirs n’ont pas pu être lus. Rechargez la page.</p>';
+  const entries = entriesFor(hw, null);
+  if (!entries.length) return '<h2>Devoirs</h2><p class="d-empty">Aucun devoir reçu.</p>';
+  const t = tally(entries);
+  const s = homeworkSummary(hw, null);
+  return `<div class="h-head"><h2>Devoirs</h2>
+      <span class="s-hw-rate">${t.rate === null ? '' : `<strong>${t.rate} %</strong> à temps`}</span></div>
+    <p class="s-hw-summary"><strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong> · ${esc(t.text)}</p>
+    <div class="s-hw-bar s-hw-bar-wide">${stackBar(s.parts, s.total, s.tip, `${t.received} devoirs : ${t.text}`)}</div>
+    ${legend(STATUS_ORDER.map(k => STATUS[k]).concat([{ label: 'À venir (date limite pas passée)', color: TRACK }]))}
+    <p class="t-help">Le détail devoir par devoir est dans chaque chapitre (carte « Devoirs »).</p>`;
+}
+
 // Détail : bilan, puis un devoir par ligne, du plus récent au plus ancien.
 export function homeworkDetailHtml(hw, folder) {
   const entries = entriesFor(hw, folder);

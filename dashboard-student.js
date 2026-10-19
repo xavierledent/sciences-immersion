@@ -5,8 +5,8 @@
    de l'activité. Puis un onglet par chapitre : exercices (liste compacte,
    un clic déplie l'énoncé et la réponse entière), jeux, labos (rapport
    corrigé du dernier Check), autoévaluation attendu par attendu,
-   vocabulaire et liens ouverts, devoirs reçus (dashboard-homework.js : une
-   tuile-résumé dans « Tous les chapitres », une carte par chapitre). */
+   vocabulaire et liens ouverts, devoirs reçus (dashboard-homework.js : une carte
+   pleine largeur dans « Tous les chapitres », une carte par chapitre). */
 
 import {
   esc, LIGHT, BULBS, ACTIVITY_SECTIONS, stackBar, cellsBar, legend, bulbCounts,
@@ -14,7 +14,7 @@ import {
 } from './dashboard-ui.js';
 import { LEVELS, summarizeChapter, activityBySection, studentTotals } from './dashboard-data.js';
 import { labStatus } from './dashboard-class.js';
-import { studentHomework, homeworkSummary, homeworkDetailHtml } from './dashboard-homework.js';
+import { studentHomework, homeworkSummary, homeworkDetailHtml, homeworkOverviewHtml } from './dashboard-homework.js';
 
 const LEVEL_LABEL = { level1: 'Level 1', level2: 'Level 2', level3: 'Level 3' };
 const LIGHT_SHORT = { 3: 'Vert', 2: 'Orange', 1: 'Rouge', answered: 'Sans feu', none: 'Pas fait' };
@@ -86,20 +86,7 @@ export async function renderStudentView(root, ctx, keepScroll) {
     : `<span class="d-kpi-value d-zero">—</span><span class="d-kpi-note">${none}</span>`;
   const where = chapter ? ` · ${esc(chapter.short)}` : '';
   const hasWork = !!totals.last || chapters.some(c => summaries[c.id].answeredCount);
-  // « Tous les chapitres » : une 5e tuile, résumé des devoirs (détail dans chaque chapitre).
-  // Toujours affichée : « Aucun devoir reçu » repère un élève oublié dans les envois.
-  const hwAll = !chapter && hw ? homeworkSummary(hw, null) : null;
-  const hwTile = chapter ? '' : !hw
-    ? `<div class="d-kpi s-hw-kpi"><span class="d-kpi-label">Devoirs</span>
-        <span class="d-kpi-value d-zero">—</span><span class="d-kpi-note">lecture impossible (rechargez la page)</span></div>`
-    : !hwAll.received
-      ? `<div class="d-kpi s-hw-kpi"><span class="d-kpi-label">Devoirs</span>
-          <span class="d-kpi-value d-zero">—</span><span class="d-kpi-note">aucun devoir reçu</span></div>`
-      : `<div class="d-kpi s-hw-kpi" data-tip="${esc(hwAll.tip)}" tabindex="0">
-          <span class="d-kpi-label">Devoirs</span>
-          <span class="d-kpi-value">${hwAll.rate === null ? '—' : `${hwAll.rate} %`}<span class="s-kpi-of"> à temps</span></span>
-          ${miniBar(hwAll.parts, hwAll.total)}
-          <span class="d-kpi-note">${hwAll.received} reçu${hwAll.received > 1 ? 's' : ''} · détail dans chaque chapitre</span></div>`;
+  // « Tous les chapitres » : carte Devoirs pleine largeur, avant l'export (détail dans chaque chapitre).
 
   root.innerHTML = `
     <div class="s-top">
@@ -127,7 +114,7 @@ export async function renderStudentView(root, ctx, keepScroll) {
         aria-selected="${c.id === chapterId}" data-chapter="${esc(c.id)}">${esc(c.short)}</button>`).join('')}</nav>
 
     <div class="s-scope">
-      <div class="d-kpis${hwTile ? ' s-kpis-5' : ''}">
+      <div class="d-kpis">
         <div class="d-kpi${watched ? ' is-alert' : ''}" data-tip="${esc(fullDate(last))}">
           <span class="d-kpi-label">${watched ? WARN_ICON : ''}Dernière activité${where}</span>
           <span class="d-kpi-value s-kpi-text">${relativeDay(last)}</span></div>
@@ -136,12 +123,12 @@ export async function renderStudentView(root, ctx, keepScroll) {
           ${totalEx ? `<span class="d-kpi-note">${percent(answered, totalEx)} % des exercices</span>` : ''}</div>
         <div class="d-kpi"><span class="d-kpi-label">Jeux terminés</span>${outOf(gamesDone, totalGames, 'pas de jeux')}</div>
         <div class="d-kpi"><span class="d-kpi-label">Labos menés au Check</span>${outOf(labsDone, totalLabs, 'pas de labo')}</div>
-        ${hwTile}
       </div>
       <section class="t-section s-activity">${activityHtml(sections)}</section>
       ${chapter ? chapterHtml(chapter, summaries[chapter.id], ctx) : overviewHtml(chapters, summaries)}
     </div>
 
+    ${chapter ? '' : `<section class="t-section s-homework">${homeworkOverviewHtml(hw)}</section>`}
     ${hasWork ? exportSection(chapters, chapter) : ''}`;
 
   root.querySelector('#s-back').addEventListener('click', ctx.onBack);

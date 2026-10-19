@@ -2047,10 +2047,15 @@
   display: block;
 }
 
-.d-kpis.s-kpis-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+/* Carte Devoirs pleine largeur (« Tous les chapitres ») */
+.s-hw-bar.s-hw-bar-wide {
+  max-width: none;
 }
 
-.s-hw-kpi .d-bar {
-  margin: 6px 0 4px;
+.s-hw-bar-wide .d-bar {
+  height: 14px;
+}
+
+.s-hw-rate {
+  font-size: 1.05rem;
 }
