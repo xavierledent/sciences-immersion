@@ -76,8 +76,33 @@
     'sortingBest',              // [quizTitle]
     'autoevalRating',           // [itemId]
     'labProgress',              // [labId] — JSON {v, frame, data} (lab-engine.js)
-    'labResult'                 // [labId] — JSON {maxStep, checks, best, last} (lab-engine.js)
+    'labResult',                // [labId] — JSON {maxStep, checks, best, last} (lab-engine.js)
+    'doneAt'                    // [ex, levelKey, exerciseId] | [game, gameId] | [lab, labId] — écrit ici seulement (markDone)
   ]);
+
+  /* Date du premier « fait » d'un élément (millisecondes, en texte), pour les
+     devoirs du tableau de bord : fait à temps ou en retard. Mêmes critères que
+     le tableau de bord (dashboard-data.js) : exercice = une sous-question
+     répondue, jeu = un record enregistré, labo = un Check. Jamais réécrite :
+     refaire un élément ne change pas sa date. Rien d'avant cette famille
+     n'est daté ; le tableau de bord le compte comme fait à temps. */
+  const GAME_FAMILIES = new Set(['qcmBestScore', 'fitbBest', 'dndBest', 'memoryBest', 'sortingBest']);
+
+  function doneKey(family, parts, text) {
+    if (family === 'practiceAnswer') return text.trim() ? ['ex', parts[0], parts[1]].join('::') : null;
+    if (GAME_FAMILIES.has(family)) return 'game::' + parts[0];
+    if (family === 'labResult') {
+      let r = null;
+      try { r = JSON.parse(text); } catch (e) { return null; }
+      return r && r.checks > 0 ? 'lab::' + parts[0] : null;
+    }
+    return null;
+  }
+
+  function markDone(family, parts, text) {
+    const key = doneKey(family, parts || [], text);
+    if (key && !(cloud.data.doneAt && cloud.data.doneAt[key])) cloudWrite('doneAt', key, String(Date.now()));
+  }
 
   // Limite d'une réponse écrite : les règles Firestore ne peuvent pas la
   // vérifier elles-mêmes (voir firestore.rules). La zone de réponse a la même
@@ -347,6 +372,7 @@
         if (family === 'practiceAnswer' && text.length > ANSWER_MAX) text = text.slice(0, ANSWER_MAX);
         if (!cloud) { safeSet(localKey(family, parts), text); return; }
         cloudWrite(family, cloudKey(parts), text);
+        markDone(family, parts, text);
       },
       remove: function (family, parts) {
         checkFamily(family);
