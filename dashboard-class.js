@@ -252,8 +252,8 @@ function allTable(rows, chapters, sort, ctx) {
   const body = sorted.map(r => `<tr>${nameCell(r, ctx)}${lastCell(r.last)}
     ${chapters.map(c => chapterCell(c, r.summaries[c.id])).join('')}
     ${activityCell(r.sections)}
-    <td class="d-num">${r.resources || '<span class="d-zero">0</span>'}</td>
-    <td class="d-num">${r.explorations || '<span class="d-zero">0</span>'}</td></tr>`).join('');
+    ${linksCell(r, chapters, 'resource_link_opened', 'Ressources')}
+    ${linksCell(r, chapters, 'exploration_link_opened', 'Explorations')}</tr>`).join('');
   return `<table class="t-table d-table"><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }
 
@@ -270,6 +270,18 @@ function chapterCell(chapter, s) {
   }
   return `<td class="d-col-chapter">${chapter.exerciseCount ? exercisesBar(chapter, s) : ''}
     <span class="d-cell-note">${bits.join(' · ')}</span></td>`;
+}
+
+// Liens ouverts (ressources ou explorations) : total des chapitres donnés,
+// détail par chapitre dans la bulle.
+function linksCell(row, chapters, counter, label) {
+  const per = chapters.map(c => ({ c, n: Number(row.summaries[c.id].stats[counter]) || 0 }));
+  const total = per.reduce((sum, p) => sum + p.n, 0);
+  const lines = per.length > 1
+    ? per.filter(p => p.n).map(p => `<br>${esc(p.c.short)} : ${p.n}`).join('')
+    : '';
+  const tip = `<strong>${esc(label)}</strong><br>${total ? `${total} lien${total > 1 ? 's' : ''} ouvert${total > 1 ? 's' : ''}` : 'Aucun lien ouvert'}${lines}`;
+  return `<td class="d-num" data-tip="${esc(tip)}">${total || '<span class="d-zero">0</span>'}</td>`;
 }
 
 function activityCell(sections) {
@@ -314,8 +326,8 @@ function chapterTable(rows, chapter, sort, ctx) {
       ${chapter.labs.length ? labsCell(s) : ''}
       ${hasAutoeval ? autoevalCell(chapter, s) : ''}
       ${vocabCell(s.stats)}
-      <td class="d-num">${Number(s.stats.resource_link_opened) || '<span class="d-zero">0</span>'}</td>
-      <td class="d-num">${Number(s.stats.exploration_link_opened) || '<span class="d-zero">0</span>'}</td></tr>`;
+      ${linksCell(r, [chapter], 'resource_link_opened', 'Ressources')}
+      ${linksCell(r, [chapter], 'exploration_link_opened', 'Explorations')}</tr>`;
   }).join('');
   return `<table class="t-table d-table d-table-chapter"><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }
