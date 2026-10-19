@@ -1992,3 +1992,42 @@
   .h-grid,
   .h-detail-body { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Devoirs : numéros, choix de classe, éléments déjà donnés */
+.h-head-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.h-nums {
+  font-weight: 400;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.h-item-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.h-given {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.h-item.is-given .h-item-text {
+  opacity: 0.6;
+}
+
+.h-warning {
+  margin: 14px 0 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fdf6e9;
+  color: #7a5310;
+  font-size: 0.86rem;
+}

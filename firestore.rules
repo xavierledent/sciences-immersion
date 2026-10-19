@@ -130,7 +130,7 @@ service cloud.firestore {
       allow read, delete: if isTeacher();
       allow create, update: if isTeacher()
         && request.resource.data.keys().hasOnly(['title', 'message', 'track', 'due', 'classes', 'recipients',
-             'items', 'createdAt', 'createdBy', 'updatedAt', 'updatedBy', 'sentAt', 'sentBy', 'sentTo'])
+             'items', 'numbers', 'createdAt', 'createdBy', 'updatedAt', 'updatedBy', 'sentAt', 'sentBy', 'sentTo'])
         && request.resource.data.title is string && request.resource.data.title.size() <= 150
         && request.resource.data.message is string && request.resource.data.message.size() <= 5000
         && request.resource.data.track in ['en', 'nl']

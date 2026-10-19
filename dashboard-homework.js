@@ -10,13 +10,20 @@
      title, message, track ('en' | 'nl'), due ('AAAA-MM-JJ', fin de journée),
      classes [id], recipients [adresse],
      items [{ ch: 'bio1', k: 'ex' | 'game' | 'lab', lv: 'level1' (exercice), id }],
-     createdAt/By, updatedAt/By, sentAt/By, sentTo [adresse]
+     numbers { classe: n }, createdAt/By, updatedAt/By, sentAt/By, sentTo [adresse]
 
-   État d'un élève pour un devoir (décision du 2026-10-20) :
+   Numéro (décision du 2026-10-20) : un par classe, attribué au premier
+   envoi, seulement aux classes dont au moins la moitié des élèves reçoit le
+   devoir (un envoi individuel n'a pas de numéro) ; repart à 1 chaque année
+   scolaire (date limite à partir du 15 août). Chaque élève voit dans son
+   mail le numéro de sa classe : « Science homework 4 · due … ».
+
+   État d'un élève pour un devoir (décisions du 2026-10-20) :
      fait            tout est fait au plus tard à la date limite (y compris
                      avant que le devoir soit donné) ;
      fait en retard  tout est fait, une partie après la date limite ;
-     non fait        il manque au moins un élément.
+     partiellement   plus de la moitié des éléments faits (dates ignorées) ;
+     non fait        la moitié ou moins.
    « Fait » = mêmes critères que le Suivi (summarizeChapter) : exercice
    répondu, jeu terminé une fois, labo arrivé au Check. Date : famille doneAt
    (storage.js), écrite au premier « fait » depuis le 2026-10-20 ; sans date,
@@ -30,8 +37,11 @@ import { authorize, sendMail, prepareMail } from './dashboard-mail.js';
 const STATUS = {
   done: { label: 'Fait', color: LIGHT[3].color },
   late: { label: 'Fait en retard', color: LIGHT[2].color },
+  // Vert clair : « en partie fait », même famille que « fait » ; l'orange reste le retard.
+  partial: { label: 'Partiellement fait', color: '#8fd3bd' },
   missing: { label: 'Non fait', color: LIGHT[1].color }
 };
+const STATUS_ORDER = ['done', 'late', 'partial', 'missing'];
 const LEVEL_NUM = { level1: 1, level2: 2, level3: 3 };
 
 // Parties fixes du mail, dans la langue de la filière.
@@ -194,7 +204,54 @@ function studentState(a, email) {
   const total = items.length;
   let status = 'missing';
   if (total && done === total) status = items.some(i => i.at && i.at > deadline) ? 'late' : 'done';
-  return { status, done, total, items, upcoming: status === 'missing' && Date.now() <= deadline };
+  else if (done * 2 > total) status = 'partial';
+  const finished = status === 'done' || status === 'late';
+  return { status, done, total, items, upcoming: !finished && Date.now() <= deadline };
+}
+
+/* ===== Numéros ===== */
+
+// Année scolaire d'une date limite : du 15 août au 14 août suivant.
+function schoolYear(due) {
+  const [y, m, d] = String(due || '').split('-').map(Number);
+  if (!y) return 0;
+  return m > 8 || (m === 8 && d >= 15) ? y : y - 1;
+}
+
+const inClass = (email, classId) => !!ctx.students[email] && ctx.students[email].classe === classId;
+
+// Classes qui reçoivent un numéro : au moins la moitié de leurs élèves destinataires.
+function numberedClasses(a) {
+  return (a.classes || []).filter(id => {
+    const size = Object.keys(ctx.students).filter(e => inClass(e, id)).length;
+    const n = (a.recipients || []).filter(e => inClass(e, id)).length;
+    return size > 0 && n * 2 >= size;
+  });
+}
+
+/* Numéros du devoir `a` (id `selfId`) : ceux déjà attribués restent ; une
+   classe numérotée qui n'en a pas reçoit le plus grand numéro de la classe
+   cette année + 1. */
+function numbersFor(a, selfId) {
+  const out = {};
+  Object.keys(a.numbers || {}).forEach(id => { if ((a.classes || []).includes(id)) out[id] = a.numbers[id]; });
+  const year = schoolYear(a.due);
+  numberedClasses(a).forEach(id => {
+    if (out[id]) return;
+    let max = 0;
+    assignments.forEach(o => {
+      if (o.id === selfId || schoolYear(o.due) !== year) return;
+      max = Math.max(max, Number((o.numbers || {})[id]) || 0);
+    });
+    out[id] = max + 1;
+  });
+  return out;
+}
+
+// Titre vu par une classe : « Science homework 4 » (sans numéro : titre seul).
+function titleFor(a, classId) {
+  const n = (a.numbers || {})[classId];
+  return n ? `${a.title} ${n}` : a.title;
 }
 
 /* ===== Libellés des éléments ===== */
@@ -281,19 +338,27 @@ function buildMail(a, email) {
   return {
     to: email,
     toName: [person.prenom, person.nom].filter(Boolean).join(' '),
-    subject: shortDue ? t.subject(a.title, shortDue) : a.title,
+    subject: shortDue ? t.subject(titleFor(a, person.classe), shortDue) : titleFor(a, person.classe),
     text, html
   };
 }
 
-/* ===== Liste des devoirs ===== */
+/* ===== Liste des devoirs =====
+   Un seul choix de classe en haut de l'onglet, pour la liste et
+   l'assiduité (retenu sur l'appareil). Une classe choisie : ses devoirs,
+   ses élèves seulement, son numéro dans le titre. */
 
-function classLabel(ids) {
-  return (ids || []).join(', ') || '—';
+const ALL = '__all__';
+
+function selectedClass() {
+  const ids = ctx.sortedClassIds();
+  const saved = ctx.prefs.homeworkClass;
+  return saved === ALL || ids.includes(saved) ? saved : (ids[0] || ALL);
 }
 
-function recipientsOf(a) {
-  return (a.recipients || []).slice().sort((x, y) => nameOf(x).localeCompare(nameOf(y), 'fr'));
+function recipientsOf(a, classId) {
+  return (a.recipients || []).filter(e => !classId || classId === ALL || inClass(e, classId))
+    .sort((x, y) => nameOf(x).localeCompare(nameOf(y), 'fr'));
 }
 
 function nameOf(email) {
@@ -306,9 +371,9 @@ function displayName(email) {
   return p ? `${p.prenom || ''} ${p.nom || ''}`.trim() : email;
 }
 
-function countStates(a) {
-  const c = { done: 0, late: 0, missing: 0, upcoming: 0 };
-  (a.recipients || []).forEach(email => {
+function countStates(a, emails) {
+  const c = { done: 0, late: 0, partial: 0, missing: 0, upcoming: 0 };
+  emails.forEach(email => {
     const st = studentState(a, email);
     c[st.status]++;
     if (st.upcoming) c.upcoming++;
@@ -316,51 +381,76 @@ function countStates(a) {
   return c;
 }
 
+const countsText = c => STATUS_ORDER.filter(k => c[k]).map(k => `${c[k]} ${STATUS[k].label.toLowerCase()}`).join(' · ') || '—';
+
 function statusBar(c, total) {
-  const parts = ['done', 'late', 'missing'].map(k => ({ value: c[k], color: STATUS[k].color }));
-  const tip = ['done', 'late', 'missing'].map(k => `${c[k]} ${STATUS[k].label.toLowerCase()}`).join('<br>') +
-    (c.upcoming ? `<br><span class="d-tip-muted">dont ${c.upcoming} non fait(s) avant la date limite</span>` : '');
-  return stackBar(parts, total, tip, `${c.done} faits, ${c.late} en retard, ${c.missing} non faits`);
+  const parts = STATUS_ORDER.map(k => ({ value: c[k], color: STATUS[k].color }));
+  const tip = STATUS_ORDER.map(k => `${c[k]} ${STATUS[k].label.toLowerCase()}`).join('<br>') +
+    (c.upcoming ? `<br><span class="d-tip-muted">dont ${c.upcoming} pas fini(s) avant la date limite</span>` : '');
+  return stackBar(parts, total, tip, countsText(c));
+}
+
+// Titre dans la liste : avec le numéro de la classe choisie, ou tous les numéros.
+function listTitle(a, classId) {
+  if (classId !== ALL) return esc(titleFor(a, classId) || 'Sans titre');
+  const nums = Object.keys(a.numbers || {}).sort().map(id => `${esc(id)} n° ${a.numbers[id]}`);
+  return esc(a.title || 'Sans titre') + (nums.length ? ` <span class="h-nums">${nums.join(', ')}</span>` : '');
 }
 
 function renderList() {
-  const rows = assignments.map(a => {
-    const c = countStates(a);
-    const total = (a.recipients || []).length;
+  const classId = selectedClass();
+  const classIds = ctx.sortedClassIds();
+  const shown = assignments.filter(a => classId === ALL || recipientsOf(a, classId).length);
+  const rows = shown.map(a => {
+    const emails = recipientsOf(a, classId);
+    const c = countStates(a, emails);
     const sent = a.sentAt && typeof a.sentAt.toDate === 'function'
       ? a.sentAt.toDate().toLocaleDateString('fr-BE', { day: 'numeric', month: 'short' })
       : '<span class="d-zero">pas envoyé</span>';
     const isOpen = openId === a.id;
+    const individual = classId !== ALL && !(a.numbers || {})[classId] && a.sentAt;
     return `<tr class="h-row${isOpen ? ' is-open' : ''}">
-        <td><button type="button" class="h-link" data-open="${esc(a.id)}" aria-expanded="${isOpen}">${esc(a.title || 'Sans titre')}</button>
-          <span class="d-cell-note">${(a.items || []).length} élément(s) · ${a.track === 'nl' ? 'NL' : 'EN'}</span></td>
-        <td>${esc(classLabel(a.classes))}</td>
+        <td><button type="button" class="h-link" data-open="${esc(a.id)}" aria-expanded="${isOpen}">${listTitle(a, classId)}</button>
+          <span class="d-cell-note">${(a.items || []).length} élément(s) · ${a.track === 'nl' ? 'NL' : 'EN'}${individual ? ' · envoi individuel, sans numéro' : ''}</span></td>
+        <td>${esc((a.classes || []).join(', ') || '—')}</td>
         <td>${esc(formatDue(a.due))}</td>
         <td>${sent}</td>
-        <td class="h-col-bar">${statusBar(c, total)}<span class="d-cell-note">${c.done} faits · ${c.late} en retard · ${c.missing} non faits</span></td>
+        <td class="h-col-bar">${statusBar(c, emails.length)}<span class="d-cell-note">${countsText(c)}</span></td>
         <td class="h-actions"><button type="button" class="t-btn" data-edit="${esc(a.id)}">Modifier</button>
           <button type="button" class="t-btn t-btn-danger" data-delete="${esc(a.id)}">Supprimer</button></td>
-      </tr>${isOpen ? `<tr class="h-detail"><td colspan="6">${detailHtml(a)}</td></tr>` : ''}`;
+      </tr>${isOpen ? `<tr class="h-detail"><td colspan="6">${detailHtml(a, emails)}</td></tr>` : ''}`;
   }).join('');
 
   root.innerHTML = `
     <section class="t-section">
       <div class="h-head">
         <h2>Devoirs</h2>
-        <button type="button" class="t-btn t-btn-primary" id="h-new">Nouveau devoir</button>
+        <div class="h-head-tools">
+          <label>Classe <select id="h-class">
+            ${classIds.map(id => `<option value="${esc(id)}"${id === classId ? ' selected' : ''}>${esc(id)}</option>`).join('')}
+            <option value="${ALL}"${classId === ALL ? ' selected' : ''}>Toutes les classes</option>
+          </select></label>
+          <button type="button" class="t-btn t-btn-primary" id="h-new">Nouveau devoir</button>
+        </div>
       </div>
       <p class="t-help">Un devoir regroupe des exercices, des jeux et des labos, avec une date limite. Il est envoyé
         par mail depuis votre adresse, un mail par élève. <strong>Fait</strong> : tout est fait au plus tard à la date
         limite (le travail fait avant le devoir compte) ; <strong>fait en retard</strong> : une partie après la date
-        limite ; <strong>non fait</strong> : il manque au moins un élément. Cliquez sur un titre pour voir chaque élève.</p>
-      ${assignments.length ? `<div class="t-scroll"><table class="t-table h-table">
+        limite ; <strong>partiellement fait</strong> : plus de la moitié ; <strong>non fait</strong> : la moitié ou moins.
+        Cliquez sur un titre pour voir chaque élève.</p>
+      ${shown.length ? `<div class="t-scroll"><table class="t-table h-table">
         <thead><tr><th>Devoir</th><th>Classes</th><th>Date limite</th><th>Envoyé</th><th>Élèves</th><th></th></tr></thead>
         <tbody>${rows}</tbody></table></div>
-        ${legend(['done', 'late', 'missing'].map(k => STATUS[k]))}`
-      : '<p class="d-empty">Aucun devoir pour l\'instant.</p>'}
+        ${legend(STATUS_ORDER.map(k => STATUS[k]))}`
+      : `<p class="d-empty">Aucun devoir${classId === ALL ? '' : ' pour cette classe'} pour l'instant.</p>`}
     </section>
     <section class="t-section" id="h-summary"></section>`;
 
+  root.querySelector('#h-class').addEventListener('change', e => {
+    ctx.prefs.homeworkClass = e.target.value;
+    ctx.savePrefs();
+    renderList();
+  });
   root.querySelector('#h-new').addEventListener('click', () => startDraft(null));
   root.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => {
     openId = openId === b.dataset.open ? null : b.dataset.open;
@@ -383,12 +473,12 @@ function renderList() {
     }
     renderList();
   }));
-  renderSummary();
+  renderSummary(classId);
 }
 
-function detailHtml(a) {
+function detailHtml(a, emails) {
   const deadline = deadlineOf(a);
-  const rows = recipientsOf(a).map(email => {
+  const rows = emails.map(email => {
     const st = studentState(a, email);
     const person = ctx.students[email];
     const cells = st.items.map(i => {
@@ -412,7 +502,7 @@ function detailHtml(a) {
   }).join('');
   return `<div class="h-detail-body">
       <div><h3>Contenu</h3><ol class="h-items">${items}</ol></div>
-      <div><h3>Élèves (${(a.recipients || []).length})</h3>
+      <div><h3>Élèves (${emails.length})</h3>
         <table class="t-table h-students"><thead><tr><th>Élève</th><th>Classe</th><th>État</th><th>Éléments</th></tr></thead>
         <tbody>${rows}</tbody></table></div>
     </div>`;
@@ -420,14 +510,11 @@ function detailHtml(a) {
 
 /* ===== Assiduité : résumé par élève ===== */
 
-function renderSummary() {
+function renderSummary(classId) {
   const box = root.querySelector('#h-summary');
-  const classIds = ctx.sortedClassIds();
-  const saved = ctx.prefs.homeworkClass;
-  const selected = saved === '__all__' || classIds.includes(saved) ? saved : (classIds[0] || '__all__');
-  const emails = Object.keys(ctx.students).filter(e => selected === '__all__' || ctx.students[e].classe === selected);
+  const emails = Object.keys(ctx.students).filter(e => classId === ALL || inClass(e, classId));
   const rows = emails.map(email => {
-    const c = { received: 0, done: 0, late: 0, missing: 0, upcoming: 0 };
+    const c = { received: 0, done: 0, late: 0, partial: 0, missing: 0, upcoming: 0 };
     assignments.forEach(a => {
       if (!(a.recipients || []).includes(email)) return;
       c.received++;
@@ -435,7 +522,8 @@ function renderSummary() {
       if (st.upcoming) c.upcoming++;
       else c[st.status]++;
     });
-    const counted = c.done + c.late + c.missing;
+    const counted = c.done + c.late + c.partial + c.missing;
+    c.counted = counted;
     c.rate = counted ? Math.round(100 * c.done / counted) : null;
     return { email, c };
   }).sort((x, y) => (x.c.rate === null) - (y.c.rate === null) || (x.c.rate || 0) - (y.c.rate || 0)
@@ -443,33 +531,21 @@ function renderSummary() {
 
   const num = n => n ? n : '<span class="d-zero">0</span>';
   box.innerHTML = `
-    <div class="h-head">
-      <h2>Assiduité</h2>
-      <label>Classe <select id="h-summary-class">
-        ${classIds.map(id => `<option value="${esc(id)}"${id === selected ? ' selected' : ''}>${esc(id)}</option>`).join('')}
-        <option value="__all__"${selected === '__all__' ? ' selected' : ''}>Toutes les classes</option>
-      </select></label>
-    </div>
-    <p class="t-help">Tous les devoirs reçus par chaque élève depuis le début. Un devoir pas encore fait dont la date
-      limite n'est pas passée est compté « à venir », pas « non fait ». Classement : le plus faible % à temps d'abord.
-      Le détail devoir par devoir est dans la fiche de l'élève.</p>
+    <h2>Assiduité${classId === ALL ? ' — toutes les classes' : ` — ${esc(classId)}`}</h2>
+    <p class="t-help">Tous les devoirs reçus par chaque élève depuis le début. Un devoir pas fini dont la date limite
+      n'est pas passée est compté « à venir ». % à temps = devoirs faits à temps parmi ceux dont la date limite est
+      passée (ou déjà faits). Classement : le plus faible % d'abord. Le détail devoir par devoir est dans la fiche de l'élève.</p>
     ${rows.length ? `<div class="t-scroll"><table class="t-table h-table">
       <thead><tr><th>Élève</th><th>Classe</th><th class="d-num">Reçus</th><th class="d-num">Faits à temps</th>
-        <th class="d-num">En retard</th><th class="d-num">Non faits</th><th class="d-num">À venir</th><th class="h-col-bar">À temps</th></tr></thead>
+        <th class="d-num">En retard</th><th class="d-num">Partiels</th><th class="d-num">Non faits</th><th class="d-num">À venir</th>
+        <th class="h-col-bar">À temps</th></tr></thead>
       <tbody>${rows.map(({ email, c }) => `<tr><td>${esc(displayName(email))}</td><td>${esc(ctx.students[email].classe || '')}</td>
         <td class="d-num">${num(c.received)}</td><td class="d-num">${num(c.done)}</td><td class="d-num">${num(c.late)}</td>
-        <td class="d-num">${num(c.missing)}</td><td class="d-num">${num(c.upcoming)}</td>
-        <td class="h-col-bar">${c.rate === null ? '<span class="d-zero">—</span>' : `${stackBar(['done', 'late', 'missing'].map(k => ({ value: c[k], color: STATUS[k].color })), c.done + c.late + c.missing,
-          `${c.done} à temps, ${c.late} en retard, ${c.missing} non faits`, `${c.rate} % à temps`)}<span class="d-cell-note">${c.rate} % à temps</span>`}</td></tr>`).join('')}</tbody>
+        <td class="d-num">${num(c.partial)}</td><td class="d-num">${num(c.missing)}</td><td class="d-num">${num(c.upcoming)}</td>
+        <td class="h-col-bar">${c.rate === null ? '<span class="d-zero">—</span>' : `${stackBar(STATUS_ORDER.map(k => ({ value: c[k], color: STATUS[k].color })), c.counted,
+          countsText(c), `${c.rate} % à temps`)}<span class="d-cell-note">${c.rate} % à temps</span>`}</td></tr>`).join('')}</tbody>
     </table></div>` : '<p class="d-empty">Aucun élève dans cette classe.</p>'}`;
-
-  box.querySelector('#h-summary-class').addEventListener('change', e => {
-    ctx.prefs.homeworkClass = e.target.value;
-    ctx.savePrefs();
-    renderSummary();
-  });
 }
-
 /* ===== Composition ===== */
 
 const itemKey = item => [item.ch, item.k, item.lv || '', item.id].join('|');
@@ -502,10 +578,11 @@ function startDraft(a) {
     recipients: new Set(a.recipients || []),
     items: (a.items || []).map(itemKey),
     sent: !!a.sentAt,
+    numbers: Object.assign({}, a.numbers || {}),
     chapter: null
   } : {
     id: null, title: '', due: nextWeek(), message: '', classes: new Set(firstClass ? [firstClass] : []),
-    recipients: new Set(), items: [], sent: false, chapter: null
+    recipients: new Set(), items: [], sent: false, numbers: {}, chapter: null
   };
   if (!a && firstClass) studentsOf(firstClass).forEach(e => draft.recipients.add(e));
   const track = draftTrack();
@@ -569,6 +646,7 @@ function renderEditor() {
           <button type="button" class="h-mini" id="h-message-reset"${draft.messageAuto ? ' hidden' : ''}>Revenir au texte proposé</button></div>
         <div class="h-field"><span>Aperçu du mail</span><div id="h-preview" class="h-preview"></div></div>
       </div>
+      <p class="h-warning" id="h-warning" role="status" hidden></p>
       <div class="t-form-row h-submit">
         <button type="button" class="t-btn t-btn-primary" id="h-send"></button>
         <button type="button" class="t-btn" id="h-save">Enregistrer sans envoyer</button>
@@ -664,6 +742,27 @@ function renderRecipients() {
    changent. Maj + clic coche ou décoche toute la plage depuis le clic
    précédent, dans la même colonne. */
 let lastChecked = null;
+let given = new Map();
+
+/* Éléments déjà donnés cette année scolaire aux classes cochées (autres
+   devoirs) : clé → ['n° 3 (1C)', …]. Signalés, jamais interdits : on peut
+   vouloir redonner un exercice exprès. */
+function givenItems() {
+  const out = new Map();
+  const year = schoolYear(draft.due);
+  assignments.forEach(o => {
+    if (o.id === draft.id || schoolYear(o.due) !== year) return;
+    const classes = (o.classes || []).filter(id => draft.classes.has(id) && (o.recipients || []).some(e => inClass(e, id)));
+    if (!classes.length) return;
+    const tags = classes.map(id => (o.numbers || {})[id] ? `n° ${o.numbers[id]} (${id})`
+      : `${o.sentAt ? 'envoi individuel' : 'devoir pas encore envoyé'} (${id})`);
+    (o.items || []).forEach(item => {
+      const key = itemKey(item);
+      out.set(key, (out.get(key) || []).concat(tags));
+    });
+  });
+  return out;
+}
 
 function renderContent() {
   const box = root.querySelector('#h-content');
@@ -673,10 +772,13 @@ function renderContent() {
   if (!chapters.find(c => c.folder === draft.chapter)) draft.chapter = chapters.length ? chapters[0].folder : null;
   const chapter = chapters.find(c => c.folder === draft.chapter);
   const chosen = new Set(draft.items);
+  given = givenItems();
   const check = (item, label, title) => {
     const key = itemKey(item);
-    return `<label class="h-check h-item"${title ? ` title="${esc(title)}"` : ''}><input type="checkbox" data-item="${esc(key)}"${chosen.has(key) ? ' checked' : ''} />
-      <span class="h-item-text"><strong>${esc(label)}</strong>${title ? ` <span class="h-item-title">${esc(title)}</span>` : ''}</span></label>`;
+    const tags = given.get(key);
+    return `<label class="h-check h-item${tags ? ' is-given' : ''}"${title ? ` title="${esc(title)}"` : ''}><input type="checkbox" data-item="${esc(key)}"${chosen.has(key) ? ' checked' : ''} />
+      <span class="h-item-body"><span class="h-item-text"><strong>${esc(label)}</strong>${title ? ` <span class="h-item-title">${esc(title)}</span>` : ''}</span>
+      ${tags ? `<span class="h-given">déjà donné · ${esc(tags.join(', '))}</span>` : ''}</span></label>`;
   };
   const columns = [];
   if (chapter) {
@@ -747,6 +849,13 @@ function renderSelection() {
   }).join('');
   box.innerHTML = `<h4>Sélection (${draft.items.length} élément${draft.items.length > 1 ? 's' : ''})</h4>
     ${draft.items.length ? `<ul class="h-items h-selection">${lines}</ul>` : '<p class="t-help">Cochez des exercices, des jeux ou des labos, dans un ou plusieurs chapitres.</p>'}`;
+  const warning = root.querySelector('#h-warning') || { };
+  const repeated = draft.items.filter(k => given.has(k));
+  warning.hidden = !repeated.length;
+  warning.textContent = repeated.length
+    ? `${repeated.length} élément${repeated.length > 1 ? 's' : ''} déjà donné${repeated.length > 1 ? 's' : ''} cette année : ` +
+      repeated.map(k => { const t = itemTitle(track, keyToItem(k)); return `${t.chapter} · ${t.label} (${given.get(k).join(', ')})`; }).join(' ; ') + '.'
+    : '';
   box.querySelectorAll('[data-remove]').forEach(b => b.addEventListener('click', () => {
     const removed = new Set(runs[Number(b.dataset.remove)].items.map(itemKey));
     draft.items = draft.items.filter(k => !removed.has(k));
@@ -764,6 +873,7 @@ function draftAssignment() {
     due: draft.due,
     classes: ctx.sortedClassIds().filter(id => draft.classes.has(id)),
     recipients: Array.from(draft.recipients),
+    numbers: Object.assign({}, draft.numbers),
     // Dans l'ordre du site, pas dans l'ordre des clics.
     items: track ? [].concat(...groupedItems(track, draft.items.map(keyToItem)).map(r => r.items)) : []
   };
@@ -776,9 +886,14 @@ function renderPreview() {
   const n = a.recipients.length;
   sendBtn.textContent = `${draft.sent ? 'Enregistrer et renvoyer' : 'Enregistrer et envoyer'} à ${n} élève${n > 1 ? 's' : ''}`;
   if (!a.track || !a.items.length) { box.innerHTML = '<p class="t-help">L\'aperçu apparaîtra quand une classe et un contenu seront choisis.</p>'; return; }
+  // Numéros tels qu'ils seraient attribués à l'envoi.
+  a.numbers = numbersFor(a, draft.id);
   const sample = recipientsOf(a)[0];
   const mail = buildMail(a, sample || '');
-  box.innerHTML = `<p class="h-preview-head"><strong>Objet :</strong> ${esc(mail.subject || '(sans titre)')}<br>
+  const sampleClass = sample && ctx.students[sample] ? ctx.students[sample].classe : '';
+  const numberNote = !sampleClass || !a.numbers[sampleClass] ? ' <span class="d-cell-note">(sans numéro : envoi à moins de la moitié de la classe)</span>'
+    : draft.numbers[sampleClass] ? '' : ' <span class="d-cell-note">(numéro attribué à l\'envoi)</span>';
+  box.innerHTML = `<p class="h-preview-head"><strong>Objet :</strong> ${esc(mail.subject || '(sans titre)')}${numberNote}<br>
       <strong>À :</strong> ${sample ? esc(displayName(sample)) + (n > 1 ? ` (et ${n - 1} autre${n > 2 ? 's' : ''}, chacun avec son prénom)` : '') : '—'}</p>
     <div class="h-preview-body">${mail.html}</div>`;
 }
@@ -809,6 +924,9 @@ async function submit(sending) {
     // L'autorisation Google d'abord, tant que le clic est « frais » (fenêtre).
     if (sending) { progress.textContent = 'Autorisation Google…'; await authorize(ctx.me); }
     progress.textContent = 'Enregistrement…';
+    // Numéros attribués au premier envoi seulement (enregistré sans envoi : pas de numéro).
+    if (sending) a.numbers = numbersFor(a, draft.id);
+    draft.numbers = Object.assign({}, a.numbers);
     const ref = draft.id ? fb.doc(fb.db, 'assignments', draft.id) : fb.doc(fb.collection(fb.db, 'assignments'));
     const data = Object.assign({}, a, { updatedAt: fb.serverTimestamp(), updatedBy: ctx.me });
     if (!draft.id) Object.assign(data, { createdAt: fb.serverTimestamp(), createdBy: ctx.me });
