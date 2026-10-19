@@ -411,8 +411,7 @@ function detailHtml(a) {
     return `<li><a href="${esc(itemLink(a.track, item))}" target="_blank" rel="noopener">${esc(t.chapter)} · ${esc(t.label)}${t.title ? ' — ' + esc(t.title) : ''}</a></li>`;
   }).join('');
   return `<div class="h-detail-body">
-      <div><h3>Contenu</h3><ol class="h-items">${items}</ol>
-        ${a.message ? `<h3>Message</h3><p class="h-message-view">${esc(a.message).replace(/\n/g, '<br>')}</p>` : ''}</div>
+      <div><h3>Contenu</h3><ol class="h-items">${items}</ol></div>
       <div><h3>Élèves (${(a.recipients || []).length})</h3>
         <table class="t-table h-students"><thead><tr><th>Élève</th><th>Classe</th><th>État</th><th>Éléments</th></tr></thead>
         <tbody>${rows}</tbody></table></div>
