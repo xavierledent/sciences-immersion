@@ -1663,18 +1663,22 @@
   height: auto;
   aspect-ratio: 1;
   margin: 0;
+  place-items: center;
   box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08), 0 10px 24px rgba(0, 0, 0, 0.3);
 }
 
+/* L'image a ses propres marges autour des personnages : centrée telle
+   quelle, à la hauteur du cercle. */
 .hero-art img {
-  width: 80%;
-  transform: translateY(8%);
+  width: auto;
+  height: 92%;
+  transform: none;
 }
 
 .hero-back {
   position: static;
   justify-self: end;
-  align-self: start;
+  align-self: center;
 }
 
 @media (max-width: 900px) {
