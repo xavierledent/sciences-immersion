@@ -39,7 +39,8 @@ function clip(text, n) {
      work, content(track), teacherName, prefs, savePrefs(),
      order (adresses dans l'ordre du tableau), onBack(), onOpen(adresse)
    } */
-export async function renderStudentView(root, ctx) {
+// keepScroll : changement d'onglet ou de carte, on reste où l'on est.
+export async function renderStudentView(root, ctx, keepScroll) {
   const chapters = await ctx.content(ctx.track);
   const work = ctx.work[ctx.email] || { uid: null, chapters: {}, history: {} };
   const summaries = {};
@@ -120,13 +121,13 @@ export async function renderStudentView(root, ctx) {
   root.querySelectorAll('[data-chapter]').forEach(tab => tab.addEventListener('click', () => {
     ctx.prefs.studentChapterId = tab.dataset.chapter;
     ctx.savePrefs();
-    renderStudentView(root, ctx);
+    renderStudentView(root, ctx, true);
   }));
   bindChapter(root, ctx);
   const exportBtn = root.querySelector('#s-export');
   if (exportBtn) exportBtn.addEventListener('click', () =>
     exportAnswers(root.querySelector('#s-export-scope').value, chapters, summaries, ctx));
-  window.scrollTo(0, 0);
+  if (!keepScroll) window.scrollTo(0, 0);
 }
 
 /* ===== Haut de fiche ===== */
@@ -156,26 +157,82 @@ function activityHtml(sections) {
       <span class="s-activity-n">${sections[k]}</span><span class="s-activity-pct">${percent(sections[k], total)} %</span></li>`).join('')}</ul>`;
 }
 
-/* ===== Un chapitre ===== */
+/* ===== Un chapitre =====
+   Une rangée de cartes-résumés (Exercices, Jeux, Labos, Autoévaluation,
+   Vocabulaire et liens ; seulement celles que le chapitre contient) qui
+   servent d'onglets ; en dessous, le détail de la carte choisie, seul, sur
+   toute la largeur. */
+
+const PANELS = {
+  exercises: 'Exercices',
+  games: 'Jeux',
+  labs: 'Labos',
+  autoeval: 'Autoévaluation',
+  vocab: 'Vocabulaire et liens'
+};
+
+function panelsOf(chapter) {
+  return Object.keys(PANELS).filter(k =>
+    (k !== 'games' || chapter.games.length) &&
+    (k !== 'labs' || chapter.labs.length) &&
+    (k !== 'autoeval' || chapter.autoevalItems.length));
+}
+
+// Barre décorative d'une carte (la carte entière est le bouton) : pas de
+// bulle ni de focus à elle.
+function miniBar(parts, total) {
+  const sum = parts.reduce((n, p) => n + p.value, 0);
+  const rest = Math.max(0, total - sum);
+  const spans = parts.filter(p => p.value > 0).map(p => `<span style="flex-grow:${p.value};background:${p.color}"></span>`);
+  if (rest > 0 || !spans.length) spans.push(`<span style="flex-grow:${rest || 1};background:#e9eef4"></span>`);
+  return `<div class="d-bar" aria-hidden="true">${spans.join('')}</div>`;
+}
 
 function chapterHtml(chapter, s, ctx) {
-  const side = [
-    chapter.games.length ? card('Jeux', `${s.gamesDone}/${chapter.games.length} terminés`, gamesHtml(s)) : '',
-    chapter.labs.length ? card('Labos', '', labsHtml(chapter, s)) : '',
-    chapter.autoevalItems.length ? card('Autoévaluation', `${s.ratedCount}/${chapter.autoevalItems.length} évalués`, autoevalHtml(chapter, s)) : '',
-    card('Vocabulaire et liens', '', vocabHtml(s.stats))
-  ].join('');
-  const main = chapter.exerciseCount
-    ? card('Exercices', `${s.answeredCount}/${chapter.exerciseCount} répondus`, exercisesHtml(chapter, s, ctx))
-    : card('Exercices', '', '<p class="t-muted">Pas encore d’exercices dans ce chapitre.</p>');
-  return `<div class="s-grid"><div class="s-main">${main}</div><div class="s-side">${side}</div></div>`;
+  const panels = panelsOf(chapter);
+  let panel = ctx.prefs.studentPanel;
+  if (!panels.includes(panel)) panel = panels[0];
+  const n = k => Number(s.stats[k]) || 0;
+
+  const summary = {
+    exercises: () => chapter.exerciseCount
+      ? { value: `${s.answeredCount}<span class="s-kpi-of"> / ${chapter.exerciseCount}</span>`, note: 'exercices répondus',
+          viz: miniBar([3, 2, 1, 'answered'].map(k => ({ value: s.counts[k], color: LIGHT[k].color })), chapter.exerciseCount) }
+      : { value: '—', note: 'pas encore d’exercices', viz: '' },
+    games: () => ({ value: `${s.gamesDone}<span class="s-kpi-of"> / ${chapter.games.length}</span>`, note: 'jeux terminés',
+      viz: miniBar([{ value: s.gamesDone, color: '#4a6483' }], chapter.games.length) }),
+    labs: () => ({ value: `${s.labsChecked}<span class="s-kpi-of"> / ${chapter.labs.length}</span>`, note: 'menés au Check',
+      viz: `<div class="s-card-labs">${s.labs.map(l => `<span>${esc(labStatus(l.result).text)}</span>`).join('')}</div>` }),
+    autoeval: () => ({ value: `${s.ratedCount}<span class="s-kpi-of"> / ${chapter.autoevalItems.length}</span>`, note: 'attendus évalués',
+      viz: miniBar([3, 2, 1].map(k => ({ value: s.ratings[k], color: BULBS[k].color })), chapter.autoevalItems.length) }),
+    vocab: () => ({ value: `${n('vocabulary_cards_seen')}`, note: 'cartes vues',
+      viz: `<span class="d-cell-note">${n('vocabulary_sessions')} session(s) · ${n('resource_link_opened') + n('exploration_link_opened')} lien(s) ouvert(s)</span>` })
+  };
+
+  const cards = panels.map(k => {
+    const c = summary[k]();
+    return `<button type="button" role="tab" class="s-pcard${k === panel ? ' is-active' : ''}" aria-selected="${k === panel}" data-panel="${k}">
+      <span class="d-kpi-label">${PANELS[k]}</span>
+      <span class="d-kpi-value">${c.value}</span>
+      <span class="d-kpi-note">${c.note}</span>
+      ${c.viz ? `<span class="s-pcard-viz">${c.viz}</span>` : ''}</button>`;
+  }).join('');
+
+  const detail = {
+    exercises: () => chapter.exerciseCount ? exercisesHtml(chapter, s, ctx) : '<p class="t-muted">Pas encore d’exercices dans ce chapitre.</p>',
+    games: () => gamesHtml(s),
+    labs: () => labsHtml(chapter, s),
+    autoeval: () => autoevalHtml(chapter, s),
+    vocab: () => vocabHtml(s.stats)
+  }[panel]();
+
+  return `<div class="s-pcards" role="tablist" style="--s-cols:${panels.length}">${cards}</div>
+    <section class="t-section s-panel" role="tabpanel">
+      <div class="s-card-head"><h3 class="s-h3">${PANELS[panel]}</h3></div>${detail}</section>`;
 }
 
-function card(title, note, body) {
-  return `<section class="t-section s-card"><div class="s-card-head"><h3 class="s-h3">${esc(title)}</h3>
-    ${note ? `<span class="t-muted">${esc(note)}</span>` : ''}</div>${body}</section>`;
-}
-
+/* Exercices : une ligne par exercice ; dépliée, l'énoncé à gauche et la
+   réponse à droite, partie par partie. */
 function exercisesHtml(chapter, s, ctx) {
   const showAll = !!ctx.prefs.studentShowAll;
   const legendHtml = legend([3, 2, 1, 'answered', 'none'].map(k => LIGHT[k]));
@@ -184,17 +241,18 @@ function exercisesHtml(chapter, s, ctx) {
     const done = list.filter(e => e.state).length;
     const cells = list.map(e => ({ color: LIGHT[e.state || 'none'].color,
       tip: `<strong>Ex. ${esc(e.id)}</strong>${e.title ? ' — ' + esc(e.title) : ''}<br>${esc(LIGHT[e.state || 'none'].label)}` }));
-    const rows = list.filter(e => showAll || e.state).map(e => exerciseRow(e, level)).join('');
+    const rows = list.filter(e => showAll || e.state).map(e => exerciseRow(e)).join('');
     return `<div class="s-level">
-      <div class="s-level-head"><h4>${LEVEL_LABEL[level]}</h4><span class="t-muted">${done}/${list.length}</span></div>
-      ${cellsBar(cells, `${done} sur ${list.length} exercices répondus`)}
+      <div class="s-level-head"><h4>${LEVEL_LABEL[level]}</h4>
+        <div class="s-level-cells">${cellsBar(cells, `${done} sur ${list.length} exercices répondus`)}</div>
+        <span class="t-muted">${done}/${list.length}</span></div>
       ${rows ? `<ul class="s-ex-list">${rows}</ul>` : `<p class="t-muted s-none">Aucun exercice répondu.</p>`}</div>`;
   }).join('');
   return `<div class="s-ex-tools">${legendHtml}
     <label class="s-toggle"><input type="checkbox" id="s-show-all"${showAll ? ' checked' : ''}> Afficher aussi les exercices pas faits</label></div>${levels}`;
 }
 
-function exerciseRow(e, level) {
+function exerciseRow(e) {
   const state = e.state || 'none';
   const answeredSubs = e.subs.filter(sub => sub.length > 0);
   const first = answeredSubs[0];
@@ -211,10 +269,10 @@ function exerciseRow(e, level) {
       : (sub.length ? `<p class="s-answer is-missing">Réponse de ${sub.length} caractères : le texte arrivera à sa prochaine connexion.</p>`
         : '<p class="s-answer is-missing">Pas de réponse.</p>');
     return `<div class="s-sub">
-      ${e.subs.length > 1 ? `<div class="s-sub-label">Partie ${String.fromCharCode(97 + i)}</div>` : ''}
-      <p class="s-question">${rich(e.questions[i] || '')}</p>
-      ${answer}
-      <p class="s-sub-light"><span class="d-swatch" style="background:${look.color}"></span>${esc(look.label)}</p></div>`;
+      <div class="s-sub-q">${e.subs.length > 1 ? `<span class="s-sub-label">Partie ${String.fromCharCode(97 + i)}</span>` : ''}
+        <p class="s-question">${rich(e.questions[i] || '')}</p></div>
+      <div class="s-sub-a">${answer}
+        <p class="s-sub-light"><span class="d-swatch" style="background:${look.color}"></span>${esc(look.label)}</p></div></div>`;
   }).join('');
 
   return `<li class="s-ex">
@@ -227,55 +285,77 @@ function exerciseRow(e, level) {
     <div class="s-ex-detail" hidden>${detail}</div></li>`;
 }
 
+// Jeux : une tuile par jeu, regroupées par type.
 function gamesHtml(s) {
-  return `<table class="t-table s-table"><tbody>${s.games.map(g => `<tr>
-    <td><span class="s-game-title">${esc(g.title)}</span><span class="d-cell-note">${esc(g.typeLabel)}</span></td>
-    <td class="s-right${g.done ? '' : ' d-zero'}">${g.done ? esc(g.detail || 'terminé') : '—'}</td></tr>`).join('')}</tbody></table>`;
+  const types = [];
+  s.games.forEach(g => { if (!types.includes(g.typeLabel)) types.push(g.typeLabel); });
+  return types.map(type => `<h4 class="s-h4">${esc(type)}</h4><div class="s-tiles">${s.games.filter(g => g.typeLabel === type).map(g => `
+    <div class="s-tile${g.done ? ' is-done' : ''}">
+      <span class="s-tile-title">${esc(g.title)}</span>
+      <span class="s-tile-state">${g.done ? esc(g.detail || 'terminé') : 'pas encore terminé'}</span></div>`).join('')}</div>`).join('');
 }
 
+// Labos : les informations à gauche, le rapport corrigé à droite.
 function labsHtml(chapter, s) {
   return s.labs.map(l => {
     const st = labStatus(l.result);
     const r = l.result;
     const when = r && r.reportAt ? new Date(r.reportAt).toLocaleDateString('fr-BE', { day: 'numeric', month: 'long' }) : '';
+    const facts = [];
+    if (r) {
+      facts.push(['Étape atteinte', `${r.maxStep || 1} / 4`]);
+      facts.push(['Checks faits', r.checks || 0]);
+      if (r.best && r.best.total) facts.push(['Meilleur score', `${r.best.score} / ${r.best.total}`]);
+      if (r.last && r.last.total) facts.push(['Dernier score', `${r.last.score} / ${r.last.total}`]);
+      if (r.last && r.last.minutes) facts.push(['Temps actif', `${Math.round(r.last.minutes)} min`]);
+    }
+    const report = r && r.report
+      ? `<div class="s-report" data-report-box="${esc(l.id)}"><p class="t-muted">Chargement du rapport…</p></div>`
+      : `<div class="s-report-empty">${r && r.checks
+        ? 'Rapport non enregistré : ce Check a été fait avant le tableau de bord.'
+        : (r ? 'Le rapport apparaîtra ici après le Check.' : 'Labo pas encore ouvert.')}</div>`;
     return `<div class="s-lab">
-      <div class="s-lab-head"><span class="s-game-title">${esc(l.title)}</span>
-        <span class="${st.started ? 's-lab-state' : 'd-zero'}" data-tip="${esc(`<strong>${esc(l.title)}</strong><br>${st.tip}`)}">${st.text}</span></div>
-      ${r && r.report ? `<button type="button" class="t-btn s-report-btn" data-report="${esc(l.id)}">Voir le rapport corrigé${when ? ` (${when})` : ''}</button>
-        <div class="s-report" data-report-box="${esc(l.id)}" hidden></div>`
-        : (r && r.checks ? '<p class="d-cell-note">Rapport non enregistré (Check fait avant le tableau de bord).</p>' : '')}
-    </div>`;
+      <div class="s-lab-info">
+        <h4 class="s-lab-title">${esc(l.title)}</h4>
+        <p class="${st.started ? 's-lab-state' : 'd-zero'}">${st.text}</p>
+        ${facts.length ? `<dl class="s-facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>` : ''}
+        ${when ? `<p class="d-cell-note">Rapport du ${when}</p>` : ''}
+      </div>${report}</div>`;
   }).join('');
 }
 
+// Autoévaluation : une colonne par catégorie.
 function autoevalHtml(chapter, s) {
   const groups = {};
   chapter.autoevalItems.forEach(item => {
     (groups[item.categoryTitle] = groups[item.categoryTitle] || []).push(item);
   });
-  return Object.keys(groups).map(title => `<h4 class="s-h4">${esc(title)}</h4><ul class="s-items">${groups[title].map(item => {
-    const v = s.itemRatings[item.id] || 0;
-    const bulbs = [1, 2, 3].map(n => `<span class="s-bulb" style="background:${n <= v ? BULBS[v].color : '#e9eef4'}"></span>`).join('');
-    return `<li><span class="s-bulbs" role="img" aria-label="${v ? `${v} ampoule(s)` : 'non évalué'}" data-tip="${esc(v ? BULBS[v].label : 'non évalué')}">${bulbs}</span>
-      <span class="${v ? '' : 'd-zero'}">${esc(plain(item.text))}</span></li>`;
-  }).join('')}</ul>`).join('');
+  return `<div class="s-ae-legend">${legend([3, 2, 1].map(k => BULBS[k]))}</div>
+    <div class="s-ae-cols">${Object.keys(groups).map(title => `<div><h4 class="s-h4">${esc(title)}</h4><ul class="s-items">${groups[title].map(item => {
+      const v = s.itemRatings[item.id] || 0;
+      const bulbs = [1, 2, 3].map(k => `<span class="s-bulb" style="background:${k <= v ? BULBS[v].color : '#e9eef4'}"></span>`).join('');
+      return `<li><span class="s-bulbs" role="img" aria-label="${v ? `${v} ampoule(s)` : 'non évalué'}" data-tip="${esc(v ? BULBS[v].label : 'non évalué')}">${bulbs}</span>
+        <span class="${v ? '' : 'd-zero'}">${esc(plain(item.text))}</span></li>`;
+    }).join('')}</ul></div>`).join('')}</div>`;
 }
 
+// Vocabulaire et liens : des chiffres en tuiles.
 function vocabHtml(stats) {
   const n = k => Number(stats[k]) || 0;
-  const rows = [
-    ['Sessions de vocabulaire', n('vocabulary_sessions')],
-    ['Cartes vues', n('vocabulary_cards_seen')],
-    ['Cartes retournées', n('vocabulary_flips')],
-    ['Cartes écoutées', n('vocabulary_listens')],
-    ['Ressources ouvertes', n('resource_link_opened')],
-    ['Explorations ouvertes', n('exploration_link_opened')]
-  ];
-  return `<table class="t-table s-table"><tbody>${rows.map(([label, v]) =>
-    `<tr><td>${label}</td><td class="s-right${v ? '' : ' d-zero'}">${v}</td></tr>`).join('')}</tbody></table>`;
+  const tile = (label, v) => `<div class="s-stat"><span class="d-kpi-value${v ? '' : ' d-zero'}">${v}</span><span class="d-kpi-label">${label}</span></div>`;
+  return `<h4 class="s-h4">Vocabulaire</h4><div class="s-stats">
+      ${tile('sessions', n('vocabulary_sessions'))}${tile('cartes vues', n('vocabulary_cards_seen'))}
+      ${tile('cartes retournées', n('vocabulary_flips'))}${tile('cartes écoutées', n('vocabulary_listens'))}</div>
+    <h4 class="s-h4">Liens ouverts</h4><div class="s-stats">
+      ${tile('ressources', n('resource_link_opened'))}${tile('explorations', n('exploration_link_opened'))}</div>`;
 }
 
 function bindChapter(root, ctx) {
+  root.querySelectorAll('[data-panel]').forEach(btn => btn.addEventListener('click', () => {
+    ctx.prefs.studentPanel = btn.dataset.panel;
+    ctx.savePrefs();
+    renderStudentView(root, ctx, true);
+  }));
   root.querySelectorAll('.s-ex-row').forEach(btn => btn.addEventListener('click', () => {
     const open = btn.getAttribute('aria-expanded') !== 'true';
     btn.setAttribute('aria-expanded', String(open));
@@ -285,22 +365,19 @@ function bindChapter(root, ctx) {
   if (all) all.addEventListener('change', () => {
     ctx.prefs.studentShowAll = all.checked;
     ctx.savePrefs();
-    renderStudentView(root, ctx);
+    renderStudentView(root, ctx, true);
   });
-  root.querySelectorAll('[data-report]').forEach(btn => btn.addEventListener('click', async () => {
-    const box = root.querySelector(`[data-report-box="${CSS.escape(btn.dataset.report)}"]`);
-    if (!box.hidden) { box.hidden = true; box.innerHTML = ''; return; }
-    const chapters = await ctx.content(ctx.track);
-    const chapter = chapters.find(c => c.id === ctx.prefs.studentChapterId) ||
-      chapters.find(c => c.labs.some(l => l.id === btn.dataset.report));
-    const lab = chapter.labs.find(l => l.id === btn.dataset.report);
-    const work = ctx.work[ctx.email];
-    const doc = (work.chapters[chapter.id] || {});
+  // Rapports corrigés : affichés d'office dans le détail des labos.
+  const boxes = root.querySelectorAll('[data-report-box]');
+  if (boxes.length) ctx.content(ctx.track).then(chapters => boxes.forEach(box => {
+    const id = box.dataset.reportBox;
+    const chapter = chapters.find(c => c.labs.some(l => l.id === id));
+    if (!chapter) return;
+    const lab = chapter.labs.find(l => l.id === id);
+    const doc = (ctx.work[ctx.email].chapters[chapter.id] || {});
     let result = null;
-    try { result = JSON.parse((doc.labResult || {})[lab.id]); } catch (e) { result = null; }
-    if (!result || !result.report) return;
-    box.hidden = false;
-    showReport(box, chapter, lab, result.report);
+    try { result = JSON.parse((doc.labResult || {})[id]); } catch (e) { result = null; }
+    if (result && result.report) showReport(box, chapter, lab, result.report);
   }));
 }
 

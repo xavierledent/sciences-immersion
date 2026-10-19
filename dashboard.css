@@ -1016,3 +1016,231 @@
 @media (max-width: 1000px) {
   .s-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Fiche élève, chapitre : cartes-résumés (onglets) puis un seul détail */
+.s-pcards {
+  display: grid;
+  grid-template-columns: repeat(var(--s-cols, 5), minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.s-pcard {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  text-align: left;
+  padding: 12px 16px 14px;
+  border: 1px solid var(--t-border);
+  border-radius: var(--t-radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.s-pcard:hover {
+  border-color: rgba(var(--color-slate-rgb), 0.5);
+}
+
+.s-pcard.is-active {
+  border-color: var(--color-slate);
+  box-shadow: inset 0 0 0 1px var(--color-slate);
+}
+
+.s-pcard .d-kpi-label {
+  color: var(--color-text);
+}
+
+.s-pcard-viz {
+  display: block;
+  margin-top: 8px;
+}
+
+.s-card-labs {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.s-panel {
+  min-height: 160px;
+}
+
+/* Exercices */
+.s-level-head {
+  display: grid;
+  grid-template-columns: 5em minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.s-level-cells .d-cells {
+  margin: 0;
+}
+
+.s-ex-detail {
+  margin: 4px 6px 12px;
+  padding: 0;
+  border-left: none;
+}
+
+.s-sub {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 20px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.s-sub + .s-sub {
+  margin-top: 8px;
+}
+
+.s-sub .s-question {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.s-sub .s-answer {
+  background: #fff;
+  border: 1px solid var(--t-border);
+}
+
+.s-sub .s-answer.is-missing {
+  border: none;
+  background: none;
+}
+
+/* Jeux : tuiles */
+.s-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.s-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--t-border);
+  border-left: 4px solid #e9eef4;
+  font-size: 0.85rem;
+}
+
+.s-tile.is-done {
+  border-left-color: #4a6483;
+}
+
+.s-tile-title {
+  font-weight: 600;
+}
+
+.s-tile-state {
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.s-tile:not(.is-done) .s-tile-state {
+  color: #a7b3c2;
+}
+
+/* Labos : infos à gauche, rapport à droite */
+.s-lab {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.s-lab + .s-lab {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--t-border);
+}
+
+.s-lab-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.s-lab-info .s-lab-state,
+.s-lab-info .d-zero {
+  margin: 2px 0 10px;
+  font-size: 1.3rem;
+}
+
+.s-facts {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  gap: 4px 16px;
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.s-facts dt {
+  color: var(--color-muted);
+}
+
+.s-facts dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.s-report {
+  margin: 0;
+}
+
+.s-report-empty {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  padding: 16px;
+  border: 1px dashed var(--t-border);
+  border-radius: 8px;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+/* Autoévaluation : une colonne par catégorie */
+.s-ae-legend {
+  margin-bottom: 12px;
+}
+
+.s-ae-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 8px 28px;
+}
+
+/* Vocabulaire et liens : tuiles chiffrées */
+.s-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.s-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid var(--t-border);
+  border-radius: 8px;
+}
+
+@media (max-width: 1000px) {
+  .s-pcards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .s-lab, .s-sub { grid-template-columns: minmax(0, 1fr); }
+}
