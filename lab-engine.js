@@ -543,8 +543,11 @@
 
     /* Résultat du labo pour le tableau de bord enseignant (famille
        labResult), à part de la reprise : « Start again » efface labProgress
-       mais pas ceci. { maxStep, checks, best, last } ; best et last =
-       { score, total, criteria, minutes, at } au moment d'un Check. */
+       mais pas ceci. { maxStep, checks, best, last, report, reportAt } ;
+       best et last = { score, total, criteria, minutes, at } au moment d'un
+       Check ; report = le rapport corrigé du dernier Check (HTML de
+       reportHTML(true), tel que l'élève le voit), lu par la fiche élève. */
+    const REPORT_MAX = 150000; // garde-fou : un document Firestore fait 1 Mio au plus
     function saveResult(step, check) {
       if (!window.SiteStorage) return;
       let r = null;
@@ -556,6 +559,10 @@
         r.last = check;
         const ratio = function (c) { return c && c.total ? c.score / c.total : -1; };
         if (ratio(check) > ratio(r.best)) r.best = check;
+        try {
+          const report = reportHTML(true);
+          if (report.length <= REPORT_MAX) { r.report = report; r.reportAt = check.at; }
+        } catch (e) { /* le rapport est un plus : le résultat s'enregistre sans lui */ }
       }
       SiteStorage.data.set('labResult', [def.id], JSON.stringify(r));
     }

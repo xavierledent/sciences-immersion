@@ -246,6 +246,7 @@ function allTable(rows, chapters, sort, ctx) {
       : Number(s.stats.vocabulary_cards_seen) || 0;
   };
   const sorted = sortRows(rows, sort, valueOf);
+  if (ctx.setOrder) ctx.setOrder(sorted.map(r => r.email));
   const head = `<tr>${th('Élève', 'name', sort, 'd-col-name')}${th('Dernière activité', 'last', sort)}
     ${chapters.map(c => th(esc(c.short), c.id, sort, 'd-col-chapter')).join('')}
     ${th('Répartition de l’activité', 'activity', sort, 'd-col-activity')}
@@ -303,7 +304,7 @@ function chapterTable(rows, chapter, sort, ctx) {
   const valueOf = (r, key) => {
     const s = r.summaries[chapter.id];
     if (key === 'games') return s.gamesDone;
-    if (key === 'labs') return s.labs.reduce((n, l) => n + labRank(l.result), 0);
+    if (key.startsWith('lab:')) { const l = s.labs.find(x => 'lab:' + x.id === key); return l ? labRank(l.result) : 0; }
     if (key === 'autoeval') return s.ratedCount ? (s.ratings[1] + 2 * s.ratings[2] + 3 * s.ratings[3]) / s.ratedCount : 0;
     if (key === 'vocab') return Number(s.stats.vocabulary_cards_seen) || 0;
     if (key === 'chapterResources') return Number(s.stats.resource_link_opened) || 0;
@@ -312,10 +313,11 @@ function chapterTable(rows, chapter, sort, ctx) {
     return s.levels[key] ? s.levels[key].filter(e => e.state).length : 0;
   };
   const sorted = sortRows(rows, sort, valueOf);
+  if (ctx.setOrder) ctx.setOrder(sorted.map(r => r.email));
   const head = `<tr>${th('Élève', 'name', sort, 'd-col-name')}${th('Dernière activité', 'last', sort)}
     ${levels.map(l => th(LEVEL_LABEL[l], l, sort, 'd-col-level')).join('')}
     ${chapter.games.length ? th('Jeux', 'games', sort, 'd-col-games') : ''}
-    ${chapter.labs.length ? th('Labos', 'labs', sort, 'd-col-labs') : ''}
+    ${chapter.labs.map(l => th(esc(l.title), 'lab:' + l.id, sort, 'd-col-lab')).join('')}
     ${hasAutoeval ? th('Autoévaluation', 'autoeval', sort, 'd-col-autoeval') : ''}
     ${th('Vocabulaire', 'vocab', sort, 'd-num')}
     ${th('Ressources', 'chapterResources', sort, 'd-num')}${th('Explorations', 'chapterExplorations', sort, 'd-num')}</tr>`;
@@ -324,7 +326,7 @@ function chapterTable(rows, chapter, sort, ctx) {
     return `<tr>${nameCell(r, ctx)}${lastCell(r.last)}
       ${levels.map(l => levelCell(chapter, l, s)).join('')}
       ${chapter.games.length ? gamesCell(s) : ''}
-      ${chapter.labs.length ? labsCell(s) : ''}
+      ${s.labs.map(labCell).join('')}
       ${hasAutoeval ? autoevalCell(chapter, s) : ''}
       ${vocabCell(s.stats)}
       ${linksCell(r, [chapter], 'resource_link_opened', 'Ressources')}
@@ -360,23 +362,24 @@ function labRank(r) {
   return r.maxStep || 0;
 }
 
-function labsCell(s) {
-  const lines = s.labs.map(l => {
-    const r = l.result;
-    let text = '—';
-    let tip = 'pas encore ouvert';
-    if (r && r.best && r.best.total) {
-      text = `Check ${r.best.score}/${r.best.total}`;
-      tip = `meilleur score ${r.best.score}/${r.best.total} · ${r.checks} Check(s)` +
-        (r.last && r.last !== r.best ? `<br>dernier : ${r.last.score}/${r.last.total}` : '') +
-        (r.best.minutes ? `<br>temps actif : ${Math.round(r.best.minutes)} min` : '');
-    } else if (r) {
-      text = `Étape ${r.maxStep || 1}/4`;
-      tip = `commencé, étape ${r.maxStep || 1} sur 4 atteinte`;
-    }
-    return `<div class="d-lab" data-tip="${esc(`<strong>${esc(l.title)}</strong><br>${tip}`)}"><span class="d-lab-name">${esc(l.title)}</span><span class="d-lab-state${r ? '' : ' d-zero'}">${text}</span></div>`;
-  }).join('');
-  return `<td class="d-col-labs">${lines}</td>`;
+// État d'un labo pour un élève : texte court + détail (HTML échappé).
+export function labStatus(r) {
+  if (r && r.best && r.best.total) {
+    return {
+      started: true,
+      text: `Check ${r.best.score}/${r.best.total}`,
+      tip: `meilleur score ${r.best.score}/${r.best.total} · ${r.checks} Check(s)` +
+        (r.last && (r.last.score !== r.best.score || r.last.at !== r.best.at) ? `<br>dernier : ${r.last.score}/${r.last.total}` : '') +
+        (r.best.minutes ? `<br>temps actif : ${Math.round(r.best.minutes)} min` : '')
+    };
+  }
+  if (r) return { started: true, text: `Étape ${r.maxStep || 1}/4`, tip: `commencé, étape ${r.maxStep || 1} sur 4 atteinte` };
+  return { started: false, text: '—', tip: 'pas encore ouvert' };
+}
+
+function labCell(l) {
+  const st = labStatus(l.result);
+  return `<td class="d-col-lab${st.started ? '' : ' d-zero'}" data-tip="${esc(`<strong>${esc(l.title)}</strong><br>${st.tip}`)}">${st.text}</td>`;
 }
 
 function autoevalCell(chapter, s) {

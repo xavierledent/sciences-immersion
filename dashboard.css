@@ -634,3 +634,385 @@
 .t-steps li {
   margin-bottom: 2px;
 }
+
+/* Une colonne par labo (mode un chapitre) */
+.d-col-lab {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.d-col-lab.d-zero {
+  font-weight: 400;
+}
+
+/* ===== Fiche élève (dashboard-student.js) ===== */
+
+.s-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.s-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.s-meta {
+  margin: 4px 0 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.s-notice {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--color-slate);
+  background: rgba(var(--color-slate-rgb), 0.07);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.88rem;
+}
+
+.s-kpi-text {
+  font-size: 1.35rem;
+  line-height: 1.5;
+}
+
+.s-kpi-of {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.s-h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.s-h4 {
+  margin: 14px 0 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.s-h4:first-child {
+  margin-top: 0;
+}
+
+/* Répartition de l'activité */
+.s-activity-head,
+.s-card-head,
+.s-level-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.s-activity-bar .d-bar {
+  height: 14px;
+}
+
+.s-activity-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 6px 24px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.s-activity-list li {
+  display: flex;
+  align-items: center;
+}
+
+.s-activity-n {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.s-activity-pct {
+  width: 3.5em;
+  text-align: right;
+  color: var(--color-muted);
+}
+
+.s-activity-list li.d-zero .s-activity-n,
+.s-activity-list li.d-zero .s-activity-pct {
+  color: inherit;
+  font-weight: 400;
+}
+
+.s-tabs {
+  margin: 4px 0 0;
+  padding: 0;
+}
+
+.s-chapter {
+  padding-top: 16px;
+}
+
+.s-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.s-card {
+  margin-bottom: 20px;
+}
+
+/* Exercices */
+.s-ex-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 14px;
+}
+
+.s-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.s-level {
+  padding-top: 14px;
+  margin-top: 14px;
+  border-top: 1px solid var(--t-border);
+}
+
+.s-level-head h4 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.s-level .d-cells {
+  margin-bottom: 10px;
+}
+
+.s-none {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.s-ex-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.s-ex + .s-ex {
+  border-top: 1px solid rgba(var(--color-slate-rgb), 0.1);
+}
+
+.s-ex-row {
+  display: grid;
+  grid-template-columns: 4.2em 6.5em minmax(0, 1fr) 1em;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 6px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.s-ex-row:hover,
+.s-ex-row:focus-visible {
+  background: #f4f7fb;
+}
+
+.s-ex-num {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.s-ex-light {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.s-ex-preview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.s-ex-title {
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.s-ex-subs {
+  margin-left: 6px;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.s-ex-chevron {
+  color: var(--color-muted);
+  transition: transform var(--transition);
+}
+
+.s-ex-row[aria-expanded="true"] .s-ex-chevron {
+  transform: rotate(90deg);
+}
+
+.s-ex-detail {
+  margin: 2px 6px 10px calc(4.2em + 16px);
+  padding: 10px 14px;
+  border-left: 2px solid var(--t-border);
+}
+
+.s-sub + .s-sub {
+  margin-top: 12px;
+}
+
+.s-sub-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+}
+
+.s-question {
+  margin: 2px 0 6px;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.s-answer {
+  margin: 0 0 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f4f7fb;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.s-answer.is-missing {
+  background: none;
+  padding: 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.s-sub-light {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+/* Colonne de droite : jeux, labos, autoévaluation, vocabulaire */
+.s-table td {
+  padding: 6px 4px;
+  vertical-align: top;
+}
+
+.s-table tr:last-child td {
+  border-bottom: none;
+}
+
+.s-right {
+  text-align: right !important;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.s-game-title {
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.s-lab + .s-lab {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--t-border);
+}
+
+.s-lab-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.88rem;
+}
+
+.s-lab-state {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.s-report-btn {
+  margin-top: 8px;
+}
+
+.s-report {
+  margin-top: 10px;
+}
+
+.s-report-frame {
+  display: block;
+  width: 100%;
+  min-height: 200px;
+  border: 1px solid var(--t-border);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.s-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.84rem;
+}
+
+.s-items li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.s-bulbs {
+  display: inline-flex;
+  gap: 3px;
+  flex: none;
+}
+
+.s-bulb {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+@media (max-width: 1000px) {
+  .s-grid { grid-template-columns: minmax(0, 1fr); }
+}

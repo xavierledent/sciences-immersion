@@ -19,6 +19,7 @@ import { esc, initTooltip } from './dashboard-ui.js';
 import { loadContent, loadWork, historyInfo } from './dashboard-data.js';
 import { renderClassView } from './dashboard-class.js';
 import { renderHistorySection } from './dashboard-history.js';
+import { renderStudentView } from './dashboard-student.js';
 
 const SCHOOL_EMAIL = /^[a-z0-9._-]+@cnddinant\.be$/;
 const CLASS_ID = /^[0-9A-Za-z-]{1,12}$/;
@@ -32,6 +33,8 @@ const state = {
   students: {},    // adresse → { prenom, nom, classe }
   importPreview: null,
   view: 'class',   // onglet affiché
+  student: null,   // fiche élève ouverte (adresse), dans l'onglet Suivi
+  order: [],       // adresses dans l'ordre du tableau (Précédent / Suivant)
   work: null,      // travail des élèves (loadWork), chargé au premier affichage du suivi
   loadedAt: null
 };
@@ -136,6 +139,7 @@ async function start() {
 
 function showView(view) {
   state.view = view;
+  state.student = null;
   $('#t-tabs').querySelectorAll('[data-view]').forEach(tab => {
     const active = tab.dataset.view === view;
     tab.classList.toggle('is-active', active);
@@ -143,6 +147,64 @@ function showView(view) {
   });
   if (view === 'manage') renderManage();
   else renderClass();
+}
+
+/* ===== Fiche élève =====
+   Pleine page dans l'onglet « Suivi de la classe ». Le bouton Précédent du
+   navigateur ramène au tableau (history.pushState), comme le bouton
+   « ← Classe ». */
+
+function openStudent(email, replace) {
+  state.student = email;
+  const entry = { student: email };
+  if (replace) history.replaceState(entry, '');
+  else history.pushState(entry, '');
+  renderStudent();
+}
+
+function closeStudent() {
+  if (history.state && history.state.student) history.back();
+  else { state.student = null; renderClass(); }
+}
+
+window.addEventListener('popstate', e => {
+  if (state.view !== 'class') return;
+  state.student = (e.state && e.state.student) || null;
+  if (state.student) renderStudent(); else renderClass();
+});
+
+function trackOf(email) {
+  const s = state.students[email];
+  if (s && state.classes[s.classe]) return state.classes[s.classe].track;
+  const ids = Object.keys(((state.work || {})[email] || {}).chapters || {});
+  return ids.filter(id => id.startsWith('nl_')).length > ids.length / 2 ? 'nl' : 'en';
+}
+
+async function renderStudent() {
+  const email = state.student;
+  const person = state.students[email] || {};
+  const cls = state.classes[person.classe];
+  try {
+    await renderStudentView($('#t-view'), {
+      email,
+      person,
+      className: cls ? `${person.classe} · ${teacherName(cls.teacher)}` : 'Non classé·e',
+      classLabel: cls ? `Classe ${person.classe}` : 'Non classés',
+      track: trackOf(email),
+      connected: !!(state.work[email] && state.work[email].uid),
+      work: state.work,
+      content: loadContent,
+      teacherName,
+      prefs,
+      savePrefs,
+      order: state.order || [],
+      onBack: closeStudent,
+      onOpen: other => openStudent(other, true)
+    });
+  } catch (e) {
+    console.error(e);
+    setStatus('La fiche n\'a pas pu être affichée.', true);
+  }
 }
 
 /* ===== Onglet « Suivi de la classe » ===== */
@@ -172,7 +234,9 @@ async function renderClass() {
       savePrefs,
       reloadWork: async () => {
         try { await reloadWork(); } catch (e) { console.error(e); }
-      }
+      },
+      setOrder: emails => { state.order = emails; },
+      openStudent
     });
     setStatus('');
   } catch (e) {

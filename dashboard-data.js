@@ -63,7 +63,9 @@ async function buildContent(track) {
       levels[level] = ((practice && practice[level]) || []).map(ex => ({
         id: ex.id,
         title: ex.title || '',
-        subs: Array.isArray(ex.questions) ? ex.questions.length : 1
+        subs: Array.isArray(ex.questions) ? ex.questions.length : 1,
+        // Énoncés (langue d'immersion), un par sous-question.
+        questions: Array.isArray(ex.questions) ? ex.questions.map(q => q.en || '') : [ex.en || '']
       }));
     });
     const games = [];
@@ -72,16 +74,18 @@ async function buildContent(track) {
         games.push({ id: g.id || g.quizTitle, type, typeLabel: GAME_TYPES[type], title: g.quizTitle || g.id });
       });
     });
-    const labs = ((ch.labs && ch.labs[track]) || []).map(l => ({ id: l.id, title: l.title }));
+    const labs = ((ch.labs && ch.labs[track]) || []).map(l => ({ id: l.id, title: l.title, file: l.file }));
     const autoevalItems = [];
     ((autoeval && autoeval.categories) || []).forEach(cat => {
-      (cat.items || []).forEach(item => autoevalItems.push({ id: item.id, category: cat.id, text: item.text }));
+      (cat.items || []).forEach(item => autoevalItems.push({ id: item.id, category: cat.id, categoryTitle: cat.title || cat.id, text: item.text }));
     });
     const exerciseCount = LEVELS.reduce((n, l) => n + levels[l].length, 0);
     return {
       id: `${TRACK_PREFIX[track]}_${ch.folder}`,
       folder: ch.folder,
       short: ch.titleSuffix,
+      subjectClass: ch.subjectClass,
+      base,
       title: (ch.h1 && ch.h1[track]) || ch.titleSuffix,
       levels, exerciseCount, games, labs, autoevalItems,
       vocabCount: Array.isArray(vocabulary) ? vocabulary.length : 0
@@ -235,24 +239,30 @@ export function summarizeChapter(chapter, doc, hist) {
     levels[level] = chapter.levels[level].map(ex => {
       let worst = null;
       let answered = false;
+      // Une entrée par sous-question : { text, length, light } ; text = null
+      // quand seule la longueur est connue (historique du Sheet).
+      const subs = [];
       for (let i = 0; i < ex.subs; i++) {
         const key = `${level}::${ex.id}::${i}`;
         let light = null;
+        let text = null;
+        let length = 0;
         if (fromSheet) {
-          if (!(hist.answers[key] > 0)) continue;
-          answered = true;
-          light = Number((hist.lights || {})[key]) || null;
+          length = Number(hist.answers[key]) || 0;
+          if (length > 0) light = Number((hist.lights || {})[key]) || null;
         } else {
           const answer = answers[key];
-          if (typeof answer === 'string' && answer.trim()) answered = true;
+          if (typeof answer === 'string' && answer.trim()) { text = answer; length = answer.trim().length; }
           const record = parseJson(lights[key]);
           if (record && typeof record.level === 'number' && record.answer === answer) light = record.level;
         }
+        if (length > 0) answered = true;
         if (light && (worst === null || light < worst)) worst = light;
+        subs.push({ text, length, light });
       }
       const state = worst || (answered ? 'answered' : null);
       counts[state || 'none']++;
-      return { id: ex.id, title: ex.title, state };
+      return { id: ex.id, title: ex.title, state, subs, questions: ex.questions };
     });
   });
 
@@ -269,9 +279,10 @@ export function summarizeChapter(chapter, doc, hist) {
 
   const ratingSource = hasAny(doc.autoevalRating) ? doc.autoevalRating : (hist.ratings || {});
   const ratings = { 1: 0, 2: 0, 3: 0 };
+  const itemRatings = {};
   chapter.autoevalItems.forEach(item => {
     const v = parseInt(ratingSource[item.id], 10);
-    if (ratings[v] !== undefined) ratings[v]++;
+    if (ratings[v] !== undefined) { ratings[v]++; itemRatings[item.id] = v; }
   });
 
   return {
@@ -285,6 +296,7 @@ export function summarizeChapter(chapter, doc, hist) {
     labsChecked: labs.filter(l => l.result && l.result.checks > 0).length,
     ratings,
     ratedCount: ratings[1] + ratings[2] + ratings[3],
+    itemRatings,
     stats: mergeStats(doc.stats, hist.stats),
     lastActivity: later(toDate(doc.updatedAt), toDate(hist.lastActivity))
   };
