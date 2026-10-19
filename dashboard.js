@@ -11,8 +11,10 @@
    Les écritures portent updatedAt / updatedBy. Le travail des élèves
    (users/…) est seulement lu (dashboard-data.js), jamais modifié.
 
-   Onglets : « Suivi de la classe » (dashboard-class.js) et « Classes et
-   élèves » (ce fichier). Briques d'affichage : dashboard-ui.js. */
+   Onglets : « Suivi de la classe » (dashboard-class.js), « Classes et
+   élèves » (ce fichier), « Bilan des activités » (dashboard-activities.js)
+   et « Devoirs » (dashboard-homework.js, envoi : dashboard-mail.js).
+   Briques d'affichage : dashboard-ui.js. */
 
 import * as fb from './firebase-init.js';
 import { esc, initTooltip, daysSince } from './dashboard-ui.js';
@@ -20,6 +22,7 @@ import { loadContent, loadWork, studentTotals } from './dashboard-data.js';
 import { renderClassView } from './dashboard-class.js';
 import { renderStudentView } from './dashboard-student.js';
 import { renderActivitiesView } from './dashboard-activities.js';
+import { renderHomeworkView } from './dashboard-homework.js';
 
 const SCHOOL_EMAIL = /^[a-z0-9._-]+@cnddinant\.be$/;
 const CLASS_ID = /^[0-9A-Za-z-]{1,12}$/;
@@ -147,6 +150,7 @@ function showView(view) {
   });
   if (view === 'manage') renderManage();
   else if (view === 'activities') renderActivities();
+  else if (view === 'homework') renderHomeworkView($('#t-view'), { me: state.me, myName: teacherName(state.me) });
   else renderClass();
 }
 
