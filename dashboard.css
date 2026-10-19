@@ -245,3 +245,378 @@
   gap: 8px;
   margin-top: 16px;
 }
+
+/* ===== Suivi de la classe (dashboard-class.js) ===== */
+
+.d-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 16px;
+}
+
+.d-title {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+.d-subtitle {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  margin-left: 6px;
+}
+
+.d-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.d-filters label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+/* Synthèse : quatre chiffres */
+.d-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.d-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  text-align: left;
+  background: var(--color-surface);
+  border: 1px solid var(--t-border);
+  border-radius: var(--t-radius);
+  padding: 12px 16px;
+  font: inherit;
+  color: inherit;
+}
+
+.d-kpi-button {
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.d-kpi-button:hover,
+.d-kpi-button:focus-visible {
+  border-color: rgba(var(--color-slate-rgb), 0.55);
+}
+
+.d-kpi-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.d-kpi-value {
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.d-kpi-note {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.d-kpi.is-alert .d-kpi-label {
+  color: var(--t-red);
+}
+
+/* Légendes */
+.d-legends {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin: 0 0 10px;
+}
+
+.d-legends > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.d-legend-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.d-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--color-text);
+}
+
+.d-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.d-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex: none;
+  vertical-align: -1px;
+  margin-right: 6px;
+}
+
+.d-legend .d-swatch {
+  margin-right: 0;
+}
+
+/* Tableau : en-tête et colonne Élève restent visibles au défilement */
+.d-table-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--t-border);
+  border-radius: var(--t-radius);
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+}
+
+.d-table {
+  font-variant-numeric: tabular-nums;
+}
+
+.d-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f6f9fc;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.d-table tbody tr:hover td {
+  background: #f7fafd;
+}
+
+.d-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.d-table .d-col-name {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--color-surface);
+  min-width: 190px;
+  box-shadow: inset -1px 0 0 var(--t-border);
+}
+
+.d-table thead .d-col-name {
+  z-index: 3;
+  background: #f6f9fc;
+}
+
+.d-table tbody tr:hover .d-col-name {
+  background: #f7fafd;
+}
+
+.d-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.d-num .d-sort {
+  justify-content: flex-end;
+}
+
+.d-sort:hover,
+.d-sort.is-active {
+  color: var(--color-text);
+}
+
+.d-sort-mark {
+  font-size: 0.6rem;
+  min-width: 0.7em;
+}
+
+.d-student,
+.d-student-name {
+  display: block;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.d-student {
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.d-student:hover,
+.d-student:focus-visible {
+  text-decoration: underline;
+}
+
+.d-cell-note {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.d-col-last {
+  white-space: nowrap;
+}
+
+.d-col-last.is-alert {
+  color: var(--t-red);
+  font-weight: 600;
+}
+
+.d-warn-icon {
+  flex: none;
+  vertical-align: -2px;
+  margin-right: 5px;
+  color: var(--t-red);
+}
+
+.d-num {
+  text-align: right !important;
+  white-space: nowrap;
+}
+
+.d-zero {
+  color: #a7b3c2;
+  font-weight: 400;
+}
+
+.d-col-chapter { min-width: 170px; }
+.d-col-activity { min-width: 170px; }
+.d-col-level { min-width: 150px; }
+.d-col-games { min-width: 110px; }
+.d-col-labs { min-width: 210px; }
+.d-col-autoeval { min-width: 140px; }
+
+/* Barre empilée : segments séparés par 2 px de fond */
+.d-bar {
+  display: flex;
+  gap: 2px;
+  height: 10px;
+  border-radius: 4px;
+  overflow: hidden;
+  outline-offset: 3px;
+}
+
+.d-bar > span {
+  min-width: 2px;
+}
+
+/* Une case par élément */
+.d-cells {
+  display: flex;
+  gap: 2px;
+  height: 14px;
+}
+
+.d-cells > span {
+  flex: 1 1 0;
+  min-width: 4px;
+  max-width: 14px;
+  border-radius: 2px;
+}
+
+.d-lab {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.d-lab-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-muted);
+}
+
+.d-lab-state {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.d-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--color-muted);
+  background: var(--color-surface);
+  border: 1px dashed var(--t-border);
+  border-radius: var(--t-radius);
+}
+
+/* Bulle d'aide (une seule pour la page) */
+.d-tip {
+  position: absolute;
+  z-index: 50;
+  max-width: 300px;
+  padding: 8px 11px;
+  border-radius: 8px;
+  background: #13243d;
+  color: #fff;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  box-shadow: 0 8px 24px rgba(17, 36, 72, 0.2);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.d-tip.is-visible {
+  opacity: 1;
+}
+
+.d-tip-muted {
+  color: #b9c6d6;
+}
+
+@media (max-width: 900px) {
+  .d-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

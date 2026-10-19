@@ -9,9 +9,15 @@
      classes/{id}        { teacher, track }         gérées ici (onglet Classes et élèves)
      students/{adresse}  { prenom, nom, classe }    gérés ici (import collé)
    Les écritures portent updatedAt / updatedBy. Le travail des élèves
-   (users/…) n'est jamais modifié ici. */
+   (users/…) est seulement lu (dashboard-data.js), jamais modifié.
+
+   Onglets : « Suivi de la classe » (dashboard-class.js) et « Classes et
+   élèves » (ce fichier). Briques d'affichage : dashboard-ui.js. */
 
 import * as fb from './firebase-init.js';
+import { esc, initTooltip } from './dashboard-ui.js';
+import { loadContent, loadWork } from './dashboard-data.js';
+import { renderClassView } from './dashboard-class.js';
 
 const SCHOOL_EMAIL = /^[a-z0-9._-]+@cnddinant\.be$/;
 const CLASS_ID = /^[0-9A-Za-z-]{1,12}$/;
@@ -23,15 +29,19 @@ const state = {
   teachers: {},    // adresse → { nom }
   classes: {},     // id → { teacher, track }
   students: {},    // adresse → { prenom, nom, classe }
-  importPreview: null
+  importPreview: null,
+  view: 'class',   // onglet affiché
+  work: null,      // travail des élèves (loadWork), chargé au premier affichage du suivi
+  loadedAt: null
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
 
-function esc(text) {
-  return String(text == null ? '' : text)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+// Choix d'affichage retenus sur cet appareil (classe, chapitre, tri).
+const PREFS_KEY = 'dashboardPrefs';
+let prefs = {};
+try { prefs = JSON.parse(SiteStorage.device.get(PREFS_KEY) || '{}') || {}; } catch (e) { prefs = {}; }
+function savePrefs() { SiteStorage.device.set(PREFS_KEY, JSON.stringify(prefs)); }
 
 function setStatus(text, isError) {
   const el = $('#t-status');
@@ -116,8 +126,58 @@ async function start() {
   }
   $('#t-who').textContent = teacherName(state.me);
   $('#t-tabs').hidden = false;
+  $('#t-tabs').querySelectorAll('[data-view]').forEach(tab =>
+    tab.addEventListener('click', () => showView(tab.dataset.view)));
+  initTooltip();
   setStatus('');
-  renderManage();
+  showView(state.view);
+}
+
+function showView(view) {
+  state.view = view;
+  $('#t-tabs').querySelectorAll('[data-view]').forEach(tab => {
+    const active = tab.dataset.view === view;
+    tab.classList.toggle('is-active', active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  if (view === 'manage') renderManage();
+  else renderClass();
+}
+
+/* ===== Onglet « Suivi de la classe » ===== */
+
+async function reloadWork() {
+  state.work = await loadWork();
+  state.loadedAt = new Date();
+}
+
+async function renderClass() {
+  const root = $('#t-view');
+  try {
+    if (!state.work) {
+      setStatus('Chargement du travail des élèves…');
+      await reloadWork();
+    }
+    await renderClassView(root, {
+      me: state.me,
+      teachers: state.teachers,
+      classes: state.classes,
+      students: state.students,
+      work: state.work,
+      loadedAt: state.loadedAt,
+      content: loadContent,
+      teacherName,
+      prefs,
+      savePrefs,
+      reloadWork: async () => {
+        try { await reloadWork(); } catch (e) { console.error(e); }
+      }
+    });
+    setStatus('');
+  } catch (e) {
+    console.error(e);
+    setStatus('Le suivi n\'a pas pu être chargé (connexion internet ?). Rechargez la page.', true);
+  }
 }
 
 // Après une écriture : on relit tout, l'écran montre ce que Firestore a vraiment.

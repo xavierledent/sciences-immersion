@@ -9,7 +9,7 @@ tactile.
 
 ```
 index.html, credits.html, 404.html   pages écrites à la main
-dashboard.html / .js / .css          tableau de bord des enseignantes (Firestore)
+dashboard.html, dashboard*.js / .css  tableau de bord des enseignantes (Firestore)
 *-engine.js / *.css                  moteurs partagés par tous les chapitres
 en/year1/<chapitre>/                 filière anglaise
 nl/jaar1/<chapitre>/                 filière néerlandaise
@@ -70,7 +70,7 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Ajouter un labo à un chapitre | sa ligne dans `labs` de [tools/chapters.json](tools/chapters.json), ses fichiers `lab-<nom>.{js,css}`, puis régénérer |
 | Barre de navigation entre sections | [chapter-nav.js](chapter-nav.js) |
 | Données enregistrées des élèves | [storage.js](storage.js), seul fichier qui touche à `localStorage` ; compteurs d'activité : `SiteStorage.activity` |
-| Tableau de bord enseignant (classes, élèves, suivi) | [dashboard.js](dashboard.js), [dashboard.css](dashboard.css) ; accès : collection `teachers` et [firestore.rules](firestore.rules) |
+| Tableau de bord enseignant (classes, élèves, suivi) | [dashboard.js](dashboard.js) (page, onglet Classes et élèves), [dashboard-class.js](dashboard-class.js) (suivi), [dashboard-data.js](dashboard-data.js) (lecture et calculs), [dashboard-ui.js](dashboard-ui.js) (couleurs, barres), [dashboard.css](dashboard.css) ; accès : collection `teachers` et [firestore.rules](firestore.rules) |
 | Écran d'accès, connexion Firebase | [access-control.js](access-control.js), [firebase-init.js](firebase-init.js) (config et version du SDK) |
 | Mise en forme du texte, modales, contraste élevé, bandeau hors ligne | [rich-text.js](rich-text.js) |
 | Mode hors ligne, cache | [sw.js](sw.js) |

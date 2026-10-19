@@ -20,7 +20,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, getAdditionalUse
   from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
 import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
   doc, getDoc, setDoc, deleteField, serverTimestamp, increment,
-  collection, getDocs, writeBatch }
+  collection, collectionGroup, getDocs, writeBatch }
   from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
 export const FIREBASE_SDK = '12.4.0';
@@ -50,4 +50,4 @@ export const db = initializeFirestore(app, {
 export { GoogleAuthProvider, signInWithPopup, signOut, getAdditionalUserInfo };
 export { doc, getDoc, setDoc, deleteField, serverTimestamp, increment };
 // Tableau de bord enseignant (dashboard.js).
-export { collection, getDocs, writeBatch };
+export { collection, collectionGroup, getDocs, writeBatch };
