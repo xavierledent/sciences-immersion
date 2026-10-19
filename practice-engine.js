@@ -1729,6 +1729,8 @@
       // pages that actually opted into the answer box.
       modalOverlay.classList.add('has-answer-box');
       answerInput.setAttribute('placeholder', L.answerPlaceholder);
+      // Même limite que storage.js (ANSWER_MAX).
+      answerInput.setAttribute('maxlength', '5000');
       if (answerCheckBtn) answerCheckBtn.innerHTML = '<span>' + L.checkMyAnswer + '</span>' + arrowIcon('right');
       if (answerMineLabel) answerMineLabel.textContent = L.yourAnswer;
 
@@ -4443,7 +4445,9 @@
     }
 
     async function initPractice() {
-      await loadPracticeData();
+      // SiteStorage.ready : le travail de l'élève est chargé (Firestore),
+      // avant la première lecture (applyLevelResumeUI, réponses).
+      await Promise.all([loadPracticeData(), SiteStorage.ready]);
       bindEvents();
       initAnswerBox();
       applyLevelResumeUI();

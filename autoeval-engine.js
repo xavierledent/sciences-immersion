@@ -356,8 +356,10 @@
 
     if (window.logEvent) window.logEvent('autoeval_page_opened', {});
 
-    fetch('./autoeval.json?v=' + Date.now())
-      .then(response => {
+    // SiteStorage.ready : les notes de l'élève sont chargées (Firestore)
+    // avant le premier affichage.
+    Promise.all([fetch('./autoeval.json?v=' + Date.now()), SiteStorage.ready])
+      .then(([response]) => {
         // A 404 means this chapter simply has no fiche yet (most chapters,
         // during the rollout) — not a technical failure, so it takes the
         // same friendly empty-state as a fiche with no categories

@@ -781,6 +781,9 @@
 
     /* ===== Ouverture / fermeture ===== */
     async function openLab() {
+      // Travail de l'élève chargé (Firestore) avant de chercher une reprise.
+      // Lancé dès le chargement de la page : déjà prêt au moment du clic.
+      if (window.SiteStorage) await SiteStorage.ready;
       overlay.classList.add('modal-open');
       document.body.classList.add('modal-is-open');
       let resumed = false;
