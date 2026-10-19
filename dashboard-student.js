@@ -5,7 +5,8 @@
    de l'activité. Puis un onglet par chapitre : exercices (liste compacte,
    un clic déplie l'énoncé et la réponse entière), jeux, labos (rapport
    corrigé du dernier Check), autoévaluation attendu par attendu,
-   vocabulaire et liens ouverts. */
+   vocabulaire et liens ouverts, devoirs reçus (dashboard-homework.js : une
+   tuile-résumé dans « Tous les chapitres », une carte par chapitre). */
 
 import {
   esc, LIGHT, BULBS, ACTIVITY_SECTIONS, stackBar, cellsBar, legend, bulbCounts,
@@ -13,7 +14,7 @@ import {
 } from './dashboard-ui.js';
 import { LEVELS, summarizeChapter, activityBySection, studentTotals } from './dashboard-data.js';
 import { labStatus } from './dashboard-class.js';
-import { studentHomeworkHtml } from './dashboard-homework.js';
+import { studentHomework, homeworkSummary, homeworkDetailHtml } from './dashboard-homework.js';
 
 const LEVEL_LABEL = { level1: 'Level 1', level2: 'Level 2', level3: 'Level 3' };
 const LIGHT_SHORT = { 3: 'Vert', 2: 'Orange', 1: 'Rouge', answered: 'Sans feu', none: 'Pas fait' };
@@ -43,7 +44,13 @@ function clip(text, n) {
    } */
 // keepScroll : changement d'onglet ou de carte, on reste où l'on est.
 export async function renderStudentView(root, ctx, keepScroll) {
-  const chapters = await ctx.content(ctx.track);
+  // Devoirs reçus : un échec de lecture n'empêche pas la fiche (pas de carte Devoirs).
+  const [chapters, hw] = await Promise.all([
+    ctx.content(ctx.track),
+    studentHomework(ctx.email, { students: ctx.students, work: ctx.work, content: ctx.content })
+      .catch(e => { console.error('Devoirs illisibles', e); return null; })
+  ]);
+  ctx.hw = hw;
   const work = ctx.work[ctx.email] || { uid: null, chapters: {}, history: {} };
   const summaries = {};
   chapters.forEach(ch => {
@@ -79,6 +86,13 @@ export async function renderStudentView(root, ctx, keepScroll) {
     : `<span class="d-kpi-value d-zero">—</span><span class="d-kpi-note">${none}</span>`;
   const where = chapter ? ` · ${esc(chapter.short)}` : '';
   const hasWork = !!totals.last || chapters.some(c => summaries[c.id].answeredCount);
+  // « Tous les chapitres » : une 5e tuile, résumé des devoirs (détail dans chaque chapitre).
+  const hwAll = !chapter && hw ? homeworkSummary(hw, null) : null;
+  const hwTile = hwAll ? `<div class="d-kpi s-hw-kpi" data-tip="${esc(hwAll.tip)}" tabindex="0">
+      <span class="d-kpi-label">Devoirs</span>
+      <span class="d-kpi-value">${hwAll.rate === null ? '—' : `${hwAll.rate} %`}<span class="s-kpi-of"> à temps</span></span>
+      ${miniBar(hwAll.parts, hwAll.total)}
+      <span class="d-kpi-note">${hwAll.received} reçu${hwAll.received > 1 ? 's' : ''} · détail dans chaque chapitre</span></div>` : '';
 
   root.innerHTML = `
     <div class="s-top">
@@ -106,7 +120,7 @@ export async function renderStudentView(root, ctx, keepScroll) {
         aria-selected="${c.id === chapterId}" data-chapter="${esc(c.id)}">${esc(c.short)}</button>`).join('')}</nav>
 
     <div class="s-scope">
-      <div class="d-kpis">
+      <div class="d-kpis${hwTile ? ' s-kpis-5' : ''}">
         <div class="d-kpi${watched ? ' is-alert' : ''}" data-tip="${esc(fullDate(last))}">
           <span class="d-kpi-label">${watched ? WARN_ICON : ''}Dernière activité${where}</span>
           <span class="d-kpi-value s-kpi-text">${relativeDay(last)}</span></div>
@@ -115,10 +129,10 @@ export async function renderStudentView(root, ctx, keepScroll) {
           ${totalEx ? `<span class="d-kpi-note">${percent(answered, totalEx)} % des exercices</span>` : ''}</div>
         <div class="d-kpi"><span class="d-kpi-label">Jeux terminés</span>${outOf(gamesDone, totalGames, 'pas de jeux')}</div>
         <div class="d-kpi"><span class="d-kpi-label">Labos menés au Check</span>${outOf(labsDone, totalLabs, 'pas de labo')}</div>
+        ${hwTile}
       </div>
       <section class="t-section s-activity">${activityHtml(sections)}</section>
       ${chapter ? chapterHtml(chapter, summaries[chapter.id], ctx) : overviewHtml(chapters, summaries)}
-      ${chapter ? '' : '<section class="t-section s-homework" id="s-homework"><h2>Devoirs</h2><p class="t-help">Chargement…</p></section>'}
     </div>
 
     ${hasWork ? exportSection(chapters, chapter) : ''}`;
@@ -132,16 +146,6 @@ export async function renderStudentView(root, ctx, keepScroll) {
     renderStudentView(root, ctx, true);
   }));
   bindChapter(root, ctx);
-  // Devoirs (tous chapitres) : lus à part, la fiche s'affiche sans les attendre.
-  const homework = root.querySelector('#s-homework');
-  if (homework) {
-    studentHomeworkHtml(ctx.email, { students: ctx.students, work: ctx.work, content: ctx.content })
-      .then(html => { if (homework.isConnected) homework.innerHTML = html; })
-      .catch(e => {
-        console.error(e);
-        if (homework.isConnected) homework.innerHTML = '<h2>Devoirs</h2><p class="t-help is-error">Les devoirs n\'ont pas pu être chargés.</p>';
-      });
-  }
   const exportBtn = root.querySelector('#s-export');
   if (exportBtn) exportBtn.addEventListener('click', () =>
     exportAnswers(root.querySelector('#s-export-scope').value, chapters, summaries, ctx));
@@ -221,14 +225,16 @@ const PANELS = {
   games: 'Jeux',
   labs: 'Labos',
   autoeval: 'Autoévaluation',
-  vocab: 'Vocabulaire et liens'
+  vocab: 'Vocabulaire et liens',
+  homework: 'Devoirs'
 };
 
-function panelsOf(chapter) {
+function panelsOf(chapter, hw) {
   return Object.keys(PANELS).filter(k =>
     (k !== 'games' || chapter.games.length) &&
     (k !== 'labs' || chapter.labs.length) &&
-    (k !== 'autoeval' || chapter.autoevalItems.length));
+    (k !== 'autoeval' || chapter.autoevalItems.length) &&
+    (k !== 'homework' || (hw && homeworkSummary(hw, chapter.folder))));
 }
 
 // Barre décorative d'une carte (la carte entière est le bouton) : pas de
@@ -242,7 +248,7 @@ function miniBar(parts, total) {
 }
 
 function chapterHtml(chapter, s, ctx) {
-  const panels = panelsOf(chapter);
+  const panels = panelsOf(chapter, ctx.hw);
   let panel = ctx.prefs.studentPanel;
   if (!panels.includes(panel)) panel = panels[0];
   const n = k => Number(s.stats[k]) || 0;
@@ -259,12 +265,17 @@ function chapterHtml(chapter, s, ctx) {
     autoeval: () => ({ value: `${s.ratedCount}<span class="s-kpi-of"> / ${chapter.autoevalItems.length}</span>`, note: 'attendus évalués',
       viz: bulbCounts(s.ratings) }),
     vocab: () => ({ value: `${n('vocabulary_cards_seen')}`, note: 'cartes vues',
-      viz: `<span class="d-cell-note">${n('vocabulary_sessions')} session(s) · ${n('resource_link_opened') + n('exploration_link_opened')} lien(s) ouvert(s)</span>` })
+      viz: `<span class="d-cell-note">${n('vocabulary_sessions')} session(s) · ${n('resource_link_opened') + n('exploration_link_opened')} lien(s) ouvert(s)</span>` }),
+    homework: () => {
+      const h = homeworkSummary(ctx.hw, chapter.folder);
+      return { value: h.rate === null ? '—' : `${h.rate} %`, note: `à temps · ${h.received} devoir${h.received > 1 ? 's' : ''}`,
+        viz: miniBar(h.parts, h.total), tip: h.tip };
+    }
   };
 
   const cards = panels.map(k => {
     const c = summary[k]();
-    return `<button type="button" role="tab" class="s-pcard${k === panel ? ' is-active' : ''}" aria-selected="${k === panel}" data-panel="${k}">
+    return `<button type="button" role="tab" class="s-pcard${k === panel ? ' is-active' : ''}" aria-selected="${k === panel}" data-panel="${k}"${c.tip ? ` data-tip="${esc(c.tip)}"` : ''}>
       <span class="d-kpi-label">${PANELS[k]}</span>
       <span class="d-kpi-value">${c.value}</span>
       <span class="d-kpi-note">${c.note}</span>
@@ -276,7 +287,8 @@ function chapterHtml(chapter, s, ctx) {
     games: () => gamesHtml(s),
     labs: () => labsHtml(chapter, s),
     autoeval: () => autoevalHtml(chapter, s),
-    vocab: () => vocabHtml(s.stats)
+    vocab: () => vocabHtml(s.stats),
+    homework: () => homeworkDetailHtml(ctx.hw, chapter.folder)
   }[panel]();
 
   return `<div class="s-pcards" role="tablist" style="--s-cols:${panels.length}">${cards}</div>

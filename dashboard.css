@@ -2046,3 +2046,11 @@
 .s-hw-table .d-cell-note {
   display: block;
 }
+
+.d-kpis.s-kpis-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.s-hw-kpi .d-bar {
+  margin: 6px 0 4px;
+}
