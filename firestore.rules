@@ -33,9 +33,14 @@ service cloud.firestore {
       return email() in ['xledent@gmail.com'];
     }
 
-    // Lecture seule sur les données de tous les élèves.
+    // Lecture seule sur les données de tous les élèves. Liste des
+    // enseignants : un document par enseignant dans la collection
+    // `teachers`, nommé par son adresse en minuscules
+    // (teachers/xavier.ledent@cnddinant.be). Ajouter ou retirer quelqu'un
+    // se fait dans la console, sans toucher à ces règles.
     function isTeacher() {
-      return signedIn() && isSchool() && email() == 'xavier.ledent@cnddinant.be';
+      return signedIn() && isSchool()
+        && exists(/databases/$(database)/documents/teachers/$(email()));
     }
 
     // Le propriétaire des données : connecté, autorisé sur le site, et c'est
@@ -71,6 +76,15 @@ service cloud.firestore {
                'stats', 'updatedAt'
              ]);
       }
+    }
+
+    // ===== teachers/{email} : la liste des enseignants =====
+    // Chacun peut demander SA fiche (le site sait ainsi s'il doit montrer
+    // le lien du tableau de bord) ; les enseignants lisent toute la liste.
+    // Aucune écriture depuis le site : la liste se gère dans la console.
+    match /teachers/{teacherEmail} {
+      allow get: if signedIn() && isSchool() && teacherEmail == email();
+      allow read: if isTeacher();
     }
 
     // ===== Tableau de bord (phase 6) =====
