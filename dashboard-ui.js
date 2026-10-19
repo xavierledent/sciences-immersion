@@ -69,6 +69,17 @@ export function cellsBar(cells, label) {
     `<span style="background:${c.color}" data-tip="${esc(c.tip)}"></span>`).join('')}</div>`;
 }
 
+/* Ampoules de l'autoévaluation, en résumé : « ●●● 4 · ●●○ 1 · ●○○ 0 ».
+   Le nombre de ronds pleins dit le niveau, sans code couleur à apprendre
+   (même lecture que sur la page de l'élève). ratings : { 1: n, 2: n, 3: n }. */
+export function bulbCounts(ratings) {
+  return `<span class="d-bulbcounts">${[3, 2, 1].map(level => {
+    const n = ratings[level] || 0;
+    const dots = [1, 2, 3].map(i => `<span class="${i <= level ? 'is-on' : ''}"></span>`).join('');
+    return `<span class="d-bc${n ? '' : ' is-zero'}" data-tip="${esc(`${n} attendu${n > 1 ? 's' : ''} à ${level} ampoule${level > 1 ? 's' : ''}`)}"><span class="d-bc-dots" aria-hidden="true">${dots}</span><span class="d-bc-n">${n}</span></span>`;
+  }).join('')}</span>`;
+}
+
 export function legend(items) {
   return `<ul class="d-legend">${items.map(i =>
     `<li><span class="d-swatch" style="background:${i.color}"></span>${esc(i.label)}</li>`).join('')}</ul>`;

@@ -7,7 +7,7 @@
    plus ; une ligne n'est classée qu'à partir de MIN_STUDENTS élèves
    concernés, les autres suivent, en gris. */
 
-import { esc, LIGHT, BULBS, stackBar, legend, percent } from './dashboard-ui.js';
+import { esc, LIGHT, stackBar, legend, percent, bulbCounts } from './dashboard-ui.js';
 import { LEVELS, summarizeChapter } from './dashboard-data.js';
 
 export const ALL = '__all__';
@@ -159,7 +159,7 @@ function exercisesTable(chapters, agg, total) {
   return `${legend([3, 2, 1, 'answered'].map(k => LIGHT[k]))}
     <div class="t-scroll d-table-wrap b-table-wrap"><table class="t-table d-table b-table">
     <thead><tr><th class="b-col-what">Exercice</th><th class="d-num">Répondu par</th><th class="b-col-bar">Feux des élèves</th>
-      <th class="d-num">Rouge</th><th class="d-num">Orange</th></tr></thead>
+      <th class="d-num">Vert</th><th class="d-num">Orange</th><th class="d-num">Rouge</th></tr></thead>
     <tbody>${rows.map(r => {
       const a = r.a;
       const parts = [3, 2, 1, 'answered'].map(k => ({ value: k === 'answered' ? a.answeredOnly : a[k], color: LIGHT[k].color }));
@@ -171,8 +171,9 @@ function exercisesTable(chapters, agg, total) {
           <span class="b-name">${esc(r.e.title)}</span></td>
         ${countCell(a.answered, total, 'ont répondu')}
         <td class="b-col-bar">${a.answered ? stackBar(parts, a.answered, tip, `${a.answered} réponses`) : '<span class="d-zero">—</span>'}</td>
-        <td class="d-num">${r.lit ? percent(a[1], r.lit) + ' %' : '<span class="d-zero">—</span>'}</td>
-        <td class="d-num">${r.lit ? percent(a[2], r.lit) + ' %' : '<span class="d-zero">—</span>'}</td></tr>`;
+        <td class="d-num">${r.lit ? percent(a[3], r.lit) + ' %' : '<span class="d-zero">—</span>'}</td>
+        <td class="d-num">${r.lit ? percent(a[2], r.lit) + ' %' : '<span class="d-zero">—</span>'}</td>
+        <td class="d-num">${r.lit ? percent(a[1], r.lit) + ' %' : '<span class="d-zero">—</span>'}</td></tr>`;
     }).join('')}</tbody></table></div>`;
 }
 
@@ -188,6 +189,7 @@ function gamesTables(chapters, agg, total) {
   return types.map(type => {
     const rows = all.filter(r => r.g.type === type);
     const isQcm = type === 'multipleChoice';
+    const hasMistakes = rows.some(r => r.a.mistakes.length);
     const hasMoves = rows.some(r => r.a.moves.length);
     const hasTime = rows.some(r => r.a.time.length);
     rank(rows, r => isQcm ? 1 - (avg(r.a.ratios) ?? 1) : (avg(r.a.mistakes) ?? avg(r.a.moves) ?? 0), r => r.a.done >= MIN_STUDENTS);
@@ -195,13 +197,13 @@ function gamesTables(chapters, agg, total) {
     return `<h3 class="b-h3">${esc(rows[0].g.typeLabel)}</h3>
       <div class="t-scroll d-table-wrap b-table-wrap"><table class="t-table d-table b-table"><thead><tr>
         <th class="b-col-what">Jeu</th><th class="d-num">Terminé par</th>
-        ${isQcm ? '<th class="d-num">Score moyen</th>' : '<th class="d-num">Erreurs moyennes</th>'}
+        ${isQcm ? '<th class="d-num">Score moyen</th>' : (hasMistakes ? '<th class="d-num">Erreurs moyennes</th>' : '')}
         ${hasMoves ? '<th class="d-num">Coups moyens</th>' : ''}${hasTime ? '<th class="d-num">Temps moyen</th>' : ''}</tr></thead>
       <tbody>${rows.map(r => `<tr class="${r.a.done >= MIN_STUDENTS ? '' : 'b-minor'}">
         <td class="b-col-what">${showChapter ? `<span class="b-ref">${esc(r.ch.short)}</span>` : ''}<span class="b-name">${esc(r.g.title)}</span></td>
         ${countCell(r.a.done, total, 'l’ont terminé')}
         ${isQcm ? `<td class="d-num">${r.a.ratios.length ? percent(avg(r.a.ratios), 1) + ' %' : '<span class="d-zero">—</span>'}</td>`
-          : `<td class="d-num">${fmt(avg(r.a.mistakes), '')}</td>`}
+          : (hasMistakes ? `<td class="d-num">${fmt(avg(r.a.mistakes), '')}</td>` : '')}
         ${hasMoves ? `<td class="d-num">${fmt(avg(r.a.moves), '')}</td>` : ''}
         ${hasTime ? `<td class="d-num">${fmt(avg(r.a.time), ' s')}</td>` : ''}</tr>`).join('')}</tbody></table></div>`;
   }).join('');
@@ -219,18 +221,15 @@ function autoevalTable(chapters, agg, total) {
   rank(rows, r => r.mean === null ? -1 : 4 - r.mean, r => r.a.rated >= MIN_STUDENTS);
   const showChapter = chapters.length > 1;
   const plain = t => String(t || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  return `${legend([3, 2, 1].map(k => BULBS[k]))}
+  return `
     <div class="t-scroll d-table-wrap b-table-wrap"><table class="t-table d-table b-table"><thead><tr>
       <th class="b-col-what">Attendu</th><th class="d-num">Évalué par</th><th class="b-col-bar">Ampoules</th><th class="d-num">Moyenne</th></tr></thead>
     <tbody>${rows.map(r => {
-      const parts = [3, 2, 1].map(k => ({ value: r.a[k], color: BULBS[k].color }));
-      const tip = `<strong>${r.a.rated} élève(s)</strong>` + [3, 2, 1].filter(k => r.a[k]).map(k =>
-        `<br><span class="d-swatch" style="background:${BULBS[k].color}"></span>${r.a[k]} × ${esc(BULBS[k].label)}`).join('');
       return `<tr class="${r.a.rated >= MIN_STUDENTS ? '' : 'b-minor'}">
         <td class="b-col-what"><span class="b-ref">${showChapter ? esc(r.ch.short) + ' · ' : ''}${esc(r.item.categoryTitle)}</span>
           <span class="b-name b-wrap">${esc(plain(r.item.text))}</span></td>
         ${countCell(r.a.rated, total, 'l’ont évalué')}
-        <td class="b-col-bar">${r.a.rated ? stackBar(parts, r.a.rated, tip, `${r.a.rated} évaluations`) : '<span class="d-zero">—</span>'}</td>
+        <td class="b-col-bar">${r.a.rated ? bulbCounts(r.a) : '<span class="d-zero">—</span>'}</td>
         <td class="d-num">${r.mean === null ? '<span class="d-zero">—</span>' : r.mean.toFixed(1).replace('.', ',') + '<span class="b-of"> / 3</span>'}</td></tr>`;
     }).join('')}</tbody></table></div>`;
 }

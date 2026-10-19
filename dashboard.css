@@ -1352,3 +1352,61 @@
 .b-crit {
   font-variant-numeric: tabular-nums;
 }
+
+/* Ampoules en résumé : ronds pleins = niveau, puis le nombre d'attendus */
+.d-bulbcounts {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.d-bc {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.d-bc-dots {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.d-bc-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #dfe5ec;
+}
+
+.d-bc-dots span.is-on {
+  background: #4a6483;
+}
+
+.d-bc-n {
+  font-weight: 600;
+  min-width: 1ch;
+}
+
+.d-bc.is-zero {
+  opacity: 0.4;
+}
+
+/* Bilan : en-têtes sans bouton de tri, marges propres partout */
+.b-table thead th {
+  padding: 10px 14px;
+  white-space: nowrap;
+}
+
+.b-table td {
+  padding: 11px 14px;
+}
+
+.b-table thead th.d-num {
+  text-align: right;
+}
+
+.b-table .b-ref {
+  margin-bottom: 2px;
+}

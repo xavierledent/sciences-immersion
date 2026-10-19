@@ -11,7 +11,7 @@
    montre ce qui existe. */
 
 import {
-  esc, LIGHT, BULBS, TRACK, ACTIVITY_SECTIONS, stackBar, cellsBar, legend,
+  esc, LIGHT, TRACK, ACTIVITY_SECTIONS, stackBar, cellsBar, legend, bulbCounts,
   daysSince, relativeDay, fullDate, percent, WARN_ICON
 } from './dashboard-ui.js';
 import { LEVELS, summarizeChapter, activityBySection, studentTotals } from './dashboard-data.js';
@@ -170,7 +170,7 @@ function legendHtml(chapter) {
   const lights = legend([3, 2, 1, 'answered', 'none'].map(k => LIGHT[k]));
   if (chapter) {
     return `<div class="d-legends"><div><span class="d-legend-title">Exercices</span>${lights}</div>
-      ${chapter.autoevalItems.length ? `<div><span class="d-legend-title">Autoévaluation</span>${legend([3, 2, 1].map(k => BULBS[k]))}</div>` : ''}</div>`;
+</div>`;
   }
   return `<div class="d-legends"><div><span class="d-legend-title">Exercices</span>${lights}</div>
     <div><span class="d-legend-title">Répartition de l’activité</span>${legend(Object.keys(ACTIVITY_SECTIONS).map(k => ACTIVITY_SECTIONS[k]))}</div></div>`;
@@ -384,10 +384,7 @@ function labCell(l) {
 
 function autoevalCell(chapter, s) {
   const total = chapter.autoevalItems.length;
-  const parts = [3, 2, 1].map(k => ({ value: s.ratings[k], color: BULBS[k].color }));
-  const tip = `<strong>Autoévaluation</strong><br>${s.ratedCount}/${total} attendus évalués` +
-    [3, 2, 1].filter(k => s.ratings[k]).map(k => `<br><span class="d-swatch" style="background:${BULBS[k].color}"></span>${s.ratings[k]} × ${esc(BULBS[k].label)}`).join('');
-  return `<td class="d-col-autoeval">${stackBar(parts, total, tip, `${s.ratedCount} attendus évalués sur ${total}`)}
+  return `<td class="d-col-autoeval">${bulbCounts(s.ratings)}
     <span class="d-cell-note">${s.ratedCount}/${total} évalués</span></td>`;
 }
 

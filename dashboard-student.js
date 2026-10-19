@@ -8,7 +8,7 @@
    vocabulaire et liens ouverts. */
 
 import {
-  esc, LIGHT, BULBS, ACTIVITY_SECTIONS, stackBar, cellsBar, legend,
+  esc, LIGHT, BULBS, ACTIVITY_SECTIONS, stackBar, cellsBar, legend, bulbCounts,
   relativeDay, fullDate, daysSince, percent, WARN_ICON
 } from './dashboard-ui.js';
 import { LEVELS, summarizeChapter, activityBySection, studentTotals } from './dashboard-data.js';
@@ -204,7 +204,7 @@ function chapterHtml(chapter, s, ctx) {
     labs: () => ({ value: `${s.labsChecked}<span class="s-kpi-of"> / ${chapter.labs.length}</span>`, note: 'menés au Check',
       viz: `<div class="s-card-labs">${s.labs.map(l => `<span>${esc(labStatus(l.result).text)}</span>`).join('')}</div>` }),
     autoeval: () => ({ value: `${s.ratedCount}<span class="s-kpi-of"> / ${chapter.autoevalItems.length}</span>`, note: 'attendus évalués',
-      viz: miniBar([3, 2, 1].map(k => ({ value: s.ratings[k], color: BULBS[k].color })), chapter.autoevalItems.length) }),
+      viz: bulbCounts(s.ratings) }),
     vocab: () => ({ value: `${n('vocabulary_cards_seen')}`, note: 'cartes vues',
       viz: `<span class="d-cell-note">${n('vocabulary_sessions')} session(s) · ${n('resource_link_opened') + n('exploration_link_opened')} lien(s) ouvert(s)</span>` })
   };
