@@ -113,6 +113,16 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/classes/$(request.resource.data.classe));
     }
 
+    // ===== history/{email} : historique reconstitué depuis le Google Sheet =====
+    // Écrit par le tableau de bord (import CSV, dashboard-history.js), lu par
+    // les enseignants seulement. Ré-importer remplace le document.
+    match /history/{studentEmail} {
+      allow read, delete: if isTeacher();
+      allow create, update: if isTeacher()
+        && studentEmail.matches('[a-z0-9._-]+@cnddinant[.]be')
+        && request.resource.data.keys().hasOnly(['chapters', 'cutoff', 'importedAt', 'importedBy', 'sourceRows']);
+    }
+
     // ===== Tableau de bord (phase 6) =====
     // L'enseignant lit les chapitres de tous les élèves en une seule requête.
     match /{path=**}/chapters/{chapterId} {

@@ -14,7 +14,7 @@ import {
   esc, LIGHT, BULBS, TRACK, ACTIVITY_SECTIONS, stackBar, cellsBar, legend,
   daysSince, relativeDay, fullDate, percent, WARN_ICON
 } from './dashboard-ui.js';
-import { LEVELS, summarizeChapter, activityBySection } from './dashboard-data.js';
+import { LEVELS, summarizeChapter, activityBySection, studentTotals } from './dashboard-data.js';
 
 const WATCH_DAYS = 14;
 const ACTIVE_DAYS = 7;
@@ -104,22 +104,18 @@ function majorityTrack(emails, ctx) {
 
 function buildRow(email, ctx, chapters) {
   const person = ctx.students[email] || {};
-  const work = ctx.work[email] || { chapters: {} };
-  const docs = work.chapters;
-  let last = null;
-  Object.keys(docs).forEach(id => {
-    const d = docs[id].updatedAt && docs[id].updatedAt.toDate ? docs[id].updatedAt.toDate() : null;
-    if (d && (!last || d > last)) last = d;
-  });
+  const work = ctx.work[email] || { uid: null, chapters: {}, history: {} };
   const summaries = {};
-  chapters.forEach(ch => { summaries[ch.id] = summarizeChapter(ch, docs[ch.id]); });
-  const allStats = Object.keys(docs).map(id => docs[id].stats || {});
+  chapters.forEach(ch => {
+    summaries[ch.id] = summarizeChapter(ch, work.chapters[ch.id], (work.history || {})[ch.id]);
+  });
+  const { last, statsList: allStats } = studentTotals(work);
   return {
     email,
     nom: person.nom || '',
     prenom: person.prenom || '',
     display: person.nom ? `${person.nom} ${person.prenom}` : email,
-    connected: !!ctx.work[email],
+    connected: !!work.uid,
     last,
     summaries,
     sections: activityBySection(allStats),
@@ -209,7 +205,12 @@ function th(label, key, sort, extraClass) {
 /* ===== Cellules communes ===== */
 
 function nameCell(row, ctx) {
-  const sub = !row.nom ? '' : (row.connected ? '' : '<span class="d-cell-note">aucune connexion</span>');
+  let sub = '';
+  if (!row.connected && row.last) {
+    sub = `<span class="d-cell-note" data-tip="${esc('Pas encore reconnecté·e depuis le passage à Firebase : ce qui est affiché vient de l’historique du Google Sheet. Le texte des réponses arrivera à sa prochaine connexion.')}">historique du Sheet</span>`;
+  } else if (!row.connected && row.nom) {
+    sub = '<span class="d-cell-note">aucune activité</span>';
+  }
   const label = ctx.openStudent
     ? `<button type="button" class="d-student" data-student="${esc(row.email)}">${esc(row.display)}</button>`
     : `<span class="d-student-name">${esc(row.display)}</span>`;

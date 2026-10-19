@@ -16,8 +16,9 @@
 
 import * as fb from './firebase-init.js';
 import { esc, initTooltip } from './dashboard-ui.js';
-import { loadContent, loadWork } from './dashboard-data.js';
+import { loadContent, loadWork, historyInfo } from './dashboard-data.js';
 import { renderClassView } from './dashboard-class.js';
+import { renderHistorySection } from './dashboard-history.js';
 
 const SCHOOL_EMAIL = /^[a-z0-9._-]+@cnddinant\.be$/;
 const CLASS_ID = /^[0-9A-Za-z-]{1,12}$/;
@@ -209,10 +210,25 @@ function renderManage() {
   $('#t-view').innerHTML =
     '<section class="t-section" id="t-classes"></section>' +
     '<section class="t-section" id="t-import"></section>' +
-    '<section class="t-section" id="t-students"></section>';
+    '<section class="t-section" id="t-students"></section>' +
+    '<section class="t-section" id="t-history"></section>';
   renderClasses();
   renderImport();
   renderStudents();
+  renderHistory();
+}
+
+function renderHistory() {
+  renderHistorySection($('#t-history'), {
+    me: state.me,
+    teachers: state.teachers,
+    students: state.students,
+    content: loadContent,
+    historyInfo: historyInfo(state.work),
+    onSaved: async () => {
+      try { await reloadWork(); } catch (e) { state.work = null; }
+    }
+  });
 }
 
 function teacherOptions(selected) {

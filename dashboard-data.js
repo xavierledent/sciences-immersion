@@ -92,27 +92,55 @@ async function buildContent(track) {
 
 /* ===== Travail des élèves ===== */
 
-// { adresse: { uid, chapters: { chapitreId: données } } } pour tous les
-// élèves qui se sont connectés au moins une fois.
+/* { adresse: { uid, chapters, history, historyAt } }
+     uid       : null si l'élève ne s'est jamais connecté depuis Firebase
+     chapters  : { chapitreId: document Firestore du chapitre }
+     history   : { chapitreId: état reconstitué depuis le Google Sheet }
+                 (dashboard-history.js), ou {} */
 export async function loadWork() {
-  const [users, chapters] = await Promise.all([
+  const [users, chapters, history] = await Promise.all([
     fb.getDocs(fb.collection(fb.db, 'users')),
-    fb.getDocs(fb.collectionGroup(fb.db, 'chapters'))
+    fb.getDocs(fb.collectionGroup(fb.db, 'chapters')),
+    // Historique : facultatif (absent avant le premier import).
+    fb.getDocs(fb.collection(fb.db, 'history')).catch(e => {
+      console.warn('Historique du Sheet illisible', e);
+      return null;
+    })
   ]);
   const emailOf = {};
   const byEmail = {};
+  const entry = email => byEmail[email] = byEmail[email] || { uid: null, chapters: {}, history: {}, historyAt: null };
   users.forEach(d => {
     const email = String(d.data().email || '').toLowerCase();
     if (!email) return;
     emailOf[d.id] = email;
-    byEmail[email] = { uid: d.id, chapters: {} };
+    entry(email).uid = d.id;
   });
   chapters.forEach(d => {
     const uid = d.ref.parent.parent && d.ref.parent.parent.id;
     const email = emailOf[uid];
     if (email) byEmail[email].chapters[d.id] = d.data();
   });
+  if (history) history.forEach(d => {
+    const data = d.data();
+    const e = entry(d.id);
+    e.history = data.chapters || {};
+    e.historyAt = toDate(data.importedAt);
+  });
   return byEmail;
+}
+
+// Dernier import de l'historique : { count, at } ou null.
+export function historyInfo(work) {
+  let count = 0;
+  let at = null;
+  Object.keys(work || {}).forEach(email => {
+    const w = work[email];
+    if (!w.historyAt) return;
+    count++;
+    if (!at || w.historyAt > at) at = w.historyAt;
+  });
+  return count ? { count, at } : null;
 }
 
 function parseJson(text) {
@@ -125,18 +153,81 @@ function formatSeconds(s) {
 }
 
 function toDate(value) {
+  if (value instanceof Date) return value;
   return value && typeof value.toDate === 'function' ? value.toDate() : null;
 }
 
+const hasAny = obj => !!obj && typeof obj === 'object' && Object.keys(obj).length > 0;
+
+function later(a, b) {
+  if (!a) return b || null;
+  if (!b) return a;
+  return a > b ? a : b;
+}
+
+// Compteurs : Firestore (depuis le 19/10) + historique (avant), additionnés.
+function mergeStats(a, b) {
+  const out = Object.assign({}, a || {});
+  Object.keys(b || {}).forEach(k => { out[k] = (Number(out[k]) || 0) + (Number(b[k]) || 0); });
+  return out;
+}
+
+// Dernière activité et compteurs d'un élève, tous chapitres confondus.
+export function studentTotals(work) {
+  if (!work) return { last: null, statsList: [] };
+  const ids = new Set(Object.keys(work.chapters).concat(Object.keys(work.history || {})));
+  let last = null;
+  const statsList = [];
+  ids.forEach(id => {
+    const doc = work.chapters[id] || {};
+    const hist = (work.history || {})[id] || {};
+    last = later(last, later(toDate(doc.updatedAt), toDate(hist.lastActivity)));
+    statsList.push(mergeStats(doc.stats, hist.stats));
+  });
+  return { last, statsList };
+}
+
+function gameDetail(type, records) {
+  if (type === 'multipleChoice') {
+    return records.total ? `meilleur score ${records.score}/${records.total}` : '';
+  }
+  const parts = [];
+  if (records.mistakes !== undefined) parts.push(`${records.mistakes} erreur(s)`);
+  if (records.moves !== undefined) parts.push(`${records.moves} coups`);
+  if (records.time !== undefined) parts.push(formatSeconds(Number(records.time)));
+  return parts.length ? 'record : ' + parts.join(', ') : '';
+}
+
+// Records d'un jeu dans le document Firestore : { score, total } (QCM) ou
+// { mistakes, moves, time }.
+function firestoreGameRecords(g, doc) {
+  const family = doc[GAME_FAMILY[g.type]] || {};
+  const out = {};
+  Object.keys(family).forEach(key => {
+    const [id, stat] = key.split('::');
+    if (id !== g.id) return;
+    if (g.type === 'multipleChoice') Object.assign(out, parseJson(family[key]) || {});
+    else out[stat || 'mistakes'] = Number(family[key]);
+  });
+  return Object.keys(out).length ? out : null;
+}
+
 /* Résumé d'un élève pour un chapitre.
-   Exercice : état = pire feu valide de ses sous-questions (1 rouge, 2 orange,
+   Exercice : état = pire feu de ses sous-questions (1 rouge, 2 orange,
    3 vert), sinon 'answered' s'il a au moins une réponse, sinon null. Un feu
-   ne vaut que s'il porte sur la réponse actuelle (même règle que
-   practice-engine.js, readSelfAssess). */
-export function summarizeChapter(chapter, doc) {
+   Firestore ne vaut que s'il porte sur la réponse actuelle (même règle que
+   practice-engine.js, readSelfAssess).
+   Deux sources : le document Firestore `doc` et l'historique du Sheet
+   `hist`. Pour les exercices, les jeux et l'autoévaluation, Firestore
+   l'emporte dès qu'il a quelque chose pour la famille (l'élève s'est
+   reconnecté : son vrai travail est arrivé) ; sinon l'historique. Les
+   compteurs s'additionnent. `fromSheet` dit d'où viennent les exercices. */
+export function summarizeChapter(chapter, doc, hist) {
   doc = doc || {};
+  hist = hist || {};
   const answers = doc.practiceAnswer || {};
   const lights = doc.practiceSelfAssess || {};
+  const fromSheet = !hasAny(answers) && hasAny(hist.answers);
 
   const levels = {};
   const counts = { 3: 0, 2: 0, 1: 0, answered: 0, none: 0 };
@@ -146,11 +237,18 @@ export function summarizeChapter(chapter, doc) {
       let answered = false;
       for (let i = 0; i < ex.subs; i++) {
         const key = `${level}::${ex.id}::${i}`;
-        const answer = answers[key];
-        if (typeof answer === 'string' && answer.trim()) answered = true;
-        const light = parseJson(lights[key]);
-        if (light && typeof light.level === 'number' && light.answer === answer
-            && (worst === null || light.level < worst)) worst = light.level;
+        let light = null;
+        if (fromSheet) {
+          if (!(hist.answers[key] > 0)) continue;
+          answered = true;
+          light = Number((hist.lights || {})[key]) || null;
+        } else {
+          const answer = answers[key];
+          if (typeof answer === 'string' && answer.trim()) answered = true;
+          const record = parseJson(lights[key]);
+          if (record && typeof record.level === 'number' && record.answer === answer) light = record.level;
+        }
+        if (light && (worst === null || light < worst)) worst = light;
       }
       const state = worst || (answered ? 'answered' : null);
       counts[state || 'none']++;
@@ -158,28 +256,10 @@ export function summarizeChapter(chapter, doc) {
     });
   });
 
+  const gamesFromFirestore = Object.keys(GAME_FAMILY).some(t => hasAny(doc[GAME_FAMILY[t]]));
   const games = chapter.games.map(g => {
-    const family = doc[GAME_FAMILY[g.type]] || {};
-    const records = {};
-    Object.keys(family).forEach(key => {
-      const [id, stat] = key.split('::');
-      if (id === g.id) records[stat || 'value'] = family[key];
-    });
-    const done = Object.keys(records).length > 0;
-    let detail = '';
-    if (g.type === 'multipleChoice' && records.value) {
-      const r = parseJson(records.value);
-      if (r && r.total) detail = `meilleur score ${r.score}/${r.total}`;
-    } else if (records.value !== undefined) {
-      detail = `record : ${records.value} erreur(s)`;
-    } else if (done) {
-      const parts = [];
-      if (records.mistakes !== undefined) parts.push(`${records.mistakes} erreur(s)`);
-      if (records.moves !== undefined) parts.push(`${records.moves} coups`);
-      if (records.time !== undefined) parts.push(formatSeconds(Number(records.time)));
-      detail = 'records : ' + parts.join(', ');
-    }
-    return Object.assign({ done, detail }, g);
+    const records = gamesFromFirestore ? firestoreGameRecords(g, doc) : ((hist.games || {})[g.id] || null);
+    return Object.assign({ done: !!records, detail: records ? gameDetail(g.type, records) : '' }, g);
   });
 
   const labs = chapter.labs.map(l => {
@@ -187,16 +267,17 @@ export function summarizeChapter(chapter, doc) {
     return Object.assign({ result: r }, l);
   });
 
+  const ratingSource = hasAny(doc.autoevalRating) ? doc.autoevalRating : (hist.ratings || {});
   const ratings = { 1: 0, 2: 0, 3: 0 };
   chapter.autoevalItems.forEach(item => {
-    const v = parseInt((doc.autoevalRating || {})[item.id], 10);
+    const v = parseInt(ratingSource[item.id], 10);
     if (ratings[v] !== undefined) ratings[v]++;
   });
 
-  const stats = doc.stats || {};
   return {
     levels,
     counts,
+    fromSheet,
     answeredCount: chapter.exerciseCount - counts.none,
     games,
     gamesDone: games.filter(g => g.done).length,
@@ -204,8 +285,8 @@ export function summarizeChapter(chapter, doc) {
     labsChecked: labs.filter(l => l.result && l.result.checks > 0).length,
     ratings,
     ratedCount: ratings[1] + ratings[2] + ratings[3],
-    stats,
-    lastActivity: toDate(doc.updatedAt)
+    stats: mergeStats(doc.stats, hist.stats),
+    lastActivity: later(toDate(doc.updatedAt), toDate(hist.lastActivity))
   };
 }
 
