@@ -40,8 +40,9 @@
      save()     : tirage et travail de l'élève, en JSON pur,
      load(data) : les remet en place (et remet à zéro ce qui ne vaut que pendant
                   une animation) ; lever une erreur si data ne convient pas,
-     summary()  : { score, total, criteria: { clé: bool }, details } pour le
-                  suivi (événement lab_checked)
+     summary()  : { score, total, criteria: { clé: bool }, labels: { clé:
+                  libellé }, details } pour le suivi (événement lab_checked,
+                  résultat labResult lu par le tableau de bord)
    }
 
    Reprise : le travail est enregistré (SiteStorage, famille labProgress) à
@@ -382,7 +383,7 @@
         saveResult(4, {
           score: s.score, total: s.total, criteria: s.criteria || {},
           minutes: activeMinutes(), at: Date.now()
-        });
+        }, s.labels);
         lab.goToStep(4);
       },
 
@@ -546,9 +547,11 @@
        mais pas ceci. { maxStep, checks, best, last, report, reportAt } ;
        best et last = { score, total, criteria, minutes, at } au moment d'un
        Check ; report = le rapport corrigé du dernier Check (HTML de
-       reportHTML(true), tel que l'élève le voit), lu par la fiche élève. */
+       reportHTML(true), tel que l'élève le voit), lu par la fiche élève ;
+       labels = noms des critères { clé: libellé } (summary().labels), cumulés
+       d'un Check à l'autre (les critères peuvent dépendre du tirage). */
     const REPORT_MAX = 150000; // garde-fou : un document Firestore fait 1 Mio au plus
-    function saveResult(step, check) {
+    function saveResult(step, check, labels) {
       if (!window.SiteStorage) return;
       let r = null;
       try { r = JSON.parse(SiteStorage.data.get('labResult', [def.id]) || 'null'); } catch (e) { r = null; }
@@ -559,6 +562,7 @@
         r.last = check;
         const ratio = function (c) { return c && c.total ? c.score / c.total : -1; };
         if (ratio(check) > ratio(r.best)) r.best = check;
+        if (labels) r.labels = Object.assign({}, r.labels, labels);
         try {
           const report = reportHTML(true);
           if (report.length <= REPORT_MAX) { r.report = report; r.reportAt = check.at; }

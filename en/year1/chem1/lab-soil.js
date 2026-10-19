@@ -1594,6 +1594,7 @@
         score: KEYS.filter(k => ev[k]).length,
         total: 4,
         criteria,
+        labels: LABELS.criteria, // noms des critères, pour le tableau de bord
         details: {
           places: { A: state.samples.A.key, B: state.samples.B.key },
           hypothesis: state.hypothesis,

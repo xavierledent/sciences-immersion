@@ -1417,6 +1417,7 @@
         score: Object.values(criteria).filter(Boolean).length,
         total: 4,
         criteria,
+        labels: LABELS.criteria, // noms des critères, pour le tableau de bord
         details: { question: run.qid, jars: state.jars.length, hypothesis: state.hypothesis, massesRight: ev.good, masses: ev.total }
       };
     }

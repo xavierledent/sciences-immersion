@@ -20,6 +20,7 @@ import { loadContent, loadWork, historyInfo } from './dashboard-data.js';
 import { renderClassView } from './dashboard-class.js';
 import { renderHistorySection } from './dashboard-history.js';
 import { renderStudentView } from './dashboard-student.js';
+import { renderActivitiesView } from './dashboard-activities.js';
 
 const SCHOOL_EMAIL = /^[a-z0-9._-]+@cnddinant\.be$/;
 const CLASS_ID = /^[0-9A-Za-z-]{1,12}$/;
@@ -146,7 +147,34 @@ function showView(view) {
     tab.setAttribute('aria-selected', active ? 'true' : 'false');
   });
   if (view === 'manage') renderManage();
+  else if (view === 'activities') renderActivities();
   else renderClass();
+}
+
+/* ===== Onglet « Bilan des activités » ===== */
+
+async function renderActivities() {
+  try {
+    if (!state.work) {
+      setStatus('Chargement du travail des élèves…');
+      await reloadWork();
+    }
+    await renderActivitiesView($('#t-view'), {
+      me: state.me,
+      classes: state.classes,
+      students: state.students,
+      work: state.work,
+      teacherName,
+      content: loadContent,
+      trackOf,
+      prefs,
+      savePrefs
+    });
+    setStatus('');
+  } catch (e) {
+    console.error(e);
+    setStatus('Le bilan n\'a pas pu être chargé (connexion internet ?). Rechargez la page.', true);
+  }
 }
 
 /* ===== Fiche élève =====

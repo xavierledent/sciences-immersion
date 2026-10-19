@@ -1244,3 +1244,111 @@
   .s-pcards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .s-lab, .s-sub { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ===== Bilan des activités (dashboard-activities.js) ===== */
+
+.b-switch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  margin-bottom: 10px;
+  border: 1px solid var(--t-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+}
+
+.b-switch-btn {
+  border: none;
+  border-radius: 999px;
+  background: none;
+  padding: 6px 16px;
+  color: var(--color-muted);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.b-switch-btn.is-active {
+  background: var(--color-slate);
+  color: #fff;
+}
+
+.b-help {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.b-h3 {
+  margin: 22px 0 8px;
+  font-size: 1rem;
+}
+
+.b-table-wrap {
+  margin-top: 10px;
+}
+
+.b-table .b-col-what {
+  min-width: 260px;
+  max-width: 560px;
+}
+
+.b-col-bar {
+  min-width: 200px;
+  width: 28%;
+}
+
+.b-ref {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.b-name {
+  display: block;
+  font-weight: 600;
+}
+
+.b-wrap {
+  font-weight: 500;
+}
+
+.b-of {
+  font-size: 0.8em;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.b-table tr.b-minor td {
+  color: #9aa7b6;
+}
+
+.b-table tr.b-minor .b-name {
+  font-weight: 500;
+}
+
+.b-table tr.b-minor .d-bar {
+  opacity: 0.45;
+}
+
+.b-lab {
+  margin-top: 12px;
+}
+
+.b-lab-kpis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 40px;
+  margin-bottom: 14px;
+}
+
+.b-lab-kpis > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.b-crit {
+  font-variant-numeric: tabular-nums;
+}

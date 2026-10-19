@@ -2084,6 +2084,7 @@
         score: CRITS.filter(k => ev[k]).length,
         total: CRITS.length,
         criteria,
+        labels: LABELS.criteria, // noms des critères, pour le tableau de bord
         details: {
           zones: `${zoneOf('A').key}-${zoneOf('B').key}`,
           valuesRight: 8 - ev.measureMiss.length,

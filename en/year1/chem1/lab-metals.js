@@ -1527,6 +1527,7 @@
         score: score(),
         total: SAMPLES.length,
         criteria,
+        labels: Object.fromEntries(SAMPLES.map(s => [s.mat, MATERIALS[s.mat].label])), // pour le tableau de bord
         details: { answers: Object.fromEntries(SAMPLES.map(s => [s.mat, answer(state.conclusions[s.id])])) }
       };
     }

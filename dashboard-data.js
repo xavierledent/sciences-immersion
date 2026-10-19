@@ -269,7 +269,7 @@ export function summarizeChapter(chapter, doc, hist) {
   const gamesFromFirestore = Object.keys(GAME_FAMILY).some(t => hasAny(doc[GAME_FAMILY[t]]));
   const games = chapter.games.map(g => {
     const records = gamesFromFirestore ? firestoreGameRecords(g, doc) : ((hist.games || {})[g.id] || null);
-    return Object.assign({ done: !!records, detail: records ? gameDetail(g.type, records) : '' }, g);
+    return Object.assign({ done: !!records, records, detail: records ? gameDetail(g.type, records) : '' }, g);
   });
 
   const labs = chapter.labs.map(l => {
