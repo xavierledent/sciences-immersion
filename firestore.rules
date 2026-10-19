@@ -87,6 +87,32 @@ service cloud.firestore {
       allow read: if isTeacher();
     }
 
+    // ===== classes/{classId} : les classes (1C, 1D…) =====
+    // Lues et modifiées par les enseignants seulement. `teacher` = adresse
+    // d'un enseignant de la liste ; `track` = filière de la classe.
+    match /classes/{classId} {
+      allow read, delete: if isTeacher();
+      allow create, update: if isTeacher()
+        && classId.matches('[0-9A-Za-z-]{1,12}')
+        && request.resource.data.keys().hasOnly(['teacher', 'track', 'updatedAt', 'updatedBy'])
+        && request.resource.data.track in ['en', 'nl']
+        && exists(/databases/$(database)/documents/teachers/$(request.resource.data.teacher));
+    }
+
+    // ===== students/{email} : la liste des élèves et de leur classe =====
+    // Sert à ranger et nommer les élèves dans le tableau de bord, pas à
+    // limiter l'accès. Supprimer une fiche ne touche pas au travail de
+    // l'élève (users/…). Les élèves n'y ont aucun accès.
+    match /students/{studentEmail} {
+      allow read, delete: if isTeacher();
+      allow create, update: if isTeacher()
+        && studentEmail.matches('[a-z0-9._-]+@cnddinant[.]be')
+        && request.resource.data.keys().hasOnly(['prenom', 'nom', 'classe', 'updatedAt', 'updatedBy'])
+        && request.resource.data.prenom is string && request.resource.data.prenom.size() <= 60
+        && request.resource.data.nom is string && request.resource.data.nom.size() <= 60
+        && exists(/databases/$(database)/documents/classes/$(request.resource.data.classe));
+    }
+
     // ===== Tableau de bord (phase 6) =====
     // L'enseignant lit les chapitres de tous les élèves en une seule requête.
     match /{path=**}/chapters/{chapterId} {
