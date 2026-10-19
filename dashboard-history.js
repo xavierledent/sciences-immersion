@@ -25,6 +25,7 @@ import { esc } from './dashboard-ui.js';
 export const CUTOFF = new Date(2026, 9, 19, 15, 6); // heure locale
 const SCHOOL_EMAIL = /^[a-z0-9._-]+@cnddinant\.be$/;
 const BATCH_DOCS = 40;
+const COLUMN_LABEL = { date: 'date', email: 'adresse', page: 'page', event: 'événement', data: 'données' };
 
 /* ===== Lecture du CSV (format de Google Sheets : virgules, guillemets
    doublés à l'intérieur d'un champ entre guillemets) ===== */
@@ -85,21 +86,42 @@ export function buildHistory(csvText, gamesByTitle, teachers) {
   };
   if (!rows.length) return { report, students: {} };
 
-  // En-tête : repérer les colonnes par leur nom, sinon l'ordre du Sheet.
-  let col = { date: 0, email: 1, page: 2, event: 3, data: 4 };
-  const head = rows[0].map(h => h.trim().toLowerCase());
-  if (head.includes('evenement') || head.includes('email')) {
-    rows.shift();
+  // Colonnes repérées par leur CONTENU (le titre des colonnes du Sheet peut
+  // varier) : sur un échantillon de lignes, la colonne où l'on trouve le
+  // plus d'adresses, de chemins de page, de noms d'événement, de JSON, de
+  // dates. Une première ligne sans aucune date lisible est l'en-tête.
+  let header = null;
+  if (!rows[0].some(c => parseDate(c, false))) {
+    header = rows.shift();
     report.rows--;
-    const find = names => head.findIndex(h => names.includes(h));
-    col = {
-      date: find(['horodatage', 'date', 'timestamp']),
-      email: find(['email', 'e-mail']),
-      page: find(['page']),
-      event: find(['evenement', 'événement', 'event']),
-      data: find(['donnees', 'données', 'data'])
-    };
   }
+  const sample = rows.slice(0, 300);
+  const width = Math.max(0, ...sample.map(r => r.length));
+  const tests = {
+    email: c => /^[^\s@]+@[^\s@]+$/.test(c.trim()),
+    page: c => /\/[^/]*\.html$/.test(c.trim()),
+    event: c => /^[a-z]+(_[a-z]+)+$/.test(c.trim()),
+    data: c => /^\{.*\}$/.test(c.trim()),
+    date: c => !!parseDate(c, false)
+  };
+  const col = {};
+  const taken = new Set();
+  ['data', 'event', 'page', 'email', 'date'].forEach(role => {
+    let best = -1;
+    let bestScore = 0;
+    for (let i = 0; i < width; i++) {
+      if (taken.has(i)) continue;
+      const score = sample.filter(r => tests[role](r[i] || '')).length;
+      if (score > bestScore) { best = i; bestScore = score; }
+    }
+    col[role] = best;
+    if (best >= 0) taken.add(best);
+  });
+  report.columns = {};
+  Object.keys(col).forEach(role => {
+    report.columns[role] = col[role] < 0 ? null
+      : (header && header[col[role]] ? header[col[role]].trim() : `colonne ${col[role] + 1}`);
+  });
   const monthFirst = rows.some(r => {
     const m = /^(\d{1,2})\/(\d{1,2})\//.exec((r[col.date] || '').trim());
     return m && +m[2] > 12;
@@ -272,6 +294,8 @@ function renderReport(box, report, students, ctx) {
   box.innerHTML = `
     <div class="t-preview-group"><h3>Résultat de l'analyse</h3>
       <ul>
+        <li>Colonnes utilisées : ${['date', 'email', 'page', 'event', 'data'].map(role => `${COLUMN_LABEL[role]} = ${
+          report.columns && report.columns[role] ? '« ' + esc(report.columns[role]) + ' »' : '<strong>introuvable</strong>'}`).join(' · ')}</li>
         <li><strong>${report.kept}</strong> événements repris, du ${day(report.first)} au ${day(report.last)}
           (sur ${report.rows} lignes du fichier)</li>
         <li><strong>${emails.length}</strong> élèves, dont ${inList} dans la liste des classes ;
