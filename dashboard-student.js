@@ -50,7 +50,7 @@ export async function renderStudentView(root, ctx, keepScroll) {
   });
   const totals = studentTotals(work);
 
-  // Onglet ouvert : ALL_TAB (« Ensemble ») ou un chapitre.
+  // Onglet ouvert : ALL_TAB (« Tous les chapitres ») ou un chapitre.
   let chapterId = ctx.prefs.studentChapterId;
   if (chapterId !== ALL_TAB && !chapters.some(c => c.id === chapterId)) chapterId = ALL_TAB;
   const chapter = chapters.find(c => c.id === chapterId) || null;
@@ -100,7 +100,7 @@ export async function renderStudentView(root, ctx, keepScroll) {
       ce qui est affiché vient de l’historique du Google Sheet. Le texte des réponses arrivera à sa prochaine connexion.</p>` : ''}
 
     <nav class="t-tabs s-tabs" role="tablist">
-      <button type="button" role="tab" class="t-tab${chapter ? '' : ' is-active'}" aria-selected="${!chapter}" data-chapter="${ALL_TAB}">Ensemble</button>
+      <button type="button" role="tab" class="t-tab${chapter ? '' : ' is-active'}" aria-selected="${!chapter}" data-chapter="${ALL_TAB}">Tous les chapitres</button>
       ${chapters.map(c => `<button type="button" role="tab" class="t-tab${c.id === chapterId ? ' is-active' : ''}"
         aria-selected="${c.id === chapterId}" data-chapter="${esc(c.id)}">${esc(c.short)}</button>`).join('')}</nav>
 
@@ -138,7 +138,7 @@ export async function renderStudentView(root, ctx, keepScroll) {
 
 /* ===== Haut de fiche ===== */
 
-// Onglet « Ensemble » : une ligne par chapitre ; un clic ouvre le chapitre.
+// Onglet « Tous les chapitres » : une ligne par chapitre ; un clic ouvre le chapitre.
 function overviewHtml(chapters, summaries) {
   const dash = '<span class="d-zero">—</span>';
   const rows = chapters.map(c => {

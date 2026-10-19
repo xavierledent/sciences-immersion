@@ -1595,3 +1595,27 @@
   max-width: 640px;
   margin: 4px 0 0;
 }
+
+/* Bandeau : colonne de texte centrée (style.css centre déjà les <p> d'un
+   <header> ; titre et chiffres suivent), bouton « Retour au site » au-dessus
+   du médaillon, jamais derrière. */
+.hero {
+  display: block;
+  margin-bottom: 0;
+}
+
+.hero-text {
+  text-align: center;
+}
+
+.hero-stats {
+  justify-content: center;
+}
+
+.hero-inner {
+  padding-top: 64px;
+}
+
+.hero-back {
+  z-index: 2;
+}
