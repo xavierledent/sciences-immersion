@@ -21,9 +21,15 @@
 
    Les requêtes vers d'autres origines (polices Google) ne sont pas
    interceptées : leur propre cache HTTP s'en charge déjà, et gérer des
-   réponses cross-origin ici ajouterait un risque pour un bénéfice nul. */
+   réponses cross-origin ici ajouterait un risque pour un bénéfice nul.
 
-const CACHE_VERSION = 'v3';
+   Une exception : le SDK Firebase (www.gstatic.com/firebasejs/<version>/),
+   dont dépend l'écran d'accès. Sans lui en cache, une page ouverte pendant
+   une coupure de wifi ne saurait plus qui est connecté. Cache d'abord : un
+   fichier d'une version donnée ne change jamais, changer de version change
+   l'adresse. Réponses CORS (pas opaques), donc mises en cache sans risque. */
+
+const CACHE_VERSION = 'v4';
 const CACHE_NAME = 'sciences-immersion-' + CACHE_VERSION;
 
 self.addEventListener('install', () => {
@@ -97,6 +103,10 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
+  if (url.origin === 'https://www.gstatic.com' && url.pathname.startsWith('/firebasejs/')) {
+    event.respondWith(cacheFirst(request));
+    return;
+  }
   if (url.origin !== self.location.origin) return;
 
   event.respondWith(request.destination === 'image' ? cacheFirst(request) : networkFirst(request));

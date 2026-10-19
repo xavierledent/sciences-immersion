@@ -69,7 +69,7 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Ajouter un labo à un chapitre | sa ligne dans `labs` de [tools/chapters.json](tools/chapters.json), ses fichiers `lab-<nom>.{js,css}`, puis régénérer |
 | Barre de navigation entre sections | [chapter-nav.js](chapter-nav.js) |
 | Données enregistrées des élèves | [storage.js](storage.js), seul fichier qui touche à `localStorage` |
-| Écran d'accès | [access-control.js](access-control.js) |
+| Écran d'accès, connexion Firebase | [access-control.js](access-control.js), [firebase-init.js](firebase-init.js) (config et version du SDK) |
 | Mise en forme du texte, modales, contraste élevé, bandeau hors ligne | [rich-text.js](rich-text.js) |
 | Mode hors ligne, cache | [sw.js](sw.js) |
 | Styles communs, couleurs par matière | [style.css](style.css) |
