@@ -100,7 +100,7 @@ async function buildContent(track) {
      uid       : null si l'élève ne s'est jamais connecté depuis Firebase
      chapters  : { chapitreId: document Firestore du chapitre }
      history   : { chapitreId: état reconstitué depuis le Google Sheet }
-                 (dashboard-history.js), ou {} */
+                 (importé une fois le 19/10/2026 ; l'outil d'import a été retiré), ou {} */
 export async function loadWork() {
   const [users, chapters, history] = await Promise.all([
     fb.getDocs(fb.collection(fb.db, 'users')),
@@ -132,19 +132,6 @@ export async function loadWork() {
     e.historyAt = toDate(data.importedAt);
   });
   return byEmail;
-}
-
-// Dernier import de l'historique : { count, at } ou null.
-export function historyInfo(work) {
-  let count = 0;
-  let at = null;
-  Object.keys(work || {}).forEach(email => {
-    const w = work[email];
-    if (!w.historyAt) return;
-    count++;
-    if (!at || w.historyAt > at) at = w.historyAt;
-  });
-  return count ? { count, at } : null;
 }
 
 function parseJson(text) {

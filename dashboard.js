@@ -15,10 +15,9 @@
    élèves » (ce fichier). Briques d'affichage : dashboard-ui.js. */
 
 import * as fb from './firebase-init.js';
-import { esc, initTooltip } from './dashboard-ui.js';
-import { loadContent, loadWork, historyInfo } from './dashboard-data.js';
+import { esc, initTooltip, daysSince } from './dashboard-ui.js';
+import { loadContent, loadWork, studentTotals } from './dashboard-data.js';
 import { renderClassView } from './dashboard-class.js';
-import { renderHistorySection } from './dashboard-history.js';
 import { renderStudentView } from './dashboard-student.js';
 import { renderActivitiesView } from './dashboard-activities.js';
 
@@ -129,7 +128,7 @@ async function start() {
     setStatus('Impossible de charger les données (connexion internet ?). Rechargez la page.', true);
     return;
   }
-  $('#t-who').textContent = teacherName(state.me);
+  renderHero();
   $('#t-tabs').hidden = false;
   $('#t-tabs').querySelectorAll('[data-view]').forEach(tab =>
     tab.addEventListener('click', () => showView(tab.dataset.view)));
@@ -240,6 +239,25 @@ async function renderStudent() {
 async function reloadWork() {
   state.work = await loadWork();
   state.loadedAt = new Date();
+  renderHero();
+}
+
+/* Bandeau : salutation, date, trois chiffres (classes, élèves, actifs ces 7
+   derniers jours ; ce dernier une fois le travail chargé). */
+function renderHero() {
+  const first = teacherName(state.me).split(' ')[0];
+  const hour = new Date().getHours();
+  $('#t-hello').textContent = `${hour >= 18 ? 'Bonsoir' : 'Bonjour'} ${first}`;
+  const today = new Date().toLocaleDateString('fr-BE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const time = state.loadedAt ? state.loadedAt.toLocaleTimeString('fr-BE', { hour: '2-digit', minute: '2-digit' }) : '';
+  $('#t-date').textContent = today.charAt(0).toUpperCase() + today.slice(1) + (time ? ` · données de ${time}` : '');
+  $('#t-stat-classes').textContent = Object.keys(state.classes).length;
+  $('#t-stat-students').textContent = Object.keys(state.students).length;
+  if (state.work) {
+    const active = Object.keys(state.students).filter(e => daysSince(studentTotals(state.work[e]).last) < 7).length;
+    $('#t-stat-active').textContent = active;
+  }
+  $('#t-hero-stats').hidden = false;
 }
 
 async function renderClass() {
@@ -301,26 +319,11 @@ async function commitInBatches(ops) {
 function renderManage() {
   $('#t-view').innerHTML =
     '<section class="t-section" id="t-classes"></section>' +
-    '<section class="t-section" id="t-import"></section>' +
     '<section class="t-section" id="t-students"></section>' +
-    '<section class="t-section" id="t-history"></section>';
+    '<section class="t-section" id="t-import"></section>';
   renderClasses();
-  renderImport();
   renderStudents();
-  renderHistory();
-}
-
-function renderHistory() {
-  renderHistorySection($('#t-history'), {
-    me: state.me,
-    teachers: state.teachers,
-    students: state.students,
-    content: loadContent,
-    historyInfo: historyInfo(state.work),
-    onSaved: async () => {
-      try { await reloadWork(); } catch (e) { state.work = null; }
-    }
-  });
+  renderImport();
 }
 
 function teacherOptions(selected) {
@@ -421,7 +424,30 @@ function renderStudents() {
   box.innerHTML = `
     <h2>Élèves <span class="t-count">${Object.keys(state.students).length}</span></h2>
     <p class="t-help">Changer la classe d'un élève ou le retirer de la liste ne touche pas à son travail.</p>
-    ${groups || '<p class="t-muted">Aucun élève : utilisez l\'import ci-dessus.</p>'}`;
+    <div class="t-add-student">
+      <h3>Ajouter un élève</h3>
+      <div class="t-form-row">
+        <input type="text" id="t-add-email" placeholder="prenom.nom@cnddinant.be" size="28" autocomplete="off" />
+        <input type="text" id="t-add-prenom" placeholder="Prénom" size="14" maxlength="60" autocomplete="off" />
+        <input type="text" id="t-add-nom" placeholder="Nom" size="16" maxlength="60" autocomplete="off" />
+        <select id="t-add-classe">${classOptions(classIds[0])}</select>
+        <button type="button" class="t-btn t-btn-primary" id="t-add-btn"${classIds.length ? '' : ' disabled'}>Ajouter l'élève</button>
+      </div>
+    </div>
+    ${groups || '<p class="t-muted">Aucun élève : ajoutez-les un par un ci-dessus, ou en masse avec l\'import en bas de la page.</p>'}`;
+
+  $('#t-add-btn').addEventListener('click', () => {
+    const email = $('#t-add-email').value.trim().toLowerCase();
+    const prenom = $('#t-add-prenom').value.trim();
+    const nom = $('#t-add-nom').value.trim();
+    const classe = $('#t-add-classe').value;
+    if (!SCHOOL_EMAIL.test(email)) { setStatus('Adresse : elle doit se terminer par @cnddinant.be.', true); return; }
+    if (!prenom || !nom) { setStatus('Indiquez le prénom et le nom.', true); return; }
+    const existing = state.students[email];
+    if (existing) { setStatus(`${existing.prenom} ${existing.nom} est déjà dans la liste (classe ${existing.classe}).`, true); return; }
+    saveThenReload(() => fb.setDoc(fb.doc(fb.db, 'students', email), stamp({ prenom, nom, classe })),
+      `${prenom} ${nom} ajouté(e) en ${classe}.`);
+  });
 
   box.querySelectorAll('tr[data-email] select').forEach(sel => {
     sel.addEventListener('change', () => {
@@ -511,7 +537,7 @@ function parsePaste(text) {
 function renderImport() {
   const box = $('#t-import');
   box.innerHTML = `
-    <h2>Importer des élèves</h2>
+    <h2>Importer des élèves en masse</h2>
     <p class="t-help">Dans le tableur, sélectionnez les lignes (avec ou sans la ligne d'en-tête) :
       adresse, prénom, nom, classe. Copiez (Ctrl+C), collez ici (Ctrl+V), puis « Analyser ».
       Rien n'est enregistré avant la confirmation.</p>

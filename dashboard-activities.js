@@ -140,6 +140,20 @@ function rank(rows, difficulty, enough) {
   return rows.sort((a, b) => (enough(b) - enough(a)) || (difficulty(b) - difficulty(a)));
 }
 
+// Lignes du tableau, avec une ligne de séparation avant la première qui
+// concerne trop peu d'élèves pour être classée.
+function rowsHtml(rows, enough, render, cols, label) {
+  let separated = false;
+  return rows.map(r => {
+    let before = '';
+    if (!enough(r) && !separated) {
+      separated = true;
+      before = `<tr class="b-sep"><td colspan="${cols}">${esc(label)}</td></tr>`;
+    }
+    return before + render(r);
+  }).join('');
+}
+
 function countCell(n, total, label) {
   return `<td class="d-num" data-tip="${esc(`${n} élève${n > 1 ? 's' : ''} sur ${total} ${label}`)}">${n}<span class="b-of"> / ${total}</span></td>`;
 }
@@ -160,7 +174,7 @@ function exercisesTable(chapters, agg, total) {
     <div class="t-scroll d-table-wrap b-table-wrap"><table class="t-table d-table b-table">
     <thead><tr><th class="b-col-what">Exercice</th><th class="d-num">Répondu par</th><th class="b-col-bar">Feux des élèves</th>
       <th class="d-num">Vert</th><th class="d-num">Orange</th><th class="d-num">Rouge</th></tr></thead>
-    <tbody>${rows.map(r => {
+    <tbody>${rowsHtml(rows, r => r.lit >= MIN_STUDENTS, r => {
       const a = r.a;
       const parts = [3, 2, 1, 'answered'].map(k => ({ value: k === 'answered' ? a.answeredOnly : a[k], color: LIGHT[k].color }));
       const tip = `<strong>${esc(r.ch.short)} · ${LEVEL_LABEL[r.level]} · Ex. ${esc(r.e.id)}</strong><br>${a.answered} réponse(s)` +
@@ -174,7 +188,7 @@ function exercisesTable(chapters, agg, total) {
         <td class="d-num">${r.lit ? percent(a[3], r.lit) + ' %' : '<span class="d-zero">—</span>'}</td>
         <td class="d-num">${r.lit ? percent(a[2], r.lit) + ' %' : '<span class="d-zero">—</span>'}</td>
         <td class="d-num">${r.lit ? percent(a[1], r.lit) + ' %' : '<span class="d-zero">—</span>'}</td></tr>`;
-    }).join('')}</tbody></table></div>`;
+    }, 6, 'Notés par moins de ' + MIN_STUDENTS + ' élèves : à confirmer')}</tbody></table></div>`;
 }
 
 /* ===== Jeux : un tableau par type ===== */
@@ -199,13 +213,13 @@ function gamesTables(chapters, agg, total) {
         <th class="b-col-what">Jeu</th><th class="d-num">Terminé par</th>
         ${isQcm ? '<th class="d-num">Score moyen</th>' : (hasMistakes ? '<th class="d-num">Erreurs moyennes</th>' : '')}
         ${hasMoves ? '<th class="d-num">Coups moyens</th>' : ''}${hasTime ? '<th class="d-num">Temps moyen</th>' : ''}</tr></thead>
-      <tbody>${rows.map(r => `<tr class="${r.a.done >= MIN_STUDENTS ? '' : 'b-minor'}">
+      <tbody>${rowsHtml(rows, r => r.a.done >= MIN_STUDENTS, r => `<tr class="${r.a.done >= MIN_STUDENTS ? '' : 'b-minor'}">
         <td class="b-col-what">${showChapter ? `<span class="b-ref">${esc(r.ch.short)}</span>` : ''}<span class="b-name">${esc(r.g.title)}</span></td>
         ${countCell(r.a.done, total, 'l’ont terminé')}
         ${isQcm ? `<td class="d-num">${r.a.ratios.length ? percent(avg(r.a.ratios), 1) + ' %' : '<span class="d-zero">—</span>'}</td>`
           : (hasMistakes ? `<td class="d-num">${fmt(avg(r.a.mistakes), '')}</td>` : '')}
         ${hasMoves ? `<td class="d-num">${fmt(avg(r.a.moves), '')}</td>` : ''}
-        ${hasTime ? `<td class="d-num">${fmt(avg(r.a.time), ' s')}</td>` : ''}</tr>`).join('')}</tbody></table></div>`;
+        ${hasTime ? `<td class="d-num">${fmt(avg(r.a.time), ' s')}</td>` : ''}</tr>`, 2 + (isQcm || hasMistakes ? 1 : 0) + (hasMoves ? 1 : 0) + (hasTime ? 1 : 0), 'Terminés par moins de ' + MIN_STUDENTS + ' élèves : à confirmer')}</tbody></table></div>`;
   }).join('');
 }
 
@@ -224,14 +238,14 @@ function autoevalTable(chapters, agg, total) {
   return `
     <div class="t-scroll d-table-wrap b-table-wrap"><table class="t-table d-table b-table"><thead><tr>
       <th class="b-col-what">Attendu</th><th class="d-num">Évalué par</th><th class="b-col-bar">Ampoules</th><th class="d-num">Moyenne</th></tr></thead>
-    <tbody>${rows.map(r => {
+    <tbody>${rowsHtml(rows, r => r.a.rated >= MIN_STUDENTS, r => {
       return `<tr class="${r.a.rated >= MIN_STUDENTS ? '' : 'b-minor'}">
         <td class="b-col-what"><span class="b-ref">${showChapter ? esc(r.ch.short) + ' · ' : ''}${esc(r.item.categoryTitle)}</span>
           <span class="b-name b-wrap">${esc(plain(r.item.text))}</span></td>
         ${countCell(r.a.rated, total, 'l’ont évalué')}
         <td class="b-col-bar">${r.a.rated ? bulbCounts(r.a) : '<span class="d-zero">—</span>'}</td>
         <td class="d-num">${r.mean === null ? '<span class="d-zero">—</span>' : r.mean.toFixed(1).replace('.', ',') + '<span class="b-of"> / 3</span>'}</td></tr>`;
-    }).join('')}</tbody></table></div>`;
+    }, 4, 'Évalués par moins de ' + MIN_STUDENTS + ' élèves : à confirmer')}</tbody></table></div>`;
 }
 
 /* ===== Labos : un bloc par labo, une ligne par critère ===== */
@@ -252,12 +266,12 @@ function labsTables(chapters, agg, total) {
         <div><span class="d-kpi-value">${a.ratios.length ? percent(avg(a.ratios), 1) + ' %' : '—'}</span><span class="d-kpi-label">score moyen au Check</span></div>
       </div>
       ${crits.length ? `<table class="t-table b-table b-crit"><thead><tr><th class="b-col-what">Critère du Check</th><th class="d-num">Élèves</th>
-        <th class="b-col-bar">Réussi</th><th class="d-num">Réussite</th></tr></thead><tbody>${crits.map(r => `
+        <th class="b-col-bar">Réussi</th><th class="d-num">Réussite</th></tr></thead><tbody>${rowsHtml(crits, r => r.c.n >= MIN_STUDENTS, r => `
         <tr class="${r.c.n >= MIN_STUDENTS ? '' : 'b-minor'}"><td class="b-col-what"><span class="b-name">${esc(label(r.k))}</span></td>
           <td class="d-num">${r.c.n}</td>
           <td class="b-col-bar">${stackBar([{ value: r.c.ok, color: '#4a6483' }], r.c.n,
             `<strong>${esc(label(r.k))}</strong><br>${r.c.ok} réussi(s) sur ${r.c.n}`, `${r.c.ok} sur ${r.c.n}`)}</td>
-          <td class="d-num">${percent(r.c.ok, r.c.n)} %</td></tr>`).join('')}</tbody></table>`
+          <td class="d-num">${percent(r.c.ok, r.c.n)} %</td></tr>`, 4, 'Moins de ' + MIN_STUDENTS + ' élèves au Check : à confirmer')}</tbody></table>`
         : '<p class="t-muted">Aucun Check enregistré pour l’instant.</p>'}
     </section>`;
   }).join('');

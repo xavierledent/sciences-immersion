@@ -157,7 +157,7 @@ function kpiHtml(rows, chapter, chapters) {
     : 0;
   return `<div class="d-kpis">
     <div class="d-kpi"><span class="d-kpi-label">Élèves</span><span class="d-kpi-value">${rows.length}</span></div>
-    <div class="d-kpi"><span class="d-kpi-label">Actifs ces ${ACTIVE_DAYS} jours</span><span class="d-kpi-value">${active}</span></div>
+    <div class="d-kpi"><span class="d-kpi-label">Actifs ces ${ACTIVE_DAYS} derniers jours</span><span class="d-kpi-value">${active}</span></div>
     <div class="d-kpi" data-tip="${esc('Élèves qui ont déjà travaillé sur le site cette année (au moins une activité enregistrée)')}">
       <span class="d-kpi-label">Ont utilisé le site</span><span class="d-kpi-value">${used}</span>
       <span class="d-kpi-note">${rows.length ? percent(used, rows.length) + ' % de la classe' : '&nbsp;'}</span></div>

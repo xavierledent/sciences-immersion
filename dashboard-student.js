@@ -17,6 +17,7 @@ import { labStatus } from './dashboard-class.js';
 const LEVEL_LABEL = { level1: 'Level 1', level2: 'Level 2', level3: 'Level 3' };
 const LIGHT_SHORT = { 3: 'Vert', 2: 'Orange', 1: 'Rouge', answered: 'Sans feu', none: 'Pas fait' };
 const PREVIEW_CHARS = 110;
+const ALL_TAB = '__all__';
 
 // Texte des JSON du site : seules <strong>, <em>, <u> et <br> sont gardées.
 function rich(text) {
@@ -47,18 +48,13 @@ export async function renderStudentView(root, ctx, keepScroll) {
   chapters.forEach(ch => {
     summaries[ch.id] = summarizeChapter(ch, work.chapters[ch.id], (work.history || {})[ch.id]);
   });
-  const { last, statsList } = studentTotals(work);
-  const sections = activityBySection(statsList);
+  const totals = studentTotals(work);
 
+  // Onglet ouvert : ALL_TAB (« Ensemble ») ou un chapitre.
   let chapterId = ctx.prefs.studentChapterId;
-  if (!chapters.some(c => c.id === chapterId)) {
-    const active = chapters.find(c => {
-      const s = summaries[c.id];
-      return s.answeredCount || s.gamesDone || s.ratedCount || Object.keys(s.stats).length;
-    });
-    chapterId = (active || chapters[0] || {}).id;
-  }
-  const chapter = chapters.find(c => c.id === chapterId);
+  if (chapterId !== ALL_TAB && !chapters.some(c => c.id === chapterId)) chapterId = ALL_TAB;
+  const chapter = chapters.find(c => c.id === chapterId) || null;
+  const scope = chapter ? [chapter] : chapters;
 
   const p = ctx.person;
   const name = p.nom ? `${p.nom} ${p.prenom}` : ctx.email;
@@ -66,13 +62,22 @@ export async function renderStudentView(root, ctx, keepScroll) {
   const prev = index > 0 ? ctx.order[index - 1] : null;
   const next = index >= 0 && index < ctx.order.length - 1 ? ctx.order[index + 1] : null;
 
-  const totalEx = chapters.reduce((n, c) => n + c.exerciseCount, 0);
-  const answered = chapters.reduce((n, c) => n + summaries[c.id].answeredCount, 0);
-  const totalGames = chapters.reduce((n, c) => n + c.games.length, 0);
-  const gamesDone = chapters.reduce((n, c) => n + summaries[c.id].gamesDone, 0);
-  const totalLabs = chapters.reduce((n, c) => n + c.labs.length, 0);
-  const labsDone = chapters.reduce((n, c) => n + summaries[c.id].labsChecked, 0);
+  // Chiffres du haut et répartition : tout l'élève, ou le chapitre ouvert.
+  const last = chapter ? summaries[chapter.id].lastActivity : totals.last;
+  const sections = chapter ? activityBySection([summaries[chapter.id].stats]) : activityBySection(totals.statsList);
+  const sum = f => scope.reduce((n, c) => n + f(c, summaries[c.id]), 0);
+  const totalEx = sum(c => c.exerciseCount);
+  const answered = sum((c, s) => s.answeredCount);
+  const totalGames = sum(c => c.games.length);
+  const gamesDone = sum((c, s) => s.gamesDone);
+  const totalLabs = sum(c => c.labs.length);
+  const labsDone = sum((c, s) => s.labsChecked);
   const watched = daysSince(last) >= 14;
+  const outOf = (n, total, none) => total
+    ? `<span class="d-kpi-value">${n}<span class="s-kpi-of"> / ${total}</span></span>`
+    : `<span class="d-kpi-value d-zero">—</span><span class="d-kpi-note">${none}</span>`;
+  const where = chapter ? ` · ${esc(chapter.short)}` : '';
+  const hasWork = !!totals.last || chapters.some(c => summaries[c.id].answeredCount);
 
   root.innerHTML = `
     <div class="s-top">
@@ -89,31 +94,32 @@ export async function renderStudentView(root, ctx, keepScroll) {
         <h2 class="d-title">${esc(name)}</h2>
         <p class="s-meta">${[ctx.className, p.nom ? ctx.email : ''].filter(Boolean).map(esc).join(' · ')}</p>
       </div>
-      ${totalEx ? exportControls(chapters) : ''}
     </div>
 
-    ${!ctx.connected && last ? `<p class="s-notice">Pas encore reconnecté·e depuis le passage à Firebase :
+    ${!ctx.connected && totals.last ? `<p class="s-notice">Pas encore reconnecté·e depuis le passage à Firebase :
       ce qui est affiché vient de l’historique du Google Sheet. Le texte des réponses arrivera à sa prochaine connexion.</p>` : ''}
 
-    <div class="d-kpis">
-      <div class="d-kpi${watched ? ' is-alert' : ''}" data-tip="${esc(fullDate(last))}">
-        <span class="d-kpi-label">${watched ? WARN_ICON : ''}Dernière activité</span>
-        <span class="d-kpi-value s-kpi-text">${relativeDay(last)}</span></div>
-      <div class="d-kpi"><span class="d-kpi-label">Exercices répondus</span>
-        <span class="d-kpi-value">${answered}<span class="s-kpi-of"> / ${totalEx}</span></span>
-        <span class="d-kpi-note">${percent(answered, totalEx)} % des exercices</span></div>
-      <div class="d-kpi"><span class="d-kpi-label">Jeux terminés</span>
-        <span class="d-kpi-value">${gamesDone}<span class="s-kpi-of"> / ${totalGames}</span></span></div>
-      <div class="d-kpi"><span class="d-kpi-label">Labos menés au Check</span>
-        <span class="d-kpi-value">${labsDone}<span class="s-kpi-of"> / ${totalLabs}</span></span></div>
+    <nav class="t-tabs s-tabs" role="tablist">
+      <button type="button" role="tab" class="t-tab${chapter ? '' : ' is-active'}" aria-selected="${!chapter}" data-chapter="${ALL_TAB}">Ensemble</button>
+      ${chapters.map(c => `<button type="button" role="tab" class="t-tab${c.id === chapterId ? ' is-active' : ''}"
+        aria-selected="${c.id === chapterId}" data-chapter="${esc(c.id)}">${esc(c.short)}</button>`).join('')}</nav>
+
+    <div class="s-scope">
+      <div class="d-kpis">
+        <div class="d-kpi${watched ? ' is-alert' : ''}" data-tip="${esc(fullDate(last))}">
+          <span class="d-kpi-label">${watched ? WARN_ICON : ''}Dernière activité${where}</span>
+          <span class="d-kpi-value s-kpi-text">${relativeDay(last)}</span></div>
+        <div class="d-kpi"><span class="d-kpi-label">Exercices répondus</span>
+          ${outOf(answered, totalEx, 'pas encore d’exercices')}
+          ${totalEx ? `<span class="d-kpi-note">${percent(answered, totalEx)} % des exercices</span>` : ''}</div>
+        <div class="d-kpi"><span class="d-kpi-label">Jeux terminés</span>${outOf(gamesDone, totalGames, 'pas de jeux')}</div>
+        <div class="d-kpi"><span class="d-kpi-label">Labos menés au Check</span>${outOf(labsDone, totalLabs, 'pas de labo')}</div>
+      </div>
+      <section class="t-section s-activity">${activityHtml(sections)}</section>
+      ${chapter ? chapterHtml(chapter, summaries[chapter.id], ctx) : overviewHtml(chapters, summaries)}
     </div>
 
-    <section class="t-section s-activity">${activityHtml(sections)}</section>
-
-    <nav class="t-tabs s-tabs" role="tablist">${chapters.map(c => `<button type="button" role="tab"
-      class="t-tab${c.id === chapterId ? ' is-active' : ''}" aria-selected="${c.id === chapterId}"
-      data-chapter="${esc(c.id)}">${esc(c.short)}</button>`).join('')}</nav>
-    <div class="s-chapter">${chapter ? chapterHtml(chapter, summaries[chapter.id], ctx) : ''}</div>`;
+    ${hasWork ? exportSection(chapters, chapter) : ''}`;
 
   root.querySelector('#s-back').addEventListener('click', ctx.onBack);
   if (prev) root.querySelector('#s-prev').addEventListener('click', () => ctx.onOpen(prev));
@@ -132,16 +138,51 @@ export async function renderStudentView(root, ctx, keepScroll) {
 
 /* ===== Haut de fiche ===== */
 
-function exportControls(chapters) {
-  const options = [`<option value="all">Tous les chapitres</option>`];
+// Onglet « Ensemble » : une ligne par chapitre ; un clic ouvre le chapitre.
+function overviewHtml(chapters, summaries) {
+  const dash = '<span class="d-zero">—</span>';
+  const rows = chapters.map(c => {
+    const s = summaries[c.id];
+    const bar = c.exerciseCount
+      ? stackBar([3, 2, 1, 'answered'].map(k => ({ value: s.counts[k], color: LIGHT[k].color })), c.exerciseCount,
+        `<strong>${esc(c.title)}</strong><br>${s.answeredCount}/${c.exerciseCount} exercices répondus`, `${s.answeredCount} sur ${c.exerciseCount}`)
+        + `<span class="d-cell-note">${s.answeredCount}/${c.exerciseCount}</span>`
+      : dash;
+    return `<tr>
+      <td class="s-ov-name"><button type="button" class="d-student" data-chapter="${esc(c.id)}">${esc(c.short)}</button>
+        <span class="d-cell-note">${esc(c.title.replace(/^[^:]*:\s*/, ''))}</span></td>
+      <td class="s-ov-bar">${bar}</td>
+      <td class="d-num">${c.games.length ? `${s.gamesDone}<span class="b-of"> / ${c.games.length}</span>` : dash}</td>
+      <td class="d-num">${c.labs.length ? `${s.labsChecked}<span class="b-of"> / ${c.labs.length}</span>` : dash}</td>
+      <td>${c.autoevalItems.length ? bulbCounts(s.ratings) : dash}</td>
+      <td class="d-num">${Number(s.stats.vocabulary_cards_seen) || dash}</td>
+      <td class="d-num" data-tip="${esc(fullDate(s.lastActivity))}">${s.lastActivity ? relativeDay(s.lastActivity) : dash}</td></tr>`;
+  }).join('');
+  return `<section class="t-section s-overview">
+    <div class="s-card-head"><h3 class="s-h3">Par chapitre</h3><span class="t-muted">un clic sur un chapitre ouvre son détail</span></div>
+    ${legend([3, 2, 1, 'answered', 'none'].map(k => LIGHT[k]))}
+    <div class="t-scroll"><table class="t-table b-table s-ov-table"><thead><tr>
+      <th>Chapitre</th><th>Exercices</th><th class="d-num">Jeux terminés</th><th class="d-num">Labos au Check</th>
+      <th>Autoévaluation</th><th class="d-num">Cartes vues</th><th class="d-num">Dernière activité</th></tr></thead>
+    <tbody>${rows}</tbody></table></div></section>`;
+}
+
+// Export des réponses : sa propre section, en bas de la fiche.
+function exportSection(chapters, current) {
+  const options = [`<option value="all"${current ? '' : ' selected'}>Tous les chapitres</option>`];
   chapters.filter(c => c.exerciseCount).forEach(c => {
-    options.push(`<option value="${esc(c.id)}">${esc(c.short)}</option>`);
+    options.push(`<option value="${esc(c.id)}"${current && current.id === c.id ? ' selected' : ''}>${esc(c.short)}</option>`);
     LEVELS.filter(l => c.levels[l].length).forEach(l =>
       options.push(`<option value="${esc(c.id)}|${l}">${esc(c.short)} · ${LEVEL_LABEL[l]}</option>`));
   });
-  return `<div class="d-filters">
-    <label>Réponses <select id="s-export-scope">${options.join('')}</select></label>
-    <button type="button" class="t-btn" id="s-export">Exporter (CSV)</button></div>`;
+  return `<section class="t-section s-export">
+    <div><h3 class="s-h3">Exporter les réponses</h3>
+      <p class="t-help">Télécharge un fichier (Excel, Google Sheets) avec chaque réponse écrite de l’élève :
+        chapitre, niveau, exercice, énoncé, réponse et feu. Utile pour un conseil de classe ou une rencontre avec les parents.</p></div>
+    <div class="d-filters">
+      <label>Réponses <select id="s-export-scope">${options.join('')}</select></label>
+      <button type="button" class="t-btn t-btn-primary" id="s-export">Télécharger (CSV)</button></div>
+  </section>`;
 }
 
 function activityHtml(sections) {
