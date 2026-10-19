@@ -1596,10 +1596,11 @@
   margin: 4px 0 0;
 }
 
-/* Bandeau : trois colonnes égales (vide, texte, médaillon) pour que le texte
-   soit centré sur la page et non à côté de l'image (style.css centre déjà
-   les <p> d'un <header>) ; « Retour au site » empilé au-dessus du médaillon
-   et de ses anneaux (22 px), jamais par-dessus. */
+/* Bandeau compact : sa hauteur est celle du texte central. Trois colonnes
+   égales (médaillon, texte, bouton) pour que le texte soit centré sur la
+   page (style.css centre déjà les <p> d'un <header>). Le médaillon est
+   posé en absolu dans sa case : il prend la hauteur de la ligne sans
+   l'agrandir. */
 .hero {
   display: block;
   margin-bottom: 0;
@@ -1607,46 +1608,76 @@
 
 .hero-inner {
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  padding-top: 26px;
+  padding: 16px 24px;
 }
 
 .hero-text {
-  grid-column: 2;
   text-align: center;
+}
+
+.hero-kicker {
+  margin-bottom: 2px;
+  font-size: 0.7rem;
+}
+
+.hero-title {
+  font-size: 1.9rem;
+}
+
+.hero-date {
+  margin-top: 2px;
+  font-size: 0.85rem;
 }
 
 .hero-stats {
   justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.hero-side {
-  grid-column: 3;
-  justify-self: end;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+.hero-stats > div {
+  min-width: 100px;
+  padding: 4px 14px 6px;
+  border-radius: 10px;
+}
+
+.hero-stats dt {
+  font-size: 0.7rem;
+}
+
+.hero-stats dd {
+  font-size: 1.35rem;
+}
+
+.hero-art-cell {
+  align-self: stretch;
+  position: relative;
+}
+
+.hero-art {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 8px;
+  width: auto;
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08), 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+.hero-art img {
+  width: 80%;
+  transform: translateY(8%);
 }
 
 .hero-back {
   position: static;
+  justify-self: end;
+  align-self: start;
 }
 
-.hero-art {
-  width: 190px;
-  height: 190px;
-  margin: 34px 22px 22px;
-}
-
-.hero-art img {
-  width: 154px;
-  transform: translateY(12px);
-}
-
-/* Trop étroit pour le médaillon sans décentrer le texte : texte seul,
-   bouton en haut à droite. */
-@media (max-width: 1100px) {
-  .hero-inner { grid-template-columns: minmax(0, 1fr); }
-  .hero-text { grid-column: 1; grid-row: 2; }
-  .hero-side { grid-column: 1; grid-row: 1; }
-  .hero-art { display: none; }
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: minmax(0, 1fr) auto; }
+  .hero-art-cell { display: none; }
 }
