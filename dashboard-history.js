@@ -81,7 +81,7 @@ export function buildHistory(csvText, gamesByTitle, teachers) {
   const rows = parseCsv(csvText);
   const report = {
     rows: rows.length, kept: 0, afterCutoff: 0, unreadable: 0, notStudent: 0,
-    outsideChapter: 0, unknownGames: new Set(), first: null, last: null
+    outsideChapter: 0, unknownGames: new Set(), ignored: {}, first: null, last: null
   };
   if (!rows.length) return { report, students: {} };
 
@@ -124,7 +124,12 @@ export function buildHistory(csvText, gamesByTitle, teachers) {
     try { data = JSON.parse(r[col.data] || '{}') || {}; } catch (e) { data = null; }
     if (!date || !event || data === null) { report.unreadable++; return; }
     if (date >= CUTOFF) { report.afterCutoff++; return; }
-    if (!SCHOOL_EMAIL.test(email) || teachers[email]) { report.notStudent++; return; }
+    if (!SCHOOL_EMAIL.test(email) || teachers[email]) {
+      report.notStudent++;
+      const why = !email ? '(sans adresse : visiteur)' : (teachers[email] ? email + ' (enseignante)' : JSON.stringify(email) + ' (pas une adresse @cnddinant.be)');
+      report.ignored[why] = (report.ignored[why] || 0) + 1;
+      return;
+    }
     const chapterId = chapterIdFromPath(r[col.page]);
     if (!chapterId) { report.outsideChapter++; return; }
     events.push({ date, email, event, data, chapterId });
@@ -272,7 +277,9 @@ function renderReport(box, report, students, ctx) {
         <li><strong>${emails.length}</strong> élèves, dont ${inList} dans la liste des classes ;
           ${chapterCount} couples élève-chapitre</li>
         ${report.afterCutoff ? `<li>${report.afterCutoff} événements postérieurs à la coupure, ignorés (déjà comptés dans Firestore)</li>` : ''}
-        ${report.notStudent ? `<li>${report.notStudent} événements de visiteurs, d’enseignants ou d’adresses hors école, ignorés</li>` : ''}
+        ${report.notStudent ? `<li>${report.notStudent} événements de visiteurs, d’enseignants ou d’adresses hors école, ignorés :<ul>${
+          Object.keys(report.ignored).sort((a, b) => report.ignored[b] - report.ignored[a]).slice(0, 15)
+            .map(k => `<li>${esc(k)} : ${report.ignored[k]}</li>`).join('')}</ul></li>` : ''}
         ${report.outsideChapter ? `<li>${report.outsideChapter} événements hors d’une page de chapitre, ignorés</li>` : ''}
         ${report.unreadable ? `<li>${report.unreadable} lignes illisibles, ignorées</li>` : ''}
       </ul></div>
