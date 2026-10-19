@@ -87,12 +87,19 @@ export async function renderStudentView(root, ctx, keepScroll) {
   const where = chapter ? ` · ${esc(chapter.short)}` : '';
   const hasWork = !!totals.last || chapters.some(c => summaries[c.id].answeredCount);
   // « Tous les chapitres » : une 5e tuile, résumé des devoirs (détail dans chaque chapitre).
+  // Toujours affichée : « Aucun devoir reçu » repère un élève oublié dans les envois.
   const hwAll = !chapter && hw ? homeworkSummary(hw, null) : null;
-  const hwTile = hwAll ? `<div class="d-kpi s-hw-kpi" data-tip="${esc(hwAll.tip)}" tabindex="0">
-      <span class="d-kpi-label">Devoirs</span>
-      <span class="d-kpi-value">${hwAll.rate === null ? '—' : `${hwAll.rate} %`}<span class="s-kpi-of"> à temps</span></span>
-      ${miniBar(hwAll.parts, hwAll.total)}
-      <span class="d-kpi-note">${hwAll.received} reçu${hwAll.received > 1 ? 's' : ''} · détail dans chaque chapitre</span></div>` : '';
+  const hwTile = chapter ? '' : !hw
+    ? `<div class="d-kpi s-hw-kpi"><span class="d-kpi-label">Devoirs</span>
+        <span class="d-kpi-value d-zero">—</span><span class="d-kpi-note">lecture impossible (rechargez la page)</span></div>`
+    : !hwAll.received
+      ? `<div class="d-kpi s-hw-kpi"><span class="d-kpi-label">Devoirs</span>
+          <span class="d-kpi-value d-zero">—</span><span class="d-kpi-note">aucun devoir reçu</span></div>`
+      : `<div class="d-kpi s-hw-kpi" data-tip="${esc(hwAll.tip)}" tabindex="0">
+          <span class="d-kpi-label">Devoirs</span>
+          <span class="d-kpi-value">${hwAll.rate === null ? '—' : `${hwAll.rate} %`}<span class="s-kpi-of"> à temps</span></span>
+          ${miniBar(hwAll.parts, hwAll.total)}
+          <span class="d-kpi-note">${hwAll.received} reçu${hwAll.received > 1 ? 's' : ''} · détail dans chaque chapitre</span></div>`;
 
   root.innerHTML = `
     <div class="s-top">
@@ -233,8 +240,7 @@ function panelsOf(chapter, hw) {
   return Object.keys(PANELS).filter(k =>
     (k !== 'games' || chapter.games.length) &&
     (k !== 'labs' || chapter.labs.length) &&
-    (k !== 'autoeval' || chapter.autoevalItems.length) &&
-    (k !== 'homework' || (hw && homeworkSummary(hw, chapter.folder))));
+    (k !== 'autoeval' || chapter.autoevalItems.length));
 }
 
 // Barre décorative d'une carte (la carte entière est le bouton) : pas de
@@ -267,7 +273,9 @@ function chapterHtml(chapter, s, ctx) {
     vocab: () => ({ value: `${n('vocabulary_cards_seen')}`, note: 'cartes vues',
       viz: `<span class="d-cell-note">${n('vocabulary_sessions')} session(s) · ${n('resource_link_opened') + n('exploration_link_opened')} lien(s) ouvert(s)</span>` }),
     homework: () => {
+      if (!ctx.hw) return { value: '—', note: 'lecture impossible', viz: '' };
       const h = homeworkSummary(ctx.hw, chapter.folder);
+      if (!h.received) return { value: '—', note: 'aucun devoir dans ce chapitre', viz: '' };
       return { value: h.rate === null ? '—' : `${h.rate} %`, note: `à temps · ${h.received} devoir${h.received > 1 ? 's' : ''}`,
         viz: miniBar(h.parts, h.total), tip: h.tip };
     }
@@ -288,7 +296,8 @@ function chapterHtml(chapter, s, ctx) {
     labs: () => labsHtml(chapter, s),
     autoeval: () => autoevalHtml(chapter, s),
     vocab: () => vocabHtml(s.stats),
-    homework: () => homeworkDetailHtml(ctx.hw, chapter.folder)
+    homework: () => ctx.hw ? homeworkDetailHtml(ctx.hw, chapter.folder)
+      : '<p class="t-help is-error">Les devoirs n’ont pas pu être lus. Rechargez la page.</p>'
   }[panel]();
 
   return `<div class="s-pcards" role="tablist" style="--s-cols:${panels.length}">${cards}</div>

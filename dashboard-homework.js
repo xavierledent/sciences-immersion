@@ -1024,11 +1024,14 @@ function tally(entries) {
 }
 
 /* Résumé d'une carte : { received, rate, parts, total, tip } ; parts =
-   segments de la barre (à venir en gris, en fin de barre). Null si aucun
-   devoir. */
+   segments de la barre (à venir en gris, en fin de barre). received = 0 :
+   aucun devoir (la carte le dit, on repère ainsi un élève oublié). */
 export function homeworkSummary(hw, folder) {
   const entries = entriesFor(hw, folder);
-  if (!entries.length) return null;
+  if (!entries.length) {
+    return { received: 0, rate: null, parts: [], total: 0,
+      tip: folder ? 'Aucun devoir reçu dans ce chapitre' : 'Aucun devoir reçu' };
+  }
   const t = tally(entries);
   const tip = `<strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong>` +
     STATUS_ORDER.filter(k => t.c[k]).map(k => `<br><span class="d-swatch" style="background:${STATUS[k].color}"></span>${t.c[k]} ${esc(STATUS[k].label.toLowerCase())}`).join('') +
