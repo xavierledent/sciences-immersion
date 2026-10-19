@@ -2031,3 +2031,18 @@
   color: #7a5310;
   font-size: 0.86rem;
 }
+
+/* Fiche élève : ses devoirs */
+.s-hw-summary {
+  margin: 4px 0 8px;
+  font-size: 0.9rem;
+}
+
+.s-hw-bar {
+  max-width: 420px;
+  margin-bottom: 12px;
+}
+
+.s-hw-table .d-cell-note {
+  display: block;
+}

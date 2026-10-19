@@ -246,6 +246,7 @@ async function renderStudent() {
       track: trackOf(email),
       connected: !!(state.work[email] && state.work[email].uid),
       work: state.work,
+      students: state.students,
       content: loadContent,
       teacherName,
       prefs,

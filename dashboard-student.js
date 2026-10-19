@@ -13,6 +13,7 @@ import {
 } from './dashboard-ui.js';
 import { LEVELS, summarizeChapter, activityBySection, studentTotals } from './dashboard-data.js';
 import { labStatus } from './dashboard-class.js';
+import { studentHomeworkHtml } from './dashboard-homework.js';
 
 const LEVEL_LABEL = { level1: 'Level 1', level2: 'Level 2', level3: 'Level 3' };
 const LIGHT_SHORT = { 3: 'Vert', 2: 'Orange', 1: 'Rouge', answered: 'Sans feu', none: 'Pas fait' };
@@ -37,7 +38,7 @@ function clip(text, n) {
 
 /* ctx : {
      email, person, className, classLabel, track, connected,
-     work, content(track), teacherName, prefs, savePrefs(),
+     work, students, content(track), teacherName, prefs, savePrefs(),
      order (adresses dans l'ordre du tableau), onBack(), onOpen(adresse)
    } */
 // keepScroll : changement d'onglet ou de carte, on reste où l'on est.
@@ -117,6 +118,7 @@ export async function renderStudentView(root, ctx, keepScroll) {
       </div>
       <section class="t-section s-activity">${activityHtml(sections)}</section>
       ${chapter ? chapterHtml(chapter, summaries[chapter.id], ctx) : overviewHtml(chapters, summaries)}
+      ${chapter ? '' : '<section class="t-section s-homework" id="s-homework"><h2>Devoirs</h2><p class="t-help">Chargement…</p></section>'}
     </div>
 
     ${hasWork ? exportSection(chapters, chapter) : ''}`;
@@ -130,6 +132,16 @@ export async function renderStudentView(root, ctx, keepScroll) {
     renderStudentView(root, ctx, true);
   }));
   bindChapter(root, ctx);
+  // Devoirs (tous chapitres) : lus à part, la fiche s'affiche sans les attendre.
+  const homework = root.querySelector('#s-homework');
+  if (homework) {
+    studentHomeworkHtml(ctx.email, { students: ctx.students, work: ctx.work, content: ctx.content })
+      .then(html => { if (homework.isConnected) homework.innerHTML = html; })
+      .catch(e => {
+        console.error(e);
+        if (homework.isConnected) homework.innerHTML = '<h2>Devoirs</h2><p class="t-help is-error">Les devoirs n\'ont pas pu être chargés.</p>';
+      });
+  }
   const exportBtn = root.querySelector('#s-export');
   if (exportBtn) exportBtn.addEventListener('click', () =>
     exportAnswers(root.querySelector('#s-export-scope').value, chapters, summaries, ctx));

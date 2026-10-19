@@ -971,9 +971,11 @@ async function submit(sending) {
 
 /* ===== Fiche élève : ses devoirs ===== */
 
-/* Devoirs reçus par un élève, du plus récent au plus ancien, avec son état.
-   Utilisé par la fiche élève (dashboard-student.js). */
-export async function homeworkOf(email, context) {
+/* Section « Devoirs » de la fiche élève (dashboard-student.js, onglet
+   « Tous les chapitres ») : le bilan d'assiduité de l'élève, puis chaque
+   devoir reçu, du plus récent au plus ancien. Mêmes calculs que l'onglet
+   Devoirs. context : { students, work, content }. */
+export async function studentHomeworkHtml(email, context) {
   ctx = Object.assign({}, ctx || {}, context);
   const [snap, en, nl] = await Promise.all([
     fb.getDocs(fb.collection(fb.db, 'assignments')), ctx.content('en'), ctx.content('nl')]);
@@ -985,5 +987,49 @@ export async function homeworkOf(email, context) {
     if ((a.recipients || []).includes(email)) list.push(a);
   });
   list.sort((a, b) => (b.due || '').localeCompare(a.due || ''));
-  return list.map(a => ({ assignment: a, state: studentState(a, email) }));
+  if (!list.length) return '<h2>Devoirs</h2><p class="d-empty">Aucun devoir reçu pour l\'instant.</p>';
+
+  const classId = (ctx.students[email] || {}).classe;
+  const c = { done: 0, late: 0, partial: 0, missing: 0, upcoming: 0 };
+  const rows = list.map(a => {
+    const st = studentState(a, email);
+    if (st.upcoming) c.upcoming++; else c[st.status]++;
+    const deadline = deadlineOf(a);
+    const cells = st.items.map(i => {
+      const t = itemTitle(a.track, i.item);
+      const late = i.done && i.at && i.at > deadline;
+      const when = i.at ? ` le ${new Date(i.at).toLocaleDateString('fr-BE', { day: 'numeric', month: 'short' })}` : '';
+      return {
+        color: !i.done ? TRACK : late ? STATUS.late.color : STATUS.done.color,
+        tip: `<strong>${esc(t.chapter)} · ${esc(t.label)}</strong>${t.title ? '<br>' + esc(t.title) : ''}<br>` +
+          (!i.done ? 'pas encore fait' : late ? `fait en retard${when}` : `fait${when}`)
+      };
+    });
+    const status = STATUS[st.status];
+    const content = groupedItems(a.track, a.items || []).map(run => {
+      const first = run.items[0];
+      const t = itemTitle(a.track, first);
+      return first.k === 'ex' && run.items.length > 1
+        ? `${t.chapter} · niv. ${LEVEL_NUM[first.lv]} ex. ${first.id} à ${run.items[run.items.length - 1].id}`
+        : `${t.chapter} · ${t.label}`;
+    }).join(' ; ');
+    return `<tr>
+      <td><strong>${esc(titleFor(a, classId) || 'Sans titre')}</strong><span class="d-cell-note">${esc(content)}</span></td>
+      <td>${esc(formatDue(a.due))}</td>
+      <td><span class="d-swatch" style="background:${status.color}"></span>${esc(status.label)}${st.upcoming ? ' <span class="d-cell-note">date limite pas passée</span>' : ''}</td>
+      <td class="h-col-cells">${cellsBar(cells, `${st.done} sur ${st.total} éléments faits`)}<span class="d-cell-note">${st.done}/${st.total}</span></td>
+    </tr>`;
+  }).join('');
+  const counted = c.done + c.late + c.partial + c.missing;
+  const rate = counted ? Math.round(100 * c.done / counted) : null;
+  const summary = STATUS_ORDER.filter(k => c[k]).map(k => `${c[k]} ${STATUS[k].label.toLowerCase()}`)
+    .concat(c.upcoming ? [`${c.upcoming} à venir`] : []).join(' · ');
+
+  return `<h2>Devoirs</h2>
+    <p class="s-hw-summary"><strong>${list.length} devoir${list.length > 1 ? 's' : ''} reçu${list.length > 1 ? 's' : ''}</strong> · ${esc(summary)}${rate === null ? '' : ` · <strong>${rate} % à temps</strong>`}</p>
+    ${counted ? `<div class="s-hw-bar">${stackBar(STATUS_ORDER.map(k => ({ value: c[k], color: STATUS[k].color })), counted, esc(summary), `${rate} % à temps`)}</div>` : ''}
+    <div class="t-scroll"><table class="t-table h-table s-hw-table">
+      <thead><tr><th>Devoir</th><th>Date limite</th><th>État</th><th>Éléments</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>
+    ${legend(STATUS_ORDER.map(k => STATUS[k]))}`;
 }
