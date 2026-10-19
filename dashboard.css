@@ -1596,15 +1596,22 @@
   margin: 4px 0 0;
 }
 
-/* Bandeau : colonne de texte centrée (style.css centre déjà les <p> d'un
-   <header> ; titre et chiffres suivent), bouton « Retour au site » au-dessus
-   du médaillon, jamais derrière. */
+/* Bandeau : trois colonnes égales (vide, texte, médaillon) pour que le texte
+   soit centré sur la page et non à côté de l'image (style.css centre déjà
+   les <p> d'un <header>) ; « Retour au site » empilé au-dessus du médaillon
+   et de ses anneaux (22 px), jamais par-dessus. */
 .hero {
   display: block;
   margin-bottom: 0;
 }
 
+.hero-inner {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  padding-top: 26px;
+}
+
 .hero-text {
+  grid-column: 2;
   text-align: center;
 }
 
@@ -1612,10 +1619,34 @@
   justify-content: center;
 }
 
-.hero-inner {
-  padding-top: 64px;
+.hero-side {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .hero-back {
-  z-index: 2;
+  position: static;
+}
+
+.hero-art {
+  width: 190px;
+  height: 190px;
+  margin: 34px 22px 22px;
+}
+
+.hero-art img {
+  width: 154px;
+  transform: translateY(12px);
+}
+
+/* Trop étroit pour le médaillon sans décentrer le texte : texte seul,
+   bouton en haut à droite. */
+@media (max-width: 1100px) {
+  .hero-inner { grid-template-columns: minmax(0, 1fr); }
+  .hero-text { grid-column: 1; grid-row: 2; }
+  .hero-side { grid-column: 1; grid-row: 1; }
+  .hero-art { display: none; }
 }
