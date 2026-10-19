@@ -1,0 +1,82 @@
+rules_version = '2';
+
+// Règles de sécurité Firestore du site Sciences en immersion.
+//
+// CE FICHIER N'EST PAS APPLIQUÉ AUTOMATIQUEMENT : c'est une copie de
+// référence. Pour qu'une modification compte, la recopier dans la console
+// Firebase (Firestore Database → Règles → Publier).
+//
+// Principe : tout est refusé, sauf ce qui est explicitement permis ci-dessous.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===== Qui est connecté ? =====
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function email() {
+      return request.auth.token.email.lower();
+    }
+
+    // Compte de l'école, adresse vérifiée par Google.
+    function isSchool() {
+      return request.auth.token.email_verified == true
+        && email().matches('.*@cnddinant[.]be');
+    }
+
+    // Même liste que FULL_ACCESS_WHITELIST dans access-control.js :
+    // modifier les deux ensemble.
+    function isWhitelisted() {
+      return email() in ['xledent@gmail.com'];
+    }
+
+    // Lecture seule sur les données de tous les élèves.
+    function isTeacher() {
+      return signedIn() && isSchool() && email() == 'xavier.ledent@cnddinant.be';
+    }
+
+    // Le propriétaire des données : connecté, autorisé sur le site, et c'est
+    // bien SON dossier (uid du dossier = son uid Firebase).
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid && (isSchool() || isWhitelisted());
+    }
+
+    // ===== users/{uid} : la fiche de l'élève =====
+
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isTeacher();
+      allow create, update: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(['email', 'createdAt', 'migratedAt'])
+        && request.resource.data.email == request.auth.token.email;
+      // Pas de suppression pour l'instant (prévue pour le compte enseignant,
+      // entretien de fin d'année).
+
+      // ===== users/{uid}/chapters/{chapterId} : son travail, un document par chapitre =====
+      match /chapters/{chapterId} {
+        allow read: if isOwner(uid) || isTeacher();
+        allow create, update: if isOwner(uid)
+          // Seulement de vrais identifiants de chapitre (en_year1_bio1…).
+          && chapterId.matches('(en_year1|nl_jaar1)_[a-z]+[0-9]+')
+          // Seulement les familles de données connues (DATA_FAMILIES dans
+          // storage.js), plus les compteurs de suivi et la date. Ajouter une
+          // famille dans storage.js = l'ajouter ici aussi.
+          && request.resource.data.keys().hasOnly([
+               'practiceAnswer', 'practiceSelfAssess', 'practiceLastExercise',
+               'practiceLastTouchedLevel', 'qcmBestScore', 'qcmProgress',
+               'fitbBest', 'dndBest', 'memoryBest', 'sortingBest',
+               'autoevalRating', 'labProgress',
+               'stats', 'updatedAt'
+             ]);
+      }
+    }
+
+    // ===== Tableau de bord (phase 6) =====
+    // L'enseignant lit les chapitres de tous les élèves en une seule requête.
+    match /{path=**}/chapters/{chapterId} {
+      allow read: if isTeacher();
+    }
+  }
+}
