@@ -4405,8 +4405,31 @@
     // Silently does nothing when the params are absent, malformed, or point
     // at a level/exercise that doesn't exist — a normal page load is
     // unaffected either way.
+    // Same for one game (?game=<id>, a homework link from the teacher
+    // dashboard): replays the student's own clicks — the game's card, then
+    // its tab — so the game opens exactly as if chosen by hand.
+    const GAME_PAGINATION = {
+      multipleChoice: 'qcm-pagination', fillBlanks: 'fitb-pagination',
+      dragAndDrop: 'dnd-pagination', matchPairs: 'memory-pagination', sorting: 'sorting-pagination'
+    };
+
+    function openGameFromDeepLink(gameId) {
+      if (!interactiveData) return;
+      const typeKey = Object.keys(GAME_PAGINATION).find(t =>
+        (interactiveData[t] || []).some(g => g.id === gameId));
+      if (!typeKey) return;
+      const index = interactiveData[typeKey].findIndex(g => g.id === gameId);
+      const card = interactiveButtonsContainer.querySelector(`button[data-type="${typeKey}"]`);
+      if (!card) return;
+      card.click();
+      const tab = document.querySelector(`#${GAME_PAGINATION[typeKey]} [data-index="${index}"]`);
+      if (index > 0 && tab) tab.click();
+    }
+
     function openFromDeepLink() {
       const params = new URLSearchParams(location.search);
+      const gameId = params.get('game');
+      if (gameId) { openGameFromDeepLink(gameId); return; }
       const levelKey = params.get('level');
       const exerciseId = parseInt(params.get('exercise'), 10);
       if (!levelKey || !practiceData[levelKey]) return;

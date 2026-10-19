@@ -846,6 +846,9 @@
 
     document.querySelectorAll(`[data-lab-open="${def.id}"]`).forEach(b => b.addEventListener('click', openLab));
     card.querySelector('[data-lab-close]').addEventListener('click', closeLab);
+    // Lien direct (laboratory.html?lab=<id>, devoir du tableau de bord) :
+    // le labo s'ouvre comme sur un clic de sa carte.
+    if (new URLSearchParams(location.search).get('lab') === def.id) requestAnimationFrame(openLab);
 
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape' || !overlay.classList.contains('modal-open')) return;
