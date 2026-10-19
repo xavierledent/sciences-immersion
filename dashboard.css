@@ -1670,9 +1670,12 @@
 /* L'image a ses propres marges autour des personnages : centrée telle
    quelle, à la hauteur du cercle. */
 .hero-art img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: auto;
-  height: 92%;
-  transform: none;
+  height: 84%;
+  transform: translate(-50%, -50%);
 }
 
 .hero-back {
