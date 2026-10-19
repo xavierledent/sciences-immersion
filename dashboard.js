@@ -150,7 +150,7 @@ function showView(view) {
   });
   if (view === 'manage') renderManage();
   else if (view === 'activities') renderActivities();
-  else if (view === 'homework') renderHomeworkView($('#t-view'), { me: state.me, myName: teacherName(state.me) });
+  else if (view === 'homework') renderHomework();
   else renderClass();
 }
 
@@ -178,6 +178,28 @@ async function renderActivities() {
     console.error(e);
     setStatus('Le bilan n\'a pas pu être chargé (connexion internet ?). Rechargez la page.', true);
   }
+}
+
+/* ===== Onglet « Devoirs » ===== */
+
+function renderHomework() {
+  return renderHomeworkView($('#t-view'), {
+    me: state.me,
+    myName: teacherName(state.me),
+    classes: state.classes,
+    students: state.students,
+    teacherName,
+    sortedClassIds,
+    content: loadContent,
+    ensureWork: async () => {
+      if (!state.work) await reloadWork();
+      return state.work;
+    },
+    confirmBox,
+    setStatus,
+    prefs,
+    savePrefs
+  });
 }
 
 /* ===== Fiche élève =====

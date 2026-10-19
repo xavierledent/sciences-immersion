@@ -123,6 +123,22 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['chapters', 'cutoff', 'importedAt', 'importedBy', 'sourceRows']);
     }
 
+    // ===== assignments/{id} : les devoirs =====
+    // Composés et envoyés depuis le tableau de bord (dashboard-homework.js),
+    // lus par les enseignants seulement (les élèves les reçoivent par mail).
+    match /assignments/{assignmentId} {
+      allow read, delete: if isTeacher();
+      allow create, update: if isTeacher()
+        && request.resource.data.keys().hasOnly(['title', 'message', 'track', 'due', 'classes', 'recipients',
+             'items', 'createdAt', 'createdBy', 'updatedAt', 'updatedBy', 'sentAt', 'sentBy', 'sentTo'])
+        && request.resource.data.title is string && request.resource.data.title.size() <= 150
+        && request.resource.data.message is string && request.resource.data.message.size() <= 5000
+        && request.resource.data.track in ['en', 'nl']
+        && request.resource.data.due.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')
+        && request.resource.data.items is list && request.resource.data.items.size() <= 80
+        && request.resource.data.recipients is list && request.resource.data.recipients.size() <= 300;
+    }
+
     // ===== Tableau de bord (phase 6) =====
     // L'enseignant lit les chapitres de tous les élèves en une seule requête.
     match /{path=**}/chapters/{chapterId} {
