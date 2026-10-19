@@ -496,9 +496,14 @@ function detailHtml(a, emails) {
       <td><span class="d-swatch" style="background:${status.color}"></span>${esc(status.label)}${st.upcoming ? ' <span class="d-cell-note">(date limite pas passée)</span>' : ''}</td>
       <td class="h-col-cells">${cellsBar(cells, `${st.done} sur ${st.total} éléments faits`)}<span class="d-cell-note">${st.done}/${st.total}</span></td></tr>`;
   }).join('');
-  const items = (a.items || []).map(item => {
-    const t = itemTitle(a.track, item);
-    return `<li><a href="${esc(itemLink(a.track, item))}" target="_blank" rel="noopener">${esc(t.chapter)} · ${esc(t.label)}${t.title ? ' — ' + esc(t.title) : ''}</a></li>`;
+  // Regroupé comme dans le mail : les exercices qui se suivent sur une ligne.
+  const items = groupedItems(a.track, a.items || []).map(run => {
+    const first = run.items[0];
+    const t = itemTitle(a.track, first);
+    const label = first.k === 'ex' && run.items.length > 1
+      ? `Niveau ${LEVEL_NUM[first.lv]} · ex. ${first.id} à ${run.items[run.items.length - 1].id}`
+      : t.label + (t.title ? ` — ${t.title}` : '');
+    return `<li><a href="${esc(itemLink(a.track, first))}" target="_blank" rel="noopener">${esc(t.chapter)} · ${esc(label)}</a></li>`;
   }).join('');
   return `<div class="h-detail-body">
       <div><h3>Contenu</h3><ol class="h-items">${items}</ol></div>
