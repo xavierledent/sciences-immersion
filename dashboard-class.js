@@ -5,9 +5,10 @@
        l'activité, ressources et explorations ouvertes.
      - Un chapitre : chaque niveau exercice par exercice, chaque jeu, chaque
        labo, ampoules de l'autoévaluation, vocabulaire.
-   Au-dessus : quatre chiffres de synthèse. Un élève est « à surveiller »
-   après WATCH_DAYS jours sans activité enregistrée (ou s'il n'a jamais
-   rien fait). */
+   Au-dessus : quatre chiffres de synthèse. Colonne « Dernière activité » :
+   signal après WATCH_DAYS jours sans activité enregistrée (ou s'il n'y en a
+   jamais eu). Un chapitre sans exercices (vocabulaire seul pour l'instant)
+   montre ce qui existe. */
 
 import {
   esc, LIGHT, BULBS, TRACK, ACTIVITY_SECTIONS, stackBar, cellsBar, legend,
@@ -80,11 +81,6 @@ export async function renderClassView(root, ctx) {
     ctx.prefs.sort = { key, dir: sort.key === key ? -sort.dir : defaultDir(key) };
     renderClassView(root, ctx);
   }));
-  const watch = root.querySelector('#d-kpi-watch');
-  if (watch) watch.addEventListener('click', () => {
-    ctx.prefs.sort = { key: 'last', dir: 1 };
-    renderClassView(root, ctx);
-  });
   if (ctx.openStudent) {
     root.querySelectorAll('[data-student]').forEach(btn =>
       btn.addEventListener('click', () => ctx.openStudent(btn.dataset.student)));
@@ -132,7 +128,6 @@ function buildRow(email, ctx, chapters) {
   };
 }
 
-const isWatched = row => daysSince(row.last) >= WATCH_DAYS;
 
 /* ===== En-tête, synthèse, légende ===== */
 
@@ -158,7 +153,7 @@ function headerHtml(ctx, classId, classIds, unclassedCount, chapters, chapterId)
 
 function kpiHtml(rows, chapter, chapters) {
   const active = rows.filter(r => daysSince(r.last) < ACTIVE_DAYS).length;
-  const watched = rows.filter(isWatched).length;
+  const used = rows.filter(r => r.last).length;
   const scope = chapter ? [chapter] : chapters;
   const totalEx = scope.reduce((n, c) => n + c.exerciseCount, 0);
   const avg = rows.length && totalEx
@@ -167,9 +162,9 @@ function kpiHtml(rows, chapter, chapters) {
   return `<div class="d-kpis">
     <div class="d-kpi"><span class="d-kpi-label">Élèves</span><span class="d-kpi-value">${rows.length}</span></div>
     <div class="d-kpi"><span class="d-kpi-label">Actifs ces ${ACTIVE_DAYS} jours</span><span class="d-kpi-value">${active}</span></div>
-    <button type="button" class="d-kpi d-kpi-button${watched ? ' is-alert' : ''}" id="d-kpi-watch"
-      data-tip="${esc(`Aucune activité depuis ${WATCH_DAYS} jours ou plus. Cliquer pour les mettre en tête du tableau.`)}">
-      <span class="d-kpi-label">${watched ? WARN_ICON : ''}À surveiller</span><span class="d-kpi-value">${watched}</span></button>
+    <div class="d-kpi" data-tip="${esc('Élèves qui ont déjà travaillé sur le site cette année (au moins une activité enregistrée)')}">
+      <span class="d-kpi-label">Ont utilisé le site</span><span class="d-kpi-value">${used}</span>
+      <span class="d-kpi-note">${rows.length ? percent(used, rows.length) + ' % de la classe' : '&nbsp;'}</span></div>
     <div class="d-kpi"><span class="d-kpi-label">Exercices répondus${chapter ? ` · ${esc(chapter.short)}` : ''}</span>
       <span class="d-kpi-value">${totalEx ? avg + ' %' : '—'}</span><span class="d-kpi-note">moyenne de la classe</span></div>
   </div>`;
@@ -243,7 +238,11 @@ function allTable(rows, chapters, sort, ctx) {
     if (key === 'explorations') return r.explorations;
     if (key === 'activity') return Object.keys(r.sections).reduce((n, k) => n + r.sections[k], 0);
     const ch = chapters.find(c => c.id === key);
-    return ch ? r.summaries[key].answeredCount + r.summaries[key].gamesDone + r.summaries[key].labsChecked : 0;
+    if (!ch) return 0;
+    const s = r.summaries[key];
+    return ch.exerciseCount || ch.games.length || ch.labs.length
+      ? s.answeredCount + s.gamesDone + s.labsChecked
+      : Number(s.stats.vocabulary_cards_seen) || 0;
   };
   const sorted = sortRows(rows, sort, valueOf);
   const head = `<tr>${th('Élève', 'name', sort, 'd-col-name')}${th('Dernière activité', 'last', sort)}
@@ -263,6 +262,12 @@ function chapterCell(chapter, s) {
   if (chapter.exerciseCount) bits.push(`${s.answeredCount}/${chapter.exerciseCount}`);
   if (chapter.games.length) bits.push(`Jeux ${s.gamesDone}/${chapter.games.length}`);
   if (chapter.labs.length) bits.push(`Labos ${s.labsChecked}/${chapter.labs.length}`);
+  if (!bits.length) {
+    // Vocabulaire seul (exercices pas encore rédigés).
+    const seen = Number(s.stats.vocabulary_cards_seen) || 0;
+    return `<td class="d-col-chapter" data-tip="${esc(`<strong>${esc(chapter.title)}</strong><br>Pas encore d’exercices ni de jeux : vocabulaire seul.`)}">
+      <span class="d-vocab-only${seen ? '' : ' d-zero'}">Vocabulaire : ${seen} carte${seen > 1 ? 's' : ''} vue${seen > 1 ? 's' : ''}</span></td>`;
+  }
   return `<td class="d-col-chapter">${chapter.exerciseCount ? exercisesBar(chapter, s) : ''}
     <span class="d-cell-note">${bits.join(' · ')}</span></td>`;
 }
@@ -288,6 +293,8 @@ function chapterTable(rows, chapter, sort, ctx) {
     if (key === 'labs') return s.labs.reduce((n, l) => n + labRank(l.result), 0);
     if (key === 'autoeval') return s.ratedCount ? (s.ratings[1] + 2 * s.ratings[2] + 3 * s.ratings[3]) / s.ratedCount : 0;
     if (key === 'vocab') return Number(s.stats.vocabulary_cards_seen) || 0;
+    if (key === 'chapterResources') return Number(s.stats.resource_link_opened) || 0;
+    if (key === 'chapterExplorations') return Number(s.stats.exploration_link_opened) || 0;
     if (key === 'chapterLast') return s.lastActivity ? s.lastActivity.getTime() : 0;
     return s.levels[key] ? s.levels[key].filter(e => e.state).length : 0;
   };
@@ -297,7 +304,8 @@ function chapterTable(rows, chapter, sort, ctx) {
     ${chapter.games.length ? th('Jeux', 'games', sort, 'd-col-games') : ''}
     ${chapter.labs.length ? th('Labos', 'labs', sort, 'd-col-labs') : ''}
     ${hasAutoeval ? th('Autoévaluation', 'autoeval', sort, 'd-col-autoeval') : ''}
-    ${th('Vocabulaire', 'vocab', sort, 'd-num')}</tr>`;
+    ${th('Vocabulaire', 'vocab', sort, 'd-num')}
+    ${th('Ressources', 'chapterResources', sort, 'd-num')}${th('Explorations', 'chapterExplorations', sort, 'd-num')}</tr>`;
   const body = sorted.map(r => {
     const s = r.summaries[chapter.id];
     return `<tr>${nameCell(r, ctx)}${lastCell(r.last)}
@@ -305,7 +313,9 @@ function chapterTable(rows, chapter, sort, ctx) {
       ${chapter.games.length ? gamesCell(s) : ''}
       ${chapter.labs.length ? labsCell(s) : ''}
       ${hasAutoeval ? autoevalCell(chapter, s) : ''}
-      ${vocabCell(s.stats)}</tr>`;
+      ${vocabCell(s.stats)}
+      <td class="d-num">${Number(s.stats.resource_link_opened) || '<span class="d-zero">0</span>'}</td>
+      <td class="d-num">${Number(s.stats.exploration_link_opened) || '<span class="d-zero">0</span>'}</td></tr>`;
   }).join('');
   return `<table class="t-table d-table d-table-chapter"><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }

@@ -620,3 +620,8 @@
 @media (max-width: 900px) {
   .d-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+.d-vocab-only {
+  font-size: 0.8rem;
+  white-space: nowrap;
+}

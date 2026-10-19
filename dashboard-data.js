@@ -43,8 +43,8 @@ async function fetchJson(url) {
 
 const contentCache = {};
 
-// Chapitres d'une filière qui ont quelque chose à suivre (exercices, jeux ou
-// labos), dans l'ordre de chapters.json.
+// Chapitres d'une filière qui ont quelque chose à suivre (vocabulaire,
+// exercices, jeux ou labos), dans l'ordre de chapters.json.
 export function loadContent(track) {
   if (!contentCache[track]) contentCache[track] = buildContent(track);
   return contentCache[track];
@@ -55,8 +55,8 @@ async function buildContent(track) {
   if (!config) throw new Error('tools/chapters.json illisible');
   const chapters = await Promise.all(config.chapters.map(async ch => {
     const base = `${TRACK_PATH[track]}/${ch.folder}/`;
-    const [practice, interactive, autoeval] = await Promise.all(
-      ['practice.json', 'interactive.json', 'autoeval.json'].map(f => fetchJson(base + f)));
+    const [practice, interactive, autoeval, vocabulary] = await Promise.all(
+      ['practice.json', 'interactive.json', 'autoeval.json', 'vocabulary.json'].map(f => fetchJson(base + f)));
 
     const levels = {};
     LEVELS.forEach(level => {
@@ -83,10 +83,11 @@ async function buildContent(track) {
       folder: ch.folder,
       short: ch.titleSuffix,
       title: (ch.h1 && ch.h1[track]) || ch.titleSuffix,
-      levels, exerciseCount, games, labs, autoevalItems
+      levels, exerciseCount, games, labs, autoevalItems,
+      vocabCount: Array.isArray(vocabulary) ? vocabulary.length : 0
     };
   }));
-  return chapters.filter(c => c.exerciseCount || c.games.length || c.labs.length);
+  return chapters.filter(c => c.vocabCount || c.exerciseCount || c.games.length || c.labs.length);
 }
 
 /* ===== Travail des élèves ===== */
