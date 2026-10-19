@@ -38,21 +38,73 @@ const LEVEL_NUM = { level1: 1, level2: 2, level3: 3 };
 const MAIL = {
   en: {
     locale: 'en-GB',
+    title: 'Science homework',
+    subject: (title, date) => `${title} · due ${date}`,
     hello: name => `Hello ${name},`,
     due: date => `To do by ${date}:`,
     exercise: (lv, n) => `Exercise ${n} (Level ${lv})`,
+    exercises: (lv, from, to) => `Exercises ${from} to ${to} (Level ${lv})`,
     lab: 'Lab',
-    games: { multipleChoice: 'Quiz', fillBlanks: 'Fill in the blanks', dragAndDrop: 'Drag and drop', matchPairs: 'Memory', sorting: 'Sorting' }
+    games: { multipleChoice: 'Quiz', fillBlanks: 'Fill in the blanks', dragAndDrop: 'Drag and drop', matchPairs: 'Memory', sorting: 'Sorting' },
+    // Message proposé : une phrase par sorte d'élément donnée (décision du 2026-10-20).
+    intro: 'Here is your science homework.',
+    ex: 'Answer the exercises. After each one, read the correction and rate yourself honestly.',
+    game: 'Play each game until the end. Try to beat your best score!',
+    labDo: 'Do the lab step by step, up to the Check step.',
+    outro: 'Log in with your school account so that your work is saved. If something does not work, reply to this email.'
   },
   nl: {
     locale: 'nl-BE',
+    title: 'Huiswerk wetenschappen',
+    subject: (title, date) => `${title} · tegen ${date}`,
     hello: name => `Hallo ${name},`,
     due: date => `Te doen tegen ${date}:`,
     exercise: (lv, n) => `Oefening ${n} (Level ${lv})`,
+    exercises: (lv, from, to) => `Oefeningen ${from} tot ${to} (Level ${lv})`,
     lab: 'Labo',
-    games: { multipleChoice: 'Quiz', fillBlanks: 'Invuloefening', dragAndDrop: 'Sleepoefening', matchPairs: 'Memory', sorting: 'Sorteeroefening' }
+    games: { multipleChoice: 'Quiz', fillBlanks: 'Invuloefening', dragAndDrop: 'Sleepoefening', matchPairs: 'Memory', sorting: 'Sorteeroefening' },
+    intro: 'Hier is je huiswerk voor wetenschappen.',
+    ex: 'Beantwoord de oefeningen. Lees na elke oefening de verbetering en beoordeel jezelf eerlijk.',
+    game: 'Speel elk spel tot het einde. Probeer je beste score te verbeteren!',
+    labDo: 'Doe het labo stap voor stap, tot en met de stap Check.',
+    outro: 'Log in met je schoolaccount, zodat je werk bewaard wordt. Werkt er iets niet? Antwoord dan op deze mail.'
   }
 };
+
+function proposedMessage(track, items) {
+  const t = MAIL[track] || MAIL.en;
+  const kinds = new Set(items.map(i => i.k));
+  const middle = [kinds.has('ex') && t.ex, kinds.has('game') && t.game, kinds.has('lab') && t.labDo].filter(Boolean);
+  return [t.intro].concat(middle.length ? ['', middle.join('\n')] : [], ['', t.outro]).join('\n');
+}
+
+/* Éléments dans l'ordre du site (chapitre, puis exercices par niveau, jeux,
+   labos), les exercices qui se suivent dans un niveau regroupés en une
+   série : { ch, chapter, k, lv, items: [item…] }. */
+function groupedItems(track, items) {
+  const chapters = contents[track] || [];
+  const rank = item => {
+    const chapter = chapters.find(c => c.folder === item.ch);
+    const ci = chapter ? chapters.indexOf(chapter) : 99;
+    if (!chapter) return [ci, 9, 0, 0];
+    if (item.k === 'ex') return [ci, 0, LEVELS.indexOf(item.lv), (chapter.levels[item.lv] || []).findIndex(e => String(e.id) === String(item.id))];
+    if (item.k === 'game') return [ci, 1, 0, chapter.games.findIndex(g => g.id === item.id)];
+    return [ci, 2, 0, chapter.labs.findIndex(l => l.id === item.id)];
+  };
+  const ranked = items.map(item => ({ item, r: rank(item) }))
+    .sort((a, b) => a.r[0] - b.r[0] || a.r[1] - b.r[1] || a.r[2] - b.r[2] || a.r[3] - b.r[3]);
+  const out = [];
+  ranked.forEach(({ item, r }) => {
+    const last = out[out.length - 1];
+    if (last && item.k === 'ex' && last.k === 'ex' && last.ch === item.ch && last.lv === item.lv && r[3] === last.pos + 1) {
+      last.items.push(item);
+      last.pos = r[3];
+      return;
+    }
+    out.push({ ch: item.ch, chapter: chapters.find(c => c.folder === item.ch) || null, k: item.k, lv: item.lv, items: [item], pos: r[3] });
+  });
+  return out;
+}
 
 const SITE_ROOT = new URL('./', location.href).href;
 
@@ -184,12 +236,16 @@ function buildMail(a, email) {
   const person = ctx.students[email] || {};
   const first = person.prenom || '';
   const groups = [];
-  (a.items || []).forEach(item => {
-    const chapter = chapterOf(a.track, item.ch);
-    let g = groups.find(x => x.ch === item.ch);
-    if (!g) groups.push(g = { ch: item.ch, title: chapter ? chapter.title : item.ch, lines: [] });
+  groupedItems(a.track, a.items || []).forEach(run => {
+    const chapter = run.chapter;
+    const item = run.items[0];
+    let g = groups.find(x => x.ch === run.ch);
+    if (!g) groups.push(g = { ch: run.ch, title: chapter ? chapter.title : run.ch, lines: [] });
     let label;
-    if (item.k === 'ex') {
+    if (item.k === 'ex' && run.items.length > 1) {
+      // Série : un seul lien, vers le premier ; l'élève enchaîne dans la fenêtre d'exercice.
+      label = t.exercises(LEVEL_NUM[item.lv], item.id, run.items[run.items.length - 1].id);
+    } else if (item.k === 'ex') {
       const ex = chapter && (chapter.levels[item.lv] || []).find(e => String(e.id) === String(item.id));
       label = t.exercise(LEVEL_NUM[item.lv], item.id) + (ex && ex.title ? ` — ${ex.title}` : '');
     } else if (item.k === 'game') {
@@ -208,7 +264,7 @@ function buildMail(a, email) {
   const text = [first ? t.hello(first) : t.hello('').replace(/ ,$/, ','), '']
     .concat(message ? [message, ''] : [])
     .concat([due, ''])
-    .concat(...groups.map(g => [g.title].concat(g.lines.map(l => `- ${l.label} : ${l.link}`), [''])))
+    .concat(...groups.map(g => [g.title].concat(g.lines.map(l => `- ${l.label}: ${l.link}`), [''])))
     .concat([signature]).join('\n');
 
   const html = `<p>${esc(first ? t.hello(first) : t.hello('').replace(/ ,$/, ','))}</p>` +
@@ -218,7 +274,16 @@ function buildMail(a, email) {
       `<li><a href="${esc(l.link)}">${esc(l.label)}</a></li>`).join('')}</ul>`).join('') +
     `<p>${esc(signature)}</p>`;
 
-  return { to: email, toName: [person.prenom, person.nom].filter(Boolean).join(' '), subject: a.title, text, html };
+  const shortDue = (() => {
+    const [y, m, d] = String(a.due || '').split('-').map(Number);
+    return y ? new Date(y, m - 1, d).toLocaleDateString(t.locale, { weekday: 'short', day: 'numeric', month: 'short' }) : '';
+  })();
+  return {
+    to: email,
+    toName: [person.prenom, person.nom].filter(Boolean).join(' '),
+    subject: shortDue ? t.subject(a.title, shortDue) : a.title,
+    text, html
+  };
 }
 
 /* ===== Liste des devoirs ===== */
@@ -423,6 +488,10 @@ function nextWeek() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
+/* Titre et message : proposés d'office (titre fixe de la filière, message
+   composé selon ce qui est coché) et modifiables. Tant que l'enseignante n'y
+   a pas touché (titleAuto / messageAuto), ils suivent la filière et le
+   contenu ; dès qu'elle les modifie, ils ne bougent plus. */
 function startDraft(a) {
   const firstClass = ctx.sortedClassIds().find(id => ctx.classes[id].teacher === ctx.me);
   draft = a ? {
@@ -440,9 +509,31 @@ function startDraft(a) {
     recipients: new Set(), items: [], sent: false, chapter: null
   };
   if (!a && firstClass) studentsOf(firstClass).forEach(e => draft.recipients.add(e));
+  const track = draftTrack();
+  draft.titleAuto = !a || !track || draft.title === (MAIL[track] || MAIL.en).title;
+  draft.messageAuto = !a || !track || draft.message === proposedMessage(track, (a.items || []));
+  applyAuto();
   ctx.setStatus('');
   renderEditor();
   window.scrollTo(0, 0);
+}
+
+function applyAuto() {
+  const track = draftTrack();
+  if (!track) return;
+  if (draft.titleAuto) draft.title = (MAIL[track] || MAIL.en).title;
+  if (draft.messageAuto) draft.message = proposedMessage(track, draft.items.map(keyToItem));
+}
+
+// Après un changement de filière ou de contenu : titre et message proposés à jour à l'écran.
+function refreshAuto() {
+  applyAuto();
+  const title = root.querySelector('#h-title');
+  const message = root.querySelector('#h-message');
+  if (draft.titleAuto && title) title.value = draft.title;
+  if (draft.messageAuto && message) message.value = draft.message;
+  const reset = root.querySelector('#h-message-reset');
+  if (reset) reset.hidden = draft.messageAuto;
 }
 
 function draftTrack() {
@@ -462,22 +553,23 @@ function renderEditor() {
         <h2>${draft.id ? 'Modifier le devoir' : 'Nouveau devoir'}</h2>
         <button type="button" class="t-btn" id="h-cancel">Retour à la liste</button>
       </div>
-      <div class="h-grid">
-        <div class="h-col">
-          <label class="h-field"><span>Titre (objet du mail)</span>
-            <input type="text" id="h-title" maxlength="150" value="${esc(draft.title)}" placeholder="ex. Homework week 9 — ecosystems" /></label>
-          <label class="h-field"><span>Date limite</span>
-            <input type="date" id="h-due" value="${esc(draft.due)}" /></label>
-          <div class="h-field"><span>Classes</span><div id="h-classes"></div></div>
-          <div class="h-field"><span>Élèves</span><div id="h-recipients"></div></div>
-        </div>
-        <div class="h-col">
-          <div class="h-field"><span>Contenu</span><div id="h-content"></div></div>
-        </div>
+      <div class="h-row-fields">
+        <label class="h-field h-field-title"><span>Titre (la date limite s'ajoute dans l'objet du mail)</span>
+          <input type="text" id="h-title" maxlength="150" value="${esc(draft.title)}" /></label>
+        <label class="h-field"><span>Date limite</span>
+          <input type="date" id="h-due" value="${esc(draft.due)}" /></label>
       </div>
-      <label class="h-field"><span>Message (après « Hello / Hallo + prénom », avant la liste des liens)</span>
-        <textarea id="h-message" class="h-message" maxlength="5000" placeholder="Écrivez votre consigne…">${esc(draft.message)}</textarea></label>
-      <div class="h-field"><span>Aperçu du mail</span><div id="h-preview" class="h-preview"></div></div>
+      <div class="h-grid">
+        <div class="h-field"><span>Classes</span><div id="h-classes"></div></div>
+        <div class="h-field"><span>Élèves</span><div id="h-recipients"></div></div>
+      </div>
+      <div class="h-field"><span>Contenu</span><div id="h-content"></div></div>
+      <div class="h-grid">
+        <div class="h-field"><span>Message (après « Hello / Hallo + prénom », avant la date limite et les liens)</span>
+          <textarea id="h-message" class="h-message" maxlength="5000">${esc(draft.message)}</textarea>
+          <button type="button" class="h-mini" id="h-message-reset"${draft.messageAuto ? ' hidden' : ''}>Revenir au texte proposé</button></div>
+        <div class="h-field"><span>Aperçu du mail</span><div id="h-preview" class="h-preview"></div></div>
+      </div>
       <div class="t-form-row h-submit">
         <button type="button" class="t-btn t-btn-primary" id="h-send"></button>
         <button type="button" class="t-btn" id="h-save">Enregistrer sans envoyer</button>
@@ -486,9 +578,23 @@ function renderEditor() {
     </section>`;
 
   root.querySelector('#h-cancel').addEventListener('click', () => { draft = null; renderList(); });
-  root.querySelector('#h-title').addEventListener('input', e => { draft.title = e.target.value; renderPreview(); });
+  root.querySelector('#h-title').addEventListener('input', e => {
+    draft.title = e.target.value;
+    draft.titleAuto = false;
+    renderPreview();
+  });
   root.querySelector('#h-due').addEventListener('input', e => { draft.due = e.target.value; renderPreview(); });
-  root.querySelector('#h-message').addEventListener('input', e => { draft.message = e.target.value; renderPreview(); });
+  root.querySelector('#h-message').addEventListener('input', e => {
+    draft.message = e.target.value;
+    draft.messageAuto = false;
+    root.querySelector('#h-message-reset').hidden = false;
+    renderPreview();
+  });
+  root.querySelector('#h-message-reset').addEventListener('click', () => {
+    draft.messageAuto = true;
+    refreshAuto();
+    renderPreview();
+  });
   root.querySelector('#h-send').addEventListener('click', () => submit(true));
   root.querySelector('#h-save').addEventListener('click', () => submit(false));
   renderClasses();
@@ -514,6 +620,7 @@ function renderClasses() {
     else { draft.classes.delete(id); studentsOf(id).forEach(e => draft.recipients.delete(e)); }
     // Filière changée (plus aucune classe, puis une autre) : le contenu choisi ne vaut plus.
     if (draftTrack() !== before && draftTrack()) { draft.items = []; draft.chapter = null; }
+    refreshAuto();
     renderClasses();
     renderRecipients();
     renderContent();
@@ -552,6 +659,13 @@ function renderRecipients() {
   }));
 }
 
+/* Choix du contenu : le chapitre entier d'un coup d'œil, une colonne par
+   niveau, puis jeux et labos. Cocher ne redessine pas la liste (elle
+   resterait sinon remise en haut) : seules la sélection et l'aperçu
+   changent. Maj + clic coche ou décoche toute la plage depuis le clic
+   précédent, dans la même colonne. */
+let lastChecked = null;
+
 function renderContent() {
   const box = root.querySelector('#h-content');
   const track = draftTrack();
@@ -562,56 +676,97 @@ function renderContent() {
   const chosen = new Set(draft.items);
   const check = (item, label, title) => {
     const key = itemKey(item);
-    return `<label class="h-check h-item"><input type="checkbox" data-item="${esc(key)}"${chosen.has(key) ? ' checked' : ''} />
-      <span>${esc(label)}${title ? ` <span class="d-cell-note">${esc(title)}</span>` : ''}</span></label>`;
+    return `<label class="h-check h-item"${title ? ` title="${esc(title)}"` : ''}><input type="checkbox" data-item="${esc(key)}"${chosen.has(key) ? ' checked' : ''} />
+      <span class="h-item-text"><strong>${esc(label)}</strong>${title ? ` <span class="h-item-title">${esc(title)}</span>` : ''}</span></label>`;
   };
-  const blocks = [];
+  const columns = [];
   if (chapter) {
     LEVELS.forEach(lv => {
       const list = chapter.levels[lv];
-      if (list.length) blocks.push(`<h4>Exercices · niveau ${LEVEL_NUM[lv]}</h4><div class="h-checks h-items">${list.map(ex =>
+      if (list.length) columns.push(`<div class="h-pick-col"><h4>Niveau ${LEVEL_NUM[lv]}</h4>${list.map(ex =>
         check({ ch: chapter.folder, k: 'ex', lv, id: ex.id }, `Ex. ${ex.id}`, ex.title)).join('')}</div>`);
     });
-    if (chapter.games.length) blocks.push(`<h4>Jeux</h4><div class="h-checks h-items">${chapter.games.map(g =>
+    if (chapter.games.length) columns.push(`<div class="h-pick-col"><h4>Jeux</h4>${chapter.games.map(g =>
       check({ ch: chapter.folder, k: 'game', id: g.id }, g.typeLabel, g.title)).join('')}</div>`);
-    if (chapter.labs.length) blocks.push(`<h4>Labos</h4><div class="h-checks h-items">${chapter.labs.map(l =>
+    if (chapter.labs.length) columns.push(`<div class="h-pick-col"><h4>Labos</h4>${chapter.labs.map(l =>
       check({ ch: chapter.folder, k: 'lab', id: l.id }, 'Labo', l.title)).join('')}</div>`);
   }
-  const selection = draft.items.map(key => {
-    const t = itemTitle(track, keyToItem(key));
-    return `<li>${esc(t.chapter)} · ${esc(t.label)}${t.title ? ` — ${esc(t.title)}` : ''}
-      <button type="button" class="h-mini" data-remove="${esc(key)}" aria-label="Retirer">Retirer</button></li>`;
-  }).join('');
   box.innerHTML = `
-    <label>Chapitre <select id="h-chapter">${chapters.map(c =>
-      `<option value="${esc(c.folder)}"${c.folder === draft.chapter ? ' selected' : ''}>${esc(c.short)} — ${esc(c.title)}</option>`).join('')}</select></label>
-    <div class="h-picker">${blocks.join('') || '<p class="t-help">Rien à donner dans ce chapitre.</p>'}</div>
-    <h4>Sélection (${draft.items.length})</h4>
-    ${draft.items.length ? `<ol class="h-items h-selection">${selection}</ol>` : '<p class="t-help">Cochez des exercices, des jeux ou des labos, dans un ou plusieurs chapitres.</p>'}`;
+    <div class="h-content-head">
+      <label>Chapitre <select id="h-chapter">${chapters.map(c =>
+        `<option value="${esc(c.folder)}"${c.folder === draft.chapter ? ' selected' : ''}>${esc(c.short)} — ${esc(c.title)}</option>`).join('')}</select></label>
+      <span class="t-help">Astuce : Maj + clic coche toute une plage (ex. 1, puis Maj + clic sur 10).</span>
+    </div>
+    <div class="h-picker">${columns.join('') || '<p class="t-help">Rien à donner dans ce chapitre.</p>'}</div>
+    <div id="h-selection"></div>`;
+  lastChecked = null;
+  // Maj lue au mousedown : un clic sur le texte de la case passe par le
+  // <label>, et le clic qu'il relaie à la case ne garde pas toujours Maj.
+  let shift = false;
+  box.querySelector('.h-picker').addEventListener('mousedown', e => { shift = e.shiftKey; });
   box.querySelector('#h-chapter').addEventListener('change', e => { draft.chapter = e.target.value; renderContent(); });
-  box.querySelectorAll('[data-item]').forEach(cb => cb.addEventListener('change', () => {
-    const key = cb.dataset.item;
-    draft.items = draft.items.filter(k => k !== key);
-    if (cb.checked) draft.items.push(key);
-    renderContent();
-    renderPreview();
+  box.querySelectorAll('[data-item]').forEach(cb => cb.addEventListener('click', e => {
+    const col = cb.closest('.h-pick-col');
+    const boxes = Array.from(col.querySelectorAll('[data-item]'));
+    let targets = [cb];
+    if ((e.shiftKey || shift) && lastChecked && lastChecked.closest('.h-pick-col') === col) {
+      const [i, j] = [boxes.indexOf(lastChecked), boxes.indexOf(cb)].sort((x, y) => x - y);
+      targets = boxes.slice(i, j + 1);
+    }
+    targets.forEach(t => {
+      t.checked = cb.checked;
+      draft.items = draft.items.filter(k => k !== t.dataset.item);
+      if (cb.checked) draft.items.push(t.dataset.item);
+    });
+    lastChecked = cb;
+    shift = false;
+    contentChanged();
   }));
+  renderSelection();
+}
+
+function contentChanged() {
+  refreshAuto();
+  renderSelection();
+  renderPreview();
+}
+
+// Sélection, regroupée comme dans le mail (séries d'exercices qui se suivent).
+function renderSelection() {
+  const box = root.querySelector('#h-selection');
+  if (!box) return;
+  const track = draftTrack();
+  const runs = groupedItems(track, draft.items.map(keyToItem));
+  const lines = runs.map((run, i) => {
+    const first = run.items[0];
+    const t = itemTitle(track, first);
+    const label = first.k === 'ex' && run.items.length > 1
+      ? `Niveau ${LEVEL_NUM[first.lv]} · ex. ${first.id} à ${run.items[run.items.length - 1].id}`
+      : t.label + (t.title ? ` — ${t.title}` : '');
+    return `<li>${esc(t.chapter)} · ${esc(label)}
+      <button type="button" class="h-mini" data-remove="${i}">Retirer</button></li>`;
+  }).join('');
+  box.innerHTML = `<h4>Sélection (${draft.items.length} élément${draft.items.length > 1 ? 's' : ''})</h4>
+    ${draft.items.length ? `<ul class="h-items h-selection">${lines}</ul>` : '<p class="t-help">Cochez des exercices, des jeux ou des labos, dans un ou plusieurs chapitres.</p>'}`;
   box.querySelectorAll('[data-remove]').forEach(b => b.addEventListener('click', () => {
-    draft.items = draft.items.filter(k => k !== b.dataset.remove);
-    renderContent();
-    renderPreview();
+    const removed = new Set(runs[Number(b.dataset.remove)].items.map(itemKey));
+    draft.items = draft.items.filter(k => !removed.has(k));
+    root.querySelectorAll('[data-item]').forEach(cb => { if (removed.has(cb.dataset.item)) cb.checked = false; });
+    contentChanged();
   }));
 }
 
 function draftAssignment() {
+  const track = draftTrack();
   return {
     title: draft.title.trim(),
     message: draft.message,
-    track: draftTrack(),
+    track,
     due: draft.due,
     classes: ctx.sortedClassIds().filter(id => draft.classes.has(id)),
     recipients: Array.from(draft.recipients),
-    items: draft.items.map(keyToItem)
+    // Dans l'ordre du site, pas dans l'ordre des clics.
+    items: track ? [].concat(...groupedItems(track, draft.items.map(keyToItem)).map(r => r.items)) : []
   };
 }
 

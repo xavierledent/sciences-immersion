@@ -1821,7 +1821,7 @@
 }
 
 .teacher-page textarea.h-message {
-  min-height: 90px;
+  min-height: 170px;
   font-family: inherit;
   font-size: 0.9rem;
 }
@@ -1871,31 +1871,89 @@
   cursor: pointer;
 }
 
-.h-picker {
-  max-height: 360px;
-  overflow-y: auto;
-  margin: 8px 0 12px;
-  padding: 8px 12px;
-  border: 1px solid var(--t-border);
-  border-radius: 10px;
+/* Titre + date limite sur une ligne */
+.h-row-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
 }
 
-.h-picker h4 {
-  margin: 10px 0 4px;
+.h-field-title {
+  flex: 1 1 320px;
+  max-width: 560px;
+}
+
+/* Choix du contenu : une colonne par niveau, puis jeux et labos, sans
+   défilement interne */
+.h-content-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+}
+
+.h-content-head .t-help {
+  margin: 0;
+}
+
+.h-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 4px 20px;
+  margin: 10px 0 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--t-border);
+  border-radius: 10px;
+  user-select: none;
+}
+
+.h-pick-col {
+  min-width: 0;
+}
+
+.h-pick-col h4 {
+  margin: 0 0 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--t-border);
   font-size: 0.85rem;
 }
 
-.h-picker h4:first-child {
-  margin-top: 0;
+.h-item {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: 2px 0;
 }
 
-.h-items.h-checks {
-  flex-direction: column;
+.h-item input {
+  margin-top: 3px;
+  flex: none;
+}
+
+.h-item-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.h-item-title {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.h-selection {
+  list-style: none;
   padding-left: 0;
 }
 
-.h-item .d-cell-note {
-  display: inline;
+#h-selection h4 {
+  margin: 0 0 4px;
+  font-size: 0.85rem;
+}
+
+#h-message-reset {
+  margin-top: 6px;
 }
 
 .h-selection .h-mini {
