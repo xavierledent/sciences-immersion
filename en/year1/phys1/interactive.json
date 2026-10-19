@@ -1,6 +1,7 @@
 {
   "multipleChoice": [
     {
+      "id": "qcm-1",
       "quizTitle": "Resource detective",
       "instructions": "",
       "questions": [
@@ -103,6 +104,7 @@
       ]
     },
     {
+      "id": "qcm-2",
       "quizTitle": "Forms and transformations",
       "instructions": "",
       "questions": [
@@ -217,6 +219,7 @@
       ]
     },
     {
+      "id": "qcm-3",
       "quizTitle": "Power plants in Belgium",
       "image": "assets/qcm3-power-plants.webp",
       "instructions": "",
@@ -312,6 +315,7 @@
       ]
     },
     {
+      "id": "qcm-4",
       "quizTitle": "Energy all around us",
       "instructions": "",
       "questions": [
@@ -414,6 +418,7 @@
       ]
     },
     {
+      "id": "qcm-5",
       "quizTitle": "Reading the power chart",
       "image": "assets/qcm5-power-chart.png",
       "instructions": "",
@@ -500,6 +505,7 @@
   ],
   "dragAndDrop": [
     {
+      "id": "dnd-1",
       "quizTitle": "Build the energy flow diagram",
       "backgroundImage": "assets/dnd1-energy-flow.webp",
       "hideOnSuccess": true,
@@ -553,6 +559,7 @@
       ]
     },
     {
+      "id": "dnd-2",
       "quizTitle": "Inside a hydroelectric power plant",
       "backgroundImage": "assets/dnd2-hydro-plant.webp",
       "hideOnSuccess": true,
@@ -601,6 +608,7 @@
       ]
     },
     {
+      "id": "dnd-3",
       "quizTitle": "Inside a nuclear power plant",
       "backgroundImage": "assets/dnd3-nuclear-plant.webp",
       "hideOnSuccess": true,
@@ -649,6 +657,7 @@
       ]
     },
     {
+      "id": "dnd-4",
       "quizTitle": "Energy at the playground",
       "backgroundImage": "assets/dnd4-playground.webp",
       "hideOnSuccess": true,
@@ -695,6 +704,7 @@
       ]
     },
     {
+      "id": "dnd-5",
       "quizTitle": "Turbine and generator",
       "backgroundImage": "assets/dnd5-turbine-generator.webp",
       "hideOnSuccess": true,
@@ -732,6 +742,7 @@
   ],
   "fillBlanks": [
     {
+      "id": "fitb-1",
       "quizTitle": "Renewable or not?",
       "text": "An energy [blank0] is a resource that humans use to produce energy, such as electricity. Coal, oil, natural gas and uranium are [blank1] resources: their stock on Earth is [blank2] because they take [blank3] of years to form. If we use them too fast, they will [blank4]. The sun, the wind and water are [blank5] resources because they depend on permanent natural phenomena. Wood and biomass are only sustainable if humans manage them [blank6].",
       "blanks": [
@@ -816,6 +827,7 @@
       ]
     },
     {
+      "id": "fitb-2",
       "quizTitle": "Where does the energy go?",
       "text": "Energy cannot be created, and it cannot be [blank0]. It can only be [blank1] from one form to another, so the total quantity of energy is [blank2]. During any transformation, some energy is always \"lost\" into the air as [blank3] energy that we cannot use. This is called energy [blank4]. In an energy flow diagram, this lost energy is drawn with a [blank5] arrow. This is why a machine can never run [blank6].",
       "blanks": [
@@ -891,6 +903,7 @@
       ]
     },
     {
+      "id": "fitb-3",
       "quizTitle": "Spin the turbine",
       "text": "Inside almost every power plant, two machines work together. The [blank0] is like a giant fan: when it spins, it produces [blank1] energy. It is connected to the [blank2], which transforms this energy into [blank3] energy. In a nuclear power plant, the turbine is spun by high-pressure [blank4] made by splitting [blank5] atoms. In a wind farm, the turbine is spun directly by the [blank6]. Electricity is our favourite form of energy because it is easy to transform and easy to [blank7].",
       "blanks": [
@@ -986,6 +999,7 @@
       ]
     },
     {
+      "id": "fitb-4",
       "quizTitle": "Lena's camping trip",
       "text": "Lena goes camping in the mountains. In the evening, she lights a campfire: the wood releases its [blank0] energy as heat and light. Only part of the heat cooks her soup; the rest is [blank1] into the cold air. Her small solar charger stayed in the sun all day: it transformed [blank2] energy into electrical energy, then stored it in a battery as [blank3] energy. Before going to sleep, she fills a thermos with hot tea: it is a [blank4] reservoir. The next morning, her tea is only warm: a little heat has [blank5] into the air.",
       "blanks": [
@@ -1063,6 +1077,7 @@
       ]
     },
     {
+      "id": "fitb-5",
       "quizTitle": "The village meeting",
       "text": "In the village of Beaufort, people discuss a project of three new wind turbines. Mrs Lambert says: \"Wind turbines release no CO2 when they produce electricity.\" This is a [blank0], because everybody can check it. Mr Dubois answers: \"Wind turbines are ugly!\" This is a [blank1]: it is a personal opinion. Young Tom says: \"I think the turbines will produce more electricity in winter, because there is more wind.\" This is a [blank2]: it could be tested by [blank3] the electricity produced every month. Everybody agrees on one thing: wind is a [blank4] resource that will never [blank5].",
       "blanks": [
@@ -1133,6 +1148,7 @@
   ],
   "matchPairs": [
     {
+      "id": "memory-1",
       "quizTitle": "Forms of energy",
       "instructions": "",
       "pairs": [
@@ -1205,6 +1221,7 @@
       ]
     },
     {
+      "id": "memory-2",
       "quizTitle": "Power plant and resource",
       "instructions": "",
       "pairs": [
@@ -1277,6 +1294,7 @@
       ]
     },
     {
+      "id": "memory-3",
       "quizTitle": "Resource detective (images)",
       "instructions": "",
       "pairs": [
@@ -1360,6 +1378,7 @@
       ]
     },
     {
+      "id": "memory-4",
       "quizTitle": "What does it transform?",
       "instructions": "",
       "pairs": [
@@ -1421,6 +1440,7 @@
       ]
     },
     {
+      "id": "memory-5",
       "quizTitle": "Energy words",
       "instructions": "",
       "pairs": [
@@ -1506,6 +1526,7 @@
   ],
   "sorting": [
     {
+      "id": "sorting-1",
       "quizTitle": "Renewable or non-renewable?",
       "instructions": "Help the Belgian energy minister! Sort these resources: will they last forever, or will they run out one day?",
       "categories": [
@@ -1576,6 +1597,7 @@
       ]
     },
     {
+      "id": "sorting-2",
       "quizTitle": "Energy in storage",
       "instructions": "All these things store energy. How is the energy trapped inside them?",
       "categories": [
@@ -1659,6 +1681,7 @@
       ]
     },
     {
+      "id": "sorting-3",
       "quizTitle": "What is it for?",
       "instructions": "All these devices use electricity. Sort them by the USEFUL energy they produce.",
       "categories": [
@@ -1736,6 +1759,7 @@
       ]
     },
     {
+      "id": "sorting-4",
       "quizTitle": "Which power plant am I?",
       "instructions": "You are an energy expert and must advise the government. Sort each feature into the power plant it describes.",
       "categories": [

@@ -108,7 +108,7 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
 - **Casse des noms de fichiers.** GitHub Pages distingue majuscules et
   minuscules ; un écart passe en local sous Windows et échoue en ligne.
 - **Identifiants stables.** Les données des élèves sont rattachées à l'`id`
-  des exercices et au `quizTitle` des jeux. Ne pas les modifier sans le
+  des exercices et à l'`id` des jeux (plus à leur titre). Ne pas les modifier sans le
   signaler (détail dans [docs/formats-donnees.md](docs/formats-donnees.md)).
 - **Texte des JSON.** Seules les balises `<strong>`, `<em>`, `<u>` et `<br>`
   sont interprétées.

@@ -63,11 +63,18 @@ contrairement à `practice.json`.
 | `matchPairs` | Memory | `memory` |
 | `sorting` | Tri par catégories | `sorting` |
 
-Tous les jeux ont un `quizTitle` et, en option, un champ `instructions`.
+Tous les jeux ont un `id`, un `quizTitle` et, en option, un champ `instructions`.
+
+L'`id` (`qcm-1`, `dnd-3`…) est l'identifiant fixe du jeu : les records et la
+reprise des élèves y sont rattachés, pas au titre. Il est unique dans le
+fichier, identique en EN et en NL pour le même jeu, et ne change jamais.
+L'éditeur [Admin/igames.html](../Admin/igames.html) le garde à la sauvegarde
+et en donne un neuf à un jeu créé.
 
 ```json
 {
   "multipleChoice": [{
+    "id": "qcm-1",
     "quizTitle": "Ecosystem Basics",
     "image": "assets/QCM4.webp",
     "questions": [{
@@ -193,17 +200,17 @@ fichier n'existe que pour les chapitres dont l'autoévaluation est rédigée
 ## Ce qui sert de clé aux données des élèves
 
 Les réponses et les scores des élèves sont enregistrés par
-[storage.js](../storage.js) sous une clé construite à partir de l'adresse de
-la page et d'un identifiant tiré du JSON. Modifier cet identifiant détache les
+[storage.js](../storage.js) dans le document Firestore du chapitre (ou, pour un
+visiteur, sous une clé construite à partir de l'adresse de la page), sous un
+identifiant tiré du JSON. Modifier cet identifiant détache les
 données déjà enregistrées :
 
 | Donnée | Identifiant utilisé |
 |---|---|
 | Réponses et auto-évaluations des exercices | niveau, `id` de l'exercice, rang de la sous-question |
-| Scores et reprise des QCM, records des jeux | `quizTitle` |
+| Scores et reprise des QCM, records des jeux | `id` du jeu |
 | Notes de l'autoévaluation par attendus | `id` de l'item |
 
-Conséquence : renommer un `quizTitle`, changer l'`id` d'un exercice ou d'un
-item d'autoévaluation, ou réordonner des sous-questions, fait perdre aux
+Conséquence : changer l'`id` d'un jeu, d'un exercice ou d'un item d'autoévaluation, ou réordonner des sous-questions, fait perdre aux
 élèves ce qu'ils avaient enregistré pour cet élément. Corriger le texte d'un
 énoncé, d'une option ou d'une correction est sans effet sur les données.

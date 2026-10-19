@@ -1,6 +1,7 @@
 {
   "multipleChoice": [
     {
+      "id": "qcm-1",
       "quizTitle": "Hulpbronnendetective",
       "instructions": "",
       "questions": [
@@ -103,6 +104,7 @@
       ]
     },
     {
+      "id": "qcm-2",
       "quizTitle": "Vormen en omzettingen",
       "instructions": "",
       "questions": [
@@ -217,6 +219,7 @@
       ]
     },
     {
+      "id": "qcm-3",
       "quizTitle": "Elektriciteitscentrales in België",
       "image": "assets/qcm3-power-plants-nl.webp",
       "instructions": "",
@@ -312,6 +315,7 @@
       ]
     },
     {
+      "id": "qcm-4",
       "quizTitle": "Energie overal om ons heen",
       "instructions": "",
       "questions": [
@@ -414,6 +418,7 @@
       ]
     },
     {
+      "id": "qcm-5",
       "quizTitle": "De vermogensgrafiek lezen",
       "image": "assets/qcm5-power-chart-nl.png",
       "instructions": "",
@@ -500,6 +505,7 @@
   ],
   "dragAndDrop": [
     {
+      "id": "dnd-1",
       "quizTitle": "Bouw het energiestroomdiagram",
       "backgroundImage": "assets/dnd1-energy-flow.webp",
       "hideOnSuccess": true,
@@ -553,6 +559,7 @@
       ]
     },
     {
+      "id": "dnd-2",
       "quizTitle": "In een waterkrachtcentrale",
       "backgroundImage": "assets/dnd2-hydro-plant.webp",
       "hideOnSuccess": true,
@@ -601,6 +608,7 @@
       ]
     },
     {
+      "id": "dnd-3",
       "quizTitle": "In een kerncentrale",
       "backgroundImage": "assets/dnd3-nuclear-plant.webp",
       "hideOnSuccess": true,
@@ -649,6 +657,7 @@
       ]
     },
     {
+      "id": "dnd-4",
       "quizTitle": "Energie in de speeltuin",
       "backgroundImage": "assets/dnd4-playground.webp",
       "hideOnSuccess": true,
@@ -695,6 +704,7 @@
       ]
     },
     {
+      "id": "dnd-5",
       "quizTitle": "Turbine en generator",
       "backgroundImage": "assets/dnd5-turbine-generator.webp",
       "hideOnSuccess": true,
@@ -732,6 +742,7 @@
   ],
   "fillBlanks": [
     {
+      "id": "fitb-1",
       "quizTitle": "Hernieuwbaar of niet?",
       "text": "Een [blank0] is een hulpbron die mensen gebruiken om energie te produceren, zoals elektriciteit. Steenkool, aardolie, aardgas en uranium zijn [blank1] hulpbronnen: hun voorraad op aarde is [blank2], omdat ze [blank3] jaren nodig hebben om zich te vormen. Als we ze te snel gebruiken, zullen ze [blank4]. De zon, de wind en water zijn [blank5] hulpbronnen, omdat ze afhangen van permanente natuurverschijnselen. Hout en biomassa zijn alleen duurzaam als mensen ze [blank6] beheren.",
       "blanks": [
@@ -816,6 +827,7 @@
       ]
     },
     {
+      "id": "fitb-2",
       "quizTitle": "Waar gaat de energie naartoe?",
       "text": "Energie kan niet gemaakt worden en ze kan ook niet [blank0] worden. Ze kan alleen [blank1] worden van de ene vorm in een andere, dus de totale hoeveelheid energie [blank2]. Bij elke omzetting gaat er altijd wat energie \"verloren\" in de lucht als [blank3] energie die we niet kunnen gebruiken. Dat noemen we [blank4]. In een energiestroomdiagram tekenen we die verloren energie met een [blank5] pijl. Daarom kan een machine nooit [blank6] werken.",
       "blanks": [
@@ -895,6 +907,7 @@
       ]
     },
     {
+      "id": "fitb-3",
       "quizTitle": "Laat de turbine draaien",
       "text": "In bijna elke elektriciteitscentrale werken twee machines samen. De [blank0] is zoals een reusachtige ventilator: als hij draait, produceert hij [blank1] energie. Hij is verbonden met de [blank2], die deze energie omzet in [blank3] energie. In een kerncentrale doet [blank4] onder hoge druk de turbine draaien. Die stoom ontstaat door atomen van [blank5] te splitsen. In een windpark doet de [blank6] de turbine rechtstreeks draaien. Elektriciteit is onze favoriete energievorm, omdat ze makkelijk om te zetten en makkelijk te [blank7] is.",
       "blanks": [
@@ -990,6 +1003,7 @@
       ]
     },
     {
+      "id": "fitb-4",
       "quizTitle": "Lena gaat kamperen",
       "text": "Lena gaat kamperen in de bergen. 's Avonds steekt ze een kampvuur aan: het hout maakt zijn [blank0] energie vrij als warmte en licht. Slechts een deel van de warmte kookt haar soep; de rest [blank1] in de koude lucht. Haar kleine zonnelader lag de hele dag in de zon: hij zette [blank2] om in elektrische energie en sloeg die daarna op in een batterij als [blank3] energie. Voor ze gaat slapen, vult ze een thermosfles met hete thee: dat is een [blank4] reservoir. De volgende ochtend is haar thee nog maar lauw: een beetje warmte is [blank5] in de lucht.",
       "blanks": [
@@ -1063,6 +1077,7 @@
       ]
     },
     {
+      "id": "fitb-5",
       "quizTitle": "De dorpsvergadering",
       "text": "In het dorp Beaufort praten de mensen over een project van drie nieuwe windturbines. Mevrouw Lambert zegt: \"Windturbines stoten geen CO2 uit als ze elektriciteit produceren.\" Dit is een [blank0], want iedereen kan het controleren. Meneer Dubois antwoordt: \"Windturbines zijn lelijk!\" Dit is een [blank1]: het is een persoonlijke mening. De jonge Tom zegt: \"Ik denk dat de turbines in de winter meer elektriciteit zullen produceren, omdat er dan meer wind is.\" Dit is een [blank2]: je kunt ze testen door elke maand de geproduceerde elektriciteit te [blank3]. Iedereen is het over één ding eens: wind is een [blank4] hulpbron die nooit zal [blank5].",
       "blanks": [
@@ -1133,6 +1148,7 @@
   ],
   "matchPairs": [
     {
+      "id": "memory-1",
       "quizTitle": "Energievormen",
       "instructions": "",
       "pairs": [
@@ -1205,6 +1221,7 @@
       ]
     },
     {
+      "id": "memory-2",
       "quizTitle": "Centrale en hulpbron",
       "instructions": "",
       "pairs": [
@@ -1277,6 +1294,7 @@
       ]
     },
     {
+      "id": "memory-3",
       "quizTitle": "Hulpbronnendetective (foto's)",
       "instructions": "",
       "pairs": [
@@ -1360,6 +1378,7 @@
       ]
     },
     {
+      "id": "memory-4",
       "quizTitle": "Wat zet het om?",
       "instructions": "",
       "pairs": [
@@ -1421,6 +1440,7 @@
       ]
     },
     {
+      "id": "memory-5",
       "quizTitle": "Energiewoorden",
       "instructions": "",
       "pairs": [
@@ -1506,6 +1526,7 @@
   ],
   "sorting": [
     {
+      "id": "sorting-1",
       "quizTitle": "Hernieuwbaar of niet-hernieuwbaar?",
       "instructions": "Help de Belgische minister van Energie! Sorteer deze hulpbronnen: blijven ze altijd bestaan, of raken ze ooit op?",
       "categories": [
@@ -1576,6 +1597,7 @@
       ]
     },
     {
+      "id": "sorting-2",
       "quizTitle": "Opgeslagen energie",
       "instructions": "Al deze dingen slaan energie op. Hoe zit de energie erin opgesloten?",
       "categories": [
@@ -1659,6 +1681,7 @@
       ]
     },
     {
+      "id": "sorting-3",
       "quizTitle": "Waarvoor dient het?",
       "instructions": "Al deze toestellen gebruiken elektriciteit. Sorteer ze volgens de NUTTIGE energie die ze produceren.",
       "categories": [
@@ -1736,6 +1759,7 @@
       ]
     },
     {
+      "id": "sorting-4",
       "quizTitle": "Welke centrale ben ik?",
       "instructions": "Je bent een energie-expert en moet de regering advies geven. Sorteer elk kenmerk bij de centrale die het beschrijft.",
       "categories": [

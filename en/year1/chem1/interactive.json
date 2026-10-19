@@ -1,6 +1,7 @@
 {
   "multipleChoice": [
     {
+      "id": "qcm-1",
       "quizTitle": "Soil vs subsoil",
       "instructions": "",
       "questions": [
@@ -65,6 +66,7 @@
       ]
     },
     {
+      "id": "qcm-2",
       "quizTitle": "Classifying Natural Resources",
       "instructions": "",
       "questions": [
@@ -143,6 +145,7 @@
       ]
     },
     {
+      "id": "qcm-3",
       "quizTitle": "Metal Properties",
       "instructions": "",
       "questions": [
@@ -221,6 +224,7 @@
       ]
     },
     {
+      "id": "qcm-4",
       "quizTitle": "Lifecycle & the 3 R's",
       "image": "assets/QCM4.webp",
       "instructions": "",
@@ -286,6 +290,7 @@
       ]
     },
     {
+      "id": "qcm-5",
       "quizTitle": "Metal, Rock or Myth?",
       "instructions": "",
       "questions": [
@@ -353,6 +358,7 @@
   ],
   "dragAndDrop": [
     {
+      "id": "dnd-1",
       "quizTitle": "Label the Soil Profile",
       "backgroundImage": "assets/DnD1.webp",
       "hideOnSuccess": true,
@@ -388,6 +394,7 @@
       ]
     },
     {
+      "id": "dnd-2",
       "quizTitle": "Identify Rock and Mineral Samples",
       "backgroundImage": "assets/Dnd2.webp",
       "hideOnSuccess": true,
@@ -423,6 +430,7 @@
       ]
     },
     {
+      "id": "dnd-3",
       "quizTitle": "Label the Product Lifecycle",
       "backgroundImage": "assets/Dnd3.webp",
       "hideOnSuccess": true,
@@ -469,6 +477,7 @@
       ]
     },
     {
+      "id": "dnd-4",
       "quizTitle": "Build-a-Bike Materials",
       "backgroundImage": "assets/Dnd4.webp",
       "hideOnSuccess": true,
@@ -503,6 +512,7 @@
       ]
     },
     {
+      "id": "dnd-5",
       "quizTitle": "Metal Testing Station",
       "backgroundImage": "assets/DnD5.webp",
       "hideOnSuccess": true,
@@ -537,6 +547,7 @@
       ]
     },
     {
+      "id": "dnd-6",
       "quizTitle": "Materials Dichotomous Key",
       "backgroundImage": "assets/Dnd6.webp",
       "hideOnSuccess": true,
@@ -590,6 +601,7 @@
   ],
   "fillBlanks": [
     {
+      "id": "fitb-1",
       "quizTitle": "Soil and Subsoil",
       "text": "When you dig a deep hole in a forest, you can observe different layers. The top layer is called the [blank0]. It is thin, dark, and full of life, containing organic matter called [blank1]. Deeper underneath, you find the [blank2]. This layer contains no living things, only solid rocks and [blank3].",
       "blanks": [
@@ -642,6 +654,7 @@
       ]
     },
     {
+      "id": "fitb-2",
       "quizTitle": "Testing a Metal",
       "text": "Maya found a shiny ring buried in her garden. To check if it was a real metal, she [blank0] it gently with sandpaper and saw a bright shine — proof of [blank1]. Next, she connected it into an electric circuit, and the light bulb turned on, showing good [blank2]. Finally, she bent it into a thin wire without breaking it, testing its [blank3].",
       "blanks": [
@@ -698,6 +711,7 @@
       ]
     },
     {
+      "id": "fitb-3",
       "quizTitle": "The Hidden Journey of a Smartphone",
       "text": "Deep underground, [blank0] dig into the earth to extract copper and gold. These raw materials travel to a factory where workers [blank1] them into electronic parts. Trucks then [blank2] the finished smartphones to stores around the country. Years later, if the phone is thrown away carelessly, its toxic parts can [blank3] the soil and rivers.",
       "blanks": [
@@ -754,6 +768,7 @@
       ]
     },
     {
+      "id": "fitb-4",
       "quizTitle": "Biodegradability",
       "text": "Some waste is [blank0], which means tiny living things like bacteria and [blank1] can break it down quickly into natural minerals. Other waste, like [blank2] and glass, stays in nature for hundreds of years and is considered [blank3].",
       "blanks": [
@@ -796,6 +811,7 @@
       ]
     },
     {
+      "id": "fitb-5",
       "quizTitle": "The Sunken Ship",
       "text": "An old ship sank to the bottom of the ocean 200 years ago. Divers exploring the wreck today find that the ship's [blank0] anchor is rusted but still recognisable, while the wooden deck has almost completely [blank1], broken down by tiny organisms living in the water. The ship's glass portholes, however, are still [blank2], almost unchanged after two centuries underwater — because glass, unlike wood, is [blank3].",
       "blanks": [
@@ -858,6 +874,7 @@
   ],
   "matchPairs": [
     {
+      "id": "memory-1",
       "quizTitle": "Minerals and Their Uses",
       "instructions": "Match each mineral to the object it is used to make.",
       "pairs": [
@@ -919,6 +936,7 @@
       ]
     },
     {
+      "id": "memory-2",
       "quizTitle": "Metal Properties",
       "instructions": "Match each metal property to its short description.",
       "pairs": [
@@ -980,6 +998,7 @@
       ]
     },
     {
+      "id": "memory-3",
       "quizTitle": "Resource Samples",
       "instructions": "Match each resource sample to its correct category.",
       "pairs": [
@@ -1041,6 +1060,7 @@
       ]
     },
     {
+      "id": "memory-4",
       "quizTitle": "Lifecycle Steps",
       "instructions": "Match each lifecycle step to its short description.",
       "pairs": [
@@ -1113,6 +1133,7 @@
       ]
     },
     {
+      "id": "memory-5",
       "quizTitle": "Where Does It Come From?",
       "instructions": "Match each material to its natural source.",
       "pairs": [
@@ -1165,6 +1186,7 @@
   ],
   "sorting": [
     {
+      "id": "sorting-1",
       "quizTitle": "Renewable vs Non-renewable",
       "instructions": "Sort these resources based on whether they can run out or not.",
       "categories": [
@@ -1229,6 +1251,7 @@
       ]
     },
     {
+      "id": "sorting-2",
       "quizTitle": "Natural resources",
       "instructions": "Help sort these materials collected during a geology field trip into their correct scientific group.",
       "categories": [
@@ -1307,6 +1330,7 @@
       ]
     },
     {
+      "id": "sorting-3",
       "quizTitle": "Biodegradable vs Non-biodegradable",
       "instructions": "You're a waste sorter — decide which items will disappear quickly in nature and which will pollute it for centuries.",
       "categories": [
@@ -1353,6 +1377,7 @@
       ]
     },
     {
+      "id": "sorting-4",
       "quizTitle": "Taking a Resource vs Polluting Earth",
       "instructions": "For each human activity, decide if humans are taking a resource from Earth, or polluting it.",
       "categories": [
@@ -1399,6 +1424,7 @@
       ]
     },
     {
+      "id": "sorting-5",
       "quizTitle": "Will It Run Out?",
       "instructions": "Sort each resource as Renewable or Non-renewable.",
       "categories": [

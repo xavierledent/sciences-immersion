@@ -160,10 +160,13 @@ function checkInteractive(file, chapterDir, data) {
     const list = data[game];
     if (!Array.isArray(list)) { error(file, `${GAMES[game].label} : tableau « ${game} » manquant`); return; }
 
-    // Best scores and resume points are stored under the quizTitle.
+    // Best scores and resume points are stored under the game's fixed id.
+    duplicates(list.map(quiz => quiz.id)).forEach(id =>
+      error(file, `${GAMES[game].label} : l'id « ${id} » est utilisé par plusieurs jeux (leurs scores se mélangent)`));
     duplicates(list.map(quiz => quiz.quizTitle)).forEach(title =>
-      error(file, `${GAMES[game].label} : le titre « ${title} » est utilisé par plusieurs jeux (leurs scores se mélangent)`));
+      warn(file, `${GAMES[game].label} : le titre « ${title} » est utilisé par plusieurs jeux`));
     list.forEach((quiz, i) => {
+      if (isBlank(quiz.id)) error(file, `${named(game, i)} : id manquant (les records des élèves y sont rattachés)`);
       if (isBlank(quiz.quizTitle)) error(file, `${named(game, i)} : quizTitle manquant`);
     });
   });
@@ -369,6 +372,10 @@ function compareTracks(chapter, content) {
         return;
       }
       a.forEach((quiz, i) => {
+        // Même jeu dans les deux langues = même id (statistiques par jeu du tableau de bord).
+        if (quiz.id && b[i].id && quiz.id !== b[i].id) {
+          warn(file('interactive.json'), `${named(game, i, b[i])} : id « ${quiz.id} » en EN, « ${b[i].id} » en NL`);
+        }
         const size = q => (Array.isArray(q[parts]) ? q[parts].length : 0);
         if (size(quiz) !== size(b[i])) {
           warn(file('interactive.json'), `${named(game, i, b[i])} : ${size(quiz)} ${unit} en EN, ${size(b[i])} en NL`);

@@ -562,6 +562,15 @@ window.addEventListener('DOMContentLoaded',async()=>{
   try{const s=await loadStoredHandle();if(s){reconnectName.textContent=s.name;reconnectRow.classList.add('visible');}}catch{}
 });
 
+// Identifiant fixe d'un jeu (champ id) : les records et la reprise des élèves y
+// sont rattachés, pas au titre — renommer un jeu ne fait rien perdre. Lu au
+// chargement (data-game-id), réécrit tel quel ; un jeu créé ici reçoit un id
+// neuf, jamais celui d'un jeu supprimé (les records de ce dernier resteraient
+// sinon rattachés au nouveau). Ne jamais modifier l'id d'un jeu existant.
+function gameId(block,prefix){
+  if(!block.dataset.gameId)block.dataset.gameId=prefix+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  return block.dataset.gameId;
+}
 function showAlert(box,type,msg){if(box){box.className='alert show '+type;box.textContent=msg;}}
 function clearAlertEl(box){if(box){box.className='alert';box.textContent='';}}
 function getAlertBox(){return document.getElementById({qcm:'qcm-alert-box',dnd:'dnd-alert-box',fib:'fib-alert-box',mtp:'mtp-alert-box',sort:'sort-alert-box'}[activeTab]||'qcm-alert-box');}
@@ -705,6 +714,7 @@ function qcmCreateQuizBlock(quiz){
       '<button type="button" class="btn-add-row btn-add-question">+ Ajouter une question</button>'+
     '</div>';
 
+  div.dataset.gameId=quiz.id||'';
   div.querySelector('.qcm-quiz-title-input').value=quiz.quizTitle||'';
   div.querySelector('.qcm-instructions-ta').value=quiz.instructions||'';
 
@@ -1054,7 +1064,7 @@ qcmBtnSave.addEventListener('click',async()=>{
   try{
     const quizBlocks=Array.from(qcmListEl.querySelectorAll(':scope > .qcm-quiz'));
     const multipleChoice=quizBlocks.map(quizBlock=>{
-      const obj={quizTitle:quizBlock.querySelector('.qcm-quiz-title-input').value.trim()};
+      const obj={id:gameId(quizBlock,'qcm'),quizTitle:quizBlock.querySelector('.qcm-quiz-title-input').value.trim()};
       if(quizBlock.dataset.image)obj.image=quizBlock.dataset.image;
       obj.instructions=quizBlock.querySelector('.qcm-instructions-ta').value.trim();
       const questions=Array.from(quizBlock.querySelectorAll(':scope > .qcm-quiz-body > .qcm-questions-list > .qcm-question'));
@@ -1155,6 +1165,7 @@ function dndCreateExerciseBlock(ex){
       '</div>'+
     '</div>';
 
+  div.dataset.gameId=ex.id||'';
   div.querySelector('.dnd-title-input').value=ex.quizTitle||'';
   div.querySelector('.dnd-instructions-input').value=ex.instructions||'';
 
@@ -1527,7 +1538,7 @@ dndBtnSave.addEventListener('click',async()=>{
     const dragAndDrop=exercises.map(ex=>{
       const W=parseFloat(ex.querySelector('.dnd-width-input').value)||1;
       const H=parseFloat(ex.querySelector('.dnd-height-input').value)||1;
-      const obj={quizTitle:ex.querySelector('.dnd-title-input').value.trim(),backgroundImage:ex.dataset.image,hideOnSuccess:true};
+      const obj={id:gameId(ex,'dnd'),quizTitle:ex.querySelector('.dnd-title-input').value.trim(),backgroundImage:ex.dataset.image,hideOnSuccess:true};
       const instructions=ex.querySelector('.dnd-instructions-input').value.trim();
       if(instructions)obj.instructions=instructions;
       obj.reservoirItems=Array.from(ex.querySelectorAll('.dnd-reservoir-row input')).map(i=>i.value.trim());
@@ -1640,6 +1651,7 @@ function fibCreateBlock(block){
       '</div>'+
     '</div>';
 
+  div.dataset.gameId=block.id||'';
   div.querySelector('.fib-title-input').value=block.quizTitle||'';
   div.querySelector('.fib-instructions-ta').value=block.instructions||'';
   div.querySelector('.fib-text-ta').value=fibBlockToEditText(block);
@@ -1804,7 +1816,7 @@ fibBtnSave.addEventListener('click',async()=>{
     const blocks=Array.from(fibListEl.querySelectorAll(':scope > .dnd-exercise'));
     const fillBlanks=blocks.map(block=>{
       const{text,blanks}=fibParseBlockText(block.querySelector('.fib-text-ta').value);
-      const obj={quizTitle:block.querySelector('.fib-title-input').value.trim()};
+      const obj={id:gameId(block,'fitb'),quizTitle:block.querySelector('.fib-title-input').value.trim()};
       const instructions=block.querySelector('.fib-instructions-ta').value.trim();
       if(instructions)obj.instructions=instructions;
       obj.text=text;obj.blanks=blanks;
@@ -1876,6 +1888,7 @@ function mtpCreateBlock(game){
       '</div>'+
     '</div>';
 
+  div.dataset.gameId=game.id||'';
   div.querySelector('.mtp-title-input').value=game.quizTitle||'';
   div.querySelector('.mtp-instructions-ta').value=game.instructions||'';
 
@@ -2052,7 +2065,7 @@ mtpBtnSave.addEventListener('click',async()=>{
   try{
     const blocks=Array.from(mtpListEl.querySelectorAll(':scope > .dnd-exercise'));
     const matchPairs=blocks.map(block=>{
-      const obj={quizTitle:block.querySelector('.mtp-title-input').value.trim()};
+      const obj={id:gameId(block,'memory'),quizTitle:block.querySelector('.mtp-title-input').value.trim()};
       const instructions=block.querySelector('.mtp-instructions-ta').value.trim();
       if(instructions)obj.instructions=instructions;
       const rows=Array.from(block.querySelectorAll('.mtp-pair-row'));
@@ -2128,6 +2141,7 @@ function sortCreateBlock(game){
       '</div>'+
     '</div>';
 
+  div.dataset.gameId=game.id||'';
   div.querySelector('.sort-title-input').value=game.quizTitle||'';
   div.querySelector('.sort-instructions-ta').value=game.instructions||'';
 
@@ -2352,7 +2366,7 @@ sortBtnSave.addEventListener('click',async()=>{
   try{
     const blocks=Array.from(sortListEl.querySelectorAll(':scope > .dnd-exercise'));
     const sorting=blocks.map(block=>{
-      const obj={quizTitle:block.querySelector('.sort-title-input').value.trim()};
+      const obj={id:gameId(block,'sorting'),quizTitle:block.querySelector('.sort-title-input').value.trim()};
       const instructions=block.querySelector('.sort-instructions-ta').value.trim();
       if(instructions)obj.instructions=instructions;
       const catBoxes=Array.from(block.querySelectorAll('.sort-category-box'));

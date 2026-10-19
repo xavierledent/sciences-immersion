@@ -1,6 +1,7 @@
 {
   "multipleChoice": [
     {
+      "id": "qcm-1",
       "quizTitle": "Ecosystem Basics",
       "questions": [
         {
@@ -86,6 +87,7 @@
       ]
     },
     {
+      "id": "qcm-2",
       "quizTitle": "Ecosystem Dynamics",
       "questions": [
         {
@@ -171,6 +173,7 @@
       ]
     },
     {
+      "id": "qcm-3",
       "quizTitle": "Ecological relationships",
       "image": "assets/QCM test.webp",
       "instructions": "Look at the image above carefully, then answer the questions below.",
@@ -241,6 +244,7 @@
   ],
   "fillBlanks": [
     {
+      "id": "fitb-1",
       "quizTitle": "Ecosystem equation",
       "text": "An ecosystem is composed of a non-living part called the [blank0], and a living community called the [blank1]. Everything interacts together.",
       "blanks": [
@@ -263,6 +267,7 @@
       ]
     },
     {
+      "id": "fitb-2",
       "quizTitle": "Food cycle",
       "text": "An [blank0] is a complex functional system formed by the interaction between a non-living physical environment, called the [blank1], and the community of all living organisms that inhabit it, called the [blank2]. Within this environment, feeding relationships form an interconnected [blank3] through which energy flows. Finally, when organisms die, [blank4] play a key role in recycling dead organic matter back into the soil.",
       "blanks": [
@@ -309,6 +314,7 @@
       ]
     },
     {
+      "id": "fitb-3",
       "quizTitle": "Disease among decomposers",
       "text": "A disease kills 90% of the decomposers in a forest. Dead leaves and dead animals stop turning into [blank0]. The [blank1] has fewer nutrients now. Because of this, [blank2] grow more slowly. There is less food for the [blank3] at the top of the food chain.",
       "blanks": [
@@ -355,6 +361,7 @@
       ]
     },
     {
+      "id": "fitb-4",
       "quizTitle": "The wolf's return",
       "text": "Wolves come back to a Belgian forest. They hunt the weakest [blank0]. There are fewer deer now, so young trees can grow again. A [blank1] can change [blank2] without eating them directly. Scientists call this an indirect [blank3].",
       "blanks": [
@@ -400,6 +407,7 @@
       ]
     },
     {
+      "id": "fitb-5",
       "quizTitle": "Foxes and rabbits in a garden",
       "text": "There are too many foxes in a garden. Hunters kill most of them. Now there are more [blank0]. They eat almost all the [blank1]. The soil becomes empty and dry. This shows that removing one [blank2] can change a whole [blank3].",
       "blanks": [
@@ -452,6 +460,7 @@
       ]
     },
     {
+      "id": "fitb-6",
       "quizTitle": "Sea otters and the kelp forest",
       "text": "Along the Pacific coast, sea otters hunt sea urchins, and sea urchins graze on giant kelp, a seaweed that forms dense underwater forests. In the 19th century, hunters nearly wiped out the sea otter population for their fur. Without this [blank0], the [blank1] population exploded. These urchins then overgrazed the kelp forest, and the ecosystem collapsed into a barren, rocky seafloor. Marine biologists call the sea otter a [blank2], because its disappearance triggered effects across the entire food web, even though otters never directly interact with [blank3]. This example shows that protecting a single species can be essential to preserve an entire [blank4].",
       "blanks": [
@@ -542,6 +551,7 @@
   ],
   "dragAndDrop": [
     {
+      "id": "dnd-1",
       "quizTitle": "Ecological Interactions",
       "backgroundImage": "assets/DnD 2b.jpg",
       "hideOnSuccess": true,
@@ -576,6 +586,7 @@
       ]
     },
     {
+      "id": "dnd-2",
       "quizTitle": "The Food Cycle",
       "backgroundImage": "assets/DnD 1.jpg",
       "hideOnSuccess": true,
@@ -627,6 +638,7 @@
       ]
     },
     {
+      "id": "dnd-3",
       "quizTitle": "Levels of Organization",
       "backgroundImage": "assets/DnD 3.webp",
       "hideOnSuccess": true,
@@ -663,6 +675,7 @@
       ]
     },
     {
+      "id": "dnd-4",
       "quizTitle": "Trophic levels & roles",
       "backgroundImage": "assets/DnD 4.jpg",
       "hideOnSuccess": true,
@@ -703,6 +716,7 @@
       ]
     },
     {
+      "id": "dnd-5",
       "quizTitle": "Living beings vocabulary",
       "backgroundImage": "assets/vocabulary-animals-2.jpg",
       "hideOnSuccess": true,
@@ -769,6 +783,7 @@
   ],
   "matchPairs": [
     {
+      "id": "memory-1",
       "quizTitle": "Ecological roles",
       "instructions": "Match every living being with its trophic level",
       "pairs": [
@@ -819,6 +834,7 @@
       ]
     },
     {
+      "id": "memory-2",
       "quizTitle": "Levels of Organization",
       "instructions": "Match the picture with the correct level of organization.",
       "pairs": [
@@ -869,6 +885,7 @@
       ]
     },
     {
+      "id": "memory-3",
       "quizTitle": "Ecosystem Roles",
       "pairs": [
         {
@@ -942,6 +959,7 @@
   ],
   "sorting": [
     {
+      "id": "sorting-1",
       "quizTitle": "Ecological Factors",
       "categories": [
         "Biotic factors",
@@ -987,6 +1005,7 @@
       ]
     },
     {
+      "id": "sorting-2",
       "quizTitle": "Autotrophs vs Heterotrophs",
       "categories": [
         "Autotrophs",
@@ -1038,6 +1057,7 @@
       ]
     },
     {
+      "id": "sorting-3",
       "quizTitle": "Organic vs Mineral matter",
       "categories": [
         "Organic Matter",
@@ -1095,6 +1115,7 @@
       ]
     },
     {
+      "id": "sorting-4",
       "quizTitle": "Trophic levels",
       "categories": [
         "Producers",
@@ -1177,6 +1198,7 @@
       ]
     },
     {
+      "id": "sorting-5",
       "quizTitle": "The wolf's return — Cause or Consequence?",
       "instructions": "The grey wolf naturally came back to the forests of the Belgian Ardenne after disappearing for more than a century. Its return changed the whole food web. Read each card below and decide: is it something the wolf directly does, or is it a consequence that happens afterwards?",
       "categories": [

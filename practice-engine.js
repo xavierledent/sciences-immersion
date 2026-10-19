@@ -276,8 +276,15 @@
 
     // Clé commune au meilleur score et au point de reprise d'un QCM (voir
     // storage.js pour le format complet de la clé).
+    /* Records et reprise d'un jeu : rangés sous son id fixe (interactive.json),
+       pas sous son titre — renommer un jeu ne fait rien perdre aux élèves.
+       Repli sur le titre pour un jeu sans id (le validateur le signale). */
+    function gameStorageId(game) {
+      return game.id || game.quizTitle || 'exercise';
+    }
+
     function qcmStorageParts(quizData) {
-      return [quizData.quizTitle || 'quiz'];
+      return [gameStorageId(quizData)];
     }
 
     function getQcmBestScore(quizData) {
@@ -2442,14 +2449,14 @@
     let fitbMistakeCount = 0;
 
     function getFitbBestMistakes(exercise) {
-      const raw = SiteStorage.data.get('fitbBest', [exercise.quizTitle || 'exercise']);
+      const raw = SiteStorage.data.get('fitbBest', [gameStorageId(exercise)]);
       if (raw === null) return null;
       const n = Number(raw);
       return Number.isFinite(n) ? n : null;
     }
 
     function saveFitbBestMistakes(exercise, mistakes) {
-      SiteStorage.data.set('fitbBest', [exercise.quizTitle || 'exercise'], String(mistakes));
+      SiteStorage.data.set('fitbBest', [gameStorageId(exercise)], String(mistakes));
     }
 
     // Same thresholds as the drag & drop badge, for consistency across games.
@@ -2872,14 +2879,14 @@
     }
 
     function getDndBestStat(exercise, stat) {
-      const raw = SiteStorage.data.get('dndBest', [exercise.quizTitle || 'exercise', stat]);
+      const raw = SiteStorage.data.get('dndBest', [gameStorageId(exercise), stat]);
       if (raw === null) return null;
       const n = Number(raw);
       return Number.isFinite(n) ? n : null;
     }
 
     function saveDndBestStat(exercise, stat, value) {
-      SiteStorage.data.set('dndBest', [exercise.quizTitle || 'exercise', stat], String(value));
+      SiteStorage.data.set('dndBest', [gameStorageId(exercise), stat], String(value));
     }
 
     function openDndModal() {
@@ -3414,14 +3421,14 @@
     }
 
     function getMemoryBestStat(exercise, stat) {
-      const raw = SiteStorage.data.get('memoryBest', [exercise.quizTitle || 'exercise', stat]);
+      const raw = SiteStorage.data.get('memoryBest', [gameStorageId(exercise), stat]);
       if (raw === null) return null;
       const n = Number(raw);
       return Number.isFinite(n) ? n : null;
     }
 
     function saveMemoryBestStat(exercise, stat, value) {
-      SiteStorage.data.set('memoryBest', [exercise.quizTitle || 'exercise', stat], String(value));
+      SiteStorage.data.set('memoryBest', [gameStorageId(exercise), stat], String(value));
     }
 
     function openMemoryModal() {
@@ -3767,14 +3774,14 @@
     }
 
     function getSortingBestMistakes(exercise) {
-      const raw = SiteStorage.data.get('sortingBest', [exercise.quizTitle || 'exercise']);
+      const raw = SiteStorage.data.get('sortingBest', [gameStorageId(exercise)]);
       if (raw === null) return null;
       const n = Number(raw);
       return Number.isFinite(n) ? n : null;
     }
 
     function saveSortingBestMistakes(exercise, mistakes) {
-      SiteStorage.data.set('sortingBest', [exercise.quizTitle || 'exercise'], String(mistakes));
+      SiteStorage.data.set('sortingBest', [gameStorageId(exercise)], String(mistakes));
     }
 
     function updateSortingMistakesDisplay() {

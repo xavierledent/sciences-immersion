@@ -1,6 +1,7 @@
 {
   "multipleChoice": [
     {
+      "id": "qcm-1",
       "quizTitle": "Ecosysteem basisbegrippen",
       "questions": [
         {
@@ -86,6 +87,7 @@
       ]
     },
     {
+      "id": "qcm-2",
       "quizTitle": "Ecosysteemdynamiek",
       "questions": [
         {
@@ -171,6 +173,7 @@
       ]
     },
     {
+      "id": "qcm-3",
       "quizTitle": "Ecologische relaties",
       "image": "assets/QCM test-nl.webp",
       "instructions": "Bekijk de afbeelding hierboven aandachtig, en beantwoord dan de vragen hieronder.",
@@ -241,6 +244,7 @@
   ],
   "fillBlanks": [
     {
+      "id": "fitb-1",
       "quizTitle": "Ecosysteemvergelijking",
       "text": "Een ecosysteem bestaat uit een niet-levend deel dat de [blank0] wordt genoemd, en een levende gemeenschap die de [blank1] wordt genoemd. Alles interageert samen.",
       "blanks": [
@@ -263,6 +267,7 @@
       ]
     },
     {
+      "id": "fitb-2",
       "quizTitle": "Kringloop van de stof",
       "text": "Een [blank0] is een complex functioneel systeem dat gevormd wordt door de interactie tussen een niet-levende fysieke omgeving, de [blank1] genoemd, en de gemeenschap van alle levende organismen die er wonen, de [blank2] genoemd. Binnen deze omgeving vormen voedingsrelaties een onderling verbonden [blank3] waardoor energie stroomt. Ten slotte spelen, wanneer organismen sterven, [blank4] een sleutelrol bij het recycleren van dode organische stof terug in de bodem.",
       "blanks": [
@@ -309,6 +314,7 @@
       ]
     },
     {
+      "id": "fitb-3",
       "quizTitle": "Ziekte onder reducenten",
       "text": "Een ziekte doodt 90% van de reducenten in een bos. Dode bladeren en dode dieren worden niet langer omgezet in [blank0]. De [blank1] heeft nu minder voedingsstoffen. Hierdoor groeien [blank2] trager. Er is minder voedsel voor de [blank3] bovenaan de voedselketen.",
       "blanks": [
@@ -355,6 +361,7 @@
       ]
     },
     {
+      "id": "fitb-4",
       "quizTitle": "De terugkeer van de wolf",
       "text": "Wolven keren terug naar een Belgisch bos. Ze jagen op de zwakste [blank0]. Er zijn nu minder herten, waardoor jonge bomen weer kunnen groeien. Een [blank1] kan [blank2] veranderen zonder ze rechtstreeks op te eten. Wetenschappers noemen dit een indirecte [blank3].",
       "blanks": [
@@ -400,6 +407,7 @@
       ]
     },
     {
+      "id": "fitb-5",
       "quizTitle": "Vossen en konijnen in een tuin",
       "text": "Er zijn te veel vossen in een tuin. Jagers doden de meeste ervan. Nu zijn er meer [blank0]. Ze eten bijna al het [blank1] op. De bodem wordt leeg en droog. Dit toont aan dat het verwijderen van één [blank2] een hele [blank3] kan veranderen.",
       "blanks": [
@@ -452,6 +460,7 @@
       ]
     },
     {
+      "id": "fitb-6",
       "quizTitle": "Zeeotters en het kelpwoud",
       "text": "Langs de Pacifische kust jagen zeeotters op zee-egels, en zee-egels grazen op reuzenkelp, een zeewier dat dichte onderwaterwouden vormt. In de 19e eeuw werd de populatie zeeotters door jagers bijna volledig uitgeroeid voor hun vacht. Zonder deze [blank0] explodeerde de [blank1]populatie. Deze zee-egels overbegraasden vervolgens het kelpwoud, en het ecosysteem stortte in tot een kale, rotsachtige zeebodem. Mariene biologen noemen de zeeotter een [blank2], omdat het verdwijnen ervan effecten veroorzaakte doorheen het hele voedselweb, ook al interageert de otter nooit rechtstreeks met [blank3]. Dit voorbeeld toont aan dat het beschermen van één enkele soort essentieel kan zijn om een heel [blank4] te behouden.",
       "blanks": [
@@ -542,6 +551,7 @@
   ],
   "dragAndDrop": [
     {
+      "id": "dnd-1",
       "quizTitle": "Ecologische interacties",
       "backgroundImage": "assets/DnD 2b.jpg",
       "hideOnSuccess": true,
@@ -576,6 +586,7 @@
       ]
     },
     {
+      "id": "dnd-2",
       "quizTitle": "De kringloop van de stof",
       "backgroundImage": "assets/DnD 1-nl.jpg",
       "hideOnSuccess": true,
@@ -627,6 +638,7 @@
       ]
     },
     {
+      "id": "dnd-3",
       "quizTitle": "Organisatieniveaus",
       "backgroundImage": "assets/DnD 3.webp",
       "hideOnSuccess": true,
@@ -663,6 +675,7 @@
       ]
     },
     {
+      "id": "dnd-4",
       "quizTitle": "Trofische niveaus en rollen",
       "backgroundImage": "assets/DnD 4.jpg",
       "hideOnSuccess": true,
@@ -703,6 +716,7 @@
       ]
     },
     {
+      "id": "dnd-5",
       "quizTitle": "Woordenschat levende wezens",
       "backgroundImage": "assets/vocabulary-animals-2.jpg",
       "hideOnSuccess": true,
@@ -769,6 +783,7 @@
   ],
   "matchPairs": [
     {
+      "id": "memory-1",
       "quizTitle": "Ecologische rollen",
       "instructions": "Koppel elk levend wezen aan zijn trofisch niveau",
       "pairs": [
@@ -819,6 +834,7 @@
       ]
     },
     {
+      "id": "memory-2",
       "quizTitle": "Organisatieniveaus",
       "instructions": "Koppel de afbeelding aan het juiste organisatieniveau.",
       "pairs": [
@@ -869,6 +885,7 @@
       ]
     },
     {
+      "id": "memory-3",
       "quizTitle": "Ecosysteemrollen",
       "pairs": [
         {
@@ -942,6 +959,7 @@
   ],
   "sorting": [
     {
+      "id": "sorting-1",
       "quizTitle": "Ecologische factoren",
       "categories": [
         "Biotische factoren",
@@ -987,6 +1005,7 @@
       ]
     },
     {
+      "id": "sorting-2",
       "quizTitle": "Autotrofen versus heterotrofen",
       "categories": [
         "Autotrofen",
@@ -1038,6 +1057,7 @@
       ]
     },
     {
+      "id": "sorting-3",
       "quizTitle": "Organische versus minerale stof",
       "categories": [
         "Organische stof",
@@ -1095,6 +1115,7 @@
       ]
     },
     {
+      "id": "sorting-4",
       "quizTitle": "Trofische niveaus",
       "categories": [
         "Producenten",
@@ -1177,6 +1198,7 @@
       ]
     },
     {
+      "id": "sorting-5",
       "quizTitle": "De terugkeer van de wolf — Oorzaak of gevolg?",
       "instructions": "De grijze wolf keerde op natuurlijke wijze terug naar de bossen van de Belgische Ardennen, nadat hij meer dan een eeuw verdwenen was. Zijn terugkeer veranderde het hele voedselweb. Lees elke kaart hieronder en beslis: is het iets wat de wolf rechtstreeks doet, of is het een gevolg dat daarna optreedt?",
       "categories": [

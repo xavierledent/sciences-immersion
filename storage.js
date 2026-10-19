@@ -22,6 +22,8 @@
      restent en localStorage.
 
    Firestore, sans changer l'interface synchrone des moteurs :
+     0. Première connexion sur cet appareil : import des données d'avant
+        Firebase (legacy-import.js), sur n'importe quelle page.
      1. Dès le chargement de ce script, le document du chapitre est lu UNE
         fois (cache de l'appareil si pas de wifi) et gardé en mémoire.
      2. SiteStorage.ready (promesse, jamais rejetée) se résout quand c'est
@@ -97,6 +99,12 @@
 
   const FIREBASE_INIT = document.currentScript
     ? new URL('firebase-init.js', document.currentScript.src).href
+    : '';
+  const LEGACY_IMPORT = document.currentScript
+    ? new URL('legacy-import.js', document.currentScript.src).href
+    : '';
+  const SITE_ROOT = document.currentScript
+    ? new URL('./', document.currentScript.src).href
     : '';
 
   // /en/year1/bio1/practice.html → en_year1_bio1 ; null hors chapitre.
@@ -175,13 +183,43 @@
     });
   }
 
+  /* Import unique des données d'avant Firebase (legacy-import.js), une fois
+     par appareil et par élève. Attendu avant la lecture du chapitre : à la
+     première connexion, l'élève retrouve directement son ancien travail.
+     Un échec n'empêche pas la page de fonctionner ; nouvel essai au
+     prochain chargement. */
+  function importLegacyOnce(fb, user) {
+    if (!LEGACY_IMPORT || safeGet('legacyImport::' + user.uid)) return Promise.resolve();
+    return import(LEGACY_IMPORT).then(function (m) {
+      return m.importLegacy({
+        fb: fb,
+        user: user,
+        families: DATA_FAMILIES,
+        chapterIdFromPath: chapterIdFromPath,
+        siteRoot: SITE_ROOT,
+        storage: {
+          keys: function () {
+            try { return Object.keys(localStorage); } catch (e) { return []; }
+          },
+          get: safeGet,
+          set: safeSet
+        }
+      });
+    }).catch(function (error) {
+      console.error('Import des anciennes données : à refaire au prochain chargement', error);
+    });
+  }
+
   function loadCloud() {
     const chapterId = chapterIdFromPath(location.pathname);
-    if (!chapterId || !FIREBASE_INIT || !firebaseAccessOnDevice()) return Promise.resolve();
+    if (!FIREBASE_INIT || !firebaseAccessOnDevice()) return Promise.resolve();
     return import(FIREBASE_INIT).then(function (fb) {
       return fb.auth.authStateReady().then(function () {
         const user = fb.auth.currentUser;
         if (!user) return;
+        return importLegacyOnce(fb, user).then(function () { return user; });
+      }).then(function (user) {
+        if (!user || !chapterId) return;
         const ref = fb.doc(fb.db, 'users', user.uid, 'chapters', chapterId);
         // Document absent, ou illisible hors ligne et jamais mis en cache :
         // on part d'un chapitre vide. Les écritures (merge) ne touchent que
