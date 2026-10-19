@@ -9,6 +9,7 @@ tactile.
 
 ```
 index.html, credits.html, 404.html   pages écrites à la main
+dashboard.html / .js / .css          tableau de bord des enseignantes (Firestore)
 *-engine.js / *.css                  moteurs partagés par tous les chapitres
 en/year1/<chapitre>/                 filière anglaise
 nl/jaar1/<chapitre>/                 filière néerlandaise
@@ -68,7 +69,8 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Labos virtuels : modale, étapes, verrous, rapport | [lab-engine.js](lab-engine.js), [lab-engine.css](lab-engine.css) ; un labo : `<chapitre>/lab-<nom>.{js,css}` |
 | Ajouter un labo à un chapitre | sa ligne dans `labs` de [tools/chapters.json](tools/chapters.json), ses fichiers `lab-<nom>.{js,css}`, puis régénérer |
 | Barre de navigation entre sections | [chapter-nav.js](chapter-nav.js) |
-| Données enregistrées des élèves | [storage.js](storage.js), seul fichier qui touche à `localStorage` |
+| Données enregistrées des élèves | [storage.js](storage.js), seul fichier qui touche à `localStorage` ; compteurs d'activité : `SiteStorage.activity` |
+| Tableau de bord enseignant (classes, élèves, suivi) | [dashboard.js](dashboard.js), [dashboard.css](dashboard.css) ; accès : collection `teachers` et [firestore.rules](firestore.rules) |
 | Écran d'accès, connexion Firebase | [access-control.js](access-control.js), [firebase-init.js](firebase-init.js) (config et version du SDK) |
 | Mise en forme du texte, modales, contraste élevé, bandeau hors ligne | [rich-text.js](rich-text.js) |
 | Mode hors ligne, cache | [sw.js](sw.js) |

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <script src="storage.js"></script>
+  <script src="access-control.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Sciences Immersion | Tableau de bord</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <script type="module" src="dashboard.js"></script>
+</head>
+
+<body class="teacher-page">
+  <header class="t-header">
+    <div>
+      <span class="site-badge">Sciences en immersion</span>
+      <h1>Tableau de bord</h1>
+    </div>
+    <div class="t-header-side">
+      <span id="t-who" class="t-muted"></span>
+      <a href="index.html" class="t-btn">Retour au site</a>
+    </div>
+  </header>
+
+  <nav class="t-tabs" id="t-tabs" hidden>
+    <button type="button" class="t-tab is-active" data-view="manage">Classes et élèves</button>
+  </nav>
+
+  <main class="t-main">
+    <p id="t-status" class="t-status" role="status">Chargement…</p>
+    <div id="t-view"></div>
+  </main>
+
+  <dialog id="t-dialog" class="t-dialog">
+    <form method="dialog">
+      <p id="t-dialog-text"></p>
+      <div class="t-dialog-actions">
+        <button value="cancel" class="t-btn">Annuler</button>
+        <button value="ok" class="t-btn t-btn-primary" id="t-dialog-ok">Confirmer</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+
+</html>

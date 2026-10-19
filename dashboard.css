@@ -1,0 +1,247 @@
+/* Tableau de bord enseignant (dashboard.html). Pensé pour un PC : tableaux
+   larges ; sur un petit écran, un tableau trop large défile seul, la page
+   ne défile pas de côté. Couleurs et police : celles de style.css. */
+
+.teacher-page {
+  --t-border: rgba(var(--color-slate-rgb), 0.2);
+  --t-green: #2e9e5b;
+  --t-orange: #e39b26;
+  --t-red: #d14b4b;
+  --t-radius: 12px;
+  font-size: 15px;
+}
+
+.t-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px 24px 8px;
+}
+
+.t-header h1 {
+  margin: 6px 0 0;
+  font-size: 1.8rem;
+}
+
+.t-header-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.t-muted {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.t-tabs {
+  display: flex;
+  gap: 4px;
+  max-width: 1400px;
+  margin: 12px auto 0;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--t-border);
+}
+
+.t-tab {
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: var(--t-radius) var(--t-radius) 0 0;
+  background: none;
+  padding: 10px 16px;
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.t-tab.is-active {
+  background: var(--color-surface);
+  border-color: var(--t-border);
+  color: var(--color-text);
+  margin-bottom: -1px;
+}
+
+.t-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 24px 48px;
+}
+
+.t-status {
+  margin: 0 0 12px;
+  color: var(--color-muted);
+}
+
+.t-status:empty {
+  display: none;
+}
+
+.t-status.is-error {
+  color: var(--t-red);
+  font-weight: 600;
+}
+
+.t-section {
+  background: var(--color-surface);
+  border: 1px solid var(--t-border);
+  border-radius: var(--t-radius);
+  padding: 16px 20px 20px;
+  margin-bottom: 20px;
+}
+
+.t-section h2 {
+  margin: 0 0 4px;
+  font-size: 1.15rem;
+}
+
+.t-section h3 {
+  margin: 20px 0 6px;
+  font-size: 1rem;
+}
+
+.t-help {
+  margin: 0 0 12px;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+}
+
+.t-scroll {
+  overflow-x: auto;
+}
+
+.t-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.t-table th,
+.t-table td {
+  text-align: left;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--t-border);
+  vertical-align: middle;
+}
+
+.t-table th {
+  font-weight: 600;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.t-table tr.is-mine td:first-child {
+  font-weight: 700;
+}
+
+.t-btn {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--t-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.t-btn:hover {
+  border-color: rgba(var(--color-slate-rgb), 0.5);
+}
+
+.t-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.t-btn-primary {
+  background: var(--color-slate);
+  border-color: var(--color-slate);
+  color: #fff;
+}
+
+.t-btn-danger {
+  color: var(--t-red);
+}
+
+.t-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.teacher-page select,
+.teacher-page input[type="text"],
+.teacher-page textarea {
+  font: inherit;
+  font-size: 0.9rem;
+  border: 1px solid var(--t-border);
+  border-radius: 8px;
+  padding: 5px 8px;
+  background: #fff;
+  color: var(--color-text);
+}
+
+.teacher-page textarea {
+  width: 100%;
+  min-height: 140px;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.82rem;
+}
+
+.t-count {
+  display: inline-block;
+  min-width: 2em;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(var(--color-slate-rgb), 0.1);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.t-preview-group {
+  margin-top: 14px;
+}
+
+.t-preview-group h3 {
+  margin: 0 0 6px;
+}
+
+.t-preview-group.is-error h3 {
+  color: var(--t-red);
+}
+
+.t-preview-group ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.88rem;
+}
+
+.t-dialog {
+  border: 1px solid var(--t-border);
+  border-radius: var(--t-radius);
+  padding: 20px 24px;
+  max-width: 460px;
+  font-family: var(--font-family);
+  color: var(--color-text);
+}
+
+.t-dialog::backdrop {
+  background: rgba(19, 36, 61, 0.35);
+}
+
+.t-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}

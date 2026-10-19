@@ -455,12 +455,37 @@
     loadFirebase().then(function (fb) {
       return fb.auth.authStateReady().then(function () {
         const user = fb.auth.currentUser;
-        if (user && (user.email || '').toLowerCase() === stored.email) return;
+        if (user && (user.email || '').toLowerCase() === stored.email) {
+          showTeacherLinkIfTeacher(fb, stored.email);
+          return;
+        }
         clearAccess();
         document.head.appendChild(hideStyle);
         showAccessScreen();
       });
     }).catch(function () { /* hors ligne : on garde l'accès */ });
+  }
+
+  /* Lien « Tableau de bord » sur l'accueil, à côté du badge, pour un compte
+     de la liste des enseignants (Firestore, teachers/{adresse}) seulement.
+     Un élève peut demander sa propre fiche dans cette liste (règles) : elle
+     n'existe pas, rien ne s'affiche. Les comptes hors école ne demandent rien
+     (les règles refuseraient). */
+  function showTeacherLinkIfTeacher(fb, email) {
+    if (!isIndexPage() || !/@cnddinant\.be$/.test(email)) return;
+    fb.getDoc(fb.doc(fb.db, 'teachers', email)).then(function (snap) {
+      if (!snap.exists() || document.getElementById('dashboard-link')) return;
+      const badge = document.getElementById('account-badge');
+      if (!badge) return;
+      const link = document.createElement('a');
+      link.id = 'dashboard-link';
+      link.className = 'account-badge';
+      link.href = 'dashboard.html';
+      link.textContent = 'Tableau de bord';
+      link.style.marginLeft = '8px';
+      link.style.textDecoration = 'none';
+      badge.insertAdjacentElement('afterend', link);
+    }).catch(function () { /* hors ligne ou refusé : pas de lien */ });
   }
 
   // « Changer de compte » : vraie déconnexion Firebase, puis écran d'accès.
@@ -595,7 +620,10 @@
     const modal = document.getElementById('chapter-modal');
     if (!modal) return;
     const sync = () => {
-      badge.style.display = modal.classList.contains('modal-open') ? 'none' : '';
+      const hidden = modal.classList.contains('modal-open');
+      badge.style.display = hidden ? 'none' : '';
+      const link = document.getElementById('dashboard-link');
+      if (link) link.style.display = hidden ? 'none' : '';
     };
     new MutationObserver(sync).observe(modal, { attributes: true, attributeFilter: ['class'] });
     sync();
