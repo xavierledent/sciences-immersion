@@ -150,9 +150,10 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   réouverture. Suivi : `summary()` donne score, critères et détails de
   l'événement `lab_checked` ; le moteur garde le résultat à part
   (`labResult` : étape la plus loin, meilleur et dernier Check), que
-  « Start again » n'efface pas. Les événements `lab_*` sont comptés dans
-  Firestore (compteurs `stats`, voir `SiteStorage.activity` dans
-  [storage.js](storage.js)), jamais envoyés à Apps Script.
+  « Start again » n'efface pas. Les événements `lab_*`, comme tous les
+  autres ([tracking.js](tracking.js)), sont comptés dans Firestore
+  (compteurs `stats`, voir `SiteStorage.activity` dans
+  [storage.js](storage.js)), seule destination du suivi.
 - **Conclude répond aux questions de départ, et à elles seules.** Les
   questions du labo sont posées à l'étape Predict, avec l'hypothèse ;
   Conclude y répond d'après les résultats et juge l'hypothèse, sans poser
