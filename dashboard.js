@@ -39,8 +39,12 @@ function setStatus(text, isError) {
   el.classList.toggle('is-error', !!isError);
 }
 
+// Champ `nom` de teachers/{adresse} ; tolère une autre casse ou « name »
+// (champ créé à la main dans la console).
 function teacherName(email) {
-  return (state.teachers[email] && state.teachers[email].nom) || email;
+  const t = state.teachers[email] || {};
+  const key = Object.keys(t).find(k => ['nom', 'name'].includes(k.trim().toLowerCase()));
+  return (key && String(t[key]).trim()) || email;
 }
 
 function stamp(data) {
