@@ -19,7 +19,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebas
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, getAdditionalUserInfo }
   from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
 import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-  doc, getDoc, setDoc, deleteField, serverTimestamp }
+  doc, getDoc, setDoc, deleteField, serverTimestamp, increment }
   from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
 export const FIREBASE_SDK = '12.4.0';
@@ -47,4 +47,4 @@ export const db = initializeFirestore(app, {
 });
 
 export { GoogleAuthProvider, signInWithPopup, signOut, getAdditionalUserInfo };
-export { doc, getDoc, setDoc, deleteField, serverTimestamp };
+export { doc, getDoc, setDoc, deleteField, serverTimestamp, increment };

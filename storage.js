@@ -75,7 +75,8 @@
     'memoryBest',               // [quizTitle, stat]
     'sortingBest',              // [quizTitle]
     'autoevalRating',           // [itemId]
-    'labProgress'               // [labId] — JSON {v, frame, data} (lab-engine.js)
+    'labProgress',              // [labId] — JSON {v, frame, data} (lab-engine.js)
+    'labResult'                 // [labId] — JSON {maxStep, checks, best, last} (lab-engine.js)
   ]);
 
   // Limite d'une réponse écrite : les règles Firestore ne peuvent pas la
@@ -84,6 +85,31 @@
   const ANSWER_MAX = 5000;
 
   const WRITE_DELAY = 3000;
+  // Compteurs d'activité seuls (rien d'autre à enregistrer) : envoi moins
+  // pressé, pour ne pas multiplier les écritures quand l'élève fait défiler
+  // des cartes de vocabulaire. Ils partent aussi avec toute autre écriture.
+  const STATS_DELAY = 30000;
+
+  /* Compteurs d'activité (champ `stats` du document de chapitre), lus par le
+     tableau de bord enseignant. Une action = +1 dans le compteur qui porte le
+     nom de l'événement de suivi (tracking.js le transmet ici). Les sections
+     servent à la « répartition de l'activité » du tableau de bord.
+     Vocabulaire : l'événement vocabulary_session_ended est un instantané
+     cumulé de la visite (même sessionId) ; on n'en compte que la différence
+     avec l'instantané précédent, dans quatre compteurs à part. */
+  const ACTIVITY_SECTIONS = {
+    exercises: ['answer_checked', 'self_assess_rated', 'revision_mode_started', 'statement_language_toggled'],
+    games: ['qcm_answer_checked', 'qcm_quiz_completed', 'fitb_completed', 'dnd_completed',
+            'memory_completed', 'sorting_completed'],
+    autoeval: ['autoeval_page_opened', 'autoeval_item_rated'],
+    vocabulary: ['vocabulary_section_opened', 'vocabulary_sessions', 'vocabulary_cards_seen',
+                 'vocabulary_flips', 'vocabulary_listens'],
+    resources: ['resource_link_opened'],
+    explorations: ['exploration_link_opened'],
+    labs: ['lab_opened', 'lab_step_reached', 'lab_checked']
+  };
+  const COUNTED_EVENTS = new Set([].concat.apply([], Object.keys(ACTIVITY_SECTIONS)
+    .map(function (section) { return ACTIVITY_SECTIONS[section]; })));
 
   function checkFamily(family) {
     if (!DATA_FAMILIES.has(family)) {
@@ -129,7 +155,12 @@
      (visiteur, page hors chapitre, Firebase injoignable) → localStorage.
        data    : le document du chapitre, en mémoire
        pending : modifié, pas encore envoyé
-       journal : envoyé ou non, pas encore confirmé (copie dans localStorage) */
+       journal : envoyé ou non, pas encore confirmé (copie dans localStorage)
+       statsPending : compteurs d'activité pas encore envoyés { nom: +n }.
+         Pas de journal pour eux : un ajout (increment) renvoyé deux fois
+         compterait deux fois, et le cache de Firestore garde déjà les
+         écritures faites hors ligne. Au pire, une page fermée très vite
+         perd quelques unités. */
   let cloud = null;
   let flushTimer = null;
 
@@ -149,15 +180,51 @@
     flushTimer = setTimeout(flush, WRITE_DELAY);
   }
 
+  function addStat(name, n) {
+    if (!(n > 0)) return;
+    cloud.statsPending[name] = (cloud.statsPending[name] || 0) + n;
+    if (!flushTimer) flushTimer = setTimeout(flush, STATS_DELAY);
+  }
+
+  const vocabSnapshots = {}; // sessionId → dernier instantané compté
+
+  function countEvent(name, data) {
+    if (name === 'vocabulary_session_ended') {
+      const id = data && data.sessionId;
+      if (!id) return;
+      const prev = vocabSnapshots[id] || { nbCartesVues: 0, nbRetournees: 0, nbEcoutes: 0 };
+      if (!vocabSnapshots[id]) addStat('vocabulary_sessions', 1);
+      addStat('vocabulary_cards_seen', (data.nbCartesVues || 0) - prev.nbCartesVues);
+      addStat('vocabulary_flips', (data.nbRetournees || 0) - prev.nbRetournees);
+      addStat('vocabulary_listens', (data.nbEcoutes || 0) - prev.nbEcoutes);
+      vocabSnapshots[id] = {
+        nbCartesVues: Math.max(prev.nbCartesVues, data.nbCartesVues || 0),
+        nbRetournees: Math.max(prev.nbRetournees, data.nbRetournees || 0),
+        nbEcoutes: Math.max(prev.nbEcoutes, data.nbEcoutes || 0)
+      };
+      return;
+    }
+    if (COUNTED_EVENTS.has(name)) addStat(name, 1);
+  }
+
   function flush() {
     clearTimeout(flushTimer);
+    flushTimer = null;
     if (!cloud) return;
     const batch = cloud.pending;
     const families = Object.keys(batch);
-    if (!families.length) return;
+    const stats = cloud.statsPending;
+    const statNames = Object.keys(stats);
+    if (!families.length && !statNames.length) return;
     cloud.pending = {};
+    cloud.statsPending = {};
     const fb = cloud.fb;
+    // updatedAt = date de la dernière activité (toute écriture en vient).
     const payload = { updatedAt: fb.serverTimestamp() };
+    if (statNames.length) {
+      payload.stats = {};
+      statNames.forEach(function (name) { payload.stats[name] = fb.increment(stats[name]); });
+    }
     families.forEach(function (family) {
       payload[family] = {};
       Object.keys(batch[family]).forEach(function (key) {
@@ -229,7 +296,8 @@
                                    function () { return {}; })
           .then(function (stored) {
             const journalKey = 'cloudPending::' + user.uid + '::' + chapterId;
-            cloud = { fb: fb, ref: ref, data: {}, pending: {}, journal: {}, journalKey: journalKey };
+            cloud = { fb: fb, ref: ref, data: {}, pending: {}, journal: {}, journalKey: journalKey,
+                      statsPending: {} };
             DATA_FAMILIES.forEach(function (family) {
               if (stored[family] && typeof stored[family] === 'object') cloud.data[family] = Object.assign({}, stored[family]);
             });
@@ -290,6 +358,19 @@
       get: safeGet,
       set: safeSet,
       remove: safeRemove
+    },
+    // Compteurs d'activité : appelé par tracking.js pour chaque événement de
+    // suivi. Sans effet pour un visiteur ou hors d'une page de chapitre.
+    activity: {
+      sections: ACTIVITY_SECTIONS,
+      record: function (name, data) {
+        ready.then(function () {
+          if (!cloud) return;
+          try { countEvent(name, data); } catch (e) { return; }
+          // Événement envoyé en quittant la page : ne pas attendre.
+          if (document.visibilityState === 'hidden') flush();
+        });
+      }
     }
   };
 })(window);

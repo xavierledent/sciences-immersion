@@ -8,12 +8,9 @@
   // Must match the TOKEN constant in apps-script/Code.gs exactly.
   const TRACKING_TOKEN = 'VlyuETgLI98jSA0KT6Jg74jpZnW2xgSOytHJv2nU';
 
-  // Events the site already fires but that are not sent yet: the virtual
-  // labs (lab-engine.js: lab_opened, lab_step_reached, lab_checked) wait for
-  // the Firebase migration, where their storage and dashboard view will be
-  // designed. Until then they only show in the console (Verbose level). To
-  // send them, remove this filter (and, with Apps Script, add the names to
-  // KNOWN_EVENTS).
+  // Events never sent to Apps Script: the virtual labs (lab-engine.js:
+  // lab_opened, lab_step_reached, lab_checked). They are counted in
+  // Firestore only (countInFirestore below), like every other event.
   const NOT_SENT_YET = /^lab_/;
 
   // Same storage key/shape as access-control.js's storeAccess(): {mode, email, ...}.
@@ -41,7 +38,17 @@
   // explicit 'application/json' header) would fail. This keeps it a
   // "simple request" — no preflight, response is opaque and unread, which
   // is fine since nothing here needs to read it back.
+  // Compteurs d'activité dans Firestore (storage.js), pour le tableau de bord
+  // enseignant : tous les événements, labos compris. Indépendant de l'envoi
+  // vers Apps Script ci-dessous, qui sera débranché à la fin de la phase 6.
+  function countInFirestore(eventName, data) {
+    try {
+      if (window.SiteStorage && SiteStorage.activity) SiteStorage.activity.record(eventName, data || {});
+    } catch (e) { /* jamais d'erreur visible pour l'élève */ }
+  }
+
   window.logEvent = function (eventName, data) {
+    countInFirestore(eventName, data);
     try {
       if (NOT_SENT_YET.test(eventName)) {
         console.debug('[tracking, not sent yet]', eventName, data || {});
@@ -73,6 +80,7 @@
   // without sendBeacon support (or if it rejects the payload, e.g. over its
   // ~64KB queue limit).
   window.logEventBeacon = function (eventName, data) {
+    countInFirestore(eventName, data);
     try {
       const email = getStudentEmail();
       if (!email) return;

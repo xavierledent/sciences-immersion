@@ -379,6 +379,10 @@
           score: s.score, total: s.total, criteria: s.criteria || {},
           minutes: activeMinutes(), locksHit: lab.state.locksHit, details: s.details || {}
         });
+        saveResult(4, {
+          score: s.score, total: s.total, criteria: s.criteria || {},
+          minutes: activeMinutes(), at: Date.now()
+        });
         lab.goToStep(4);
       },
 
@@ -535,6 +539,25 @@
     function queueSave() {
       clearTimeout(saveTimer);
       saveTimer = setTimeout(saveProgress, 400);
+    }
+
+    /* Résultat du labo pour le tableau de bord enseignant (famille
+       labResult), à part de la reprise : « Start again » efface labProgress
+       mais pas ceci. { maxStep, checks, best, last } ; best et last =
+       { score, total, criteria, minutes, at } au moment d'un Check. */
+    function saveResult(step, check) {
+      if (!window.SiteStorage) return;
+      let r = null;
+      try { r = JSON.parse(SiteStorage.data.get('labResult', [def.id]) || 'null'); } catch (e) { r = null; }
+      r = r || { maxStep: 1, checks: 0, best: null, last: null };
+      r.maxStep = Math.max(r.maxStep || 1, step);
+      if (check) {
+        r.checks = (r.checks || 0) + 1;
+        r.last = check;
+        const ratio = function (c) { return c && c.total ? c.score / c.total : -1; };
+        if (ratio(check) > ratio(r.best)) r.best = check;
+      }
+      SiteStorage.data.set('labResult', [def.id], JSON.stringify(r));
     }
 
     function clearProgress() {
@@ -796,6 +819,7 @@
       fitToScreen();
       if (resumed) resumed = await askResume();
       track('lab_opened', { resumed, step: lab.state.step });
+      saveResult(lab.state.step, null); // « commencé » pour le tableau de bord
     }
 
     function closeLab() {
@@ -890,7 +914,10 @@
       // Étape 4 : lab_checked (lab.finish), plus complet.
       if (lab.state.step > lab.state.reached) {
         lab.state.reached = lab.state.step;
-        if (lab.state.step < 4) track('lab_step_reached', { step: lab.state.step, minutes: activeMinutes() });
+        if (lab.state.step < 4) {
+          track('lab_step_reached', { step: lab.state.step, minutes: activeMinutes() });
+          saveResult(lab.state.step, null);
+        }
       }
       saveProgress();
     }

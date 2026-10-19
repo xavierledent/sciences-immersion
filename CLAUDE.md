@@ -146,9 +146,11 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   forme de `save()` change ; le moteur enregistre (`labProgress` dans
   [storage.js](storage.js)) et propose « Continue / Start again » à la
   réouverture. Suivi : `summary()` donne score, critères et détails de
-  l'événement `lab_checked` ; les événements `lab_*` ne sont pas encore
-  envoyés (filtre dans [tracking.js](tracking.js), à lever à la migration
-  Firebase).
+  l'événement `lab_checked` ; le moteur garde le résultat à part
+  (`labResult` : étape la plus loin, meilleur et dernier Check), que
+  « Start again » n'efface pas. Les événements `lab_*` sont comptés dans
+  Firestore (compteurs `stats`, voir `SiteStorage.activity` dans
+  [storage.js](storage.js)), jamais envoyés à Apps Script.
 - **Conclude répond aux questions de départ, et à elles seules.** Les
   questions du labo sont posées à l'étape Predict, avec l'hypothèse ;
   Conclude y répond d'après les résultats et juge l'hypothèse, sans poser
