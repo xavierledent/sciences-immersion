@@ -1,0 +1,374 @@
+/* Memory (« Match the pairs ») de la page Practice.
+   Chargé juste après practice-engine.css : ces règles gardent ainsi leur
+   place après celles du moteur. Les règles du chronomètre et du badge,
+   partagées avec le glisser-déposer, restent dans le moteur. */
+
+/* Memory Match the Pairs dedicated modal (90% width and height) */
+.memory-large-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 16px;
+  z-index: 100;
+}
+
+.memory-large-modal-overlay.modal-open {
+  display: grid;
+}
+
+.memory-modal-card {
+  width: 90vw;
+  height: 90vh;
+  max-width: 1400px;
+  max-height: 900px;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.memory-modal-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.memory-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.memory-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  overflow: hidden;
+  gap: 16px;
+}
+
+/* Instructions text (optional) */
+.memory-instructions-text {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  line-height: 1.5;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Stopwatch + move counter, live during the attempt */
+.memory-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(17, 36, 72, 0.03);
+  flex-shrink: 0;
+}
+
+.memory-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.memory-stat-icon {
+  font-size: 1rem;
+}
+
+/* Grille de cartes */
+.memory-grid-container {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  background: #f8fafc;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.06);
+  padding: 20px;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  align-content: center;
+}
+
+@media (max-width: 640px) {
+  .memory-grid {
+    gap: 10px;
+  }
+}
+
+/* Card item (3D flip effect) */
+.memory-card {
+  perspective: 1000px;
+  /* Taille calculée par memorySyncCardSize selon la place disponible ; 135px
+     n'est plus qu'un repli avant ce calcul. */
+  width: var(--memory-card-size, 135px);
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  user-select: none;
+}
+
+.memory-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.memory-card.flipped .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card-front,
+.memory-card-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(17, 36, 72, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Card Front (Face cachée) - deux tons de la couleur du sujet (bio/chimie/physique) */
+.memory-card-front.card-side-A {
+  background: var(--color-current);
+  border: 2px solid var(--color-current-dark);
+}
+
+.memory-card-front.card-side-B {
+  background: var(--color-current-darker);
+  border: 2px solid var(--color-current-darkest);
+}
+
+.memory-card-backpattern {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-current-text, #ffffff);
+  opacity: 0.8;
+}
+
+/* Card Back (Face visible) - Appearance "nette" */
+.memory-card-back {
+  background: #ffffff;
+  color: var(--color-text);
+  transform: rotateY(180deg);
+  border: 2px solid rgba(17, 36, 72, 0.08);
+  padding: 8px;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+  box-sizing: border-box;
+}
+
+/* Image cards go edge-to-edge (no padding) so the photo's own corners land
+   exactly on the card's rounded clip boundary instead of floating square
+   inside a padded gap. Text cards keep their padding untouched. */
+.memory-card-back.card-has-image {
+  padding: 0;
+}
+
+.memory-card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.memory-card-back span {
+  /* Proportionnelle à la carte, dont la taille est calculée par
+     memorySyncCardSize : le repère utile est la place réellement disponible, pas
+     la largeur de la fenêtre comme le faisait le 1.8vw d'avant. Un mot long tient
+     ainsi sans avoir à être coupé dans la plupart des cas. */
+  font-size: clamp(0.65rem, calc(var(--memory-card-size, 135px) * 0.13), 0.95rem);
+  font-weight: 600;
+  /* Largeur imposée plutôt que déduite : en tant qu'élément flex, le span se
+     dimensionnait sur son contenu et « Decomposers » lui donnait une largeur
+     supérieure à la carte, rognée ensuite par l'overflow: hidden.
+     Et « anywhere » plutôt que « break-word » : les deux coupent un mot trop
+     long, mais seul « anywhere » réduit aussi la largeur minimale intrinsèque du
+     texte. Avec « break-word », le mot entier restait la taille de référence du
+     calcul, et le débordement subsistait malgré l'autorisation de rétrécir. */
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  hyphens: auto;
+  text-align: center;
+}
+
+/* Match states */
+.memory-card.correct .memory-card-back,
+.memory-card.incorrect .memory-card-back {
+  /* Une carte résolue ne se reclique pas. Les réglages de coupure qui figuraient
+     ici ont été retirés : ils ne faisaient que redire ceux du conteneur, et
+     brouillaient la lecture en donnant l'impression que l'état validé se
+     comportait autrement. */
+  pointer-events: none;
+}
+
+/* Ces règles répétaient l'ancien réglage de coupure et le réimposaient sur les
+   cartes validées — c'est pourquoi le débordement s'y voyait aussi. Elles
+   n'apportaient rien d'autre : le span hérite déjà de tout ce qu'il lui faut. */
+
+.memory-card.correct .memory-card-back {
+  border: 3px solid var(--color-emerald) !important;
+  box-shadow: 0 4px 16px rgba(12, 163, 127, 0.3) !important;
+}
+
+.memory-card.incorrect .memory-card-back {
+  border: 3px solid var(--color-rose) !important;
+  box-shadow: 0 4px 16px rgba(212, 82, 122, 0.3) !important;
+  animation: dnd-shake 0.5s ease-in-out;
+}
+
+/* Bounce feedback on a matched pair + a checkmark that pops in and fades away */
+.memory-card.just-matched {
+  animation: memory-pop 0.4s ease;
+}
+
+/* Une carte est retournée : celles de la même face ne répondront pas au clic.
+   Rien ne le disait — la carte ne bougeait simplement pas, ce qui ne se
+   distingue en rien d'une carte cassée. Elles s'estompent donc, ce qui annonce
+   la règle au lieu de la faire découvrir par un silence.
+   Aucun mot : la règle se montre au lieu de s'écrire, ce qui vaut mieux devant
+   des élèves qui déchiffrent déjà tout le reste en langue étrangère.
+
+   Écrit en CSS et non en JS parce que la condition se lit dans le DOM lui-même :
+   la sélection est remise à zéro à quatre endroits du moteur, et une règle qui
+   observe l'état ne peut pas s'en désynchroniser.
+   La double condition — une face retournée ET pas l'autre — réserve l'effet au
+   moment où l'élève choisit vraiment. Pendant la vérification d'une paire, les
+   deux faces sont retournées et plus rien ne s'estompe. */
+#memory-grid:has(.memory-card[data-side='A'].flipped:not(.correct)):not(:has(.memory-card[data-side='B'].flipped:not(.correct))) .memory-card[data-side='A']:not(.flipped):not(.correct),
+#memory-grid:has(.memory-card[data-side='B'].flipped:not(.correct)):not(:has(.memory-card[data-side='A'].flipped:not(.correct))) .memory-card[data-side='B']:not(.flipped):not(.correct) {
+  opacity: 0.35;
+}
+
+.memory-card {
+  transition: opacity 0.2s ease;
+}
+
+/* Rappel de la règle, affiché seulement si l'élève l'enfreint malgré tout. Il se
+   loge dans l'emplacement du résultat de fin de partie, vide pendant le jeu. */
+.memory-side-hint {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-current);
+}
+
+@keyframes memory-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.memory-card-tick {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: memory-tick-pop 0.7s ease forwards;
+  z-index: 2;
+}
+
+@keyframes memory-tick-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 1; transform: scale(1.15); }
+  55% { transform: scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Footer & Navigation */
+.memory-footer {
+  padding: 14px 0 6px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.memory-pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.memory-pagination .exercise-step {
+  font-weight: 700;
+  font-size: 1rem;
+  width: auto;
+  height: 44px;
+  padding: 10px 24px;
+  white-space: nowrap;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+html[data-pointer='fine'] .memory-pagination .exercise-step:hover {
+  background: rgba(var(--color-current-rgb), 0.05);
+  border-color: var(--color-current);
+}
+
+.memory-pagination .exercise-step.active {
+  background: var(--color-current);
+  border-color: rgba(12, 163, 127, 0.35);
+  color: var(--color-current-text, #ffffff);
+  box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
+}
+
+/* Même garde-fou que les animations de modale du moteur (practice-engine.css).
+   Placé après les règles d'animation du memory, qu'il doit pouvoir annuler. */
+@media (prefers-reduced-motion: reduce) {
+  .memory-card.incorrect .memory-card-back,
+  .memory-card.just-matched,
+  .memory-card-tick {
+    animation: none;
+  }
+}
