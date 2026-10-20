@@ -259,7 +259,7 @@ function chapterHtml(chapter, s, ctx) {
       viz: bulbCounts(s.ratings) }),
     vocab: () => ({ value: `${s.vocabKnown.length}<span class="s-kpi-of"> / ${chapter.vocabCount}</span>`, note: 'mots sus',
       viz: miniBar([{ value: s.vocabKnown.length, color: '#4a6483' }], chapter.vocabCount) +
-        `<span class="d-cell-note">${n('vocabulary_cards_seen')} carte(s) vue(s) · ${n('resource_link_opened') + n('exploration_link_opened')} lien(s) ouvert(s)</span>` }),
+        `<span class="d-cell-note">${n('vocabulary_cards_seen')} carte(s) vue(s) · ${n('resource_link_opened') + n('exploration_link_opened')} lien(s)</span>` }),
     homework: () => {
       if (!ctx.hw) return { value: '—', note: 'lecture impossible', viz: '' };
       const h = homeworkSummary(ctx.hw, chapter.folder);

@@ -1042,6 +1042,12 @@
   margin-top: 8px;
 }
 
+/* Dans une carte étroite, la note passe à la ligne au lieu de déborder
+   (.d-cell-note reste sur une ligne dans les tableaux). */
+.s-pcard-viz .d-cell-note {
+  white-space: normal;
+}
+
 .s-card-labs {
   display: flex;
   flex-direction: column;
