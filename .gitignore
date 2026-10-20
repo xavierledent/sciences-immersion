@@ -15,3 +15,6 @@ docs/todo/
 
 # Local register of where each chapter image comes from (source, licence)
 docs/images-provenance.md
+
+# VS Code settings of this PC (Live Server on localhost:8080)
+.vscode/
