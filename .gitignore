@@ -8,10 +8,10 @@ Admin/Backup ind/
 .claude/settings.local.json
 .claude/worktrees/
 
-# Separate Google Apps Script project — not part of this public repo
-apps-script/
-
 # Private audit and its follow-up checklists — they describe unfixed
 # security issues, so they must stay out of this public repo
 docs/audit-sciences-immersion.md
 docs/todo/
+
+# Local register of where each chapter image comes from (source, licence)
+docs/images-provenance.md

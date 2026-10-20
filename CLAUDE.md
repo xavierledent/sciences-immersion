@@ -42,7 +42,7 @@ imprimable selon la fiche outil FO3 ; chaque labo garde sa simulation dans ses
 deux fichiers `lab-<nom>`, sans JSON. Chaque labo tire au sort une partie de
 son contenu pour pouvoir être refait.
 
-`apps-script/`, `docs/todo/` et
+`docs/todo/`, `docs/images-provenance.md` et
 `Admin/Backup ind/` existent en local mais sont exclus du dépôt, qui est
 public. Ne jamais les ajouter à un commit ni recopier leur contenu dans un
 fichier suivi par git.

@@ -84,7 +84,7 @@ référence plus, dans les deux filières.
 
 - Lancer `node tools/check.js` et rapporter le résultat. Il signale un fichier
   introuvable, une mauvaise casse et une image pas encore suivie par git.
-- Si `docs/todo/03-images.md` existe, y cocher ou ajouter la ligne, avec la
+- Si `docs/images-provenance.md` existe, y ajouter la ligne, avec la
   source, la licence et la date (fichier local, jamais commité).
 - Dire à l'utilisateur ce qu'il doit regarder lui-même dans le navigateur :
   l'image dans son exercice, et les zones de dépôt s'il y en a.
