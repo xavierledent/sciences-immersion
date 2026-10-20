@@ -383,7 +383,9 @@ html[data-pointer='fine'] .eb-tab:not(.is-on):not(.lab-is-locked):hover,
   font-weight: 700;
 }
 
+/* La place du cadenas (en haut à droite) : le nom passe à la ligne avant. */
 .eb-item.lab-is-locked {
+  padding-right: 24px;
   background: var(--lab-locked-bg);
   border-color: var(--lab-locked-border);
   color: var(--lab-locked-text);
@@ -420,6 +422,18 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
   background: #ffffff;
   transform: translate(-50%, -50%) rotate(-4deg);
   filter: drop-shadow(0 10px 16px rgba(17, 36, 72, 0.25));
+}
+
+/* Instrument en main, à la souris : l'instrument seul, droit, centré sur
+   l'endroit visé, comme un curseur. */
+.lab-drag-ghost.is-carried .eb-ghost {
+  transform: translate(-50%, -50%);
+}
+
+.lab-drag-ghost.is-carried .eb-ghost-tool {
+  border-color: transparent;
+  background: transparent;
+  filter: drop-shadow(0 3px 5px rgba(17, 36, 72, 0.35));
 }
 
 .eb-ghost .eb-lamp-icon {

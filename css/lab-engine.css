@@ -851,10 +851,24 @@ tspan.lab-gloss:focus-visible {
   opacity: 1;
 }
 
-/* Objet en main (makeDraggable, hold) : le fantôme suit la souris, décalé en
-   bas à droite pour laisser voir la pointe du curseur, qui vise la cible. */
-.lab-drag-ghost.is-carried {
-  margin: 34px 0 0 34px;
+/* Objet en main (makeDraggable, hold) : à la souris, il devient le curseur.
+   La flèche disparaît ; un point, au centre de l'objet, marque l'endroit
+   visé (là où le clic pose l'objet). */
+html.lab-carrying,
+html.lab-carrying * {
+  cursor: none !important;
+}
+
+.lab-drag-ghost.is-carried::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-current, #2b6cb0);
+  box-shadow: 0 0 0 2px #ffffff;
 }
 
 .is-held {

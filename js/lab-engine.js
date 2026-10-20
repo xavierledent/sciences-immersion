@@ -1133,7 +1133,8 @@
 
        hold (règle des labos : tout objet à poser sur une cible parmi
        plusieurs) : un toucher ou un clic prend l'objet « en main » au lieu
-       d'appeler onTap. À la souris, son fantôme suit le curseur ; les cibles
+       d'appeler onTap. À la souris, l'objet devient le curseur (la flèche
+       disparaît, un point marque l'endroit visé, au centre) ; les cibles
        s'annoncent (is-drop-ready) ; un clic ou un toucher sur une cible le
        pose (onDrop). Le reprendre, Échap ou en prendre un autre le lâche ;
        un clic ailleurs ne le lâche pas (geste manqué de peu). onHold dit au
@@ -1162,11 +1163,20 @@
       targetsOf(opts).forEach(t => t.classList.add('is-drop-ready'));
       ghostEl.innerHTML = opts.ghost();
       ghostEl.classList.add('is-carried');
-      if (ev && ev.pointerType === 'mouse') {
-        placeGhost(ev.clientX, ev.clientY);
-        ghostEl.classList.add('is-visible');
-      }
+      if (ev && ev.pointerType === 'mouse') showCarried(ev);
       if (opts.onHold) opts.onHold(true);
+    }
+
+    // À la souris, l'objet en main remplace le curseur.
+    function showCarried(ev) {
+      placeGhost(ev.clientX, ev.clientY);
+      ghostEl.classList.add('is-visible');
+      document.documentElement.classList.add('lab-carrying');
+    }
+
+    function hideCarried() {
+      ghostEl.classList.remove('is-visible');
+      document.documentElement.classList.remove('lab-carrying');
     }
 
     function releaseHeld() {
@@ -1175,7 +1185,8 @@
       held = null;
       el.classList.remove('is-held');
       targetsOf(opts).forEach(t => t.classList.remove('is-drop-ready', 'is-drop-target'));
-      ghostEl.classList.remove('is-visible', 'is-carried');
+      hideCarried();
+      ghostEl.classList.remove('is-carried');
       if (opts.onHold) opts.onHold(false);
     }
 
@@ -1184,9 +1195,8 @@
 
     document.addEventListener('pointermove', e => {
       if (!held || heldGone()) return;
-      if (e.pointerType !== 'mouse') { ghostEl.classList.remove('is-visible'); return; }
-      placeGhost(e.clientX, e.clientY);
-      ghostEl.classList.add('is-visible');
+      if (e.pointerType !== 'mouse') { hideCarried(); return; }
+      showCarried(e);
       const over = targetAt(held.opts, e.clientX, e.clientY);
       targetsOf(held.opts).forEach(t => t.classList.toggle('is-drop-target', t === over));
     });

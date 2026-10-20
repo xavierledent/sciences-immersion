@@ -61,18 +61,19 @@
   } = LabEngine.textFor('energy');
 
   /* ===== Modèle =====
-     Points de mesure, dans l'ordre du tableau et du diagramme : l'axe de la
-     manivelle (mécanique, 100), la dynamo (thermique, perdue), les fils
-     (électrique), devant la lampe (lumière), la lampe (thermique, perdue).
-     Énergie à la fin : la lumière et les deux énergies thermiques. */
+     Points de mesure, numérotés de gauche à droite sur le banc, dans l'ordre
+     du tableau : l'axe de la manivelle (mécanique, 100), la dynamo
+     (thermique, perdue), les fils (électrique), la lampe (thermique,
+     perdue), devant la lampe (lumière). Énergie à la fin : les deux énergies
+     thermiques et la lumière. */
   const START = 100;
   const TURNS = 3;            // tours de manivelle pour donner 100 units
-  const SPOTS = ['crank', 'dynamo', 'wires', 'light', 'lamp'];
+  const SPOTS = ['crank', 'dynamo', 'wires', 'lamp', 'light'];
   const SPOT_TOOL = { crank: 'meter', dynamo: 'camera', wires: 'meter', light: 'lightmeter', lamp: 'camera' };
   const TOOLS = ['meter', 'lightmeter', 'camera'];
   const FORMS = ['chemical', 'mechanical', 'thermal', 'electrical', 'light', 'nuclear'];
   const BOX_FORM = { crank: 'mechanical', dynamo: 'thermal', wires: 'electrical', light: 'light', lamp: 'thermal' };
-  const END_ROWS = ['dynamo', 'light', 'lamp'];
+  const END_ROWS = ['dynamo', 'lamp', 'light'];
   const AMOUNTS = ['more', 'same', 'less'];
   const FATES = ['air', 'destroyed', 'stored'];
   const REST_FORMS = FORMS.filter(f => f !== 'light');
@@ -82,7 +83,7 @@
   // Les fils sont donnés par la dynamo et reçus par la lampe (même valeur).
   const MACHINES = [
     { id: 'dynamo', rows: [['in', 'crank'], ['out', 'dynamo'], ['out', 'wires']] },
-    { id: 'lamp', rows: [['in', 'wires'], ['out', 'light'], ['out', 'lamp']] }
+    { id: 'lamp', rows: [['in', 'wires'], ['out', 'lamp'], ['out', 'light']] }
   ];
 
   /* eff : part de l'énergie électrique qui devient lumière (ordres de
@@ -903,7 +904,8 @@
   const H_ARROWS = { crank: [96, 168], wires: [260, 332], light: [424, 496] };
   // Énergie perdue : de l'ovale vers le haut à droite, à 45° (départ, pointe).
   const D_ARROWS = { dynamo: [236, 183, 316, 103], lamp: [400, 183, 480, 103] };
-  const BOX_POS = { crank: [125, 263], wires: [296, 263], light: [460, 263], dynamo: [130, 120], lamp: [568, 150] };
+  // Cases de l'énergie perdue : au bout de la flèche rouge, au-dessus de « Air ».
+  const BOX_POS = { crank: [125, 263], wires: [296, 263], light: [460, 263], dynamo: [322, 63], lamp: [486, 63] };
   const USEFUL = '#8a9bb8';
   const WASTED = '#d64545';
   const thick = v => (v == null ? 3 : Math.max(3, Math.min(40, v * 0.4)));
@@ -941,7 +943,7 @@
       const d = (t / 2 + 13) * Math.SQRT1_2;
       out += arrowPath(x1, y1, x2, y2, t, WASTED) +
         `<text class="eb-arrow-val is-wasted" x="${((x1 + x2) / 2 - d).toFixed(1)}" y="${((y1 + y2) / 2 - d + 5).toFixed(1)}" text-anchor="middle">${v == null ? '?' : v}</text>` +
-        `<text class="eb-air" x="${x2 + 7}" y="${y2 - 4}">${LABELS.diagram.air}</text>`;
+        `<text class="eb-air" x="${x2 + 6}" y="${y2 - 10}" text-anchor="middle">${LABELS.diagram.air}</text>`;
     });
     ['hand', 'dynamo', 'lamp', 'room'].forEach(n => {
       out += `<ellipse class="eb-oval" cx="${OVAL[n]}" cy="${DG_Y}" rx="${OVAL.rx}" ry="${OVAL.ry}"/>` +
