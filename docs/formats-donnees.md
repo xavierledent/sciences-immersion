@@ -49,7 +49,8 @@ Lu par [practice-engine.js](../js/practice-engine.js).
 
 ## interactive.json — jeux
 
-Lu par [practice-engine.js](../js/practice-engine.js). Cinq clés, chacune un
+Chargé par [practice-engine.js](../js/practice-engine.js), joué par le fichier
+de chaque jeu (`js/practice-<jeu>.js`). Cinq clés, chacune un
 tableau de jeux ; un tableau vide est valide (jeu pas encore rédigé). Ici, les
 images sont des
 **chemins complets** depuis le dossier du chapitre (`"assets/QCM1.webp"`),

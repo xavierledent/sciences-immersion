@@ -12,8 +12,10 @@ index.html, credits.html, 404.html   pages écrites à la main
 dashboard.html                       tableau de bord des enseignantes (Firestore)
 sw.js                                service worker (reste à la racine : il ne
                                      couvre que son dossier et en dessous)
-js/                                  scripts communs et moteurs (*-engine.js)
+js/                                  scripts communs et moteurs (*-engine.js) ;
+                                     practice-<jeu>.js : un jeu de la page Practice
 css/                                 feuilles de style communes et des moteurs
+                                     (practice-<jeu>.css : un jeu)
 dashboard/                           scripts et style du tableau de bord
 firebase/                            config Firebase, import d'avant Firebase,
                                      règles Firestore (à copier dans la console)
@@ -65,7 +67,8 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Tâche | Fichiers |
 |---|---|
 | Texte ou image d'un exercice, d'un jeu | `<chapitre>/practice.json`, `interactive.json` — format dans [docs/formats-donnees.md](docs/formats-donnees.md) |
-| Comportement des exercices ou d'un jeu | [practice-engine.js](js/practice-engine.js), [practice-engine.css](css/practice-engine.css) |
+| Comportement des exercices, socle commun des jeux (libellés, chargement, liens `?game=`, chronomètre, confettis) | [practice-engine.js](js/practice-engine.js), [practice-engine.css](css/practice-engine.css) |
+| Un jeu en particulier | `practice-<jeu>.{js,css}` dans `js/` et `css/` : `qcm`, `fitb` (texte à trous), `dnd` (glisser-déposer), `memory`, `sorting` (tri) |
 | Cartes de vocabulaire | [vocabulary-engine.js](js/vocabulary-engine.js), `vocabulary.json` |
 | Page Ressources, page Explorations | [resources-engine.js](js/resources-engine.js), [explorations-engine.js](js/explorations-engine.js) |
 | Page d'autoévaluation | [autoeval-engine.js](js/autoeval-engine.js), [assessment.css](css/assessment.css), `autoeval.json` |
@@ -95,10 +98,18 @@ node tools/validate-content.js [chapitre]  vérifie les JSON : fichiers référe
 Après toute modification d'un template, d'un JSON de chapitre ou de
 `chapters.json`, lancer `node tools/check.js` et rapporter son résultat.
 
-Avant d'ouvrir [practice-engine.js](js/practice-engine.js) (4 400 lignes) ou sa
-feuille de style (4 100 lignes), lancer `outline.js` avec un filtre, puis ne
-lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`,
-`fitb` (texte à trous), `dnd`, `memory`, `sorting`.
+Avant d'ouvrir [practice-engine.js](js/practice-engine.js) (2 500 lignes) ou sa
+feuille de style (2 000 lignes), lancer `outline.js` avec un filtre, puis ne
+lire que les lignes utiles.
+
+Page Practice : le moteur et les fichiers `practice-<jeu>` sont des scripts
+classiques qui partagent leurs déclarations (pas de module). Chaque jeu
+n'utilise que le moteur, jamais un autre jeu ; un outil utile à plusieurs
+jeux va dans la section « Jeux : outils communs » du moteur. Les templates
+chargent le moteur puis les jeux dans l'ordre qcm, fitb, dnd, memory,
+sorting (même ordre pour le CSS : une règle de jeu doit venir après celles
+du moteur). `initPractice` part à `DOMContentLoaded`, une fois tous les
+scripts chargés.
 
 ## Règles
 

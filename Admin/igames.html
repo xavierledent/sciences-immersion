@@ -490,7 +490,7 @@ document.addEventListener('keydown',e=>{
    Même mécanisme que dans content.html : le champ reste la source de vérité,
    ceci n'en est qu'un miroir rendu comme le site le rendra. N'apparaît que si
    le champ contient réellement des balises. L'échappement reproduit
-   setRichText() de practice-engine.js, pour qu'un énoncé puisse contenir
+   setRichText() de rich-text.js, pour qu'un énoncé puisse contenir
    "<", ">" ou "&" sans être lu comme du balisage. */
 const FMT_TAGS=/&lt;(\/?)(strong|em|u|br)\s*\/?&gt;/gi;
 // Un simple retour à la ligne n'y figure pas : rich-text.js ne le convertit

@@ -1,7 +1,7 @@
 // Prints the table of contents of a JS or CSS source file: its "===== ... ====="
 // section banners and, for JS, every function with its line number and length.
 // Meant to find where something lives in the big engines (practice-engine.js is
-// ~4,400 lines) without reading them top to bottom. Computed from the file on
+// ~2,500 lines) without reading them top to bottom. Computed from the file on
 // each run, so it can never go stale the way a hand-written map would.
 //
 // Usage: node tools/outline.js <file> [filter]
@@ -12,7 +12,8 @@
 //
 // Examples:
 //   node tools/outline.js js/practice-engine.js
-//   node tools/outline.js js/practice-engine.js dnd
+//   node tools/outline.js js/practice-engine.js revision
+//   node tools/outline.js js/practice-dnd.js
 //   node tools/outline.js css/practice-engine.css overview
 
 const fs = require('fs');

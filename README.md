@@ -24,7 +24,9 @@ Les moteurs partagés vivent dans `js/` (scripts) et `css/` (styles) et sont
 chargés par l'ensemble des pages, quelle que soit la filière ou le chapitre :
 
 - **`practice-engine.js` / `.css`** — exercices classiques différenciés et
-  jeux interactifs.
+  socle commun des jeux interactifs ; chaque jeu a ses deux fichiers
+  `practice-<jeu>.js` / `.css` (`qcm`, `fitb`, `dnd`, `memory`, `sorting`),
+  chargés après le moteur.
 - **`vocabulary-engine.js` / `.css`** — cartes de vocabulaire avec écoute
   audio.
 - **`resources-engine.js`** — fiches outils, mind maps, vidéos.
