@@ -352,10 +352,11 @@ html[data-pointer='fine'] .eb-tab:not(.is-on):not(.lab-is-locked):hover,
   line-height: 1.2;
 }
 
-/* Le nom passe sur deux lignes plutôt que d'être coupé. */
+/* Un nom de plusieurs mots passe à la ligne entre les mots ; un mot n'est
+   jamais coupé : trop long, il est réduit (fitKitNames, lab-energy.js). */
 .eb-item-text strong {
+  overflow: hidden;
   font-size: 0.8rem;
-  overflow-wrap: anywhere;
 }
 
 .eb-item-text small {

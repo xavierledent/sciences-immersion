@@ -318,7 +318,7 @@
 
     bindTabs();
     if (diagram) bindDiagram();
-    else { bindKit(); bindCrank(); bindTable(); }
+    else { bindKit(); bindCrank(); bindTable(); fitKitNames(); }
     setCaption(defaultCaption());
     renderRunFooter();
     if (!diagram && glow > 0.01) startGlowLoop(lab.newScene());
@@ -554,6 +554,21 @@
   function toolCaption(t) {
     const nums = toolSpots(t).map(el => spotNum(el.dataset.spot));
     return nums.length ? LABELS.captionToolPicked(LABELS.tools[t], LABELS.toolUse[t], LABELS.points(nums)) : LABELS.captionToolDone(LABELS.tools[t]);
+  }
+
+  /* Nom d'une lampe ou d'un instrument : un mot plus large que le bouton
+     (« Halogeenlamp », « Warmtecamera ») est réduit jusqu'à tenir, au plus
+     de 20 %, plutôt que coupé. Mesuré après le dessin (cadenas compris). */
+  function fitKitNames() {
+    $$('.eb-item-text strong').forEach(el => {
+      el.style.fontSize = '';
+      let size = parseFloat(getComputedStyle(el).fontSize);
+      const min = size * 0.8;
+      while (el.scrollWidth > el.clientWidth + 0.5 && size > min) {
+        size -= 0.5;
+        el.style.fontSize = `${size}px`;
+      }
+    });
   }
 
   function insertLamp(k) {
