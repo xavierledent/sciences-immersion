@@ -484,11 +484,7 @@
   white-space: nowrap;
 }
 
-.d-col-last {
-  white-space: nowrap;
-}
-
-.d-col-last.is-alert {
+.d-name-last.is-alert {
   color: var(--t-red);
   font-weight: 600;
 }
@@ -510,12 +506,52 @@
   font-weight: 400;
 }
 
-.d-col-chapter { min-width: 170px; }
-.d-col-activity { min-width: 170px; }
-.d-col-level { min-width: 150px; }
+/* Largeurs choisies pour que les deux tableaux du suivi tiennent sans
+   défilement horizontal sur un écran de 1366 px (dashboard-class.js). */
+.d-col-chapter { min-width: 120px; }
+.d-col-activity { min-width: 160px; }
+.d-col-exercises { min-width: 220px; }
 .d-col-games { min-width: 110px; }
-.d-col-labs { min-width: 210px; }
+.d-col-labs { min-width: 200px; max-width: 260px; }
 .d-col-autoeval { min-width: 140px; }
+.d-col-vocab { min-width: 120px; white-space: nowrap; }
+
+/* Exercices d'un chapitre : une ligne par niveau */
+.d-level-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.d-level-row + .d-level-row {
+  margin-top: 5px;
+}
+
+.d-level-row .d-cells {
+  flex: 1;
+  min-width: 0;
+}
+
+.d-level-tag,
+.d-level-n {
+  flex: none;
+  font-size: 0.72rem;
+  color: var(--color-muted);
+}
+
+.d-level-tag {
+  width: 1.8em;
+  font-weight: 600;
+}
+
+.d-level-n {
+  min-width: 2.6em;
+  text-align: right;
+}
+
+.d-vocab-known {
+  font-weight: 600;
+}
 
 /* Barre empilée : segments séparés par 2 px de fond */
 .d-bar {
@@ -564,6 +600,14 @@
 .d-lab-state {
   white-space: nowrap;
   font-weight: 600;
+}
+
+.d-lab-state.d-zero {
+  font-weight: 400;
+}
+
+.d-lab + .d-lab {
+  margin-top: 3px;
 }
 
 .d-empty {
@@ -618,15 +662,6 @@
   margin-bottom: 2px;
 }
 
-/* Une colonne par labo (mode un chapitre) */
-.d-col-lab {
-  white-space: nowrap;
-  font-weight: 600;
-}
-
-.d-col-lab.d-zero {
-  font-weight: 400;
-}
 
 /* ===== Fiche élève (dashboard-student.js) ===== */
 

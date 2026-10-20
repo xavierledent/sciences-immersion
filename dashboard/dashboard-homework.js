@@ -548,15 +548,15 @@ function renderSummary(classId) {
     c.counted = counted;
     c.rate = counted ? Math.round(100 * c.done / counted) : null;
     return { email, c };
-  }).sort((x, y) => (x.c.rate === null) - (y.c.rate === null) || (x.c.rate || 0) - (y.c.rate || 0)
-    || nameOf(x.email).localeCompare(nameOf(y.email), 'fr'));
+  // Toujours par ordre alphabétique du nom : on y cherche un élève précis.
+  }).sort((x, y) => nameOf(x.email).localeCompare(nameOf(y.email), 'fr'));
 
   const num = n => n ? n : '<span class="d-zero">0</span>';
   box.innerHTML = `
     <h2>Assiduité${classId === ALL ? ' — toutes les classes' : ` — ${esc(classId)}`}</h2>
     <p class="t-help">Tous les devoirs reçus par chaque élève depuis le début. Un devoir pas fini dont la date limite
       n'est pas passée est compté « à venir ». % à temps = devoirs faits à temps parmi ceux dont la date limite est
-      passée (ou déjà faits). Classement : le plus faible % d'abord. Le détail devoir par devoir est dans la fiche de l'élève.</p>
+      passée (ou déjà faits). Le détail devoir par devoir est dans la fiche de l'élève.</p>
     ${rows.length ? `<div class="t-scroll"><table class="t-table h-table">
       <thead><tr><th>Élève</th><th>Classe</th><th class="d-num">Reçus</th><th class="d-num">Faits à temps</th>
         <th class="d-num">En retard</th><th class="d-num">Partiels</th><th class="d-num">Non faits</th><th class="d-num">À venir</th>

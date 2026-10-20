@@ -1,14 +1,16 @@
 /* ===== Tableau de bord : vue « Suivi de la classe » =====
    Une ligne par élève de la classe choisie.
-     - Chapitre « Tous » : dernière activité, une colonne par chapitre (barre
-       des feux des exercices + jeux et labos faits), répartition de
-       l'activité, ressources et explorations ouvertes.
-     - Un chapitre : chaque niveau exercice par exercice, chaque jeu, chaque
-       labo, ampoules de l'autoévaluation, vocabulaire.
-   Au-dessus : quatre chiffres de synthèse. Colonne « Dernière activité » :
-   signal après WATCH_DAYS jours sans activité enregistrée (ou s'il n'y en a
-   jamais eu). Un chapitre sans exercices (vocabulaire seul pour l'instant)
-   montre ce qui existe. */
+     - Chapitre « Tous » : répartition de l'activité (ressources et
+       explorations comprises), puis une colonne par chapitre (barre des
+       feux des exercices ; jeux et labos dans la bulle).
+     - Un chapitre : exercices (une ligne par niveau, exercice par exercice),
+       jeux, labos (une ligne par labo), ampoules de l'autoévaluation,
+       vocabulaire et liens.
+   Colonnes regroupées pour tenir sans défilement horizontal sur un écran de
+   1366 px. Sous le nom : dernière activité, signalée après WATCH_DAYS jours
+   sans activité enregistrée (ou s'il n'y en a jamais eu). Au-dessus : quatre
+   chiffres de synthèse. Un chapitre sans exercices (vocabulaire seul pour
+   l'instant) montre ce qui existe. */
 
 import {
   esc, LIGHT, TRACK, ACTIVITY_SECTIONS, stackBar, cellsBar, legend, bulbCounts,
@@ -50,7 +52,8 @@ export async function renderClassView(root, ctx) {
     : Object.keys(ctx.students).filter(e => ctx.students[e].classe === classId);
   const rows = emails.map(email => buildRow(email, ctx, chapters));
   const chapter = chapters.find(c => c.id === chapterId) || null;
-  const sort = ctx.prefs.sort || { key: 'name', dir: 1 };
+  // Le tri « Dernière activité » n'existe plus (la date est sous le nom).
+  const sort = ctx.prefs.sort && ctx.prefs.sort.key !== 'last' ? ctx.prefs.sort : { key: 'name', dir: 1 };
 
   root.innerHTML = `
     ${headerHtml(ctx, classId, classIds, unclassed.length, chapters, chapterId)}
@@ -118,9 +121,7 @@ function buildRow(email, ctx, chapters) {
     connected: !!work.uid,
     last,
     summaries,
-    sections: activityBySection(allStats),
-    resources: allStats.reduce((n, s) => n + (Number(s.resource_link_opened) || 0), 0),
-    explorations: allStats.reduce((n, s) => n + (Number(s.exploration_link_opened) || 0), 0)
+    sections: activityBySection(allStats)
   };
 }
 
@@ -179,20 +180,19 @@ function legendHtml(chapter) {
 /* ===== Tri ===== */
 
 function defaultDir(key) {
-  return key === 'name' || key === 'last' ? 1 : -1;
+  return key === 'name' ? 1 : -1;
 }
 
 function sortRows(rows, sort, valueOf) {
   return rows.slice().sort((a, b) => {
     if (sort.key === 'name') return sort.dir * a.display.localeCompare(b.display, 'fr');
-    if (sort.key === 'last') {
-      // Ordre 1 : les plus anciens (et « jamais ») d'abord.
-      const ta = a.last ? a.last.getTime() : -Infinity;
-      const tb = b.last ? b.last.getTime() : -Infinity;
-      return sort.dir * (ta - tb) || a.display.localeCompare(b.display, 'fr');
-    }
     return sort.dir * (valueOf(a, sort.key) - valueOf(b, sort.key)) || a.display.localeCompare(b.display, 'fr');
   });
+}
+
+// Tri mémorisé dont la colonne n'existe pas (ou plus) dans ce tableau.
+function validSort(sort, keys) {
+  return keys.includes(sort.key) ? sort : { key: 'name', dir: 1 };
 }
 
 function th(label, key, sort, extraClass) {
@@ -204,39 +204,32 @@ function th(label, key, sort, extraClass) {
 
 /* ===== Cellules communes ===== */
 
+// Nom de l'élève, et sa dernière activité en dessous (en rouge au-delà de
+// WATCH_DAYS jours sans activité, ou jamais).
 function nameCell(row, ctx) {
-  let sub = '';
-  if (!row.connected && row.last) {
-    sub = `<span class="d-cell-note" data-tip="${esc('Pas encore reconnecté·e depuis le passage à Firebase : ce qui est affiché vient de l’historique du Google Sheet. Le texte des réponses arrivera à sa prochaine connexion.')}">historique du Sheet</span>`;
-  } else if (!row.connected && row.nom) {
-    sub = '<span class="d-cell-note">aucune activité</span>';
-  }
+  const watched = daysSince(row.last) >= WATCH_DAYS;
+  const sub = `<span class="d-cell-note d-name-last${watched ? ' is-alert' : ''}" data-tip="${esc(row.last ? `Dernière activité : ${fullDate(row.last)}` : fullDate(null))}">
+    ${watched ? WARN_ICON : ''}${row.last ? `actif ${relativeDay(row.last)}` : 'aucune activité'}</span>`;
   const label = ctx.openStudent
     ? `<button type="button" class="d-student" data-student="${esc(row.email)}">${esc(row.display)}</button>`
     : `<span class="d-student-name">${esc(row.display)}</span>`;
   return `<td class="d-col-name">${label}${sub}</td>`;
 }
 
-function lastCell(date) {
-  const watched = daysSince(date) >= WATCH_DAYS;
-  return `<td class="d-col-last${watched ? ' is-alert' : ''}" data-tip="${esc(fullDate(date))}">
-    ${watched ? WARN_ICON : ''}<span>${relativeDay(date)}</span></td>`;
-}
-
-function exercisesBar(chapter, s) {
+function exercisesBar(chapter, s, extra) {
   const c = s.counts;
   const parts = [3, 2, 1, 'answered'].map(k => ({ value: c[k], color: LIGHT[k].color }));
   const tip = `<strong>${esc(chapter.title)}</strong><br>${s.answeredCount}/${chapter.exerciseCount} exercices répondus` +
-    [3, 2, 1, 'answered'].filter(k => c[k]).map(k => `<br><span class="d-swatch" style="background:${LIGHT[k].color}"></span>${c[k]} ${esc(LIGHT[k].label.toLowerCase())}`).join('');
+    [3, 2, 1, 'answered'].filter(k => c[k]).map(k => `<br><span class="d-swatch" style="background:${LIGHT[k].color}"></span>${c[k]} ${esc(LIGHT[k].label.toLowerCase())}`).join('') +
+    (extra || '');
   return stackBar(parts, chapter.exerciseCount, tip, `${s.answeredCount} sur ${chapter.exerciseCount} exercices répondus`);
 }
 
 /* ===== Tableau « Tous les chapitres » ===== */
 
-function allTable(rows, chapters, sort, ctx) {
+function allTable(rows, chapters, sortIn, ctx) {
+  const sort = validSort(sortIn, ['name', 'activity'].concat(chapters.map(c => c.id)));
   const valueOf = (r, key) => {
-    if (key === 'resources') return r.resources;
-    if (key === 'explorations') return r.explorations;
     if (key === 'activity') return Object.keys(r.sections).reduce((n, k) => n + r.sections[k], 0);
     const ch = chapters.find(c => c.id === key);
     if (!ch) return 0;
@@ -247,45 +240,34 @@ function allTable(rows, chapters, sort, ctx) {
   };
   const sorted = sortRows(rows, sort, valueOf);
   if (ctx.setOrder) ctx.setOrder(sorted.map(r => r.email));
-  const head = `<tr>${th('Élève', 'name', sort, 'd-col-name')}${th('Dernière activité', 'last', sort)}
-    ${chapters.map(c => th(esc(c.short), c.id, sort, 'd-col-chapter')).join('')}
+  const head = `<tr>${th('Élève', 'name', sort, 'd-col-name')}
     ${th('Répartition de l’activité', 'activity', sort, 'd-col-activity')}
-    ${th('Ressources', 'resources', sort, 'd-num')}${th('Explorations', 'explorations', sort, 'd-num')}</tr>`;
-  const body = sorted.map(r => `<tr>${nameCell(r, ctx)}${lastCell(r.last)}
-    ${chapters.map(c => chapterCell(c, r.summaries[c.id])).join('')}
+    ${chapters.map(c => th(esc(c.short), c.id, sort, 'd-col-chapter')).join('')}</tr>`;
+  const body = sorted.map(r => `<tr>${nameCell(r, ctx)}
     ${activityCell(r.sections)}
-    ${linksCell(r, chapters, 'resource_link_opened', 'Ressources')}
-    ${linksCell(r, chapters, 'exploration_link_opened', 'Explorations')}</tr>`).join('');
+    ${chapters.map(c => chapterCell(c, r.summaries[c.id])).join('')}</tr>`).join('');
   return `<table class="t-table d-table"><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }
 
+// Un chapitre : la barre des exercices et « répondus / total » ; jeux et
+// labos faits dans la bulle de la barre.
 function chapterCell(chapter, s) {
-  const bits = [];
-  if (chapter.exerciseCount) bits.push(`${s.answeredCount}/${chapter.exerciseCount}`);
-  if (chapter.games.length) bits.push(`Jeux ${s.gamesDone}/${chapter.games.length}`);
-  if (chapter.labs.length) bits.push(`Labos ${s.labsChecked}/${chapter.labs.length}`);
-  if (!bits.length) {
-    // Vocabulaire seul (exercices pas encore rédigés).
-    const seen = Number(s.stats.vocabulary_cards_seen) || 0;
-    const known = s.vocabKnown.length;
-    return `<td class="d-col-chapter" data-tip="${esc(`<strong>${esc(chapter.title)}</strong><br>Pas encore d’exercices ni de jeux : vocabulaire seul.`)}">
-      <span class="d-vocab-only${known || seen ? '' : ' d-zero'}">Vocabulaire : ${known}/${chapter.vocabCount} mot${known > 1 ? 's' : ''} su${known > 1 ? 's' : ''}</span>
-      <span class="d-cell-note">${seen} carte${seen > 1 ? 's' : ''} vue${seen > 1 ? 's' : ''}</span></td>`;
+  const more = [];
+  if (chapter.games.length) more.push(`Jeux terminés : ${s.gamesDone}/${chapter.games.length}`);
+  if (chapter.labs.length) more.push(`Labos au Check : ${s.labsChecked}/${chapter.labs.length}`);
+  if (chapter.exerciseCount) {
+    return `<td class="d-col-chapter">${exercisesBar(chapter, s, more.map(m => '<br>' + esc(m)).join(''))}
+      <span class="d-cell-note">${s.answeredCount}/${chapter.exerciseCount}</span></td>`;
   }
-  return `<td class="d-col-chapter">${chapter.exerciseCount ? exercisesBar(chapter, s) : ''}
-    <span class="d-cell-note">${bits.join(' · ')}</span></td>`;
-}
-
-// Liens ouverts (ressources ou explorations) : total des chapitres donnés,
-// détail par chapitre dans la bulle.
-function linksCell(row, chapters, counter, label) {
-  const per = chapters.map(c => ({ c, n: Number(row.summaries[c.id].stats[counter]) || 0 }));
-  const total = per.reduce((sum, p) => sum + p.n, 0);
-  const lines = per.length > 1
-    ? per.filter(p => p.n).map(p => `<br>${esc(p.c.short)} : ${p.n}`).join('')
-    : '';
-  const tip = `<strong>${esc(label)}</strong><br>${total ? `${total} lien${total > 1 ? 's' : ''} ouvert${total > 1 ? 's' : ''}` : 'Aucun lien ouvert'}${lines}`;
-  return `<td class="d-num" data-tip="${esc(tip)}">${total || '<span class="d-zero">0</span>'}</td>`;
+  if (more.length) {
+    return `<td class="d-col-chapter"><span class="d-cell-note">${more.map(esc).join('<br>')}</span></td>`;
+  }
+  // Vocabulaire seul (exercices pas encore rédigés).
+  const seen = Number(s.stats.vocabulary_cards_seen) || 0;
+  const known = s.vocabKnown.length;
+  return `<td class="d-col-chapter" data-tip="${esc(`<strong>${esc(chapter.title)}</strong><br>Pas encore d’exercices ni de jeux : vocabulaire seul.<br>${known} mot(s) su(s) · ${seen} carte(s) vue(s)`)}">
+    <span class="d-vocab-only${known || seen ? '' : ' d-zero'}">${known}/${chapter.vocabCount} mots sus</span>
+    <span class="d-cell-note">${seen} carte${seen > 1 ? 's' : ''} vue${seen > 1 ? 's' : ''}</span></td>`;
 }
 
 function activityCell(sections) {
@@ -300,52 +282,58 @@ function activityCell(sections) {
 
 /* ===== Tableau « un chapitre » ===== */
 
-function chapterTable(rows, chapter, sort, ctx) {
+function chapterTable(rows, chapter, sortIn, ctx) {
   const levels = LEVELS.filter(l => chapter.levels[l].length);
   const hasAutoeval = chapter.autoevalItems.length > 0;
+  const keys = ['name', 'vocab'];
+  if (levels.length) keys.push('exercises');
+  if (chapter.games.length) keys.push('games');
+  if (chapter.labs.length) keys.push('labs');
+  if (hasAutoeval) keys.push('autoeval');
+  const sort = validSort(sortIn, keys);
   const valueOf = (r, key) => {
     const s = r.summaries[chapter.id];
+    if (key === 'exercises') return s.answeredCount;
     if (key === 'games') return s.gamesDone;
-    if (key.startsWith('lab:')) { const l = s.labs.find(x => 'lab:' + x.id === key); return l ? labRank(l.result) : 0; }
+    if (key === 'labs') return s.labs.reduce((n, l) => n + labRank(l.result), 0);
     if (key === 'autoeval') return s.ratedCount ? (s.ratings[1] + 2 * s.ratings[2] + 3 * s.ratings[3]) / s.ratedCount : 0;
     if (key === 'vocab') return vocabRank(s);
-    if (key === 'chapterResources') return Number(s.stats.resource_link_opened) || 0;
-    if (key === 'chapterExplorations') return Number(s.stats.exploration_link_opened) || 0;
-    if (key === 'chapterLast') return s.lastActivity ? s.lastActivity.getTime() : 0;
-    return s.levels[key] ? s.levels[key].filter(e => e.state).length : 0;
+    return 0;
   };
   const sorted = sortRows(rows, sort, valueOf);
   if (ctx.setOrder) ctx.setOrder(sorted.map(r => r.email));
-  const head = `<tr>${th('Élève', 'name', sort, 'd-col-name')}${th('Dernière activité', 'last', sort)}
-    ${levels.map(l => th(LEVEL_LABEL[l], l, sort, 'd-col-level')).join('')}
+  const head = `<tr>${th('Élève', 'name', sort, 'd-col-name')}
+    ${levels.length ? th('Exercices', 'exercises', sort, 'd-col-exercises') : ''}
     ${chapter.games.length ? th('Jeux', 'games', sort, 'd-col-games') : ''}
-    ${chapter.labs.map(l => th(esc(l.title), 'lab:' + l.id, sort, 'd-col-lab')).join('')}
+    ${chapter.labs.length ? th('Labos', 'labs', sort, 'd-col-labs') : ''}
     ${hasAutoeval ? th('Autoévaluation', 'autoeval', sort, 'd-col-autoeval') : ''}
-    ${th('Mots sus', 'vocab', sort, 'd-num')}
-    ${th('Ressources', 'chapterResources', sort, 'd-num')}${th('Explorations', 'chapterExplorations', sort, 'd-num')}</tr>`;
+    ${th('Vocabulaire et liens', 'vocab', sort, 'd-col-vocab')}</tr>`;
   const body = sorted.map(r => {
     const s = r.summaries[chapter.id];
-    return `<tr>${nameCell(r, ctx)}${lastCell(r.last)}
-      ${levels.map(l => levelCell(chapter, l, s)).join('')}
+    return `<tr>${nameCell(r, ctx)}
+      ${levels.length ? exercisesCell(chapter, levels, s) : ''}
       ${chapter.games.length ? gamesCell(s) : ''}
-      ${s.labs.map(labCell).join('')}
+      ${chapter.labs.length ? labsCell(s) : ''}
       ${hasAutoeval ? autoevalCell(chapter, s) : ''}
-      ${vocabCell(chapter, s)}
-      ${linksCell(r, [chapter], 'resource_link_opened', 'Ressources')}
-      ${linksCell(r, [chapter], 'exploration_link_opened', 'Explorations')}</tr>`;
+      ${vocabLinksCell(chapter, s)}</tr>`;
   }).join('');
   return `<table class="t-table d-table d-table-chapter"><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }
 
-function levelCell(chapter, level, s) {
-  const list = s.levels[level];
-  const cells = list.map(e => {
-    const look = LIGHT[e.state || 'none'];
-    return { color: look.color, tip: `<strong>Ex. ${esc(e.id)}</strong>${e.title ? ' — ' + esc(e.title) : ''}<br>${esc(look.label)}` };
-  });
-  const done = list.filter(e => e.state).length;
-  return `<td class="d-col-level">${cellsBar(cells, `${done} sur ${list.length} exercices répondus`)}
-    <span class="d-cell-note">${done}/${list.length}</span></td>`;
+// Exercices : une ligne par niveau (N1, N2, N3), une case par exercice.
+function exercisesCell(chapter, levels, s) {
+  const lines = levels.map(level => {
+    const list = s.levels[level];
+    const cells = list.map(e => {
+      const look = LIGHT[e.state || 'none'];
+      return { color: look.color, tip: `<strong>${LEVEL_LABEL[level]} · Ex. ${esc(e.id)}</strong>${e.title ? ' — ' + esc(e.title) : ''}<br>${esc(look.label)}` };
+    });
+    const done = list.filter(e => e.state).length;
+    return `<div class="d-level-row"><span class="d-level-tag" data-tip="${esc(LEVEL_LABEL[level])}">N${level.slice(-1)}</span>
+      ${cellsBar(cells, `${LEVEL_LABEL[level]} : ${done} sur ${list.length} exercices répondus`)}
+      <span class="d-level-n">${done}/${list.length}</span></div>`;
+  }).join('');
+  return `<td class="d-col-exercises">${lines}</td>`;
 }
 
 function gamesCell(s) {
@@ -379,9 +367,14 @@ export function labStatus(r) {
   return { started: false, text: '—', tip: 'pas encore ouvert' };
 }
 
-function labCell(l) {
-  const st = labStatus(l.result);
-  return `<td class="d-col-lab${st.started ? '' : ' d-zero'}" data-tip="${esc(`<strong>${esc(l.title)}</strong><br>${st.tip}`)}">${st.text}</td>`;
+// Labos : une ligne par labo, son nom (coupé s'il est long) et son état.
+function labsCell(s) {
+  const lines = s.labs.map(l => {
+    const st = labStatus(l.result);
+    return `<div class="d-lab" data-tip="${esc(`<strong>${esc(l.title)}</strong><br>${st.tip}`)}">
+      <span class="d-lab-name">${esc(l.title)}</span><span class="d-lab-state${st.started ? '' : ' d-zero'}">${st.text}</span></div>`;
+  }).join('');
+  return `<td class="d-col-labs">${lines}</td>`;
 }
 
 function autoevalCell(chapter, s) {
@@ -395,13 +388,18 @@ function vocabRank(s) {
   return s.vocabKnown.length + (Number(s.stats.vocabulary_cards_seen) || 0) / 1e6;
 }
 
-function vocabCell(chapter, s) {
-  const stats = s.stats;
-  const seen = Number(stats.vocabulary_cards_seen) || 0;
+// Vocabulaire et liens : mots sus en grand, liens ouverts (ressources et
+// explorations) en dessous ; le détail dans la bulle.
+function vocabLinksCell(chapter, s) {
+  const n = k => Number(s.stats[k]) || 0;
   const known = s.vocabKnown.length;
+  const links = n('resource_link_opened') + n('exploration_link_opened');
   const tip = `<strong>Vocabulaire</strong><br>${known} mot(s) su(s) sur ${chapter.vocabCount}` +
-    `<br>${Number(stats.vocabulary_sessions) || 0} session(s)<br>${seen} carte(s) vue(s)` +
-    `<br>${Number(stats.vocabulary_flips) || 0} retournée(s)<br>${Number(stats.vocabulary_listens) || 0} écoutée(s)`;
-  return `<td class="d-num${known || seen ? '' : ' d-zero'}" data-tip="${esc(tip)}">${known}<span class="b-of"> / ${chapter.vocabCount}</span>
-    <span class="d-cell-note">${seen} vue${seen > 1 ? 's' : ''}</span></td>`;
+    `<br>${n('vocabulary_sessions')} session(s) · ${n('vocabulary_cards_seen')} carte(s) vue(s)` +
+    `<br>${n('vocabulary_flips')} retournée(s) · ${n('vocabulary_listens')} écoutée(s)` +
+    `<br><strong>Liens ouverts</strong><br>${n('resource_link_opened')} ressource(s) · ${n('exploration_link_opened')} exploration(s)`;
+  const empty = !known && !links && !n('vocabulary_cards_seen');
+  return `<td class="d-col-vocab${empty ? ' d-zero' : ''}" data-tip="${esc(tip)}">
+    <span class="d-vocab-known">${known}<span class="b-of"> / ${chapter.vocabCount} mots</span></span>
+    <span class="d-cell-note">${links} lien${links > 1 ? 's' : ''}</span></td>`;
 }
