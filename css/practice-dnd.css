@@ -1,0 +1,404 @@
+/* Glisser-déposer (« Drag and drop ») de la page Practice.
+   Chargé juste après practice-engine.css : ces règles gardent ainsi leur
+   place après celles du moteur. Les règles du chronomètre et du badge,
+   partagées avec le memory, restent dans le moteur. L'animation dnd-shake,
+   définie ici, sert aussi au memory. */
+
+/* Drag and Drop dedicated modal (90% width and height) */
+.dnd-large-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 16px;
+  z-index: 100;
+}
+
+.dnd-large-modal-overlay.modal-open {
+  display: grid;
+}
+
+.dnd-modal-card {
+  width: 95vw;
+  height: 95vh;
+  max-width: 1500px;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dnd-modal-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dnd-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dnd-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  overflow: hidden;
+  gap: 16px;
+}
+
+/* Reservoir of labels.
+   Les trois variables --dnd-item-* sont posées par dndFitReservoir : une ligne
+   d'étiquettes en plus prend de la hauteur à l'image, qui est le jeu lui-même.
+   Le moteur réduit donc le texte d'un cran à la fois, jusqu'à 13px, tant que les
+   étiquettes ne tiennent pas sur une ligne. Les valeurs de repli sont la taille
+   normale, la seule jamais dépassée. */
+.dnd-reservoir {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dnd-item-gap, 12px);
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(var(--color-current-rgb), 0.05);
+  border: 1px dashed rgba(var(--color-current-rgb), 0.2);
+  min-height: 70px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dnd-item {
+  padding: 10px var(--dnd-item-pad-x, 20px);
+  font-size: var(--dnd-item-font, 1rem);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-current);
+  border-radius: 12px;
+  cursor: grab;
+  font-weight: 600;
+  color: var(--color-text);
+  box-shadow: 0 4px 10px rgba(var(--color-current-rgb), 0.08);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+  user-select: none;
+}
+
+/* Le survol se contente d'une teinte légère : rempli comme il l'était, il
+   donnait exactement le rendu de .selected, si bien que désélectionner une
+   étiquette ne se voyait pas — le pointeur restait dessus après le clic.
+   La requête média (hover: hover) qui encadrait cette règle a été retirée : elle
+   décrit le périphérique principal, donc le pavé tactile sur un Chromebook, et
+   répondait « souris » même au doigt. C'est data-pointer, alimenté par le dernier
+   geste réel, qui fait ce travail — ici comme sur tous les autres survols. */
+html[data-pointer='fine'] .dnd-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(var(--color-current-rgb), 0.15);
+  background-color: rgba(var(--color-current-rgb), 0.12);
+  border-color: var(--color-current);
+}
+
+/* Keyboard-only wayfinding: neither the plain hover tint above nor .selected
+   (which only appears once an item IS the current pick) tells a keyboard
+   user where Tab currently sits — a thick offset outline, visible on both
+   the light board image and the surface behind it, fills that gap without
+   being confused for "selected"/"correct"/"incorrect". */
+.dnd-item:focus-visible,
+.dnd-zone:focus-visible {
+  outline: 3px solid var(--color-current-dark);
+  outline-offset: 3px;
+}
+
+/* Étiquette « portée » en mode toucher-toucher. Volontairement très marquée :
+   c'est le seul indice qui dit à l'élève qu'un mot attend d'être posé, et il
+   doit rester lisible du coin de l'œil pendant qu'il vise une zone. */
+.dnd-item.selected {
+  background: var(--color-current);
+  color: var(--color-current-text, #ffffff);
+  border-color: var(--color-current);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 20px rgba(var(--color-current-rgb), 0.35);
+}
+
+.dnd-item.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.dnd-item.shake-error {
+  animation: dnd-shake 0.5s ease-in-out;
+  background: rgba(212, 82, 122, 0.1);
+  border-color: var(--color-rose);
+  color: var(--color-rose);
+}
+
+@keyframes dnd-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Instructions text (optional) */
+.dnd-instructions-text {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  line-height: 1.5;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* Board of the game */
+.dnd-board-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: 18px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+/* --dnd-board-w porte la largeur réelle de l'image, mesurée en JS
+   (dndSyncBoardMetrics). Les zones de dépôt s'y réfèrent pour suivre l'image
+   quand elle rétrécit : figées à 150px, elles occupaient 15 % de l'image du jeu 4
+   mais 26 % de celle du jeu 2, et devenaient ingérables dès que la barre de
+   Chrome réduisait la hauteur de fenêtre.
+   Surtout pas container-type ici : la containment interdirait au plateau de
+   tirer sa largeur de l'image, et il s'effondrerait à zéro. */
+.dnd-board {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Taille posée en pixels par dndSyncBoardMetrics : les maximums d'autrefois ne
+   savaient que rétrécir et laissaient l'image à sa taille naturelle. */
+#dnd-bg-image,
+.dnd-board img {
+  display: block;
+  border-radius: 12px;
+  user-select: none;
+}
+
+/* Drop targets */
+.dnd-zone {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  /* Proportionnel à l'image, avec un plancher pour rester touchable au doigt
+     et un plafond pour ne pas devenir énorme sur grand écran. La valeur de repli
+     sert le temps que la mesure arrive. */
+  width: clamp(88px, calc(var(--dnd-board-w, 900px) * 0.17), 175px);
+  height: clamp(30px, calc(var(--dnd-board-w, 900px) * 0.055), 52px);
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+  transition: all 0.3s ease;
+  z-index: 5;
+  cursor: default;
+}
+
+.dnd-zone-placeholder {
+  display: none;
+}
+
+.dnd-zone.hovered {
+  background: rgba(var(--color-current-rgb), 0.1);
+  border: 1.5px dashed var(--color-current);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.dnd-zone.correct {
+  background: var(--color-surface);
+  border: 2px solid var(--color-emerald);
+  box-shadow: 0 4px 12px rgba(12, 163, 127, 0.2);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Contraste élevé : émeraude sur fond clair (3.20:1, sous le seuil AA). */
+body.high-contrast .dnd-zone.correct .dnd-zone-text {
+  color: #000000;
+}
+
+.dnd-zone.correct .dnd-zone-text {
+  font-weight: 700;
+  color: var(--color-emerald);
+  /* Suit la zone, sinon un texte figé déborderait d'une zone rétrécie. */
+  font-size: clamp(0.62rem, calc(var(--dnd-board-w, 900px) * 0.017), 0.95rem);
+  line-height: 1.15;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-block;
+  text-align: center;
+}
+
+.dnd-zone.incorrect {
+  background: rgba(212, 82, 122, 0.1);
+  border-color: var(--color-rose);
+  animation: dnd-shake 0.5s ease-in-out;
+}
+
+/* Footer & Navigation */
+.dnd-footer {
+  padding: 14px 0 6px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.dnd-select-game-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dnd-pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.dnd-pagination .exercise-step {
+  font-weight: 700;
+  font-size: 1rem;
+  width: auto;
+  height: 44px;
+  padding: 10px 24px;
+  white-space: nowrap;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(17, 36, 72, 0.1);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
+  background: rgba(var(--color-current-rgb), 0.05);
+  border-color: var(--color-current);
+}
+
+.dnd-pagination .exercise-step.active {
+  background: var(--color-current);
+  border-color: rgba(12, 163, 127, 0.35);
+  color: var(--color-current-text, #ffffff);
+  box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
+}
+
+/* Stopwatch + mistake counter, live during the attempt; badge/records appear here once solved */
+.dnd-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(17, 36, 72, 0.03);
+  flex-shrink: 0;
+}
+
+.dnd-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.dnd-stat-icon {
+  font-size: 1rem;
+}
+
+.dnd-stat-result {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.dnd-result-badge {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-current-dark, var(--color-text));
+}
+
+.dnd-result-note {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* Bounce feedback on the zone + a checkmark that pops in and fades away */
+.dnd-zone.just-placed {
+  animation: dnd-pop 0.4s ease;
+}
+
+@keyframes dnd-pop {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  40% { transform: translate(-50%, -50%) scale(1.18); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.dnd-zone-tick {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: dnd-tick-pop 0.7s ease forwards;
+}
+
+@keyframes dnd-tick-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 1; transform: scale(1.15); }
+  55% { transform: scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Même garde-fou que les animations de modale du moteur (practice-engine.css) —
+   celles des jeux (Drag & Drop, Memory, Sorting) n'y étaient pas encore
+   soumises. Le tremblement d'erreur (dnd-shake, partagé avec le memory) est
+   le plus concerné : un mouvement de secousse est justement le genre
+   d'animation qu'un trouble vestibulaire ne tolère pas. Le memory et le tri
+   ont le leur, dans leurs fichiers. Placé après les règles qu'il doit annuler. */
+@media (prefers-reduced-motion: reduce) {
+  .dnd-item.shake-error,
+  .dnd-zone.incorrect,
+  .dnd-zone.just-placed,
+  .dnd-zone-tick {
+    animation: none;
+  }
+}
