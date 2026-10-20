@@ -3,7 +3,8 @@
 // wrong letter case, which works on Windows and 404s on GitHub Pages), games
 // that cannot be completed, EN/NL tracks that drifted apart, self-assessment
 // links to exercises that do not exist, and virtual labs (files, EN/NL texts
-// with the same keys, underlined words missing from the glossary). Reads
+// with the same keys, every text the simulation reads, underlined words
+// missing from the glossary). Reads
 // only — never fixes anything.
 //
 // Usage: node tools/validate-content.js [chapter ...]
@@ -381,6 +382,44 @@ function labStrings(value, out = []) {
   return out;
 }
 
+// Every text the simulation reads must exist: a missing one shows
+// "undefined" or stops the lab. The simulation names its texts by
+// destructuring LabEngine.textFor(id) (const { labels: LABELS, ... } = ...);
+// each LABELS.a.b path written in its code is looked up in the texts, down to
+// a string, a function or an array (their own methods are not texts).
+// Shorthands (const R = LABELS.report) are not followed.
+const simSources = new Map();
+function checkLabPaths(simFile, textFile, id, text) {
+  if (!simSources.has(simFile)) {
+    let src = null;
+    try { src = fs.readFileSync(path.join(ROOT, simFile), 'utf8'); } catch (e) { /* reported by checkFileRef */ }
+    simSources.set(simFile, src);
+  }
+  const src = simSources.get(simFile);
+  if (!src) return;
+  const m = src.match(/const\s*\{([^}]*)\}\s*=\s*LabEngine\.textFor\(\s*'([^']+)'\s*\)/);
+  if (!m) { error(simFile, `ne lit pas ses textes par LabEngine.textFor('${id}')`); return; }
+  if (m[2] !== id) error(simFile, `lit les textes de « ${m[2]} », alors que chapters.json l'appelle « ${id} »`);
+  const aliases = {};
+  m[1].split(',').forEach(part => {
+    const [key, alias] = part.split(':').map(s => s.trim());
+    if (key) aliases[alias || key] = key;
+  });
+  const re = new RegExp(`\\b(${Object.keys(aliases).join('|')})((?:\\.[A-Za-z_$][\\w$]*)+)`, 'g');
+  const missing = new Set();
+  let hit;
+  while ((hit = re.exec(src))) {
+    let value = text;
+    const parts = [aliases[hit[1]]].concat(hit[2].slice(1).split('.'));
+    for (const part of parts) {
+      if (typeof value === 'string' || typeof value === 'function' || Array.isArray(value)) break;
+      if (!value || typeof value !== 'object' || !(part in value)) { missing.add(parts.join('.')); break; }
+      value = value[part];
+    }
+  }
+  if (missing.size) error(textFile, `texte(s) lu(s) par ${simFile} mais absent(s) : ${[...missing].join(', ')}`);
+}
+
 // Same keys, same kinds, same number of parameters in both languages: the
 // simulation reads them blindly. The glossary is the exception, its words
 // differ by language.
@@ -418,6 +457,7 @@ function checkLabs(chapter) {
       checkFileRef(where, '.', textFile, `labo « ${lab.id} », textes`);
       const text = loadLabText(textFile, lab.id);
       if (!text) return;
+      checkLabPaths(`js/${lab.file}.js`, textFile, lab.id, text);
       const glossary = Object.assign({}, labCommonGlossary()[lang], text.glossary);
       const missing = new Set();
       labStrings(text).forEach(s => s.replace(/\[([^\]|]+)(?:\|([^\]]+))?\]/g, (all, word, key) => {

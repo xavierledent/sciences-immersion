@@ -81,6 +81,7 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Titre ou couleur d'un chapitre | [tools/chapters.json](tools/chapters.json), puis régénérer (la liste de l'accueil en sort aussi) |
 | Accueil, choix de la langue et de l'année | [index.html](index.html), [welcome-back.js](js/welcome-back.js) |
 | Labos virtuels : modale, étapes, verrous, rapport | [lab-engine.js](js/lab-engine.js), [lab-engine.css](css/lab-engine.css) ; un labo : `lab-<nom>.{js,css}` dans `js/` et `css/` (simulation), `<chapitre>/lab-<nom>.<en\|nl>.js` (textes) |
+| Créer un labo (démarche, conventions) | skill `creer-labo` |
 | Ajouter un labo à un chapitre | sa ligne dans `labs.en` et `labs.nl` de [tools/chapters.json](tools/chapters.json) (même `id`), sa simulation `lab-<nom>.{js,css}` dans `js/` et `css/`, ses textes `lab-<nom>.<langue>.js` dans chaque filière, puis régénérer |
 | Barre de navigation entre sections | [chapter-nav.js](js/chapter-nav.js) |
 | Données enregistrées des élèves | [storage.js](js/storage.js), seul fichier qui touche à `localStorage` ; compteurs d'activité : `SiteStorage.activity` |
@@ -148,51 +149,36 @@ scripts chargés.
   s'y opposer. À l'étape Check, le labo passe le panneau de détail du
   critère à `lab.fillSpace(el)` après chaque changement de son contenu : le
   texte y grandit (×1,5 au plus) tant qu'il tient sans défiler.
-- **Labos virtuels.** Mots soulignés (`[mot]`, `[groupe de mots|clé]`) : ne
-  pas souligner les mots transparents avec le français (*decomposition*,
-  *bacteria*…) ; souligner l'expression entière quand la traduction mot à mot
-  serait fausse (`[the wax melts]` → « la cire fond »). Tout ce qui n'est pas
-  encore accessible passe par `lab.setLock` (cadenas + bulle qui explique),
-  jamais un bouton `disabled` muet ; une étape ne s'ouvre que si les
-  précédentes sont complètes (`stepComplete`). Après le Check, les étapes 1
-  à 3 se revoient, figées par le moteur (seules restent actives les commandes
-  marquées `data-lab-look`, qui ne font que montrer : onglet, vue rapprochée) :
-  un labo ne doit rien modifier de son état en affichant une étape, seulement
-  sur un geste ; confirmations par
-  `lab.confirm`, jamais `window.confirm`. Rapport : le corps garde les mots de
-  l'élève ; chaque erreur passe par `mark(html, note, { box })` (reçu par
-  `report(mark)`), qui la souligne ou l'encadre à sa place avec un numéro ;
-  la note du même numéro (pourquoi, bonne réponse) va dans « Correction ».
-  Le moteur en tire deux onglets : « My report » (version propre, sans rouge
-  ni Correction, ouverte d'abord) et « Corrected report » ; « Print »
-  imprime l'onglet affiché. Reprise : chaque labo fournit `save()` (tirage
-  et travail, en JSON pur), `load(data)` et `version`, à augmenter dès que la
-  forme de `save()` change ; le moteur enregistre (`labProgress` dans
-  [storage.js](js/storage.js)) et propose « Continue / Start again » à la
-  réouverture. Suivi : `summary()` donne score, critères et détails de
-  l'événement `lab_checked` ; le moteur garde le résultat à part
-  (`labResult` : étape la plus loin, meilleur et dernier Check), que
-  « Start again » n'efface pas. Les événements `lab_*`, comme tous les
-  autres ([tracking.js](js/tracking.js)), sont comptés dans Firestore
-  (compteurs `stats`, voir `SiteStorage.activity` dans
-  [storage.js](js/storage.js)), seule destination du suivi. Les
-  enseignants (collection `teachers`) ont dans l'en-tête un bouton
-  « Verrous », éteint à chaque chargement, qui lève verrous, étapes bloquées
-  et mode figé pour vérifier un labo ; dès qu'il a servi, plus rien n'est
-  envoyé au suivi jusqu'au rechargement. Un labo ne bloque donc rien hors de
-  `lab.setLock`, et teste `lab.isFrozen()`, jamais `lab.state.checked`.
-- **Conclude répond aux questions de départ, et à elles seules.** Les
-  questions du labo sont posées à l'étape Predict, avec l'hypothèse ;
-  Conclude y répond d'après les résultats et juge l'hypothèse, sans poser
-  de nouvelle question.
-- **Nouveau labo : partir des labos du cours.** Chaque labo virtuel est la
-  version d'un labo que les élèves font en vrai en classe. Avant de créer un
-  labo pour un chapitre, demander à l'enseignant la liste des labos réels de
-  ce chapitre (but, matériel, déroulement, ce que les élèves observent ou
-  mesurent). Proposer ensuite pour chacun une adaptation virtuelle : ce que
-  l'élève manipule, ce qui est tiré au sort, les erreurs relevées dans le
-  rapport. L'enseignant choisit lesquels développer. Ne jamais inventer un
-  labo qui n'est pas dans cette liste.
+- **Labos virtuels.** Créer un labo ou le remanier en profondeur : skill
+  `creer-labo` (chapitre de cours, attendus d'autoeval.json et labos réels
+  d'abord, puis proposition, fiche de conception validée, construction, deux
+  langues, vérification). Dans tous les cas :
+  - un labo virtuel vient d'un labo fait en classe : demander la liste à
+    l'enseignant, ne jamais en inventer un ;
+  - Conclude répond aux questions de départ (posées à Predict avec
+    l'hypothèse), et à elles seules ;
+  - aucun texte dans la simulation : tout passe par les fichiers de langue
+    (`LabEngine.textFor`), y compris l'ordre des mots, les articles, les
+    listes et le séparateur décimal ;
+  - tout ce qui n'est pas accessible passe par `lab.setLock` (cadenas et
+    bulle qui explique), jamais `disabled` ni un blocage caché ; une étape
+    s'ouvre quand les précédentes sont complètes (`stepComplete`) ;
+  - après le Check, les étapes 1 à 3 sont figées par le moteur : rien ne
+    change à l'affichage d'une étape, seulement sur un geste ; ce qui ne fait
+    que montrer porte `data-lab-look` ; tester `lab.isFrozen()`, jamais
+    `lab.state.checked` ; confirmations par `lab.confirm` ;
+  - rapport FO3 : le corps garde les mots de l'élève, chaque erreur passe
+    par `mark(html, note, { box })` à sa place, la note va dans
+    « Correction » ;
+  - reprise : `save()`, `load(data)` et `version`, à augmenter dès que la
+    forme de `save()` change ; suivi : `summary()` (compté dans Firestore,
+    voir `SiteStorage.activity` dans [storage.js](js/storage.js)) ;
+  - mots soulignés `[mot]` / `[groupe|clé]` : pas les mots transparents avec
+    le français, l'expression entière quand le mot à mot serait faux
+    (`[the wax melts]` → « la cire fond ») ;
+  - les enseignants (collection `teachers`) ont un bouton « Verrous » qui
+    lève verrous, étapes bloquées et mode figé ; dès qu'il a servi, plus rien
+    n'est envoyé au suivi jusqu'au rechargement.
 - **Image venant de Wikimedia Commons** : ajouter sa ligne dans
   [credits.html](credits.html).
 - **Git.** Le site est servi par GitHub Pages : traiter tout push sur `main`
