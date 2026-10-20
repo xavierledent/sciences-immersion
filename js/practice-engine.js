@@ -2164,6 +2164,121 @@
       updateInteractiveStepButtons();
     }
 
+    /* ===== Jeux : outils communs =====
+       Utilisés par plusieurs jeux : regroupés ici, dans le moteur, pour que
+       chaque jeu ne dépende que du moteur et pas d'un autre jeu. */
+
+    function shuffleArray(array) {
+      const cloned = array.slice();
+      for (let i = cloned.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+      }
+      return cloned;
+    }
+
+    // Shared preference (drag & drop + memory): hide the live ticking stopwatch during
+    // play so slower/anxious readers aren't rushed. Time is still tracked in the background
+    // either way, so records keep working — only the ticking number is hidden mid-game,
+    // and the final time/record is always shown once the exercise is solved.
+    let showLiveTimer = SiteStorage.device.get('showLiveTimer') === 'true';
+
+    function toggleLiveTimer() {
+      showLiveTimer = !showLiveTimer;
+      SiteStorage.device.set('showLiveTimer', String(showLiveTimer));
+      applyLiveTimerVisibility();
+    }
+
+    function applyLiveTimerVisibility() {
+      document.querySelectorAll('.live-timer-display').forEach(el => {
+        el.style.display = showLiveTimer ? 'inline-flex' : 'none';
+      });
+      document.querySelectorAll('.timer-toggle-btn').forEach(btn => {
+        btn.textContent = showLiveTimer ? L.hideTimer : L.showTimer;
+        btn.classList.toggle('active', showLiveTimer);
+      });
+    }
+
+    function triggerDndConfetti() {
+      const canvas = document.createElement('canvas');
+      canvas.style.position = 'fixed';
+      canvas.style.inset = '0';
+      canvas.style.width = '100vw';
+      canvas.style.height = '100vh';
+      canvas.style.display = 'block';
+      canvas.style.margin = '0';
+      canvas.style.padding = '0';
+      canvas.style.overflow = 'hidden';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = '9999';
+      // Classe purement technique : elle permet de le retrouver pour le
+      // déplacer si l'élève bascule en plein écran pendant l'animation.
+      canvas.className = 'confetti-canvas';
+      overlayHost().appendChild(canvas);
+
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ['#62B5AA', '#78629E', '#E7C360', '#0ca37f', '#1db3d4', '#7e4dd9'];
+      const particles = Array.from({ length: 100 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * canvas.height,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        tilt: Math.random() * 10 - 5,
+        tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+        tiltAngle: 0
+      }));
+
+      let animationFrameId;
+      const startTime = Date.now();
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(p => {
+          p.tiltAngle += p.tiltAngleIncremental;
+          p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+          p.x += Math.sin(p.tiltAngle);
+          p.tilt = Math.sin(p.tiltAngle - (p.r / 2)) * 15;
+
+          ctx.beginPath();
+          ctx.lineWidth = p.r;
+          ctx.strokeStyle = p.color;
+          ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+          ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+          ctx.stroke();
+        });
+
+        if (Date.now() - startTime < 3000) {
+          animationFrameId = requestAnimationFrame(draw);
+        } else {
+          canvas.remove();
+        }
+      }
+
+      draw();
+    }
+
+    /* Choix explicite de la voix, même logique que dans vocabulary-engine.js.
+       Toutes les machines n'ont pas de voix nl-BE : sur un poste qui n'a que
+       nl-NL, laisser le navigateur décider peut aussi bien donner la voix
+       néerlandaise que la voix par défaut du système — française ou anglaise,
+       donc pire que rien. On descend explicitement : la variante demandée, puis
+       n'importe quelle voix de la même langue, puis le choix du navigateur. */
+    function pickVoice(preferred) {
+      const voices = (window.speechSynthesis.getVoices && window.speechSynthesis.getVoices()) || [];
+      if (!voices.length) return null;
+      const norm = tag => String(tag || '').toLowerCase().replace('_', '-');
+      const want = norm(preferred);
+      const base = want.split('-')[0];
+      return voices.find(v => norm(v.lang) === want)
+          || voices.find(v => norm(v.lang).split('-')[0] === base)
+          || null;
+    }
+
     function renderQCM(quizData) {
       const qcmContent = document.getElementById('qcm-content');
       const qcmModalCard = document.querySelector('.qcm-modal-card');
@@ -2775,28 +2890,6 @@
       renderFillInTheBlanks(exercise);
     }
 
-    // Shared preference (drag & drop + memory): hide the live ticking stopwatch during
-    // play so slower/anxious readers aren't rushed. Time is still tracked in the background
-    // either way, so records keep working — only the ticking number is hidden mid-game,
-    // and the final time/record is always shown once the exercise is solved.
-    let showLiveTimer = SiteStorage.device.get('showLiveTimer') === 'true';
-
-    function toggleLiveTimer() {
-      showLiveTimer = !showLiveTimer;
-      SiteStorage.device.set('showLiveTimer', String(showLiveTimer));
-      applyLiveTimerVisibility();
-    }
-
-    function applyLiveTimerVisibility() {
-      document.querySelectorAll('.live-timer-display').forEach(el => {
-        el.style.display = showLiveTimer ? 'inline-flex' : 'none';
-      });
-      document.querySelectorAll('.timer-toggle-btn').forEach(btn => {
-        btn.textContent = showLiveTimer ? L.hideTimer : L.showTimer;
-        btn.classList.toggle('active', showLiveTimer);
-      });
-    }
-
     // Drag and Drop Challenge JavaScript logic
     let currentDndExerciseIndex = 0;
 
@@ -2846,15 +2939,6 @@
       }
 
       return shuffleArray(pairs);
-    }
-
-    function shuffleArray(array) {
-      const cloned = array.slice();
-      for (let i = cloned.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
-      }
-      return cloned;
     }
 
     function formatDndTime(totalSeconds) {
@@ -3317,69 +3401,6 @@
       }
     }
 
-    function triggerDndConfetti() {
-      const canvas = document.createElement('canvas');
-      canvas.style.position = 'fixed';
-      canvas.style.inset = '0';
-      canvas.style.width = '100vw';
-      canvas.style.height = '100vh';
-      canvas.style.display = 'block';
-      canvas.style.margin = '0';
-      canvas.style.padding = '0';
-      canvas.style.overflow = 'hidden';
-      canvas.style.pointerEvents = 'none';
-      canvas.style.zIndex = '9999';
-      // Classe purement technique : elle permet de le retrouver pour le
-      // déplacer si l'élève bascule en plein écran pendant l'animation.
-      canvas.className = 'confetti-canvas';
-      overlayHost().appendChild(canvas);
-
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const colors = ['#62B5AA', '#78629E', '#E7C360', '#0ca37f', '#1db3d4', '#7e4dd9'];
-      const particles = Array.from({ length: 100 }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height - canvas.height,
-        r: Math.random() * 6 + 4,
-        d: Math.random() * canvas.height,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        tilt: Math.random() * 10 - 5,
-        tiltAngleIncremental: Math.random() * 0.07 + 0.02,
-        tiltAngle: 0
-      }));
-
-      let animationFrameId;
-      const startTime = Date.now();
-
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        particles.forEach(p => {
-          p.tiltAngle += p.tiltAngleIncremental;
-          p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
-          p.x += Math.sin(p.tiltAngle);
-          p.tilt = Math.sin(p.tiltAngle - (p.r / 2)) * 15;
-
-          ctx.beginPath();
-          ctx.lineWidth = p.r;
-          ctx.strokeStyle = p.color;
-          ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
-          ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
-          ctx.stroke();
-        });
-
-        if (Date.now() - startTime < 3000) {
-          animationFrameId = requestAnimationFrame(draw);
-        } else {
-          canvas.remove();
-        }
-      }
-
-      draw();
-    }
-
     // Memory Game (Match the Pairs) JavaScript logic
     let currentMemoryExerciseIndex = 0;
     let memorySelectedCard1 = null;
@@ -3619,23 +3640,6 @@
       // Une fois les cartes en place : leur nombre et la place disponible sont
       // alors connus.
       memorySyncCardSize();
-    }
-
-    /* Choix explicite de la voix, même logique que dans vocabulary-engine.js.
-       Toutes les machines n'ont pas de voix nl-BE : sur un poste qui n'a que
-       nl-NL, laisser le navigateur décider peut aussi bien donner la voix
-       néerlandaise que la voix par défaut du système — française ou anglaise,
-       donc pire que rien. On descend explicitement : la variante demandée, puis
-       n'importe quelle voix de la même langue, puis le choix du navigateur. */
-    function pickVoice(preferred) {
-      const voices = (window.speechSynthesis.getVoices && window.speechSynthesis.getVoices()) || [];
-      if (!voices.length) return null;
-      const norm = tag => String(tag || '').toLowerCase().replace('_', '-');
-      const want = norm(preferred);
-      const base = want.split('-')[0];
-      return voices.find(v => norm(v.lang) === want)
-          || voices.find(v => norm(v.lang).split('-')[0] === base)
-          || null;
     }
 
     let memorySideHintTimer = null;
@@ -4484,4 +4488,6 @@
       openFromDeepLink();
     }
 
-    initPractice();
+    // Lancé quand tous les scripts de la page ont tourné : les jeux, dans leurs
+    // propres fichiers chargés après celui-ci, sont alors tous déclarés.
+    document.addEventListener('DOMContentLoaded', initPractice);
