@@ -1801,6 +1801,30 @@
   text-align: right;
 }
 
+/* Colonne « N° » des devoirs */
+.h-col-num {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.h-num {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.h-num-class {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+/* Devoir enregistré sans envoi : à repérer dans la liste. */
+.h-draft {
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
 .h-row.is-open td {
   border-bottom: 0;
 }
@@ -2047,12 +2071,6 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px 16px;
-}
-
-.h-nums {
-  font-weight: 400;
-  color: var(--color-muted);
-  font-size: 0.82rem;
 }
 
 .h-item-body {

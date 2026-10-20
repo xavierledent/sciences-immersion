@@ -52,6 +52,8 @@ const MAIL = {
     subject: (title, date) => `${title} · due ${date}`,
     hello: name => `Hello ${name},`,
     due: date => `To do by ${date}:`,
+    // Même ligne avec le titre numéroté de la classe : « Science homework 4 · to do by … ».
+    dueTitled: (title, date) => `${title} · to do by ${date}:`,
     exercise: (lv, n) => `Exercise ${n} (Level ${lv})`,
     exercises: (lv, from, to) => `Exercises ${from} to ${to} (Level ${lv})`,
     lab: 'Lab',
@@ -69,6 +71,7 @@ const MAIL = {
     subject: (title, date) => `${title} · tegen ${date}`,
     hello: name => `Hallo ${name},`,
     due: date => `Te doen tegen ${date}:`,
+    dueTitled: (title, date) => `${title} · te doen tegen ${date}:`,
     exercise: (lv, n) => `Oefening ${n} (Level ${lv})`,
     exercises: (lv, from, to) => `Oefeningen ${from} tot ${to} (Level ${lv})`,
     lab: 'Labo',
@@ -330,7 +333,10 @@ function buildMail(a, email) {
     }
     g.lines.push({ label, link: itemLink(a.track, item) });
   });
-  const due = t.due(formatDue(a.due, t.locale));
+  // Le numéro de sa classe rappelé dans le corps du mail (il est aussi dans
+  // le sujet) ; envoi individuel, sans numéro : la date seule.
+  const dueText = formatDue(a.due, t.locale);
+  const due = (a.numbers || {})[person.classe] ? t.dueTitled(titleFor(a, person.classe), dueText) : t.due(dueText);
   const message = String(a.message || '').trim();
   const signature = ctx.myName;
 
@@ -406,17 +412,28 @@ function statusBar(c, total) {
   return stackBar(parts, total, tip, countsText(c));
 }
 
-// Titre dans la liste : avec le numéro de la classe choisie, ou tous les numéros.
-function listTitle(a, classId) {
-  if (classId !== ALL) return esc(titleFor(a, classId) || 'Sans titre');
-  const nums = Object.keys(a.numbers || {}).sort().map(id => `${esc(id)} n° ${a.numbers[id]}`);
-  return esc(a.title || 'Sans titre') + (nums.length ? ` <span class="h-nums">${nums.join(', ')}</span>` : '');
+/* Colonne « N° » (liste des devoirs, fiche élève) : le numéro de la classe
+   choisie, ou ceux de toutes les classes (« 1C 4 · 1D 3 ») ; « brouillon »
+   tant que le devoir n'est pas envoyé (numéro attribué à l'envoi) ;
+   « individuel » pour un envoi à moins de la moitié de la classe. */
+function numberHtml(a, classId) {
+  if (!a.sentAt) return '<span class="h-draft">brouillon</span>';
+  const numbers = a.numbers || {};
+  if (classId !== ALL) {
+    return numbers[classId] ? `<span class="h-num">${numbers[classId]}</span>` : '<span class="d-zero">individuel</span>';
+  }
+  const ids = Object.keys(numbers).sort();
+  return ids.length
+    ? ids.map(id => `<span class="h-num-class">${esc(id)}</span> <span class="h-num">${numbers[id]}</span>`).join(' · ')
+    : '<span class="d-zero">individuel</span>';
 }
 
 function renderList() {
   const classId = selectedClass();
   const classIds = ctx.sortedClassIds();
-  const shown = assignments.filter(a => classId === ALL || recipientsOf(a, classId).length);
+  // Un brouillon reste visible même sans élève coché (classe choisie, ou toutes).
+  const shown = assignments.filter(a => classId === ALL || recipientsOf(a, classId).length
+    || (!a.sentAt && (a.classes || []).includes(classId)));
   const rows = shown.map(a => {
     const emails = recipientsOf(a, classId);
     const c = countStates(a, emails);
@@ -424,17 +441,21 @@ function renderList() {
       ? a.sentAt.toDate().toLocaleDateString('fr-BE', { day: 'numeric', month: 'short' })
       : '<span class="d-zero">pas envoyé</span>';
     const isOpen = openId === a.id;
-    const individual = classId !== ALL && !(a.numbers || {})[classId] && a.sentAt;
     return `<tr class="h-row${isOpen ? ' is-open' : ''}">
-        <td><button type="button" class="h-link" data-open="${esc(a.id)}" aria-expanded="${isOpen}">${listTitle(a, classId)}</button>
-          <span class="d-cell-note">${(a.items || []).length} élément(s) · ${a.track === 'nl' ? 'NL' : 'EN'}${individual ? ' · envoi individuel, sans numéro' : ''}</span></td>
+        <td class="h-col-num">${numberHtml(a, classId)}</td>
+        <td><button type="button" class="h-link" data-open="${esc(a.id)}" aria-expanded="${isOpen}">${esc(a.title || 'Sans titre')}</button>
+          <span class="d-cell-note">${(a.items || []).length} élément(s) · ${a.track === 'nl' ? 'NL' : 'EN'}</span></td>
         <td>${esc((a.classes || []).join(', ') || '—')}</td>
         <td>${esc(formatDue(a.due))}</td>
         <td>${sent}</td>
-        <td class="h-col-bar">${statusBar(c, emails.length)}<span class="d-cell-note">${countsText(c)}</span></td>
-        <td class="h-actions"><button type="button" class="t-btn" data-edit="${esc(a.id)}">Modifier</button>
+        <td class="h-col-bar">${a.sentAt
+          ? `${statusBar(c, emails.length)}<span class="d-cell-note">${countsText(c)}</span>`
+          : '<span class="d-zero">compté à l’envoi</span>'}</td>
+        <td class="h-actions">${a.sentAt
+          ? `<button type="button" class="t-btn" data-edit="${esc(a.id)}">Modifier</button>`
+          : `<button type="button" class="t-btn t-btn-primary" data-edit="${esc(a.id)}">Relire et envoyer</button>`}
           <button type="button" class="t-btn t-btn-danger" data-delete="${esc(a.id)}">Supprimer</button></td>
-      </tr>${isOpen ? `<tr class="h-detail"><td colspan="6">${detailHtml(a, emails)}</td></tr>` : ''}`;
+      </tr>${isOpen ? `<tr class="h-detail"><td colspan="7">${detailHtml(a, emails)}</td></tr>` : ''}`;
   }).join('');
 
   root.innerHTML = `
@@ -455,7 +476,7 @@ function renderList() {
         limite ; <strong>partiellement fait</strong> : plus de la moitié ; <strong>non fait</strong> : la moitié ou moins.
         Cliquez sur un titre pour voir chaque élève.</p>
       ${shown.length ? `<div class="t-scroll"><table class="t-table h-table">
-        <thead><tr><th>Devoir</th><th>Classes</th><th>Date limite</th><th>Envoyé</th><th>Élèves</th><th></th></tr></thead>
+        <thead><tr><th class="h-col-num">N°</th><th>Devoir</th><th>Classes</th><th>Date limite</th><th>Envoyé</th><th>Élèves</th><th></th></tr></thead>
         <tbody>${rows}</tbody></table></div>
         ${legend(STATUS_ORDER.map(k => STATUS[k]))}`
       : `<p class="d-empty">Aucun devoir${classId === ALL ? '' : ' pour cette classe'} pour l'instant.</p>`}
@@ -535,10 +556,15 @@ function detailHtml(a, emails) {
 function renderSummary(classId) {
   const box = root.querySelector('#h-summary');
   const emails = Object.keys(ctx.students).filter(e => classId === ALL || inClass(e, classId));
+  const classOrder = ctx.sortedClassIds();
+  const classRank = email => {
+    const i = classOrder.indexOf((ctx.students[email] || {}).classe);
+    return i < 0 ? classOrder.length : i;
+  };
   const rows = emails.map(email => {
     const c = { received: 0, done: 0, late: 0, partial: 0, missing: 0, upcoming: 0 };
     assignments.forEach(a => {
-      if (!(a.recipients || []).includes(email)) return;
+      if (!a.sentAt || !(a.recipients || []).includes(email)) return;
       c.received++;
       const st = studentState(a, email);
       if (st.upcoming) c.upcoming++;
@@ -548,8 +574,10 @@ function renderSummary(classId) {
     c.counted = counted;
     c.rate = counted ? Math.round(100 * c.done / counted) : null;
     return { email, c };
-  // Toujours par ordre alphabétique du nom : on y cherche un élève précis.
-  }).sort((x, y) => nameOf(x.email).localeCompare(nameOf(y.email), 'fr'));
+  // Par classe (dans l'ordre des menus, sans classe à la fin), puis par
+  // ordre alphabétique du nom : on y cherche un élève précis.
+  }).sort((x, y) => classRank(x.email) - classRank(y.email)
+    || nameOf(x.email).localeCompare(nameOf(y.email), 'fr'));
 
   const num = n => n ? n : '<span class="d-zero">0</span>';
   box.innerHTML = `
@@ -973,7 +1001,7 @@ async function submit(sending) {
       }
       ctx.setStatus(`Devoir enregistré et envoyé à ${sent.length} élève${sent.length > 1 ? 's' : ''}.`);
     } else {
-      ctx.setStatus('Devoir enregistré (pas envoyé).');
+      ctx.setStatus('Brouillon enregistré, pas envoyé. Pour l’envoyer : « Relire et envoyer » dans la liste des devoirs.');
     }
     draft = null;
     openId = ref.id;
@@ -1002,7 +1030,8 @@ export async function studentHomework(email, context) {
   return {
     email,
     classId: (ctx.students[email] || {}).classe,
-    list: list.filter(a => (a.recipients || []).includes(email))
+    // Un brouillon n'a pas encore été reçu : il ne compte pas.
+    list: list.filter(a => a.sentAt && (a.recipients || []).includes(email))
       .sort((a, b) => (b.due || '').localeCompare(a.due || ''))
   };
 }
@@ -1089,7 +1118,8 @@ export function homeworkDetailHtml(hw, folder) {
         : `${it.chapter} · ${it.label}`;
     }).join(' ; ');
     return `<tr>
-      <td><strong>${esc(titleFor(a, hw.classId) || 'Sans titre')}</strong><span class="d-cell-note">${esc(content)}</span></td>
+      <td class="h-col-num">${numberHtml(a, hw.classId || ALL)}</td>
+      <td><strong>${esc(a.title || 'Sans titre')}</strong><span class="d-cell-note">${esc(content)}</span></td>
       <td>${esc(formatDue(a.due))}</td>
       <td><span class="d-swatch" style="background:${status.color}"></span>${esc(status.label)}${st.upcoming ? ' <span class="d-cell-note">date limite pas passée</span>' : ''}</td>
       <td class="h-col-cells">${cellsBar(cells, `${st.done} sur ${st.total} éléments faits`)}<span class="d-cell-note">${st.done}/${st.total}</span></td>
@@ -1098,7 +1128,7 @@ export function homeworkDetailHtml(hw, folder) {
   return `<p class="s-hw-summary"><strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong> · ${esc(t.text)}${t.rate === null ? '' : ` · <strong>${t.rate} % à temps</strong>`}</p>
     ${t.counted ? `<div class="s-hw-bar">${stackBar(STATUS_ORDER.map(k => ({ value: t.c[k], color: STATUS[k].color })), t.counted, esc(t.text), `${t.rate} % à temps`)}</div>` : ''}
     <div class="t-scroll"><table class="t-table h-table s-hw-table">
-      <thead><tr><th>Devoir</th><th>Date limite</th><th>État</th><th>Éléments</th></tr></thead>
+      <thead><tr><th class="h-col-num">N°</th><th>Devoir</th><th>Date limite</th><th>État</th><th>Éléments</th></tr></thead>
       <tbody>${rows}</tbody></table></div>
     ${legend(STATUS_ORDER.map(k => STATUS[k]))}`;
 }
