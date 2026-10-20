@@ -175,7 +175,12 @@ scripts chargés.
   « Start again » n'efface pas. Les événements `lab_*`, comme tous les
   autres ([tracking.js](js/tracking.js)), sont comptés dans Firestore
   (compteurs `stats`, voir `SiteStorage.activity` dans
-  [storage.js](js/storage.js)), seule destination du suivi.
+  [storage.js](js/storage.js)), seule destination du suivi. Les
+  enseignants (collection `teachers`) ont dans l'en-tête un bouton
+  « Verrous », éteint à chaque chargement, qui lève verrous, étapes bloquées
+  et mode figé pour vérifier un labo ; dès qu'il a servi, plus rien n'est
+  envoyé au suivi jusqu'au rechargement. Un labo ne bloque donc rien hors de
+  `lab.setLock`, et teste `lab.isFrozen()`, jamais `lab.state.checked`.
 - **Conclude répond aux questions de départ, et à elles seules.** Les
   questions du labo sont posées à l'étape Predict, avec l'hypothèse ;
   Conclude y répond d'après les résultats et juge l'hypothèse, sans poser

@@ -241,6 +241,24 @@ html[data-pointer='fine'] .lab-restart:hover,
   outline: none;
 }
 
+/* Enseignants : lever les verrous (même pastille que Recommencer ; allumée,
+   la couleur d'un choix sélectionné) */
+html[data-pointer='fine'] .lab-unlock:hover,
+.lab-unlock:focus-visible {
+  border-color: var(--color-current);
+  color: var(--color-current);
+}
+
+.lab-unlock.is-on,
+html[data-pointer='fine'] .lab-unlock.is-on:hover,
+.lab-unlock.is-on:focus-visible {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.lab-unlock[hidden] { display: none; }
+
 /* ===== Fenêtre de confirmation (lab.confirm) ===== */
 .lab-dialog {
   position: absolute;

@@ -220,7 +220,19 @@
     `<circle cx="10" cy="16.1" r="1.75" fill="#ffffff"/>` +
     `<path d="M10 17.2v2.3" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round"/></svg>`;
 
-  const PRINT_SVG = `<svg class="lab-btn-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
+  // Cadenas ouvert : le bouton des enseignants qui lève les verrous (trou de
+  // serrure découpé, pour rester lisible bouton allumé).
+  const UNLOCK_SVG = `<svg class="lab-restart-svg" viewBox="0 0 20 24" aria-hidden="true" focusable="false">` +
+    `<path d="M5.6 10.5V6.4a4.4 4.4 0 0 1 8.5-1.6" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>` +
+    `<path fill="currentColor" fill-rule="evenodd" d="M5.6 10h8.8a3.2 3.2 0 0 1 3.2 3.2v5.8a3.2 3.2 0 0 1-3.2 3.2H5.6a3.2 3.2 0 0 1-3.2-3.2v-5.8A3.2 3.2 0 0 1 5.6 10zM10 14.4a1.75 1.75 0 1 0 0 3.5a1.75 1.75 0 1 0 0-3.5z"/></svg>`;
+
+  // Bouton des enseignants : en français, comme le tableau de bord.
+  const TEACHER = {
+    unlock: 'Verrous',
+    unlockTitle: 'Enseignant : lever tous les verrous pour vérifier le labo. Tant que la page est ouverte, rien n’est plus enregistré dans le suivi.'
+  };
+
+  const PRINT_SVG =`<svg class="lab-btn-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
     `<path d="M7 9V3.5h10V9" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>` +
     `<rect x="3" y="9" width="18" height="8" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/>` +
     `<rect x="7" y="14" width="10" height="6.5" rx="1" fill="#ffffff" stroke="currentColor" stroke-width="2"/></svg>`;
@@ -287,6 +299,7 @@
           `<button type="button" class="modal-fullscreen" data-lab-fullscreen aria-label="${L.fullscreen}">⛶</button>` +
           `<h2 id="lab-title-${def.id}" class="lab-title">${def.title}</h2>` +
           `<div class="lab-header-tools"><ol class="lab-stepper"></ol>` +
+          `<button type="button" class="lab-restart lab-unlock" data-lab-unlock aria-pressed="false" title="${TEACHER.unlockTitle}" hidden>${UNLOCK_SVG}<span>${TEACHER.unlock}</span></button>` +
           `<button type="button" class="lab-restart" data-lab-restart title="${L.restart}" aria-label="${L.restart}">${RESTART_SVG}<span>${L.restartShort}</span></button></div>` +
           `<button type="button" class="modal-close" data-lab-close aria-label="${L.close}">×</button>` +
         `</div>` +
@@ -319,6 +332,16 @@
     const fullscreenBtn = card.querySelector('[data-lab-fullscreen]');
 
     const glossary = Object.assign({}, COMMON_GLOSSARY[pageLang], def.glossary || {});
+
+    /* Enseignants (liste Firestore, voir AccessControl.isTeacher) : un bouton
+       de l'en-tête lève tous les verrous, pour vérifier un labo sans tout
+       refaire. Éteint à chaque chargement. Allumé : plus de cadenas
+       (setLock), toutes les étapes accessibles (canReach), rien de figé après
+       le Check (isFrozen). Dès qu'il a servi, plus rien n'est envoyé au
+       suivi ni au résultat du tableau de bord (track, saveResult) jusqu'au
+       rechargement de la page. */
+    let unlocked = false;
+    let wasUnlocked = false;
 
     // reached, activeMs et locksHit servent au suivi (voir Reprise et suivi).
     function freshFrameState() {
@@ -390,6 +413,8 @@
 
       render() { render(); },
       renderStepper() { renderStepper(); },
+      // Étapes 1 à 3 figées (labo corrigé, sauf verrous levés par un enseignant).
+      isFrozen() { return isFrozen(); },
 
       // Seul chemin vers l'étape 4 : la correction verrouille le labo.
       finish() {
@@ -502,6 +527,20 @@
 
     card.querySelector('[data-lab-restart]').addEventListener('click', askRestart);
 
+    // Bouton des enseignants : montré seulement une fois la liste confirmée.
+    const unlockBtn = card.querySelector('[data-lab-unlock]');
+    if (window.AccessControl && AccessControl.isTeacher) {
+      AccessControl.isTeacher().then(ok => { if (ok) unlockBtn.hidden = false; });
+    }
+    unlockBtn.addEventListener('click', () => {
+      unlocked = !unlocked;
+      if (unlocked) wasUnlocked = true;
+      unlockBtn.classList.toggle('is-on', unlocked);
+      unlockBtn.setAttribute('aria-pressed', String(unlocked));
+      lab.state.showMissing = false;
+      render();
+    });
+
     function restart() {
       clearProgress();
       lab.state = freshFrameState();
@@ -533,6 +572,7 @@
     }
 
     function track(event, data) {
+      if (wasUnlocked) return;
       if (window.logEvent) window.logEvent(event, Object.assign({ lab: def.id }, data));
     }
 
@@ -572,7 +612,7 @@
        d'un Check à l'autre (les critères peuvent dépendre du tirage). */
     const REPORT_MAX = 150000; // garde-fou : un document Firestore fait 1 Mio au plus
     function saveResult(step, check, labels) {
-      if (!window.SiteStorage) return;
+      if (!window.SiteStorage || wasUnlocked) return;
       let r = null;
       try { r = JSON.parse(SiteStorage.data.get('labResult', [def.id]) || 'null'); } catch (e) { r = null; }
       r = r || { maxStep: 1, checks: 0, best: null, last: null };
@@ -695,7 +735,7 @@
        onglet, une vue rapprochée) sans rien changer au travail ; le labo s'en
        charge (lab.state.checked). Le pied de page du labo est remplacé par
        celui du mode figé, même s'il est réécrit plus tard. */
-    const isFrozen = () => lab.state.checked && lab.state.step < 4;
+    const isFrozen = () => lab.state.checked && lab.state.step < 4 && !unlocked;
     const stopFrozen = e => {
       if (!isFrozen() || !bodyEl.contains(e.target)) return;
       if (e.type === 'keydown' && e.key === 'Tab') return;
@@ -742,7 +782,7 @@
       if (!el) return;
       const o = opts || {};
       const icon = el.querySelector(':scope > .lab-lock');
-      if (!reason) {
+      if (!reason || unlocked) {
         el.classList.remove('lab-is-locked');
         el.removeAttribute('aria-disabled');
         delete el.dataset.lock;
@@ -964,7 +1004,7 @@
 
     // Labo corrigé : toutes les étapes se revoient (figées, voir isFrozen).
     function canReach(n) {
-      if (lab.state.checked) return true;
+      if (lab.state.checked || unlocked) return true;
       return blockingStep(n) == null;
     }
 

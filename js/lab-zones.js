@@ -840,7 +840,7 @@
      Labo corrigé (étapes figées) : seules les commandes data-lab-look, qui
      ne font que montrer (onglets, ouvrir un carré, revenir aux zones),
      restent actives. */
-  const corrected = () => lab.state.checked;
+  const corrected = () => lab.isFrozen();
 
   function renderExperiment() {
     lab.body.innerHTML = `<div class="zn-run">` +

@@ -706,5 +706,26 @@
     return stored && stored.mode === 'full' && stored.email ? stored.email : null;
   }
 
-  window.AccessControl = { blockChapterIfNeeded: blockChapterIfNeeded, currentEmail: currentEmail, schoolDomain: SCHOOL_DOMAIN };
+  /* Le compte connecté est-il dans la liste des enseignants (Firestore,
+     teachers/{adresse}) ? Promesse de true ou false, demandée une fois par
+     page. Sert aux labos (bouton qui lève les verrous) : un confort pour
+     vérifier, pas une sécurité. Hors ligne, visiteur, autre domaine,
+     session Firebase absente : false. */
+  let teacherPromise = null;
+  function isTeacher() {
+    if (!teacherPromise) {
+      const email = currentEmail();
+      teacherPromise = !email || !email.endsWith('@' + SCHOOL_DOMAIN) ? Promise.resolve(false)
+        : loadFirebase().then(function (fb) {
+          return fb.auth.authStateReady().then(function () {
+            const user = fb.auth.currentUser;
+            if (!user || (user.email || '').toLowerCase() !== email) return false;
+            return fb.getDoc(fb.doc(fb.db, 'teachers', email)).then(function (snap) { return snap.exists(); });
+          });
+        }).catch(function () { return false; });
+    }
+    return teacherPromise;
+  }
+
+  window.AccessControl = { blockChapterIfNeeded: blockChapterIfNeeded, currentEmail: currentEmail, isTeacher: isTeacher, schoolDomain: SCHOOL_DOMAIN };
 })();
