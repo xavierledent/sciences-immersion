@@ -21,27 +21,45 @@
         <div>
           <span class="topic-chip">Woordenschat &bull; Nederlandse immersie &bull; Jaar 1</span>
           <h1>Fysica 1 : Natuurlijke energiebronnen</h1>
-          <p>Ontdek de belangrijkste woordenschat over natuurlijke energiebronnen met leuke interactieve flashcards. Kies je modus, tik op een kaart om ze om te draaien en druk op 🔊 om te luisteren.</p>
+          <p>Ontdek de belangrijkste woordenschat over natuurlijke energiebronnen met leuke interactieve flashcards. Kies je modus, tik op een kaart om ze om te draaien en druk op Luister om het woord te horen.</p>
         </div>
         <img src="../../../assets/Friends voc.jpg" alt="Woordenschat illustratie" />
       </div>
     </header>
 
     <section>
-      <div class="mode-panel" role="tablist" aria-label="Flashcardweergaves" style="display:flex !important;flex-wrap:wrap !important;justify-content:center !important;gap:18px !important;width:100% !important;">
-        <button type="button" class="mode-button active" data-mode="english-first">Nederlands eerst</button>
-        <button type="button" class="mode-button" data-mode="french-first">Fran&ccedil;ais d'abord</button>
-        <button type="button" class="mode-button" data-mode="random">Willekeurige taal</button>
+      <div class="mode-panel" role="group" aria-label="Welke taal eerst">
+        <button type="button" class="mode-button active" data-mode="english-first" aria-pressed="true">Nederlands eerst</button>
+        <button type="button" class="mode-button" data-mode="french-first" aria-pressed="false">Fran&ccedil;ais d'abord</button>
+        <button type="button" class="mode-button" data-mode="random" aria-pressed="false">Willekeurige taal</button>
+      </div>
+      <div class="review-only">
+        <label><input type="checkbox" id="review-only"> <span id="review-only-text">Alleen te herhalen woorden</span></label>
       </div>
     </section>
 
     <section class="card-container">
       <div class="flashcard-wrapper">
-        <div class="card-counter" id="card-counter">···</div>
+        <div class="card-status">
+          <div class="known-progress" id="known-progress">
+            <span class="known-count" id="known-count">··· woorden gekend</span>
+            <span class="known-track" aria-hidden="true"><span class="known-bar" id="known-bar"></span></span>
+            <button type="button" class="known-reset" id="known-reset" hidden>wissen</button>
+            <span class="known-reset-confirm" id="known-reset-confirm" hidden>
+              <span id="known-reset-question"></span>
+              <button type="button" class="known-reset-yes" id="known-reset-yes">Ja, wissen</button>
+              <button type="button" class="known-reset-no" id="known-reset-no">Annuleren</button>
+            </span>
+          </div>
+        </div>
         <div id="flashcard-container" aria-live="polite"></div>
-        <div class="card-navigation">
-          <button type="button" class="nav-button" id="prev-button">&larr; Vorige</button>
-          <button type="button" class="nav-button" id="next-button">Volgende &rarr;</button>
+        <div class="card-actions">
+          <button type="button" class="nav-button" id="prev-button" aria-label="Vorige kaart" aria-keyshortcuts="ArrowLeft"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+          <div class="known-actions is-hidden" id="known-actions" role="group" aria-label="Ken je dit woord?" aria-hidden="true">
+            <button type="button" class="known-btn known-btn-no" id="not-yet-button" tabindex="-1" aria-keyshortcuts="N"><svg class="known-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9"/></svg>Nog niet</button>
+            <button type="button" class="known-btn known-btn-yes" id="know-button" tabindex="-1" aria-pressed="false" aria-keyshortcuts="K"><svg class="known-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.8 3.8 7.2-8.6"/></svg>Ik ken het</button>
+          </div>
+          <button type="button" class="nav-button" id="next-button" aria-label="Volgende kaart" aria-keyshortcuts="ArrowRight"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
       </div>
     </section>
@@ -49,8 +67,12 @@
     <section class="note-box">
       <h3>Hoe werkt deze pagina?</h3>
       <p><strong>Kort gezegd:</strong> wissel van modus om te kiezen welke taal eerst getoond wordt, of kies een
-        willekeurige mix. Klik op het luidsprekerpictogram 🔊 op elke kaart en herhaal het woord hardop om je
-        uitspraak te trainen.</p>
+        willekeurige mix. Druk op Luister op elke kaart en herhaal het woord hardop om je uitspraak te
+        trainen. Tik op elke kaart op "Ik ken het" of "Nog niet" &mdash; of veeg de kaart: naar rechts als je het
+        woord kent, naar links als je het nog niet kent. Vink "Alleen te herhalen woorden" aan om de woorden die je
+        al kent te verbergen; vink het uit en ze zijn er allemaal weer. Je kunt op elk moment van gedacht veranderen
+        over een woord. <strong>Toetsenbord:</strong> spatie draait de kaart om, K = Ik ken het, N = Nog niet,
+        &larr; &rarr; om te bladeren.</p>
       <p class="note-box-tip"><strong>Tip van de leerkracht:</strong> probeer de modus "Français d'abord" — zeg de
         vertaling hardop voordat je de kaart omdraait, dat is de echte test. En een beetje, maar vaak, werkt het
         best: een paar minuten per dag is beter dan één lange sessie de avond voor de toets — kom vaak terug!</p>

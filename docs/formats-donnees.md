@@ -148,6 +148,9 @@ Lu par [vocabulary-engine.js](../js/vocabulary-engine.js). Un tableau à la raci
 }]
 ```
 
+Le mot (`english`) sert aussi de clé aux mots sus des élèves : deux cartes
+ne doivent pas porter le même mot (le validateur le signale).
+
 ## resources.json
 
 Lu par [resources-engine.js](../js/resources-engine.js). Quatre blocs, chacun avec
@@ -210,7 +213,11 @@ données déjà enregistrées :
 | Réponses et auto-évaluations des exercices | niveau, `id` de l'exercice, rang de la sous-question |
 | Scores et reprise des QCM, records des jeux | `id` du jeu |
 | Notes de l'autoévaluation par attendus | `id` de l'item |
+| Mots de vocabulaire sus (« I know it ») | le mot lui-même : champ `english`, sans balise |
 
 Conséquence : changer l'`id` d'un jeu, d'un exercice ou d'un item d'autoévaluation, ou réordonner des sous-questions, fait perdre aux
 élèves ce qu'ils avaient enregistré pour cet élément. Corriger le texte d'un
 énoncé, d'une option ou d'une correction est sans effet sur les données.
+Pour le vocabulaire, c'est l'inverse : corriger le mot (`english`) lui fait
+perdre sa marque « sus » chez les élèves, qui n'ont qu'à le marquer de
+nouveau ; corriger la traduction ou les définitions est sans effet.

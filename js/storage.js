@@ -5,7 +5,7 @@
 
    — SiteStorage.data : les DONNÉES PÉDAGOGIQUES de l'élève (réponses,
      auto-évaluations, scores et progression des QCM et des jeux, position de
-     reprise, notes par attendu, labos). Deux destinations :
+     reprise, notes par attendu, mots de vocabulaire sus, labos). Deux destinations :
        · élève connecté par Firebase, sur une page de chapitre : Firestore,
          document users/{uid}/chapters/{chapitre} (ex. en_year1_bio1), un
          champ par famille, chaque valeur rangée sous ses parties jointes par
@@ -75,6 +75,7 @@
     'memoryBest',               // [quizTitle, stat]
     'sortingBest',              // [quizTitle]
     'autoevalRating',           // [itemId]
+    'vocabKnown',               // [mot] — date où le mot a été marqué sus (vocabulary-engine.js)
     'labProgress',              // [labId] — JSON {v, frame, data} (lab-engine.js)
     'labResult',                // [labId] — JSON {maxStep, checks, best, last} (lab-engine.js)
     'doneAt'                    // [ex, levelKey, exerciseId] | [game, gameId] | [lab, labId] — écrit ici seulement (markDone)
@@ -128,7 +129,7 @@
             'memory_completed', 'sorting_completed'],
     autoeval: ['autoeval_page_opened', 'autoeval_item_rated'],
     vocabulary: ['vocabulary_section_opened', 'vocabulary_sessions', 'vocabulary_cards_seen',
-                 'vocabulary_flips', 'vocabulary_listens'],
+                 'vocabulary_flips', 'vocabulary_listens', 'vocabulary_word_marked'],
     resources: ['resource_link_opened'],
     explorations: ['exploration_link_opened'],
     labs: ['lab_opened', 'lab_step_reached', 'lab_checked']

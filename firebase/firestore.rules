@@ -72,7 +72,7 @@ service cloud.firestore {
                'practiceAnswer', 'practiceSelfAssess', 'practiceLastExercise',
                'practiceLastTouchedLevel', 'qcmBestScore', 'qcmProgress',
                'fitbBest', 'dndBest', 'memoryBest', 'sortingBest',
-               'autoevalRating', 'labProgress', 'labResult', 'doneAt',
+               'autoevalRating', 'vocabKnown', 'labProgress', 'labResult', 'doneAt',
                'stats', 'updatedAt'
              ]);
       }

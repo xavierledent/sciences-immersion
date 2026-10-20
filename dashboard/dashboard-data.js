@@ -41,6 +41,12 @@ async function fetchJson(url) {
 
 /* ===== Contenu ===== */
 
+// Clé d'un mot de vocabulaire dans la famille vocabKnown : même calcul que
+// vocabulary-engine.js (wordKey), à modifier ensemble.
+function wordKey(item) {
+  return String((item && item.english) || '').replace(/<[^>]*>/g, '').trim();
+}
+
 const contentCache = {};
 
 // Chapitres d'une filière qui ont quelque chose à suivre (vocabulaire,
@@ -88,7 +94,8 @@ async function buildContent(track) {
       base,
       title: (ch.h1 && ch.h1[track]) || ch.titleSuffix,
       levels, exerciseCount, games, labs, autoevalItems,
-      vocabCount: Array.isArray(vocabulary) ? vocabulary.length : 0
+      vocabCount: Array.isArray(vocabulary) ? vocabulary.length : 0,
+      vocabWords: Array.isArray(vocabulary) ? vocabulary.map(wordKey) : []
     };
   }));
   return chapters.filter(c => c.vocabCount || c.exerciseCount || c.games.length || c.labs.length);
@@ -264,6 +271,10 @@ export function summarizeChapter(chapter, doc, hist) {
     return Object.assign({ result: r }, l);
   });
 
+  // Mots sus : seulement ceux encore présents dans vocabulary.json.
+  const knownMap = doc.vocabKnown || {};
+  const vocabKnown = chapter.vocabWords.filter(word => knownMap[word] !== undefined);
+
   const ratingSource = hasAny(doc.autoevalRating) ? doc.autoevalRating : (hist.ratings || {});
   const ratings = { 1: 0, 2: 0, 3: 0 };
   const itemRatings = {};
@@ -284,6 +295,7 @@ export function summarizeChapter(chapter, doc, hist) {
     ratings,
     ratedCount: ratings[1] + ratings[2] + ratings[3],
     itemRatings,
+    vocabKnown,
     stats: mergeStats(doc.stats, hist.stats),
     lastActivity: later(toDate(doc.updatedAt), toDate(hist.lastActivity))
   };

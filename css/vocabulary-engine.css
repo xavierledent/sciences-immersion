@@ -1,11 +1,12 @@
-/* Vocabulary flashcards engine — shared by all six en/year1/*/vocabulary.html chapters */
+/* Moteur des flashcards de vocabulaire — commun aux pages vocabulary.html
+   des 12 chapitres (en/year1 et nl/jaar1). */
 
 .mode-panel {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 18px;
-  margin: 42px 0 16px;
+  margin: 42px 0 18px;
 }
 
 /* Même logique "contour au repos, plein au survol/sélection" que
@@ -43,6 +44,44 @@ html[data-pointer='fine'] .mode-button:hover,
   box-shadow: 0 16px 30px rgba(var(--color-current-rgb), 0.18);
 }
 
+/* « Only words to review » : une case à cocher, centrée sous les modes —
+   un réglage indépendant de la langue, qui ne doit pas passer pour un 4e
+   mode. Toute l'étiquette est cliquable (tactile). */
+.review-only {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 8px;
+}
+
+.review-only label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+  font-weight: 600;
+  color: var(--color-current-dark);
+  cursor: pointer;
+}
+
+.review-only input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--color-current-dark);
+  cursor: pointer;
+}
+
+/* Aucun mot sus : cocher ne changerait rien, la case est grisée. */
+.review-only label.is-disabled {
+  color: var(--color-muted);
+  opacity: 0.55;
+  cursor: default;
+}
+
+.review-only label.is-disabled input {
+  cursor: default;
+}
+
 .mode-help {
   margin: 0;
   text-align: center;
@@ -54,6 +93,8 @@ html[data-pointer='fine'] .mode-button:hover,
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  /* La carte qui part sur le côté (réponse) ne crée pas de défilement. */
+  overflow-x: clip;
 }
 
 .flashcard-wrapper {
@@ -64,39 +105,52 @@ html[data-pointer='fine'] .mode-button:hover,
   gap: 24px;
 }
 
-.card-counter {
-  text-align: center;
-  color: var(--color-muted);
-  font-weight: 600;
-  font-size: 1rem;
+/* Au-dessus de la carte : les mots sus (pas de numéro de carte : l'écran de
+   fin signale la fin du paquet). */
+.card-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  min-height: 32px;
+  margin-bottom: -10px;
 }
 
-.card-navigation {
+/* Sous la carte : ← | Not yet · I know it | →. Les flèches ne servent qu'à
+   sauter ou revoir une carte (une réponse fait déjà passer à la suivante). */
+.card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
+/* Pastille allongée comme les autres boutons du site ; même hauteur que
+   « Not yet / I know it » (stretch dans .card-actions), flèche centrée. */
 .nav-button {
-  border: none;
+  flex: none;
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 68px;
+  padding: 0 20px;
   font: inherit;
-  padding: 12px 18px;
+  line-height: 0;
   border-radius: 999px;
-  font-weight: 700;
+  cursor: pointer;
   transition: transform var(--transition), background var(--transition), border-color var(--transition);
-  border: 1px solid rgba(var(--color-current-rgb), 0.28);
+  border: 1.5px solid var(--color-current-dark);
   background: #fff;
-  color: var(--color-current);
-  box-shadow: 0 14px 26px rgba(var(--color-current-rgb), 0.12);
+  color: var(--color-current-dark);
 }
 
 html[data-pointer='fine'] .nav-button:hover:not(:disabled),
 .nav-button:focus-visible:not(:disabled) {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   outline: none;
-  border-color: rgba(var(--color-current-rgb), 0.4);
-  background: rgba(var(--color-current-rgb), 0.08);
+  background: rgba(var(--color-current-rgb), 0.1);
 }
 
 .nav-button:disabled {
@@ -104,9 +158,267 @@ html[data-pointer='fine'] .nav-button:hover:not(:disabled),
   cursor: not-allowed;
 }
 
+/* ===== Mots sus =====
+   Progression au-dessus de la carte (« reset » en simple lien, il sert
+   rarement), boutons « Not yet / I know it » entre les flèches : leur place
+   reste réservée (visibility) sur l'écran de fin du paquet, pour que rien ne
+   bouge. */
+
+.known-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.known-progress[hidden],
+.known-progress [hidden] {
+  display: none !important;
+}
+
+.known-track {
+  width: 120px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(var(--color-current-rgb), 0.16);
+  overflow: hidden;
+}
+
+.known-bar {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-current);
+  transition: width 0.3s ease;
+}
+
+.known-reset {
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: none;
+  background: none;
+  padding: 6px 2px;
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+html[data-pointer='fine'] .known-reset:hover,
+.known-reset:focus-visible {
+  outline: none;
+  color: var(--color-current-dark);
+}
+
+.known-reset-yes,
+.known-reset-no {
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.known-reset-no {
+  border: 1px solid rgba(var(--color-current-rgb), 0.3);
+  background: #fff;
+  color: var(--color-current-dark);
+}
+
+.known-reset-yes {
+  border: 1px solid var(--color-current-dark);
+  background: var(--color-current-dark);
+  color: #fff;
+}
+
+html[data-pointer='fine'] .known-reset-no:hover,
+.known-reset-no:focus-visible {
+  outline: none;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+}
+
+.known-reset-yes:focus-visible {
+  outline: 3px solid rgba(var(--color-current-rgb), 0.45);
+}
+
+.known-reset-confirm {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  color: var(--color-text);
+}
+
+.known-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.known-actions.is-hidden {
+  visibility: hidden;
+}
+
+.known-btn {
+  font: inherit;
+  font-weight: 700;
+  min-width: 150px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+/* Les deux boutons au même style que les autres du site (contour et texte
+   dans le ton foncé de la matière) ; seul « I know it » se remplit, quand le
+   mot est déjà sus. */
+.known-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1.5px solid var(--color-current-dark);
+  color: var(--color-current-dark);
+}
+
+/* ✗ et ✓ dessinés (SVG du template) : trait de la couleur du texte. */
+.known-icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+html[data-pointer='fine'] .known-btn:hover,
+.known-btn:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+}
+
+html[data-pointer='fine'] .known-btn:hover:not(.is-current),
+.known-btn:focus-visible:not(.is-current) {
+  background: rgba(var(--color-current-rgb), 0.1);
+}
+
+.known-btn:active {
+  transform: scale(0.96);
+}
+
+/* Le mot est déjà marqué sus : le bouton le montre (aria-pressed). */
+.known-btn-yes.is-current {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.flashcard-tags {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flashcard-known {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-current-dark);
+  background: #fff;
+  color: var(--color-current-dark);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* Fin du paquet : même gabarit que la carte, pour que la page ne saute pas. */
+.flashcard-end {
+  min-height: 250px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 26px;
+  text-align: center;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.35);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(17, 36, 72, 0.08);
+}
+
+.flashcard-end-title {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.3vw, 1.8rem);
+}
+
+.flashcard-end-text {
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.flashcard-end-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.flashcard-end-btn {
+  font: inherit;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-current-dark);
+  background: #fff;
+  color: var(--color-current-dark);
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition);
+}
+
+.flashcard-end-btn.is-main {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: var(--color-current-text);
+}
+
+html[data-pointer='fine'] .flashcard-end-btn:hover,
+.flashcard-end-btn:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+}
+
+html[data-pointer='fine'] .flashcard-end-btn:hover:not(.is-main),
+.flashcard-end-btn:focus-visible:not(.is-main) {
+  background: rgba(var(--color-current-rgb), 0.1);
+}
+
+/* ===== La carte =====
+   Recto blanc, verso teinté de la matière ; le mot grand et centré, sa taille
+   ajustée en JS (fitTitles) pour tenir en deux lignes au plus. Les deux faces
+   sont empilées dans la même case de grille : la carte prend la hauteur de la
+   plus haute. 250 px suffisent aux plus longues définitions (≈ 180
+   caractères, 4 lignes) avec un mot sur une ligne, pour que les boutons du
+   dessous ne bougent pas d'une carte à l'autre ; seule une carte qui cumule
+   mot sur deux lignes et très longue définition grandit un peu. */
 .flashcard {
   position: relative;
-  min-height: 280px;
   perspective: 1200px;
   cursor: pointer;
   /* La carte porte role="button" : sur écran tactile, le navigateur la couvre
@@ -114,37 +426,34 @@ html[data-pointer='fine'] .nav-button:hover:not(:disabled),
      Listen à l'intérieur. On neutralise ce voile et on donne au bouton son
      propre retour visuel, localisé (voir .flashcard-listen-btn:active). */
   -webkit-tap-highlight-color: transparent;
-  border: 3px solid rgba(31, 181, 214, 0.22);
-  border-radius: 28px;
-  overflow: hidden;
-  box-shadow: 0 22px 48px rgba(31, 181, 214, 0.12);
-  background: #fff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Glisser horizontalement = répondre (vocabulary-engine.js) ; le défilement
+     vertical de la page reste au navigateur. */
+  touch-action: pan-y;
+  user-select: none;
+  border-radius: 24px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-html[data-pointer='fine'] .flashcard:hover {
+.flashcard.is-entering {
+  animation: flashcard-in 0.25s ease-out;
+}
+
+@keyframes flashcard-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.flashcard.is-dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+html[data-pointer='fine'] .flashcard:not(.is-dragging):hover {
   transform: translateY(-3px);
-  box-shadow: 0 28px 56px rgba(31, 181, 214, 0.22);
-}
-
-/* Purely decorative "this card flips" hint — pointer-events:none keeps it out
-   of the click target entirely, so the whole card still flips as one area. */
-.flashcard::after {
-  content: '\21bb';
-  position: absolute;
-  bottom: 12px;
-  right: 16px;
-  font-size: 1.3rem;
-  line-height: 1;
-  color: rgba(17, 36, 72, 0.22);
-  pointer-events: none;
-  z-index: 2;
 }
 
 .flashcard-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  display: grid;
   transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
   transform-style: preserve-3d;
 }
@@ -154,63 +463,122 @@ html[data-pointer='fine'] .flashcard:hover {
 }
 
 .flashcard-face {
-  border-radius: var(--radius);
-  background: var(--color-surface);
-  box-shadow: var(--color-shadow);
-  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
-  position: absolute;
-  inset: 0;
-  padding: 26px;
-  border: 1px solid rgba(17, 38, 64, 0.08);
-  backface-visibility: hidden;
+  grid-area: 1 / 1;
+  position: relative;
+  min-height: 250px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-}
-
-.flashcard-front {
-  background: linear-gradient(180deg, rgba(31, 181, 214, 0.12) 0%, rgba(255, 255, 255, 0.98) 100%);
+  padding: 14px 20px 18px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.35);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(17, 36, 72, 0.08);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .flashcard-back {
   transform: rotateY(180deg);
-  background: linear-gradient(180deg, rgba(125, 81, 215, 0.12) 0%, rgba(255, 255, 255, 0.98) 100%);
+  background: linear-gradient(rgba(var(--color-current-rgb), 0.09), rgba(var(--color-current-rgb), 0.09)), #fff;
+  border-color: rgba(var(--color-current-rgb), 0.55);
 }
 
-.flashcard-header {
+.flashcard-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  min-height: 50px;
-  padding: 14px 22px;
-  margin: -26px -26px 22px;
-  background: rgba(255, 255, 255, 0.92);
-  border-bottom: 1px solid rgba(31, 181, 214, 0.12);
-  border-top-left-radius: 26px;
-  border-top-right-radius: 26px;
+  min-height: 32px;
+}
+
+/* Le mot toujours à la même hauteur, quelle que soit la longueur de la
+   définition (centrer le bloc entier le faisait descendre quand la
+   définition est courte) : l'oeil le retrouve au même endroit à chaque
+   carte, la définition s'écrit en dessous. */
+.flashcard-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 4px 14px;
+  text-align: center;
+}
+
+.flashcard-title {
+  margin: 0;
+  width: 100%;
+  font-size: 36px;
+  line-height: 1.15;
+  /* Pas de coupure dans un mot : un mot trop long doit déborder pour que
+     fitTitles le voie et réduise la taille. */
+  overflow-wrap: normal;
+  word-break: normal;
+  text-align: center;
+}
+
+.flashcard-definition {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 1rem;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.flashcard-icon,
+.flashcard-flip-icon,
+.nav-icon {
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.flashcard-icon {
+  width: 17px;
+  height: 17px;
+}
+
+.nav-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* Indice discret « cette carte se retourne », hors de la zone de clic. */
+.flashcard-flip-icon {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+  color: rgba(var(--color-current-rgb), 0.55);
+  pointer-events: none;
 }
 
 .flashcard-listen-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  border: 1px solid rgba(var(--color-current-rgb), 0.3);
+  gap: 7px;
+  border: 1.5px solid var(--color-current-dark);
   border-radius: 999px;
-  padding: 7px 16px;
+  padding: 6px 14px;
   font-family: inherit;
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--color-current-dark);
   background: #fff;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+  transition: background 0.15s, transform 0.15s;
 }
 
 html[data-pointer='fine'] .flashcard-listen-btn:hover,
 .flashcard-listen-btn:focus-visible {
-  border-color: var(--color-current);
-  background: rgba(var(--color-current-rgb), 0.08);
+  background: rgba(var(--color-current-rgb), 0.1);
   outline: none;
   transform: translateY(-1px);
 }
@@ -219,95 +587,90 @@ html[data-pointer='fine'] .flashcard-listen-btn:hover,
    bouton, utile au tactile où il n'y a pas de survol et où la synthèse vocale
    met un instant à démarrer. */
 .flashcard-listen-btn:active {
-  border-color: var(--color-current);
   background: rgba(var(--color-current-rgb), 0.22);
   transform: scale(0.95);
-}
-
-.flashcard-label {
-  font-size: 0.82rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  font-weight: 700;
 }
 
 .flashcard-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: auto;
-  height: 34px;
-  line-height: 1;
-  padding: 0 14px;
+  height: 28px;
+  padding: 0 12px;
   border-radius: 999px;
-  font-size: 0.86rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  color: #fff;
-  background: var(--color-emerald);
+  letter-spacing: 0.04em;
+  background: rgba(var(--color-current-rgb), 0.14);
+  color: var(--color-current-darker);
 }
 
-.flashcard-title {
-  margin: 18px 0 10px;
-  font-size: clamp(1.45rem, 2.5vw, 2rem);
-  line-height: 1.05;
-}
-
-.flashcard-subtitle {
-  margin: 0;
-  color: var(--color-muted);
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-.flashcard-definition {
-  margin: 16px 0 0;
-  color: var(--color-text);
-  font-size: 1rem;
-  line-height: 1.75;
-}
-
-.subject-bio .flashcard-badge {
-  background: rgba(98, 181, 170, 0.16);
-  color: var(--color-bio);
-}
-
-.subject-physics .flashcard-badge {
-  background: rgba(139, 123, 181, 0.16);
-  color: var(--color-physics);
-}
-
-.subject-chemistry .flashcard-badge {
-  background: rgba(231, 195, 96, 0.16);
-  color: var(--color-chemistry);
-}
-
-/* Contraste élevé (voir style.css / rich-text.js) : le fond pâle par
-   matière reste intact, seul le texte du badge fonce. */
-body.high-contrast .subject-bio .flashcard-badge,
-body.high-contrast .subject-physics .flashcard-badge,
-body.high-contrast .subject-chemistry .flashcard-badge {
+/* Contraste élevé (voir style.css / rich-text.js) : le fond pâle reste,
+   seul le texte du badge fonce. */
+body.high-contrast .flashcard-badge {
   color: #000000;
 }
 
-.subject-bio .flashcard-face {
-  border-color: rgba(98, 181, 170, 0.18);
+/* Pendant un glissé : « I know it » ou « Not yet » apparaît sur la carte,
+   d'autant plus net qu'on approche du seuil. */
+.flashcard-swipe {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 18px;
+  border-radius: 24px;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.subject-physics .flashcard-face {
-  border-color: rgba(139, 123, 181, 0.18);
+.flashcard-swipe.is-yes {
+  background: rgba(var(--color-current-rgb), 0.14);
+  box-shadow: inset 0 0 0 2px var(--color-current-dark);
 }
 
-.subject-chemistry .flashcard-face {
-  border-color: rgba(231, 195, 96, 0.18);
+.flashcard-swipe.is-no {
+  background: rgba(17, 36, 72, 0.06);
+  box-shadow: inset 0 0 0 2px rgba(17, 36, 72, 0.35);
+}
+
+.flashcard-swipe-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 700;
+  color: var(--color-current-dark);
+  border: 1.5px solid var(--color-current-dark);
+}
+
+.flashcard-swipe-label .flashcard-icon {
+  width: 18px;
+  height: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flashcard.is-entering {
+    animation: none;
+  }
+
+  .flashcard-inner {
+    transition: none;
+  }
 }
 
 @media (max-width: 640px) {
-  .flashcard {
-    min-height: 240px;
+  .flashcard-face,
+  .flashcard-end {
+    min-height: 220px;
   }
 
-  .flashcard-face {
-    padding: 20px;
+  .known-btn {
+    min-width: 0;
+    flex: 1;
   }
 }

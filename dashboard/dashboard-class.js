@@ -243,7 +243,7 @@ function allTable(rows, chapters, sort, ctx) {
     const s = r.summaries[key];
     return ch.exerciseCount || ch.games.length || ch.labs.length
       ? s.answeredCount + s.gamesDone + s.labsChecked
-      : Number(s.stats.vocabulary_cards_seen) || 0;
+      : vocabRank(s);
   };
   const sorted = sortRows(rows, sort, valueOf);
   if (ctx.setOrder) ctx.setOrder(sorted.map(r => r.email));
@@ -267,8 +267,10 @@ function chapterCell(chapter, s) {
   if (!bits.length) {
     // Vocabulaire seul (exercices pas encore rédigés).
     const seen = Number(s.stats.vocabulary_cards_seen) || 0;
+    const known = s.vocabKnown.length;
     return `<td class="d-col-chapter" data-tip="${esc(`<strong>${esc(chapter.title)}</strong><br>Pas encore d’exercices ni de jeux : vocabulaire seul.`)}">
-      <span class="d-vocab-only${seen ? '' : ' d-zero'}">Vocabulaire : ${seen} carte${seen > 1 ? 's' : ''} vue${seen > 1 ? 's' : ''}</span></td>`;
+      <span class="d-vocab-only${known || seen ? '' : ' d-zero'}">Vocabulaire : ${known}/${chapter.vocabCount} mot${known > 1 ? 's' : ''} su${known > 1 ? 's' : ''}</span>
+      <span class="d-cell-note">${seen} carte${seen > 1 ? 's' : ''} vue${seen > 1 ? 's' : ''}</span></td>`;
   }
   return `<td class="d-col-chapter">${chapter.exerciseCount ? exercisesBar(chapter, s) : ''}
     <span class="d-cell-note">${bits.join(' · ')}</span></td>`;
@@ -306,7 +308,7 @@ function chapterTable(rows, chapter, sort, ctx) {
     if (key === 'games') return s.gamesDone;
     if (key.startsWith('lab:')) { const l = s.labs.find(x => 'lab:' + x.id === key); return l ? labRank(l.result) : 0; }
     if (key === 'autoeval') return s.ratedCount ? (s.ratings[1] + 2 * s.ratings[2] + 3 * s.ratings[3]) / s.ratedCount : 0;
-    if (key === 'vocab') return Number(s.stats.vocabulary_cards_seen) || 0;
+    if (key === 'vocab') return vocabRank(s);
     if (key === 'chapterResources') return Number(s.stats.resource_link_opened) || 0;
     if (key === 'chapterExplorations') return Number(s.stats.exploration_link_opened) || 0;
     if (key === 'chapterLast') return s.lastActivity ? s.lastActivity.getTime() : 0;
@@ -319,7 +321,7 @@ function chapterTable(rows, chapter, sort, ctx) {
     ${chapter.games.length ? th('Jeux', 'games', sort, 'd-col-games') : ''}
     ${chapter.labs.map(l => th(esc(l.title), 'lab:' + l.id, sort, 'd-col-lab')).join('')}
     ${hasAutoeval ? th('Autoévaluation', 'autoeval', sort, 'd-col-autoeval') : ''}
-    ${th('Vocabulaire', 'vocab', sort, 'd-num')}
+    ${th('Mots sus', 'vocab', sort, 'd-num')}
     ${th('Ressources', 'chapterResources', sort, 'd-num')}${th('Explorations', 'chapterExplorations', sort, 'd-num')}</tr>`;
   const body = sorted.map(r => {
     const s = r.summaries[chapter.id];
@@ -328,7 +330,7 @@ function chapterTable(rows, chapter, sort, ctx) {
       ${chapter.games.length ? gamesCell(s) : ''}
       ${s.labs.map(labCell).join('')}
       ${hasAutoeval ? autoevalCell(chapter, s) : ''}
-      ${vocabCell(s.stats)}
+      ${vocabCell(chapter, s)}
       ${linksCell(r, [chapter], 'resource_link_opened', 'Ressources')}
       ${linksCell(r, [chapter], 'exploration_link_opened', 'Explorations')}</tr>`;
   }).join('');
@@ -388,9 +390,18 @@ function autoevalCell(chapter, s) {
     <span class="d-cell-note">${s.ratedCount}/${total} évalués</span></td>`;
 }
 
-function vocabCell(stats) {
+// Pour trier : mots sus d'abord, cartes vues pour départager.
+function vocabRank(s) {
+  return s.vocabKnown.length + (Number(s.stats.vocabulary_cards_seen) || 0) / 1e6;
+}
+
+function vocabCell(chapter, s) {
+  const stats = s.stats;
   const seen = Number(stats.vocabulary_cards_seen) || 0;
-  const tip = `<strong>Vocabulaire</strong><br>${Number(stats.vocabulary_sessions) || 0} session(s)<br>${seen} carte(s) vue(s)` +
+  const known = s.vocabKnown.length;
+  const tip = `<strong>Vocabulaire</strong><br>${known} mot(s) su(s) sur ${chapter.vocabCount}` +
+    `<br>${Number(stats.vocabulary_sessions) || 0} session(s)<br>${seen} carte(s) vue(s)` +
     `<br>${Number(stats.vocabulary_flips) || 0} retournée(s)<br>${Number(stats.vocabulary_listens) || 0} écoutée(s)`;
-  return `<td class="d-num" data-tip="${esc(tip)}">${seen || '<span class="d-zero">0</span>'}</td>`;
+  return `<td class="d-num${known || seen ? '' : ' d-zero'}" data-tip="${esc(tip)}">${known}<span class="b-of"> / ${chapter.vocabCount}</span>
+    <span class="d-cell-note">${seen} vue${seen > 1 ? 's' : ''}</span></td>`;
 }

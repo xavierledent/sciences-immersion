@@ -1206,6 +1206,13 @@
   gap: 8px 28px;
 }
 
+/* Vocabulaire : mots sus / à revoir, à la suite */
+.s-words {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
 /* Vocabulaire et liens : tuiles chiffrées */
 .s-stats {
   display: grid;

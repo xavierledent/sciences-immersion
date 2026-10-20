@@ -21,35 +21,57 @@
         <div>
           <span class="topic-chip">Vocabulary &bull; English immersion &bull; Year 1</span>
           <h1>Chemistry 2 : Mixtures and pure substances</h1>
-          <p>Discover the key vocabulary for mixtures and pure substances with fun interactive flashcards. Select your mode, tap a card to flip it, and press 🔊 to listen.</p>
+          <p>Discover the key vocabulary for mixtures and pure substances with fun interactive flashcards. Select your mode, tap a card to flip it, and press Listen to hear the word.</p>
         </div>
         <img src="../../../assets/Friends voc.jpg" alt="Vocabulary illustration" />
       </div>
     </header>
 
     <section>
-      <div class="mode-panel" role="tablist" aria-label="Flashcard display modes" style="display:flex !important;flex-wrap:wrap !important;justify-content:center !important;gap:18px !important;width:100% !important;">
-        <button type="button" class="mode-button active" data-mode="english-first">English First</button>
-        <button type="button" class="mode-button" data-mode="french-first">Fran&ccedil;ais d'abord</button>
-        <button type="button" class="mode-button" data-mode="random">Random language</button>
+      <div class="mode-panel" role="group" aria-label="Which language first">
+        <button type="button" class="mode-button active" data-mode="english-first" aria-pressed="true">English first</button>
+        <button type="button" class="mode-button" data-mode="french-first" aria-pressed="false">Fran&ccedil;ais d'abord</button>
+        <button type="button" class="mode-button" data-mode="random" aria-pressed="false">Random language</button>
+      </div>
+      <div class="review-only">
+        <label><input type="checkbox" id="review-only"> <span id="review-only-text">Only words to review</span></label>
       </div>
     </section>
 
     <section class="card-container">
       <div class="flashcard-wrapper">
-        <div class="card-counter" id="card-counter">···</div>
+        <div class="card-status">
+          <div class="known-progress" id="known-progress">
+            <span class="known-count" id="known-count">··· words known</span>
+            <span class="known-track" aria-hidden="true"><span class="known-bar" id="known-bar"></span></span>
+            <button type="button" class="known-reset" id="known-reset" hidden>reset</button>
+            <span class="known-reset-confirm" id="known-reset-confirm" hidden>
+              <span id="known-reset-question"></span>
+              <button type="button" class="known-reset-yes" id="known-reset-yes">Yes, reset</button>
+              <button type="button" class="known-reset-no" id="known-reset-no">Cancel</button>
+            </span>
+          </div>
+        </div>
         <div id="flashcard-container" aria-live="polite"></div>
-        <div class="card-navigation">
-          <button type="button" class="nav-button" id="prev-button">&larr; Previous</button>
-          <button type="button" class="nav-button" id="next-button">Next &rarr;</button>
+        <div class="card-actions">
+          <button type="button" class="nav-button" id="prev-button" aria-label="Previous card" aria-keyshortcuts="ArrowLeft"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+          <div class="known-actions is-hidden" id="known-actions" role="group" aria-label="Do you know this word?" aria-hidden="true">
+            <button type="button" class="known-btn known-btn-no" id="not-yet-button" tabindex="-1" aria-keyshortcuts="N"><svg class="known-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9"/></svg>Not yet</button>
+            <button type="button" class="known-btn known-btn-yes" id="know-button" tabindex="-1" aria-pressed="false" aria-keyshortcuts="K"><svg class="known-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.8 3.8 7.2-8.6"/></svg>I know it</button>
+          </div>
+          <button type="button" class="nav-button" id="next-button" aria-label="Next card" aria-keyshortcuts="ArrowRight"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
       </div>
     </section>
 
     <section class="note-box">
       <h3>How does this page work?</h3>
-      <p><strong>In short:</strong> switch modes to choose which language shows first, or mix both randomly. Click
-        the loudspeaker 🔊 on each card and repeat the word out loud to train your pronunciation.</p>
+      <p><strong>In short:</strong> switch modes to choose which language shows first, or mix both randomly. Press
+        Listen on each card and repeat the word out loud to train your pronunciation. On each card, tap "I know it"
+        or "Not yet" &mdash; or swipe the card: right if you know the word, left if not. Tick "Only words to review"
+        to hide the words you already know; untick it and they all come back. You can change your mind about a word
+        at any time. <strong>Keyboard:</strong> Space flips the card, K = I know it, N = Not yet, &larr; &rarr; move
+        between cards.</p>
       <p class="note-box-tip"><strong>Teacher's tip:</strong> try "Français d'abord" mode — say the translation out
         loud before you flip the card, that's the real test. And little and often works best: a few minutes every
         day beats one long session the night before the test — come back often!</p>

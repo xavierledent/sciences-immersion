@@ -165,7 +165,7 @@ function overviewHtml(chapters, summaries) {
       <td class="d-num">${c.games.length ? `${s.gamesDone}<span class="b-of"> / ${c.games.length}</span>` : dash}</td>
       <td class="d-num">${c.labs.length ? `${s.labsChecked}<span class="b-of"> / ${c.labs.length}</span>` : dash}</td>
       <td>${c.autoevalItems.length ? bulbCounts(s.ratings) : dash}</td>
-      <td class="d-num">${Number(s.stats.vocabulary_cards_seen) || dash}</td>
+      <td class="d-num">${c.vocabCount ? `${s.vocabKnown.length}<span class="b-of"> / ${c.vocabCount}</span>` : dash}</td>
       <td class="d-num" data-tip="${esc(fullDate(s.lastActivity))}">${s.lastActivity ? relativeDay(s.lastActivity) : dash}</td></tr>`;
   }).join('');
   return `<section class="t-section s-overview">
@@ -173,7 +173,7 @@ function overviewHtml(chapters, summaries) {
     ${legend([3, 2, 1, 'answered', 'none'].map(k => LIGHT[k]))}
     <div class="t-scroll"><table class="t-table b-table s-ov-table"><thead><tr>
       <th>Chapitre</th><th>Exercices</th><th class="d-num">Jeux terminés</th><th class="d-num">Labos au Check</th>
-      <th>Autoévaluation</th><th class="d-num">Cartes vues</th><th class="d-num">Dernière activité</th></tr></thead>
+      <th>Autoévaluation</th><th class="d-num">Mots sus</th><th class="d-num">Dernière activité</th></tr></thead>
     <tbody>${rows}</tbody></table></div></section>`;
 }
 
@@ -257,8 +257,9 @@ function chapterHtml(chapter, s, ctx) {
       viz: `<div class="s-card-labs">${s.labs.map(l => `<span>${esc(labStatus(l.result).text)}</span>`).join('')}</div>` }),
     autoeval: () => ({ value: `${s.ratedCount}<span class="s-kpi-of"> / ${chapter.autoevalItems.length}</span>`, note: 'attendus évalués',
       viz: bulbCounts(s.ratings) }),
-    vocab: () => ({ value: `${n('vocabulary_cards_seen')}`, note: 'cartes vues',
-      viz: `<span class="d-cell-note">${n('vocabulary_sessions')} session(s) · ${n('resource_link_opened') + n('exploration_link_opened')} lien(s) ouvert(s)</span>` }),
+    vocab: () => ({ value: `${s.vocabKnown.length}<span class="s-kpi-of"> / ${chapter.vocabCount}</span>`, note: 'mots sus',
+      viz: miniBar([{ value: s.vocabKnown.length, color: '#4a6483' }], chapter.vocabCount) +
+        `<span class="d-cell-note">${n('vocabulary_cards_seen')} carte(s) vue(s) · ${n('resource_link_opened') + n('exploration_link_opened')} lien(s) ouvert(s)</span>` }),
     homework: () => {
       if (!ctx.hw) return { value: '—', note: 'lecture impossible', viz: '' };
       const h = homeworkSummary(ctx.hw, chapter.folder);
@@ -282,7 +283,7 @@ function chapterHtml(chapter, s, ctx) {
     games: () => gamesHtml(s),
     labs: () => labsHtml(chapter, s),
     autoeval: () => autoevalHtml(chapter, s),
-    vocab: () => vocabHtml(s.stats),
+    vocab: () => vocabHtml(chapter, s),
     homework: () => ctx.hw ? homeworkDetailHtml(ctx.hw, chapter.folder)
       : '<p class="t-help is-error">Les devoirs n’ont pas pu être lus. Rechargez la page.</p>'
   }[panel]();
@@ -400,13 +401,21 @@ function autoevalHtml(chapter, s) {
     }).join('')}</ul></div>`).join('')}</div>`;
 }
 
-// Vocabulaire et liens : des chiffres en tuiles.
-function vocabHtml(stats) {
+// Vocabulaire et liens : des chiffres en tuiles, puis les mots sus et ceux
+// qui restent à revoir.
+function vocabHtml(chapter, s) {
+  const stats = s.stats;
   const n = k => Number(stats[k]) || 0;
   const tile = (label, v) => `<div class="s-stat"><span class="d-kpi-value${v ? '' : ' d-zero'}">${v}</span><span class="d-kpi-label">${label}</span></div>`;
+  const known = new Set(s.vocabKnown);
+  const toReview = chapter.vocabWords.filter(w => !known.has(w));
+  const words = (title, list) => `<div><h4 class="s-h4">${title} (${list.length})</h4>
+    ${list.length ? `<p class="s-words">${list.map(esc).join(' · ')}</p>` : '<p class="t-muted">aucun</p>'}</div>`;
   return `<h4 class="s-h4">Vocabulaire</h4><div class="s-stats">
+      ${tile(`mots sus sur ${chapter.vocabCount}`, s.vocabKnown.length)}
       ${tile('sessions', n('vocabulary_sessions'))}${tile('cartes vues', n('vocabulary_cards_seen'))}
       ${tile('cartes retournées', n('vocabulary_flips'))}${tile('cartes écoutées', n('vocabulary_listens'))}</div>
+    ${chapter.vocabCount ? `<div class="s-ae-cols">${words('Mots sus', s.vocabKnown)}${words('À revoir', toReview)}</div>` : ''}
     <h4 class="s-h4">Liens ouverts</h4><div class="s-stats">
       ${tile('ressources', n('resource_link_opened'))}${tile('explorations', n('exploration_link_opened'))}</div>`;
 }
