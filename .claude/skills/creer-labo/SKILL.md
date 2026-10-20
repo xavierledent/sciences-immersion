@@ -5,9 +5,15 @@ description: Créer un nouveau labo virtuel sur le site Sciences en immersion, o
 
 # Créer un labo virtuel
 
-Un labo virtuel est la version à l'écran d'un labo que les élèves font en vrai
-en classe. Tous les labos partagent un cadre (lab-engine.js) et une même
-manière de faire : ce skill la garde d'un labo à l'autre. Les règles courtes
+« Labo » est à prendre au sens large : toute investigation qui suit la
+démarche scientifique (question de départ, hypothèse, expérience ou
+observation, conclusion qui répond à la question, vérification). Une
+manipulation à la paillasse, une sortie sur le terrain virtuelle (Inside two
+ecosystems), une expérience sur un modèle (une centrale, un réseau
+électrique)… : la forme est libre, la démarche ne l'est pas. Le plus souvent,
+c'est la version à l'écran d'un labo que les élèves font en vrai en classe.
+Tous les labos partagent un cadre (lab-engine.js) et une même manière de
+faire : ce skill la garde d'un labo à l'autre. Les règles courtes
 sont dans CLAUDE.md (section Règles, « Labos virtuels ») ; le détail est ici.
 
 Ne rien commiter sans demande de l'enseignant. Il ne lit pas le néerlandais :
@@ -41,7 +47,9 @@ Demander à l'enseignant, et attendre ses réponses :
    par catégorie. Si le fichier est vide ou absent, lui demander le tableau.
 3. **Les labos réels du chapitre** : pour chacun, le but, le matériel, le
    déroulement, ce que les élèves observent ou mesurent, ce qu'ils rendent
-   (rapport, fiche, graphique).
+   (rapport, fiche, graphique). Un labo réel apparaît dans le chapitre de
+   cours : si le chapitre n'en a pas et que l'enseignant le confirme, la
+   proposition part du cours lui-même (voir 2).
 
 Regarder aussi, sans demander : le `vocabulary.json` du chapitre (EN et NL),
 les fiches outils (`assets/Fiches outils/`, FO1 à FO8 : démarche, hypothèse,
@@ -50,7 +58,11 @@ déjà présents dans `tools/chapters.json`, pour ne pas refaire le même.
 
 ## 2. Proposer
 
-Pour chaque labo réel, une adaptation virtuelle courte :
+Pour chaque labo réel, une adaptation virtuelle courte. Sans labo réel
+(chapitre qui n'en prévoit pas, confirmé par l'enseignant) : plusieurs idées
+de labo, chacune ancrée dans une mission ou une notion du cours, de formes
+variées (paillasse, terrain, modèle, enquête…) tant qu'elle suit la démarche
+scientifique, présentées de la même façon :
 
 - **Attendus visés** : les `id` de autoeval.json qu'il fait travailler
   (« s2, sf3 »), et pourquoi en une phrase. Un labo qui n'en sert aucun se
@@ -66,9 +78,9 @@ Pour chaque labo réel, une adaptation virtuelle courte :
   rendu (description, temps accéléré), ou pourquoi on y renonce.
 
 Terminer par un bilan : les attendus couverts par l'ensemble des propositions,
-et ceux qu'aucun labo ne touche. L'enseignant choisit. Ne jamais inventer un
-labo qui n'est pas dans sa liste ; une variante ou un regroupement se propose
-comme tel.
+et ceux qu'aucun labo ne touche. L'enseignant choisit. Quand le chapitre a
+des labos réels, ne jamais inventer un labo qui n'est pas dans sa liste ; une
+variante ou un regroupement se propose comme tel.
 
 ## 3. Fiche de conception (à valider avant le code)
 
