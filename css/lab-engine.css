@@ -17,8 +17,9 @@
    d'étapes du labo. La ligne est tracée par chaque étape (::before) derrière
    son numéro, de son milieu (première) ou de son bord gauche jusqu'à son
    milieu (dernière) ou son bord droit. */
+/* Juste sous les cartes des labos, avant « How does this page work? ». */
 .lab-method-box {
-  margin-bottom: 24px;
+  margin-top: 24px;
   padding: 22px 22px 24px;
   border-radius: var(--radius);
   background: var(--color-surface);
