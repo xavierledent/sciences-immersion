@@ -72,7 +72,7 @@
       "questions": [
         {
           "question": "Which category does granite belong to?",
-          "image": "assets/QCM2-1b.jpg",
+          "image": "assets/QCM2-1b.webp",
           "options": [
             "Rocks",
             "Minerals",
@@ -96,7 +96,7 @@
         },
         {
           "question": "Which category does this belong to?",
-          "image": "assets/QCM2-3.jpg",
+          "image": "assets/QCM2-3.webp",
           "options": [
             "Fossil fuels",
             "Rocks",
@@ -108,7 +108,7 @@
         },
         {
           "question": "Which category does this belong to?",
-          "image": "assets/QCM2-4b.jpg",
+          "image": "assets/QCM2-4b.webp",
           "options": [
             "Organic resources",
             "Minerals",
@@ -151,7 +151,7 @@
       "questions": [
         {
           "question": "Which property does this picture show?",
-          "image": "assets/QCM3-1b.jpg",
+          "image": "assets/QCM3-1b.webp",
           "options": [
             "Luster",
             "Magnetism",
@@ -163,7 +163,7 @@
         },
         {
           "question": "Which property does this picture show?",
-          "image": "assets/QCM3-2b.jpg",
+          "image": "assets/QCM3-2b.webp",
           "options": [
             "Electrical conductivity",
             "Luster",
@@ -175,7 +175,7 @@
         },
         {
           "question": "Which property does this picture show?",
-          "image": "assets/QCM3-3.png",
+          "image": "assets/QCM3-3.webp",
           "options": [
             "Magnetism",
             "Luster",
@@ -307,7 +307,7 @@
         },
         {
           "question": "A steel water bottle feels cold very quickly when you touch it. Which metal property explains this best?",
-          "image": "assets/QCM5-2b.jpg",
+          "image": "assets/QCM5-2b.webp",
           "options": [
             "Thermal conductivity",
             "Malleability",
@@ -319,7 +319,7 @@
         },
         {
           "question": "Which test could scientists use to check if this \"silver\" coin is really made of metal, based on what we learned about metals?",
-          "image": "assets/QCM5-3b.jpg",
+          "image": "assets/QCM5-3b.webp",
           "options": [
             "Electrical conductivity",
             "The color of paint on the surface",
@@ -1039,7 +1039,7 @@
           "id": 4,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP3-4b.jpg"
+            "content": "assets/MTP3-4b.webp"
           },
           "sideB": {
             "type": "text",
@@ -1152,7 +1152,7 @@
           "id": 2,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP5-2b.jpg"
+            "content": "assets/MTP5-2b.webp"
           },
           "sideB": {
             "type": "text",
@@ -1174,7 +1174,7 @@
           "id": 4,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP5-4b.jpg"
+            "content": "assets/MTP5-4b.webp"
           },
           "sideB": {
             "type": "text",
@@ -1454,7 +1454,7 @@
           "id": 4,
           "category": "Renewable",
           "type": "image",
-          "content": "assets/SC5-4b.jpg"
+          "content": "assets/SC5-4b.webp"
         },
         {
           "id": 5,
@@ -1466,7 +1466,7 @@
           "id": 6,
           "category": "Non-renewable",
           "type": "image",
-          "content": "assets/SC5-6b.jpg"
+          "content": "assets/SC5-6b.webp"
         },
         {
           "id": 7,
@@ -1478,7 +1478,7 @@
           "id": 8,
           "category": "Non-renewable",
           "type": "image",
-          "content": "assets/SC5-8b.jpg"
+          "content": "assets/SC5-8b.webp"
         }
       ]
     }

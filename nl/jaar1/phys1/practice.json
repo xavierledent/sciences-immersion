@@ -30,7 +30,7 @@
     {
       "id": 4,
       "title": "Pompinstallatie voor aardolie",
-      "image": "oil-pump-jack.jpg",
+      "image": "oil-pump-jack.webp",
       "en": "Deze machine haalt een energiebron uit de grond. Wat is de Nederlandse naam van die energiebron? Is de natuurlijke voorraad beperkt of onbeperkt?",
       "fr": "Cette machine extrait une ressource d’énergie du sol. Quel est son nom en anglais ? Son stock naturel est-il limité ou illimité ?",
       "corr_en": "Aardolie. De natuurlijke voorraad is beperkt: het is een niet-hernieuwbare hulpbron.",
@@ -84,7 +84,7 @@
     {
       "id": 10,
       "title": "Symbolen van het energiestroomdiagram",
-      "image": "energy-flow-symbols.png",
+      "image": "energy-flow-symbols.webp",
       "en": "Dit is een energiestroomdiagram. Wat stellen de elementen 1 (cirkels), 2 (horizontale pijlen) en 3 (schuine pijlen) voor?",
       "fr": "Voici un diagramme de flux d’énergie. Que représentent les éléments 1 (cercles), 2 (flèches horizontales) et 3 (flèches diagonales) ?",
       "corr_en": "1 = de voorwerpen (bron, voorwerp, ontvanger); 2 = overgedragen energie; 3 = verloren energie.",
@@ -102,7 +102,7 @@
     {
       "id": 12,
       "title": "Powerbank",
-      "image": "power-bank.jpg",
+      "image": "power-bank.webp",
       "en": "Deze powerbank is een energiereservoir. In welke vorm is de energie erin opgeslagen?",
       "fr": "Cette batterie externe est un réservoir d’énergie. Sous quelle forme l’énergie y est-elle stockée ?",
       "corr_en": "Als chemische energie [C].",
@@ -138,7 +138,7 @@
     {
       "id": 16,
       "title": "Turbine en generator",
-      "image": "turbine-generator.jpg",
+      "image": "turbine-generator.webp",
       "en": "Benoem machines 1 en 2. Welke energie produceert machine 1 en wat doet machine 2 ermee?",
       "fr": "Nomme les machines 1 et 2. Quelle énergie la machine 1 produit-elle et que fait la machine 2 avec cette énergie ?",
       "corr_en": "1 = turbine: ze produceert mechanische energie. 2 = generator: ze zet mechanische energie om in elektrische energie.",
@@ -212,7 +212,7 @@
     {
       "id": 4,
       "title": "Omzetting in een broodrooster",
-      "image": "toaster.jpg",
+      "image": "toaster.webp",
       "en": "Bepaal de energievorm voor en na de omzetting in een broodrooster. Welke energie is hier nuttig?",
       "fr": "Identifie la forme d’énergie avant et après la transformation dans un grille-pain. Quelle énergie est utile ici ?",
       "corr_en": "Voor: elektrische energie. Na: thermische energie (en een beetje EMG-energie, het rode licht). De nuttige energie is de thermische energie die het brood roostert.",
@@ -230,7 +230,7 @@
     {
       "id": 6,
       "title": "Remmende fiets",
-      "image": "bicycle-brake.jpg",
+      "image": "bicycle-brake.webp",
       "en": "Wanneer je remt, stopt je fiets. Is de bewegingsenergie vernietigd? Leg uit waar ze naartoe gaat.",
       "fr": "Quand tu freines, ton vélo s’arrête. Son énergie de mouvement a-t-elle été détruite ? Explique où elle va.",
       "corr_en": "Nee, energie kan niet vernietigd worden. De mechanische energie van de fiets wordt in de remmen omgezet in thermische energie, waardoor ze warm worden, en die warmte gaat verloren in de lucht.",
@@ -248,7 +248,7 @@
     {
       "id": 8,
       "title": "Energiestroom van een waterkoker",
-      "image": "kettle-flow.jpg",
+      "image": "kettle-flow.webp",
       "questions": [
         {
           "en": "Dit is het energiestroomdiagram van een elektrische waterkoker. Welke energievorm wordt overgedragen door pijl 1?",
@@ -306,7 +306,7 @@
     {
       "id": 12,
       "title": "Staafdiagram van het vermogen",
-      "image": "power-bar-chart-nl.png",
+      "image": "power-bar-chart-nl.webp",
       "questions": [
         {
           "en": "Dit staafdiagram toont het elektrisch vermogen van 7 huishoudtoestellen. Welk toestel gebruikt de meeste energie per seconde? Geef zijn vermogen.",
@@ -340,7 +340,7 @@
     {
       "id": 14,
       "title": "Van de dam tot de draden",
-      "image": "hydro-plant-nl.png",
+      "image": "hydro-plant-nl.webp",
       "en": "Beschrijf de energieomzettingen in een waterkrachtcentrale, van het water achter de dam tot de elektriciteit in de draden.",
       "fr": "Décris les transformations d’énergie dans une centrale hydroélectrique, de l’eau derrière le barrage jusqu’à l’électricité dans les câbles.",
       "corr_en": "Het water hoog achter de dam slaat mechanische energie op. Wanneer het valt, laat zijn beweging (mechanische energie) de turbine draaien, en de generator zet deze mechanische energie om in elektrische energie.",
@@ -376,7 +376,7 @@
     {
       "id": 18,
       "title": "Windpark op zee",
-      "image": "offshore-wind-farm.jpg",
+      "image": "offshore-wind-farm.webp",
       "en": "Geef met het wetenschappelijk rapport van de Franse uitdaging één voordeel en één nadeel van windturbines voor de Belgische elektriciteit.",
       "fr": "À l’aide du rapport scientifique du French challenge, donne un avantage et un inconvénient des éoliennes pour l’électricité de la Belgique.",
       "corr_en": "Voordeel: wind is hernieuwbaar en de turbines stoten geen CO2 uit. Nadeel: ze hangen af van het weer (geen wind, geen elektriciteit) en ze hebben veel ruimte nodig.",
@@ -394,7 +394,7 @@
     {
       "id": 20,
       "title": "Opslagcodes",
-      "image": "storage-codes.jpg",
+      "image": "storage-codes.webp",
       "en": "Deze 4 voorwerpen zijn energiereservoirs. Geef de opslagcode van elk voorwerp ([C] chemisch, [M] mechanisch, [T] thermisch) en verantwoord kort.",
       "fr": "Ces 4 objets sont des réservoirs d’énergie. Donne le code de stockage de chacun ([C] chimique, [M] mécanique, [T] thermique) et justifie brièvement.",
       "corr_en": "1 [M]: spanning van de boog. 2 [C]: chemische energie in de brandstof. 3 [T]: opgesloten warmte. 4 [M]: hoogte van de rots.",
@@ -414,7 +414,7 @@
     {
       "id": 2,
       "title": "Productiecurve van zonnestroom",
-      "image": "solar-curve-nl.png",
+      "image": "solar-curve-nl.webp",
       "questions": [
         {
           "en": "Deze lijngrafiek toont het elektrisch vermogen dat hetzelfde zonnepaneel produceert op een zonnige en op een bewolkte dag. Op welk uur is de productie het hoogst op de zonnige dag, en hoeveel bedraagt ze?",
@@ -472,7 +472,7 @@
     {
       "id": 6,
       "title": "Analyse van een kerncentrale",
-      "image": "nuclear-plant-diagram.jpg",
+      "image": "nuclear-plant-diagram.webp",
       "questions": [
         {
           "en": "Dit schema toont een kerncentrale. In welke vorm is de energie in het uranium opgeslagen en wat gebeurt ermee in deel 1 (de reactor)?",
@@ -530,7 +530,7 @@
     {
       "id": 10,
       "title": "Zonnecentrale in de woestijn",
-      "image": "desert-solar-plant.jpg",
+      "image": "desert-solar-plant.webp",
       "en": "Marokko heeft in de woestijn een van de grootste zonnecentrales ter wereld gebouwd. Waarom is de woestijn een goede plaats daarvoor? Geef twee voordelen in vergelijking met een steenkoolcentrale en één beperking van zonne-energie.",
       "fr": "Le Maroc a construit l’une des plus grandes centrales solaires du monde, dans le désert. Pourquoi le désert est-il un bon endroit ? Donne deux avantages par rapport à une centrale au charbon, et une limite de l’énergie solaire.",
       "corr_en": "In de woestijn schijnt de zon bijna elke dag, dus de centrale ontvangt veel EMG-energie (licht). Voordelen: de zon is een hernieuwbare hulpbron die nooit opraakt, en er wordt niets verbrand, dus er komt geen CO2 vrij. Beperking: ’s nachts is er geen productie, en elektriciteit kan niet rechtstreeks worden opgeslagen, dus ze moet eerst worden omgezet en in een andere vorm worden opgeslagen.",
@@ -548,7 +548,7 @@
     {
       "id": 12,
       "title": "Cirkeldiagram van Solaria",
-      "image": "solaria-pie-chart-nl.png",
+      "image": "solaria-pie-chart-nl.webp",
       "questions": [
         {
           "en": "Dit cirkeldiagram toont hoe het denkbeeldige land Solaria vorig jaar zijn elektriciteit produceerde. Welk percentage kwam van hernieuwbare hulpbronnen? Toon je berekening.",
@@ -582,7 +582,7 @@
     {
       "id": 14,
       "title": "Led of gewone lamp",
-      "image": "led-vs-bulb.jpg",
+      "image": "led-vs-bulb.webp",
       "en": "Een gewone gloeilamp (60 W) en een ledlamp (10 W) geven evenveel licht. Leg dit verschil uit met het idee van een energiestroomdiagram, en waarom het gebruik van ledlampen helpt om de planeet te beschermen.",
       "fr": "Une ampoule classique (60 W) et une ampoule LED (10 W) donnent la même quantité de lumière. En t’appuyant sur l’idée du diagramme de flux d’énergie, explique cette différence et pourquoi utiliser des LED aide à protéger la planète.",
       "corr_en": "Beide zetten elektrische energie om in EMG-energie (licht) en thermische energie. De gewone lamp verliest het grootste deel van haar energie als warmte (ze wordt heel heet), terwijl de led veel minder verliest. De led heeft dus 6 keer minder vermogen nodig voor hetzelfde nuttige licht. Er is minder elektriciteit nodig, dus centrales verbranden minder gas en stoten minder CO2 uit.",
@@ -600,7 +600,7 @@
     {
       "id": 16,
       "title": "Zaklamp met slinger",
-      "image": "crank-flashlight.jpg",
+      "image": "crank-flashlight.webp",
       "en": "Deze zaklamp heeft geen batterij: je draait aan een handvat om ze te laten schijnen. Beschrijf de energieketen van je ontbijt tot het licht, en leg uit wat deze zaklamp gemeen heeft met een centrale.",
       "fr": "Cette lampe de poche n’a pas de pile : on tourne une manivelle pour qu’elle éclaire. Décris la chaîne énergétique de ton petit-déjeuner jusqu’à la lumière, et explique ce que cette lampe a en commun avec une centrale électrique.",
       "corr_en": "Voedsel slaat chemische energie op. Je spieren zetten ze om in mechanische energie door aan het handvat te draaien. Een kleine generator zet deze mechanische energie om in elektrische energie, en het lampje zet ze om in EMG-energie (licht). Bij elke stap gaat wat energie verloren als warmte in je lichaam en in de machine. Zoals in een centrale laat een beweging een generator draaien om elektriciteit te produceren.",
@@ -636,7 +636,7 @@
     {
       "id": 20,
       "title": "Pompcentrale",
-      "image": "pumped-storage.jpg",
+      "image": "pumped-storage.webp",
       "questions": [
         {
           "en": "In Coo (België) heeft een bijzondere centrale twee meren op verschillende hoogtes. ’s Nachts, wanneer weinig elektriciteit wordt gebruikt, pompen pompen water van het onderste meer (2) naar het bovenste meer (1). In welke vorm is de energie in het bovenste meer opgeslagen?",

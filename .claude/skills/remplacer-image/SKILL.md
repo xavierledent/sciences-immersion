@@ -18,7 +18,7 @@ Chercher le nom du fichier dans les JSON des deux filières (`en/year1/` et
 - si c'est le fond d'un glisser-déposer (`backgroundImage`), auquel cas les
   zones de dépôt dépendent de l'image.
 
-Rappel de format : `practice.json` stocke le nom seul (`"N1-6b.jpg"`),
+Rappel de format : `practice.json` stocke le nom seul (`"N1-6b.webp"`),
 `interactive.json` le chemin (`"assets/QCM1.webp"`). Détail dans
 `docs/formats-donnees.md`.
 
@@ -38,8 +38,8 @@ les deux avant de valider le choix.
 
 - **Nouveau nom, toujours.** Le service worker sert les images depuis son
   cache : un fichier remplacé sous le même nom resterait l'ancien chez les
-  élèves. Convention en place : suffixe `b` (`N1-6b.jpg`) ou `-2`
-  (`clownfish-2.jpg`), puis `c` ou `-3` au remplacement suivant.
+  élèves. Convention en place : suffixe `b` (`N1-6b.webp`) ou `-2`
+  (`clownfish-2.webp`), puis `c` ou `-3` au remplacement suivant.
 - Nom sans espace, en respectant exactement la casse dans le JSON : GitHub
   Pages distingue majuscules et minuscules.
 - Format WebP de préférence, sinon JPEG qualité 85. Viser moins de 200 Ko.

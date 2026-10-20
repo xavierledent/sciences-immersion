@@ -30,7 +30,7 @@
     {
       "id": 4,
       "title": "Een voedselweb-schema lezen",
-      "image": "desert-food-web-2.jpg",
+      "image": "desert-food-web-2.webp",
       "questions": [
         {
           "en": "Noem één producent die op het schema te zien is.",
@@ -124,7 +124,7 @@
     {
       "id": 10,
       "title": "Bij en bloem — Interactie",
-      "image": "bee-flower-2.jpg",
+      "image": "bee-flower-2.webp",
       "en": "Welk type interactie is te zien op de afbeelding: predatie, mutualisme of competitie?",
       "fr": "Quel type d'interaction est représenté sur l'image : prédation, mutualisme ou compétition ?",
       "corr_en": "Mutualisme: de bij krijgt nectar en de bloem wordt bestoven.",
@@ -160,7 +160,7 @@
     {
       "id": 14,
       "title": "Biodiversiteit op een golfterrein",
-      "image": "golf-course-2.jpg",
+      "image": "golf-course-2.webp",
       "en": "Verwacht je, gezien de afbeelding, dat deze omgeving een hoge of lage biodiversiteit heeft? Geef één reden.",
       "fr": "En observant l'image, penses-tu que cet environnement a une biodiversité élevée ou faible ? Donne une raison.",
       "corr_en": "Lage biodiversiteit: het bestaat vooral uit één soort gras, met heel weinig andere planten- of diersoorten.",
@@ -214,7 +214,7 @@
     {
       "id": 20,
       "title": "Zuigvis en haai",
-      "image": "remora2.jpg",
+      "image": "remora2.webp",
       "en": "De zuigvis eet de voedselresten van de haai, en de haai ondervindt hier geen invloed van. Noem dit type interactie.",
       "fr": "Le poisson rémora mange les restes de nourriture du requin, et le requin n'est pas affecté. Nomme ce type d'interaction.",
       "corr_en": "Commensalisme (+ / 0).",
@@ -234,7 +234,7 @@
     {
       "id": 2,
       "title": "Een voedselweb analyseren",
-      "image": "food-web-forest.jpg",
+      "image": "food-web-forest.webp",
       "questions": [
         {
           "en": "Welke toppredator jaagt op het hert?",
@@ -350,7 +350,7 @@
     {
       "id": 10,
       "title": "Commensalisme versus mutualisme",
-      "image": "remora2.jpg",
+      "image": "remora2.webp",
       "en": "Leg uit waarom deze interactie commensalisme wordt genoemd en geen mutualisme.",
       "fr": "Explique pourquoi cette interaction s'appelle du commensalisme et non du mutualisme.",
       "corr_en": "Het is commensalisme omdat enkel de zuigvis er voordeel bij heeft (hij eet de voedselresten); de haai wordt noch geholpen, noch benadeeld (0), terwijl mutualisme vereist dat beide soorten er voordeel bij hebben.",
@@ -368,7 +368,7 @@
     {
       "id": 12,
       "title": "Clownvis en zeeanemoon",
-      "image": "clownfish-2.jpg",
+      "image": "clownfish-2.webp",
       "en": "Leg uit wat elk organisme uit deze relatie haalt.",
       "fr": "Explique ce que chaque organisme gagne dans cette relation.",
       "corr_en": "De clownvis krijgt bescherming tegen predatoren tussen de tentakels van de anemoon; de anemoon wordt schoongemaakt en profiteert ook van voedselresten en een betere waterstroming dankzij de vis.",
@@ -624,7 +624,7 @@
     {
       "id": 18,
       "title": "Clownvis en zeeanemoon",
-      "image": "clownfish-2.jpg",
+      "image": "clownfish-2.webp",
       "en": "Leg uit wat er met beide organismen zou gebeuren als ze gedwongen gescheiden zouden worden, en gebruik dit om te verantwoorden waarom sommige wetenschappers deze relatie dicht bij symbiose vinden aanleunen.",
       "fr": "Explique ce qui arriverait aux deux organismes s'ils étaient séparés de force, et utilise cela pour justifier pourquoi certains scientifiques considèrent cette relation proche de la symbiose.",
       "corr_en": "Zonder de anemoon zou de clownvis zijn belangrijkste bescherming tegen predatoren verliezen en kwetsbaarder worden; zonder de vis zou de anemoon de voordelen van reiniging, voedselresten en waterstroming verliezen, en meer blootgesteld kunnen worden aan bepaalde predatoren. Omdat beide een reëel nadeel ondervinden wanneer ze gescheiden worden, overstijgt de relatie eenvoudig mutualisme en benadert ze een verplichte symbiose, vooral voor de vis.",

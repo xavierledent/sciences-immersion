@@ -48,7 +48,7 @@
     {
       "id": 6,
       "title": "Staircase rock",
-      "image": "N1-6b.jpg",
+      "image": "N1-6b.webp",
       "en": "Which rock is shown being used for this staircase?",
       "fr": "Quelle roche est utilisée pour cet escalier ?",
       "corr_en": "Marble.",
@@ -66,7 +66,7 @@
     {
       "id": 8,
       "title": "Copper wire",
-      "image": "N1-8b.jpg",
+      "image": "N1-8b.webp",
       "en": "This copper has been shaped into a thin wire. Which metal property does this show?",
       "fr": "Ce cuivre a été façonné en fil fin. Quelle propriété du métal cela montre-t-il ?",
       "corr_en": "Malleability.",
@@ -84,7 +84,7 @@
     {
       "id": 10,
       "title": "Paperclips",
-      "image": "N1-10b.jpg",
+      "image": "N1-10b.webp",
       "en": "Look at the picture. What metal property is being demonstrated?",
       "fr": "Observe l'image. Quelle propriété du métal est démontrée ?",
       "corr_en": "Magnetism.",
@@ -102,7 +102,7 @@
     {
       "id": 12,
       "title": "Polished copper",
-      "image": "N1-12b.jpg",
+      "image": "N1-12b.webp",
       "en": "The copper in the picture looks shiny when polished. What is this property called?",
       "fr": "Le cuivre de l'image brille quand il est poli. Comment appelle-t-on cette propriété ?",
       "corr_en": "Luster.",
@@ -266,7 +266,7 @@
     {
       "id": 10,
       "title": "Graphite for pencils",
-      "image": "N2 - 10.png",
+      "image": "N2 - 10.webp",
       "en": "Explain why graphite is used to make pencils, based on one of its properties.",
       "fr": "Explique pourquoi le graphite est utilisé pour fabriquer des crayons, en te basant sur une de ses propriétés.",
       "corr_en": "Graphite is a soft, dark mineral that leaves marks easily when rubbed on paper, which makes it useful for writing.",
@@ -394,7 +394,7 @@
     {
       "id": 4,
       "title": "Cutlery metal properties",
-      "image": "N3-4b.jpg",
+      "image": "N3-4b.webp",
       "en": "Kitchen cutlery is often made of a metal that resists rust and stays shiny. Analyze which properties studied in class (luster, conductivity, magnetism, malleability) would have guided engineers to choose a metal for cutlery, and justify each.",
       "fr": "Les couverts de cuisine sont souvent faits d'un métal résistant à la rouille qui reste brillant. Analyse quelles propriétés vues en classe (éclat, conductivité, magnétisme, malléabilité) auraient guidé les ingénieurs à choisir un métal pour les couverts, et justifie chacune.",
       "corr_en": "Luster matters for appearance, since shiny cutlery looks clean and attractive; malleability is needed to shape the metal into thin fork prongs and spoon bowls; conductivity is less important here, but thermal conductivity should be moderate so the handle doesn't get too hot; magnetism is irrelevant to this use.",
@@ -448,7 +448,7 @@
     {
       "id": 10,
       "title": "Gold ring authenticity test",
-      "image": "N3-10b.jpg",
+      "image": "N3-10b.webp",
       "en": "You want to check if a ring is real gold or only gold-plated metal. Design an experiment using at least two physical properties studied in class, and explain what result would prove it is not pure gold.",
       "fr": "Tu veux vérifier si une bague est en or véritable ou seulement plaquée or. Conçois une expérience utilisant au moins deux propriétés physiques vues en classe, et explique quel résultat prouverait qu'elle n'est pas en or pur.",
       "corr_en": "I would test luster after a small scratch (real gold stays gold-colored underneath, plated metal reveals a different color base metal) and test electrical conductivity, since gold conducts very well; if the scratched spot shows a different color, or conductivity is unusually low, the ring is not pure gold, only plated.",
@@ -466,7 +466,7 @@
     {
       "id": 12,
       "title": "Decomposition times bar chart",
-      "image": "N3 - 12.png",
+      "image": "N3 - 12.webp",
       "en": "Look at the bar chart of decomposition times for six items. A hiker leaves a banana peel, an aluminum can, a plastic bottle and a glass bottle behind in a forest. Using the chart, rank their long-term impact.",
       "fr": "Observe l'histogramme des temps de décomposition de six objets. Un randonneur laisse une pelure de banane, une canette en aluminium, une bouteille en plastique et une bouteille en verre dans une forêt. À l'aide du graphique, classe leur impact à long terme.",
       "corr_en": "From least to most impact: banana peel (weeks) < aluminum can (~50 years) < plastic bottle (~450 years) < glass bottle (~4000 years). A log scale is needed because values range from a few weeks to thousands of years.",
@@ -502,7 +502,7 @@
     {
       "id": 16,
       "title": "Laptop raw materials",
-      "image": "N3-16b.jpg",
+      "image": "N3-16b.webp",
       "en": "Using what you know about smartphone materials, predict which raw materials a laptop computer would need, and explain why its lifecycle raises similar environmental concerns.",
       "fr": "En te basant sur ce que tu sais des matériaux des smartphones, prédis quelles matières premières un ordinateur portable nécessiterait, et explique pourquoi son cycle de vie soulève des préoccupations environnementales similaires.",
       "corr_en": "Like a smartphone, a laptop would need lithium for its battery, copper and gold for its circuits and wires, silicon for its screen, and aluminum or plastic for its casing; because it also depends on dozens of mined materials from open-pit mines worldwide, its extraction and disposal raise the same risks of landscape destruction and toxic pollution if not recycled properly.",
@@ -538,7 +538,7 @@
     {
       "id": 20,
       "title": "School e-waste proposal",
-      "image": "N3 - 20.png",
+      "image": "N3 - 20.webp",
       "en": "Design a proposal for your school to reduce electronic waste (old calculators, phones, chargers), integrating at least two steps of the object lifecycle and one of the 3 R's.",
       "fr": "Conçois une proposition pour ton école afin de réduire les déchets électroniques (vieilles calculatrices, téléphones, chargeurs), en intégrant au moins deux étapes du cycle de vie de l'objet et un des 3 R.",
       "corr_en": "The school could set up a collection bin (disposal step) for broken electronics, partner with a certified recycler to recover metals like copper and gold instead of sending them to landfill (recycling step), and organize a repair workshop so students extend the use phase of their devices, applying the \"reduce\" principle by delaying the need for new raw material extraction.",

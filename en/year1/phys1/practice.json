@@ -30,7 +30,7 @@
     {
       "id": 4,
       "title": "Oil pump jack",
-      "image": "oil-pump-jack.jpg",
+      "image": "oil-pump-jack.webp",
       "en": "This machine extracts an energy resource from the ground. What is its English name? Is its natural stock limited or unlimited?",
       "fr": "Cette machine extrait une ressource d’énergie du sol. Quel est son nom en anglais ? Son stock naturel est-il limité ou illimité ?",
       "corr_en": "Oil. Its natural stock is limited: it is a non-renewable resource.",
@@ -84,7 +84,7 @@
     {
       "id": 10,
       "title": "Energy flow symbols",
-      "image": "energy-flow-symbols.png",
+      "image": "energy-flow-symbols.webp",
       "en": "This is an energy flow diagram. What do elements 1 (circles), 2 (horizontal arrows) and 3 (diagonal arrows) represent?",
       "fr": "Voici un diagramme de flux d’énergie. Que représentent les éléments 1 (cercles), 2 (flèches horizontales) et 3 (flèches diagonales) ?",
       "corr_en": "1 = the objects (source, object, receiver); 2 = transferred energy; 3 = lost energy.",
@@ -102,7 +102,7 @@
     {
       "id": 12,
       "title": "Power bank",
-      "image": "power-bank.jpg",
+      "image": "power-bank.webp",
       "en": "This power bank is an energy reservoir. In which form is the energy stored inside it?",
       "fr": "Cette batterie externe est un réservoir d’énergie. Sous quelle forme l’énergie y est-elle stockée ?",
       "corr_en": "As chemical energy [C].",
@@ -138,7 +138,7 @@
     {
       "id": 16,
       "title": "Turbine and generator",
-      "image": "turbine-generator.jpg",
+      "image": "turbine-generator.webp",
       "en": "Name machines 1 and 2. What energy does machine 1 produce, and what does machine 2 do with it?",
       "fr": "Nomme les machines 1 et 2. Quelle énergie la machine 1 produit-elle et que fait la machine 2 avec cette énergie ?",
       "corr_en": "1 = turbine: it produces mechanical energy. 2 = generator: it transforms mechanical energy into electrical energy.",
@@ -212,7 +212,7 @@
     {
       "id": 4,
       "title": "Toaster transformation",
-      "image": "toaster.jpg",
+      "image": "toaster.webp",
       "en": "Identify the form of energy before and after the transformation in a toaster. Which energy is useful here?",
       "fr": "Identifie la forme d’énergie avant et après la transformation dans un grille-pain. Quelle énergie est utile ici ?",
       "corr_en": "Before: electrical energy. After: thermal energy (and a little EMW energy, the red light). The useful energy is the thermal energy that toasts the bread.",
@@ -230,7 +230,7 @@
     {
       "id": 6,
       "title": "Braking bicycle",
-      "image": "bicycle-brake.jpg",
+      "image": "bicycle-brake.webp",
       "en": "When you brake, your bicycle stops. Has its movement energy been destroyed? Explain where it goes.",
       "fr": "Quand tu freines, ton vélo s’arrête. Son énergie de mouvement a-t-elle été détruite ? Explique où elle va.",
       "corr_en": "No, energy cannot be destroyed. The mechanical energy of the bicycle is transformed into thermal energy in the brakes, which get hot, and this heat is lost into the air.",
@@ -248,7 +248,7 @@
     {
       "id": 8,
       "title": "Kettle energy flow",
-      "image": "kettle-flow.jpg",
+      "image": "kettle-flow.webp",
       "questions": [
         {
           "en": "This is the energy flow diagram of an electric kettle. Which form of energy is transferred by arrow 1?",
@@ -306,7 +306,7 @@
     {
       "id": 12,
       "title": "Power bar chart",
-      "image": "power-bar-chart.png",
+      "image": "power-bar-chart.webp",
       "questions": [
         {
           "en": "This bar chart shows the electrical power of 7 household devices. Which device uses the most energy per second? Give its power.",
@@ -340,7 +340,7 @@
     {
       "id": 14,
       "title": "From dam to wires",
-      "image": "hydro-plant.png",
+      "image": "hydro-plant.webp",
       "en": "Describe the energy transformations in a hydroelectric power plant, from the water behind the dam to the electricity in the wires.",
       "fr": "Décris les transformations d’énergie dans une centrale hydroélectrique, de l’eau derrière le barrage jusqu’à l’électricité dans les câbles.",
       "corr_en": "The water high behind the dam stores mechanical energy. When it falls, its movement (mechanical energy) spins the turbine, and the generator transforms this mechanical energy into electrical energy.",
@@ -376,7 +376,7 @@
     {
       "id": 18,
       "title": "Offshore wind farm",
-      "image": "offshore-wind-farm.jpg",
+      "image": "offshore-wind-farm.webp",
       "en": "Using the scientific report of the French challenge, give one advantage and one disadvantage of wind turbines for Belgium’s electricity.",
       "fr": "À l’aide du rapport scientifique du French challenge, donne un avantage et un inconvénient des éoliennes pour l’électricité de la Belgique.",
       "corr_en": "Advantage: wind is renewable and the turbines release no CO2. Disadvantage: they depend on the weather (no wind, no electricity) and they need a lot of space.",
@@ -394,7 +394,7 @@
     {
       "id": 20,
       "title": "Storage codes",
-      "image": "storage-codes.jpg",
+      "image": "storage-codes.webp",
       "en": "These 4 objects are energy reservoirs. Give the storage code of each one ([C] chemical, [M] mechanical, [T] thermal) and justify briefly.",
       "fr": "Ces 4 objets sont des réservoirs d’énergie. Donne le code de stockage de chacun ([C] chimique, [M] mécanique, [T] thermique) et justifie brièvement.",
       "corr_en": "1 [M]: tension of the bow. 2 [C]: chemical energy in the fuel. 3 [T]: trapped heat. 4 [M]: height of the rock.",
@@ -414,7 +414,7 @@
     {
       "id": 2,
       "title": "Solar production curve",
-      "image": "solar-curve.png",
+      "image": "solar-curve.webp",
       "questions": [
         {
           "en": "This line graph shows the electrical power produced by the same solar panel on a sunny day and on a cloudy day. At what time is the production highest on the sunny day, and how much is it?",
@@ -472,7 +472,7 @@
     {
       "id": 6,
       "title": "Nuclear plant analysis",
-      "image": "nuclear-plant-diagram.jpg",
+      "image": "nuclear-plant-diagram.webp",
       "questions": [
         {
           "en": "This diagram shows a nuclear power plant. In which form is the energy stored in the uranium, and what happens to it in part 1 (the reactor)?",
@@ -530,7 +530,7 @@
     {
       "id": 10,
       "title": "Desert solar plant",
-      "image": "desert-solar-plant.jpg",
+      "image": "desert-solar-plant.webp",
       "en": "Morocco has built one of the biggest solar power plants in the world, in the desert. Why is the desert a good place for it? Give two advantages compared with a coal power plant, and one limit of solar energy.",
       "fr": "Le Maroc a construit l’une des plus grandes centrales solaires du monde, dans le désert. Pourquoi le désert est-il un bon endroit ? Donne deux avantages par rapport à une centrale au charbon, et une limite de l’énergie solaire.",
       "corr_en": "In the desert, the sun shines almost every day, so the plant receives a lot of EMW energy (light). Advantages: the sun is a renewable resource that will never run out, and nothing is burned, so no CO2 is released. Limit: there is no production at night, and electricity cannot be stored directly, so it must first be transformed and stored in another form.",
@@ -548,7 +548,7 @@
     {
       "id": 12,
       "title": "Solaria pie chart",
-      "image": "solaria-pie-chart.png",
+      "image": "solaria-pie-chart.webp",
       "questions": [
         {
           "en": "This pie chart shows how the imaginary country Solaria produced its electricity last year. What percentage came from renewable resources? Show your calculation.",
@@ -582,7 +582,7 @@
     {
       "id": 14,
       "title": "LED versus traditional",
-      "image": "led-vs-bulb.jpg",
+      "image": "led-vs-bulb.webp",
       "en": "A traditional light bulb (60 W) and an LED bulb (10 W) give the same amount of light. Using the idea of an energy flow diagram, explain this difference and why using LED bulbs helps protect the planet.",
       "fr": "Une ampoule classique (60 W) et une ampoule LED (10 W) donnent la même quantité de lumière. En t’appuyant sur l’idée du diagramme de flux d’énergie, explique cette différence et pourquoi utiliser des LED aide à protéger la planète.",
       "corr_en": "Both transform electrical energy into EMW energy (light) and thermal energy. The traditional bulb loses most of its energy as heat (it gets very hot), while the LED loses much less. So the LED needs 6 times less power for the same useful light. Less electricity is needed, so power plants burn less gas and release less CO2.",
@@ -600,7 +600,7 @@
     {
       "id": 16,
       "title": "Crank flashlight",
-      "image": "crank-flashlight.jpg",
+      "image": "crank-flashlight.webp",
       "en": "This flashlight has no battery: you turn a handle to make it shine. Describe the energy chain from your breakfast to the light, and explain what this flashlight has in common with a power plant.",
       "fr": "Cette lampe de poche n’a pas de pile : on tourne une manivelle pour qu’elle éclaire. Décris la chaîne énergétique de ton petit-déjeuner jusqu’à la lumière, et explique ce que cette lampe a en commun avec une centrale électrique.",
       "corr_en": "Food stores chemical energy. Your muscles transform it into mechanical energy by turning the handle. A small generator transforms this mechanical energy into electrical energy, and the bulb transforms it into EMW energy (light). Some energy is lost as heat in your body and in the machine. Like in a power plant, a movement spins a generator to produce electricity.",
@@ -636,7 +636,7 @@
     {
       "id": 20,
       "title": "Pumped storage plant",
-      "image": "pumped-storage.jpg",
+      "image": "pumped-storage.webp",
       "questions": [
         {
           "en": "At Coo (Belgium), a special power plant has two lakes at different heights. At night, when little electricity is used, pumps send water from the lower lake (2) to the upper lake (1). In which form is the energy stored in the upper lake?",

@@ -553,7 +553,7 @@
     {
       "id": "dnd-1",
       "quizTitle": "Ecologische interacties",
-      "backgroundImage": "assets/DnD 2b.jpg",
+      "backgroundImage": "assets/DnD 2b.webp",
       "hideOnSuccess": true,
       "reservoirItems": [
         "Predatie",
@@ -588,7 +588,7 @@
     {
       "id": "dnd-2",
       "quizTitle": "De kringloop van de stof",
-      "backgroundImage": "assets/DnD 1-nl.jpg",
+      "backgroundImage": "assets/DnD 1-nl.webp",
       "hideOnSuccess": true,
       "reservoirItems": [
         "Biocenose",
@@ -677,7 +677,7 @@
     {
       "id": "dnd-4",
       "quizTitle": "Trofische niveaus en rollen",
-      "backgroundImage": "assets/DnD 4.jpg",
+      "backgroundImage": "assets/DnD 4.webp",
       "hideOnSuccess": true,
       "reservoirItems": [
         "Producent",
@@ -718,7 +718,7 @@
     {
       "id": "dnd-5",
       "quizTitle": "Woordenschat levende wezens",
-      "backgroundImage": "assets/vocabulary-animals-2.jpg",
+      "backgroundImage": "assets/vocabulary-animals-2.webp",
       "hideOnSuccess": true,
       "instructions": "Vind het juiste Nederlandse woord voor elk levend wezen op deze afbeelding",
       "reservoirItems": [
@@ -842,7 +842,7 @@
           "id": 1,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP ind.jpg"
+            "content": "assets/MTP ind.webp"
           },
           "sideB": {
             "type": "text",
@@ -875,7 +875,7 @@
           "id": 4,
           "sideA": {
             "type": "image",
-            "content": "assets/MTP bio.jpg"
+            "content": "assets/MTP bio.webp"
           },
           "sideB": {
             "type": "text",
@@ -1016,7 +1016,7 @@
           "id": 1,
           "category": "Autotrofen",
           "type": "image",
-          "content": "assets/SG1.jpg"
+          "content": "assets/SG1.webp"
         },
         {
           "id": 2,
@@ -1028,7 +1028,7 @@
           "id": 3,
           "category": "Autotrofen",
           "type": "image",
-          "content": "assets/SG3.jpg"
+          "content": "assets/SG3.webp"
         },
         {
           "id": 4,

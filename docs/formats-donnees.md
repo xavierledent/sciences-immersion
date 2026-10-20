@@ -95,7 +95,7 @@ et en donne un neuf à un jeu créé.
   }],
   "dragAndDrop": [{
     "quizTitle": "Ecological Interactions",
-    "backgroundImage": "assets/DnD 2b.jpg",
+    "backgroundImage": "assets/DnD 2b.webp",
     "hideOnSuccess": true,
     "reservoirItems": ["Predation", "Mutualism"],
     "dropZones": [{ "x_pourcent": 23.63, "y_pourcent": 25.14, "acceptedText": "Predation" }]
@@ -104,7 +104,7 @@ et en donne un neuf à un jeu créé.
     "quizTitle": "Levels of Organization",
     "pairs": [{
       "id": 1,
-      "sideA": { "type": "image", "content": "assets/MTP ind.jpg" },
+      "sideA": { "type": "image", "content": "assets/MTP ind.webp" },
       "sideB": { "type": "text", "content": "Individual" }
     }]
   }],

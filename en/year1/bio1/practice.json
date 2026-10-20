@@ -30,7 +30,7 @@
     {
       "id": 4,
       "title": "Reading a Food Web Diagram",
-      "image": "desert-food-web-2.jpg",
+      "image": "desert-food-web-2.webp",
       "questions": [
         {
           "en": "Name one producer shown in the diagram.",
@@ -124,7 +124,7 @@
     {
       "id": 10,
       "title": "Bee and Flower — Interaction",
-      "image": "bee-flower-2.jpg",
+      "image": "bee-flower-2.webp",
       "en": "Which type of interaction is shown in the picture: predation, mutualism, or competition?",
       "fr": "Quel type d'interaction est représenté sur l'image : prédation, mutualisme ou compétition ?",
       "corr_en": "Mutualism: the bee gets nectar and the flower gets pollinated.",
@@ -160,7 +160,7 @@
     {
       "id": 14,
       "title": "Golf Course Biodiversity",
-      "image": "golf-course-2.jpg",
+      "image": "golf-course-2.webp",
       "en": "Looking at the picture, would you expect this environment to have high or low biodiversity? Give one reason.",
       "fr": "En observant l'image, penses-tu que cet environnement a une biodiversité élevée ou faible ? Donne une raison.",
       "corr_en": "Low biodiversity: it is mostly a single type of grass, with very few other plant or animal species.",
@@ -214,7 +214,7 @@
     {
       "id": 20,
       "title": "Remora and Shark",
-      "image": "remora2.jpg",
+      "image": "remora2.webp",
       "en": "The remora fish eats the shark's leftover food scraps, and the shark is not affected. Name this type of interaction.",
       "fr": "Le poisson rémora mange les restes de nourriture du requin, et le requin n'est pas affecté. Nomme ce type d'interaction.",
       "corr_en": "Commensalism (+ / 0).",
@@ -234,7 +234,7 @@
     {
       "id": 2,
       "title": "Analyzing a food web",
-      "image": "food-web-forest.jpg",
+      "image": "food-web-forest.webp",
       "questions": [
         {
           "en": "Which apex predator preys upon the deer?",
@@ -350,7 +350,7 @@
     {
       "id": 10,
       "title": "Commensalism vs Mutualism",
-      "image": "remora2.jpg",
+      "image": "remora2.webp",
       "en": "Explain why this interaction is called commensalism and not mutualism.",
       "fr": "Explique pourquoi cette interaction s'appelle du commensalisme et non du mutualisme.",
       "corr_en": "It is commensalism because only the remora benefits (it eats leftover scraps); the shark is neither helped nor harmed (0), whereas mutualism requires both species to benefit.",
@@ -368,7 +368,7 @@
     {
       "id": 12,
       "title": "Clownfish and Anemone",
-      "image": "clownfish-2.jpg",
+      "image": "clownfish-2.webp",
       "en": "Explain what each organism gains from this relationship.",
       "fr": "Explique ce que chaque organisme gagne dans cette relation.",
       "corr_en": "The clownfish gets protection from predators among the anemone's tentacles; the anemone gets cleaned and can also benefit from food scraps and improved water circulation brought by the fish.",
@@ -488,7 +488,7 @@
     {
       "id": 4,
       "title": "Reading a Predator-Prey Graph",
-      "image": "deer_wolf_population.png",
+      "image": "deer_wolf_population.webp",
       "en": "Analyse the graph and explain the relationship between the two population curves.",
       "fr": "Analyse le graphique et explique la relation entre les deux courbes de population.",
       "corr_en": "As the deer population grows too large, it likely overgrazes its food source and crashes; the wolf population then follows this trend with a delay, since wolves depend on deer as prey — this is a predator-prey cycle.",
@@ -624,7 +624,7 @@
     {
       "id": 18,
       "title": "Clownfish and Anemone",
-      "image": "clownfish-2.jpg",
+      "image": "clownfish-2.webp",
       "en": "Explain what would happen to both organisms if they were forcibly separated, and use this to justify why some scientists consider this relationship close to symbiosis.",
       "fr": "Explique ce qui arriverait aux deux organismes s'ils étaient séparés de force, et utilise cela pour justifier pourquoi certains scientifiques considèrent cette relation proche de la symbiose.",
       "corr_en": "Without the anemone, the clownfish would lose its main protection from predators and would be more vulnerable; without the fish, the anemone would lose the cleaning, food scraps, and water circulation benefits, and could become more exposed to certain predators. Since both suffer a real disadvantage when separated, the relationship goes beyond simple mutualism and approaches obligatory symbiosis for the fish especially.",
