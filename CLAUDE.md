@@ -13,16 +13,17 @@ dashboard.html                       tableau de bord des enseignantes (Firestore
 sw.js                                service worker (reste à la racine : il ne
                                      couvre que son dossier et en dessous)
 js/                                  scripts communs et moteurs (*-engine.js) ;
-                                     practice-<jeu>.js : un jeu de la page Practice
+                                     practice-<jeu>.js : un jeu de la page Practice ;
+                                     lab-<nom>.js : simulation d'un labo (deux filières)
 css/                                 feuilles de style communes et des moteurs
-                                     (practice-<jeu>.css : un jeu)
+                                     (practice-<jeu>.css : un jeu ; lab-<nom>.css : un labo)
 dashboard/                           scripts et style du tableau de bord
 firebase/                            config Firebase, import d'avant Firebase,
                                      règles Firestore (à copier dans la console)
 en/year1/<chapitre>/                 filière anglaise
 nl/jaar1/<chapitre>/                 filière néerlandaise
   *.html                             6 pages GÉNÉRÉES (ne pas éditer), dont laboratory.html
-  lab-<nom>.js / .css                un labo : contenu et simulation
+  lab-<nom>.<en|nl>.js               textes d'un labo dans la langue de la filière
   *.json                             contenu du chapitre
   assets/, PDF/                      images et documents du chapitre
 assets/                              images et PDF communs (fiches outils, mascottes)
@@ -36,7 +37,9 @@ Chapitres : `bio1`, `chem1`, `phys1`, `chem2`, `phys2`, `bio2`. Tous ont leur
 vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 `bio1`, `chem1`. Ailleurs, les tableaux sont vides (contenu pas encore rédigé).
 
-Labos virtuels (en anglais pour l'instant) : `chem1` « Metal detectives » et
+Labos virtuels (traduction NL en cours : « Metal detectives » fait, les trois
+autres seulement en anglais et pas encore séparés de leurs textes, voir plus
+bas) : `chem1` « Metal detectives » et
 « Under our feet » (composition du sol), `bio1` « The vanishing leaves » et
 « Inside two ecosystems » (mission 1 de la sortie de terrain : facteurs
 abiotiques, carré de comptage, histogramme FO5b). Chaque chapitre a sa page Lab
@@ -46,9 +49,13 @@ barre de navigation ; ses labos sont déclarés par langue dans
 carte du chapitre à l'accueil disent « Lab is still in development ».
 Le cadre commun ([lab-engine.js](js/lab-engine.js)) impose à tous les labos la
 démarche en 4 étapes (Predict, Experiment, Conclude, Check) et le rapport
-imprimable selon la fiche outil FO3 ; chaque labo garde sa simulation dans ses
-deux fichiers `lab-<nom>`, sans JSON. Chaque labo tire au sort une partie de
-son contenu pour pouvoir être refait.
+imprimable selon la fiche outil FO3. Un labo, sans JSON, c'est une simulation
+commune aux deux filières (`js/lab-<nom>.js`, `css/lab-<nom>.css`) et ses
+textes, un fichier par langue dans le dossier du chapitre
+(`lab-<nom>.en.js`, `lab-<nom>.nl.js`, mêmes clés : vérifié par
+`validate-content.js`). Une correction de la simulation vaut donc pour les
+deux filières ; un texte se change dans les deux langues. Chaque labo tire au
+sort une partie de son contenu pour pouvoir être refait.
 
 `docs/todo/`, `docs/images-provenance.md` et
 `Admin/Backup ind/` existent en local mais sont exclus du dépôt, qui est
@@ -75,8 +82,8 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Structure HTML d'une page de chapitre | `templates/<type>.{en,nl}.html`, puis régénérer |
 | Titre ou couleur d'un chapitre | [tools/chapters.json](tools/chapters.json), puis régénérer (la liste de l'accueil en sort aussi) |
 | Accueil, choix de la langue et de l'année | [index.html](index.html), [welcome-back.js](js/welcome-back.js) |
-| Labos virtuels : modale, étapes, verrous, rapport | [lab-engine.js](js/lab-engine.js), [lab-engine.css](css/lab-engine.css) ; un labo : `<chapitre>/lab-<nom>.{js,css}` |
-| Ajouter un labo à un chapitre | sa ligne dans `labs` de [tools/chapters.json](tools/chapters.json), ses fichiers `lab-<nom>.{js,css}`, puis régénérer |
+| Labos virtuels : modale, étapes, verrous, rapport | [lab-engine.js](js/lab-engine.js), [lab-engine.css](css/lab-engine.css) ; un labo : `lab-<nom>.{js,css}` dans `js/` et `css/` (simulation), `<chapitre>/lab-<nom>.<en\|nl>.js` (textes) |
+| Ajouter un labo à un chapitre | sa ligne dans `labs.en` et `labs.nl` de [tools/chapters.json](tools/chapters.json) (même `id`), sa simulation `lab-<nom>.{js,css}` dans `js/` et `css/`, ses textes `lab-<nom>.<langue>.js` dans chaque filière, puis régénérer |
 | Barre de navigation entre sections | [chapter-nav.js](js/chapter-nav.js) |
 | Données enregistrées des élèves | [storage.js](js/storage.js), seul fichier qui touche à `localStorage` ; compteurs d'activité : `SiteStorage.activity` |
 | Tableau de bord enseignant (classes, élèves, suivi) | [dashboard.js](dashboard/dashboard.js) (page, onglet Classes et élèves), [dashboard-class.js](dashboard/dashboard-class.js) (suivi), [dashboard-student.js](dashboard/dashboard-student.js) (fiche élève), [dashboard-activities.js](dashboard/dashboard-activities.js) (bilan des activités), [dashboard-data.js](dashboard/dashboard-data.js) (lecture et calculs), [dashboard-ui.js](dashboard/dashboard-ui.js) (couleurs, barres), [dashboard.css](dashboard/dashboard.css) ; accès : collection `teachers` et [firestore.rules](firebase/firestore.rules) |

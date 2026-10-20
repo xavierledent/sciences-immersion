@@ -9,9 +9,11 @@
    le panneau superposé et le pied de l'étape Check (nom, classe, recommencer,
    imprimer).
 
-   Chaque labo est un fichier à part, dans le dossier de son chapitre
-   (lab-<nom>.js + lab-<nom>.css), chargé après celui-ci. Il décrit ses étapes
-   et appelle LabEngine.create(def). Plusieurs labos peuvent partager une page
+   Chaque labo a sa simulation, commune aux deux filières (js/lab-<nom>.js +
+   css/lab-<nom>.css), et ses textes, un fichier par langue dans le dossier du
+   chapitre (lab-<nom>.<langue>.js, voir textFor). Chargés après celui-ci :
+   textes, puis simulation. La simulation décrit ses étapes et appelle
+   LabEngine.create(def). Plusieurs labos peuvent partager une page
    laboratory.html : chacun a sa propre modale, ouverte par le bouton
    data-lab-open="<id>" de sa carte.
 
@@ -109,7 +111,7 @@
       missingHypotheses: 'Er ontbreken nog hypotheses.',
       missingHypothesis: 'Je hypothese is nog niet volledig.',
       missingConclusions: 'Er ontbreken nog besluiten.',
-      frozen: 'Lab afgewerkt: je kunt alles bekijken, maar niets meer veranderen.',
+      frozen: 'Labo afgewerkt: je kunt alles bekijken, maar niets meer veranderen.',
       lockedCheck: 'Beantwoord eerst alle vragen van “Besluiten”.',
       seeReport: 'Mijn labverslag bekijken',
       reportView: 'Je labverslag',
@@ -117,15 +119,15 @@
       reportCorrected: 'Verbeterd verslag',
       backToCheck: 'Terug naar de verbetering',
       printReport: 'Afdrukken',
-      restart: 'Het lab opnieuw starten',
+      restart: 'Het labo opnieuw starten',
       restartShort: 'Opnieuw',
-      restartTitle: 'Het lab opnieuw starten?',
-      restartText: 'Alles wat je gedaan hebt, wordt gewist, en er wordt een nieuw onderzoek getrokken.',
+      restartTitle: 'Het labo opnieuw starten?',
+      restartText: 'Alles wat je gedaan hebt, wordt gewist, en je krijgt een nieuw onderzoek.',
       restartYes: 'Ja, opnieuw starten',
       cancel: 'Annuleren',
-      resumeTitle: 'Lab bezig',
+      resumeTitle: 'Labo bezig',
       resumeText: (n, step) => `Je bent gestopt bij stap ${n} · ${step}.`,
-      resumeDoneTitle: 'Lab afgewerkt',
+      resumeDoneTitle: 'Labo afgewerkt',
       resumeDoneText: 'Je verbetering en je labverslag zijn er nog.',
       resumeYes: 'Doorgaan',
       resumeNo: 'Opnieuw beginnen',
@@ -143,9 +145,27 @@
 
   // Mots qui reviennent d'un labo à l'autre ; chaque labo ajoute les siens.
   const COMMON_GLOSSARY = {
-    hypothesis: 'hypothèse', bench: 'paillasse', notebook: 'cahier',
-    sample: 'échantillon', samples: 'échantillons', tool: 'outil'
+    en: {
+      hypothesis: 'hypothèse', bench: 'paillasse', notebook: 'cahier',
+      sample: 'échantillon', samples: 'échantillons', tool: 'outil'
+    },
+    nl: {
+      hypothese: 'hypothèse', labotafel: 'paillasse', schrift: 'cahier',
+      staal: 'échantillon', stalen: 'échantillons', hulpmiddel: 'outil'
+    }
   };
+
+  /* Textes des labos : un fichier par langue dans le dossier du chapitre
+     (lab-<nom>.<langue>.js), chargé avant la simulation commune
+     (js/lab-<nom>.js). Il appelle LabEngine.addText(id, textes) ; la
+     simulation les reprend par LabEngine.textFor(id). Les deux langues ont
+     les mêmes clés (vérifié par tools/validate-content.js). */
+  const texts = {};
+  function addText(id, text) { texts[id] = text; }
+  function textFor(id) {
+    if (!texts[id]) throw new Error(`Labo « ${id} » : textes manquants (lab-${id}.${pageLang}.js non chargé ?)`);
+    return texts[id];
+  }
 
   /* ===== Outils ===== */
   function escapeHtml(str) {
@@ -298,7 +318,7 @@
     const paperEl = card.querySelector('.lab-paper');
     const fullscreenBtn = card.querySelector('[data-lab-fullscreen]');
 
-    const glossary = Object.assign({}, COMMON_GLOSSARY, def.glossary || {});
+    const glossary = Object.assign({}, COMMON_GLOSSARY[pageLang], def.glossary || {});
 
     // reached, activeMs et locksHit servent au suivi (voir Reprise et suivi).
     function freshFrameState() {
@@ -1150,6 +1170,9 @@
 
   window.LabEngine = {
     create,
+    addText,
+    textFor,
+    commonGlossary: COMMON_GLOSSARY,
     lang: pageLang,
     labels: L,
     util: { escapeHtml, mulberry32, seedFrom, pick, shuffle, lerp, ease, reduceMotion }

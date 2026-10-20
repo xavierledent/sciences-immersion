@@ -1,10 +1,11 @@
 /* ===== Labo virtuel « Metal detectives » (chem1) : identifier des métaux =====
 
-   Contenu et simulation propres à ce labo : échantillons, tests, scènes
-   animées, correction. Le cadre commun (modale, barre d'étapes, verrous,
-   traduction, glisser-déposer, rapport imprimé) est dans lab-engine.js, à la
-   racine du site, chargé avant ce fichier. Textes en anglais seulement pour
-   l'instant.
+   Simulation propre à ce labo, commune aux deux filières : échantillons,
+   tests, scènes animées, correction. Ses textes sont dans le dossier du
+   chapitre, un fichier par langue (en/year1/chem1/lab-metals.en.js,
+   nl/jaar1/chem1/lab-metals.nl.js). Le cadre commun (modale, barre d'étapes,
+   verrous, traduction, glisser-déposer, rapport imprimé) est dans
+   lab-engine.js. Ordre de chargement : moteur, textes, ce fichier.
 
    Déroulé en 4 étapes :
      1. Predict   — hypothèse « métal / pas un métal / je ne sais pas »
@@ -29,134 +30,13 @@
   const tween = (...args) => lab.tween(...args);
   const wait = (...args) => lab.wait(...args);
 
-  /* ===== Libellés =====
-     [mot] ou [mot|clé] : mot du lexique, souligné, traduction française au
-     survol ou au toucher (voir GLOSSARY). */
-  const LABELS = {
-    title: 'Metal detectives',
-
-    predictIntro: 'Look carefully at each [sample]. Before any test, do you think it is a metal?',
-    predictMetal: 'Metal',
-    predictNot: 'Not a metal',
-    predictUnsure: 'Not sure',
-    predictCount: (n, total) => `${n} / ${total} hypotheses`,
-    startTesting: 'Start testing',
-
-    trayTitle: 'Samples',
-    notebookTitle: (id) => `Notebook — sample ${id}`,
-    notebookEmpty: 'Put a [sample] on the [bench] to fill in its notebook.',
-    notebookLocked: 'Do the test first',
-    lockTests: n => `Finish your tests first: ${n} ${n === 1 ? 'observation' : 'observations'} still to note in the notebook.`,
-    lockHypothesesFixed: 'Your hypotheses are fixed: the tests have started. A scientist does not change the hypothesis after seeing the results!',
-    lockNotebook: 'Do this test first: drag the tool onto the sample.',
-    lockWhichMetal: 'First say whether it is a metal.',
-    lockNotMetal: 'You said it is not a metal: there is nothing to choose.',
-    sceneEmpty: 'Drag a sample here',
-    sceneEmptySub: 'or tap a sample in the tray',
-    captionEmpty: 'Choose a [sample] in the tray and put it on the [bench].',
-    captionReady: (id) => `[Sample] ${id} is on the [bench]. Drag a [tool] onto it, or tap a tool.`,
-    captionNeedSample: 'First, put a [sample] on the [bench].',
-    captionRecord: ' Now write what you observed in the [notebook].',
-    speedUp: 'Speed up',
-    observations: (n, total) => `${n} / ${total} observations written`,
-    resultsTable: 'Results table',
-    toConclude: 'Next: conclude',
-
-    concludeIntro: 'Use your results to decide. Is each [sample] a metal? If it is, which metal is it?',
-    colSample: 'Sample',
-    colMetal: 'Metal?',
-    colWhich: 'Which metal?',
-    yes: 'Yes',
-    no: 'No',
-    choose: 'Choose…',
-    backToLab: 'Back to the lab',
-    referenceSheet: 'Metal reference sheet',
-    checkConclusions: 'Check my conclusions',
-    notRecorded: '—',
-
-    scoreLabel: 'correct identifications',
-    hypothesesLabel: (n, total) => `${n} / ${total} hypotheses confirmed`,
-    colYourAnswer: 'Your answer',
-    colCorrect: 'Correct answer',
-    notMetal: 'Not a metal',
-    youPredicted: 'Your hypothesis',
-    hypothesisConfirmed: 'confirmed',
-    hypothesisRejected: 'rejected',
-    hypothesisNone: 'no hypothesis',
-    notebookCheck: 'Your notebook',
-    youWrote: 'You wrote',
-    expected: 'Expected',
-
-    refTitle: 'Metal reference sheet',
-    refIntro: 'What the five metals of the lab look like after [sanding], and how they react to two of the tests.',
-    refColMetal: 'Metal',
-    refColColour: 'Colour of the [sanded area]',
-    refColMagnet: 'Magnet',
-    refColHeat: '[Wax melts]…',
-    tableTitle: 'Results table',
-    tableIntro: 'Everything you wrote in the [notebook], for all the samples.',
-
-    tests: {
-      luster: { tool: 'Sandpaper', name: 'Luster', question: 'How does the [sanded area] look?' },
-      magnet: { tool: 'Magnet', name: 'Magnetism', question: 'Is it attracted by the [magnet]?' },
-      electric: { tool: 'Circuit', name: 'Electrical conductivity', question: 'Does it let electricity through?' },
-      heat: { tool: 'Hot water', name: 'Thermal conductivity', question: 'When [does the wax melt]?' },
-      hammer: { tool: 'Hammer', name: 'Malleability', question: 'Does it change shape without breaking?' }
-    },
-    options: {
-      shiny: 'Shiny', dull: 'Dull',
-      attracted: 'Attracted', notAttracted: 'Not attracted',
-      conducts: 'Conducts', notConducts: 'Does not conduct',
-      heatVeryFast: '< 45 s', heatFast: '45 s–1:30', heatSlow: '> 1:30', heatNone: 'No melting',
-      malleable: 'Malleable', notMalleable: 'Not malleable'
-    },
-    heatOptionLong: {
-      heatVeryFast: 'in less than 45 s', heatFast: 'between 45 s and 1:30',
-      heatSlow: 'after more than 1:30', heatNone: 'did not melt in 5 min'
-    },
-    metals: { iron: 'Iron', copper: 'Copper', aluminium: 'Aluminium', gold: 'Gold', silver: 'Silver' },
-
-    report: {
-      title: 'Laboratory report — Identifying metals',
-      question: (range) => `Which of the samples (${range}) are metals? For each metal, which metal is it?`,
-      hypothesisIntro: 'Before testing, I looked at each sample and predicted:',
-      materials: (n, range) => `${n} samples of the same shape (${range}), sandpaper, a magnet, an electric circuit (battery, bulb, wires, 2 clips), a beaker of hot water on a hot plate, a lab stand, wax, a stopwatch, a hammer, 2 wooden blocks.`,
-      procedure: [
-        'Rub the sample with sandpaper and observe the sanded area.',
-        'Bring the magnet close to the sample.',
-        'Connect the sample to the electric circuit and observe the bulb.',
-        'Dip one end of the sample in hot water, put wax on the other end and time how long the wax takes to melt.',
-        'Place the sample on two wooden blocks, hit it with the hammer and observe its shape.',
-        'Repeat steps 1 to 5 for each sample and write the results in a table.'
-      ],
-      heatNote: 'Thermal conductivity: time for the wax to melt.',
-      interpretationLine: (id, hyp, concl, verdict) => `Sample ${id}: I predicted “${hyp}”. My results show “${concl}”. Hypothesis ${verdict}.`,
-      interpretationUnsure: (id, concl) => `Sample ${id}: I was not sure before testing. My results show “${concl}”.`,
-      conclusionMetals: (list) => `The metals are: ${list}.`,
-      conclusionNone: 'I did not identify any metal.',
-      conclusionNot: (list) => `These samples are not metals: ${list}.`,
-      score: (n, total) => `Score: ${n} / ${total} correct identifications.`,
-      noteObs: (id, test, wrote, exp) => `Sample ${id}, ${test}: you wrote “${wrote}”, the right observation is “${exp}”.`,
-      noteMetal: (id, metal) => `Sample ${id} is a metal: ${metal}.`,
-      noteNotMetal: (id, what) => `Sample ${id} is not a metal: it is ${what}.`,
-      nothing: 'none'
-    }
-  };
-
-  const GLOSSARY = {
-    sample: 'échantillon', bench: 'paillasse', tool: 'outil',
-    sandpaper: 'papier de verre', sanding: 'ponçage', 'sanded area': 'zone poncée',
-    magnet: 'aimant', clips: 'pinces',
-    'the bulb lights up': 'l’ampoule s’allume', 'the bulb stays off': 'l’ampoule reste éteinte',
-    wax: 'cire', 'wax melts': 'la cire fond', 'the wax melts': 'la cire fond',
-    'does the wax melt': 'la cire fond-elle', 'the wax has still not melted': 'la cire n’a toujours pas fondu',
-    'dips in hot water': 'trempe dans l’eau chaude',
-    hammer: 'marteau', notebook: 'cahier', stopwatch: 'chronomètre',
-    paint: 'peinture', scratched: 'rayé', cloudy: 'trouble',
-    sawdust: 'sciure', 'cracks and breaks': 'se fissure et se casse', shatters: 'vole en éclats', splits: 'se fend',
-    'the hammer bounces off': 'le marteau rebondit',
-    bends: 'se plie', chips: 'éclats', tarnished: 'terni'
-  };
+  /* ===== Textes =====
+     Dans le dossier du chapitre, un fichier par langue (lab-metals.en.js,
+     lab-metals.nl.js), chargé avant celui-ci. */
+  const {
+    labels: LABELS, glossary: GLOSSARY, materials: MATERIAL_NAMES, captions: CAPTIONS,
+    explanations: EXPLANATIONS, compare: COMPARE_TEXT, reference: REFERENCE_TEXT
+  } = LabEngine.textFor('metals');
 
   /* ===== Matériaux =====
      surface/fresh : dégradé [haut, bas] avant et après ponçage.
@@ -165,61 +45,61 @@
      argent > cuivre > or > aluminium > fer. */
   const MATERIALS = {
     copper: {
-      label: 'Copper', isMetal: true, metal: 'copper',
+      isMetal: true, metal: 'copper',
       surface: ['#ad7553', '#7e4f35'], fresh: ['#f8b98f', '#d6774a'],
       texture: 'tarnish', glossy: false, freshKind: 'metal',
       magnetic: false, conducts: true, heat: 38, hammer: 'dent', bendAmount: 0.95
     },
     iron: {
-      label: 'Iron', isMetal: true, metal: 'iron',
+      isMetal: true, metal: 'iron',
       surface: ['#72767c', '#4a4e54'], fresh: ['#eef0f3', '#a7aeb6'],
       texture: 'rust', glossy: false, freshKind: 'metal',
       magnetic: true, conducts: true, heat: 160, hammer: 'dent', bendAmount: 0.55
     },
     aluminium: {
-      label: 'Aluminium', isMetal: true, metal: 'aluminium',
+      isMetal: true, metal: 'aluminium',
       surface: ['#a3a7a4', '#7b807d'], fresh: ['#f1f3f5', '#bcc3ca'],
       texture: 'oxide', glossy: false, freshKind: 'metal',
       magnetic: false, conducts: true, heat: 68, hammer: 'dent', bendAmount: 1
     },
     gold: {
-      label: 'Gold', isMetal: true, metal: 'gold',
+      isMetal: true, metal: 'gold',
       surface: ['#f6d56a', '#c4962b'], fresh: ['#ffe58a', '#d9a92f'],
       texture: 'none', glossy: true, freshKind: 'metal',
       magnetic: false, conducts: true, heat: 55, hammer: 'dent', bendAmount: 1
     },
     silver: {
-      label: 'Silver', isMetal: true, metal: 'silver',
+      isMetal: true, metal: 'silver',
       surface: ['#cfcdc6', '#a09e97'], fresh: ['#ffffff', '#dfe3e8'],
       texture: 'brushed', glossy: false, freshKind: 'metal',
       magnetic: false, conducts: true, heat: 30, hammer: 'dent', bendAmount: 0.9
     },
     plasticGold: {
-      label: 'Plastic painted gold', isMetal: false,
+      isMetal: false,
       surface: ['#f7d669', '#c7982c'], fresh: ['#f8f5ee', '#e2ddcf'],
       texture: 'none', glossy: true, freshKind: 'plastic',
       magnetic: false, conducts: false, heat: null, hammer: 'crack'
     },
     plasticSilver: {
-      label: 'Plastic painted silver', isMetal: false,
+      isMetal: false,
       surface: ['#e9ecf0', '#a3aab3'], fresh: ['#f6f2e8', '#e0d9c8'],
       texture: 'none', glossy: true, freshKind: 'plastic',
       magnetic: false, conducts: false, heat: null, hammer: 'crack'
     },
     glass: {
-      label: 'Mirror glass', isMetal: false,
+      isMetal: false,
       surface: ['#f4fbff', '#8fa9b8'], fresh: ['#eef2f4', '#d2dade'],
       texture: 'mirror', glossy: true, freshKind: 'frosted',
       magnetic: false, conducts: false, heat: null, hammer: 'shatter'
     },
     wood: {
-      label: 'Wood', isMetal: false,
+      isMetal: false,
       surface: ['#cf9c66', '#9a683a'], fresh: ['#e8c294', '#c99962'],
       texture: 'wood', glossy: false, freshKind: 'wood',
       magnetic: false, conducts: false, heat: null, hammer: 'split'
     },
     granite: {
-      label: 'Granite (a rock)', isMetal: false,
+      isMetal: false,
       surface: ['#bdb0ac', '#8e8481'], fresh: ['#c9bdb9', '#9d9390'],
       texture: 'granite', glossy: false, freshKind: 'granite',
       magnetic: false, conducts: false, heat: null, hammer: 'bounce'
@@ -251,7 +131,7 @@
 
   let SAMPLES = [];
 
-  function sampleRange() { return `A to ${SAMPLES[SAMPLES.length - 1].id}`; }
+  function sampleRange() { return LABELS.report.range(SAMPLES[0].id, SAMPLES[SAMPLES.length - 1].id); }
 
   const METAL_IDS = ['iron', 'copper', 'aluminium', 'gold', 'silver'];
 
@@ -263,73 +143,14 @@
     { id: 'hammer', options: ['malleable', 'notMalleable'] }
   ];
 
-  // Observation décrite, jamais interprétée : c'est à l'élève de nommer la
-  // propriété dans son carnet.
-  const CAPTIONS = {
-    luster: {
-      copper: 'Under the brown, [tarnished] surface, the [sanded area] is orange-pink and reflects light strongly.',
-      iron: 'Under the dark grey surface, the [sanded area] is silvery grey and reflects light strongly.',
-      aluminium: 'Under the dull grey surface, the [sanded area] is light grey and reflects light strongly.',
-      gold: 'The [sanded area] stays yellow and reflects light strongly.',
-      silver: 'The [sanded area] is bright white and reflects light strongly.',
-      plasticGold: 'The yellow [paint] comes off. Underneath, the material is white and does not reflect light.',
-      plasticSilver: 'The silver [paint] comes off. Underneath, the material is creamy white and does not reflect light.',
-      glass: 'The surface gets [scratched] and [cloudy]. The [sanded area] no longer reflects light.',
-      wood: 'Fine [sawdust] falls. The [sanded area] is light brown and does not reflect light.',
-      granite: 'The rock is very hard: it is hardly [scratched]. It stays speckled and does not reflect light.'
-    },
-    magnetYes: 'The bar jumps up and sticks to the [magnet].',
-    magnetNo: 'Nothing happens: the bar stays on the [bench].',
-    electricYes: '[The bulb lights up].',
-    electricNo: '[The bulb stays off].',
-    heatMelted: (t) => `[The wax melts] after <strong>${t}</strong> (look at the [stopwatch]).`,
-    heatNot: 'After <strong>5:00</strong>, [the wax has still not melted].',
-    heatRunning: 'The bottom of the bar [dips in hot water]. Watch the [wax] at the top…',
-    hammer: {
-      dent: 'The bar [bends] where the [hammer] hit it. It changes shape, but it does not break.',
-      dentSmall: 'The bar [bends] a little where the [hammer] hit it. It changes shape, but it does not break.',
-      crack: 'The bar [cracks and breaks] into two pieces.',
-      shatter: 'The bar [shatters] into sharp pieces.',
-      split: 'The bar [splits] into two pieces.',
-      bounce: '[The hammer bounces off]. The bar does not change shape; only tiny [chips] fly off.'
-    }
-  };
-
-  const EXPLANATIONS = {
-    copper: 'This is <strong>copper</strong>. Its sanded surface is shiny, it conducts electricity and heat very fast, and it bends without breaking: it is a metal. It is not attracted by the magnet, and its orange-pink colour sets it apart from the other metals.',
-    wood: '<strong>Wood</strong> is not a metal: it stays dull, the bulb stays off, the wax does not melt, and it splits under the hammer.',
-    plasticGold: 'This is <strong>plastic painted gold</strong>. It looked shiny, but only because of the paint: once sanded, it is dull, it does not conduct electricity or heat, and it cracks.',
-    iron: 'This is <strong>iron</strong>, the only sample attracted by the magnet. It is shiny once sanded, conducts electricity, conducts heat (more slowly than the other metals of the lab) and bends without breaking.',
-    glass: 'This is <strong>mirror glass</strong>. It is very shiny, but it is not a metal: it does not conduct electricity or heat, and it shatters under the hammer. (A mirror shines thanks to a very thin metal layer hidden behind the glass — the glass itself is not a metal.)',
-    silver: 'This is <strong>silver</strong>: bright white once sanded, not magnetic, conducts electricity, bends without breaking, and is the fastest of all to melt the wax.',
-    granite: '<strong>Granite</strong> is a rock, not a metal: it is dull, does not conduct electricity or heat, and does not change shape under the hammer. You met granite in the part of the chapter about rocks.',
-    aluminium: 'This is <strong>aluminium</strong>. Its surface was dull grey, covered with a thin layer of oxide, so it did not look like a metal. Once sanded, it is light grey and shiny. It is not magnetic, conducts electricity and heat (fast, but more slowly than silver and copper), and bends without breaking.',
-    plasticSilver: 'This is <strong>plastic painted silver</strong>. The paint makes it look like a metal, but under the paint it is dull, it does not conduct electricity or heat, and it cracks.',
-    gold: 'This is <strong>gold</strong>: yellow and shiny, not magnetic, conducts electricity and heat, and bends very easily.'
-  };
-
   /* Comparaison avec le sosie tiré au sort, ajoutée à l'explication quand les
-     deux échantillons sont présents. */
-  const COMPARE = {
-    plasticGold: { mat: 'gold', text: id => `Compare it with sample ${id}, the real gold: same look, very different results. Looking was not enough!` },
-    gold: { mat: 'plasticGold', text: id => `Compare it with sample ${id}, the fake gold.` },
-    plasticSilver: { mat: 'silver', text: id => `Compare it with sample ${id}, the real silver: same look, very different results. Looking was not enough!` },
-    silver: { mat: 'plasticSilver', text: id => `Compare it with sample ${id}, the plastic painted silver.` }
-  };
+     deux échantillons sont présents (texte : COMPARE_TEXT). */
+  const LOOK_ALIKE = { plasticGold: 'gold', gold: 'plasticGold', plasticSilver: 'silver', silver: 'plasticSilver' };
 
   function explanation(s) {
-    const cmp = COMPARE[s.mat];
-    const other = cmp && SAMPLES.find(x => x.mat === cmp.mat);
-    return EXPLANATIONS[s.mat] + (other ? ' ' + cmp.text(other.id) : '');
+    const other = LOOK_ALIKE[s.mat] && SAMPLES.find(x => x.mat === LOOK_ALIKE[s.mat]);
+    return EXPLANATIONS[s.mat] + (other ? ' ' + COMPARE_TEXT[s.mat](other.id) : '');
   }
-
-  const REFERENCE = [
-    { metal: 'iron', colour: 'Silvery grey', magnet: 'Attracted', heat: 'Slowly (> 1:30)' },
-    { metal: 'copper', colour: 'Orange-pink', magnet: 'Not attracted', heat: 'Very fast (< 45 s)' },
-    { metal: 'aluminium', colour: 'Light grey', magnet: 'Not attracted', heat: 'Fast (45 s – 1:30)' },
-    { metal: 'gold', colour: 'Yellow', magnet: 'Not attracted', heat: 'Fast (45 s – 1:30)' },
-    { metal: 'silver', colour: 'Bright white', magnet: 'Not attracted', heat: 'Very fast (< 45 s)' }
-  ];
 
   const HEAT_LIMIT = 300;      // secondes simulées
   const HEAT_RATE = 20;        // secondes simulées par seconde réelle
@@ -640,7 +461,7 @@
       const dots = TESTS.map(t => `<i class="${state.notes[s.id][t.id] ? 'is-on' : ''}"></i>`).join('');
       const onBench = state.current === s.id;
       const missing = lab.state.showMissing && n < TESTS.length;
-      return `<button type="button" class="lab-tray-item ${onBench ? 'is-on-bench' : ''} ${missing ? 'lab-is-missing' : ''}" data-sample="${s.id}" aria-label="Sample ${s.id}, ${n} of 5 observations">` +
+      return `<button type="button" class="lab-tray-item ${onBench ? 'is-on-bench' : ''} ${missing ? 'lab-is-missing' : ''}" data-sample="${s.id}" aria-label="${LABELS.trayItem(s.id, n, TESTS.length)}">` +
         `<span class="lab-tray-letter">${s.id}</span>${thumbSVG(s.id)}<span class="lab-dots" aria-hidden="true">${dots}</span></button>`;
     }).join('');
     tray.querySelectorAll('.lab-tray-item').forEach(el => {
@@ -757,7 +578,7 @@
     if (speed) speed.hidden = true;
 
     if (!state.current) {
-      host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Empty bench">${benchSVG()}` +
+      host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${LABELS.scene.empty}">${benchSVG()}` +
         `<rect x="170" y="226" width="300" height="86" rx="18" fill="#ffffff" fill-opacity="0.6" stroke="#a87a20" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="8 7"/>` +
         `<text x="320" y="265" text-anchor="middle" font-size="17" font-weight="600" fill="#866222">${LABELS.sceneEmpty}</text>` +
         `<text x="320" y="289" text-anchor="middle" font-size="13" fill="#5d728f">${LABELS.sceneEmptySub}</text></svg>`;
@@ -770,7 +591,7 @@
 
     if (mode === 'base' || !test) {
       const bar = barSVG({ mat: sm.mat, x: 190, y: 262, w: 260, h: 34, sanded: state.sanded[sm.id] ? 1 : 0, label: sm.id, sampleId: sm.id });
-      host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Sample ${sm.id} on the bench">${benchSVG()}` +
+      host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${LABELS.scene.base(sm.id)}">${benchSVG()}` +
         `<ellipse cx="320" cy="${BENCH_Y + 2}" rx="140" ry="4" fill="#13243d" opacity="0.08"/>${bar.svg}</svg>`;
       setCaption(gloss(LABELS.captionReady(sm.id)));
       return;
@@ -805,7 +626,7 @@
     let dust = '';
     for (let i = 0; i < 14; i++) dust += `<circle class="lab-dust" cx="${270 + rnd() * 100}" cy="${BENCH_Y - 1}" r="${0.8 + rnd() * 1.4}" fill="${dustColour}" opacity="0"/>`;
 
-    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Sandpaper test on sample ${sm.id}">${benchSVG()}` +
+    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${LABELS.scene.luster(sm.id)}">${benchSVG()}` +
       `<ellipse cx="320" cy="${BENCH_Y + 2}" rx="140" ry="4" fill="#13243d" opacity="0.08"/>` +
       bar.svg +
       `<g id="dust">${dust}</g>` +
@@ -840,7 +661,7 @@
       return;
     }
 
-    setCaption(gloss('The [sandpaper] rubs the surface of the bar…'));
+    setCaption(gloss(CAPTIONS.lusterRunning));
     const restY = 262 - 26;
     (async () => {
       let ok = await tween(token, 600, t => sp.setAttribute('transform', `translate(${lerp(500, 320, t)} ${lerp(150, restY, t)})`));
@@ -869,15 +690,15 @@
       `<path d="M-32,58 L-32,26 A32,32 0 0 1 32,26 L32,58" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="4" transform="translate(-6 0)"/>` +
       `<rect x="-43" y="56" width="22" height="16" fill="#c7ced6" stroke="#13243d" stroke-opacity="0.3"/>` +
       `<rect x="21" y="56" width="22" height="16" fill="#c7ced6" stroke="#13243d" stroke-opacity="0.3"/>` +
-      `<text x="-32" y="68" text-anchor="middle" font-size="10" font-weight="700" fill="#13243d">N</text>` +
-      `<text x="32" y="68" text-anchor="middle" font-size="10" font-weight="700" fill="#13243d">S</text>` +
+      `<text x="-32" y="68" text-anchor="middle" font-size="10" font-weight="700" fill="#13243d">${LABELS.poleNorth}</text>` +
+      `<text x="32" y="68" text-anchor="middle" font-size="10" font-weight="700" fill="#13243d">${LABELS.poleSouth}</text>` +
       `</g>`;
   }
 
   function sceneMagnet(host, sm, token, instant) {
     const m = MATERIALS[sm.mat];
     const bar = barSVG({ mat: sm.mat, x: 190, y: 262, w: 260, h: 34, sanded: state.sanded[sm.id] ? 1 : 0, label: sm.id, sampleId: sm.id });
-    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Magnet test on sample ${sm.id}">${benchSVG()}` +
+    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${LABELS.scene.magnet(sm.id)}">${benchSVG()}` +
       `<ellipse id="shadow" cx="320" cy="${BENCH_Y + 2}" rx="140" ry="4" fill="#13243d" opacity="0.08"/>` +
       `<g id="bar-move">${bar.svg}</g>` +
       `<g id="field" opacity="0">` +
@@ -903,7 +724,7 @@
       return;
     }
 
-    setCaption(gloss('The [magnet] comes closer to the bar…'));
+    setCaption(gloss(CAPTIONS.magnetRunning));
     (async () => {
       let ok = await tween(token, 900, t => mg.setAttribute('transform', `translate(320 ${lerp(20, nearY, t)})`));
       if (!ok) return;
@@ -948,7 +769,7 @@
     const clipSVG = (id, colour) => `<g id="${id}"><path d="M-9,-16 L9,-16 L6,0 L-6,0 Z" fill="${colour}" stroke="#13243d" stroke-opacity="0.35"/>` +
       `<path d="M-6,0 L-2,6 L2,6 L6,0" fill="#c7ced6" stroke="#13243d" stroke-opacity="0.35"/></g>`;
 
-    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Electric circuit test on sample ${sm.id}">${benchSVG()}` +
+    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${LABELS.scene.electric(sm.id)}">${benchSVG()}` +
       `<defs><radialGradient id="glow-g"><stop offset="0" stop-color="#ffe680" stop-opacity="0.95"/><stop offset="0.45" stop-color="#ffd84d" stop-opacity="0.45"/><stop offset="1" stop-color="#ffd84d" stop-opacity="0"/></radialGradient></defs>` +
       `<ellipse cx="320" cy="${BENCH_Y + 2}" rx="140" ry="4" fill="#13243d" opacity="0.08"/>` +
       bar.svg +
@@ -956,7 +777,7 @@
       `<g><rect x="40" y="230" width="90" height="66" rx="8" fill="#3d4a5c"/><rect x="40" y="230" width="90" height="16" rx="6" fill="#d4a030"/>` +
       `<rect x="${battMinus.x - 6}" y="${battMinus.y}" width="12" height="9" rx="2" fill="#9aa5b1"/><rect x="${battPlus.x - 6}" y="${battPlus.y}" width="12" height="9" rx="2" fill="#9aa5b1"/>` +
       `<text x="${battMinus.x}" y="270" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">−</text><text x="${battPlus.x}" y="270" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">+</text>` +
-      `<text x="85" y="288" text-anchor="middle" font-size="9" fill="#ffffff" opacity="0.7">4.5 V</text></g>` +
+      `<text x="85" y="288" text-anchor="middle" font-size="9" fill="#ffffff" opacity="0.7">${LABELS.battery}</text></g>` +
       // Ampoule
       `<g><rect x="520" y="268" width="60" height="28" rx="6" fill="#6b7785"/><rect x="532" y="246" width="36" height="24" rx="4" fill="#9aa5b1"/>` +
       `<circle id="glow" cx="550" cy="196" r="70" fill="url(#glow-g)" opacity="0"/>` +
@@ -1002,7 +823,7 @@
     }
 
     place(0);
-    setCaption(gloss('The two [clips] are connected to the ends of the bar…'));
+    setCaption(gloss(CAPTIONS.electricRunning));
     (async () => {
       let ok = await tween(token, 900, t => place(t));
       if (!ok) return;
@@ -1026,7 +847,7 @@
     const clampAt = { x: ox + 190 * Math.cos(rad), y: oy + 190 * Math.sin(rad) };
     const bar = barSVG({ mat: sm.mat, x: 0, y: -bh / 2, w: bw, h: bh, sanded: state.sanded[sm.id] ? 1 : 0, sampleId: sm.id });
 
-    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Heat test on sample ${sm.id}">${benchSVG()}` +
+    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${LABELS.scene.heat(sm.id)}">${benchSVG()}` +
       `<defs>` +
         `<linearGradient id="heat-g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="${bw}" y2="0">` +
           `<stop id="hs0" offset="0" stop-color="#ff5a1f" stop-opacity="0.7"/>` +
@@ -1059,7 +880,7 @@
       // Chronomètre
       `<g transform="translate(480 26)"><rect width="128" height="64" rx="14" fill="#ffffff" stroke="#13243d" stroke-opacity="0.15"/>` +
         `<rect x="54" y="-7" width="20" height="9" rx="3" fill="#9aa5b1"/>` +
-        `<text x="64" y="26" text-anchor="middle" font-size="10" fill="#5d728f" letter-spacing="1">STOPWATCH</text>` +
+        `<text x="64" y="26" text-anchor="middle" font-size="10" fill="#5d728f" letter-spacing="1">${LABELS.stopwatch}</text>` +
         `<text id="clock" x="64" y="52" text-anchor="middle" font-size="24" font-weight="700" fill="#13243d" font-variant-numeric="tabular-nums">0:00</text></g>` +
       `</svg>`;
 
@@ -1166,7 +987,7 @@
       }
     }
 
-    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Hammer test on sample ${sm.id}">${benchSVG()}` +
+    host.innerHTML = `<svg viewBox="0 0 640 360" class="lab-svg" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${LABELS.scene.hammer(sm.id)}">${benchSVG()}` +
       `<defs>` +
         (broken ? `<clipPath id="half-l"><polygon points="${leftPoly}"/></clipPath><clipPath id="half-r"><polygon points="${rightPoly}"/></clipPath>` : '') +
       `</defs>` +
@@ -1239,7 +1060,7 @@
       return;
     }
 
-    setCaption(gloss('The [hammer] comes down on the middle of the bar…'));
+    setCaption(gloss(CAPTIONS.hammerRunning));
     (async () => {
       let ok = await tween(token, 450, t => setAngle(lerp(42, 0, t)), ease.in);
       if (!ok) return;
@@ -1387,7 +1208,7 @@
         `<span class="lab-letter lab-letter-sm">${s.id}</span>${thumbSVG(s.id)}` +
         `<span class="lab-result-answer">${answerLabel(state.conclusions[s.id])}</span>` +
         `<span class="lab-result-correct">${ok ? '' : correctLabel(s)}</span>` +
-        `<span class="lab-result-mark" aria-label="${ok ? 'correct' : 'incorrect'}">${ok ? '✓' : '✗'}</span></button>`;
+        `<span class="lab-result-mark" aria-label="${ok ? LABELS.markCorrect : LABELS.markIncorrect}">${ok ? '✓' : '✗'}</span></button>`;
     }).join('');
 
     lab.body.innerHTML = `<div class="lab-check">` +
@@ -1428,7 +1249,7 @@
     }).join('');
     const checkHead = `<li class="lab-check-headrow"><span></span><span></span><span>${LABELS.youWrote}</span><span>${LABELS.expected}</span></li>`;
     $('#lab-detail').innerHTML =
-      `<div class="lab-detail-head"><span class="lab-letter">${s.id}</span><div><h3>${m.label}</h3>` +
+      `<div class="lab-detail-head"><span class="lab-letter">${s.id}</span><div><h3>${MATERIAL_NAMES[s.mat]}</h3>` +
       `<p class="lab-detail-verdict ${ok ? 'is-ok' : 'is-ko'}">${ok ? '✓ ' + correctLabel(s) : `✗ ${LABELS.colYourAnswer}: ${answerLabel(state.conclusions[s.id])}`}</p></div>` +
       `<div class="lab-detail-thumb">${thumbSVG(s.id, { big: true })}</div></div>` +
       `<p class="lab-detail-hyp"><strong>${LABELS.youPredicted}:</strong> ${hypothesisText(state.hypotheses[s.id])} → <span class="lab-verdict-${verdict}">${verdictText}</span></p>` +
@@ -1441,7 +1262,10 @@
   function openSheet(kind) {
     let inner = '';
     if (kind === 'reference') {
-      const rows = REFERENCE.map(r => `<tr><th scope="row">${LABELS.metals[r.metal]}</th><td><span class="lab-swatch" style="background:linear-gradient(${MATERIALS[r.metal].fresh[0]},${MATERIALS[r.metal].fresh[1]})"></span>${r.colour}</td><td>${r.magnet}</td><td>${r.heat}</td></tr>`).join('');
+      const rows = METAL_IDS.map(metal => {
+        const r = REFERENCE_TEXT[metal];
+        return `<tr><th scope="row">${LABELS.metals[metal]}</th><td><span class="lab-swatch" style="background:linear-gradient(${MATERIALS[metal].fresh[0]},${MATERIALS[metal].fresh[1]})"></span>${r.colour}</td><td>${r.magnet}</td><td>${r.heat}</td></tr>`;
+      }).join('');
       inner = `<h3 class="lab-sheet-title">${LABELS.refTitle}</h3><p class="lab-sheet-intro">${gloss(LABELS.refIntro)}</p>` +
         `<table class="lab-table lab-ref-table"><thead><tr><th scope="col">${LABELS.refColMetal}</th><th scope="col">${gloss(LABELS.refColColour)}</th><th scope="col">${gloss(LABELS.refColMagnet)}</th><th scope="col">${gloss(LABELS.refColHeat)}</th></tr></thead><tbody>${rows}</tbody></table>`;
     } else {
@@ -1469,11 +1293,11 @@
     const conclItem = (s, text) => {
       if (isCorrect(s)) return text;
       const m = MATERIALS[s.mat];
-      return mark(text, m.isMetal ? R.noteMetal(s.id, LABELS.metals[m.metal].toLowerCase()) : R.noteNotMetal(s.id, m.label.toLowerCase()));
+      return mark(text, m.isMetal ? R.noteMetal(s.id, LABELS.metals[m.metal].toLowerCase()) : R.noteNotMetal(s.id, MATERIAL_NAMES[s.mat].toLowerCase()));
     };
     const interp = SAMPLES.map(s => {
       const c = state.conclusions[s.id];
-      const concl = c.isMetal ? `a metal (${LABELS.metals[c.metal].toLowerCase()})` : 'not a metal';
+      const concl = c.isMetal ? R.isMetal(LABELS.metals[c.metal].toLowerCase()) : R.isNotMetal;
       const v = hypothesisVerdict(s, 'student');
       if (v === 'none') return `<li>${R.interpretationUnsure(s.id, concl)}</li>`;
       const verdict = v === 'confirmed' ? LABELS.hypothesisConfirmed : LABELS.hypothesisRejected;
@@ -1481,7 +1305,7 @@
     }).join('');
     const metals = SAMPLES.filter(s => state.conclusions[s.id].isMetal).map(s => conclItem(s, `${s.id} (${LABELS.metals[state.conclusions[s.id].metal]})`));
     const notMetals = SAMPLES.filter(s => state.conclusions[s.id].isMetal === false).map(s => conclItem(s, s.id));
-    const corrRows = SAMPLES.map(s => `<tr><th>${s.id}</th><td>${answerLabel(state.conclusions[s.id])}</td><td>${MATERIALS[s.mat].label}</td><td class="${isCorrect(s) ? 'ok' : 'ko'}">${isCorrect(s) ? '✓' : '✗'}</td></tr>`).join('');
+    const corrRows = SAMPLES.map(s => `<tr><th>${s.id}</th><td>${answerLabel(state.conclusions[s.id])}</td><td>${MATERIAL_NAMES[s.mat]}</td><td class="${isCorrect(s) ? 'ok' : 'ko'}">${isCorrect(s) ? '✓' : '✗'}</td></tr>`).join('');
 
     return {
       title: R.title,
@@ -1527,7 +1351,7 @@
         score: score(),
         total: SAMPLES.length,
         criteria,
-        labels: Object.fromEntries(SAMPLES.map(s => [s.mat, MATERIALS[s.mat].label])), // pour le tableau de bord
+        labels: Object.fromEntries(SAMPLES.map(s => [s.mat, MATERIAL_NAMES[s.mat]])), // pour le tableau de bord
         details: { answers: Object.fromEntries(SAMPLES.map(s => [s.mat, answer(state.conclusions[s.id])])) }
       };
     }

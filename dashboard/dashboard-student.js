@@ -463,6 +463,7 @@ function showReport(box, chapter, lab, html) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="${href('css/style.css')}">
     <link rel="stylesheet" href="${href('css/lab-engine.css')}">
+    <link rel="stylesheet" href="${href('css/' + lab.file + '.css')}">
     <link rel="stylesheet" href="${href(chapter.base + lab.file + '.css')}">
     <style>html,body{background:#fff;margin:0;min-height:0}body{padding:20px 24px}</style>
     </head><body class="${esc(chapter.subjectClass || '')}"><div class="lab-doc">${html}</div></body></html>`;

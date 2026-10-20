@@ -1,8 +1,10 @@
 // Checks every chapter's JSON content for mistakes that would otherwise only
 // show up in the browser: unreadable JSON, missing images or PDFs (including a
 // wrong letter case, which works on Windows and 404s on GitHub Pages), games
-// that cannot be completed, EN/NL tracks that drifted apart, and self-assessment
-// links to exercises that do not exist. Reads only — never fixes anything.
+// that cannot be completed, EN/NL tracks that drifted apart, self-assessment
+// links to exercises that do not exist, and virtual labs (files, EN/NL texts
+// with the same keys, underlined words missing from the glossary). Reads
+// only — never fixes anything.
 //
 // Usage: node tools/validate-content.js [chapter ...]
 //   (no argument)  checks every chapter of tools/chapters.json
@@ -13,6 +15,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 const { execFileSync } = require('child_process');
 const { loadChapters, ROOT, YEAR_FOLDER } = require('./lib/render');
 
@@ -332,6 +335,114 @@ function checkAutoeval(file, data, practice) {
   });
 }
 
+/* ---------- Virtual labs ---------- */
+
+// A lab's texts (<chapter>/<file>.<lang>.js) call LabEngine.addText(id, texts).
+// They are run here in a sandbox, with a stand-in LabEngine, to read them.
+function loadLabText(file, id) {
+  const sandbox = { LabEngine: { addText: (labId, text) => { sandbox.captured = Object.assign(sandbox.captured || {}, { [labId]: text }); } } };
+  try {
+    vm.runInNewContext(fs.readFileSync(path.join(ROOT, file), 'utf8'), sandbox, { filename: file });
+  } catch (e) {
+    error(file, `script illisible : ${e.message}`);
+    return null;
+  }
+  const text = sandbox.captured && sandbox.captured[id];
+  if (!text) error(file, `n'appelle pas LabEngine.addText('${id}', …) avec l'id du labo dans chapters.json`);
+  return text || null;
+}
+
+// Words shared by every lab, per language (COMMON_GLOSSARY in lab-engine.js).
+let commonGlossary;
+function labCommonGlossary() {
+  if (commonGlossary === undefined) {
+    const sandbox = { window: {}, location: { pathname: '/' } };
+    try {
+      vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'js/lab-engine.js'), 'utf8'), sandbox);
+      commonGlossary = sandbox.window.LabEngine.commonGlossary || {};
+    } catch (e) {
+      error('js/lab-engine.js', `script illisible : ${e.message}`);
+      commonGlossary = {};
+    }
+  }
+  return commonGlossary;
+}
+
+// Every string of the texts, functions included (called with stand-in values).
+function labStrings(value, out = []) {
+  if (typeof value === 'string') out.push(value);
+  else if (typeof value === 'function') {
+    for (const arg of [2, 'X']) {
+      try { labStrings(value(...Array(value.length).fill(arg)), out); break; } catch (e) { /* next stand-in */ }
+    }
+  } else if (value && typeof value === 'object') Object.values(value).forEach(v => labStrings(v, out));
+  return out;
+}
+
+// Same keys, same kinds, same number of parameters in both languages: the
+// simulation reads them blindly. The glossary is the exception, its words
+// differ by language.
+function compareLabTexts(file, a, b, where = '') {
+  const kind = v => (Array.isArray(v) ? 'array' : v === null ? 'null' : typeof v);
+  if (kind(a) !== kind(b)) { error(file, `${where || 'textes'} : ${kind(a)} en EN, ${kind(b)} en NL`); return; }
+  if (kind(a) === 'function' && a.length !== b.length) error(file, `${where} : ${a.length} paramètre(s) en EN, ${b.length} en NL`);
+  if (kind(a) === 'array' && a.length !== b.length) error(file, `${where} : ${a.length} élément(s) en EN, ${b.length} en NL`);
+  if (kind(a) !== 'object' && kind(a) !== 'array') return;
+  const keys = new Set([...Object.keys(a), ...Object.keys(b)]);
+  keys.forEach(key => {
+    const at = where ? `${where}.${key}` : key;
+    if (!where && key === 'glossary') return;
+    if (!(key in b)) error(file, `${at} : présent en EN, absent en NL`);
+    else if (!(key in a)) error(file, `${at} : présent en NL, absent en EN`);
+    else compareLabTexts(file, a[key], b[key], at);
+  });
+}
+
+function checkLabs(chapter) {
+  const texts = {};
+  LANGS.forEach(lang => {
+    const chapterDir = `${lang}/${YEAR_FOLDER[lang]}/${chapter.folder}`;
+    const labs = (chapter.labs && chapter.labs[lang]) || [];
+    labs.forEach(lab => {
+      const where = `tools/chapters.json`;
+      // Simulation shared by both tracks (js/, css/), texts per language.
+      if (fs.existsSync(path.join(ROOT, 'js', `${lab.file}.js`))) {
+        checkFileRef(where, '.', `js/${lab.file}.js`, `labo « ${lab.id} », simulation`);
+        checkFileRef(where, '.', `css/${lab.file}.css`, `labo « ${lab.id} », style`);
+        const textFile = `${chapterDir}/${lab.file}.${lang}.js`;
+        if (!existsExactCase(textFile)) {
+          error(where, `labo « ${lab.id} » (${lang}) : textes introuvables « ${textFile} »`);
+          return;
+        }
+        checkFileRef(where, '.', textFile, `labo « ${lab.id} », textes`);
+        const text = loadLabText(textFile, lab.id);
+        if (!text) return;
+        const glossary = Object.assign({}, labCommonGlossary()[lang], text.glossary);
+        const missing = new Set();
+        labStrings(text).forEach(s => s.replace(/\[([^\]|]+)(?:\|([^\]]+))?\]/g, (all, word, key) => {
+          if (!glossary[(key || word).toLowerCase()]) missing.add(key || word);
+        }));
+        if (missing.size) warn(textFile, `mot(s) souligné(s) absent(s) du lexique (affiché(s) sans traduction) : ${[...missing].join(', ')}`);
+        texts[lang] = Object.assign(texts[lang] || {}, { [lab.id]: { file: textFile, text } });
+      } else {
+        // Lab not converted yet: simulation and English texts in the chapter folder.
+        checkFileRef(where, chapterDir, `${lab.file}.js`, `labo « ${lab.id} »`);
+        checkFileRef(where, chapterDir, `${lab.file}.css`, `labo « ${lab.id} », style`);
+      }
+    });
+  });
+
+  const ids = lang => ((chapter.labs && chapter.labs[lang]) || []).map(lab => lab.id);
+  const onlyEn = ids('en').filter(id => !ids('nl').includes(id));
+  const onlyNl = ids('nl').filter(id => !ids('en').includes(id));
+  if (onlyEn.length) warn('tools/chapters.json', `${chapter.folder} : labo(s) ${onlyEn.join(', ')} en EN seulement`);
+  if (onlyNl.length) warn('tools/chapters.json', `${chapter.folder} : labo(s) ${onlyNl.join(', ')} en NL seulement`);
+
+  const en = texts.en || {};
+  const nl = texts.nl || {};
+  Object.keys(en).filter(id => nl[id]).forEach(id => compareLabTexts(nl[id].file, en[id].text, nl[id].text));
+}
+
 /* ---------- EN / NL parity ---------- */
 
 // Reported on the nl file, as warnings: the two tracks are meant to mirror each
@@ -413,6 +524,7 @@ if (unknown.length) {
   process.exit(1);
 }
 const folders = wanted.length ? wanted : allFolders;
+const chapterConfig = new Map(loadChapters().map(chapter => [chapter.folder, chapter]));
 let filesRead = 0;
 
 folders.forEach(chapter => {
@@ -442,6 +554,7 @@ folders.forEach(chapter => {
     content[lang] = loaded;
   });
   compareTracks(chapter, content);
+  checkLabs(chapterConfig.get(chapter));
 });
 
 const byFile = new Map();

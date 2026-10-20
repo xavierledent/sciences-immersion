@@ -25,6 +25,9 @@
         "en": [
           { "id": "metals", "file": "lab-metals", "title": "Metal detectives", "question": "Which ones are metals, and which metals are they?", "text": "Five samples, all the same shape. Some are metals, some only look like metals." },
           { "id": "soil", "file": "lab-soil", "title": "Under our feet", "question": "What is soil made of, and does it change from place to place?", "text": "Two soil samples from two places around the school. Spread them out, look closely with a magnifying glass and sort what you find." }
+        ],
+        "nl": [
+          { "id": "metals", "file": "lab-metals", "title": "Metaaldetectives", "question": "Welke zijn metalen, en welke metalen zijn het?", "text": "Vijf stalen, allemaal met dezelfde vorm. Sommige zijn metalen, andere lijken alleen maar op metalen." }
         ]
       }
     },
