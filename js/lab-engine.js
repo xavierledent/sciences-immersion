@@ -155,6 +155,11 @@
     }
   };
 
+  /* Mots du lexique qui ont aussi un sens courant (« bij » : abeille, mais
+     surtout « près de ») : soulignés seulement entre crochets, jamais
+     d'office (voir Traduction des mots soulignés). */
+  const MARKED_ONLY = { en: [], nl: ['bij'] };
+
   /* Textes des labos : un fichier par langue dans le dossier du chapitre
      (lab-<nom>.<langue>.js), chargé avant la simulation commune
      (js/lab-<nom>.js). Il appelle LabEngine.addText(id, textes) ; la
@@ -333,6 +338,17 @@
 
     const glossary = Object.assign({}, COMMON_GLOSSARY[pageLang], def.glossary || {});
 
+    /* Soulignement d'office : chaque mot du lexique est souligné partout où
+       il apparaît dans le labo, même sans crochets (on ne teste pas la
+       mémoire de l'élève). Le plus long d'abord (« energy meter » avant
+       « meter »), mot entier, sans tenir compte de la casse. */
+    const autoKeys = Object.keys(glossary)
+      .filter(k => !(MARKED_ONLY[pageLang] || []).includes(k))
+      .sort((a, b) => b.length - a.length);
+    const autoRe = autoKeys.length
+      ? new RegExp(`(?<![\\p{L}\\p{N}])(?:${autoKeys.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+')).join('|')})(?![\\p{L}\\p{N}])`, 'giu')
+      : null;
+
     /* Enseignants (liste Firestore, voir AccessControl.isTeacher) : un bouton
        de l'en-tête lève tous les verrous, pour vérifier un labo sans tout
        refaire. Éteint à chaque chargement. Allumé : plus de cadenas
@@ -436,6 +452,8 @@
       save() { saveProgress(); },
 
       makeDraggable,
+      // Lâcher l'objet en main (makeDraggable, hold), avant de le redessiner.
+      release() { releaseHeld(); },
       setLock,
       lockIcon: LOCK_SVG,
       openSheet,
@@ -724,6 +742,68 @@
       if (e.target.classList.contains('lab-gloss')) hideGloss();
     });
 
+    /* Soulignement d'office (voir autoRe) : à chaque changement du labo, le
+       texte nouveau est parcouru, SVG compris (tspan). Jamais dans ce qui se
+       touche pour agir (bouton, onglet, zone à toucher, champ, étiquette de
+       champ) : toucher le mot déclencherait l'action. Un mot souligné par
+       crochets qui s'y trouve redevient du texte simple. Ni dans l'en-tête,
+       les bulles et le rapport (une feuille). */
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+    const NO_GLOSS = 'button, [role="button"], [role="tab"], a, input, textarea, select, option, label, ' +
+      'title, desc, style, script, .lab-header, .lab-reportview, .lab-gloss-tip, .lab-lock-tip, [data-no-gloss]';
+    const NO_AUTO = `${NO_GLOSS}, .lab-gloss`;
+
+    function glossTextNode(node) {
+      const text = node.nodeValue;
+      const parent = node.parentNode;
+      if (!parent) return;
+      autoRe.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      const svg = parent.namespaceURI === SVG_NS;
+      let last = 0, m;
+      while ((m = autoRe.exec(text))) {
+        const fr = glossary[m[0].toLowerCase().replace(/\s+/g, ' ')];
+        if (!fr) continue;
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        const word = svg ? document.createElementNS(SVG_NS, 'tspan') : document.createElement('span');
+        word.setAttribute('class', 'lab-gloss');
+        word.setAttribute('tabindex', '0');
+        word.setAttribute('data-translation', fr);
+        word.textContent = m[0];
+        frag.appendChild(word);
+        last = m.index + m[0].length;
+      }
+      if (!last) return;
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      parent.replaceChild(frag, node);
+    }
+
+    function autoGloss(root) {
+      if (root.nodeType === Node.TEXT_NODE) {
+        if (autoRe && root.parentElement && !root.parentElement.closest(NO_AUTO)) glossTextNode(root);
+        return;
+      }
+      if (root.nodeType !== Node.ELEMENT_NODE) return;
+      const words = [...root.querySelectorAll('.lab-gloss')];
+      if (root.classList.contains('lab-gloss')) words.push(root);
+      words.forEach(w => {
+        if (w.parentElement && w.parentElement.closest(NO_GLOSS)) w.replaceWith(document.createTextNode(w.textContent));
+      });
+      if (!autoRe || root.closest(NO_AUTO)) return;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode: n => (n.parentElement && !n.parentElement.closest(NO_AUTO) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT)
+      });
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(glossTextNode);
+    }
+
+    // Ce qui vient d'être souligné ne contient plus de mot à souligner : pas de boucle.
+    new MutationObserver(records => records.forEach(r => {
+      if (r.type === 'characterData') { if (r.target.isConnected) autoGloss(r.target); }
+      else r.addedNodes.forEach(n => { if (n.isConnected) autoGloss(n); });
+    })).observe(card, { childList: true, subtree: true, characterData: true });
+
     /* ===== Labo corrigé : les étapes 1 à 3 se revoient, figées =====
        Après le Check, l'élève revient aux étapes précédentes pour revoir ses
        erreurs, sans rien y changer. Tout geste dans la zone du labo est
@@ -895,6 +975,7 @@
 
     function closeLab() {
       sceneToken++;
+      releaseHeld();
       closeDialog(dialogDismiss);
       stopClock();
       saveProgress();
@@ -912,6 +993,7 @@
 
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape' || !overlay.classList.contains('modal-open')) return;
+      if (held) { releaseHeld(); return; }
       if (dialogResolve) { closeDialog(dialogDismiss); return; }
       if (!reportViewEl.hidden) { closeReport(); return; }
       if (!sheetEl.hidden) { closeSheet(); return; }
@@ -976,6 +1058,7 @@
     /* ===== Étapes ===== */
     function render() {
       sceneToken++;
+      releaseHeld();
       hideGloss();
       hideLockTip();
       closeSheet();
@@ -1045,27 +1128,106 @@
        le pointeur. Le clavier (Entrée, Espace) passe par le clic. Pendant la
        saisie, les cibles portent is-drop-ready ; celle survolée, is-drop-target.
        opts = { ghost: () => html, targets: () => [éléments où déposer],
-                onDrop: cible => …, onTap: () => … } */
+                onDrop: cible => …, onTap: () => …,
+                hold: true, onHold: enMain => … }
+
+       hold (règle des labos : tout objet à poser sur une cible parmi
+       plusieurs) : un toucher ou un clic prend l'objet « en main » au lieu
+       d'appeler onTap. À la souris, son fantôme suit le curseur ; les cibles
+       s'annoncent (is-drop-ready) ; un clic ou un toucher sur une cible le
+       pose (onDrop). Le reprendre, Échap ou en prendre un autre le lâche ;
+       un clic ailleurs ne le lâche pas (geste manqué de peu). onHold dit au
+       labo qu'il est pris ou lâché (légende, curseur). Le labo appelle
+       lab.release() avant de redessiner l'objet. */
+    let held = null;   // { el, opts } : l'objet en main
+
+    const targetsOf = opts => (opts.targets ? opts.targets() : []).filter(Boolean);
+    const targetAt = (opts, x, y) => targetsOf(opts).find(t => {
+      const r = t.getBoundingClientRect();
+      return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+    });
+
+    function placeGhost(x, y) {
+      // En plein écran, seul l'élément plein écran est affiché : le
+      // fantôme doit y être, sinon il reste invisible.
+      const host = document.fullscreenElement || document.body;
+      if (ghostEl.parentNode !== host) host.appendChild(ghostEl);
+      ghostEl.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function takeHeld(el, opts, ev) {
+      releaseHeld();
+      held = { el, opts };
+      el.classList.add('is-held');
+      targetsOf(opts).forEach(t => t.classList.add('is-drop-ready'));
+      ghostEl.innerHTML = opts.ghost();
+      ghostEl.classList.add('is-carried');
+      if (ev && ev.pointerType === 'mouse') {
+        placeGhost(ev.clientX, ev.clientY);
+        ghostEl.classList.add('is-visible');
+      }
+      if (opts.onHold) opts.onHold(true);
+    }
+
+    function releaseHeld() {
+      if (!held) return;
+      const { el, opts } = held;
+      held = null;
+      el.classList.remove('is-held');
+      targetsOf(opts).forEach(t => t.classList.remove('is-drop-ready', 'is-drop-target'));
+      ghostEl.classList.remove('is-visible', 'is-carried');
+      if (opts.onHold) opts.onHold(false);
+    }
+
+    // L'objet a été redessiné (autre lampe, autre vue) : il n'est plus en main.
+    const heldGone = () => held && !held.el.isConnected && (releaseHeld(), true);
+
+    document.addEventListener('pointermove', e => {
+      if (!held || heldGone()) return;
+      if (e.pointerType !== 'mouse') { ghostEl.classList.remove('is-visible'); return; }
+      placeGhost(e.clientX, e.clientY);
+      ghostEl.classList.add('is-visible');
+      const over = targetAt(held.opts, e.clientX, e.clientY);
+      targetsOf(held.opts).forEach(t => t.classList.toggle('is-drop-target', t === over));
+    });
+
+    // Poser : après les verrous et le mode figé (écouteurs posés avant).
+    function dropHeldOn(e) {
+      if (!held || heldGone()) return false;
+      const target = targetsOf(held.opts).find(t => t.contains(e.target));
+      if (!target) return false;
+      e.preventDefault();
+      e.stopPropagation();
+      const { opts } = held;
+      releaseHeld();
+      opts.onDrop(target);
+      return true;
+    }
+    card.addEventListener('click', dropHeldOn, true);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') dropHeldOn(e);
+    }, true);
+
     function makeDraggable(el, opts) {
+      const tap = ev => {
+        if (!opts.hold) { opts.onTap(); return; }
+        if (held && held.el === el) releaseHeld();
+        else takeHeld(el, opts, ev);
+      };
+
       el.addEventListener('pointerdown', e => {
         if (e.button !== 0 || el.disabled) return;
         const startX = e.clientX, startY = e.clientY;
         let dragging = false;
         el.setPointerCapture(e.pointerId);
 
-        const targets = () => (opts.targets ? opts.targets() : []).filter(Boolean);
-        const targetAt = (x, y) => targets().find(t => {
-          const r = t.getBoundingClientRect();
-          return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
-        });
+        const targets = () => targetsOf(opts);
 
         function move(ev) {
           if (!dragging && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 8) {
             dragging = true;
-            // En plein écran, seul l'élément plein écran est affiché : le
-            // fantôme doit y être, sinon il reste invisible.
-            const host = document.fullscreenElement || document.body;
-            if (ghostEl.parentNode !== host) host.appendChild(ghostEl);
+            releaseHeld();
+            placeGhost(ev.clientX, ev.clientY);
             ghostEl.innerHTML = opts.ghost();
             ghostEl.classList.add('is-visible');
             el.classList.add('is-dragging');
@@ -1073,8 +1235,8 @@
             targets().forEach(t => t.classList.add('is-drop-ready'));
           }
           if (dragging) {
-            ghostEl.style.transform = `translate(${ev.clientX}px, ${ev.clientY}px)`;
-            const over = targetAt(ev.clientX, ev.clientY);
+            placeGhost(ev.clientX, ev.clientY);
+            const over = targetAt(opts, ev.clientX, ev.clientY);
             targets().forEach(t => t.classList.toggle('is-drop-target', t === over));
           }
         }
@@ -1087,10 +1249,10 @@
           if (dragging) {
             ghostEl.classList.remove('is-visible');
             el.classList.remove('is-dragging');
-            const over = ev.type === 'pointerup' ? targetAt(ev.clientX, ev.clientY) : null;
+            const over = ev.type === 'pointerup' ? targetAt(opts, ev.clientX, ev.clientY) : null;
             if (over) opts.onDrop(over);
           } else if (ev.type === 'pointerup') {
-            opts.onTap();
+            tap(ev);
           }
           el.dataset.pointerHandled = '1';
         }
@@ -1103,7 +1265,7 @@
       // Activation au clavier : clic sans pointeur (detail === 0).
       el.addEventListener('click', e => {
         if (el.dataset.pointerHandled) { delete el.dataset.pointerHandled; return; }
-        if (e.detail === 0) opts.onTap();
+        if (e.detail === 0) tap(null);
       });
     }
 

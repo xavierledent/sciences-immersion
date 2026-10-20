@@ -730,6 +730,16 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   box-shadow: 0 0 0 2px rgba(var(--color-current-rgb), 0.35);
 }
 
+/* Dans un dessin (SVG) : soulignement simple, le seul que SVG trace partout. */
+tspan.lab-gloss {
+  text-decoration: underline;
+  pointer-events: auto;
+}
+
+tspan.lab-gloss:focus-visible {
+  fill: var(--color-current-darker);
+}
+
 .lab-gloss-tip {
   position: absolute;
   top: 0;
@@ -839,6 +849,18 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
 
 .lab-drag-ghost.is-visible {
   opacity: 1;
+}
+
+/* Objet en main (makeDraggable, hold) : le fantôme suit la souris, décalé en
+   bas à droite pour laisser voir la pointe du curseur, qui vise la cible. */
+.lab-drag-ghost.is-carried {
+  margin: 34px 0 0 34px;
+}
+
+.is-held {
+  border-color: var(--color-current) !important;
+  background: rgba(var(--color-current-rgb), 0.16) !important;
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.25) !important;
 }
 
 /* ===== Tableaux ===== */

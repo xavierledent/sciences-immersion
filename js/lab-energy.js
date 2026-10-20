@@ -22,14 +22,22 @@
    Déroulé :
      1. Predict    — deux phrases d'hypothèse à compléter (+ « because » libre)
      2. Experiment — a) le banc : visser une lampe, tourner la manivelle
-                     jusqu'à 100 units (le banc s'arrête : même énergie pour
-                     les deux lampes), mesurer chacun des cinq points avec le
-                     bon instrument, noter chaque valeur dans le tableau ; la
-                     même chose avec l'autre lampe ;
-                     b) le diagramme de flux d'énergie : une forme par case ;
-                     les flèches prennent la largeur des valeurs du tableau
-     3. Conclude   — question 1 ; bilan (début, lignes cochées, total par
-                     lampe), question 2 et ce que devient le reste ; jugement
+                     jusqu'à 100 units (au doigt ; à la souris, un clic la
+                     fait tourner seule ; le banc s'arrête : même énergie
+                     pour les deux lampes ; la chaleur se voit monter de la
+                     dynamo et de la lampe), mesurer chacun des cinq points
+                     numérotés avec le bon instrument (pris en main, voir
+                     makeDraggable hold), noter chaque valeur dans le
+                     tableau, rangé par machine (ce qu'elle reçoit, ce
+                     qu'elle donne) ; la même chose avec l'autre lampe ;
+                     b) les deux diagrammes de flux d'énergie côte à côte :
+                     l'élève remplit celui de la première lampe, le second
+                     reprend ses formes ; les flèches prennent la largeur des
+                     valeurs du tableau
+     3. Conclude   — question 1 ; bilan guidé (l'énergie du début, celles de
+                     la fin, choisies parmi les cinq flèches ; l'addition se
+                     pose avec les valeurs du tableau, l'élève écrit le
+                     total), question 2 et ce que devient le reste ; jugement
                      de chaque hypothèse
      4. Check      — 5 vérifications : mesures, formes d'énergie, bilan,
                      conclusions, hypothèses ; rapport (FO3) */
@@ -69,6 +77,13 @@
   const FATES = ['air', 'destroyed', 'stored'];
   const REST_FORMS = FORMS.filter(f => f !== 'light');
   const VALUES_TOTAL = SPOTS.length * 2;
+  const spotNum = s => SPOTS.indexOf(s) + 1;   // numéro du point, sur le banc et dans le tableau
+  // Le tableau, par machine : ce qu'elle reçoit (in), ce qu'elle donne (out).
+  // Les fils sont donnés par la dynamo et reçus par la lampe (même valeur).
+  const MACHINES = [
+    { id: 'dynamo', rows: [['in', 'crank'], ['out', 'dynamo'], ['out', 'wires']] },
+    { id: 'lamp', rows: [['in', 'wires'], ['out', 'light'], ['out', 'lamp']] }
+  ];
 
   /* eff : part de l'énergie électrique qui devient lumière (ordres de
      grandeur des manuels) ; rank : la lampe qui donne le plus de lumière.
@@ -113,17 +128,17 @@
       measured: {},                  // { lampe: { point: true } }
       values: {},                    // { lampe: { point: nombre } } notés par l'élève
       view: 'bench',                 // 'bench' ou 'diagram'
-      tool: null,                    // instrument choisi au toucher
       forms: {},                     // { point: forme } cases du diagramme
-      pick: null,                    // forme choisie au toucher
-      diagLamp: run.pair[0],         // lampe dont le diagramme montre les valeurs
-      concl: { q1: null, start: null, ticks: [], totals: {}, q2: null, rest: null, fate: null, v1: null, v2: null },
+      // start : le point choisi pour l'énergie du début ; ends : ceux de la fin
+      concl: { q1: null, start: null, ends: [], totals: {}, q2: null, rest: null, fate: null, v1: null, v2: null },
       selected: 'measures'
     };
     run.pair.forEach(k => { state.energy[k] = 0; state.measured[k] = {}; state.values[k] = {}; });
     glow = 0;
     crankAngle = 0;
     stepperDone = null;
+    heldTool = null;
+    heldForm = null;
   }
 
   const plain = text => String(text).replace(/\[([^\]|]+)(?:\|[^\]]+)?\]/g, '$1');
@@ -270,35 +285,39 @@
   }
 
   /* ===== Étape 2 : le banc d'essai et le diagramme =====
-     Deux vues (onglets) : le banc, puis le diagramme de flux, qui s'ouvre
-     une fois le tableau complet. Le tableau reste à droite dans les deux. */
+     Deux vues (onglets) : le banc, avec le tableau à droite ; puis les deux
+     diagrammes de flux, côte à côte sur toute la largeur, qui s'ouvrent une
+     fois le tableau complet. */
   let stepperDone = null;
+  let heldTool = null;   // instrument en main (makeDraggable, hold)
+  let heldForm = null;   // forme d'énergie en main
 
   function renderExperiment() {
+    lab.release();
     // Ce qui manque est signalé dans la vue où il se trouve.
     if (lab.state.showMissing && !lab.isFrozen()) {
       if (!valuesComplete()) state.view = 'bench';
       else if (formsPlaced() < SPOTS.length) state.view = 'diagram';
     }
     const diagram = state.view === 'diagram';
-    lab.body.innerHTML = `<div class="eb-run">` +
+    lab.body.innerHTML = `<div class="eb-run ${diagram ? 'is-diagram' : ''}">` +
       `<section class="eb-main">` +
         tabsHTML() +
-        `<div class="lab-scene-wrap eb-scene-wrap ${diagram && state.pick ? 'is-picking' : ''} ${!diagram && state.tool ? 'is-armed' : ''}" data-stage>` +
+        `<div class="lab-scene-wrap eb-scene-wrap" data-stage>` +
           (diagram ? diagramStageHTML() : benchSVG()) + `</div>` +
         `<p class="lab-caption" data-caption aria-live="polite"></p>` +
         `<div class="eb-kit">${diagram ? paletteHTML() : kitHTML()}</div>` +
       `</section>` +
-      `<section class="eb-side">` +
+      (diagram ? '' : `<section class="eb-side">` +
         `<div class="eb-side-head"><h3 class="lab-panel-title">${LABELS.tableTitle}</h3><span class="eb-unit">${LABELS.tableUnit}</span></div>` +
         `<div class="lab-table-wrap eb-table-wrap">${tableHTML('run')}</div>` +
         `<div class="eb-reminder"><p class="eb-kicker">${LABELS.yourQuestions}</p>${questionsHTML()}</div>` +
-      `</section></div>`;
+      `</section>`) +
+      `</div>`;
 
     bindTabs();
     if (diagram) bindDiagram();
-    else { bindKit(); bindCrank(); }
-    bindTable();
+    else { bindKit(); bindCrank(); bindTable(); }
     setCaption(defaultCaption());
     renderRunFooter();
     if (!diagram && glow > 0.01) startGlowLoop(lab.newScene());
@@ -314,8 +333,6 @@
     $$('[data-view]').forEach(btn => btn.addEventListener('click', () => {
       if (state.view === btn.dataset.view) return;
       state.view = btn.dataset.view;
-      state.tool = null;
-      state.pick = null;
       renderExperiment();
     }));
     const tab = $('[data-view="diagram"]');
@@ -326,16 +343,28 @@
 
   /* --- Le banc : viewBox 640 × 360, paillasse à y = 296 ---
      Dynamo à gauche (manivelle sur sa face), fils, lampe sur son support à
-     droite. Cinq points de mesure, puis une étiquette par mesure faite. */
+     droite. Cinq points de mesure numérotés comme les lignes du tableau,
+     puis une étiquette par mesure faite. */
   const BENCH_Y = 296;
   const AXLE = { x: 132, y: 244 };
   const ARM = 44;
+  const HINT_R = ARM + 20;             // flèche qui montre le geste, autour de la manivelle
   const LAMP_C = { x: 470, y: 192 };   // centre du verre
   const SPOT_POS = { crank: [132, 244], dynamo: [232, 222], wires: [366, 254], light: [574, 188], lamp: [470, 192] };
   const BADGE_POS = { crank: [100, 168], dynamo: [230, 168], wires: [366, 324], light: [580, 126], lamp: [470, 116] };
+  // Ondulations de chaleur, en diagonale vers le haut à droite (comme les
+  // flèches de l'énergie perdue du diagramme) : point de départ.
+  const WAVES_POS = { dynamo: [176, 184], lamp: [492, 146] };
 
   let crankAngle = 0;   // radians, sens horaire à l'écran
   let glow = 0;         // éclat de la lampe pendant qu'on tourne (0 à 1)
+
+  function wavesSVG(s) {
+    const [x, y] = WAVES_POS[s];
+    return `<g id="eb-waves-${s}" class="eb-waves" opacity="0" pointer-events="none" transform="translate(${x} ${y}) rotate(45)">` +
+      [-13, 0, 13].map((dx, i) => `<path class="eb-wave" style="animation-delay:${(i * 0.45).toFixed(2)}s" d="M${dx},0 q-5,-6 0,-12 t0,-12 t0,-12"/>`).join('') +
+      `</g>`;
+  }
 
   function benchSVG() {
     const k = state.socket;
@@ -372,14 +401,21 @@
       `<text x="226" y="283" text-anchor="middle" class="eb-dynamo-label">${LABELS.scene.dynamo}</text>` +
       `<rect x="268" y="217" width="10" height="14" rx="2" fill="#d64545"/><rect x="268" y="243" width="10" height="14" rx="2" fill="#2c3440"/>`;
 
-    // Manivelle : disque, bras qui tourne, poignée à saisir
+    // Manivelle : disque, bras qui tourne, poignée. Tant qu'elle n'a pas
+    // tourné, une flèche circulaire montre le geste et la poignée pulse.
+    const ready = k && !done;
     out += `<circle cx="${AXLE.x}" cy="${AXLE.y}" r="24" fill="#b7c1cc" stroke="#7d8a97" stroke-width="1.5"/>` +
       `<g id="eb-arm" transform="rotate(${(crankAngle * 180 / Math.PI).toFixed(1)} ${AXLE.x} ${AXLE.y})">` +
         `<rect x="${AXLE.x - 5}" y="${AXLE.y - 5}" width="${ARM + 10}" height="10" rx="5" fill="#8d99a6" stroke="#5d6773" stroke-width="1.2"/>` +
-        `<circle cx="${AXLE.x + ARM}" cy="${AXLE.y}" r="11" fill="#c98a4b" stroke="#8a5a2b" stroke-width="1.5"/>` +
+        `<circle class="eb-handle ${ready && e === 0 ? 'is-ready' : ''}" cx="${AXLE.x + ARM}" cy="${AXLE.y}" r="11" fill="#c98a4b" stroke="#8a5a2b" stroke-width="1.5"/>` +
         `<circle cx="${AXLE.x + ARM - 3}" cy="${AXLE.y - 3}" r="3" fill="#ffffff" fill-opacity="0.35"/>` +
-        `<circle class="eb-knob ${k && !done ? 'is-ready' : ''}" data-knob cx="${AXLE.x + ARM}" cy="${AXLE.y}" r="22" fill="transparent" tabindex="0" role="button" aria-label="${LABELS.scene.knob}"/>` +
       `</g><circle cx="${AXLE.x}" cy="${AXLE.y}" r="7" fill="#5d6773"/>`;
+    if (ready && e === 0) {
+      const tx = AXLE.x - HINT_R, ty = AXLE.y;
+      out += `<g id="eb-crank-hint" class="eb-crank-hint" pointer-events="none">` +
+        `<path d="M${AXLE.x},${AXLE.y - HINT_R} A${HINT_R},${HINT_R} 0 1 1 ${tx},${ty}" fill="none" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 6"/>` +
+        `<path d="M${tx - 8},${ty + 2} L${tx},${ty - 11} L${tx + 8},${ty + 2} Z" class="eb-crank-hint-head"/></g>`;
+    }
 
     // Support, douille et lampe
     out += `<ellipse cx="${LAMP_C.x}" cy="${BENCH_Y + 2}" rx="50" ry="4" fill="#13243d" opacity="0.08"/>` +
@@ -392,6 +428,9 @@
       out += `<g transform="translate(${LAMP_C.x - 33} ${LAMP_C.y - 35.2}) scale(1.1)"><path d="${PEAR}" fill="#ffffff" fill-opacity="0.5" stroke="#a87a20" stroke-opacity="0.6" stroke-width="1.6" stroke-dasharray="5 4"/></g>` +
         `<text x="${LAMP_C.x}" y="${LAMP_C.y + 5}" text-anchor="middle" class="eb-socket-label">${LABELS.scene.socket}</text>`;
     }
+
+    // Chaleur qui monte pendant qu'on tourne (voir applyGlow)
+    if (k) out += wavesSVG('dynamo') + wavesSVG('lamp');
 
     // Chaleur vue par la caméra thermique
     if (k) {
@@ -406,6 +445,9 @@
 
     // Zone où déposer une lampe
     out += `<rect class="eb-socket" data-socket x="418" y="138" width="104" height="158" rx="14" fill="transparent"/>`;
+
+    // Zone de la manivelle, à saisir (doigt) ou à cliquer (souris)
+    out += `<circle class="eb-knob" data-knob cx="${AXLE.x}" cy="${AXLE.y}" r="${ARM + 18}" fill="transparent" tabindex="0" role="button" aria-label="${LABELS.scene.knob}"/>`;
 
     // Points de mesure (une fois le test fini), étiquettes des mesures faites
     if (done) {
@@ -422,10 +464,10 @@
 
   function spotSVG(s) {
     const [x, y] = SPOT_POS[s];
-    return `<g class="eb-spot" data-spot="${s}" tabindex="0" role="button" aria-label="${escapeHtml(LABELS.scene.spot(LABELS.rows[s]))}">` +
-      `<circle cx="${x}" cy="${y}" r="18" fill="transparent"/>` +
-      `<circle class="eb-spot-ring" cx="${x}" cy="${y}" r="13"/>` +
-      `<circle class="eb-spot-dot" cx="${x}" cy="${y}" r="3.5"/></g>`;
+    return `<g class="eb-spot" data-spot="${s}" tabindex="0" role="button" aria-label="${escapeHtml(LABELS.scene.spot(spotNum(s), LABELS.rows[s]))}">` +
+      `<circle cx="${x}" cy="${y}" r="21" fill="transparent"/>` +
+      `<circle class="eb-spot-ring" cx="${x}" cy="${y}" r="15"/>` +
+      `<text class="eb-spot-num" x="${x}" y="${y + 5}" text-anchor="middle">${spotNum(s)}</text></g>`;
   }
 
   function badgeSVG(s, value, fresh) {
@@ -434,14 +476,18 @@
     return `<g class="eb-badge is-${SPOT_TOOL[s]} ${fresh ? 'is-fresh' : ''}">` +
       `<line class="eb-badge-line" x1="${sx}" y1="${sy}" x2="${x}" y2="${y}"/>` +
       `<circle class="eb-badge-pin" cx="${sx}" cy="${sy}" r="5"/>` +
-      `<rect class="eb-badge-box" x="${x - 52}" y="${y - 15}" width="104" height="30" rx="8"/>` +
-      `<text class="eb-badge-text" x="${x}" y="${y + 5}" text-anchor="middle"><tspan class="eb-badge-num">${value}</tspan> ${LABELS.scene.units}</text></g>`;
+      `<rect class="eb-badge-box" x="${x - 56}" y="${y - 15}" width="112" height="30" rx="8"/>` +
+      `<circle class="eb-badge-n" cx="${x - 41}" cy="${y}" r="9"/>` +
+      `<text class="eb-badge-n-text" x="${x - 41}" y="${y + 4}" text-anchor="middle">${spotNum(s)}</text>` +
+      `<text class="eb-badge-text" x="${x + 8}" y="${y + 5}" text-anchor="middle"><tspan class="eb-badge-num">${value}</tspan> ${LABELS.scene.units}</text></g>`;
   }
 
   /* Lampes et instruments, sous le banc. Une lampe se glisse dans la
      douille (ou se touche) ; changer de lampe ne perd rien : chaque lampe
-     garde son test et ses mesures. Les instruments restent verrouillés tant
-     que la lampe vissée n'a pas reçu ses 100 units. */
+     garde son test et ses mesures. Un instrument se prend en main (clic ou
+     toucher) puis se pose sur un point, ou se glisse ; sous son nom, ce
+     qu'il mesure. Les instruments restent verrouillés tant que la lampe
+     vissée n'a pas reçu ses 100 units. */
   function kitHTML() {
     const miss = lab.state.showMissing;
     const lamps = run.pair.map(k => {
@@ -453,8 +499,8 @@
         `<span class="eb-item-text"><strong>${lampName(k)}</strong><small>${status}</small></span>` +
         (tested(k) && !incomplete ? `<span class="eb-item-check" aria-hidden="true">✓</span>` : '') + `</button>`;
     }).join('');
-    const tools = TOOLS.map(t => `<button type="button" class="eb-item eb-tool ${state.tool === t ? 'is-selected' : ''}" data-tool="${t}" aria-pressed="${state.tool === t}">` +
-      `<span class="eb-item-icon">${TOOL_ICONS[t]}</span><span class="eb-item-text"><strong>${LABELS.tools[t]}</strong></span></button>`).join('');
+    const tools = TOOLS.map(t => `<button type="button" class="eb-item eb-tool" data-tool="${t}" aria-pressed="false">` +
+      `<span class="eb-item-icon">${TOOL_ICONS[t]}</span><span class="eb-item-text"><strong>${LABELS.tools[t]}</strong><small>${LABELS.toolsMeasure[t]}</small></span></button>`).join('');
     return `<div class="eb-group eb-group-lamps"><span class="eb-group-title">${LABELS.lampsTitle}</span><div class="eb-group-items">${lamps}</div></div>` +
       `<div class="eb-group eb-group-tools"><span class="eb-group-title">${LABELS.toolsTitle}</span><div class="eb-group-items">${tools}</div></div>`;
   }
@@ -475,22 +521,26 @@
       const t = el.dataset.tool;
       lab.setLock(el, toolLock);
       lab.makeDraggable(el, {
+        hold: true,
         ghost: () => `<div class="eb-ghost eb-ghost-tool">${TOOL_ICONS[t]}</div>`,
         targets: () => $$('[data-spot]'),
         onDrop: target => measure(t, target.dataset.spot),
-        onTap: () => pickTool(t)
+        onHold: on => {
+          heldTool = on ? t : null;
+          el.setAttribute('aria-pressed', String(on));
+          const stage = $('[data-stage]');
+          if (stage) stage.classList.toggle('is-armed', on);
+          setCaption(defaultCaption());
+        }
       });
     });
+    // Un point touché sans instrument en main (sinon le moteur l'a posé).
     $$('[data-spot]').forEach(el => {
-      const go = () => {
-        if (state.tool) measure(state.tool, el.dataset.spot);
-        else setCaption(LABELS.captionPickTool, true);
-      };
-      el.addEventListener('click', go);
+      el.addEventListener('click', () => setCaption(LABELS.captionPickTool, true));
       el.addEventListener('keydown', e => {
         if (e.key !== 'Enter' && e.key !== ' ') return;
         e.preventDefault();
-        go();
+        setCaption(LABELS.captionPickTool, true);
       });
     });
   }
@@ -498,24 +548,11 @@
   function insertLamp(k) {
     if (state.socket === k) return;
     state.socket = k;
-    state.tool = null;
     glow = 0;
     crankAngle = 0;
     renderExperiment();
     if (tested(k)) setCaption(LABELS.captionAlready);
     lab.save();
-  }
-
-  function pickTool(t) {
-    state.tool = state.tool === t ? null : t;
-    $$('[data-tool]').forEach(el => {
-      const on = el.dataset.tool === state.tool;
-      el.classList.toggle('is-selected', on);
-      el.setAttribute('aria-pressed', String(on));
-    });
-    const stage = $('[data-stage]');
-    if (stage) stage.classList.toggle('is-armed', !!state.tool);
-    setCaption(defaultCaption());
   }
 
   // Un instrument posé sur un point : le bon donne sa lecture, un autre dit
@@ -527,7 +564,6 @@
     if (state.measured[k][s]) return;
     if (SPOT_TOOL[s] !== t) { setCaption(LABELS.wrongTool[t], true); return; }
     state.measured[k][s] = true;
-    state.tool = null;
     freshBadge = s;
     renderExperiment();
     const input = $(`[data-cell="${k}|${s}"]`);
@@ -535,11 +571,16 @@
     lab.save();
   }
 
-  /* Manivelle : le bras suit le doigt autour de l'axe ; l'énergie donnée
-     compte l'angle parcouru, dans un sens comme dans l'autre (3 tours pour
-     100 units). Plus on tourne vite, plus la lampe brille. À 100 units, le
-     banc s'arrête : les deux lampes reçoivent exactement la même énergie.
-     Clavier : flèches, Entrée ou Espace font avancer d'un douzième de tour. */
+  /* Manivelle. Au doigt (ou au stylet), le bras suit le doigt autour de
+     l'axe ; l'énergie donnée compte l'angle parcouru, dans un sens comme
+     dans l'autre (3 tours pour 100 units) ; plus on tourne vite, plus la
+     lampe brille. À la souris (un pavé tactile tourne mal), un clic la fait
+     tourner seule jusqu'au bout ; au clavier, Entrée ou Espace aussi, les
+     flèches avancent d'un douzième de tour. À 100 units, le banc s'arrête :
+     les deux lampes reçoivent exactement la même énergie. */
+  const AUTO_SPEED = 2 * Math.PI * TURNS / 4500;   // rad/ms : 3 tours en 4,5 s
+  let autoTurning = false;
+
   function bindCrank() {
     const knob = $('[data-knob]');
     if (!knob) return;
@@ -548,6 +589,8 @@
     knob.addEventListener('pointerdown', e => {
       if (e.button !== 0 || !k || tested(k)) return;
       e.preventDefault();
+      if (e.pointerType === 'mouse') { autoTurn(k); return; }
+      if (autoTurning) return;
       knob.setPointerCapture(e.pointerId);
       const svg = knob.ownerSVGElement;
       const pt = svg.createSVGPoint();
@@ -580,14 +623,36 @@
       knob.addEventListener('pointercancel', up);
     });
     knob.addEventListener('keydown', e => {
-      if (!['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Enter', ' '].includes(e.key)) return;
+      const run1 = e.key === 'Enter' || e.key === ' ';
+      if (!run1 && !['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
       e.preventDefault();
       if (!k || tested(k)) return;
+      if (run1) { autoTurn(k); return; }
       crankAngle += Math.PI / 6;
       startGlowLoop(lab.newScene());
       turn(k, Math.PI / 6, 0.008);
       lab.save();
     });
+  }
+
+  // La manivelle tourne seule, à vitesse régulière, jusqu'à 100 units.
+  function autoTurn(k) {
+    if (autoTurning) return;
+    autoTurning = true;
+    const token = lab.newScene();
+    startGlowLoop(token);
+    const speed = reduceMotion ? AUTO_SPEED * 4 : AUTO_SPEED;
+    let last = performance.now();
+    const step = now => {
+      if (!lab.isScene(token) || state.socket !== k || tested(k)) { autoTurning = false; return; }
+      const dt = Math.min(50, Math.max(0, now - last));
+      last = now;
+      crankAngle += speed * dt;
+      turn(k, speed * dt, 0.011);
+      if (tested(k)) { autoTurning = false; lab.save(); return; }
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   }
 
   function turn(k, rad, speed) {
@@ -596,7 +661,13 @@
     const target = Math.min(1, speed / 0.012);
     glow += (target - glow) * 0.35;
     // Premier tour : les hypothèses sont désormais figées (voir renderPredict).
-    if (before === 0) setCaption(LABELS.captionTurning);
+    if (before === 0) {
+      setCaption(LABELS.captionTurning);
+      const hint = $('#eb-crank-hint');
+      if (hint) hint.remove();
+      const handle = $('.eb-handle');
+      if (handle) handle.classList.remove('is-ready');
+    }
     updateBench(k);
     if (state.energy[k] >= START) finishTest(k);
   }
@@ -612,6 +683,15 @@
     applyGlow(k);
   }
 
+  /* Pendant qu'on tourne : la lampe brille (selon la lampe) et la chaleur
+     monte de la dynamo et de la lampe, d'autant plus visible que la lampe
+     perd une grande part de l'énergie des fils (ampoule classique : presque
+     tout ; LED : environ deux tiers). */
+  function heatShare(k) {
+    const r = run.readings[k];
+    return Math.max(0.25, Math.min(1, 0.25 + 0.75 * ((r.lamp / r.wires) - 0.6) / 0.4));
+  }
+
   function applyGlow(k) {
     const L = LAMPS[k];
     const on = glow > 0.05;
@@ -621,6 +701,10 @@
     if (glass) glass.setAttribute('fill', on ? L.glass : GLASS_OFF);
     const fil = $('#eb-bulb-fil');
     if (fil) fil.setAttribute('stroke', on ? WIRE_ON : WIRE_OFF);
+    const wd = $('#eb-waves-dynamo');
+    if (wd) wd.setAttribute('opacity', Math.min(1, glow * 1.1).toFixed(3));
+    const wl = $('#eb-waves-lamp');
+    if (wl) wl.setAttribute('opacity', Math.min(1, glow * 1.1 * heatShare(k)).toFixed(3));
   }
 
   // La lampe s'éteint doucement quand on ne tourne plus.
@@ -639,7 +723,6 @@
 
   function finishTest(k) {
     state.energy[k] = START;
-    state.tool = null;
     renderExperiment();
     setCaption(LABELS.captionTestDone);
     lab.renderStepper();
@@ -647,19 +730,27 @@
   }
 
   /* --- Le tableau des mesures ---
-     Une ligne par point de mesure, une colonne par lampe. Une case ne devient
-     un champ qu'une fois le point mesuré : impossible de deviner. */
+     Rangé par machine : ce que la dynamo reçoit (1) et donne (2, 3), ce que
+     la lampe reçoit (3, les fils : la même valeur, reprise) et donne (4, 5).
+     Numéros et noms des flèches : ceux du banc et du diagramme. Une colonne
+     par lampe. Une case ne devient un champ qu'une fois le point mesuré :
+     impossible de deviner. read : lecture seule (étape Conclude). */
   function tableHTML(mode) {
     const read = mode === 'read';
     const miss = lab.state.showMissing && !read;
-    const head = `<tr><th scope="col" class="eb-th-where">${LABELS.tableWhere}</th>` +
-      run.pair.map(k => `<th scope="col"><span class="eb-th-lamp">${lampIcon(k)}<span>${lampName(k)}</span></span></th>`).join('') +
-      (read ? `<th scope="col" class="eb-th-tick">${LABELS.tickHead}</th>` : '') + `</tr>`;
-    const rows = SPOTS.map(s => `<tr><th scope="row" class="eb-row-head">${LABELS.rows[s]}</th>` +
-      run.pair.map(k => `<td>${read ? readCell(k, s) : cellHTML(k, s, miss && !written(k, s))}</td>`).join('') +
-      (read ? `<td>${tickHTML(s)}</td>` : '') + `</tr>`).join('');
-    return `<table class="lab-table eb-table"><thead>${head}</thead><tbody>${rows}</tbody></table>`;
+    const head = `<tr><th scope="col" class="eb-th-where">${LABELS.tableFlow}</th>` +
+      run.pair.map(k => `<th scope="col"><span class="eb-th-lamp">${lampIcon(k)}<span>${lampName(k)}</span></span></th>`).join('') + `</tr>`;
+    const body = MACHINES.map(m => `<tr class="eb-machine"><th scope="colgroup" colspan="${run.pair.length + 1}">${LABELS.machines[m.id]}</th></tr>` +
+      m.rows.map(([io, s]) => {
+        const copy = m.id === 'lamp' && s === 'wires';
+        return `<tr class="${copy ? 'is-copy' : ''}"><th scope="row" class="eb-row-head">` +
+          `<span class="eb-io is-${io}">${LABELS.io[io]}</span>${numHTML(s)}<span>${LABELS.arrows[s]}</span></th>` +
+          run.pair.map(k => `<td>${copy ? copyCell(k) : read ? readCell(k, s) : cellHTML(k, s, miss && !written(k, s))}</td>`).join('') + `</tr>`;
+      }).join('')).join('');
+    return `<table class="lab-table eb-table eb-flow-table"><thead>${head}</thead><tbody>${body}</tbody></table>`;
   }
+
+  const numHTML = s => `<span class="eb-rownum" aria-hidden="true">${spotNum(s)}</span>`;
 
   function cellHTML(k, s, missing) {
     const v = state.values[k][s];
@@ -673,6 +764,12 @@
   function readCell(k, s) {
     const v = state.values[k][s];
     return v == null ? `<span class="eb-cell-empty">—</span>` : `<span class="eb-cell-val">${v}</span>`;
+  }
+
+  // Les fils, reçus par la lampe : la valeur notée sur la ligne de la dynamo.
+  function copyCell(k) {
+    const v = state.values[k].wires;
+    return `<span class="eb-cell-copy" data-copy="${k}">${v == null ? '—' : v}</span>`;
   }
 
   function bindTable() {
@@ -717,27 +814,19 @@
     if (tab && state.view !== 'diagram') {
       lab.setLock(tab, valuesComplete() ? null : LABELS.lockValues(VALUES_TOTAL - valuesWritten()), { missing: true, key: 'tab-diagram' });
     }
-    if (state.view === 'diagram') {
-      // Les flèches suivent les valeurs du tableau.
-      const holder = $('[data-diagram]');
-      if (holder) {
-        holder.innerHTML = diagramSVG({ lamp: state.diagLamp, mode: 'edit' });
-        bindBoxes();
-      }
-    } else {
-      const lampsGroup = $('.eb-group-lamps .eb-group-items');
-      if (lampsGroup) {
-        // Coche des lampes complètes, sans recréer les boutons (geste en cours).
-        run.pair.forEach(k => {
-          const btn = $(`[data-lamp="${k}"]`);
-          if (!btn) return;
-          const complete = tested(k) && SPOTS.every(s => written(k, s));
-          let check = btn.querySelector('.eb-item-check');
-          if (complete && !check) btn.insertAdjacentHTML('beforeend', `<span class="eb-item-check" aria-hidden="true">✓</span>`);
-          if (!complete && check) check.remove();
-        });
-      }
-    }
+    $$('[data-copy]').forEach(el => {
+      const v = state.values[el.dataset.copy].wires;
+      el.textContent = v == null ? '—' : String(v);
+    });
+    // Coche des lampes complètes, sans recréer les boutons (geste en cours).
+    run.pair.forEach(k => {
+      const btn = $(`[data-lamp="${k}"]`);
+      if (!btn) return;
+      const complete = tested(k) && SPOTS.every(s => written(k, s));
+      const check = btn.querySelector('.eb-item-check');
+      if (complete && !check) btn.insertAdjacentHTML('beforeend', `<span class="eb-item-check" aria-hidden="true">✓</span>`);
+      if (!complete && check) check.remove();
+    });
     setCaption(defaultCaption());
     updateRunFooter();
   }
@@ -745,13 +834,13 @@
   function defaultCaption() {
     if (state.view === 'diagram') {
       if (formsPlaced() === SPOTS.length) return LABELS.captionDiagramDone;
-      return state.pick ? LABELS.captionFormPicked(LABELS.forms[state.pick]) : LABELS.captionDiagram;
+      return heldForm ? LABELS.captionFormPicked(LABELS.forms[heldForm]) : LABELS.captionDiagram;
     }
     const k = state.socket;
     if (!k) return LABELS.captionStart;
     if (!tested(k)) return state.energy[k] > 0 ? LABELS.captionTurning : LABELS.captionReady;
     if (SPOTS.some(s => !state.measured[k][s])) {
-      return state.tool ? LABELS.captionToolPicked(LABELS.tools[state.tool]) : LABELS.captionMeasure;
+      return heldTool ? LABELS.captionToolPicked(LABELS.tools[heldTool]) : LABELS.captionMeasure;
     }
     if (SPOTS.some(s => !written(k, s))) return LABELS.captionRead;
     const o = other(k);
@@ -775,7 +864,6 @@
     $('[data-next]').addEventListener('click', () => {
       if (toDiagram) {
         state.view = 'diagram';
-        state.tool = null;
         renderExperiment();
       } else lab.goToStep(3);
     });
@@ -802,51 +890,58 @@
     if (complete !== stepperDone) { stepperDone = complete; lab.renderStepper(); }
   }
 
-  /* --- Le diagramme de flux d'énergie : viewBox 640 × 330 ---
+  /* --- Les diagrammes de flux d'énergie : viewBox 640 × 330 ---
      Ovales : les objets ; flèches horizontales : l'énergie utile qui passe
-     d'un objet au suivant ; flèches rouges : l'énergie perdue dans l'air.
-     Une case par flèche, pour la forme d'énergie. Largeur des flèches : les
-     valeurs du tableau de l'élève (même fausses) pour la lampe choisie. */
+     d'un objet au suivant ; flèches rouges, en diagonale vers le haut à
+     droite (convention du cours) : l'énergie perdue dans l'air. Une case
+     par flèche, pour la forme d'énergie. Largeur des flèches : les valeurs
+     du tableau de l'élève (même fausses). Deux diagrammes côte à côte, un
+     par lampe, à la même échelle : l'élève remplit le premier, le second
+     reprend ses formes (mêmes transformations, autres quantités). */
   const DG_Y = 206;
-  const OVAL = { rx: 46, ry: 29, hand: 56, dynamo: 232, lamp: 410, room: 586 };
-  const H_ARROWS = { crank: [102, 186], wires: [278, 364], light: [456, 540] };
-  const V_ARROWS = { dynamo: 232, lamp: 410 };
-  const BOX_POS = { crank: [144, 263], wires: [321, 263], light: [498, 263], dynamo: [136, 118], lamp: [506, 118] };
+  const OVAL = { rx: 46, ry: 29, hand: 50, dynamo: 214, lamp: 378, room: 542 };
+  const H_ARROWS = { crank: [96, 168], wires: [260, 332], light: [424, 496] };
+  // Énergie perdue : de l'ovale vers le haut à droite, à 45° (départ, pointe).
+  const D_ARROWS = { dynamo: [236, 183, 316, 103], lamp: [400, 183, 480, 103] };
+  const BOX_POS = { crank: [125, 263], wires: [296, 263], light: [460, 263], dynamo: [130, 120], lamp: [568, 150] };
   const USEFUL = '#8a9bb8';
   const WASTED = '#d64545';
   const thick = v => (v == null ? 3 : Math.max(3, Math.min(40, v * 0.4)));
 
-  function hArrow(x1, x2, y, t, colour) {
+  // Flèche de (x1, y1) à la pointe (x2, y2), de largeur t.
+  function arrowPath(x1, y1, x2, y2, t, colour) {
+    const len = Math.hypot(x2 - x1, y2 - y1);
+    const ux = (x2 - x1) / len, uy = (y2 - y1) / len;
     const head = 14, hw = t / 2 + 7;
-    return `<path d="M${x1},${y - t / 2} L${x2 - head},${y - t / 2} L${x2 - head},${y - hw} L${x2},${y} L${x2 - head},${y + hw} L${x2 - head},${y + t / 2} L${x1},${y + t / 2} Z" fill="${colour}"/>`;
+    const bx = x2 - ux * head, by = y2 - uy * head;
+    const p = (x, y, d) => `${(x - uy * d).toFixed(1)},${(y + ux * d).toFixed(1)}`;
+    return `<path d="M${p(x1, y1, t / 2)} L${p(bx, by, t / 2)} L${p(bx, by, hw)} L${x2},${y2} ` +
+      `L${p(bx, by, -hw)} L${p(bx, by, -t / 2)} L${p(x1, y1, -t / 2)} Z" fill="${colour}"/>`;
   }
 
-  // De y1 (en bas) à la pointe y2 (en haut).
-  function vArrow(x, y1, y2, t, colour) {
-    const head = 14, hw = t / 2 + 7;
-    return `<path d="M${x - t / 2},${y1} L${x - t / 2},${y2 + head} L${x - hw},${y2 + head} L${x},${y2} L${x + hw},${y2 + head} L${x + t / 2},${y2 + head} L${x + t / 2},${y1} Z" fill="${colour}"/>`;
-  }
-
-  // o.mode : 'edit' (cases à remplir), 'check' (cases justes ou fausses).
+  // o.mode : 'edit' (cases à remplir), 'copy' (formes reprises du premier
+  // diagramme), 'check' (cases justes ou fausses).
   function diagramSVG(o) {
     const k = o.lamp;
     const val = s => state.values[k][s];
-    const missing = o.mode === 'edit' && lab.state.showMissing;
-    let out = `<svg class="lab-svg eb-diagram" viewBox="0 0 640 330" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${LABELS.diagram.label}">`;
+    const edit = o.mode === 'edit';
+    const missing = edit && lab.state.showMissing;
+    let out = `<svg class="lab-svg eb-diagram" viewBox="0 0 640 330" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeHtml(LABELS.diagram.label(lampName(k)))}">`;
 
     Object.keys(H_ARROWS).forEach(s => {
       const [x1, x2] = H_ARROWS[s];
       const v = val(s), t = thick(v);
-      out += hArrow(x1, x2, DG_Y, t, USEFUL) +
+      out += arrowPath(x1, DG_Y, x2, DG_Y, t, USEFUL) +
         `<text class="eb-arrow-val" x="${(x1 + x2 - 14) / 2}" y="${DG_Y - t / 2 - 8}" text-anchor="middle">${v == null ? '?' : v}</text>`;
     });
-    Object.keys(V_ARROWS).forEach(s => {
-      const x = V_ARROWS[s];
+    Object.keys(D_ARROWS).forEach(s => {
+      const [x1, y1, x2, y2] = D_ARROWS[s];
       const v = val(s), t = thick(v);
-      const right = s === 'dynamo';
-      out += vArrow(x, DG_Y - OVAL.ry + 4, 66, t, WASTED) +
-        `<text class="eb-arrow-val is-wasted" x="${right ? x + t / 2 + 7 : x - t / 2 - 7}" y="140" text-anchor="${right ? 'start' : 'end'}">${v == null ? '?' : v}</text>` +
-        `<text class="eb-air" x="${x}" y="54" text-anchor="middle">${LABELS.diagram.air}</text>`;
+      // La valeur, du côté haut gauche de la flèche, à mi-longueur.
+      const d = (t / 2 + 13) * Math.SQRT1_2;
+      out += arrowPath(x1, y1, x2, y2, t, WASTED) +
+        `<text class="eb-arrow-val is-wasted" x="${((x1 + x2) / 2 - d).toFixed(1)}" y="${((y1 + y2) / 2 - d + 5).toFixed(1)}" text-anchor="middle">${v == null ? '?' : v}</text>` +
+        `<text class="eb-air" x="${x2 + 7}" y="${y2 - 4}">${LABELS.diagram.air}</text>`;
     });
     ['hand', 'dynamo', 'lamp', 'room'].forEach(n => {
       out += `<ellipse class="eb-oval" cx="${OVAL[n]}" cy="${DG_Y}" rx="${OVAL.rx}" ry="${OVAL.ry}"/>` +
@@ -855,11 +950,11 @@
     SPOTS.forEach(s => {
       const [x, y] = BOX_POS[s];
       const f = state.forms[s];
-      const cls = ['eb-box', f ? '' : 'is-empty',
+      const cls = ['eb-box', f ? '' : 'is-empty', o.mode === 'copy' ? 'is-copy' : '',
         o.mode === 'check' ? (f === BOX_FORM[s] ? 'is-ok' : 'is-ko') : '',
         missing && !f ? 'is-missing' : ''].join(' ');
       const aria = escapeHtml(`${LABELS.arrows[s]} : ${f ? LABELS.forms[f] : LABELS.diagram.emptyBox}`);
-      out += `<g class="${cls}" ${o.mode === 'edit' ? `data-box="${s}" tabindex="0" role="button"` : ''} aria-label="${aria}">` +
+      out += `<g class="${cls}" ${edit ? `data-box="${s}" tabindex="0" role="button"` : ''} aria-label="${aria}">` +
         `<rect x="${x - 70}" y="${y - 17}" width="140" height="34" rx="9"/>` +
         `<text x="${x}" y="${y + 4.5}" text-anchor="middle">${f ? LABELS.forms[f] : '?'}</text></g>`;
     });
@@ -871,14 +966,17 @@
     return out + `</svg>`;
   }
 
+  // À gauche, le diagramme à remplir ; à droite, celui qui reprend ses formes.
   function diagramStageHTML() {
-    const toggle = run.pair.map(k => `<button type="button" class="lab-choice eb-diag-lamp ${state.diagLamp === k ? 'is-selected' : ''}" data-diag-lamp="${k}" data-lab-look aria-pressed="${state.diagLamp === k}">${lampIcon(k)}<span>${lampName(k)}</span></button>`).join('');
-    return `<div class="eb-diag-toggle"><span>${LABELS.valuesOf}</span>${toggle}</div>` +
-      `<div class="eb-diag-holder" data-diagram>${diagramSVG({ lamp: state.diagLamp, mode: 'edit' })}</div>`;
+    const [a, b] = run.pair;
+    const col = (k, mode, note) => `<div class="eb-diag-col is-${mode}">` +
+      `<div class="eb-diag-head">${lampIcon(k)}<strong>${lampName(k)}</strong><span class="eb-diag-note">${note}</span></div>` +
+      `<div class="eb-diag-holder">${diagramSVG({ lamp: k, mode })}</div></div>`;
+    return `<div class="eb-diagrams">${col(a, 'edit', LABELS.diagramFill)}${col(b, 'copy', LABELS.diagramCopy)}</div>`;
   }
 
   function paletteHTML() {
-    const chips = FORMS.map(f => `<button type="button" class="lab-choice eb-form-chip ${state.pick === f ? 'is-selected' : ''}" data-form="${f}" aria-pressed="${state.pick === f}">${LABELS.forms[f]}</button>`).join('');
+    const chips = FORMS.map(f => `<button type="button" class="lab-choice eb-form-chip" data-form="${f}" aria-pressed="false">${LABELS.forms[f]}</button>`).join('');
     return `<div class="eb-group eb-group-forms"><span class="eb-group-title">${LABELS.formsTitle}</span><div class="eb-group-items">${chips}</div></div>`;
   }
 
@@ -886,66 +984,48 @@
     $$('[data-form]').forEach(el => {
       const f = el.dataset.form;
       lab.makeDraggable(el, {
+        hold: true,
         ghost: () => `<div class="eb-ghost eb-ghost-form">${LABELS.forms[f]}</div>`,
         targets: () => $$('[data-box]'),
         onDrop: target => setForm(target.dataset.box, f),
-        onTap: () => {
-          state.pick = state.pick === f ? null : f;
-          $$('[data-form]').forEach(b => {
-            const on = b.dataset.form === state.pick;
-            b.classList.toggle('is-selected', on);
-            b.setAttribute('aria-pressed', String(on));
-          });
-          const stage = $('[data-stage]');
-          if (stage) stage.classList.toggle('is-picking', !!state.pick);
+        onHold: on => {
+          heldForm = on ? f : null;
+          el.setAttribute('aria-pressed', String(on));
           setCaption(defaultCaption());
         }
       });
     });
-    $$('[data-diag-lamp]').forEach(b => b.addEventListener('click', () => {
-      state.diagLamp = b.dataset.diagLamp;
-      $$('[data-diag-lamp]').forEach(x => {
-        const on = x === b;
-        x.classList.toggle('is-selected', on);
-        x.setAttribute('aria-pressed', String(on));
-      });
-      $('[data-diagram]').innerHTML = diagramSVG({ lamp: state.diagLamp, mode: 'edit' });
-      bindBoxes();
-    }));
-    bindBoxes();
-  }
-
-  function bindBoxes() {
+    // Une case touchée sans forme en main (sinon le moteur l'a posée).
     $$('[data-box]').forEach(el => {
-      const go = () => {
-        if (state.pick) setForm(el.dataset.box, state.pick);
-        else setCaption(LABELS.captionPickForm, true);
-      };
-      el.addEventListener('click', go);
+      el.addEventListener('click', () => setCaption(LABELS.captionPickForm, true));
       el.addEventListener('keydown', e => {
         if (e.key !== 'Enter' && e.key !== ' ') return;
         e.preventDefault();
-        go();
+        setCaption(LABELS.captionPickForm, true);
       });
     });
   }
 
   function setForm(box, f) {
     state.forms[box] = f;
-    state.pick = null;
     if (lab.state.showMissing && formsPlaced() === SPOTS.length) lab.state.showMissing = false;
     renderExperiment();
     lab.save();
   }
 
   /* ===== Étape 3 : conclusion =====
-     À gauche, le tableau (lecture seule) où l'on coche ce qui est là à la
-     fin ; à droite, les deux questions et le jugement des hypothèses. */
+     À gauche, le tableau (lecture seule) et le bilan d'énergie guidé :
+     a) l'énergie du début (une des cinq flèches), b) celles de la fin
+     (plusieurs). À droite, la question 1, puis la question 2 avec c) le
+     calcul de chaque lampe (addition posée avec les valeurs du tableau,
+     l'élève écrit le total), et le jugement des hypothèses. */
   function conclusionParts() {
     const c = state.concl;
     return {
       q1: !!c.q1,
-      balance: c.start != null && c.ticks.length > 0 && run.pair.every(k => c.totals[k] != null),
+      start: !!c.start,
+      ends: c.ends.length > 0,
+      totals: run.pair.every(k => c.totals[k] != null),
       q2: !!c.q2,
       rest: !!(c.rest && c.fate),
       verdict: !!(c.v1 && c.v2)
@@ -956,13 +1036,52 @@
     return Object.values(conclusionParts()).every(Boolean);
   }
 
-  function tickHTML(s) {
-    const on = state.concl.ticks.includes(s);
-    return `<button type="button" class="lab-choice eb-tick ${on ? 'is-selected' : ''}" data-tick="${s}" aria-pressed="${on}" aria-label="${escapeHtml(LABELS.tickRow(LABELS.rows[s]))}">${on ? '✓' : ''}</button>`;
-  }
-
   function numInput(attr, value, aria, missing) {
     return `<input type="text" inputmode="numeric" class="eb-num-input ${missing ? 'lab-is-missing' : ''}" ${attr} value="${value == null ? '' : value}" maxlength="3" autocomplete="off" spellcheck="false" aria-label="${escapeHtml(aria)}">`;
+  }
+
+  // Les valeurs du tableau de l'élève sur ces lignes, dans l'ordre du tableau.
+  const endRowsOf = c => SPOTS.filter(s => c.ends.includes(s));
+
+  function balanceHTML() {
+    const c = state.concl;
+    const parts = conclusionParts();
+    const show = lab.state.showMissing;
+    const miss = key => (show && !parts[key] ? 'lab-is-missing' : '');
+    const pick = (field, s, on) => `<button type="button" class="lab-choice eb-pick ${on ? 'is-selected' : ''}" data-${field}="${s}" aria-pressed="${on}">` +
+      `${numHTML(s)}<span>${LABELS.arrows[s]}</span></button>`;
+    // L'énergie du début, pour chaque lampe (la même si l'élève a bien choisi).
+    const startVals = c.start ? [...new Set(run.pair.map(k => cellValue(k, c.start)))].join(' / ') : null;
+
+    return `<div class="eb-balance">` +
+      `<h3 class="lab-panel-title">${LABELS.balanceTitle}</h3>` +
+      `<div class="eb-bal-part ${miss('start')}">` +
+        `<p class="eb-bal-label"><span class="eb-num" aria-hidden="true">a</span><span>${LABELS.startChoose}</span>` +
+        (startVals ? `<span class="eb-bal-result">${LABELS.startResult(startVals)}</span>` : '') + `</p>` +
+        `<div class="eb-chips">${SPOTS.map(s => pick('start', s, c.start === s)).join('')}</div></div>` +
+      `<div class="eb-bal-part ${miss('ends')}">` +
+        `<p class="eb-bal-label"><span class="eb-num" aria-hidden="true">b</span><span>${LABELS.endChoose}</span></p>` +
+        `<div class="eb-chips">${SPOTS.map(s => pick('end', s, c.ends.includes(s))).join('')}</div></div>` +
+      `</div>`;
+  }
+
+  const cellValue = (k, s) => (state.values[k][s] == null ? '?' : state.values[k][s]);
+
+  /* c) Pour chaque lampe, le début et la fin côte à côte : l'addition est
+     posée avec les valeurs du tableau des énergies choisies en b ; l'élève
+     écrit le total. Placé dans la question 2, qu'il sert à trancher. */
+  function calcHTML() {
+    const c = state.concl;
+    const show = lab.state.showMissing;
+    const ends = endRowsOf(c);
+    const lines = run.pair.map(k => `<div class="eb-calc">` +
+      `<span class="eb-calc-lamp">${lampIcon(k)}<span>${lampName(k)}</span></span>` +
+      `<span class="eb-calc-start">${LABELS.calcStart} <b>${c.start ? cellValue(k, c.start) : '…'}</b> ${LABELS.unitsWord}</span>` +
+      `<span class="eb-calc-sum">${LABELS.calcEnd} ${ends.length ? ends.map(s => `<b>${cellValue(k, s)}</b>`).join(' + ') : '<span class="eb-calc-empty">…</span>'} =</span>` +
+      numInput(`data-total="${k}"`, c.totals[k], LABELS.totalAria(lampThe(k)), show && c.totals[k] == null) +
+      `<span>${LABELS.unitsWord}</span></div>`).join('');
+    return `<div class="eb-bal-part eb-calcs ${show && !conclusionParts().totals ? 'lab-is-missing' : ''}">` +
+      `<p class="eb-bal-label"><span class="eb-num" aria-hidden="true">c</span><span>${LABELS.endCalc}</span></p>${lines}</div>`;
   }
 
   function renderConclude() {
@@ -971,15 +1090,12 @@
     const show = lab.state.showMissing;
     const miss = key => (show && !parts[key] ? 'lab-is-missing' : '');
     const chip = (field, val, label, icon) => `<button type="button" class="lab-choice eb-chip ${c[field] === val ? 'is-selected' : ''}" data-c="${field}" data-val="${val}" aria-pressed="${c[field] === val}">${icon || ''}<span>${label}</span></button>`;
-    const totals = run.pair.map(k => `<span class="eb-total">${lampIcon(k)}<span>${lampName(k)}</span>` +
-      numInput(`data-total="${k}"`, c.totals[k], LABELS.totalAria(lampThe(k)), show && c.totals[k] == null) +
-      `<span>${LABELS.unitsWord}</span></span>`).join('');
 
     lab.body.innerHTML = `<div class="eb-conclude">` +
       `<section class="eb-read">` +
         `<div class="eb-side-head"><h3 class="lab-panel-title">${LABELS.tableTitle}</h3><span class="eb-unit">${LABELS.tableUnit}</span></div>` +
-        `<div class="lab-table-wrap eb-table-wrap ${show && !c.ticks.length ? 'lab-is-missing' : ''}">${tableHTML('read')}</div>` +
-        `<p class="eb-hint">${gloss(LABELS.tickHint)}</p>` +
+        `<div class="lab-table-wrap eb-table-wrap">${tableHTML('read')}</div>` +
+        balanceHTML() +
       `</section>` +
       `<section class="eb-form">` +
         `<div class="eb-q ${miss('q1')}">` +
@@ -989,11 +1105,8 @@
         `</div>` +
         `<div class="eb-q">` +
           `<p class="eb-q-title"><span class="eb-num" aria-hidden="true">2</span><span>${gloss(LABELS.questions.end)}</span></p>` +
-          `<div class="eb-balance ${miss('balance')}">` +
-            `<div class="eb-bal-row"><span class="eb-bal-label">${LABELS.startLabel}</span>` +
-              numInput('data-start', c.start, LABELS.startAria, show && c.start == null) + `<span>${LABELS.unitsWord}</span></div>` +
-            `<div class="eb-bal-row"><span class="eb-bal-label">${LABELS.endLabel}</span>${totals}</div>` +
-          `</div>` +
+          `<p class="eb-q-hint">${gloss(LABELS.balanceHint)}</p>` +
+          calcHTML() +
           `<div class="eb-part ${miss('q2')}"><p class="eb-sentence-sm">${gloss(LABELS.concl2(blankHTML(c.q2 && LABELS.amounts[c.q2])))}</p>` +
             `<div class="eb-chips">${AMOUNTS.map(x => chip('q2', x, LABELS.amounts[x])).join('')}</div></div>` +
           `<div class="eb-part ${miss('rest')}"><p class="eb-sentence-sm">${gloss(LABELS.concl3(blankHTML(c.rest && LABELS.forms[c.rest]), blankHTML(c.fate && LABELS.fates[c.fate])))}</p>` +
@@ -1010,9 +1123,13 @@
       c[btn.dataset.c] = btn.dataset.val;
       renderConclude();
     }));
-    $$('[data-tick]').forEach(btn => btn.addEventListener('click', () => {
-      const s = btn.dataset.tick;
-      c.ticks = c.ticks.includes(s) ? c.ticks.filter(x => x !== s) : SPOTS.filter(x => x === s || c.ticks.includes(x));
+    $$('[data-start]').forEach(btn => btn.addEventListener('click', () => {
+      c.start = c.start === btn.dataset.start ? null : btn.dataset.start;
+      renderConclude();
+    }));
+    $$('[data-end]').forEach(btn => btn.addEventListener('click', () => {
+      const s = btn.dataset.end;
+      c.ends = c.ends.includes(s) ? c.ends.filter(x => x !== s) : SPOTS.filter(x => x === s || c.ends.includes(x));
       renderConclude();
     }));
     // Nombre entier, pris en compte à chaque frappe (voir recordValue).
@@ -1032,7 +1149,6 @@
       input.addEventListener('change', () => read(true));
       input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } });
     };
-    bindNum($('[data-start]'), v => { c.start = v; });
     $$('[data-total]').forEach(input => bindNum(input, v => { c.totals[input.dataset.total] = v; }));
 
     lab.setFooter(`<button type="button" class="lab-btn lab-btn-ghost" data-back>← ${LABELS.backToLab}</button>` +
@@ -1083,10 +1199,10 @@
       else misses.push({ k, s, v, r });
     }));
     const formsWrong = SPOTS.filter(s => state.forms[s] !== BOX_FORM[s]);
-    const ticks = SPOTS.filter(s => c.ticks.includes(s));
-    const ticksOk = ticks.length === END_ROWS.length && END_ROWS.every(s => ticks.includes(s));
-    const startOk = c.start === START;
-    const totalOk = k => c.totals[k] != null && c.totals[k] === sumOf(k, ticks);
+    const ends = endRowsOf(c);
+    const endsOk = ends.length === END_ROWS.length && END_ROWS.every(s => ends.includes(s));
+    const startOk = c.start === 'crank';
+    const totalOk = k => c.totals[k] != null && c.totals[k] === sumOf(k, ends);
     const totalsOk = run.pair.every(totalOk);
     const q1Ok = c.q1 === truth1();
     const q2Ok = c.q2 === 'same';
@@ -1095,12 +1211,12 @@
     const should1 = state.hyp.h1 === c.q1 ? 'confirmed' : 'rejected';
     const should2 = state.hyp.h2 === c.q2 ? 'confirmed' : 'rejected';
     return {
-      misses, good, total: VALUES_TOTAL, formsWrong, ticks, ticksOk, startOk, totalOk, totalsOk,
+      misses, good, total: VALUES_TOTAL, formsWrong, ends, endsOk, startOk, totalOk, totalsOk,
       q1Ok, q2Ok, restOk, fateOk, should1, should2,
       v1Ok: c.v1 === should1, v2Ok: c.v2 === should2,
       measures: misses.length === 0,
       forms: formsWrong.length === 0,
-      balance: ticksOk && startOk && totalsOk,
+      balance: endsOk && startOk && totalsOk,
       answers: q1Ok && q2Ok && restOk && fateOk,
       verdicts: c.v1 === should1 && c.v2 === should2
     };
@@ -1109,15 +1225,17 @@
   const missText = m => CHECK.measureMiss(LABELS.rows[m.s], lampName(m.k), m.v == null ? CHECK.nothing : m.v, m.r);
   const endNames = rows => LABELS.list(rows.map(s => CHECK.endNames[s]));
 
-  // Ce qui ne va pas dans les lignes cochées, en une ou plusieurs phrases.
-  function ticksNotes(ev) {
+  // Ce qui ne va pas dans les énergies choisies pour la fin, en une ou plusieurs phrases.
+  function endsNotes(ev) {
     const notes = [];
-    if (ev.ticks.includes('wires')) notes.push(CHECK.ticksWires);
-    if (ev.ticks.includes('crank')) notes.push(CHECK.ticksCrank);
-    const forgot = END_ROWS.filter(s => !ev.ticks.includes(s));
-    if (forgot.length) notes.push(CHECK.ticksMissing(endNames(forgot)));
+    if (ev.ends.includes('wires')) notes.push(CHECK.endsWires);
+    if (ev.ends.includes('crank')) notes.push(CHECK.endsCrank);
+    const forgot = END_ROWS.filter(s => !ev.ends.includes(s));
+    if (forgot.length) notes.push(CHECK.endsMissing(endNames(forgot)));
     return notes;
   }
+
+  const startSaid = c => (c.start ? LABELS.arrows[c.start] : CHECK.nothing);
 
   function sentence1(k) { return LABELS.concl1[run.ask](lampThe(k)); }
   function sentence3(rest, fate) { return LABELS.concl3(LABELS.forms[rest], LABELS.fates[fate]); }
@@ -1140,17 +1258,17 @@
         const f = state.forms[s];
         return `<li><strong>${f ? CHECK.formWrong(LABELS.arrows[s], LABELS.forms[f]) : CHECK.formEmpty(LABELS.arrows[s])}</strong> ${gloss(CHECK.formWhy[s])}</li>`;
       }).join('');
-      return `<div class="eb-diag-mini">${diagramSVG({ lamp: state.diagLamp, mode: 'check' })}</div>` +
+      return `<div class="eb-diag-mini">${diagramSVG({ lamp: run.pair[0], mode: 'check' })}</div>` +
         (ev.forms ? `<p class="eb-ok">${CHECK.formsAllGood}</p>` : `<ul class="eb-misslist">${wrong}</ul>`) +
         `<p>${gloss(CHECK.formsSummary)}</p>`;
     }
     if (key === 'balance') {
-      let html = `<p class="${ev.startOk ? 'eb-ok' : 'eb-ko'}">${ev.startOk ? CHECK.startOk : CHECK.startWrong(c.start == null ? CHECK.nothing : c.start)}</p>`;
-      html += ev.ticksOk ? `<p class="eb-ok">${CHECK.ticksOk(endNames(END_ROWS))}</p>`
-        : ticksNotes(ev).map(n => `<p class="eb-ko">${gloss(n)}</p>`).join('');
+      let html = `<p class="${ev.startOk ? 'eb-ok' : 'eb-ko'}">${ev.startOk ? CHECK.startOk : CHECK.startWrong(startSaid(c))}</p>`;
+      html += ev.endsOk ? `<p class="eb-ok">${CHECK.endsOk(endNames(END_ROWS))}</p>`
+        : endsNotes(ev).map(n => `<p class="eb-ko">${gloss(n)}</p>`).join('');
       html += run.pair.map(k => {
-        const expr = exprOf(k, ev.ticks);
-        const sum = sumOf(k, ev.ticks);
+        const expr = exprOf(k, ev.ends);
+        const sum = sumOf(k, ev.ends);
         return ev.totalOk(k) ? `<p class="eb-ok">${CHECK.totalOk(lampName(k), expr, sum)}</p>`
           : `<p class="eb-ko">${CHECK.totalWrong(lampName(k), c.totals[k] == null ? CHECK.nothing : c.totals[k], expr, sum)}</p>`;
       }).join('');
@@ -1236,19 +1354,20 @@
       }).join('') + `</table>`;
 
     // Interprétation : le bilan de l'élève, dans l'ordre de lecture.
-    let start = c.start == null ? '—' : String(c.start);
-    if (!ev.startOk) start = mark(start, CHECK.startWrong(c.start == null ? CHECK.nothing : c.start));
-    let rowsText = ev.ticks.length ? LABELS.list(ev.ticks.map(s => LABELS.rows[s])) : '—';
-    if (!ev.ticksOk) rowsText = mark(rowsText, plain(ticksNotes(ev).join(' ')));
+    let start = c.start ? LABELS.arrows[c.start] : '—';
+    if (!ev.startOk) start = mark(start, CHECK.startWrong(startSaid(c)));
+    const startVal = c.start ? [...new Set(run.pair.map(k => (state.values[k][c.start] == null ? '—' : state.values[k][c.start])))].join(' / ') : '—';
+    let rowsText = ev.ends.length ? LABELS.list(ev.ends.map(s => LABELS.arrows[s])) : '—';
+    if (!ev.endsOk) rowsText = mark(rowsText, plain(endsNotes(ev).join(' ')));
     const ends = run.pair.map(k => {
-      const expr = exprOf(k, ev.ticks);
+      const expr = exprOf(k, ev.ends);
       let total = c.totals[k] == null ? '—' : String(c.totals[k]);
-      if (!ev.totalOk(k)) total = mark(total, CHECK.totalWrong(lampName(k), c.totals[k] == null ? CHECK.nothing : c.totals[k], expr, sumOf(k, ev.ticks)));
+      if (!ev.totalOk(k)) total = mark(total, CHECK.totalWrong(lampName(k), c.totals[k] == null ? CHECK.nothing : c.totals[k], expr, sumOf(k, ev.ends)));
       return `<li>${R.end(lampThe(k), expr, total)}</li>`;
     }).join('');
     const lightOf = k => (state.values[k].light == null ? '—' : state.values[k].light);
     const interpretation = `<p>${R.light(lampThe(a), lightOf(a), lampThe(b), lightOf(b))}</p>` +
-      `<p>${R.start(start)} ${R.endRows(rowsText)}</p><ul>${ends}</ul>`;
+      `<p>${R.start(start, startVal)} ${R.endRows(rowsText)}</p><ul>${ends}</ul>`;
 
     // Conclusion : les phrases de l'élève, chaque mot faux marqué à sa place.
     const word = (text, ok, note) => (ok ? text : mark(text, note));
@@ -1292,15 +1411,18 @@
     isStarted: () => !!(state.hyp.h1 || state.hyp.h2 || state.socket),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 1,
+    // 2 : tableau par machine, bilan guidé (start : un point, ends : des points).
+    version: 2,
     save: () => ({ run, state }),
-    // Ce qui ne vaut que pendant un geste (instrument ou forme choisis) repart à zéro.
+    // Ce qui ne vaut que pendant un geste (instrument ou forme en main) repart à zéro.
     load(data) {
       const r = data.run, s = data.state;
       if (!r || !Array.isArray(r.pair) || !r.pair.every(k => LAMPS[k]) || !r.readings || !LABELS.questions[r.ask] ||
-        !s || !s.hyp || !s.concl || !s.energy || !s.values || !s.measured) throw new Error('labProgress');
+        !s || !s.hyp || !s.concl || !Array.isArray(s.concl.ends) || !s.energy || !s.values || !s.measured) throw new Error('labProgress');
       run = r;
-      state = Object.assign(s, { tool: null, pick: null });
+      state = s;
+      heldTool = null;
+      heldForm = null;
       glow = 0;
       crankAngle = 0;
       stepperDone = null;

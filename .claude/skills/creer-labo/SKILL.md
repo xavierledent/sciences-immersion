@@ -151,6 +151,14 @@ Règles qui font l'harmonie du site :
 - **Après le Check** : rien ne change à l'affichage d'une étape, seulement sur
   un geste ; les commandes qui ne font que montrer portent `data-lab-look` ;
   un test « corrigé » s'écrit `lab.isFrozen()`, jamais `lab.state.checked`.
+- **Objet en main** : un objet à poser sur une cible parmi plusieurs
+  (instrument, étiquette, forme d'énergie) passe par
+  `lab.makeDraggable(el, { hold: true, onHold, targets, onDrop, ghost })` :
+  un clic ou un toucher le prend en main (à la souris, il suit le curseur),
+  un clic sur une cible le pose, le glisser reste possible. Le labo appelle
+  `lab.release()` avant de redessiner l'objet. Un geste difficile à la
+  souris (tourner une manivelle) se fait seul sur un clic, et garde le
+  geste au doigt.
 - **Observations** : décrites, jamais interprétées (la légende dit ce qu'on
   voit, l'élève nomme la propriété).
 - **Tirage** : dans `reset()`, avec `pick`, `shuffle`, `mulberry32(seedFrom(...))`
@@ -178,9 +186,16 @@ Un fichier par langue : `LabEngine.addText('<id>', { labels, glossary, ... })`,
 en-tête en français. Mêmes clés dans les deux langues (vérifié), sauf le
 lexique (`glossary`), propre à chaque langue.
 
-- **Mots soulignés** `[mot]` ou `[groupe|clé]`, traduits dans `glossary`
-  (clé en minuscules) : pas les mots transparents avec le français ;
-  l'expression entière quand le mot à mot serait faux.
+- **Mots soulignés** : chaque mot du lexique (`glossary`, clé en
+  minuscules) est souligné d'office partout où il apparaît, dessins SVG
+  compris, sauf dans les boutons, onglets et zones à toucher (on ne teste
+  pas la mémoire de l'élève, et toucher le mot déclencherait l'action).
+  `[mot]` ou `[groupe|clé]` pour une forme dont la clé diffère. Pas les mots
+  transparents avec le français ; l'expression entière quand le mot à mot
+  serait faux. Un mot du lexique qui a aussi un sens courant (« bij ») va
+  dans `MARKED_ONLY` (lab-engine.js) : souligné seulement entre crochets.
+  Une clé du lexique commun qui ne convient pas au labo se redéfinit dans
+  son `glossary` (« bench » : banc d'essai, pas paillasse).
 - **Écrire pour deux langues dès le départ** :
   - une phrase faite de morceaux s'assemble dans le fichier de texte (une
     fonction qui reçoit les morceaux) : chaque langue a son ordre des mots ;

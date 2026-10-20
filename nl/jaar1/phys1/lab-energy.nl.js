@@ -3,8 +3,9 @@
    Simulation commune aux deux filières : js/lab-energy.js, chargée après ce
    fichier. Mêmes clés que l'anglais (en/year1/phys1/lab-energy.en.js).
 
-   [mot] ou [mot|clé] : mot du lexique, souligné, traduction française au
-   survol ou au toucher (clé dans glossary, en minuscules).
+   Chaque mot du lexique (glossary) est souligné partout où il apparaît,
+   sauf dans les boutons (lab-engine.js) ; [mot] ou [mot|clé] reste utile
+   pour une forme dont la clé diffère.
 
    Termes repris du chapitre NL (vocabulary, practice, interactive) : ledlamp,
    gloeilamp, slinger (« zaklamp met slinger »), nuttige / verloren energie,
@@ -32,6 +33,8 @@ LabEngine.addText('energy', {
     amounts: { more: 'meer energie dan', same: 'evenveel energie als', less: 'minder energie dan' },
     fates: { air: 'gaat verloren in de lucht', destroyed: 'wordt vernietigd', stored: 'wordt opgeslagen in de lamp' },
     tools: { meter: 'Energiemeter', lightmeter: 'Lichtmeter', camera: 'Warmtecamera' },
+    // Onder de naam van het meettoestel: wat het meet.
+    toolsMeasure: { meter: 'beweging, elektriciteit', lightmeter: 'licht', camera: 'warmte' },
 
     questions: {
       light: 'Beide lampen krijgen evenveel energie. Welke lamp geeft meer licht?',
@@ -64,22 +67,26 @@ LabEngine.addText('energy', {
       dynamo: 'DYNAMO',
       socket: 'fitting',
       over: 'TEST AFGELOPEN',
-      knob: 'Slinger van de dynamo: draai eraan (pijltjestoetsen)',
-      spot: row => `${row}: hier meten`
+      knob: 'Slinger van de dynamo: klik erop, of draai eraan met je vinger',
+      spot: (n, row) => `Punt ${n}, ${row}: hier meten`
     },
     tableTitle: 'Jouw metingen',
     tableUnit: 'energie (eenheden)',
     tableWhere: 'Meetpunt',
+    // Le tableau, par machine : ce qu'elle reçoit (in), ce qu'elle donne (uit).
+    tableFlow: 'Energie',
+    machines: { dynamo: 'Dynamo', lamp: 'Lamp' },
+    io: { in: 'in', out: 'uit' },
     rows: { crank: 'As van de slinger', dynamo: 'Dynamo', wires: 'Draden', light: 'Voor de lamp', lamp: 'Lamp' },
     cellLabel: (row, lamp) => `${row}, ${lamp}, in eenheden`,
 
     captionStart: 'Sleep een lamp naar de [fitting], of tik erop.',
-    captionReady: 'Draai met je vinger aan de [slinger]: maak cirkels rond de [as]. De testbank stopt bij 100 eenheden.',
+    captionReady: 'Draai aan de slinger: klik erop, of maak met je vinger cirkels rond de as. De testbank stopt bij 100 eenheden.',
     captionTurning: 'Blijf aan de [slinger] draaien tot de testbank 100 eenheden gekregen heeft.',
-    captionTestDone: 'Test afgelopen: de testbank kreeg 100 eenheden. Meet nu: sleep een meettoestel naar een punt van de testbank, of tik op een meettoestel en dan op een punt.',
-    captionMeasure: 'Meet: sleep een meettoestel naar een punt van de testbank, of tik op een meettoestel en dan op een punt.',
-    captionToolPicked: tool => `${tool}: tik nu op een punt van de testbank.`,
-    captionPickTool: 'Kies eerst een meettoestel: sleep het naar dit punt, of tik erop en dan op het punt.',
+    captionTestDone: 'Test afgelopen: de testbank kreeg 100 eenheden. Meet nu de 5 genummerde punten: neem een meettoestel en kies dan een punt.',
+    captionMeasure: 'Meet de 5 genummerde punten: neem een meettoestel en kies dan een punt.',
+    captionToolPicked: tool => `${tool} in je hand: kies een genummerd punt. Neem het opnieuw om het terug te leggen.`,
+    captionPickTool: 'Neem eerst een meettoestel en kies dan dit punt.',
     captionRead: 'Lees de waarde af en noteer ze in de tabel.',
     captionNextLamp: 'Alle waarden van deze lamp staan in de tabel. Test nu de andere lamp!',
     captionAllDone: 'Beide lampen zijn getest en je tabel is volledig. Verder: het [energiestroomdiagram].',
@@ -91,13 +98,14 @@ LabEngine.addText('energy', {
       lightmeter: 'De [lichtmeter] meet het licht dat de lamp geeft: houd hem voor de lamp.',
       camera: 'De warmtecamera meet de warmte die een voorwerp aan de lucht geeft als het [warm wordt].'
     },
-    captionDiagram: 'Sleep elke energievorm naar zijn vak, of tik op een energievorm en dan op een vak. De pijlen zijn even breed als de waarden in je tabel.',
-    captionFormPicked: form => `${form}: tik nu op een vak.`,
-    captionPickForm: 'Kies eerst een energievorm en tik dan op een vak.',
-    captionDiagramDone: 'Alle vakken zijn ingevuld. Verder: besluiten!',
-    valuesOf: 'Waarden van:',
+    captionDiagram: 'Vul het diagram links in: zet een energievorm in elk vak. Het diagram rechts neemt dezelfde vormen over. Vergelijk de pijlen van de twee lampen!',
+    captionFormPicked: form => `In je hand: ${form}. Kies een vak in het diagram links.`,
+    captionPickForm: 'Neem eerst een energievorm en kies dan een vak.',
+    captionDiagramDone: 'Alle vakken zijn ingevuld. Vergelijk de pijlen van de twee lampen en ga dan verder: besluiten!',
+    diagramFill: 'Vul dit diagram in',
+    diagramCopy: 'Dezelfde energievormen, al voor jou ingevuld',
     diagram: {
-      label: 'Energiestroomdiagram',
+      label: lamp => `Energiestroomdiagram: ${lamp}`,
       hand: 'Je hand', dynamo: 'Dynamo', lamp: 'Lamp', room: 'Kamer', air: 'Lucht',
       useful: 'nuttige energie', wasted: 'verloren energie, naar de lucht',
       emptyBox: 'leeg vak'
@@ -122,13 +130,15 @@ LabEngine.addText('energy', {
     },
     concl2: b => `Op het einde is er ${b} bij het begin.`,
     concl3: (form, fate) => `De energie die geen licht wordt, wordt ${form}. Ze ${fate}.`,
-    startLabel: 'Energie bij het begin:',
-    endLabel: 'Energie op het einde:',
+    balanceTitle: 'Jouw energiebalans',
+    startChoose: 'Energie bij het begin: kies ze.',
+    startResult: v => `${v} eenheden`,
+    endChoose: 'Energie op het einde: kies ze allemaal.',
+    endCalc: 'Tel ze op voor elke lamp.',
+    calcStart: 'begin:',
+    calcEnd: 'einde:',
+    balanceHint: 'Vergelijk het begin en het einde van je energiebalans.',
     unitsWord: 'eenheden',
-    tickHint: 'Vink ✓ in de tabel de energie aan die er op het einde is, en [tel ze op] voor elke lamp.',
-    tickHead: 'Op het einde?',
-    tickRow: row => `${row}: is deze energie er op het einde?`,
-    startAria: 'Energie bij het begin, in eenheden',
     totalAria: lamp => `Energie op het einde met ${lamp}, in eenheden`,
     qVerdict: n => `Dus mijn hypothese ${n} is`,
     confirmed: 'bevestigd',
@@ -158,7 +168,7 @@ LabEngine.addText('energy', {
       arrowHead: 'Pijl',
       formHead: 'Energievorm',
       light: (a, la, b, lb) => `Gegeven licht: ${la} eenheden met ${a}, ${lb} eenheden met ${b}.`,
-      start: v => `Energie bij het begin: ${v} eenheden.`,
+      start: (arrow, v) => `Energie bij het begin: ${arrow}, ${v} eenheden.`,
       endRows: list => `Op het einde telde ik: ${list}.`,
       end: (lamp, expr, total) => `Energie op het einde met ${lamp}: ${expr} = ${total} eenheden.`,
       verdict: (n, word) => `Mijn hypothese ${n} is ${word}.`,
@@ -171,7 +181,7 @@ LabEngine.addText('energy', {
     energiemeter: 'compteur d’énergie', lichtmeter: 'luxmètre (il mesure la lumière)',
     'warm wordt': 'chauffe', 'wordt warm': 'chauffe',
     verliest: 'perd', verliezen: 'perdre', verloren: 'perdue',
-    'tel ze op': 'additionne-les', energiestroomdiagram: 'diagramme de flux d’énergie',
+    'tel ze op': 'additionne-les', testbank: 'banc d’essai', energiestroomdiagram: 'diagramme de flux d’énergie',
     gloeilamp: 'ampoule classique (à incandescence)', gloeidraad: 'filament', witheet: 'chauffé à blanc',
     'verspreidt zich': 'se répand', 'behoud van energie': 'conservation de l’énergie'
   },
@@ -187,8 +197,8 @@ LabEngine.addText('energy', {
     camera: 'In een echt labo toont een warmtecamera temperaturen, geen energie. Hier geeft de testbank de thermische energie in eenheden, zodat je ze kunt vergelijken met de andere energievormen.'
   },
 
-  // v, said : wat de leerling noteerde (nothing als er niets staat) ; expr :
-  // « 19 + 38 + 43 », de waarden van de aangevinkte rijen.
+  // v, said : ce que l'élève a écrit ou choisi (nothing s'il n'a rien) ;
+  // expr : « 19 + 38 + 43 », les valeurs des énergies choisies pour la fin.
   check: {
     nothing: 'niets',
     measuresScore: (good, total) => `${good} / ${total} waarden juist genoteerd (hetzelfde als de meettoestellen).`,
@@ -206,13 +216,13 @@ LabEngine.addText('energy', {
       light: 'De lamp geeft licht aan de kamer: lichtenergie.',
       lamp: 'De lamp wordt warm: ze geeft thermische energie aan de lucht.'
     },
-    startOk: 'Energie bij het begin: 100 eenheden, de energie die je hand gaf. Juist.',
-    startWrong: v => `Energie bij het begin: jij schreef ${v}. De testbank krijgt altijd 100 eenheden van je hand: dat is de energie bij het begin.`,
+    startOk: 'Energie bij het begin: hand → dynamo, 100 eenheden, de energie die je hand gaf. Juist.',
+    startWrong: v => `Energie bij het begin: jij koos ${v}. De energie bij het begin is de energie die je hand aan de dynamo geeft (hand → dynamo): de testbank krijgt altijd 100 eenheden.`,
     endNames: { dynamo: 'de thermische energie van de dynamo', light: 'de lichtenergie', lamp: 'de thermische energie van de lamp' },
-    ticksOk: list => `Op het einde bestaat de energie uit ${list}. Juist.`,
-    ticksWires: 'De elektrische energie is er op het einde niet meer: ze is alleen onderweg van de dynamo naar de lamp, en de lamp zet ze om in lichtenergie en thermische energie. Als je ze ook meetelt, tel je dezelfde energie twee keer.',
-    ticksCrank: 'De energie die je hand aan de [as] van de slinger geeft, is de energie bij het begin, niet op het einde.',
-    ticksMissing: list => `Je vergat ${list}. Die energie is er op het einde ook, ook al kunnen we ze niet gebruiken.`,
+    endsOk: list => `Op het einde bestaat de energie uit ${list}. Juist.`,
+    endsWires: 'De elektrische energie is er op het einde niet meer: ze is alleen onderweg van de dynamo naar de lamp, en de lamp zet ze om in lichtenergie en thermische energie. Als je ze ook meetelt, tel je dezelfde energie twee keer.',
+    endsCrank: 'De energie die je hand aan de [as] van de slinger geeft, is de energie bij het begin, niet op het einde.',
+    endsMissing: list => `Je vergat ${list}. Die energie is er op het einde ook, ook al kunnen we ze niet gebruiken.`,
     totalOk: (lamp, expr, sum) => `${lamp}: ${expr} = ${sum} eenheden. Juist berekend.`,
     totalWrong: (lamp, said, expr, sum) => `${lamp}: jij schreef ${said}, maar ${expr} = ${sum} eenheden.`,
     rightBalanceTitle: 'De juiste balans, met de waarden van de meettoestellen:',

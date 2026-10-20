@@ -4,8 +4,9 @@
    fichier. Le néerlandais (nl/jaar1/phys1/lab-energy.nl.js) a exactement les
    mêmes clés.
 
-   [mot] ou [mot|clé] : mot du lexique, souligné, traduction française au
-   survol ou au toucher (clé dans glossary, en minuscules).
+   Chaque mot du lexique (glossary) est souligné partout où il apparaît,
+   sauf dans les boutons (lab-engine.js) ; [mot] ou [mot|clé] reste utile
+   pour une forme dont la clé diffère.
 
    Les phrases à trous (hypothèses, conclusions) sont des fonctions qui
    reçoivent les trous déjà dessinés, ou les mots choisis : chaque langue
@@ -31,6 +32,8 @@ LabEngine.addText('energy', {
     amounts: { more: 'more energy than', same: 'as much energy as', less: 'less energy than' },
     fates: { air: 'dissipated in the air', destroyed: 'destroyed', stored: 'stored in the lamp' },
     tools: { meter: 'Energy meter', lightmeter: 'Light meter', camera: 'Thermal camera' },
+    // Sous le nom de l'instrument : ce qu'il mesure.
+    toolsMeasure: { meter: 'movement, electricity', lightmeter: 'light', camera: 'heat' },
 
     questions: {
       light: 'Both lamps receive the same energy. Which lamp gives more light?',
@@ -63,22 +66,26 @@ LabEngine.addText('energy', {
       dynamo: 'DYNAMO',
       socket: 'socket',
       over: 'TEST OVER',
-      knob: 'Crank of the dynamo: turn it (arrow keys)',
-      spot: row => `${row}: measure here`
+      knob: 'Crank of the dynamo: click it, or turn it with your finger',
+      spot: (n, row) => `Point ${n}, ${row}: measure here`
     },
     tableTitle: 'Your measurements',
     tableUnit: 'energy (units)',
     tableWhere: 'Measured at',
+    // Le tableau, par machine : ce qu'elle reçoit (in), ce qu'elle donne (out).
+    tableFlow: 'Energy',
+    machines: { dynamo: 'Dynamo', lamp: 'Lamp' },
+    io: { in: 'in', out: 'out' },
     rows: { crank: 'Axle of the crank', dynamo: 'Dynamo', wires: 'Wires', light: 'In front of the lamp', lamp: 'Lamp' },
     cellLabel: (row, lamp) => `${row}, ${lamp}, in units`,
 
     captionStart: 'Drag a lamp into the [socket], or touch it.',
-    captionReady: 'Turn the [crank] with your finger: draw circles around the [axle]. The bench stops at 100 units.',
+    captionReady: 'Turn the crank: click it, or draw circles around the axle with your finger. The bench stops at 100 units.',
     captionTurning: 'Keep turning the [crank] until the bench has received 100 units.',
-    captionTestDone: 'Test over: the bench received 100 units. Now measure: drag an instrument onto a point of the bench, or touch an instrument, then a point.',
-    captionMeasure: 'Measure: drag an instrument onto a point of the bench, or touch an instrument, then a point.',
-    captionToolPicked: tool => `${tool}: now touch a point of the bench.`,
-    captionPickTool: 'Choose an instrument first: drag it onto this point, or touch it, then the point.',
+    captionTestDone: 'Test over: the bench received 100 units. Now measure the 5 numbered points: take an instrument, then choose a point.',
+    captionMeasure: 'Measure the 5 numbered points: take an instrument, then choose a point.',
+    captionToolPicked: tool => `${tool} in your hand: choose a numbered point. To put it back, take it again.`,
+    captionPickTool: 'Take an instrument first, then choose this point.',
     captionRead: 'Read the value and write it in the table.',
     captionNextLamp: 'All the values of this lamp are in the table. Now test the other lamp!',
     captionAllDone: 'Both lamps are tested and your table is complete. Next: the [energy flow diagram].',
@@ -90,13 +97,14 @@ LabEngine.addText('energy', {
       lightmeter: 'The [light meter] measures the light given by the lamp: hold it in front of the lamp.',
       camera: 'The thermal camera measures the heat that an object gives to the air when it [gets warm].'
     },
-    captionDiagram: 'Drag each form of energy into its box, or touch a form, then a box. The arrows are as wide as the values in your table.',
-    captionFormPicked: form => `${form}: now touch a box.`,
-    captionPickForm: 'Choose a form of energy first, then touch a box.',
-    captionDiagramDone: 'All the boxes are filled. Next: conclude!',
-    valuesOf: 'Values of:',
+    captionDiagram: 'Fill in the diagram on the left: put a form of energy in each box. The diagram on the right takes the same forms. Compare the arrows of the two lamps!',
+    captionFormPicked: form => `In your hand: ${form}. Choose a box in the diagram on the left.`,
+    captionPickForm: 'Take a form of energy first, then choose a box.',
+    captionDiagramDone: 'All the boxes are filled. Compare the arrows of the two lamps, then conclude!',
+    diagramFill: 'Fill in this diagram',
+    diagramCopy: 'Same forms of energy, filled in for you',
     diagram: {
-      label: 'Energy flow diagram',
+      label: lamp => `Energy flow diagram: ${lamp}`,
       hand: 'Your hand', dynamo: 'Dynamo', lamp: 'Lamp', room: 'Room', air: 'Air',
       useful: 'useful energy', wasted: 'wasted energy, into the air',
       emptyBox: 'empty box'
@@ -121,13 +129,15 @@ LabEngine.addText('energy', {
     },
     concl2: b => `At the end, there is ${b} at the start.`,
     concl3: (form, fate) => `The energy that does not become light becomes ${form}. It is ${fate}.`,
-    startLabel: 'Energy at the start:',
-    endLabel: 'Energy at the end:',
+    balanceTitle: 'Your energy balance',
+    startChoose: 'Energy at the start: choose it.',
+    startResult: v => `${v} units`,
+    endChoose: 'Energy at the end: choose all of it.',
+    endCalc: 'Add them up for each lamp.',
+    calcStart: 'start:',
+    calcEnd: 'end:',
+    balanceHint: 'Compare the start and the end of your energy balance.',
     unitsWord: 'units',
-    tickHint: 'In the table, tick ✓ the energies that are there at the end, then [add them up] for each lamp.',
-    tickHead: 'At the end?',
-    tickRow: row => `${row}: is this energy there at the end?`,
-    startAria: 'Energy at the start, in units',
     totalAria: lamp => `Energy at the end with ${lamp}, in units`,
     qVerdict: n => `So my hypothesis ${n} is`,
     confirmed: 'confirmed',
@@ -157,7 +167,7 @@ LabEngine.addText('energy', {
       arrowHead: 'Arrow',
       formHead: 'Form of energy',
       light: (a, la, b, lb) => `Light given: ${la} units with ${a}, ${lb} units with ${b}.`,
-      start: v => `Energy at the start: ${v} units.`,
+      start: (arrow, v) => `Energy at the start: ${arrow}, ${v} units.`,
       endRows: list => `At the end, I counted: ${list}.`,
       end: (lamp, expr, total) => `Energy at the end with ${lamp}: ${expr} = ${total} units.`,
       verdict: (n, word) => `My hypothesis ${n} is ${word}.`,
@@ -169,7 +179,7 @@ LabEngine.addText('energy', {
     crank: 'manivelle', axle: 'axe', socket: 'douille', wires: 'fils électriques',
     'energy meter': 'compteur d’énergie', 'light meter': 'luxmètre (il mesure la lumière)',
     'gets warm': 'chauffe', waste: 'gaspiller (perdre)', wastes: 'gaspille (perd)', wasted: 'gaspillée (perdue)',
-    'add them up': 'additionne-les', 'energy flow diagram': 'diagramme de flux d’énergie',
+    'add them up': 'additionne-les', 'test bench': 'banc d’essai', bench: 'banc d’essai', 'energy flow diagram': 'diagramme de flux d’énergie',
     'traditional bulb': 'ampoule classique (à incandescence)', 'white-hot': 'chauffé à blanc', spreads: 'se répand'
   },
 
@@ -184,8 +194,8 @@ LabEngine.addText('energy', {
     camera: 'In a real lab, a thermal camera shows temperatures, not energy. Here, the bench gives the thermal energy in units, so that you can compare it with the other forms of energy.'
   },
 
-  // v, said : ce que l'élève a écrit (nothing s'il n'a rien écrit) ; expr :
-  // « 19 + 38 + 43 », les valeurs des lignes cochées.
+  // v, said : ce que l'élève a écrit ou choisi (nothing s'il n'a rien) ;
+  // expr : « 19 + 38 + 43 », les valeurs des énergies choisies pour la fin.
   check: {
     nothing: 'nothing',
     measuresScore: (good, total) => `${good} / ${total} values written correctly (the same as the instruments).`,
@@ -203,13 +213,13 @@ LabEngine.addText('energy', {
       light: 'The lamp gives light to the room: light energy.',
       lamp: 'The lamp gets hot: it gives thermal energy to the air.'
     },
-    startOk: 'Energy at the start: 100 units, the energy given by your hand. Correct.',
-    startWrong: v => `Energy at the start: you wrote ${v}. The bench always receives 100 units from your hand: this is the energy at the start.`,
+    startOk: 'Energy at the start: hand → dynamo, 100 units, the energy given by your hand. Correct.',
+    startWrong: v => `Energy at the start: you chose ${v}. The energy at the start is the energy that your hand gives to the dynamo (hand → dynamo): the bench always receives 100 units.`,
     endNames: { dynamo: 'the thermal energy of the dynamo', light: 'the light energy', lamp: 'the thermal energy of the lamp' },
-    ticksOk: list => `At the end, the energy is made of ${list}. Correct.`,
-    ticksWires: 'The electrical energy is not there at the end: it is only on its way from the dynamo to the lamp, and the lamp transforms it into light energy and thermal energy. If you count it too, you count the same energy twice.',
-    ticksCrank: 'The energy given by your hand to the [axle] of the crank is the energy at the start, not at the end.',
-    ticksMissing: list => `You forgot ${list}. This energy is also there at the end, even if we cannot use it.`,
+    endsOk: list => `At the end, the energy is made of ${list}. Correct.`,
+    endsWires: 'The electrical energy is not there at the end: it is only on its way from the dynamo to the lamp, and the lamp transforms it into light energy and thermal energy. If you count it too, you count the same energy twice.',
+    endsCrank: 'The energy given by your hand to the [axle] of the crank is the energy at the start, not at the end.',
+    endsMissing: list => `You forgot ${list}. This energy is also there at the end, even if we cannot use it.`,
     totalOk: (lamp, expr, sum) => `${lamp}: ${expr} = ${sum} units. Correct calculation.`,
     totalWrong: (lamp, said, expr, sum) => `${lamp}: you wrote ${said}, but ${expr} = ${sum} units.`,
     rightBalanceTitle: 'The right balance, with the values of the instruments:',

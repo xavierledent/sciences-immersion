@@ -178,9 +178,18 @@ scripts chargés.
   - reprise : `save()`, `load(data)` et `version`, à augmenter dès que la
     forme de `save()` change ; suivi : `summary()` (compté dans Firestore,
     voir `SiteStorage.activity` dans [storage.js](js/storage.js)) ;
-  - mots soulignés `[mot]` / `[groupe|clé]` : pas les mots transparents avec
-    le français, l'expression entière quand le mot à mot serait faux
-    (`[the wax melts]` → « la cire fond ») ;
+  - mots soulignés : tout mot du lexique (`glossary`) est souligné d'office
+    partout où il apparaît dans le labo (SVG compris), jamais dans un
+    bouton, un onglet ou une zone à toucher (le moteur l'y retire) ;
+    `[mot]` / `[groupe|clé]` pour une forme dont la clé diffère ; pas les
+    mots transparents avec le français, l'expression entière quand le mot à
+    mot serait faux (`[the wax melts]` → « la cire fond ») ; un mot qui a
+    aussi un sens courant (« bij ») va dans `MARKED_ONLY` de
+    [lab-engine.js](js/lab-engine.js) : souligné seulement entre crochets ;
+  - objet à poser sur une cible parmi plusieurs (instrument, étiquette) :
+    `lab.makeDraggable(el, { hold: true, onHold, … })` ; un clic ou un
+    toucher le prend en main (à la souris, il suit le curseur), un clic sur
+    la cible le pose ; le glisser reste possible ;
   - les enseignants (collection `teachers`) ont un bouton « Verrous » qui
     lève verrous, étapes bloquées et mode figé ; dès qu'il a servi, plus rien
     n'est envoyé au suivi jusqu'au rechargement.

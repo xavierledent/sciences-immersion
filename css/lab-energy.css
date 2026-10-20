@@ -188,6 +188,11 @@
   gap: 12px;
 }
 
+/* Vue diagramme : les deux diagrammes sur toute la largeur, sans tableau. */
+.eb-run.is-diagram {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .eb-main {
   min-width: 0;
   min-height: 0;
@@ -283,7 +288,7 @@ html[data-pointer='fine'] .eb-tab:not(.is-on):not(.lab-is-locked):hover,
 }
 
 .eb-group-lamps { flex: 2 1 0; }
-.eb-group-tools { flex: 3 1 0; }
+.eb-group-tools { flex: 3.4 1 0; }
 .eb-group-forms { flex: 1 1 auto; }
 
 .eb-group-title {
@@ -308,11 +313,11 @@ html[data-pointer='fine'] .eb-tab:not(.is-on):not(.lab-is-locked):hover,
   position: relative;
   flex: 1 1 0;
   min-width: 0;
-  height: 54px;
+  min-height: 54px;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0 10px;
+  padding: 4px 10px;
   border-radius: 14px;
   border: 1.5px solid rgba(var(--color-current-rgb), 0.35);
   background: #ffffff;
@@ -347,11 +352,10 @@ html[data-pointer='fine'] .eb-tab:not(.is-on):not(.lab-is-locked):hover,
   line-height: 1.2;
 }
 
+/* Le nom passe sur deux lignes plutôt que d'être coupé. */
 .eb-item-text strong {
   font-size: 0.8rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 
 .eb-item-text small {
@@ -365,11 +369,6 @@ html[data-pointer='fine'] .eb-tab:not(.is-on):not(.lab-is-locked):hover,
   border-color: var(--color-current);
 }
 
-.eb-tool.is-selected {
-  background: rgba(var(--color-current-rgb), 0.16);
-  border-color: var(--color-current);
-  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
-}
 
 .eb-item.is-dragging {
   opacity: 0.5;
@@ -482,28 +481,64 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
   fill: #866222;
 }
 
-/* Poignée de la manivelle : prête à tourner, elle est entourée. */
+/* Manivelle : la zone autour de l'axe se saisit (doigt) ou se clique
+   (souris). Tant qu'elle n'a pas tourné, la poignée pulse et une flèche
+   circulaire en pointillés tourne autour pour montrer le geste. */
 .eb-knob {
-  cursor: grab;
+  cursor: pointer;
   touch-action: none;
   outline: none;
 }
 
-.eb-knob:active {
-  cursor: grabbing;
-}
-
-.eb-knob.is-ready {
-  stroke: var(--color-current);
-  stroke-width: 2.5;
-  stroke-dasharray: 5 5;
-  animation: eb-ring 1.4s ease-in-out infinite;
-}
-
 .eb-knob:focus-visible {
   stroke: var(--color-current);
-  stroke-width: 3.5;
-  stroke-dasharray: none;
+  stroke-width: 3;
+  stroke-dasharray: 6 5;
+}
+
+.eb-handle.is-ready {
+  animation: eb-handle 1.2s ease-in-out infinite;
+}
+
+@keyframes eb-handle {
+  50% { fill: #f0b36f; stroke: var(--color-current); stroke-width: 3; }
+}
+
+.eb-crank-hint {
+  stroke: var(--color-current);
+  fill: var(--color-current);
+  transform-box: view-box;
+  transform-origin: 132px 244px;
+  animation: eb-spin 3.2s linear infinite;
+}
+
+.eb-crank-hint path:first-child {
+  fill: none;
+}
+
+@keyframes eb-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Chaleur qui monte (opacité réglée en JS, selon la vitesse et la lampe) */
+.eb-wave {
+  fill: none;
+  stroke: #e8613c;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  animation: eb-rise 1.35s ease-out infinite;
+}
+
+@keyframes eb-rise {
+  0% { transform: translateY(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-16px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eb-crank-hint,
+  .eb-handle.is-ready,
+  .eb-wave { animation: none; }
 }
 
 .eb-socket {
@@ -528,14 +563,17 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
 }
 
 .eb-spot-ring {
-  fill: rgba(255, 255, 255, 0.78);
+  fill: rgba(255, 255, 255, 0.92);
   stroke: var(--color-current);
   stroke-width: 2;
   stroke-dasharray: 4 3;
 }
 
-.eb-spot-dot {
-  fill: var(--color-current);
+.eb-spot-num {
+  font-size: 15px;
+  font-weight: 700;
+  fill: var(--color-current-darkest);
+  pointer-events: none;
 }
 
 .eb-scene-wrap.is-armed .eb-spot-ring,
@@ -574,6 +612,16 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
 .eb-badge.is-camera .eb-badge-box,
 .eb-badge.is-camera .eb-badge-pin { fill: #3a2350; }
 .eb-badge.is-camera .eb-badge-text { fill: #ffb36b; }
+
+.eb-badge-n {
+  fill: rgba(255, 255, 255, 0.9);
+}
+
+.eb-badge-n-text {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #1f2a37;
+}
 
 .eb-badge-text {
   font-size: 12px;
@@ -633,7 +681,7 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
 /* Lignes plus hautes que le tableau commun : des cases à toucher. */
 .eb-side .eb-table td,
 .eb-side .eb-table tbody th {
-  height: 40px;
+  height: 36px;
 }
 
 .eb-table .eb-row-head {
@@ -641,6 +689,75 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
   font-weight: 600;
   text-align: left;
   white-space: nowrap;
+}
+
+/* Tableau par machine : une ligne de titre par machine, puis ce qu'elle
+   reçoit (in) et ce qu'elle donne (out), numérotés comme sur le banc. */
+.eb-flow-table .eb-machine th,
+.eb-side .eb-flow-table .eb-machine th {
+  height: 24px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background: rgba(var(--color-current-rgb), 0.1);
+  color: var(--color-current-darkest);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.eb-flow-table .eb-row-head {
+  padding-left: 8px;
+}
+
+.eb-io {
+  display: inline-block;
+  min-width: 26px;
+  margin-right: 6px;
+  padding: 1px 4px;
+  border-radius: 5px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.eb-io.is-in {
+  background: #e6edf5;
+  color: #34465e;
+}
+
+.eb-io.is-out {
+  background: rgba(var(--color-current-rgb), 0.14);
+  color: var(--color-current-darkest);
+}
+
+.eb-rownum {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  margin-right: 6px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-current);
+  background: #ffffff;
+  color: var(--color-current-darkest);
+  font-size: 0.7rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+/* Les fils reçus par la lampe : la valeur notée plus haut, reprise. */
+.eb-flow-table .is-copy .eb-row-head,
+.eb-cell-copy {
+  color: var(--color-muted);
+}
+
+.eb-cell-copy {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .eb-th-lamp {
@@ -720,37 +837,76 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
   font-weight: 600;
 }
 
-/* Diagramme de flux d'énergie (SVG) */
-.eb-diag-toggle {
+/* Diagrammes de flux d'énergie (SVG) : deux côte à côte, à remplir à
+   gauche (cadre de couleur), repris à droite (fond grisé). */
+.eb-diagrams {
   position: absolute;
-  top: 8px;
-  left: 10px;
-  z-index: 1;
+  inset: 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.eb-diag-col {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 4px;
+  padding: 6px 8px 4px;
+  border-radius: 14px;
+  border: 2px solid transparent;
+}
+
+.eb-diag-col.is-edit {
+  border-color: var(--color-current);
+  background: #ffffff;
+}
+
+.eb-diag-col.is-copy {
+  background: #f4f5f7;
+}
+
+.eb-diag-head {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.76rem;
-  font-weight: 600;
+  min-width: 0;
+  font-size: 0.84rem;
+  text-align: left;
+}
+
+.eb-diag-head .eb-lamp-icon {
+  width: 13px;
+  height: 20px;
+}
+
+.eb-diag-note {
+  margin-left: auto;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.is-edit .eb-diag-note {
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.is-copy .eb-diag-note {
   color: var(--color-muted);
-}
-
-.eb-diag-lamp {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  height: 30px;
-  padding: 0 10px;
-  font-size: 0.76rem;
-}
-
-.eb-diag-lamp .eb-lamp-icon {
-  width: 12px;
-  height: 18px;
+  font-weight: 600;
 }
 
 .eb-diag-holder {
+  position: relative;
+  min-height: 0;
+}
+
+.eb-diag-holder > .eb-diagram {
   position: absolute;
-  inset: 44px 6px 4px;
+  inset: 0;
 }
 
 .eb-oval {
@@ -810,6 +966,15 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
   fill: #9aa5b1;
 }
 
+.eb-box.is-copy rect {
+  fill: #fbfbfc;
+  stroke: #9aa5b1;
+}
+
+.eb-box.is-copy text {
+  fill: #34465e;
+}
+
 .eb-box[data-box] {
   cursor: pointer;
   outline: none;
@@ -819,7 +984,6 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
   stroke-width: 3;
 }
 
-.eb-scene-wrap.is-picking .eb-box rect,
 .eb-box.is-drop-ready rect {
   stroke: var(--color-current);
   stroke-dasharray: none;
@@ -872,18 +1036,6 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
   gap: 8px;
 }
 
-.eb-th-tick {
-  width: 82px;
-}
-
-.eb-tick {
-  width: 34px;
-  height: 27px;
-  padding: 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-}
-
 .eb-cell-val {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -891,14 +1043,6 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
 
 .eb-cell-empty {
   color: var(--color-muted);
-}
-
-.eb-hint {
-  margin: 0;
-  font-size: 0.82rem;
-  line-height: 1.45;
-  color: var(--color-muted);
-  text-align: left;
 }
 
 .eb-form {
@@ -963,39 +1107,121 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
 }
 
 .eb-chip .eb-lamp-icon,
-.eb-total .eb-lamp-icon {
+.eb-calc-lamp .eb-lamp-icon {
   width: 14px;
   height: 21px;
 }
 
-.eb-balance {
-  display: grid;
-  gap: 5px;
-  margin-bottom: 6px;
-  padding: 6px 8px;
-  border-radius: 10px;
-  border: 1.5px solid transparent;
-  background: #ffffff;
+/* Bilan d'énergie guidé : a) le début, b) la fin, c) le calcul par lampe */
+.eb-read .eb-table-wrap {
+  flex: 0 0 auto;
 }
 
-.eb-bal-row {
+.eb-read .eb-table td,
+.eb-read .eb-table tbody th {
+  height: 27px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.eb-balance {
+  min-height: 0;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 10px;
-  font-size: 0.84rem;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.eb-balance .lab-panel-title {
+  margin: 2px 0 0;
+}
+
+.eb-bal-part {
+  padding: 4px 8px 6px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
 }
 
 .eb-bal-label {
-  min-width: 150px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 4px;
+  font-size: 0.82rem;
   font-weight: 700;
   text-align: left;
 }
 
-.eb-total {
+.eb-bal-label .eb-num {
+  width: 20px;
+  height: 20px;
+  font-size: 0.72rem;
+}
+
+.eb-bal-result {
+  margin-left: auto;
+  color: var(--color-current-darkest);
+  font-variant-numeric: tabular-nums;
+}
+
+.eb-pick {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  height: 28px;
+  padding: 0 9px 0 4px;
+  font-size: 0.74rem;
+}
+
+.eb-pick .eb-rownum {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+}
+
+.eb-calc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.eb-calc + .eb-calc {
+  margin-top: 2px;
+}
+
+.eb-calc-lamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 128px;
+  font-weight: 600;
+}
+
+.eb-calcs {
+  margin: 2px 0 4px;
+  background: #ffffff;
+}
+
+.eb-calc-start {
+  min-width: 128px;
+}
+
+.eb-calc-start b,
+.eb-calc-sum b {
+  font-weight: 700;
+}
+
+.eb-calc-empty {
+  color: var(--color-muted);
+}
+
+.eb-q-hint {
+  margin: -2px 0 2px;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  text-align: left;
 }
 
 .eb-num-input {
