@@ -40,7 +40,9 @@ vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 Labos virtuels (en anglais et en néerlandais) : `chem1` « Metal detectives » et
 « Under our feet » (composition du sol), `bio1` « The vanishing leaves » et
 « Inside two ecosystems » (mission 1 de la sortie de terrain : facteurs
-abiotiques, carré de comptage, histogramme FO5b). Chaque chapitre a sa page Lab
+abiotiques, carré de comptage, histogramme FO5b), `phys1` « The energy test
+bench » (dynamo à manivelle et deux lampes : mesures en units, diagramme de
+flux d'énergie, bilan ; sans labo réel dans le cours). Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans
 [tools/chapters.json](tools/chapters.json) (`labs`). Sans labo, la page et la
@@ -152,9 +154,12 @@ scripts chargés.
 - **Labos virtuels.** Créer un labo ou le remanier en profondeur : skill
   `creer-labo` (chapitre de cours, attendus d'autoeval.json et labos réels
   d'abord, puis proposition, fiche de conception validée, construction, deux
-  langues, vérification). Dans tous les cas :
+  langues, vérification). « Labo » au sens large : paillasse, sortie sur le
+  terrain virtuelle, expérience sur un modèle…, la forme est libre tant que
+  la démarche scientifique est respectée. Dans tous les cas :
   - un labo virtuel vient d'un labo fait en classe : demander la liste à
-    l'enseignant, ne jamais en inventer un ;
+    l'enseignant, ne jamais en inventer un ; seule exception, un chapitre
+    sans labo réel (confirmé par l'enseignant), où l'idée part du cours ;
   - Conclude répond aux questions de départ (posées à Predict avec
     l'hypothèse), et à elles seules ;
   - aucun texte dans la simulation : tout passe par les fichiers de langue

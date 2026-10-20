@@ -42,7 +42,15 @@
       "titleSuffix": "Phys 1",
       "hasAssessment": true,
       "h1": { "en": "Physics 1 : Natural energy resources", "nl": "Fysica 1 : Natuurlijke energiebronnen" },
-      "vocabTopic": { "en": "natural energy resources", "nl": "natuurlijke energiebronnen" }
+      "vocabTopic": { "en": "natural energy resources", "nl": "natuurlijke energiebronnen" },
+      "labs": {
+        "en": [
+          { "id": "energy", "file": "lab-energy", "title": "The energy test bench", "question": "Where does the energy go when a lamp shines?", "text": "Turn the crank of a dynamo to light two different lamps. Measure the energy everywhere on the bench and find out where it goes." }
+        ],
+        "nl": [
+          { "id": "energy", "file": "lab-energy", "title": "De energietestbank", "question": "Waar blijft de energie als een lamp brandt?", "text": "Draai aan de slinger van een dynamo om twee verschillende lampen te laten branden. Meet overal op de testbank de energie en ontdek waar ze naartoe gaat." }
+        ]
+      }
     },
     {
       "folder": "chem2",
