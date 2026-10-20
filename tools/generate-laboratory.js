@@ -6,22 +6,13 @@
 // A lab's simulation is shared by both tracks: js/<file>.js + css/<file>.css;
 // its texts live in the chapter folder, one file per language
 // (<file>.<lang>.js), loaded between the engine and the simulation (see
-// lab-engine.js). A lab not converted yet still has its simulation and texts
-// together in the chapter folder (<file>.js + <file>.css). A chapter with no
-// lab in a language still gets its page, showing that the lab is still in
-// development; the home page says the same on the chapter's card.
+// lab-engine.js). A chapter with no lab in a language still gets its page,
+// showing that the lab is still in development; the home page says the same
+// on the chapter's card.
 //
 // Usage: node tools/generate-laboratory.js [--check]
 
-const fs = require('fs');
-const path = require('path');
 const { generatePage } = require('./lib/render');
-
-const ROOT = path.join(__dirname, '..');
-
-function isShared(lab) {
-  return fs.existsSync(path.join(ROOT, 'js', `${lab.file}.js`));
-}
 
 const LABELS = {
   en: {
@@ -63,13 +54,10 @@ function labContent(labs, lang) {
 
 function render(template, chapter, lang) {
   const labs = labsOf(chapter, lang);
-  const styles = labs.map(lab => isShared(lab)
-    ? `\n  <link rel='stylesheet' href='../../../css/${lab.file}.css'>`
-    : `\n  <link rel='stylesheet' href='${lab.file}.css'>`).join('');
+  const styles = labs.map(lab => `\n  <link rel='stylesheet' href='../../../css/${lab.file}.css'>`).join('');
   const scripts = labs.length
-    ? `\n  <script src='../../../js/lab-engine.js'></script>` + labs.map(lab => isShared(lab)
-      ? `\n  <script src='${lab.file}.${lang}.js'></script>\n  <script src='../../../js/${lab.file}.js'></script>`
-      : `\n  <script src='${lab.file}.js'></script>`).join('')
+    ? `\n  <script src='../../../js/lab-engine.js'></script>` +
+      labs.map(lab => `\n  <script src='${lab.file}.${lang}.js'></script>\n  <script src='../../../js/${lab.file}.js'></script>`).join('')
     : '';
   return template
     .replace(/\{\{TITLE_SUFFIX\}\}/g, chapter.titleSuffix)

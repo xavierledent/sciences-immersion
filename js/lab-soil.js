@@ -3,8 +3,9 @@
    Version virtuelle du labo fait en classe : deux échantillons de sol, venus
    de deux lieux, étalés dans des bacs, observés à la loupe et triés. Le cadre
    commun (modale, barre d'étapes, verrous, traduction, rapport imprimé) est
-   dans lab-engine.js, à la racine du site, chargé avant ce fichier. Textes en
-   anglais seulement pour l'instant.
+   dans lab-engine.js. Simulation commune aux deux filières ; ses textes sont
+   dans le dossier du chapitre, un fichier par langue (lab-soil.en.js,
+   lab-soil.nl.js). Ordre de chargement : moteur, textes, ce fichier.
 
    Tirés au sort à chaque nouveau labo : un lieu au sol riche (forêt de
    l'école, potager, prairie) et un lieu au sol pauvre (bac à sable de la
@@ -39,217 +40,63 @@
   const gloss = text => lab.gloss(text);
   const plain = text => String(text).replace(/\[([^\]|]+)(?:\|[^\]]+)?\]/g, '$1');
 
-  /* ===== Libellés =====
-     [mot] ou [mot|clé] : mot du lexique, souligné, traduction française au
-     survol ou au toucher (voir GLOSSARY). Les raisons des verrous restent en
-     texte simple : la bulle du cadre commun n'affiche pas de lexique. */
-  const LABELS = {
-    title: 'Under our feet',
-    question: 'What is a [soil sample] made of, and does its composition change [depending on] the location?',
-    yourQuestion: 'Your question',
-    yourSamples: 'Your two samples',
-    sample: S => `Sample ${S}`,
-
-    hypothesisTitle: 'Your hypothesis',
-    iThink: 'I think that',
-    hypEnd: 'contains more [living things] and organic matter.',
-    hypChoices: { A: 'sample A', B: 'sample B', same: 'neither: they are the same' },
-    because: 'Why do you think so? (optional)',
-    becausePlaceholder: 'Because…',
-    hypothesisReady: 'Your hypothesis is ready.',
-    hypothesisPending: 'Tap the words that complete your hypothesis.',
-    toExperiment: 'Next: the experiment',
-    lockHypothesis: 'Complete your hypothesis first.',
-    lockHypothesisFixed: 'Your hypothesis is fixed: the experiment has started. A scientist does not change the hypothesis after seeing the results!',
-
-    tools: { gloves: 'Gloves', spatula: 'Spatula', magnifier: 'Magnifying glass', touch: 'Wet or dry?' },
-    hypReminder: h => h === 'same'
-      ? '<b>Your hypothesis:</b> both samples contain about the same amount of [living things] and organic matter.'
-      : `<b>Your hypothesis:</b> sample ${h} contains more [living things] and organic matter.`,
-    status: { spread: 'Spread out', lens: 'Looked at with the magnifying glass', touch: 'Tested: wet or dry' },
-    cats: { living: 'Living things', organic: 'Organic matter', mineral: 'Mineral matter', waste: 'Not part of the soil' },
-    catHints: { living: 'insects, worms, roots…', organic: 'dead leaves, wood…', mineral: 'rocks, pebbles, sand…' },
-    water: 'Water / humidity',
-    waterHint: 'wet or dry?',
-    wd: { wet: 'wet', dry: 'dry' },
-    sheetTitle: 'Your observation sheet',
-    sheetSub: 'fills in as you sort',
-    components: 'Components',
-    notSoil: list => `Not part of the soil: ${list}`,
-    inspectEmpty: 'Tap something in a [tray] to [look closely] at it. Very small things only show under the [magnifying glass].',
-    inBowl: (cat, S) => `In the “${cat}” [bowl] of sample ${S}. Drag it to change.`,
-    sortedInfo: n => n === 0 ? 'Nothing sorted yet' : n === 1 ? '1 thing sorted' : `${n} things sorted`,
-    toConclude: 'Next: conclude',
-
-    lockGloves: 'Put on your gloves first: you are going to touch real soil.',
-    lockTray: 'Put on your gloves before you touch the soil.',
-    lockWd: S => `Test sample ${S} first with the “Wet or dry?” tool.`,
-    missing: {
-      gloves: 'Put on your gloves first.',
-      spread: S => `Spread sample ${S} with the spatula.`,
-      lens: S => `Look at sample ${S} with the magnifying glass.`,
-      sort: S => `Sort what you find in sample ${S} into its bowls.`,
-      touch: S => `Test sample ${S} with the “Wet or dry?” tool.`,
-      note: S => `Note on your sheet if sample ${S} is wet or dry.`
-    },
-
-    caption: {
-      start: 'Put on your [gloves] first: you are going to touch real soil.',
-      gloves: 'Your [gloves] are on. Now take the [spatula] and [spread] each sample in its [tray].',
-      glovesOn: 'Your [gloves] are on.',
-      spatula: 'Tap a [tray] (or drag the [spatula] onto it) to [spread] its sample.',
-      magnifier: 'Tap a [tray] (or drag the [magnifying glass] onto it) to look for very small things.',
-      touch: 'Tap a [tray] (or drag the hand onto it) to feel if its soil is wet or dry.',
-      noTool: 'Tap something in a [tray] to [look closely] at it.',
-      heap: S => `This is still a [heap]. [Spread] sample ${S} with the [spatula] first.`,
-      spread: S => `Sample ${S} is [spread out]. Now [look closely] with the [magnifying glass].`,
-      already: S => `Sample ${S} is already [spread out].`,
-      scanning: S => `The [magnifying glass] looks over sample ${S}…`,
-      lensFound: S => `The [magnifying glass] found very small things in sample ${S}. They are now bigger, with a dotted circle: tap or drag them like the others.`,
-      lensNothing: S => `The [magnifying glass] found nothing more in sample ${S}.`,
-      tiny: 'There is something very small here. Look with the [magnifying glass].',
-      empty: 'Tap something in the [tray] to [look closely] at it, or pick a tool.',
-      picked: (name, S) => `Now drag the ${name} into a [bowl] of sample ${S}, or tap the [bowl].`,
-      sorted: (name, cat, S) => `You put the ${name} in the “${cat}” [bowl] of sample ${S}.`,
-      wrongSample: S => `This comes from sample ${S}. Use a [bowl] of sample ${S}.`,
-      tapFirst: 'Tap something in a [tray] first, then tap a [bowl].',
-      noteIt: 'Now note it on your sheet: wet or dry?',
-      done: 'Everything is observed and noted. You can go on to conclude.'
-    },
-    touchText: {
-      soil: { wet: 'The soil [sticks together] when you press it. Your glove comes out dark and cool.', dry: 'The soil breaks into dry [crumbs]. Your glove stays clean and dry.' },
-      sand: { wet: 'The sand [sticks together] and keeps the print of your fingers. Your glove is wet.', dry: 'The sand [runs between your fingers] like dust. Your glove stays dry.' },
-      gravel: { wet: 'The small stones are cold and shiny with water. Your glove is wet.', dry: 'The stones and the dust are dry and warm. Your glove stays dry.' }
-    },
-
-    concludeIntro: 'Use your observation sheet to answer the question.',
-    qCompare: 'Which sample contains more living things and organic matter?',
-    compareChoices: { A: 'Sample A', B: 'Sample B', same: 'Both the same' },
-    qLocation: 'Does the composition of the soil change depending on the location?',
-    locationChoices: { yes: 'Yes, it changes', no: 'No, it is the same' },
-    qVerdict: 'So my hypothesis is',
-    confirmed: 'confirmed',
-    rejected: 'rejected',
-    checkConclusions: 'Check my conclusions',
-    backToLab: 'Back to the lab',
-
-    scoreLabel: 'checks passed',
-    criteria: { sorting: 'Sorting', observation: 'Observation', conclusion: 'Conclusion', hypothesis: 'Hypothesis' },
-    criteriaSub: { sorting: 'Your bowls', observation: 'Your sheet', conclusion: 'Your answers', hypothesis: 'Your judgement' },
-
-    report: {
-      title: 'Laboratory report — What is soil made of?',
-      because: 'Because',
-      hyp: {
-        A: 'I think that sample A contains more living things and organic matter than sample B.',
-        B: 'I think that sample B contains more living things and organic matter than sample A.',
-        same: 'I think that samples A and B contain about the same amount of living things and organic matter.'
-      },
-      materials: (a, b) => `Two soil samples in trays: sample A (${a}) and sample B (${b}), gloves, a spatula, a magnifying glass, sorting bowls.`,
-      procedure: [
-        'Put on gloves.',
-        'Spread each sample in its tray with the spatula.',
-        'Look closely at each sample with the magnifying glass.',
-        'Sort what you find into bowls: living things, organic matter, mineral matter, not part of the soil.',
-        'Touch the soil to feel if it is wet or dry.'
-      ],
-      found: (S, from, counts) => `In sample ${S} (${from}), I found ${counts}.`,
-      countsNone: 'nothing',
-      count: (n, cat) => `${n} ${n === 1 ? { living: 'living thing', organic: 'piece of organic matter', mineral: 'piece of mineral matter' }[cat] : { living: 'living things', organic: 'pieces of organic matter', mineral: 'pieces of mineral matter' }[cat]}`,
-      compare: {
-        A: 'So sample A contains more living things and organic matter.',
-        B: 'So sample B contains more living things and organic matter.',
-        same: 'So both samples contain about the same amount of living things and organic matter.'
-      },
-      location: { yes: 'Its composition changes depending on the location.', no: 'Its composition does not change depending on the location.' },
-      verdict: v => `My hypothesis is ${v}.`,
-      score: n => `Score: ${n} / 4 checks passed.`
-    }
-  };
-
-  const GLOSSARY = {
-    'soil sample': 'échantillon de sol', 'depending on': 'selon',
-    tray: 'bac', trays: 'bacs', gloves: 'gants', 'magnifying glass': 'loupe', spatula: 'spatule',
-    spread: 'étaler', 'spread out': 'étalé', heap: 'tas', bowl: 'coupelle', bowls: 'coupelles',
-    'living things': 'êtres vivants', 'look closely': 'observer de près',
-    'curls up': "s'enroule", grub: 'larve (ver blanc)', shoot: 'pousse', bend: 'se plient',
-    crumbles: "s'effrite", bark: 'écorce', acorn: 'gland', brittle: 'cassantes', shine: 'brillent',
-    'sticks together': "s'agglomère", 'runs between your fingers': 'file entre tes doigts', crumbs: 'miettes',
-    earthworm: 'ver de terre', woodlouse: 'cloporte', springtail: 'collembole', twig: 'brindille',
-    pebble: 'caillou', gravel: 'gravier', ridges: 'stries', crumpled: 'froissé', 'fine roots': 'fines racines',
-    'sweet wrapper': 'emballage de bonbon', 'bottle cap': 'bouchon', 'beetle larva': 'larve de coléoptère',
-    beetle: 'coléoptère (scarabée)', 'school forest': "bois de l'école", 'vegetable garden': 'potager',
-    meadow: 'prairie', playground: 'cour de récréation', sandpit: 'bac à sable', 'gravel path': 'allée de gravier',
-    'building site': 'chantier', waste: 'déchet', 'leaf litter': 'litière (feuilles mortes au sol)',
-    'top soil': 'terre de surface', 'crushed rocks': 'roches broyées'
-  };
+  /* ===== Textes =====
+     Dans le dossier du chapitre, un fichier par langue (lab-soil.en.js,
+     lab-soil.nl.js), chargé avant celui-ci. */
+  const {
+    labels: LABELS, glossary: GLOSSARY, items: ITEMS, places: PLACES,
+    why: WHY, trapWhy: TRAP_WHY, check: CHECK, compareSent: COMPARE_SENT
+  } = LabEngine.textFor('soil');
 
   /* ===== Ce qu'on peut trouver dans un bac =====
      cat : la bonne coupelle. r : rayon de prise (unités du bac, avant
      l'échelle de l'élément). tiny : ne se touche qu'à travers la loupe.
-     move : les vivants bougent (le scarabée mort, non). */
+     move : les vivants bougent (le scarabée mort, non). Nom et description :
+     ITEMS (textes). */
   const CATS = ['living', 'organic', 'mineral', 'waste'];
 
   const T = {
-    earthworm: { cat: 'living', r: 17, move: 'wiggle', name: 'earthworm',
-      cap: 'A long, soft, pink animal. It slowly [curls up] when you touch it.',
+    earthworm: { cat: 'living', r: 17, move: 'wiggle',
       draw: () => '<path d="M-16 1 C-11 -7 -5 7 0 0 S10 -7 16 -2" fill="none" stroke="#c97b7b" stroke-width="4.6" stroke-linecap="round"/><path d="M-5 3 C-3 2 -1.5 1 0 0" fill="none" stroke="#e39b92" stroke-width="5.8" stroke-linecap="round"/><path d="M-16 1 C-11 -7 -5 7 0 0 S10 -7 16 -2" fill="none" stroke="#f0bdb5" stroke-width="1.1" stroke-linecap="round" stroke-dasharray="1.2 2.4" opacity=".8"/>' },
-    woodlouse: { cat: 'living', r: 11, move: 'walk', name: 'woodlouse',
-      cap: 'A small grey animal with a hard back made of plates, and fourteen legs. It walks away from the light.',
+    woodlouse: { cat: 'living', r: 11, move: 'walk',
       draw: () => '<path d="M7.5 -2 L11.5 -5 M7.5 2 L11.5 5" stroke="#4d5257" stroke-width=".8"/><ellipse rx="8.6" ry="5.5" fill="#6c7177"/>' + [-5, -2.6, -0.2, 2.2, 4.6].map(i => `<path d="M${i} -5.2 Q${i + 0.7} 0 ${i} 5.2" stroke="#53585e" stroke-width=".75" fill="none"/>`).join('') + '<ellipse cx="-1" cy="-1.8" rx="6" ry="1.6" fill="#9a9fa5" opacity=".55"/>' },
-    ant: { cat: 'living', r: 9, move: 'run', name: 'ant',
-      cap: 'A tiny black insect with six legs. It runs fast across the [tray].',
+    ant: { cat: 'living', r: 9, move: 'run',
       draw: () => '<path d="M1.6 0 L-.5 -4 M1.6 0 L3.8 -4.2 M1.6 0 L1.6 -4.6 M1.6 0 L-.5 4 M1.6 0 L3.8 4.2 M1.6 0 L1.6 4.6" stroke="#1f1c1a" stroke-width=".6"/><circle cx="-3.2" r="2.6" fill="#1f1c1a"/><circle cx="1.6" r="1.4" fill="#1f1c1a"/><circle cx="5.2" r="1.8" fill="#1f1c1a"/>' },
-    larva: { cat: 'living', r: 10, move: 'slow', name: 'beetle larva',
-      cap: 'A soft, white, curled [grub] with a brown head. Its little legs move slowly.',
+    larva: { cat: 'living', r: 10, move: 'slow',
       draw: () => '<path d="M5 -5 C-7 -9 -10 5 2 6" fill="none" stroke="#efe5cf" stroke-width="6.2" stroke-linecap="round"/><path d="M5 -5 C-7 -9 -10 5 2 6" fill="none" stroke="#d6c9ac" stroke-width="6.2" stroke-linecap="round" stroke-dasharray=".6 2.2"/><circle cx="6" cy="-5" r="2.9" fill="#a5642f"/>' },
-    springtail: { cat: 'living', r: 7, tiny: true, move: 'jump', name: 'springtail',
-      cap: 'A tiny white animal, smaller than a grain of rice. It jumps when you breathe on it.',
+    springtail: { cat: 'living', r: 7, tiny: true, move: 'jump',
       draw: () => '<ellipse rx="2.7" ry="1.2" fill="#f4f1e8"/><path d="M2.5 -.4 L4.4 -1.7 M2.5 .4 L4.4 1.7" stroke="#f4f1e8" stroke-width=".4"/>' },
-    roots: { cat: 'living', r: 9, tiny: true, name: 'fine roots',
-      cap: 'Thin white threads attached to a small green [shoot]. They are fresh and [bend] without breaking.',
+    roots: { cat: 'living', r: 9, tiny: true,
       draw: () => '<g fill="none" stroke="#f1e9d8" stroke-width=".8" stroke-linecap="round"><path d="M0 -7 C1 -3 -1 1 0 7"/><path d="M0 -2 C2 0 4 1 6 3"/><path d="M0 1 C-2 3 -4 4 -6 6"/><path d="M0 4 C1 5 2 6 3 8"/></g><path d="M0 -7 C-1 -9 -2 -10 -3 -11" stroke="#79ad45" stroke-width="1.1" fill="none"/><ellipse cx="-3.6" cy="-11.4" rx="1.8" ry=".9" fill="#8cc152" transform="rotate(-30 -3.6 -11.4)"/>' },
-    beetleDead: { cat: 'organic', r: 10, name: 'beetle',
-      cap: 'A black insect lying on its back. It does not move, even when you touch it. Its body is dry and very light.',
+    beetleDead: { cat: 'organic', r: 10,
       draw: () => '<g stroke="#232428" stroke-width=".9" fill="none" stroke-linecap="round"><path d="M-3 -3 L-5 -7 L-3.5 -9"/><path d="M0 -3.6 L0 -8 L1.5 -10"/><path d="M3 -3 L5 -7 L6.5 -8.5"/><path d="M-3 3 L-5 7 L-3.5 9"/><path d="M0 3.6 L0 8 L1.5 10"/><path d="M3 3 L5 7 L6.5 8.5"/></g><ellipse rx="6.5" ry="4.5" fill="#2c2d33"/><path d="M-4 0 H4 M-3 -2 Q0 -2.7 3 -2 M-3 2 Q0 2.7 3 2" stroke="#4a4c55" stroke-width=".6" fill="none"/><circle cx="7" r="2.1" fill="#1f2024"/>' },
-    leaf: { cat: 'organic', r: 15, name: 'dead leaf',
-      cap: 'A brown, dry leaf full of holes. It [crumbles] at the edges.',
+    leaf: { cat: 'organic', r: 15,
       draw: (r, soil) => {
         const c = ['#7c4f25', '#93622e', '#6e4520', '#8a5a2b'][Math.floor(r() * 4)];
         return `<path d="M-14 0 C-8 -9 6 -9 14 0 C6 9 -8 9 -14 0 Z" fill="${c}"/><path d="M-14 0 L14 0 M-6 0 L-2 -5 M1 0 L5 -5 M-6 0 L-2 5 M1 0 L5 5" stroke="#55361a" stroke-width=".65" fill="none"/><circle cx="5.5" cy="2.6" r="1.7" fill="${soil}"/><circle cx="-4" cy="-2.7" r="1.15" fill="${soil}"/>`;
       } },
-    twig: { cat: 'organic', r: 16, name: 'twig',
-      cap: 'A small piece of dead wood. The [bark] comes off easily.',
+    twig: { cat: 'organic', r: 16,
       draw: () => '<path d="M-16 2 L16 -2" stroke="#6b4a2f" stroke-width="3.3" stroke-linecap="round"/><path d="M3 -.5 L10 -7" stroke="#6b4a2f" stroke-width="2.1" stroke-linecap="round"/><path d="M-11 1.2 L-7 .7 M-2 .2 L1.5 -.2 M7 -.9 L11 -1.4" stroke="#977452" stroke-width=".7"/>' },
-    acorn: { cat: 'organic', r: 8, name: 'acorn cup',
-      cap: 'The empty cup of an [acorn]: brown, dry and hard.',
+    acorn: { cat: 'organic', r: 8,
       draw: () => '<path d="M-6 -1 A6 4.8 0 0 0 6 -1 Z" fill="#8b6a3e"/><path d="M-6 -1 H6" stroke="#6e5230" stroke-width="1.3"/><path d="M-4 0 L-2 3 M-1 0 L1 3.5 M2 0 L4 2.6 M-3.4 2 L3.4 2" stroke="#6e5230" stroke-width=".55"/><path d="M0 -1 L0 -3.2" stroke="#6e5230" stroke-width="1.1"/>' },
-    grass: { cat: 'organic', r: 13, name: 'dry grass',
-      cap: 'Yellow, dry blades of grass. They are flat and [brittle].',
+    grass: { cat: 'organic', r: 13,
       draw: () => '<g stroke-linecap="round" fill="none"><path d="M-13 5 Q-2 -1 12 -5" stroke="#d6c07a" stroke-width="1.7"/><path d="M-12 1 Q0 -3 13 -1" stroke="#c9b06a" stroke-width="1.4"/><path d="M-10 6 Q2 3 11 4" stroke="#e1cf93" stroke-width="1.3"/></g>' },
-    bark: { cat: 'organic', r: 11, name: 'piece of bark',
-      cap: 'A piece of [bark], dark brown and dry. It breaks into flakes.',
+    bark: { cat: 'organic', r: 11,
       draw: () => '<path d="M-10 -5 L6 -7 L11 -1 L8 6 L-7 7 L-11 1 Z" fill="#4c3527"/><path d="M-8 -3 L7 -4 M-9 1 L9 0 M-6 4 L6 4.5" stroke="#6d503c" stroke-width=".85"/>' },
-    pebble: { cat: 'mineral', r: 8, name: 'pebble',
-      cap: 'A small, hard, rounded stone. Pressing it changes nothing.',
+    pebble: { cat: 'mineral', r: 8,
       draw: r => {
         const c = ['#a59a8c', '#9c948a', '#b3a796', '#8f8a83'][Math.floor(r() * 4)];
         return `<ellipse rx="6.6" ry="5" fill="${c}"/><ellipse cx="-1.8" cy="-1.8" rx="2.6" ry="1.4" fill="#ffffff" opacity=".3"/><ellipse rx="6.6" ry="5" fill="none" stroke="#00000026" stroke-width=".8"/>`;
       } },
-    gravel: { cat: 'mineral', r: 8, name: 'gravel',
-      cap: 'Grey bits of stone with sharp edges.',
+    gravel: { cat: 'mineral', r: 8,
       draw: () => '<path d="M-6 -2 L-2 -6 L5 -4 L7 2 L2 6 L-5 4 Z" fill="#8f8e8a"/><path d="M-2 -6 L1 0 L7 2 M1 0 L-5 4" stroke="#b6b5b1" stroke-width=".75" fill="none"/>' },
-    sand: { cat: 'mineral', r: 6, tiny: true, name: 'sand grains',
-      cap: 'Tiny hard grains, light brown. Some of them [shine] in the light.',
+    sand: { cat: 'mineral', r: 6, tiny: true,
       draw: () => [[0, 0], [1.6, 0.8], [-1.4, 1], [0.6, -1.5], [-1.8, -1], [2.2, -1], [-0.3, 2]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="${i % 2 ? 0.75 : 0.95}" fill="${i % 3 ? '#e4d0a0' : '#c7ab74'}" stroke="#8f7647" stroke-width=".3"/>`).join('') + '<path d="M.6 -2.7 V-.3 M-.6 -1.5 H1.8" stroke="#ffffff" stroke-width=".35"/>' },
-    rock: { cat: 'mineral', r: 11, name: 'piece of rock',
-      cap: 'A flat piece of rock with sharp edges. It is heavy for its size.',
+    rock: { cat: 'mineral', r: 11,
       draw: () => '<path d="M-11 -3 L-4 -8 L8 -6 L12 1 L5 7 L-9 5 Z" fill="#7b838a"/><path d="M-4 -8 L-1 -1 L12 1 M-1 -1 L-9 5" stroke="#a8b0b7" stroke-width=".85" fill="none"/>' },
-    cap: { cat: 'waste', r: 8, name: 'bottle cap',
-      cap: 'A red, smooth, light object with [ridges] around it. It is made of plastic.',
+    cap: { cat: 'waste', r: 8,
       draw: () => '<circle r="6.4" fill="#d3373b"/><circle r="4.6" fill="#ba2a2f"/><circle r="6.4" fill="none" stroke="#ef6b6e" stroke-width="1" stroke-dasharray="1 1.1"/><ellipse cx="-1.6" cy="-1.8" rx="1.8" ry="1" fill="#ffffff" opacity=".35"/>' },
-    wrapper: { cat: 'waste', r: 10, name: 'sweet wrapper',
-      cap: 'A shiny, [crumpled] piece of thin plastic film.',
+    wrapper: { cat: 'waste', r: 10,
       draw: () => '<path d="M-9 -4 L-3 -7 L4 -5 L9 -6 L8 1 L10 6 L1 5 L-6 7 L-9 2 Z" fill="#b8c2cf"/><path d="M-6 -2 L5 -3 L5 1 L-5 2 Z" fill="#8f5bd6" opacity=".75"/><path d="M-3 -7 L-1 0 L-6 7 M4 -5 L-1 0 L10 6 M-9 2 L-1 0 L9 -6" stroke="#eef2f7" stroke-width=".7" fill="none"/>' }
   };
 
@@ -263,32 +110,27 @@
 
   /* ===== Les lieux ===== (un sol riche et un sol pauvre par tirage)
      wet : probabilité que l'échantillon soit humide. bits : ce qui dépasse
-     du tas avant qu'on l'étale (voir heapArt). */
+     du tas avant qu'on l'étale (voir heapArt). Provenance et explication :
+     PLACES (textes). */
   const LOCS = {
-    forest: { rich: true, from: 'from the [school forest]', kind: 'soil', wet: 0.8,
+    forest: { rich: true, kind: 'soil', wet: 0.8,
       base: '#3f2c1f', parts: ['#2a1c13', '#5b4030', '#6d4e36', '#33261b', '#7a5a3c'], crumbs: '#5a3a1e', bits: [['leaf', 4], ['twig', 1]],
-      items: [['earthworm', 1], ['woodlouse', 0.7], ['springtail', 1], ['roots', 1], ['leaf', 2], ['twig', 1], ['acorn', 0.7], ['beetleDead', 0.6], ['pebble', 1], ['sand', 1]],
-      why: 'In a forest, dead leaves and wood fall on the ground every year, and many small animals and decomposers live in the soil: it is rich in organic matter and life.' },
-    garden: { rich: true, from: 'from the [vegetable garden]', kind: 'soil', wet: 0.7,
+      items: [['earthworm', 1], ['woodlouse', 0.7], ['springtail', 1], ['roots', 1], ['leaf', 2], ['twig', 1], ['acorn', 0.7], ['beetleDead', 0.6], ['pebble', 1], ['sand', 1]] },
+    garden: { rich: true, kind: 'soil', wet: 0.7,
       base: '#55392a', parts: ['#3b281c', '#6f4c37', '#7e5a40', '#4a3123'], crumbs: '#3d2a1c', bits: [['root', 3], ['leaf', 1]],
-      items: [['earthworm', 1], ['earthworm', 0.5], ['larva', 1], ['roots', 1], ['springtail', 0.6], ['grass', 1], ['bark', 0.6], ['pebble', 2], ['sand', 1], ['beetleDead', 0.5]],
-      why: 'A vegetable garden gets plant remains and compost every year, and its soil is full of worms and roots: it is rich in organic matter and life.' },
-    meadow: { rich: true, from: 'from the [meadow]', kind: 'soil', wet: 0.6,
+      items: [['earthworm', 1], ['earthworm', 0.5], ['larva', 1], ['roots', 1], ['springtail', 0.6], ['grass', 1], ['bark', 0.6], ['pebble', 2], ['sand', 1], ['beetleDead', 0.5]] },
+    meadow: { rich: true, kind: 'soil', wet: 0.6,
       base: '#5a432f', parts: ['#43301f', '#76593e', '#8a6b47', '#4f3a27'], blades: '#8aa64a', bits: [['grass', 6], ['root', 1]],
-      items: [['ant', 2], ['earthworm', 0.6], ['roots', 1], ['springtail', 0.5], ['grass', 2], ['leaf', 0.5], ['pebble', 1], ['sand', 1], ['beetleDead', 0.4]],
-      why: 'In a meadow, grass dies and grows back every year. Its roots, the dead grass and the small animals make the soil rich in organic matter and life.' },
-    sandpit: { rich: false, from: 'from the [playground] [sandpit]', kind: 'sand', wet: 0.4,
+      items: [['ant', 2], ['earthworm', 0.6], ['roots', 1], ['springtail', 0.5], ['grass', 2], ['leaf', 0.5], ['pebble', 1], ['sand', 1], ['beetleDead', 0.4]] },
+    sandpit: { rich: false, kind: 'sand', wet: 0.4,
       base: '#d8bf8c', parts: ['#c9ad78', '#e6d3a8', '#bfa06a', '#efe1bf'],
-      items: [['sand', 2], ['pebble', 2], ['cap', 1], ['leaf', 0.5], ['beetleDead', 0.6]],
-      why: 'The sand of a playground sandpit comes from [crushed rocks]: it is almost only mineral matter, with very little life.' },
-    gravel: { rich: false, from: 'from the [gravel path]', kind: 'gravel', wet: 0.2,
+      items: [['sand', 2], ['pebble', 2], ['cap', 1], ['leaf', 0.5], ['beetleDead', 0.6]] },
+    gravel: { rich: false, kind: 'gravel', wet: 0.2,
       base: '#a69c8c', parts: ['#8a8274', '#c2b9a9', '#7a7368', '#d1c9ba'], stones: true,
-      items: [['gravel', 3], ['sand', 1], ['wrapper', 1], ['leaf', 0.4], ['ant', 0.3]],
-      why: 'A gravel path is made of stones and sand put there by people: it is mostly mineral matter, with almost no life.' },
-    building: { rich: false, from: 'from the [building site]', kind: 'gravel', wet: 0.3,
+      items: [['gravel', 3], ['sand', 1], ['wrapper', 1], ['leaf', 0.4], ['ant', 0.3]] },
+    building: { rich: false, kind: 'gravel', wet: 0.3,
       base: '#9a8c78', parts: ['#7d705e', '#b3a690', '#6b604f', '#c4b8a2'], stones: true,
-      items: [['rock', 2], ['gravel', 2], ['sand', 1], ['cap', 0.6], ['wrapper', 0.4]],
-      why: 'On a building site, the [top soil] has been taken away: what is left is mostly rocks, gravel and sand.' }
+      items: [['rock', 2], ['gravel', 2], ['sand', 1], ['cap', 0.6], ['wrapper', 0.4]] }
   };
   const RICH = ['forest', 'garden', 'meadow'];
   const POOR = ['sandpit', 'gravel', 'building'];
@@ -349,9 +191,9 @@
 
   const samples = () => ['A', 'B'].map(S => state.samples[S]);
   const locOf = S => LOCS[state.samples[S].key];
-  const fromText = S => locOf(S).from;
+  const fromText = S => PLACES[state.samples[S].key].from;
   const itemByUid = uid => samples().flatMap(s => s.items).find(i => i.uid === uid) || null;
-  const nameOf = it => T[it.type].name;
+  const nameOf = it => ITEMS[it.type].name;
   // Un tout petit élément n'existe pour l'élève qu'une fois son bac balayé
   // par la loupe ; il est alors dessiné plus grand, et se prend plus large.
   const isTiny = it => !!T[it.type].tiny;
@@ -1032,7 +874,7 @@
     press(e, {
       ghost: discSVG(it, 64),
       onStart: () => select(it),
-      onTap: () => { select(it); setCaption(LABELS.caption.picked(gloss(`[${nameOf(it)}]`), it.S)); },
+      onTap: () => { select(it); setCaption(LABELS.caption.picked(gloss(ITEMS[it.type].the), it.S)); },
       onDrop: t => { if (t) dropInBowl(it, t); }
     });
   }
@@ -1212,7 +1054,7 @@
     const g = $(`[data-tray="${it.S}"] .so-it[data-uid="${it.uid}"]`);
     if (g) g.setAttribute('display', 'none');
     state.selected = null;
-    setCaption(LABELS.caption.sorted(gloss(`[${nameOf(it)}]`), LABELS.cats[cat], it.S));
+    setCaption(LABELS.caption.sorted(gloss(ITEMS[it.type].the), LABELS.cats[cat], it.S));
     renderBowls();
     renderSheet();
     renderInspector();
@@ -1232,7 +1074,7 @@
     }
     box.className = 'so-inspector';
     box.innerHTML = `<div class="so-pic" data-pic>${discSVG(it, 64)}</div>` +
-      `<p><b>${gloss(`[${nameOf(it)}]`)}</b> · <span class="so-from-tag">${LABELS.sample(it.S)}</span><br>${gloss(T[it.type].cap)}</p>`;
+      `<p><b>${gloss(`[${nameOf(it)}]`)}</b> · <span class="so-from-tag">${LABELS.sample(it.S)}</span><br>${gloss(ITEMS[it.type].cap)}</p>`;
     box.querySelector('[data-pic]').addEventListener('pointerdown', e => {
       if (e.button !== 0) return;
       e.preventDefault();
@@ -1368,60 +1210,17 @@
     check.addEventListener('click', () => lab.finish());
   }
 
-  /* ===== Étape 4 : correction ===== */
-  const WHY = {
-    living: 'It is alive: it moves, feeds or grows. It is a living thing.',
-    organic: 'It comes from a living thing, but it is dead: it is organic matter.',
-    mineral: 'It comes from rocks: it is mineral matter.',
-    waste: 'It is made by humans and does not belong in soil: it is waste.'
-  };
-  const TRAP_WHY = {
-    beetleDead: 'The beetle does not move, even when you touch it: it is dead. A dead animal is organic matter.',
-    roots: 'These roots are fresh: they belong to a living plant. They are living things.',
-    sand: 'Sand grains are tiny pieces of rock: they are mineral matter.',
-    cap: 'A bottle cap is plastic, made by humans: it is waste, not part of the soil.',
-    wrapper: 'A sweet wrapper is plastic, made by humans: it is waste, not part of the soil.'
-  };
+  /* ===== Étape 4 : correction =====
+     Textes : WHY, TRAP_WHY, CHECK, COMPARE_SENT. */
   const whyOf = it => TRAP_WHY[it.type] || WHY[T[it.type].cat];
-  const listText = names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '';
-  // « a pebble », « an earthworm » ; pas d'article pour un pluriel ou une masse.
-  const MASS = ['dry grass', 'gravel'];
-  const withArticle = n => {
-    const p = plain(n);
-    return MASS.includes(p) || /s$/.test(p) ? n : `${/^[aeiou]/.test(p) ? 'an' : 'a'} ${n}`;
-  };
 
-  const CHECK = {
-    sortedOk: n => n === 1 ? 'The thing you sorted is in the right bowl.' : `The ${n} things you sorted are all in the right bowls.`,
-    sortedScore: (good, n) => `${good} / ${n} things in the right bowl.`,
-    wrongItem: (name, S, put, right) => `Sample ${S}: you put the ${name} in “${put}”, but the right bowl is “${right}”.`,
-    missedCat: (S, cat, names, tiny) => {
-      const one = names.length === 1 && !/s$/.test(plain(names[0]));
-      return `Sample ${S}: you found no ${cat.toLowerCase()}, but it contained ${listText(names.map(withArticle))}.` +
-        (tiny ? ` ${one ? 'It is' : 'They are'} very small: look with the magnifying glass.` : '');
-    },
-    foundAll: 'You found something of each kind in both samples. Careful observation!',
-    humidityOk: (S, v) => `Sample ${S}: you noted “${v}”. Correct.`,
-    humidityWrong: (S, v, real) => `Sample ${S}: you noted “${v}”, but the soil was ${real}.`,
-    compareRight: S => `Sample ${S} contains more living things and organic matter.`,
-    compareOk: 'Correct!',
-    compareWrong: 'Not quite. The correct answer:',
-    locationOk: 'Yes: two soils from two places do not contain the same things.',
-    locationWrong: 'Look at your sheet again: the two samples do not contain the same things. The composition of the soil changes depending on the location.',
-    wetPoor: S => `Careful: sample ${S} was wet, but it had almost no life. Water alone does not make a soil rich.`,
-    yourHyp: 'Your hypothesis:',
-    yourConcl: 'Your conclusion:',
-    verdictOk: v => `Your hypothesis and your conclusion ${v === 'confirmed' ? 'say the same thing' : 'do not say the same thing'}: it is indeed ${v}. Well judged!`,
-    verdictWrong: should => `Compare your hypothesis with your conclusion: they ${should === 'confirmed' ? 'say the same thing, so your hypothesis is confirmed' : 'do not say the same thing, so your hypothesis is rejected'}.`,
-    rejectedNote: 'A rejected hypothesis is not a mistake: it is how science moves on.'
-  };
-
-  // Comparaison de l'hypothèse et de la conclusion, en phrases complètes.
-  const COMPARE_SENT = {
-    A: 'sample A contains more living things and organic matter.',
-    B: 'sample B contains more living things and organic matter.',
-    same: 'both samples contain about the same amount of living things and organic matter.'
-  };
+  // Ce qui manquait dans une catégorie : chaque sorte une fois, avec son
+  // article indéfini ; one : un seul élément, au singulier.
+  function missedText(m) {
+    const types = [...new Set(m.items.map(i => i.type))];
+    const one = types.length === 1 && !ITEMS[types[0]].plural;
+    return CHECK.missedCat(m.S, LABELS.cats[m.cat], LABELS.list(types.map(type => ITEMS[type].a)), m.items.every(i => T[i.type].tiny), one);
+  }
 
   function evaluate() {
     const all = samples().flatMap(s => s.items);
@@ -1456,11 +1255,11 @@
       if (!ev.sorted.length) return `<p>${LABELS.missing.sort('A')}</p>`;
       if (!ev.wrong.length) return `<p class="so-ok">${CHECK.sortedOk(ev.sorted.length)}</p>`;
       return `<p>${CHECK.sortedScore(ev.sorted.length - ev.wrong.length, ev.sorted.length)}</p>` +
-        `<ul class="so-misslist">${ev.wrong.map(i => `<li>${gloss(CHECK.wrongItem(`[${nameOf(i)}]`, i.S, cats[i.sorted], cats[T[i.type].cat]))} ${whyOf(i)}</li>`).join('')}</ul>`;
+        `<ul class="so-misslist">${ev.wrong.map(i => `<li>${gloss(CHECK.wrongItem(ITEMS[i.type].the, i.S, cats[i.sorted], cats[T[i.type].cat]))} ${whyOf(i)}</li>`).join('')}</ul>`;
     }
     if (key === 'observation') {
-      const lines = ev.missed.map(m => `<li>${gloss(CHECK.missedCat(m.S, cats[m.cat], [...new Set(m.items.map(i => `[${nameOf(i)}]`))], m.items.every(i => T[i.type].tiny)))}</li>`)
-        .concat(ev.humidity.filter(h => !h.ok).map(h => `<li>${CHECK.humidityWrong(h.S, LABELS.wd[h.noted] || '—', h.real)}</li>`));
+      const lines = ev.missed.map(m => `<li>${gloss(missedText(m))}</li>`)
+        .concat(ev.humidity.filter(h => !h.ok).map(h => `<li>${CHECK.humidityWrong(h.S, LABELS.wd[h.noted] || '—', LABELS.wd[h.real])}</li>`));
       return (ev.missed.length ? '' : `<p class="so-ok">${CHECK.foundAll}</p>`) +
         (lines.length ? `<ul class="so-misslist">${lines.join('')}</ul>` : '') +
         ev.humidity.filter(h => h.ok).map(h => `<p class="so-ok">${CHECK.humidityOk(h.S, LABELS.wd[h.noted])}</p>`).join('');
@@ -1468,7 +1267,7 @@
     if (key === 'conclusion') {
       const rich = state.richLetter, poor = rich === 'A' ? 'B' : 'A';
       return (ev.compareOk ? `<p class="so-ok">${CHECK.compareOk} ${CHECK.compareRight(rich)}</p>` : `<p class="so-ko">${CHECK.compareWrong}</p><p><strong>${CHECK.compareRight(rich)}</strong></p>`) +
-        `<p>${gloss(LOCS[state.samples[rich].key].why)}</p><p>${gloss(LOCS[state.samples[poor].key].why)}</p>` +
+        `<p>${gloss(PLACES[state.samples[rich].key].why)}</p><p>${gloss(PLACES[state.samples[poor].key].why)}</p>` +
         (state.samples[poor].wet ? `<p class="so-muted">${CHECK.wetPoor(poor)}</p>` : '') +
         `<p class="${ev.locationOk ? 'so-ok' : 'so-ko'}">${ev.locationOk ? CHECK.locationOk : CHECK.locationWrong}</p>`;
     }
@@ -1484,7 +1283,7 @@
     const score = KEYS.filter(k => ev[k]).length;
     const rows = KEYS.map(k => `<button type="button" class="so-crit ${ev[k] ? 'is-ok' : 'is-ko'} ${state.crit === k ? 'is-selected' : ''}" data-crit="${k}">` +
       `<span class="so-crit-text"><strong>${LABELS.criteria[k]}</strong><small>${LABELS.criteriaSub[k]}</small></span>` +
-      `<span class="so-crit-mark" aria-label="${ev[k] ? 'correct' : 'incorrect'}">${ev[k] ? '✓' : '✗'}</span></button>`).join('');
+      `<span class="so-crit-mark" aria-label="${ev[k] ? LABELS.markCorrect : LABELS.markIncorrect}">${ev[k] ? '✓' : '✗'}</span></button>`).join('');
 
     lab.body.innerHTML = `<div class="so-check">` +
       `<div class="so-check-left">` +
@@ -1519,15 +1318,15 @@
       const here = s.items.filter(i => i.sorted === cat);
       const names = [...new Set(here.map(nameOf))];
       const text = names.length ? `✓ ${escapeHtml(names.join(', '))}` : '—';
-      const notes = here.filter(i => T[i.type].cat !== cat).map(i => `${CHECK.wrongItem(nameOf(i), s.S, cats[cat], cats[T[i.type].cat])} ${whyOf(i)}`);
+      const notes = here.filter(i => T[i.type].cat !== cat).map(i => `${plain(CHECK.wrongItem(ITEMS[i.type].the, s.S, cats[cat], cats[T[i.type].cat]))} ${whyOf(i)}`);
       const m = ev.missed.find(x => x.S === s.S && x.cat === cat);
-      if (m) notes.push(plain(CHECK.missedCat(s.S, cats[cat], [...new Set(m.items.map(nameOf))], m.items.every(i => T[i.type].tiny))));
+      if (m) notes.push(plain(missedText(m)));
       return notes.length ? mark(text, notes.join(' '), { box: true }) : text;
     };
     const water = s => {
       const h = ev.humidity.find(x => x.S === s.S);
       const text = s.noted ? LABELS.wd[s.noted] : '—';
-      return h.ok ? text : mark(text, CHECK.humidityWrong(s.S, text, h.real), { box: true });
+      return h.ok ? text : mark(text, CHECK.humidityWrong(s.S, text, LABELS.wd[h.real]), { box: true });
     };
     const rows = ['living', 'organic', 'mineral'].map(cat => `<tr><th>${cats[cat]}</th>${samples().map(s => `<td>${cell(s, cat)}</td>`).join('')}</tr>`).join('') +
       `<tr><th>${LABELS.water}</th>${samples().map(s => `<td>${water(s)}</td>`).join('')}</tr>`;
@@ -1535,15 +1334,15 @@
     const wasteLine = wasteItems.length
       ? `<p>${cats.waste}: ${wasteItems.map(i => {
         const t = `${escapeHtml(nameOf(i))} (${i.S})`;
-        return T[i.type].cat === 'waste' ? t : mark(t, `${CHECK.wrongItem(nameOf(i), i.S, cats.waste, cats[T[i.type].cat])} ${whyOf(i)}`);
+        return T[i.type].cat === 'waste' ? t : mark(t, `${plain(CHECK.wrongItem(ITEMS[i.type].the, i.S, cats.waste, cats[T[i.type].cat]))} ${whyOf(i)}`);
       }).join(', ')}</p>` : '';
 
     const counts = s => {
       const parts = ['living', 'organic', 'mineral'].map(cat => [cat, s.items.filter(i => i.sorted === cat).length]).filter(([, n]) => n > 0).map(([cat, n]) => R.count(n, cat));
-      return parts.length ? listText(parts) : R.countsNone;
+      return parts.length ? LABELS.list(parts) : R.countsNone;
     };
     const interp = samples().map(s => R.found(s.S, plain(fromText(s.S)), counts(s))).join(' ') + ' ' +
-      (c.compare ? (ev.compareOk ? R.compare[c.compare] : mark(R.compare[c.compare], `${CHECK.compareRight(state.richLetter)} ${plain(LOCS[state.samples[state.richLetter].key].why)}`)) : '—');
+      (c.compare ? (ev.compareOk ? R.compare[c.compare] : mark(R.compare[c.compare], `${CHECK.compareRight(state.richLetter)} ${plain(PLACES[state.samples[state.richLetter].key].why)}`)) : '—');
 
     const conclusion = [
       c.location ? (ev.locationOk ? R.location[c.location] : mark(R.location[c.location], CHECK.locationWrong)) : '—',

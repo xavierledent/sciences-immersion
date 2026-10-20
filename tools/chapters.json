@@ -11,6 +11,10 @@
         "en": [
           { "id": "decomposition", "file": "lab-decomposition", "title": "The vanishing leaves", "question": "What makes dead leaves disappear?", "text": "Every autumn, tons of leaves fall in the forest. A year later, they are gone. Set up your own experiment to find out why." },
           { "id": "zones", "file": "lab-zones", "title": "Inside two ecosystems", "question": "Do abiotic factors have an influence on living things?", "text": "Measure the temperature, the light and the humidity of two zones, then identify and count the living things in a counting square. Your histogram will show the difference." }
+        ],
+        "nl": [
+          { "id": "decomposition", "file": "lab-decomposition", "title": "De verdwijnende bladeren", "question": "Waardoor verdwijnen dode bladeren?", "text": "Elke herfst vallen er tonnen bladeren in het bos. Een jaar later zijn ze verdwenen. Zet zelf een experiment op om te ontdekken waarom." },
+          { "id": "zones", "file": "lab-zones", "title": "Twee ecosystemen onder de loep", "question": "Hebben abiotische factoren een invloed op levende wezens?", "text": "Meet de temperatuur, het licht en de vochtigheid van twee zones, en determineer en tel dan de levende wezens in een telkader. Je histogram zal het verschil tonen." }
         ]
       }
     },
@@ -27,7 +31,8 @@
           { "id": "soil", "file": "lab-soil", "title": "Under our feet", "question": "What is soil made of, and does it change from place to place?", "text": "Two soil samples from two places around the school. Spread them out, look closely with a magnifying glass and sort what you find." }
         ],
         "nl": [
-          { "id": "metals", "file": "lab-metals", "title": "Metaaldetectives", "question": "Welke zijn metalen, en welke metalen zijn het?", "text": "Vijf stalen, allemaal met dezelfde vorm. Sommige zijn metalen, andere lijken alleen maar op metalen." }
+          { "id": "metals", "file": "lab-metals", "title": "Metaaldetectives", "question": "Welke zijn metalen, en welke metalen zijn het?", "text": "Vijf stalen, allemaal met dezelfde vorm. Sommige zijn metalen, andere lijken alleen maar op metalen." },
+          { "id": "soil", "file": "lab-soil", "title": "Onder onze voeten", "question": "Waaruit bestaat de bodem, en verschilt hij van plaats tot plaats?", "text": "Twee bodemstalen van twee plaatsen rond de school. Spreid ze uit, bekijk ze goed met een loep en sorteer wat je vindt." }
         ]
       }
     },

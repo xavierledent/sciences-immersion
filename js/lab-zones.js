@@ -5,8 +5,10 @@
    l'on relève la température, la lumière, l'humidité de l'air et celle du
    sol, puis où l'on identifie et compte les êtres vivants d'un carré posé au
    sol. Le cadre commun (modale, barre d'étapes, verrous, traduction, rapport
-   imprimé) est dans lab-engine.js, à la racine du site, chargé avant ce
-   fichier. Textes en anglais seulement pour l'instant.
+   imprimé) est dans lab-engine.js. Simulation commune aux deux filières ;
+   ses textes sont dans le dossier du chapitre, un fichier par langue
+   (lab-zones.en.js, lab-zones.nl.js). Ordre de chargement : moteur, textes,
+   ce fichier.
 
    Tirés au sort à chaque nouveau labo : deux milieux parmi quatre (prairie,
    lisière du bois, ombre profonde sous les arbres, bord de l'étang ; jamais
@@ -54,206 +56,16 @@
 
   const ZONES = ['A', 'B'];
 
-  /* ===== Libellés =====
-     [mot] ou [mot|clé] : mot du lexique, souligné, traduction française au
-     survol ou au toucher (voir GLOSSARY). Les raisons des verrous restent en
-     texte simple : la bulle du cadre commun n'affiche pas de lexique. */
-  const LABELS = {
-    title: 'Inside two ecosystems',
-    question: 'Do abiotic factors (temperature, light, humidity) have an influence on biotic factors (the living things)?',
-    questionCase: 'To [find out], you compare two zones only [50 m apart]: you measure their abiotic factors and you count their living things.',
-    yourQuestion: 'Your question',
-    zone: Z => `Zone ${Z}`,
-    apart: '50 m',
-    same: 'Both the same',
-
-    hypothesisTitle: 'Your hypothesis',
-    hypGroups: { abiotic: 'Abiotic factors · I think that…', biotic: 'Biotic factors · I think that I will find…', answer: 'My answer to the question · I think that…' },
-    hypRows: {
-      warmer: 'the warmer zone is',
-      brighter: 'the brighter zone is',
-      humid: 'the more humid zone is',
-      moss: 'more [mosses] and [ferns] in',
-      bloom: 'more [wildflowers] and [flying insects] in',
-      influence: 'abiotic factors have an influence on living things:'
-    },
-    yesNo: { yes: 'Yes', no: 'No' },
-    because: 'Why do you think so? (optional)',
-    becausePlaceholder: 'Because…',
-    hypothesisReady: 'Your hypothesis is ready.',
-    hypothesisPending: 'Tap a zone on each line to complete your hypothesis.',
-    toExperiment: 'Next: go into the field',
-    lockHypothesis: 'Complete your hypothesis first: one choice on each line.',
-    lockHypothesisFixed: 'Your hypothesis is fixed: the field work has started. A scientist does not change the hypothesis after seeing the results!',
-
-    habitats: {
-      meadow: 'Sunny [meadow]',
-      edge: '[Edge of the woods]',
-      shade: '[Deep shade] under the trees',
-      pond: '[Edge of the pond]'
-    },
-
-    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Feel the soil', quadrat: 'Counting square' },
-    views: { field: 'In the field', graph: 'Histogram' },
-    sheetTitle: 'Field data sheet',
-    abioticHead: 'Abiotic factors',
-    factors: { temp: 'Temperature', lux: 'Light intensity', air: 'Air humidity', soil: 'Soil humidity', species: 'Number of species' },
-    units: { temp: '(°C)', lux: '(lux)', air: '(%)', soil: 'dry, moist or wet', species: 'from your count sheet' },
-    soilWords: { dry: 'dry', moist: 'moist', wet: 'wet' },
-    choose: 'Choose…',
-    countTitle: 'Biotic factors: count sheet',
-    countSub: 'individuals of each species',
-    notFound: 'Nothing found yet',
-    nSpecies: n => n === 1 ? '1 species' : `${n} species`,
-    countLabel: (name, Z) => `Number of individuals: ${name}, zone ${Z}`,
-    cellLabel: (Z, f) => `Zone ${Z}, ${LABELS.factors[f].toLowerCase()}`,
-    infoField: (v, q) => `${v} / 8 measurements written · ${q} / 2 counting squares done`,
-    toGraph: 'Next: build your histogram',
-    toConclude: 'Next: conclude',
-    backToZones: 'Back to the zones',
-    quadratHead: Z => `Zone ${Z} · the [counting square] (1 m × 1 m) seen from above`,
-    tapToOpen: 'Tap to open',
-    unknown: 'a living thing',
-    idEmpty: 'Tap a [living thing] in the [counting square] to find out what it is.',
-    idWhat: 'What is it?',
-    idWrong: wrong => `Not a ${wrong}. Read the descriptions again and compare with what you see!`,
-    idCount: 'All the individuals of this species are [circled]. Count them, then write the number in your count sheet.',
-    idNoted: n => `In your count sheet: ${n}`,
-
-    lockCell: {
-      temp: Z => `First put the thermometer in zone ${Z}.`,
-      lux: Z => `First put the luxmeter in zone ${Z}.`,
-      air: Z => `First put the hygrometer in zone ${Z}.`,
-      soil: Z => `First feel the soil of zone ${Z} with your hand.`
-    },
-    lockGraph: 'Count the living things in both counting squares first.',
-    missing: {
-      temp: Z => `Measure the temperature of zone ${Z} and write it in your data sheet.`,
-      lux: Z => `Measure the light in zone ${Z} and write it in your data sheet.`,
-      air: Z => `Measure the air humidity of zone ${Z} and write it in your data sheet.`,
-      soil: Z => `Feel the soil of zone ${Z} and note if it is dry, moist or wet.`,
-      find: Z => `Open the counting square of zone ${Z} and find its living things.`,
-      count: (name, Z) => `Count sheet, zone ${Z}: write the number for “${name}”.`,
-      bars: n => `Your histogram is not finished: ${n === 1 ? '1 bar' : n + ' bars'} still to draw.`
-    },
-
-    caption: {
-      start: 'Pick an instrument, then tap zone A or zone B (or drag the instrument onto the zone).',
-      noTool: 'Pick an instrument first, then tap a zone.',
-      tool: {
-        thermo: 'Tap a zone to put a thermometer there.',
-        lux: 'Tap a zone to measure its light with a [luxmeter].',
-        hygro: 'Tap a zone to measure the humidity of its air with a [hygrometer].',
-        hand: 'Tap a zone to feel its soil with your hand.',
-        quadrat: 'Tap a zone to put the [counting square] on the ground.'
-      },
-      measured: {
-        thermo: Z => `The thermometer is in zone ${Z}. Read it and write the temperature in your data sheet.`,
-        lux: Z => `The [luxmeter] measures the light in zone ${Z}. Write the value in your data sheet.`,
-        hygro: Z => `The [hygrometer] measures the humidity of the air in zone ${Z}. Write the value in your data sheet.`
-      },
-      felt: Z => `Now note in your data sheet if the soil of zone ${Z} is dry, moist or wet.`,
-      quadrat: 'Tap a [living thing] to find out what it is. Then count all the [circled] ones and write the number in your count sheet.',
-      identify: 'Which name is right? Look closely at the living thing.',
-      wrongName: 'Not this one: read the hint and look again.',
-      selected: name => `[${capitalize(name)}|${name}]: count all the [circled] ones and write the number in your count sheet.`,
-      quadratOpen: Z => `Zone ${Z}: tap the [counting square] to open it again.`,
-      fieldDone: 'Your data sheet and your count sheet are complete. Now build your histogram.',
-      graph: 'Drag each bar up to the number in your count sheet, or tap at the right height.',
-      graphDone: 'Your histogram is finished. You can go on to conclude.',
-      bad: {
-        temp: 'Write the temperature shown on the thermometer, in °C (for example 18.5).',
-        lux: 'Write the number shown on the luxmeter, in lux (for example 12400).',
-        air: 'Write the number shown on the hygrometer, in % (for example 65).',
-        count: 'Write a whole number (for example 6).'
-      }
-    },
-    feel: {
-      dry: 'The soil is hard and dusty. It [crumbles] between your fingers, and your fingers stay dry.',
-      moist: 'The soil is soft and cool. It [sticks] a little to your fingers, but no water comes out.',
-      wet: 'The soil is [muddy]. Water comes out when you [press] it, and your fingers are wet.'
-    },
-    feelNote: 'Note it in your data sheet: dry, moist or wet?',
-
-    graphTitle: 'Your histogram',
-    chartTitle: 'Number of individuals of each species in zone A and zone B',
-    graphHow: 'For each species, draw <b class="zn-how-A">a blue bar for zone A</b> and <b class="zn-how-B">an orange bar for zone B</b>, as high as the numbers in your count sheet.',
-    yName: 'Number of individuals',
-    xName: 'Species',
-    scaleNote: 'Scale: 1 square = 1 individual',
-    barLabel: (name, Z) => `Bar of the ${name}, zone ${Z}`,
-
-    qFactors: 'Abiotic factors · read your data sheet.',
-    qLiving: 'Biotic factors · read your histogram.',
-    qAnswer: 'Answer to the question',
-    rows: {
-      warmer: 'Warmer',
-      brighter: 'Brighter',
-      humid: 'More humid',
-      moss: 'More [mosses] and [ferns]',
-      bloom: 'More [wildflowers] and [flying insects]',
-      influence: 'Abiotic factors have an influence on living things:'
-    },
-    qVerdict: 'So my hypothesis is',
-    verdicts: { confirmed: 'confirmed', partly: 'partly confirmed', rejected: 'rejected' },
-    checkConclusions: 'Check my conclusions',
-    backToLab: 'Back to the field',
-
-    scoreLabel: 'checks passed',
-    criteria: { measures: 'Measurements', count: 'Counting', graph: 'Histogram', conclusion: 'Conclusion', verdict: 'Hypothesis' },
-    criteriaSub: { measures: 'Your data sheet', count: 'Your count sheet', graph: 'Your bars', conclusion: 'Your answers', verdict: 'Your judgement' },
-
-    report: {
-      title: 'Laboratory report — Inside two ecosystems',
-      question: 'Do abiotic factors (temperature, light, humidity) have an influence on biotic factors (the living things)?',
-      questionCase: (a, b) => `To find out, I compared two zones only 50 m apart: zone A (${a}) and zone B (${b}).`,
-      because: 'Because',
-      materials: 'A thermometer, a luxmeter, a hygrometer, a counting square (1 m × 1 m), the field data sheet, a count sheet, squared paper and a ruler.',
-      procedure: [
-        'In each zone, measure the temperature of the air with the thermometer, the light intensity with the luxmeter and the humidity of the air with the hygrometer.',
-        'Touch the soil to feel if it is dry, moist or wet.',
-        'Put the counting square on the ground. Identify each species of living thing inside it, and count its individuals.',
-        'Write everything in the field data sheet and in the count sheet.',
-        'Draw a histogram of the number of individuals of each species in both zones (tool sheet FO5b).'
-      ],
-      zoneCol: 'Zone',
-      sheetCaption: 'Field data sheet: abiotic factors',
-      countCaption: 'Biotic factors: count sheet (number of individuals in the counting square)',
-      species: 'Species',
-      nothing: 'nothing',
-      results: 'My results show that',
-      conclusion: (answer, verdict) => `So ${answer}. My hypothesis is ${verdict}.`,
-      score: n => `Score: ${n} / 5 checks passed.`
-    }
-  };
-
-  /* Phrases tirées des choix de l'élève (hypothèse, réponses, rapport). */
-  const PHRASE = {
-    warmer: v => v === 'same' ? 'both zones have the same temperature' : `zone ${v} is warmer`,
-    brighter: v => v === 'same' ? 'both zones get the same light' : `zone ${v} is brighter`,
-    humid: v => v === 'same' ? 'both zones are as humid' : `zone ${v} is more humid`,
-    moss: v => v === 'same' ? 'there are as many mosses and ferns in both zones' : `there are more mosses and ferns in zone ${v}`,
-    bloom: v => v === 'same' ? 'there are as many wildflowers and flying insects in both zones' : `there are more wildflowers and flying insects in zone ${v}`,
-    influence: v => v === 'yes' ? 'abiotic factors have an influence on living things' : 'abiotic factors have no influence on living things',
-    hypMoss: v => v === 'same' ? 'I will find as many mosses and ferns in both zones' : `I will find more mosses and ferns in zone ${v}`,
-    hypBloom: v => v === 'same' ? 'as many wildflowers and flying insects in both zones' : `more wildflowers and flying insects in zone ${v}`
-  };
-
-  const GLOSSARY = {
-    '50 m apart': "à 50 m l'une de l'autre", meadow: 'prairie', 'edge of the woods': 'lisière du bois',
-    'deep shade': 'ombre profonde', 'edge of the pond': "bord de l'étang",
-    'counting square': 'carré de comptage', luxmeter: 'luxmètre (il mesure la lumière)', hygrometer: "hygromètre (il mesure l'humidité de l'air)",
-    mosses: 'mousses', ferns: 'fougères', wildflowers: 'fleurs sauvages', 'flying insects': 'insectes volants',
-    'living thing': 'être vivant', 'find out': 'le découvrir', 'living things': 'êtres vivants', circled: 'entourés',
-    crumbles: "s'effrite", sticks: 'colle', muddy: 'boueux', press: 'presses',
-    tuft: 'touffe', toothed: 'dentelées', thorny: 'épineuses', stings: 'pique', fungus: 'champignon',
-    'see-through': 'transparentes', 'sword-shaped': "en forme d'épée",
-    grass: 'herbe', daisy: 'pâquerette', dandelion: 'pissenlit', buttercup: "bouton d'or", bramble: 'ronce', nettle: 'ortie',
-    ivy: 'lierre', fern: 'fougère', moss: 'mousse', mushroom: 'champignon', rush: 'jonc', 'yellow iris': 'iris des marais',
-    butterfly: 'papillon', bee: 'abeille', grasshopper: 'sauterelle', ant: 'fourmi', woodlouse: 'cloporte', snail: 'escargot',
-    dragonfly: 'libellule', frog: 'grenouille',
-    'feed on': 'se nourrissent de', 'dry out': 'se dessèchent', 'suit it': 'lui conviennent'
-  };
+  /* ===== Textes =====
+     Dans le dossier du chapitre, un fichier par langue (lab-zones.en.js,
+     lab-zones.nl.js), chargé avant celui-ci : libellés, lexique, nom et
+     description des espèces (SPECIES), morceaux de phrase (PHRASE),
+     explications et correction. La température s'affiche par LABELS.num
+     (séparateur décimal de la langue). */
+  const {
+    labels: LABELS, glossary: GLOSSARY, species: SPECIES, phrase: PHRASE, explain: EXPLAIN, check: CHECK
+  } = LabEngine.textFor('zones');
+  const num = LABELS.num;
 
   /* ===== Ce qu'on trouve dans un carré =====
      r : rayon du dessin (unités du carré, 400 pour 1 m) ; la zone à toucher
@@ -288,8 +100,7 @@
   }
 
   const T = {
-    grass: { name: 'grass', r: 20, layer: 0,
-      cap: 'A [tuft] of grass: long, thin green leaves that grow in the sun.',
+    grass: { r: 20, layer: 0,
       draw: r => {
         let s = '<ellipse rx="9" ry="9" fill="#000" opacity=".08"/>';
         for (let i = 0; i < 11; i++) {
@@ -300,8 +111,7 @@
         }
         return s + '<circle r="2.6" fill="#356b23"/>';
       } },
-    moss: { name: 'moss', r: 17, layer: 0,
-      cap: 'A soft green cushion made of tiny leaves. It has no flowers and no roots.',
+    moss: { r: 17, layer: 0,
       draw: r => {
         let s = '<path d="M-15 2 C-16 -8 -6 -15 2 -13 C11 -14 17 -5 15 3 C16 11 6 16 -2 14 C-11 15 -16 9 -15 2 Z" fill="#3f7a26" stroke="#2f5f1c" stroke-width=".8"/>';
         for (let i = 0; i < 26; i++) {
@@ -310,31 +120,26 @@
         }
         return s;
       } },
-    fern: { name: 'fern', r: 23, layer: 0,
-      cap: 'A plant with long, finely cut leaves (fronds). It has no flowers.',
+    fern: { r: 23, layer: 0,
       draw: r => {
         const base = r() * 60;
         return [0, 120, 240].map(a => `<g transform="rotate(${(a + base).toFixed(0)})">${frond(22)}</g>`).join('') + '<circle r="2.4" fill="#5c4630"/>';
       } },
-    ivy: { name: 'ivy', r: 17, layer: 0,
-      cap: 'A climbing plant with dark, shiny leaves. It stays green all year.',
+    ivy: { r: 17, layer: 0,
       draw: () => '<path d="M-14 10 C-6 4 2 2 12 -10" stroke="#5a4a2a" stroke-width="1.3" fill="none"/>' +
         [[-12, 9, -60, 0.9], [-3, 4, 20, 1], [5, -2, -40, 0.85], [12, -10, 30, 0.75]].map(([x, y, a, s]) =>
           `<g transform="translate(${x} ${y}) rotate(${a}) scale(${s})"><path d="${IVY_LEAF}" fill="#24502a" stroke="#173a1c" stroke-width=".7"/><path d="M0 0 L0 -13 M0 -6 L-6 -6 M0 -6 L6 -6 M0 -3 L-7 -3 M0 -3 L7 -3" stroke="#7fa77f" stroke-width=".6" fill="none"/></g>`).join('') },
-    bramble: { name: 'bramble', r: 21, layer: 0,
-      cap: 'A plant with long [thorny] stems and blackberries.',
+    bramble: { r: 21, layer: 0,
       draw: () => '<path d="M-19 9 C-11 -15 9 -17 19 5" fill="none" stroke="#7a3b46" stroke-width="2.3" stroke-linecap="round"/>' +
         [[-15, 0, -60], [-7, -9, -25], [3, -11, 10], [12, -6, 45]].map(([x, y, a]) => `<path d="M${x} ${y} l-2.5 -2.5" transform="rotate(${a} ${x} ${y})" stroke="#7a3b46" stroke-width="1.1"/>`).join('') +
         [[-12, -4, -30], [8, -8, 25]].map(([x, y, a]) => `<g transform="translate(${x} ${y}) rotate(${a})">` +
           [-35, 0, 35].map(b => `<ellipse cx="0" cy="-6" rx="3.4" ry="5.6" fill="#3d7a36" stroke="#2a5a26" stroke-width=".6" transform="rotate(${b})"/>`).join('') + '</g>').join('') +
         [[15, 7], [17, 10], [13, 10], [15, 13], [18, 6]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2" fill="#2b1830"/>`).join('') +
         '<circle cx="14.4" cy="6.4" r=".6" fill="#ffffff" opacity=".6"/>' },
-    nettle: { name: 'nettle', r: 18, layer: 0,
-      cap: 'A plant with [toothed] leaves. Careful: it [stings]!',
+    nettle: { r: 18, layer: 0,
       draw: () => [0, 90, 180, 270].map(a => `<g transform="rotate(${a})">${toothedLeaf(16, 5.6, 10, '#4c8a3a', '#2f6328')}</g>`).join('') +
         [45, 135, 225, 315].map(a => `<g transform="rotate(${a})">${toothedLeaf(9, 3.4, 6, '#5d9c47', '#2f6328')}</g>`).join('') + '<circle r="2" fill="#3c7330"/>' },
-    rush: { name: 'rush', r: 19, layer: 0,
-      cap: 'A plant with thin, round, stiff stems. It grows with its feet in the water.',
+    rush: { r: 19, layer: 0,
       draw: r => {
         let s = '<ellipse rx="7" ry="7" fill="#000" opacity=".12"/>';
         for (let i = 0; i < 16; i++) {
@@ -344,71 +149,58 @@
         }
         return s;
       } },
-    iris: { name: 'yellow iris', r: 19, layer: 0,
-      cap: 'A tall plant with [sword-shaped] leaves and a big yellow flower. It grows near water.',
+    iris: { r: 19, layer: 0,
       draw: () => [-38, -19, 0, 19, 38].map(a => `<path d="M0 12 C-2.6 2 -2.2 -8 0 -17 C2.2 -8 2.6 2 0 12 Z" fill="${a % 2 ? '#3f7d36' : '#4f9442'}" transform="rotate(${a} 0 12)"/>`).join('') +
         '<g transform="translate(2 -11)">' + [0, 120, 240].map(a => `<ellipse cx="0" cy="-4.2" rx="3.4" ry="5" fill="#f3c623" stroke="#c99a12" stroke-width=".6" transform="rotate(${a})"/>`).join('') + '<circle r="1.8" fill="#d98a0b"/></g>' },
-    mushroom: { name: 'mushroom', r: 13, layer: 1,
-      cap: 'A [fungus]: it is not a plant. It grows on dead leaves and dead wood.',
+    mushroom: { r: 13, layer: 1,
       draw: () => '<ellipse cx="0" cy="10" rx="12" ry="2.5" fill="#000" opacity=".18"/>' +
         '<path d="M2.5 1 L2 10 L7 10 L6.5 1 Z" fill="#efe6d2"/><path d="M-5.5 4 L-6 10 L-2.5 10 L-3 4 Z" fill="#efe6d2"/>' +
         '<path d="M-5 2 C-5 -9 14 -9 14 2 Z" fill="#a8622f"/><ellipse cx="4.5" cy="2" rx="9.5" ry="1.8" fill="#e2d2b3"/><ellipse cx="1.5" cy="-4" rx="2.4" ry="1.3" fill="#d39a66" opacity=".7"/>' +
         '<path d="M-11 5 C-11 -2 1 -2 1 5 Z" fill="#b36b33"/><ellipse cx="-5" cy="5" rx="6" ry="1.3" fill="#e2d2b3"/>' },
-    daisy: { name: 'daisy', r: 11, layer: 2,
-      cap: 'A small white flower with a yellow heart. It opens in the sun.',
+    daisy: { r: 11, layer: 2,
       draw: () => '<g fill="#5c9a3c">' + [20, 140, 260].map(a => `<ellipse cx="0" cy="-8" rx="3" ry="5.5" transform="rotate(${a})"/>`).join('') + '</g>' +
         Array.from({ length: 12 }, (_, i) => `<ellipse cx="0" cy="-5" rx="1.7" ry="4" fill="#ffffff" stroke="#cfcfcf" stroke-width=".4" transform="rotate(${i * 30})"/>`).join('') +
         '<circle r="3.1" fill="#f6c429"/>' },
-    dandelion: { name: 'dandelion', r: 14, layer: 2,
-      cap: 'A yellow flower with [toothed] leaves. Bees love it.',
+    dandelion: { r: 14, layer: 2,
       draw: () => [0, 72, 144, 216, 288].map(a => `<path d="M0 0 L3 -5 L1 -6 L4 -10 L1.5 -11 L3 -15 L0 -17 L-3 -15 L-1.5 -11 L-4 -10 L-1 -6 L-3 -5 Z" fill="#4f8f33" transform="rotate(${a + 36})"/>`).join('') +
         '<circle r="6.6" fill="#f5b800"/>' + Array.from({ length: 18 }, (_, i) => {
           const a = i * 20 * Math.PI / 180;
           return `<path d="M${(Math.cos(a) * 2.5).toFixed(1)} ${(Math.sin(a) * 2.5).toFixed(1)} L${(Math.cos(a) * 6.6).toFixed(1)} ${(Math.sin(a) * 6.6).toFixed(1)}" stroke="#ffd84a" stroke-width=".9"/>`;
         }).join('') + '<circle r="2.2" fill="#e09a00"/>' },
-    buttercup: { name: 'buttercup', r: 11, layer: 2,
-      cap: 'A small, shiny yellow flower with five round petals.',
+    buttercup: { r: 11, layer: 2,
       draw: () => '<path d="M-1 3 L-8 9" stroke="#4f8f33" stroke-width="1.4"/><path d="M-8 9 l-4.5 -1 l1.2 4.5 z" fill="#4f8f33"/>' +
         [0, 72, 144, 216, 288].map(a => `<circle cx="0" cy="-4.4" r="3.7" fill="#ffd21f" stroke="#d9a400" stroke-width=".5" transform="rotate(${a})"/>`).join('') +
         '<circle r="2.2" fill="#b8a838"/><ellipse cx="-1.4" cy="-6" rx="1.2" ry=".7" fill="#ffffff" opacity=".7"/>' },
-    butterfly: { name: 'butterfly', r: 13, layer: 3,
-      cap: 'An insect with big, colourful wings. It drinks the nectar of flowers.',
+    butterfly: { r: 13, layer: 3,
       draw: () => '<g><g>' +
         '<path d="M0 0 C-4 -9 -13 -12 -12.5 -3 C-12 1 -5 1 0 0 Z" fill="#f08a24" stroke="#3a2a1a" stroke-width=".9"/><path d="M0 0 C-3 5 -10 10 -11 4 C-11 1 -5 0 0 0 Z" fill="#e2671c" stroke="#3a2a1a" stroke-width=".9"/>' +
         '<g transform="scale(-1 1)"><path d="M0 0 C-4 -9 -13 -12 -12.5 -3 C-12 1 -5 1 0 0 Z" fill="#f08a24" stroke="#3a2a1a" stroke-width=".9"/><path d="M0 0 C-3 5 -10 10 -11 4 C-11 1 -5 0 0 0 Z" fill="#e2671c" stroke="#3a2a1a" stroke-width=".9"/></g>' +
         '<circle cx="-8" cy="-5" r="1.5" fill="#ffffff"/><circle cx="8" cy="-5" r="1.5" fill="#ffffff"/><circle cx="-7" cy="4" r="1" fill="#2b211a"/><circle cx="7" cy="4" r="1" fill="#2b211a"/>' +
         '<animateTransform attributeName="transform" type="scale" values="1 1;0.55 1;1 1" dur="0.9s" repeatCount="indefinite"/></g>' +
         '<ellipse rx="1.4" ry="6.5" fill="#2b211a"/><path d="M-.6 -6 L-3 -10 M.6 -6 L3 -10" stroke="#2b211a" stroke-width=".7"/></g>' },
-    bee: { name: 'bee', r: 10, layer: 3, move: 'buzz',
-      cap: 'A flying insect with yellow and black stripes. It visits flowers.',
+    bee: { r: 10, layer: 3, move: 'buzz',
       draw: () => '<ellipse cx="-3" cy="-5" rx="3.2" ry="5.4" fill="#e8f3fb" stroke="#9cc3e3" stroke-width=".6" transform="rotate(-35 -3 -5)" opacity=".95"/>' +
         '<ellipse cx="3" cy="-5" rx="3.2" ry="5.4" fill="#e8f3fb" stroke="#9cc3e3" stroke-width=".6" transform="rotate(35 3 -5)" opacity=".95"/>' +
         '<ellipse rx="4" ry="7" fill="#f5b72a"/><path d="M-3.8 -1.5 H3.8 M-3.4 2 H3.4 M-2.4 5 H2.4" stroke="#2b2420" stroke-width="1.7"/><circle cy="-7.6" r="2.6" fill="#2b2420"/>' },
-    dragonfly: { name: 'dragonfly', r: 16, layer: 3,
-      cap: 'A long flying insect with four [see-through] wings. It hunts near water.',
+    dragonfly: { r: 16, layer: 3,
       draw: () => [[-4, -9, -20], [-4, 9, 20], [3, -8, 15], [3, 8, -15]].map(([x, y, a]) => `<ellipse cx="${x}" cy="${y}" rx="2.8" ry="9" fill="#dcefff" fill-opacity=".75" stroke="#7fb0d8" stroke-width=".7" transform="rotate(${a} ${x} ${y})"/>`).join('') +
         '<path d="M-16 0 L8 0" stroke="#2c74b3" stroke-width="2.6" stroke-linecap="round"/><circle cx="10" cy="0" r="3" fill="#1f5c91"/><circle cx="11" cy="-1.6" r="1.1" fill="#9fd0f3"/><circle cx="11" cy="1.6" r="1.1" fill="#9fd0f3"/>' },
-    grasshopper: { name: 'grasshopper', r: 12, layer: 3,
-      cap: 'A green insect with long back legs. It jumps very far.',
+    grasshopper: { r: 12, layer: 3,
       draw: () => '<path d="M-1 2 L-6 7 L-12 6 M-1 -2 L-6 -7 L-12 -6" stroke="#3f7a26" stroke-width="1.7" fill="none" stroke-linejoin="round"/>' +
         '<path d="M3 2 L4 6 M3 -2 L4 -6 M6 1.5 L8 5 M6 -1.5 L8 -5" stroke="#3f7a26" stroke-width=".9"/>' +
         '<ellipse rx="9" ry="2.8" fill="#6aa23a"/><circle cx="9" r="2.8" fill="#5c9230"/><circle cx="10" cy="-1.2" r=".8" fill="#1f2a14"/>' +
         '<path d="M11 -1 C14 -4 16 -6 18 -6 M11 1 C14 4 16 6 18 6" stroke="#3f7a26" stroke-width=".6" fill="none"/>' },
-    ant: { name: 'ant', r: 8, layer: 3, move: 'run',
-      cap: 'A tiny black insect. It runs fast.',
+    ant: { r: 8, layer: 3, move: 'run',
       draw: () => '<g transform="scale(1.35)"><path d="M1.6 0 L-.5 -4 M1.6 0 L3.8 -4.2 M1.6 0 L1.6 -4.6 M1.6 0 L-.5 4 M1.6 0 L3.8 4.2 M1.6 0 L1.6 4.6" stroke="#1f1c1a" stroke-width=".6"/><circle cx="-3.2" r="2.6" fill="#1f1c1a"/><circle cx="1.6" r="1.4" fill="#1f1c1a"/><circle cx="5.2" r="1.8" fill="#1f1c1a"/></g>' },
-    woodlouse: { name: 'woodlouse', r: 10, layer: 3, move: 'walk',
-      cap: 'A small grey animal with a hard back made of plates, and fourteen legs.',
+    woodlouse: { r: 10, layer: 3, move: 'walk',
       draw: () => '<g transform="scale(1.15)"><path d="M7.5 -2 L11.5 -5 M7.5 2 L11.5 5" stroke="#4d5257" stroke-width=".8"/><ellipse rx="8.6" ry="5.5" fill="#6c7177"/>' +
         [-5, -2.6, -0.2, 2.2, 4.6].map(i => `<path d="M${i} -5.2 Q${i + 0.7} 0 ${i} 5.2" stroke="#53585e" stroke-width=".75" fill="none"/>`).join('') + '<ellipse cx="-1" cy="-1.8" rx="6" ry="1.6" fill="#9a9fa5" opacity=".55"/></g>' },
-    snail: { name: 'snail', r: 12, layer: 3, move: 'slow',
-      cap: 'A soft animal that carries its shell on its back. It moves slowly.',
+    snail: { r: 12, layer: 3, move: 'slow',
       draw: () => '<path d="M-12 6 C-6 3.5 5 3.5 10 5.5 L12.5 3.5 L10 1 C8 2.5 4 3 1 3 Z" fill="#c4ad90" stroke="#9c8569" stroke-width=".6"/>' +
         '<path d="M10.5 2 L13 -4 M9 2.4 L10 -4" stroke="#9c8569" stroke-width="1"/><circle cx="13" cy="-4.2" r="1" fill="#5e4a36"/><circle cx="10" cy="-4.2" r=".9" fill="#5e4a36"/>' +
         '<circle cx="-1" cy="-1" r="7" fill="#a5672e" stroke="#6e4220" stroke-width=".9"/><path d="M-1 -1 m-3 0 a3 3 0 1 1 3 3 a4.8 4.8 0 1 1 -4.8 -4.8" fill="none" stroke="#6e4220" stroke-width=".9"/>' +
         '<ellipse cx="-3.5" cy="-4" rx="2" ry="1" fill="#ffffff" opacity=".3"/>' },
-    frog: { name: 'frog', r: 14, layer: 3,
-      cap: 'A green animal that lives near water. Its skin is always wet.',
+    frog: { r: 14, layer: 3,
       draw: () => '<path d="M-5 5 L-11 9 L-13 5 M-11 9 L-9 13 M5 5 L11 9 L13 5 M11 9 L9 13 M-5 -3 L-10 -5 L-11 -8 M5 -3 L10 -5 L11 -8" stroke="#3f8233" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
         '<ellipse cy="1" rx="7.5" ry="9.5" fill="#5aa04a"/><circle cx="-4" cy="-7" r="2.8" fill="#5aa04a"/><circle cx="4" cy="-7" r="2.8" fill="#5aa04a"/>' +
         '<circle cx="-4" cy="-7.4" r="1.4" fill="#1d2a17"/><circle cx="4" cy="-7.4" r="1.4" fill="#1d2a17"/><circle cx="-2" cy="3" r="1.4" fill="#3f8233"/><circle cx="3" cy="5" r="1.1" fill="#3f8233"/><circle cx="1" cy="-1" r="1" fill="#3f8233"/>' },
@@ -423,31 +215,31 @@
 
   const hitR = t => Math.max(HIT_MIN, T[t].r);
 
-  /* Identification : le trait qui reconnaît l'espèce (écrit sous chaque nom
-     proposé) et les noms proposés, le bon en premier (mélangés à l'affichage,
+  /* Identification : les noms proposés (le trait qui reconnaît chaque
+     espèce, écrit sous son nom, est dans SPECIES), le bon en premier (mélangés à l'affichage,
      toujours dans le même ordre pour une espèce). Les noms proposés se
      ressemblent : fleurs entre elles, petites bêtes entre elles. */
   const IDENT = {
-    grass: { key: 'long, thin green leaves', choices: ['grass', 'rush', 'fern'] },
-    moss: { key: 'a soft cushion of tiny leaves', choices: ['moss', 'grass', 'fern'] },
-    fern: { key: 'long leaves cut into many small parts', choices: ['fern', 'nettle', 'moss'] },
-    ivy: { key: 'dark, shiny leaves with points', choices: ['ivy', 'nettle', 'bramble'] },
-    bramble: { key: 'stems with thorns and blackberries', choices: ['bramble', 'ivy', 'nettle'] },
-    nettle: { key: 'toothed leaves, two by two', choices: ['nettle', 'fern', 'ivy'] },
-    rush: { key: 'thin, round, stiff stems', choices: ['rush', 'grass', 'iris'] },
-    iris: { key: 'long flat leaves like swords and a big yellow flower', choices: ['iris', 'buttercup', 'rush'] },
-    mushroom: { key: 'a cap on a white stem', choices: ['mushroom', 'snail', 'moss'] },
-    daisy: { key: 'white petals around a yellow heart', choices: ['daisy', 'dandelion', 'buttercup'] },
-    dandelion: { key: 'a yellow flower made of many thin petals', choices: ['dandelion', 'daisy', 'buttercup'] },
-    buttercup: { key: 'five round, shiny yellow petals', choices: ['buttercup', 'dandelion', 'daisy'] },
-    butterfly: { key: 'big, colourful wings', choices: ['butterfly', 'bee', 'dragonfly'] },
-    bee: { key: 'yellow and black stripes', choices: ['bee', 'butterfly', 'ant'] },
-    dragonfly: { key: 'a long, thin body and four see-through wings', choices: ['dragonfly', 'butterfly', 'bee'] },
-    grasshopper: { key: 'long back legs to jump', choices: ['grasshopper', 'ant', 'woodlouse'] },
-    ant: { key: 'a tiny black body in three parts', choices: ['ant', 'woodlouse', 'bee'] },
-    woodlouse: { key: 'a grey back made of plates', choices: ['woodlouse', 'ant', 'snail'] },
-    snail: { key: 'a shell on its back', choices: ['snail', 'woodlouse', 'frog'] },
-    frog: { key: 'smooth green skin and long back legs', choices: ['frog', 'snail', 'grasshopper'] }
+    grass: { choices: ['grass', 'rush', 'fern'] },
+    moss: { choices: ['moss', 'grass', 'fern'] },
+    fern: { choices: ['fern', 'nettle', 'moss'] },
+    ivy: { choices: ['ivy', 'nettle', 'bramble'] },
+    bramble: { choices: ['bramble', 'ivy', 'nettle'] },
+    nettle: { choices: ['nettle', 'fern', 'ivy'] },
+    rush: { choices: ['rush', 'grass', 'iris'] },
+    iris: { choices: ['iris', 'buttercup', 'rush'] },
+    mushroom: { choices: ['mushroom', 'snail', 'moss'] },
+    daisy: { choices: ['daisy', 'dandelion', 'buttercup'] },
+    dandelion: { choices: ['dandelion', 'daisy', 'buttercup'] },
+    buttercup: { choices: ['buttercup', 'dandelion', 'daisy'] },
+    butterfly: { choices: ['butterfly', 'bee', 'dragonfly'] },
+    bee: { choices: ['bee', 'butterfly', 'ant'] },
+    dragonfly: { choices: ['dragonfly', 'butterfly', 'bee'] },
+    grasshopper: { choices: ['grasshopper', 'ant', 'woodlouse'] },
+    ant: { choices: ['ant', 'woodlouse', 'bee'] },
+    woodlouse: { choices: ['woodlouse', 'ant', 'snail'] },
+    snail: { choices: ['snail', 'woodlouse', 'frog'] },
+    frog: { choices: ['frog', 'snail', 'grasshopper'] }
   };
 
   // Groupes de la fiche de terrain (« Species location »).
@@ -502,7 +294,6 @@
 
   const FACTORS = ['temp', 'lux', 'air', 'soil'];
   const INSTR = { thermo: 'temp', lux: 'lux', hygro: 'air' };
-  const INSTR_NAME = { temp: 'thermometer', lux: 'luxmeter', air: 'hygrometer' };
   const UNIT = { temp: '°C', lux: 'lux', air: '%' };
   const TOOLS = ['thermo', 'lux', 'hygro', 'hand', 'quadrat'];
 
@@ -660,7 +451,7 @@
 
   function fmtValue(f, v) {
     if (v == null) return '—';
-    if (f === 'temp') return v.toFixed(1);
+    if (f === 'temp') return num(v);
     if (f === 'lux') return fmtLux(v);
     if (f === 'air') return String(Math.round(v));
     return LABELS.soilWords[v];
@@ -731,7 +522,7 @@
     for (const Z of ZONES) if (!state.found[Z].length) return M.find(Z);
     for (const Z of ZONES) {
       const t = state.found[Z].find(x => state.counts[Z][x] == null);
-      if (t) return M.count(T[t].name, Z);
+      if (t) return M.count(SPECIES[t].name, Z);
     }
     const left = barsLeft();
     return left ? M.bars(left) : null;
@@ -842,7 +633,7 @@
   const INSTR_X = { thermo: 75, lux: 200, hygro: 325 };
 
   function fmtDisp(f, v) {
-    if (f === 'temp') return v.toFixed(1);
+    if (f === 'temp') return num(v);
     if (f === 'lux') return fmtLux(Math.round(v / (v >= 10000 ? 100 : 10)) * (v >= 10000 ? 100 : 10));
     return String(Math.round(v));
   }
@@ -1413,7 +1204,7 @@
       const it = itemOf(state.qz, g.dataset.uid);
       g.classList.toggle('is-picked', g.dataset.uid === state.pick && !circled);
       g.classList.toggle('is-circled', !!circled && it.t === circled);
-      g.setAttribute('aria-label', state.identified[it.t] ? T[it.t].name : LABELS.unknown);
+      g.setAttribute('aria-label', state.identified[it.t] ? SPECIES[it.t].name : LABELS.unknown);
     });
   }
 
@@ -1424,7 +1215,7 @@
     state.tries = [];
     if (state.identified[it.t]) {
       noteFound(Z, it.t);
-      setCaption(LABELS.caption.selected(T[it.t].name));
+      setCaption(LABELS.caption.selected(SPECIES[it.t].name));
     } else setCaption(LABELS.caption.identify);
     updateItems();
     renderIdCard();
@@ -1438,7 +1229,7 @@
       state.identified[t] = true;
       state.tries = [];
       noteFound(state.qz, t);
-      setCaption(LABELS.caption.selected(T[t].name));
+      setCaption(LABELS.caption.selected(SPECIES[t].name));
     } else {
       if (!state.tries.includes(t)) state.tries.push(t);
       setCaption(LABELS.caption.wrongName, true);
@@ -1481,15 +1272,15 @@
         // Chaque nom avec son trait distinctif, comme dans un guide de terrain :
         // l'élève compare avec ce qu'il voit (pas de mot souligné dans un
         // bouton, où toucher le mot devrait à la fois traduire et choisir).
-        `<div class="zn-id-choices">${names.map(c => `<button type="button" class="zn-id-choice ${state.tries.includes(c) ? 'is-wrong' : ''}" data-name="${c}"><b>${T[c].name}</b><small>${IDENT[c].key}</small></button>`).join('')}</div>` +
-        (last ? `<p class="zn-id-hint">${LABELS.idWrong(T[last].name)}</p>` : '');
+        `<div class="zn-id-choices">${names.map(c => `<button type="button" class="zn-id-choice ${state.tries.includes(c) ? 'is-wrong' : ''}" data-name="${c}"><b>${SPECIES[c].name}</b><small>${SPECIES[c].key}</small></button>`).join('')}</div>` +
+        (last ? `<p class="zn-id-hint">${LABELS.idWrong(SPECIES[last].name)}</p>` : '');
       box.querySelectorAll('[data-name]').forEach(b => b.addEventListener('click', () => chooseName(b.dataset.name)));
       return;
     }
     const n = state.counts[Z][it.t];
     box.className = 'zn-idcard';
-    box.innerHTML = pic + `<p class="zn-id-name">${gloss(`[${T[it.t].name}]`)}</p>` +
-      `<p class="zn-id-cap">${gloss(T[it.t].cap)}</p>` +
+    box.innerHTML = pic + `<p class="zn-id-name">${gloss(`[${SPECIES[it.t].name}]`)}</p>` +
+      `<p class="zn-id-cap">${gloss(SPECIES[it.t].cap)}</p>` +
       `<p class="zn-id-count">${gloss(LABELS.idCount)}</p>` +
       (n != null ? `<p class="zn-id-state">${LABELS.idNoted(n)}</p>` : '');
   }
@@ -1497,7 +1288,7 @@
   /* --- Fiche de terrain : une colonne par zone, comme la fiche papier
      retournée (la place manque pour cinq colonnes). --- */
   function cellHTML(Z, f) {
-    const label = LABELS.cellLabel(Z, f);
+    const label = LABELS.cellLabel(Z, LABELS.factors[f].toLowerCase());
     const show = lab.state.showMissing;
     const v = state.table[Z][f];
     if (!state.measured[Z][f]) {
@@ -1589,8 +1380,8 @@
       const rows = state.found[Z].map(t => {
         const n = state.counts[Z][t];
         const current = circled === t && state.qz === Z;
-        return `<li class="${current ? 'is-current' : ''}">${iconSVG(t)}<span class="zn-count-name">${gloss(`[${T[t].name}]`)}</span>` +
-          `<input type="text" inputmode="numeric" class="zn-count-input ${current && n == null ? 'is-asking' : ''} ${show && n == null ? 'lab-is-missing' : ''}" data-count="${Z}:${t}" value="${n == null ? '' : n}" maxlength="2" autocomplete="off" aria-label="${escapeHtml(LABELS.countLabel(T[t].name, Z))}"></li>`;
+        return `<li class="${current ? 'is-current' : ''}">${iconSVG(t)}<span class="zn-count-name">${gloss(`[${SPECIES[t].name}]`)}</span>` +
+          `<input type="text" inputmode="numeric" class="zn-count-input ${current && n == null ? 'is-asking' : ''} ${show && n == null ? 'lab-is-missing' : ''}" data-count="${Z}:${t}" value="${n == null ? '' : n}" maxlength="2" autocomplete="off" aria-label="${escapeHtml(LABELS.countLabel(SPECIES[t].name, Z))}"></li>`;
       }).join('');
       const missing = show && !state.found[Z].length;
       return `<section class="zn-count-col ${missing ? 'lab-is-missing' : ''}"><h4>${letter(Z)}${LABELS.zone(Z)}<small>${state.found[Z].length ? LABELS.nSpecies(state.found[Z].length) : ''}</small></h4>` +
@@ -1653,7 +1444,7 @@
       `<text class="zn-axis-name" x="${(C.L + C.W - C.R) / 2}" y="${C.H - 6}" text-anchor="middle">${LABELS.xName}</text>`;
     cats.forEach((t, i) => {
       const cx = C.L + gw * (i + 0.5);
-      out += `<text class="zn-cat" text-anchor="end" transform="translate(${(cx + 5).toFixed(1)} ${y0 + (mode === 'read' ? 34 : 28)}) rotate(-30)">${escapeHtml(T[t].name)}</text>`;
+      out += `<text class="zn-cat" text-anchor="end" transform="translate(${(cx + 5).toFixed(1)} ${y0 + (mode === 'read' ? 34 : 28)}) rotate(-30)">${escapeHtml(SPECIES[t].name)}</text>`;
       ZONES.forEach((Z, zi) => {
         const v = barValue(t, Z);
         const x = zi === 0 ? cx - bw - 1.5 : cx + 1.5;
@@ -1662,7 +1453,7 @@
         const bar = `<rect class="zn-bar" x="${x.toFixed(1)}" y="${(y0 - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${Z === 'A' ? ZC.A : `url(#${hid})`}" stroke="${ZC[Z]}" stroke-width="1"/>` +
           `<text class="zn-bar-val" x="${(x + bw / 2).toFixed(1)}" y="${(y0 - h - 5).toFixed(1)}" text-anchor="middle">${v || ''}</text>`;
         if (mode === 'edit') {
-          out += `<g class="zn-slot is-${Z}" data-slot="${t}:${Z}" tabindex="0" role="slider" aria-label="${escapeHtml(LABELS.barLabel(T[t].name, Z))}" aria-valuemin="0" aria-valuemax="${top}" aria-valuenow="${v}">` +
+          out += `<g class="zn-slot is-${Z}" data-slot="${t}:${Z}" tabindex="0" role="slider" aria-label="${escapeHtml(LABELS.barLabel(SPECIES[t].name, Z))}" aria-valuemin="0" aria-valuemax="${top}" aria-valuenow="${v}">` +
             `<rect class="zn-slot-hit" x="${(zi === 0 ? cx - gw / 2 : cx).toFixed(1)}" y="${C.T}" width="${(gw / 2).toFixed(1)}" height="${ph.toFixed(1)}" fill="transparent"/>` +
             `<rect class="zn-slot-guide" x="${x.toFixed(1)}" y="${C.T}" width="${bw.toFixed(1)}" height="${ph.toFixed(1)}" fill="none" stroke="${ZC[Z]}"/>` +
             `${bar}${letterAB}</g>`;
@@ -1878,41 +1669,15 @@
     };
   }
 
-  const EXPLAIN = {
-    brighter: 'Under the trees, the leaves stop most of the sunlight: much less light reaches the ground.',
-    warmer: 'Where less sunlight reaches the ground, the air and the soil warm up less: it is cooler.',
-    humid: 'Where it is cool and shady, less water evaporates: the air and the soil stay humid. Near a pond, the water that evaporates makes the air very humid.',
-    moss: '[Mosses] and [ferns] need a lot of water: mosses have no roots and [dry out] quickly, and ferns need water to reproduce. They live where it is humid, often in the shade.',
-    bloom: '[Wildflowers] need a lot of light to grow and to flower. Bees and butterflies [feed on] their nectar, and they like warmth.',
-    influence: 'Your two zones are only 50 m apart, but their abiotic factors (temperature, light, humidity) are very different, and so are their living things: each species lives where the conditions [suit it]. [Mosses] and [ferns] need humidity above all: without water, they [dry out]. So abiotic factors have an influence on biotic factors.'
-  };
-
-  const CHECK = {
-    measScore: (good, total) => `${good} / ${total} values written correctly.`,
-    measAllGood: 'All your values match the instruments. Well read!',
-    measMiss: (Z, f, said, real) => f === 'soil'
-      ? `Zone ${Z}, soil: you noted “${said ? LABELS.soilWords[said] : 'nothing'}”, the soil was ${LABELS.soilWords[real]}.`
-      : `Zone ${Z}, ${LABELS.factors[f].toLowerCase()}: you wrote ${said == null ? 'nothing' : withUnit(f, said)}, the ${INSTR_NAME[f]} showed ${withUnit(f, real)}.`,
-    realValues: 'What the instruments showed',
-    countMissed: (Z, name, real) => `Zone ${Z}: you did not find the species “${name}” (${real} in the counting square).`,
-    countWrong: (Z, name, said, real) => `Zone ${Z}, ${name}: you wrote ${said == null ? 'nothing' : said}, but there ${real === 1 ? 'was 1' : `were ${real}`} in the counting square.`,
-    countAllGood: 'You found every species and counted every individual. Well done!',
-    realCount: Z => `What was really in the counting square of zone ${Z}:`,
-    barMiss: (name, Z, got, want) => `Bar of the ${name}, zone ${Z}: you drew ${got}, your count sheet says ${want}.`,
-    barsOk: 'All your bars are as high as the numbers in your count sheet. Well drawn!',
-    concScore: (good, total) => `${good} / ${total} answers correct.`,
-    youSaid: 'You said:',
-    right: 'The right answer:',
-    verdictOk: v => `You judged your hypothesis “${LABELS.verdicts[v]}”: that is right. Well judged!`,
-    verdictWrong: should => `Compare your hypothesis with your answers: your hypothesis is ${LABELS.verdicts[should]}.`,
-    verdictRule: 'All six parts the same as your answers: confirmed. Some of them: partly confirmed. None of them: rejected.',
-    rejectedNote: 'A rejected hypothesis is not a mistake: it is how science moves on.',
-    hypPart: 'Hypothesis',
-    answerPart: 'Your answer'
-  };
+  // Valeur mal recopiée, avec son unité (textes : CHECK.measMiss).
+  function measText(m) {
+    if (m.f === 'soil') return CHECK.measMissSoil(m.Z, m.said ? LABELS.soilWords[m.said] : null, LABELS.soilWords[m.real]);
+    return CHECK.measMiss(m.Z, LABELS.factors[m.f].toLowerCase(), LABELS.instruments[m.f],
+      m.said == null ? null : withUnit(m.f, m.said), withUnit(m.f, m.real));
+  }
 
   function countNote(m) {
-    return m.missed ? CHECK.countMissed(m.Z, T[m.t].name, m.real) : CHECK.countWrong(m.Z, T[m.t].name, m.said, m.real);
+    return m.missed ? CHECK.countMissed(m.Z, SPECIES[m.t].name, m.real) : CHECK.countWrong(m.Z, SPECIES[m.t].name, m.said, m.real);
   }
 
   function answerText(k, v) {
@@ -1924,18 +1689,18 @@
     if (key === 'measures') {
       const good = 8 - ev.measureMiss.length;
       return `<p>${CHECK.measScore(good, 8)}</p>` +
-        (ev.measureMiss.length ? `<ul class="zn-misslist">${ev.measureMiss.map(m => `<li>${CHECK.measMiss(m.Z, m.f, m.said, m.real)}</li>`).join('')}</ul>` : `<p class="zn-ok">${CHECK.measAllGood}</p>`) +
+        (ev.measureMiss.length ? `<ul class="zn-misslist">${ev.measureMiss.map(m => `<li>${measText(m)}</li>`).join('')}</ul>` : `<p class="zn-ok">${CHECK.measAllGood}</p>`) +
         `<p class="zn-detail-sub">${CHECK.realValues}</p>${datasheetRead({ real: true })}`;
     }
     if (key === 'count') {
       const real = ZONES.map(Z => {
         const c = trueTally(Z);
-        return `<p class="zn-detail-sub">${CHECK.realCount(Z)}</p><p class="zn-real-list">${Object.keys(T).filter(t => c[t]).map(t => `<span>${iconSVG(t)}${gloss(`[${T[t].name}]`)} <b>${c[t]}</b></span>`).join('')}</p>`;
+        return `<p class="zn-detail-sub">${CHECK.realCount(Z)}</p><p class="zn-real-list">${Object.keys(T).filter(t => c[t]).map(t => `<span>${iconSVG(t)}${gloss(`[${SPECIES[t].name}]`)} <b>${c[t]}</b></span>`).join('')}</p>`;
       }).join('');
       return (ev.countMiss.length ? `<ul class="zn-misslist">${ev.countMiss.map(m => `<li>${countNote(m)}</li>`).join('')}</ul>` : `<p class="zn-ok">${CHECK.countAllGood}</p>`) + real;
     }
     if (key === 'graph') {
-      return (ev.barMiss.length ? `<ul class="zn-misslist">${ev.barMiss.map(m => `<li>${CHECK.barMiss(T[m.t].name, m.Z, m.got, m.want)}</li>`).join('')}</ul>` : `<p class="zn-ok">${CHECK.barsOk}</p>`) +
+      return (ev.barMiss.length ? `<ul class="zn-misslist">${ev.barMiss.map(m => `<li>${CHECK.barMiss(SPECIES[m.t].name, m.Z, m.got, m.want)}</li>`).join('')}</ul>` : `<p class="zn-ok">${CHECK.barsOk}</p>`) +
         `<div class="zn-chart-wrap zn-chart-mini">${chartSVG({ mode: 'read' })}</div>`;
     }
     if (key === 'conclusion') {
@@ -1952,11 +1717,11 @@
     const should = verdictShould();
     const rows = HYP_KEYS.map(k => {
       const same = state.hypothesis[k] === state.conclusion[k];
-      const hyp = k === 'moss' ? PHRASE.hypMoss(state.hypothesis[k]) : k === 'bloom' ? `I will find ${PHRASE.hypBloom(state.hypothesis[k])}` : PHRASE[k](state.hypothesis[k]);
+      const hyp = k === 'moss' ? PHRASE.hypMoss(state.hypothesis[k]) : k === 'bloom' ? PHRASE.hypBloomRow(state.hypothesis[k]) : PHRASE[k](state.hypothesis[k]);
       return `<tr><td>${hyp}</td><td>${PHRASE[k](state.conclusion[k])}</td><td class="${same ? 'zn-ok' : 'zn-ko'}">${same ? '=' : '≠'}</td></tr>`;
     }).join('');
     return `<table class="zn-hyptable"><thead><tr><th>${CHECK.hypPart}</th><th>${CHECK.answerPart}</th><th></th></tr></thead><tbody>${rows}</tbody></table>` +
-      `<p class="${ev.verdict ? 'zn-ok' : 'zn-ko'}">${ev.verdict ? CHECK.verdictOk(state.conclusion.verdict) : CHECK.verdictWrong(should)}</p>` +
+      `<p class="${ev.verdict ? 'zn-ok' : 'zn-ko'}">${ev.verdict ? CHECK.verdictOk(LABELS.verdicts[state.conclusion.verdict]) : CHECK.verdictWrong(LABELS.verdicts[should])}</p>` +
       `<p class="zn-muted">${CHECK.verdictRule}</p>` + (should !== 'confirmed' ? `<p class="zn-muted">${CHECK.rejectedNote}</p>` : '');
   }
 
@@ -1967,7 +1732,7 @@
     const score = CRITS.filter(k => ev[k]).length;
     const rows = CRITS.map(k => `<button type="button" class="zn-crit ${ev[k] ? 'is-ok' : 'is-ko'} ${state.crit === k ? 'is-selected' : ''}" data-crit="${k}">` +
       `<span class="zn-crit-text"><strong>${LABELS.criteria[k]}</strong><small>${LABELS.criteriaSub[k]}</small></span>` +
-      `<span class="zn-crit-mark" aria-label="${ev[k] ? 'correct' : 'incorrect'}">${ev[k] ? '✓' : '✗'}</span></button>`).join('');
+      `<span class="zn-crit-mark" aria-label="${ev[k] ? LABELS.markCorrect : LABELS.markIncorrect}">${ev[k] ? '✓' : '✗'}</span></button>`).join('');
 
     lab.body.innerHTML = `<div class="zn-check">` +
       `<div class="zn-check-left">` +
@@ -1997,8 +1762,8 @@
     const h = state.hypothesis;
     const c = state.conclusion;
 
-    const hyp = `I think that ${PHRASE.warmer(h.warmer)}, ${PHRASE.brighter(h.brighter)} and ${PHRASE.humid(h.humid)}. ` +
-      `I think that ${PHRASE.hypMoss(h.moss)}, and ${PHRASE.hypBloom(h.bloom)}. I think that ${PHRASE.influence(h.influence)}.`;
+    const hyp = R.hypothesis(PHRASE.warmer(h.warmer), PHRASE.brighter(h.brighter), PHRASE.humid(h.humid),
+      PHRASE.hypMoss(h.moss), PHRASE.hypBloom(h.bloom), PHRASE.influence(h.influence));
 
     // Fiche de terrain : les zones en lignes, comme la fiche papier.
     const measMiss = new Map(ev.measureMiss.map(m => [`${m.Z}-${m.f}`, m]));
@@ -2007,18 +1772,18 @@
       const cells = FACTORS.map(f => {
         const m = measMiss.get(`${Z}-${f}`);
         const text = fmtValue(f, state.table[Z][f]);
-        return `<td>${m ? mark(text, CHECK.measMiss(m.Z, m.f, m.said, m.real), { box: true }) : text}</td>`;
+        return `<td>${m ? mark(text, measText(m), { box: true }) : text}</td>`;
       }).join('');
       const real = Object.keys(T).filter(t => trueTally(Z)[t]);
       const n = state.found[Z].length;
       const species = n === real.length ? String(n)
-        : mark(String(n), `Zone ${Z}: there were ${real.length} species in the counting square (${real.map(t => T[t].name).join(', ')}).`, { box: true });
+        : mark(String(n), R.speciesMiss(Z, real.length, real.map(t => SPECIES[t].name).join(', ')), { box: true });
       return `<tr><th>${Z} · ${plain(habitatName(Z))}</th>${cells}<td>${species}</td></tr>`;
     }).join('');
 
     // Fiche de comptage : les espèces trouvées, plus celles oubliées.
     const rowsT = Object.keys(T).filter(t => categories().includes(t) || ev.countMiss.some(m => m.t === t));
-    const countBody = rowsT.map(t => `<tr><th>${T[t].name}</th>${ZONES.map(Z => {
+    const countBody = rowsT.map(t => `<tr><th>${SPECIES[t].name}</th>${ZONES.map(Z => {
       const n = state.found[Z].includes(t) ? state.counts[Z][t] : null;
       const m = ev.countMiss.find(x => x.Z === Z && x.t === t);
       const text = n == null ? '—' : String(n);
@@ -2026,16 +1791,15 @@
     }).join('')}</tr>`).join('') || `<tr><td colspan="3">${R.nothing}</td></tr>`;
 
     let chart = `<div class="zn-report-chart">${chartSVG({ mode: 'print', size: [520, 238] })}<div class="zn-report-legend">${ZONES.map(Z => `<span><i class="zn-key is-${Z}"></i>${LABELS.zone(Z)}</span>`).join('')}</div></div>`;
-    if (ev.barMiss.length) chart = mark(chart, `Bars at the wrong height: ${ev.barMiss.map(m => `${T[m.t].name} zone ${m.Z} (${m.got} instead of ${m.want})`).join(', ')}.`, { box: true });
+    if (ev.barMiss.length) chart = mark(chart, R.barsWrong(ev.barMiss.map(m => R.barWrong(SPECIES[m.t].name, m.Z, m.got, m.want)).join(', ')), { box: true });
 
     const said = k => {
       const text = answerText(k, c[k]);
       return ev.wrongQ.includes(k) ? mark(text, `${capitalize(answerText(k, ev.tr[k]))}. ${plain(EXPLAIN[k])}`) : text;
     };
-    const interp = `${R.results} ${said('warmer')}, ${said('brighter')} and ${said('humid')}. ` +
-      `In the counting squares, ${said('moss')} and ${said('bloom')}.`;
+    const interp = R.interpretation(said('warmer'), said('brighter'), said('humid'), said('moss'), said('bloom'));
     let verdictWord = LABELS.verdicts[c.verdict] || '—';
-    if (!ev.verdict) verdictWord = mark(verdictWord, `${CHECK.verdictWrong(verdictShould())} ${CHECK.verdictRule}`);
+    if (!ev.verdict) verdictWord = mark(verdictWord, `${CHECK.verdictWrong(LABELS.verdicts[verdictShould()])} ${CHECK.verdictRule}`);
     const conclusion = R.conclusion(said('influence'), verdictWord);
 
     const correction = CRITS.map(k => `<tr><th>${LABELS.criteria[k]}</th><td class="${ev[k] ? 'ok' : 'ko'}">${ev[k] ? '✓' : '✗'}</td></tr>`).join('');

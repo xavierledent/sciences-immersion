@@ -37,9 +37,7 @@ Chapitres : `bio1`, `chem1`, `phys1`, `chem2`, `phys2`, `bio2`. Tous ont leur
 vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 `bio1`, `chem1`. Ailleurs, les tableaux sont vides (contenu pas encore rédigé).
 
-Labos virtuels (traduction NL en cours : « Metal detectives » fait, les trois
-autres seulement en anglais et pas encore séparés de leurs textes, voir plus
-bas) : `chem1` « Metal detectives » et
+Labos virtuels (en anglais et en néerlandais) : `chem1` « Metal detectives » et
 « Under our feet » (composition du sol), `bio1` « The vanishing leaves » et
 « Inside two ecosystems » (mission 1 de la sortie de terrain : facteurs
 abiotiques, carré de comptage, histogramme FO5b). Chaque chapitre a sa page Lab

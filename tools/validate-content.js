@@ -368,11 +368,13 @@ function labCommonGlossary() {
   return commonGlossary;
 }
 
-// Every string of the texts, functions included (called with stand-in values).
+// Every string of the texts, functions included (called with stand-in values,
+// which are not words: never looked up in the glossary).
+const STAND_INS = [2, 'X'];
 function labStrings(value, out = []) {
   if (typeof value === 'string') out.push(value);
   else if (typeof value === 'function') {
-    for (const arg of [2, 'X']) {
+    for (const arg of STAND_INS) {
       try { labStrings(value(...Array(value.length).fill(arg)), out); break; } catch (e) { /* next stand-in */ }
     }
   } else if (value && typeof value === 'object') Object.values(value).forEach(v => labStrings(v, out));
@@ -406,29 +408,24 @@ function checkLabs(chapter) {
     labs.forEach(lab => {
       const where = `tools/chapters.json`;
       // Simulation shared by both tracks (js/, css/), texts per language.
-      if (fs.existsSync(path.join(ROOT, 'js', `${lab.file}.js`))) {
-        checkFileRef(where, '.', `js/${lab.file}.js`, `labo « ${lab.id} », simulation`);
-        checkFileRef(where, '.', `css/${lab.file}.css`, `labo « ${lab.id} », style`);
-        const textFile = `${chapterDir}/${lab.file}.${lang}.js`;
-        if (!existsExactCase(textFile)) {
-          error(where, `labo « ${lab.id} » (${lang}) : textes introuvables « ${textFile} »`);
-          return;
-        }
-        checkFileRef(where, '.', textFile, `labo « ${lab.id} », textes`);
-        const text = loadLabText(textFile, lab.id);
-        if (!text) return;
-        const glossary = Object.assign({}, labCommonGlossary()[lang], text.glossary);
-        const missing = new Set();
-        labStrings(text).forEach(s => s.replace(/\[([^\]|]+)(?:\|([^\]]+))?\]/g, (all, word, key) => {
-          if (!glossary[(key || word).toLowerCase()]) missing.add(key || word);
-        }));
-        if (missing.size) warn(textFile, `mot(s) souligné(s) absent(s) du lexique (affiché(s) sans traduction) : ${[...missing].join(', ')}`);
-        texts[lang] = Object.assign(texts[lang] || {}, { [lab.id]: { file: textFile, text } });
-      } else {
-        // Lab not converted yet: simulation and English texts in the chapter folder.
-        checkFileRef(where, chapterDir, `${lab.file}.js`, `labo « ${lab.id} »`);
-        checkFileRef(where, chapterDir, `${lab.file}.css`, `labo « ${lab.id} », style`);
+      checkFileRef(where, '.', `js/${lab.file}.js`, `labo « ${lab.id} », simulation`);
+      checkFileRef(where, '.', `css/${lab.file}.css`, `labo « ${lab.id} », style`);
+      const textFile = `${chapterDir}/${lab.file}.${lang}.js`;
+      if (!existsExactCase(textFile)) {
+        error(where, `labo « ${lab.id} » (${lang}) : textes introuvables « ${textFile} »`);
+        return;
       }
+      checkFileRef(where, '.', textFile, `labo « ${lab.id} », textes`);
+      const text = loadLabText(textFile, lab.id);
+      if (!text) return;
+      const glossary = Object.assign({}, labCommonGlossary()[lang], text.glossary);
+      const missing = new Set();
+      labStrings(text).forEach(s => s.replace(/\[([^\]|]+)(?:\|([^\]]+))?\]/g, (all, word, key) => {
+        const k = (key || word).toLowerCase();
+        if (!glossary[k] && !STAND_INS.some(s => String(s).toLowerCase() === k)) missing.add(key || word);
+      }));
+      if (missing.size) warn(textFile, `mot(s) souligné(s) absent(s) du lexique (affiché(s) sans traduction) : ${[...missing].join(', ')}`);
+      texts[lang] = Object.assign(texts[lang] || {}, { [lab.id]: { file: textFile, text } });
     });
   });
 
