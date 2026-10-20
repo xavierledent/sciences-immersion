@@ -85,7 +85,11 @@ LabEngine.addText('energy', {
     captionTurning: 'Blijf aan de [slinger] draaien tot de testbank 100 eenheden gekregen heeft.',
     captionTestDone: 'Test afgelopen: de testbank kreeg 100 eenheden. Meet nu de 5 genummerde punten: neem een meettoestel en kies dan een punt.',
     captionMeasure: 'Meet de 5 genummerde punten: neem een meettoestel en kies dan een punt.',
-    captionToolPicked: tool => `${tool} in je hand: kies een genummerd punt. Neem het opnieuw om het terug te leggen.`,
+    // Instrument en main : ce qu'il mesure et ses points (allumés sur le banc).
+    toolUse: { meter: 'de energie die door de as en de draden gaat', lightmeter: 'het licht dat de lamp geeft', camera: 'de warmte die aan de lucht gegeven wordt' },
+    points: nums => (nums.length === 1 ? `punt ${nums[0]}` : `punten ${nums.slice(0, -1).join(', ')} en ${nums[nums.length - 1]}`),
+    captionToolPicked: (tool, use, pts) => `${tool} in je hand: dit meettoestel meet ${use}, in ${pts}. Kies een punt dat oplicht.`,
+    captionToolDone: tool => `${tool}: alles wat dit meettoestel bij deze lamp meet, is al gemeten. Neem een ander meettoestel.`,
     captionPickTool: 'Neem eerst een meettoestel en kies dan dit punt.',
     captionRead: 'Lees de waarde af en noteer ze in de tabel.',
     captionNextLamp: 'Alle waarden van deze lamp staan in de tabel. Test nu de andere lamp!',

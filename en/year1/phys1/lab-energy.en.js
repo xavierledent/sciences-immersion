@@ -84,7 +84,11 @@ LabEngine.addText('energy', {
     captionTurning: 'Keep turning the [crank] until the bench has received 100 units.',
     captionTestDone: 'Test over: the bench received 100 units. Now measure the 5 numbered points: take an instrument, then choose a point.',
     captionMeasure: 'Measure the 5 numbered points: take an instrument, then choose a point.',
-    captionToolPicked: tool => `${tool} in your hand: choose a numbered point. To put it back, take it again.`,
+    // Instrument en main : ce qu'il mesure et ses points (allumés sur le banc).
+    toolUse: { meter: 'the energy that goes through the axle and the wires', lightmeter: 'the light given by the lamp', camera: 'the heat given to the air' },
+    points: nums => (nums.length === 1 ? `point ${nums[0]}` : `points ${nums.slice(0, -1).join(', ')} and ${nums[nums.length - 1]}`),
+    captionToolPicked: (tool, use, pts) => `${tool} in your hand: it measures ${use}, at ${pts}. Choose a lit point.`,
+    captionToolDone: tool => `${tool}: everything it measures is already measured for this lamp. Take another instrument.`,
     captionPickTool: 'Take an instrument first, then choose this point.',
     captionRead: 'Read the value and write it in the table.',
     captionNextLamp: 'All the values of this lamp are in the table. Now test the other lamp!',

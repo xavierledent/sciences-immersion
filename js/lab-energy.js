@@ -465,7 +465,7 @@
 
   function spotSVG(s) {
     const [x, y] = SPOT_POS[s];
-    return `<g class="eb-spot" data-spot="${s}" tabindex="0" role="button" aria-label="${escapeHtml(LABELS.scene.spot(spotNum(s), LABELS.rows[s]))}">` +
+    return `<g class="eb-spot is-for-${SPOT_TOOL[s]}" data-spot="${s}" tabindex="0" role="button" aria-label="${escapeHtml(LABELS.scene.spot(spotNum(s), LABELS.rows[s]))}">` +
       `<circle cx="${x}" cy="${y}" r="21" fill="transparent"/>` +
       `<circle class="eb-spot-ring" cx="${x}" cy="${y}" r="15"/>` +
       `<text class="eb-spot-num" x="${x}" y="${y + 5}" text-anchor="middle">${spotNum(s)}</text></g>`;
@@ -524,26 +524,36 @@
       lab.makeDraggable(el, {
         hold: true,
         ghost: () => `<div class="eb-ghost eb-ghost-tool">${TOOL_ICONS[t]}</div>`,
-        targets: () => $$('[data-spot]'),
+        // Seuls les points que cet instrument mesure s'allument (dans sa
+        // couleur) ; les autres pâlissent (CSS).
+        targets: () => toolSpots(t),
         onDrop: target => measure(t, target.dataset.spot),
         onHold: on => {
           heldTool = on ? t : null;
           el.setAttribute('aria-pressed', String(on));
-          const stage = $('[data-stage]');
-          if (stage) stage.classList.toggle('is-armed', on);
           setCaption(defaultCaption());
         }
       });
     });
-    // Un point touché sans instrument en main (sinon le moteur l'a posé).
+    // Un point touché sans instrument en main, ou avec un instrument qui ne
+    // le mesure pas (sinon le moteur l'a posé).
+    const tapSpot = () => (heldTool ? setCaption(LABELS.wrongTool[heldTool], true) : setCaption(LABELS.captionPickTool, true));
     $$('[data-spot]').forEach(el => {
-      el.addEventListener('click', () => setCaption(LABELS.captionPickTool, true));
+      el.addEventListener('click', tapSpot);
       el.addEventListener('keydown', e => {
         if (e.key !== 'Enter' && e.key !== ' ') return;
         e.preventDefault();
-        setCaption(LABELS.captionPickTool, true);
+        tapSpot();
       });
     });
+  }
+
+  // Les points encore à mesurer avec cet instrument (lampe vissée).
+  const toolSpots = t => $$('[data-spot]').filter(el => SPOT_TOOL[el.dataset.spot] === t);
+
+  function toolCaption(t) {
+    const nums = toolSpots(t).map(el => spotNum(el.dataset.spot));
+    return nums.length ? LABELS.captionToolPicked(LABELS.tools[t], LABELS.toolUse[t], LABELS.points(nums)) : LABELS.captionToolDone(LABELS.tools[t]);
   }
 
   function insertLamp(k) {
@@ -841,7 +851,7 @@
     if (!k) return LABELS.captionStart;
     if (!tested(k)) return state.energy[k] > 0 ? LABELS.captionTurning : LABELS.captionReady;
     if (SPOTS.some(s => !state.measured[k][s])) {
-      return heldTool ? LABELS.captionToolPicked(LABELS.tools[heldTool]) : LABELS.captionMeasure;
+      return heldTool ? toolCaption(heldTool) : LABELS.captionMeasure;
     }
     if (SPOTS.some(s => !written(k, s))) return LABELS.captionRead;
     const o = other(k);
