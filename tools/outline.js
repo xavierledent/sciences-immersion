@@ -5,15 +5,15 @@
 // each run, so it can never go stale the way a hand-written map would.
 //
 // Usage: node tools/outline.js <file> [filter]
-//   <file>    path from the repo root, e.g. practice-engine.js
+//   <file>    path from the repo root, e.g. js/practice-engine.js
 //   [filter]  case-insensitive text; keeps only the matching entries. For CSS,
 //             selectors are only listed when a filter is given — there are too
 //             many otherwise.
 //
 // Examples:
-//   node tools/outline.js practice-engine.js
-//   node tools/outline.js practice-engine.js dnd
-//   node tools/outline.js practice-engine.css overview
+//   node tools/outline.js js/practice-engine.js
+//   node tools/outline.js js/practice-engine.js dnd
+//   node tools/outline.js css/practice-engine.css overview
 
 const fs = require('fs');
 const path = require('path');

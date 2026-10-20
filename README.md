@@ -9,6 +9,9 @@ biologie, chimie et physique.
 ```
 en/year1/{bio1,bio2,chem1,chem2,phys1,phys2}/   filière anglaise
 nl/jaar1/{bio1,bio2,chem1,chem2,phys1,phys2}/   filière néerlandaise
+js/, css/                                       moteurs et scripts communs
+dashboard/, dashboard.html                      tableau de bord des enseignantes
+firebase/                                       configuration et règles Firebase
 ```
 
 Chaque dossier de chapitre contient cinq pages — `vocabulary.html`,
@@ -17,8 +20,8 @@ avec leur fichier de données JSON associé (`vocabulary.json`, `practice.json`,
 `interactive.json`, `resources.json`, `explorations.json`, `autoeval.json`),
 ses propres images (`assets/`) et ses fiches PDF (`PDF/`).
 
-Les moteurs partagés vivent à la racine et sont chargés par l'ensemble des
-pages, quelle que soit la filière ou le chapitre :
+Les moteurs partagés vivent dans `js/` (scripts) et `css/` (styles) et sont
+chargés par l'ensemble des pages, quelle que soit la filière ou le chapitre :
 
 - **`practice-engine.js` / `.css`** — exercices classiques différenciés et
   jeux interactifs.

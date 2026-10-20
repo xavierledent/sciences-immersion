@@ -29,7 +29,7 @@
    (storage.js), écrite au premier « fait » depuis le 2026-10-20 ; sans date,
    l'élément compte comme fait à temps. */
 
-import * as fb from './firebase-init.js';
+import * as fb from '../firebase/firebase-init.js';
 import { esc, LIGHT, stackBar, cellsBar, legend, TRACK } from './dashboard-ui.js';
 import { LEVELS, summarizeChapter } from './dashboard-data.js';
 import { authorize, sendMail, prepareMail } from './dashboard-mail.js';

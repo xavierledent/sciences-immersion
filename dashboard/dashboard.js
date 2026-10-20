@@ -16,7 +16,7 @@
    et « Devoirs » (dashboard-homework.js, envoi : dashboard-mail.js).
    Briques d'affichage : dashboard-ui.js. */
 
-import * as fb from './firebase-init.js';
+import * as fb from '../firebase/firebase-init.js';
 import { esc, initTooltip, daysSince } from './dashboard-ui.js';
 import { loadContent, loadWork, studentTotals } from './dashboard-data.js';
 import { renderClassView } from './dashboard-class.js';

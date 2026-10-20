@@ -149,13 +149,13 @@
   /* ===== Firestore ===== */
 
   const FIREBASE_INIT = document.currentScript
-    ? new URL('firebase-init.js', document.currentScript.src).href
+    ? new URL('../firebase/firebase-init.js', document.currentScript.src).href
     : '';
   const LEGACY_IMPORT = document.currentScript
-    ? new URL('legacy-import.js', document.currentScript.src).href
+    ? new URL('../firebase/legacy-import.js', document.currentScript.src).href
     : '';
   const SITE_ROOT = document.currentScript
-    ? new URL('./', document.currentScript.src).href
+    ? new URL('../', document.currentScript.src).href
     : '';
 
   // /en/year1/bio1/practice.html → en_year1_bio1 ; null hors chapitre.

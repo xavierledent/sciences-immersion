@@ -8,7 +8,7 @@ code.
 Trois règles valent pour tous les fichiers :
 
 - **Texte mis en forme.** Tous les champs de texte passent par `richText()`
-  ([rich-text.js](../rich-text.js)) : seules les balises `<strong>`, `<em>`,
+  ([rich-text.js](../js/rich-text.js)) : seules les balises `<strong>`, `<em>`,
   `<u>` et `<br>` sont interprétées, tout le reste est affiché tel quel.
 - **Noms de champs identiques dans les deux filières.** Un chapitre
   néerlandais range son texte néerlandais dans les champs `en`, `corr_en`,
@@ -19,7 +19,7 @@ Trois règles valent pour tous les fichiers :
 
 ## practice.json — exercices classiques
 
-Lu par [practice-engine.js](../practice-engine.js).
+Lu par [practice-engine.js](../js/practice-engine.js).
 
 ```json
 {
@@ -49,7 +49,7 @@ Lu par [practice-engine.js](../practice-engine.js).
 
 ## interactive.json — jeux
 
-Lu par [practice-engine.js](../practice-engine.js). Cinq clés, chacune un
+Lu par [practice-engine.js](../js/practice-engine.js). Cinq clés, chacune un
 tableau de jeux ; un tableau vide est valide (jeu pas encore rédigé). Ici, les
 images sont des
 **chemins complets** depuis le dossier du chapitre (`"assets/QCM1.webp"`),
@@ -137,7 +137,7 @@ et en donne un neuf à un jeu créé.
 
 ## vocabulary.json
 
-Lu par [vocabulary-engine.js](../vocabulary-engine.js). Un tableau à la racine :
+Lu par [vocabulary-engine.js](../js/vocabulary-engine.js). Un tableau à la racine :
 
 ```json
 [{
@@ -150,7 +150,7 @@ Lu par [vocabulary-engine.js](../vocabulary-engine.js). Un tableau à la racine 
 
 ## resources.json
 
-Lu par [resources-engine.js](../resources-engine.js). Quatre blocs, chacun avec
+Lu par [resources-engine.js](../js/resources-engine.js). Quatre blocs, chacun avec
 un `title` et un `basePath` auquel le moteur ajoute le nom de fichier :
 
 | Bloc | Contenu | `basePath` |
@@ -165,7 +165,7 @@ Les fiches outils et les PDF d'autoévaluation sont donc partagés, dans
 
 ## explorations.json
 
-Lu par [explorations-engine.js](../explorations-engine.js).
+Lu par [explorations-engine.js](../js/explorations-engine.js).
 
 - `documentation` : `title`, `basePath` (`"PDF"`, le dossier du chapitre),
   `items[]` : `title`, `description`, `file`.
@@ -173,7 +173,7 @@ Lu par [explorations-engine.js](../explorations-engine.js).
 
 ## autoeval.json
 
-Lu par [autoeval-engine.js](../autoeval-engine.js) sur `assessment.html`. Le
+Lu par [autoeval-engine.js](../js/autoeval-engine.js) sur `assessment.html`. Le
 fichier n'existe que pour les chapitres dont l'autoévaluation est rédigée
 (`bio1`, `chem1` et `phys1` à ce jour).
 
@@ -200,7 +200,7 @@ fichier n'existe que pour les chapitres dont l'autoévaluation est rédigée
 ## Ce qui sert de clé aux données des élèves
 
 Les réponses et les scores des élèves sont enregistrés par
-[storage.js](../storage.js) dans le document Firestore du chapitre (ou, pour un
+[storage.js](../js/storage.js) dans le document Firestore du chapitre (ou, pour un
 visiteur, sous une clé construite à partir de l'adresse de la page), sous un
 identifiant tiré du JSON. Modifier cet identifiant détache les
 données déjà enregistrées :

@@ -10,7 +10,7 @@
    Formats du travail : voir storage.js (familles) et lab-engine.js
    (labResult). */
 
-import * as fb from './firebase-init.js';
+import * as fb from '../firebase/firebase-init.js';
 import { ACTIVITY_SECTIONS } from './dashboard-ui.js';
 
 const TRACK_PATH = { en: 'en/year1', nl: 'nl/jaar1' };

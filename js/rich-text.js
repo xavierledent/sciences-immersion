@@ -176,14 +176,15 @@
 
      document.currentScript.src donne l'adresse RÉELLE de ce fichier, déjà
      résolue par le navigateur selon la profondeur de la page qui l'a chargé
-     (../../../rich-text.js depuis un chapitre, rich-text.js depuis la racine).
-     sw.js vit à côté, à la racine du dépôt : en dériver l'adresse à partir de
+     (../../../js/rich-text.js depuis un chapitre, js/rich-text.js depuis la
+     racine). sw.js vit un dossier plus haut, à la racine du dépôt (il ne
+     couvre que son dossier et en dessous) : en dériver l'adresse à partir de
      celle-ci évite de deviner la profondeur nous-mêmes, et fonctionne aussi
      bien en sous-dossier GitHub Pages (…/sciences-immersion/) qu'à la racine
      d'un domaine.
      Capturé tout de suite : document.currentScript redevient null dès qu'on
      entre dans un callback asynchrone. */
-  const swUrl = document.currentScript ? new URL('sw.js', document.currentScript.src).href : null;
+  const swUrl = document.currentScript ? new URL('../sw.js', document.currentScript.src).href : null;
 
   if (swUrl && 'serviceWorker' in navigator) {
     window.addEventListener('load', () => {

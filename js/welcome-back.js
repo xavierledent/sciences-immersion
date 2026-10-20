@@ -9,7 +9,7 @@
   const DISPLAY_MS = 6000;
 
   const WELCOME_IMAGE = document.currentScript
-    ? new URL('assets/Friends%20wback.webp', document.currentScript.src).href
+    ? new URL('../assets/Friends%20wback.webp', document.currentScript.src).href
     : 'assets/Friends wback.webp';
 
   function readLastVisit() {

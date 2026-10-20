@@ -54,7 +54,7 @@ function render(template, chapter, lang) {
   const labs = labsOf(chapter, lang);
   const styles = labs.map(lab => `\n  <link rel='stylesheet' href='${lab.file}.css'>`).join('');
   const scripts = labs.length
-    ? `\n  <script src='../../../lab-engine.js'></script>` + labs.map(lab => `\n  <script src='${lab.file}.js'></script>`).join('')
+    ? `\n  <script src='../../../js/lab-engine.js'></script>` + labs.map(lab => `\n  <script src='${lab.file}.js'></script>`).join('')
     : '';
   return template
     .replace(/\{\{TITLE_SUFFIX\}\}/g, chapter.titleSuffix)

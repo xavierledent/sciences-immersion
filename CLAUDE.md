@@ -9,8 +9,14 @@ tactile.
 
 ```
 index.html, credits.html, 404.html   pages écrites à la main
-dashboard.html, dashboard*.js / .css  tableau de bord des enseignantes (Firestore)
-*-engine.js / *.css                  moteurs partagés par tous les chapitres
+dashboard.html                       tableau de bord des enseignantes (Firestore)
+sw.js                                service worker (reste à la racine : il ne
+                                     couvre que son dossier et en dessous)
+js/                                  scripts communs et moteurs (*-engine.js)
+css/                                 feuilles de style communes et des moteurs
+dashboard/                           scripts et style du tableau de bord
+firebase/                            config Firebase, import d'avant Firebase,
+                                     règles Firestore (à copier dans la console)
 en/year1/<chapitre>/                 filière anglaise
 nl/jaar1/<chapitre>/                 filière néerlandaise
   *.html                             6 pages GÉNÉRÉES (ne pas éditer), dont laboratory.html
@@ -36,7 +42,7 @@ abiotiques, carré de comptage, histogramme FO5b). Chaque chapitre a sa page Lab
 barre de navigation ; ses labos sont déclarés par langue dans
 [tools/chapters.json](tools/chapters.json) (`labs`). Sans labo, la page et la
 carte du chapitre à l'accueil disent « Lab is still in development ».
-Le cadre commun ([lab-engine.js](lab-engine.js)) impose à tous les labos la
+Le cadre commun ([lab-engine.js](js/lab-engine.js)) impose à tous les labos la
 démarche en 4 étapes (Predict, Experiment, Conclude, Check) et le rapport
 imprimable selon la fiche outil FO3 ; chaque labo garde sa simulation dans ses
 deux fichiers `lab-<nom>`, sans JSON. Chaque labo tire au sort une partie de
@@ -59,22 +65,22 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Tâche | Fichiers |
 |---|---|
 | Texte ou image d'un exercice, d'un jeu | `<chapitre>/practice.json`, `interactive.json` — format dans [docs/formats-donnees.md](docs/formats-donnees.md) |
-| Comportement des exercices ou d'un jeu | [practice-engine.js](practice-engine.js), [practice-engine.css](practice-engine.css) |
-| Cartes de vocabulaire | [vocabulary-engine.js](vocabulary-engine.js), `vocabulary.json` |
-| Page Ressources, page Explorations | [resources-engine.js](resources-engine.js), [explorations-engine.js](explorations-engine.js) |
-| Page d'autoévaluation | [autoeval-engine.js](autoeval-engine.js), [assessment.css](assessment.css), `autoeval.json` |
+| Comportement des exercices ou d'un jeu | [practice-engine.js](js/practice-engine.js), [practice-engine.css](css/practice-engine.css) |
+| Cartes de vocabulaire | [vocabulary-engine.js](js/vocabulary-engine.js), `vocabulary.json` |
+| Page Ressources, page Explorations | [resources-engine.js](js/resources-engine.js), [explorations-engine.js](js/explorations-engine.js) |
+| Page d'autoévaluation | [autoeval-engine.js](js/autoeval-engine.js), [assessment.css](css/assessment.css), `autoeval.json` |
 | Structure HTML d'une page de chapitre | `templates/<type>.{en,nl}.html`, puis régénérer |
 | Titre ou couleur d'un chapitre | [tools/chapters.json](tools/chapters.json), puis régénérer (la liste de l'accueil en sort aussi) |
-| Accueil, choix de la langue et de l'année | [index.html](index.html), [welcome-back.js](welcome-back.js) |
-| Labos virtuels : modale, étapes, verrous, rapport | [lab-engine.js](lab-engine.js), [lab-engine.css](lab-engine.css) ; un labo : `<chapitre>/lab-<nom>.{js,css}` |
+| Accueil, choix de la langue et de l'année | [index.html](index.html), [welcome-back.js](js/welcome-back.js) |
+| Labos virtuels : modale, étapes, verrous, rapport | [lab-engine.js](js/lab-engine.js), [lab-engine.css](css/lab-engine.css) ; un labo : `<chapitre>/lab-<nom>.{js,css}` |
 | Ajouter un labo à un chapitre | sa ligne dans `labs` de [tools/chapters.json](tools/chapters.json), ses fichiers `lab-<nom>.{js,css}`, puis régénérer |
-| Barre de navigation entre sections | [chapter-nav.js](chapter-nav.js) |
-| Données enregistrées des élèves | [storage.js](storage.js), seul fichier qui touche à `localStorage` ; compteurs d'activité : `SiteStorage.activity` |
-| Tableau de bord enseignant (classes, élèves, suivi) | [dashboard.js](dashboard.js) (page, onglet Classes et élèves), [dashboard-class.js](dashboard-class.js) (suivi), [dashboard-student.js](dashboard-student.js) (fiche élève), [dashboard-activities.js](dashboard-activities.js) (bilan des activités), [dashboard-data.js](dashboard-data.js) (lecture et calculs), [dashboard-ui.js](dashboard-ui.js) (couleurs, barres), [dashboard.css](dashboard.css) ; accès : collection `teachers` et [firestore.rules](firestore.rules) |
-| Écran d'accès, connexion Firebase | [access-control.js](access-control.js), [firebase-init.js](firebase-init.js) (config et version du SDK) |
-| Mise en forme du texte, modales, contraste élevé, bandeau hors ligne | [rich-text.js](rich-text.js) |
+| Barre de navigation entre sections | [chapter-nav.js](js/chapter-nav.js) |
+| Données enregistrées des élèves | [storage.js](js/storage.js), seul fichier qui touche à `localStorage` ; compteurs d'activité : `SiteStorage.activity` |
+| Tableau de bord enseignant (classes, élèves, suivi) | [dashboard.js](dashboard/dashboard.js) (page, onglet Classes et élèves), [dashboard-class.js](dashboard/dashboard-class.js) (suivi), [dashboard-student.js](dashboard/dashboard-student.js) (fiche élève), [dashboard-activities.js](dashboard/dashboard-activities.js) (bilan des activités), [dashboard-data.js](dashboard/dashboard-data.js) (lecture et calculs), [dashboard-ui.js](dashboard/dashboard-ui.js) (couleurs, barres), [dashboard.css](dashboard/dashboard.css) ; accès : collection `teachers` et [firestore.rules](firebase/firestore.rules) |
+| Écran d'accès, connexion Firebase | [access-control.js](js/access-control.js), [firebase-init.js](firebase/firebase-init.js) (config et version du SDK) |
+| Mise en forme du texte, modales, contraste élevé, bandeau hors ligne | [rich-text.js](js/rich-text.js) |
 | Mode hors ligne, cache | [sw.js](sw.js) |
-| Styles communs, couleurs par matière | [style.css](style.css) |
+| Styles communs, couleurs par matière | [style.css](css/style.css) |
 
 ## Commandes
 
@@ -89,7 +95,7 @@ node tools/validate-content.js [chapitre]  vérifie les JSON : fichiers référe
 Après toute modification d'un template, d'un JSON de chapitre ou de
 `chapters.json`, lancer `node tools/check.js` et rapporter son résultat.
 
-Avant d'ouvrir [practice-engine.js](practice-engine.js) (4 400 lignes) ou sa
+Avant d'ouvrir [practice-engine.js](js/practice-engine.js) (4 400 lignes) ou sa
 feuille de style (4 100 lignes), lancer `outline.js` avec un filtre, puis ne
 lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`,
 `fitb` (texte à trous), `dnd`, `memory`, `sorting`.
@@ -121,7 +127,7 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
 - **Labos en plein écran : toute la place est utilisée.** Un labo se dessine
   pour le Chromebook à 100 % ; avec plus de place (plein écran sur un grand
   écran), le moteur agrandit d'un même facteur le corps et le pied du labo
-  (`fitToScreen` dans [lab-engine.js](lab-engine.js), zoom CSS) : tout
+  (`fitToScreen` dans [lab-engine.js](js/lab-engine.js), zoom CSS) : tout
   grandit au lieu d'ajouter du vide. Rien à faire dans le labo, sinon ne pas
   s'y opposer. À l'étape Check, le labo passe le panneau de détail du
   critère à `lab.fillSpace(el)` après chaque changement de son contenu : le
@@ -146,14 +152,14 @@ lire que les lignes utiles. Les fonctions d'un jeu partagent un préfixe : `qcm`
   imprime l'onglet affiché. Reprise : chaque labo fournit `save()` (tirage
   et travail, en JSON pur), `load(data)` et `version`, à augmenter dès que la
   forme de `save()` change ; le moteur enregistre (`labProgress` dans
-  [storage.js](storage.js)) et propose « Continue / Start again » à la
+  [storage.js](js/storage.js)) et propose « Continue / Start again » à la
   réouverture. Suivi : `summary()` donne score, critères et détails de
   l'événement `lab_checked` ; le moteur garde le résultat à part
   (`labResult` : étape la plus loin, meilleur et dernier Check), que
   « Start again » n'efface pas. Les événements `lab_*`, comme tous les
-  autres ([tracking.js](tracking.js)), sont comptés dans Firestore
+  autres ([tracking.js](js/tracking.js)), sont comptés dans Firestore
   (compteurs `stats`, voir `SiteStorage.activity` dans
-  [storage.js](storage.js)), seule destination du suivi.
+  [storage.js](js/storage.js)), seule destination du suivi.
 - **Conclude répond aux questions de départ, et à elles seules.** Les
   questions du labo sont posées à l'étape Predict, avec l'hypothèse ;
   Conclude y répond d'après les résultats et juge l'hypothèse, sans poser
