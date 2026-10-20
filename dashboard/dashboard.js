@@ -137,11 +137,23 @@ async function start() {
     tab.addEventListener('click', () => showView(tab.dataset.view)));
   initTooltip();
   setStatus('');
-  showView(state.view);
+  showView(viewFromHash() || state.view);
+}
+
+/* Onglet affiché, noté dans l'adresse (dashboard.html#devoirs) : un
+   rafraîchissement reste sur le même onglet ; le lien de l'accueil, sans
+   repère, ouvre le Suivi. replaceState : pas d'entrée d'historique par
+   onglet. */
+const VIEW_HASH = { manage: 'classes', class: 'suivi', activities: 'bilan', homework: 'devoirs' };
+
+function viewFromHash() {
+  const hash = location.hash.slice(1);
+  return Object.keys(VIEW_HASH).find(view => VIEW_HASH[view] === hash) || null;
 }
 
 function showView(view) {
   state.view = view;
+  try { history.replaceState(null, '', '#' + VIEW_HASH[view]); } catch (e) { /* adresse inchangée */ }
   state.student = null;
   $('#t-tabs').querySelectorAll('[data-view]').forEach(tab => {
     const active = tab.dataset.view === view;

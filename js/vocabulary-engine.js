@@ -78,6 +78,10 @@ let currentCardIndex = 0;
 let cards = [];
 let vocabularyData = [];
 let advanceTimer = null;
+// Mots sus lus (SiteStorage.ready) : avant, les cartes s'affichent déjà mais
+// les boutons « Not yet / I know it » attendent — une marque donnée trop tôt
+// partirait dans l'appareil au lieu du compte de l'élève (storage.js).
+let storageReady = false;
 
 /* Mots sus : famille vocabKnown de storage.js, un mot = une clé (la date où il
    a été marqué). La clé est le mot lui-même (champ english, sans balise) :
@@ -214,7 +218,10 @@ function startPack(filter) {
 function updateKnownDisplay() {
   const total = vocabularyData.length;
   const known = vocabularyData.filter(item => knownWords.has(wordKey(item))).length;
-  reviewOnlyText.textContent = L.reviewOnly(total - known);
+  // Avant la lecture des mots sus : pas de chiffre (il serait faux un instant),
+  // la ligne de progression garde sa place sans rien montrer.
+  knownProgress.style.visibility = storageReady ? '' : 'hidden';
+  if (storageReady) reviewOnlyText.textContent = L.reviewOnly(total - known);
   // Grisée tant qu'aucun mot n'est sus (elle montrerait tout le paquet),
   // mais jamais quand elle est cochée : l'élève doit pouvoir la décocher.
   reviewOnlyBox.disabled = known === 0 && !reviewOnlyBox.checked;
@@ -232,11 +239,13 @@ function updateKnownActions() {
   const card = cards[currentCardIndex];
   const visible = !!card;
   knownActions.classList.toggle('is-hidden', !visible);
+  knownActions.classList.toggle('is-pending', !storageReady);
   knownActions.setAttribute('aria-hidden', String(!visible));
   [knowButton, notYetButton].forEach(btn => { btn.tabIndex = visible ? 0 : -1; });
   const known = !!card && knownWords.has(wordKey(card));
   knowButton.classList.toggle('is-current', known);
   knowButton.setAttribute('aria-pressed', String(known));
+  [knowButton, notYetButton].forEach(btn => btn.classList.remove('is-chosen'));
 }
 
 /* Choix explicite de la voix plutôt que de s'en remettre au navigateur.
@@ -419,7 +428,7 @@ function enableSwipe(article) {
     start = null;
     if (!wasDragging) return;
     article.classList.remove('is-dragging');
-    if (event.type === 'pointerup' && Math.abs(dx) >= article.offsetWidth * SWIPE_THRESHOLD) {
+    if (event.type === 'pointerup' && storageReady && Math.abs(dx) >= article.offsetWidth * SWIPE_THRESHOLD) {
       markCurrentCard(dx > 0);
     } else {
       article.style.transform = '';
@@ -509,11 +518,14 @@ function renderCurrentCard() {
 // ensemble.
 function markCurrentCard(known) {
   const card = cards[currentCardIndex];
-  if (!card || advanceTimer) return;
+  if (!card || advanceTimer || !storageReady) return;
   setKnown(card, known);
   if (window.logEvent) window.logEvent('vocabulary_word_marked', { known });
   updateKnownDisplay();
   updateKnownActions();
+  // Le bouton de la réponse donnée (clic, glissé ou touche) se remplit le
+  // temps que la carte parte : même retour pour « Not yet » et « I know it ».
+  (known ? knowButton : notYetButton).classList.add('is-chosen');
   const article = container.querySelector('.flashcard');
   const still = reducedMotion();
   if (article && !still) {
@@ -561,10 +573,20 @@ async function loadVocabulary() {
     const response = await fetch('./vocabulary.json?v=' + Date.now());
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     vocabularyData = await response.json();
-    // Les mots sus viennent de Firestore : attendre la lecture du chapitre.
-    await SiteStorage.ready;
-    loadKnownWords();
+    // Cartes tout de suite ; les mots sus (Firestore, lecture du chapitre)
+    // s'ajoutent dès qu'ils arrivent, sans retirer la carte affichée.
     startPack();
+    await SiteStorage.ready;
+    storageReady = true;
+    loadKnownWords();
+    updateKnownDisplay();
+    updateKnownActions();
+    const card = cards[currentCardIndex];
+    if (card && knownWords.has(wordKey(card))) {
+      container.querySelectorAll('.flashcard-tags').forEach(tags => {
+        if (!tags.querySelector('.flashcard-known')) tags.insertAdjacentHTML('beforeend', `<span class="flashcard-known">${L.known}</span>`);
+      });
+    }
   } catch (error) {
     showLoadError();
     console.error(error);

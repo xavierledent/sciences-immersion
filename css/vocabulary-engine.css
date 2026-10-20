@@ -268,6 +268,21 @@ html[data-pointer='fine'] .known-reset-no:hover,
   visibility: hidden;
 }
 
+/* Mots sus pas encore lus (quelques instants au chargement). */
+.known-actions.is-pending .known-btn {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+/* Place de la carte réservée avant le chargement du vocabulaire : la page ne
+   saute pas quand la première carte arrive. */
+.flashcard-placeholder {
+  min-height: 250px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.2);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
 .known-btn {
   font: inherit;
   font-weight: 700;
@@ -309,8 +324,8 @@ html[data-pointer='fine'] .known-btn:hover,
   transform: translateY(-1px);
 }
 
-html[data-pointer='fine'] .known-btn:hover:not(.is-current),
-.known-btn:focus-visible:not(.is-current) {
+html[data-pointer='fine'] .known-btn:hover:not(.is-current):not(.is-chosen),
+.known-btn:focus-visible:not(.is-current):not(.is-chosen) {
   background: rgba(var(--color-current-rgb), 0.1);
 }
 
@@ -318,8 +333,10 @@ html[data-pointer='fine'] .known-btn:hover:not(.is-current),
   transform: scale(0.96);
 }
 
-/* Le mot est déjà marqué sus : le bouton le montre (aria-pressed). */
-.known-btn-yes.is-current {
+/* Le mot est déjà marqué sus : le bouton le montre (aria-pressed). Même
+   style, le temps que la carte parte, pour le bouton de la réponse donnée. */
+.known-btn-yes.is-current,
+.known-btn.is-chosen {
   background: var(--color-current);
   border-color: var(--color-current);
   color: var(--color-current-text);
@@ -665,7 +682,8 @@ body.high-contrast .flashcard-badge {
 
 @media (max-width: 640px) {
   .flashcard-face,
-  .flashcard-end {
+  .flashcard-end,
+  .flashcard-placeholder {
     min-height: 220px;
   }
 
