@@ -253,7 +253,16 @@ body.high-contrast .dnd-zone.correct .dnd-zone-text {
 .dnd-zone.incorrect {
   background: rgba(212, 82, 122, 0.1);
   border-color: var(--color-rose);
-  animation: dnd-shake 0.5s ease-in-out;
+  animation: dnd-zone-shake 0.5s ease-in-out;
+}
+
+/* Comme dnd-shake, mais en gardant le centrage de la zone sur son point
+   (translate(-50%, -50%)) : sans lui, la zone glissait d'une demi-taille vers
+   le bas à droite le temps du tremblement. */
+@keyframes dnd-zone-shake {
+  0%, 100% { transform: translate(-50%, -50%); }
+  20%, 60% { transform: translate(calc(-50% - 6px), -50%); }
+  40%, 80% { transform: translate(calc(-50% + 6px), -50%); }
 }
 
 /* Footer & Navigation */
