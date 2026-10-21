@@ -42,7 +42,10 @@ Labos virtuels (en anglais et en néerlandais) : `chem1` « Metal detectives » 
 « Inside two ecosystems » (mission 1 de la sortie de terrain : facteurs
 abiotiques, carré de comptage, histogramme FO5b), `phys1` « The energy test
 bench » (dynamo à manivelle et deux lampes : mesures en units, diagramme de
-flux d'énergie, bilan ; sans labo réel dans le cours). Chaque chapitre a sa page Lab
+flux d'énergie, bilan) et « Keep the lights on » (salle de contrôle de
+l'électricité belge pendant une journée : centrales, météo, stockage de Coo,
+panne ; expérience sur un modèle) ; `phys1` n'a pas de labo réel dans le
+cours. Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans
 [tools/chapters.json](tools/chapters.json) (`labs`). Sans labo, la page et la

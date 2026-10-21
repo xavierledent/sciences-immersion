@@ -1,0 +1,1157 @@
+/* ===== Labo virtuel « Keep the lights on » (phys1) =====
+   Ce qui est propre à ce labo : hypothèses, cartes d'identité des
+   installations, salle de contrôle (paysage animé, graphique de la journée,
+   interrupteurs, carnet), conclusion, correction. Le cadre commun (modale,
+   étapes, boutons, tableaux, rapport) est dans lab-engine.css. Classes
+   préfixées gr- (grid). Tout tient dans le corps du labo (1204 × 594 sur le
+   Chromebook à 100 %) sans défilement. */
+
+/* ===== Commun aux étapes ===== */
+.gr-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+  text-align: left;
+}
+
+.gr-questions {
+  margin: 0;
+  padding-left: 1.3em;
+  text-align: left;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.gr-questions li + li {
+  margin-top: 3px;
+}
+
+.gr-num {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-current);
+  color: var(--color-current-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.gr-blank {
+  display: inline-block;
+  min-width: 120px;
+  padding: 0 6px;
+  border-bottom: 2px solid rgba(var(--color-current-rgb), 0.6);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.gr-blank.is-filled {
+  color: var(--color-current-darkest);
+  font-weight: 700;
+  border-bottom-color: var(--color-current);
+}
+
+.gr-hint {
+  font-size: 0.8em;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.gr-ok { color: var(--color-emerald); font-weight: 600; }
+.gr-ko { color: var(--color-rose); font-weight: 600; }
+.gr-muted { color: var(--color-muted); }
+
+.gr-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+}
+
+.gr-icon.is-big {
+  width: 38px;
+  height: 38px;
+}
+
+.gr-caption.is-warning {
+  background: #fff1f0;
+  color: #9f2c2c;
+}
+
+/* Le texte du labo est aligné à gauche (style.css justifie les paragraphes). */
+.gr-predict p,
+.gr-run p,
+.gr-conclude p,
+.gr-check p {
+  text-align: left;
+}
+
+.gr-recap th,
+.gr-recap td {
+  text-align: left;
+}
+
+/* ===== Étape 1 : hypothèses ===== */
+.gr-predict {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.gr-question-card,
+.gr-hyp-card {
+  padding: 14px 22px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.3);
+  background: #ffffff;
+}
+
+.gr-question-card {
+  background: rgba(var(--color-current-rgb), 0.08);
+  border-color: transparent;
+}
+
+.gr-question-card .gr-questions {
+  font-size: 1.1rem;
+}
+
+.gr-intro {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.gr-intro-icons {
+  display: flex;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.gr-intro-icons .gr-icon {
+  width: 26px;
+  height: 26px;
+}
+
+.gr-hyp {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+}
+
+.gr-hyp > .gr-num {
+  margin-top: 4px;
+}
+
+.gr-sentence {
+  margin: 2px 0 8px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.gr-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gr-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 14px;
+  font-size: 0.9rem;
+}
+
+.gr-because {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+
+.gr-because span {
+  flex: 0 0 auto;
+}
+
+.gr-because .lab-input {
+  flex: 1;
+  width: auto;
+  height: 38px;
+}
+
+/* ===== Étape 2 : cartes, puis salle de contrôle ===== */
+.gr-run {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 356px;
+  gap: 12px;
+}
+
+/* Les cartes : toute la largeur, sans le carnet. */
+.gr-run.is-cards {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.gr-main {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 6px;
+}
+
+.gr-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.gr-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px 0 6px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.35);
+  background: #ffffff;
+  color: var(--color-current-darker);
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.gr-tab-num {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(var(--color-current-rgb), 0.15);
+  font-size: 0.74rem;
+}
+
+.gr-tab.is-on {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.gr-tab.is-on .gr-tab-num {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.gr-tab.lab-is-locked {
+  background: var(--lab-locked-bg);
+  border-color: var(--lab-locked-border);
+  color: var(--lab-locked-text);
+  padding-left: 10px;
+}
+
+.gr-tab.lab-is-locked .gr-tab-num {
+  display: none;
+}
+
+html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
+.gr-tab:not(.is-on):focus-visible {
+  background: rgba(var(--color-current-rgb), 0.1);
+  outline: none;
+}
+
+/* --- a) Les cartes d'identité --- */
+.gr-cards {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.gr-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.25);
+  background: #ffffff;
+  text-align: left;
+}
+
+.gr-card.is-storage {
+  background: #f6faf3;
+  border-color: rgba(90, 168, 106, 0.45);
+}
+
+.gr-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  margin-bottom: 2px;
+  font-size: 0.92rem;
+  line-height: 1.2;
+}
+
+.gr-card-label {
+  margin: 4px 0 0;
+  line-height: 1.3;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-current-darker);
+}
+
+.gr-slot {
+  min-height: 36px;
+  padding: 0 8px;
+  border-radius: 10px;
+  border: 2px dashed #a9b3bd;
+  background: #fbfaf7;
+  color: var(--color-muted);
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.gr-slot.is-filled {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+  color: var(--color-current-darkest);
+}
+
+.gr-slot.is-drop-ready {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.12);
+  animation: gr-pulse 1.1s ease-in-out infinite;
+}
+
+.gr-slot.is-drop-target {
+  background: rgba(var(--color-current-rgb), 0.28);
+}
+
+.gr-slot:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.3);
+}
+
+@keyframes gr-pulse {
+  50% { border-color: rgba(var(--color-current-rgb), 0.35); }
+}
+
+/* « niet-hernieuwbaar » : le second choix passe à la ligne s'il ne tient pas. */
+.gr-ren {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 2px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+}
+
+.gr-ren-chip {
+  flex: 1 1 auto;
+  height: 34px;
+  padding: 0 6px;
+  font-size: 0.76rem;
+}
+
+.gr-chain-text {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--color-muted);
+}
+
+.gr-noturbine {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(240, 138, 36, 0.15);
+  color: #a35a10;
+  font-size: 0.72rem;
+}
+
+.gr-banks {
+  display: grid;
+  gap: 6px;
+}
+
+.gr-bank {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gr-bank-title {
+  flex: 0 0 150px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+  text-align: left;
+}
+
+.gr-bank-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.gr-word {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 0.82rem;
+  touch-action: none;
+}
+
+.gr-ghost {
+  display: grid;
+  place-items: center;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 2px solid var(--color-current);
+  background: #ffffff;
+  color: var(--color-current-darkest);
+  font-size: 0.84rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  filter: drop-shadow(0 8px 14px rgba(17, 36, 72, 0.25));
+}
+
+.lab-drag-ghost.is-carried .gr-ghost {
+  transform: translate(-50%, -50%);
+}
+
+/* --- b) La salle de contrôle --- */
+.gr-stage {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.gr-stage > .gr-svg {
+  position: absolute;
+  inset: 0;
+}
+
+.gr-show {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 8px rgba(17, 36, 72, 0.18);
+}
+
+.gr-show-btn {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--color-current-darker);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.gr-show-btn.is-on {
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.gr-show-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.3);
+}
+
+/* Le paysage (SVG) */
+.gr-plant {
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.gr-plant.is-off {
+  opacity: 0.38;
+  filter: grayscale(1);
+}
+
+.gr-steam {
+  transition: opacity 0.4s ease;
+  animation: gr-drift 3.6s ease-in-out infinite;
+}
+
+.gr-smoke {
+  transition: opacity 0.4s ease;
+  animation: gr-drift 2.6s ease-in-out infinite;
+}
+
+@keyframes gr-drift {
+  50% { transform: translate(5px, -4px); }
+}
+
+/* Lisible sur le sol de jour comme de nuit : blanc, contour sombre. */
+.gr-scene-label {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #ffffff;
+  stroke: rgba(31, 42, 55, 0.7);
+  stroke-width: 3px;
+  paint-order: stroke;
+  stroke-linejoin: round;
+}
+
+.gr-clock text {
+  font-size: 15px;
+  font-weight: 700;
+  fill: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+.gr-blackout-text {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  fill: #ffffff;
+}
+
+/* Le graphique (SVG) */
+.gr-g-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  fill: #1f2a37;
+}
+
+.gr-g-legend {
+  font-size: 10.5px;
+  fill: #34465e;
+}
+
+.gr-g-period {
+  font-size: 10.5px;
+  font-style: italic;
+  fill: #8a95a1;
+}
+
+.gr-g-tick {
+  font-size: 10.5px;
+  fill: #5d6773;
+  font-variant-numeric: tabular-nums;
+}
+
+.gr-g-axis {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #34465e;
+}
+
+.gr-hit {
+  cursor: pointer;
+  outline: none;
+}
+
+.gr-hit:focus-visible {
+  stroke: var(--color-current);
+  stroke-width: 2;
+}
+
+.gr-sel {
+  fill: rgba(var(--color-current-rgb), 0.1);
+  stroke: var(--color-current);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.gr-speed {
+  bottom: auto;
+  top: 8px;
+}
+
+/* Interrupteurs et bouton de la journée */
+.gr-controls {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.gr-switches {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  gap: 6px;
+}
+
+.gr-switch {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 52px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 6px;
+  padding: 4px 8px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(17, 36, 72, 0.18);
+  background: #f4f5f7;
+  color: var(--color-text);
+  text-align: left;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.gr-switch-icon {
+  grid-row: span 2;
+}
+
+.gr-switch-icon .gr-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.gr-switch-name {
+  min-width: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.gr-switch-state {
+  justify-self: start;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #d5dae0;
+  color: #4f5a66;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.gr-switch.is-on {
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.1);
+}
+
+.gr-switch.is-on .gr-switch-state {
+  background: var(--color-emerald);
+  color: #ffffff;
+}
+
+.gr-switch:not(.is-on) .gr-switch-icon {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.gr-switch.lab-is-locked {
+  cursor: not-allowed;
+}
+
+.gr-switch:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.3);
+}
+
+.gr-runbtn {
+  flex: 0 0 auto;
+  min-width: 150px;
+  align-self: center;
+}
+
+/* --- Le carnet --- */
+.gr-side {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gr-side .lab-panel-title {
+  margin: 0;
+}
+
+.gr-nb-block {
+  padding: 8px 10px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.2);
+  background: #ffffff;
+  text-align: left;
+}
+
+.gr-nb-block.is-waiting {
+  background: #f6f7f9;
+}
+
+.gr-nb-title {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--color-current-darker);
+}
+
+.gr-nb-q {
+  margin-top: 4px;
+  padding: 3px 4px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+}
+
+.gr-nb-q p {
+  margin: 0 0 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.gr-nb-hint {
+  margin: -2px 0 6px;
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.gr-yn {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.gr-nb-chip {
+  height: 30px;
+  padding: 0 10px;
+  font-size: 0.76rem;
+}
+
+.gr-nb-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.gr-nb-table th,
+.gr-nb-table td {
+  padding: 3px 3px;
+  border-top: 1px solid #edf0f3;
+  font-size: 0.74rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.gr-nb-table thead th {
+  border-top: none;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-current-darker);
+}
+
+.gr-nb-table td {
+  border-radius: 8px;
+}
+
+.gr-nb-table td.lab-is-missing {
+  box-shadow: inset 0 0 0 1.5px #d64545;
+}
+
+.gr-nb-table .gr-nb-chip {
+  height: 28px;
+  padding: 0 8px;
+}
+
+.gr-nb-plant {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+}
+
+.gr-nb-plant .gr-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== Étape 3 : conclusion ===== */
+.gr-conclude {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 500px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.gr-results {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.gr-results .lab-panel-title {
+  margin: 0;
+}
+
+.gr-minis {
+  display: grid;
+  gap: 4px;
+}
+
+.gr-mini {
+  display: block;
+  width: 100%;
+  height: 152px;
+  border-radius: 10px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #ffffff;
+}
+
+.gr-recap-line {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.gr-recap td,
+.gr-recap tbody th {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 0.76rem;
+}
+
+.gr-recap thead th {
+  font-size: 0.7rem;
+}
+
+.gr-form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gr-q {
+  padding: 8px 12px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+  text-align: left;
+}
+
+.gr-q-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.gr-q-title .gr-num {
+  width: 22px;
+  height: 22px;
+  font-size: 0.74rem;
+}
+
+.gr-sentence-sm {
+  margin: 0 0 5px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.gr-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.gr-chips + .gr-chips,
+.gr-chips + .gr-sentence-sm {
+  margin-top: 6px;
+}
+
+.gr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 11px;
+  font-size: 0.78rem;
+}
+
+.gr-chip .gr-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.gr-verdicts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+}
+
+.gr-verdicts .gr-chips + .gr-chips {
+  margin-top: 0;
+}
+
+.gr-q-text {
+  margin-right: 2px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+/* ===== Étape 4 : correction ===== */
+.gr-check {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.gr-check-left {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gr-crit-list {
+  display: grid;
+  gap: 6px;
+}
+
+.gr-crit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #ffffff;
+  color: var(--color-text);
+  text-align: left;
+  box-shadow: inset 4px 0 0 var(--gr-crit-accent, transparent);
+}
+
+.gr-crit.is-ok { --gr-crit-accent: var(--color-emerald); background: rgba(12, 163, 127, 0.06); }
+.gr-crit.is-ko { --gr-crit-accent: var(--color-rose); background: rgba(212, 82, 122, 0.07); }
+
+.gr-crit.is-selected {
+  border-color: var(--color-current);
+}
+
+html[data-pointer='fine'] .gr-crit:not(.is-selected):hover,
+.gr-crit:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.5);
+  outline: none;
+}
+
+.gr-crit-text strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.gr-crit-text small {
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.gr-crit-mark {
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.is-ok .gr-crit-mark { color: var(--color-emerald); }
+.is-ko .gr-crit-mark { color: var(--color-rose); }
+
+.gr-reminder {
+  margin-top: auto;
+  padding: 8px 14px;
+  border-left: 3px solid var(--color-current);
+  border-radius: 0 12px 12px 0;
+  background: rgba(var(--color-current-rgb), 0.08);
+}
+
+.gr-reminder .gr-questions {
+  font-size: 0.8rem;
+}
+
+.gr-check-detail {
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #fbfaf7;
+  text-align: left;
+}
+
+.gr-check-detail h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.gr-check-detail p {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.gr-check-detail .gr-q-head {
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.gr-facts {
+  width: auto;
+  margin-bottom: 8px;
+  background: #ffffff;
+}
+
+.gr-facts th,
+.gr-facts td {
+  font-size: 0.78rem;
+  text-align: left;
+}
+
+.gr-facts thead th {
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.gr-misslist,
+.gr-plainlist {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.gr-misslist li {
+  padding-left: 12px;
+  border-left: 3px solid var(--color-rose);
+}
+
+.gr-plainlist li {
+  padding-left: 12px;
+  border-left: 3px solid var(--color-emerald);
+}
+
+/* ===== Écrans plus étroits ===== */
+@media (max-width: 980px) {
+  .gr-run { grid-template-columns: minmax(0, 1fr) 300px; }
+  .gr-conclude { grid-template-columns: 380px minmax(0, 1fr); }
+  .gr-check { grid-template-columns: 280px minmax(0, 1fr); }
+  .gr-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .gr-run,
+  .gr-conclude,
+  .gr-check { grid-template-columns: 1fr; height: auto; }
+  .gr-stage { height: 340px; }
+  .gr-cards { grid-template-columns: 1fr 1fr; }
+  .gr-controls,
+  .gr-switches { flex-wrap: wrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gr-steam,
+  .gr-smoke,
+  .gr-slot.is-drop-ready { animation: none; }
+}
+
+/* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */
+.lab-doc .gr-report-results {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.lab-doc .gr-report-table {
+  width: auto;
+  min-width: 50mm;
+}
+
+.lab-doc .gr-report-table caption {
+  padding-bottom: 2px;
+  font-size: 8.5pt;
+  color: #5d728f;
+  text-align: left;
+}
+
+.lab-doc .gr-report-table th {
+  text-align: left;
+}
+
+.lab-doc .gr-report-graphs {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.lab-doc .gr-report-graph {
+  break-inside: avoid;
+}
+
+.lab-doc .gr-report-graph-title {
+  margin: 0 0 2px;
+  font-size: 9pt;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.lab-doc .gr-report-svg {
+  display: block;
+  width: 100%;
+  max-width: 170mm;
+  height: auto;
+}
+
+.lab-doc .gr-report-corr {
+  width: auto;
+  min-width: 70mm;
+}
+
+.lab-doc .gr-report-corr th {
+  text-align: left;
+}
