@@ -67,8 +67,12 @@ scientifique, présentées de la même façon :
 - **Attendus visés** : les `id` de autoeval.json qu'il fait travailler
   (« s2, sf3 »), et pourquoi en une phrase. Un labo qui n'en sert aucun se
   signale comme tel.
-- **La question de départ** (une, ou une par facteur tiré au sort) et la
-  forme de l'hypothèse.
+- **La question de départ** et la forme de l'hypothèse. Leur structure naît
+  du labo, jamais d'un modèle : une seule question, une grande question à
+  laquelle répondent des sous-questions, plusieurs petites questions, une
+  par facteur tiré au sort… Ne pas reprendre d'office la forme d'un labo
+  précédent (deux questions numérotées, deux hypothèses à trous) : varier
+  d'un labo à l'autre et le dire dans la proposition.
 - **Ce que l'élève manipule** à l'écran (outils, gestes) et ce qu'il note
   lui-même (le labo n'écrit jamais l'observation à sa place).
 - **Ce qui est tiré au sort**, pour que le labo puisse être refait.
@@ -88,8 +92,11 @@ Pour le labo choisi, une fiche d'une page, dans la conversation (ou un
 document si l'enseignant veut la faire relire) :
 
 1. Titre, question(s), attendus visés.
-2. **Predict** : la phrase d'hypothèse (choix à toucher, pas de texte libre
-   obligatoire) + « Why do you think so? » facultatif.
+2. **Predict** : l'hypothèse, sans texte libre obligatoire, sous une forme
+   choisie pour ce labo : phrase à compléter, mais aussi classer, placer sur
+   un dessin, esquisser l'allure d'une courbe, parier sur un ordre ou un
+   résultat chiffré… + « Why do you think so? » facultatif. L'étape Predict
+   a la même liberté que l'expérience.
 3. **Experiment** : le déroulé geste par geste, ce qui verrouille quoi
    (« les outils restent verrouillés tant que… »), ce que l'élève note et où.
 4. **Conclude** : les questions, qui répondent aux questions de départ et à

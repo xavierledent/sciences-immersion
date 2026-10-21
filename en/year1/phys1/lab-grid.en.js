@@ -44,13 +44,28 @@ LabEngine.addText('grid', {
 
     questions: {
       q1: 'Can wind and sun alone give Belgium electricity all day long?',
-      q2: 'How can Belgium have electricity at night when there is no wind?'
+      // La question 2 est tirée au sort parmi trois (voir js/lab-grid.js).
+      q2: {
+        night: 'How can Belgium have electricity at night when there is no wind?',
+        follow: 'Which installations give more electricity in the evening, when more is needed?',
+        coo: 'What is the Coo storage plant for?'
+      }
     },
     yourQuestions: 'Your questions',
     intro: 'Belgium needs electricity day and night. In the control room, you decide which power plants work during one day. If there is not enough electricity at one moment: blackout!',
     hypothesisTitle: 'Your hypotheses',
-    hyp1: b => `I think that wind and sun alone ${b} give Belgium electricity all day long.`,
-    hyp2: 'I think that at night without wind, Belgium can use:',
+    // Hypothèse 1 : un pari sur la panne du test 1.
+    hyp1: b => `I think that with wind and sun alone, Belgium will have a blackout: ${b}.`,
+    when: { never: 'never', night: 'only at night', both: 'during the day and at night' },
+    hyp2: {
+      night: 'I think that at night without wind, Belgium can use:',
+      follow: 'I think that these installations give more electricity in the evening, when more is needed:',
+      coo: (a, b) => `I think that Coo pumps water up when Belgium has ${a} electricity, and lets the water fall down when Belgium has ${b} electricity.`
+    },
+    // On ne stocke pas l'électricité elle-même (cours, mission 6) : Coo pompe l'eau, l'énergie est stockée en hauteur.
+    cooWhen: { much: 'too much', little: 'too little' },
+    cooRowA: 'Coo pumps water up when Belgium has:',
+    cooRowB: 'The water falls down when Belgium has:',
     hyp2Hint: 'Choose one or more.',
     can: 'can',
     cannot: 'cannot',
@@ -67,17 +82,13 @@ LabEngine.addText('grid', {
     cardRenewable: 'Renewable?',
     cardChain: 'Energy chain',
     cardStored: 'Energy stored (water high up)',
-    chainTurbine: '→ turbine → generator → electrical energy',
-    chainSolar: '→ solar panel → electrical energy',
     noTurbine: 'No turbine!',
-    chainCoo: 'Electricity pumps water up. Later, the water falls: → turbine → generator → electrical energy',
-    emptySlot: 'empty',
+    choose: '— choose —',
+    // La chaîne d'énergie : les objets (ovales du diagramme de flux).
+    objects: { boiler: 'boiler', reactor: 'reactor', turbine: 'turbine', generator: 'generator', panel: 'solar panel' },
+    cooNote: 'Coo has no energy resource: it uses the electricity of the other power plants to pump water up to a high lake, where the energy is stored. Later, the water falls down.',
     slotLabel: (what, plant) => `${what}, ${plant}`,
-    bankResources: 'Energy resources',
-    bankForms: 'Forms of energy',
-    captionCards: 'Complete the identity card of each power plant: take a word, then choose its place. Then the control room opens.',
-    captionWordPicked: word => `In your hand: ${word}. Choose a lit box.`,
-    captionPickWord: 'Take a word first, then choose a box.',
+    captionCards: 'Complete the identity card of each power plant: choose in the lists. Then the control room opens.',
     captionCardsDone: 'All the identity cards are complete. Next: the control room!',
     lockRoom: n => `Complete the identity cards first: ${n === 1 ? '1 box' : n + ' boxes'} still empty.`,
 
@@ -86,8 +97,32 @@ LabEngine.addText('grid', {
     testTitle: { 1: 'Test 1: wind and sun only', 2: 'Test 2: your choice of power plants' },
     on: 'ON',
     off: 'OFF',
-    run: n => `Run test ${n}`,
     faster: 'Faster',
+    runDay: 'Run the day',
+    runAgain: 'Run it again',
+    // Les journées jouées : test 1, puis les essais du test 2.
+    pillTest1: 'Test 1 · wind + sun',
+    test2Goal: 'Test 2 · goal: no blackout',
+    hoursShort: n => `${n} h`,
+    tryTitle: (n, plant) => `Test 2, try ${n}: + ${plant}`,
+    tapHint: 'Touch a column to see the details',
+    cooStores: 'stores',
+    cooGives: 'gives back',
+    zoom: title => `${title}: show it big`,
+    today: 'Today',
+    // Le bulletin, en bref (au-dessus du carnet) ; la phrase entière va dans le rapport.
+    forecastShort: (season, sky, wind) => {
+      const day = { autumn: 'Autumn', winter: 'Winter' };
+      const skies = { sunny: 'sun all day', grey: 'grey sky', morning: 'clouds in the morning', afternoon: 'clouds in the afternoon' };
+      const winds = { storm: 'storm', morning: 'strong wind in the morning', afternoon: 'strong wind in the afternoon', light: 'light wind' };
+      return `${day[season]} · ${skies[sky]} · ${winds[wind]} · no wind tonight`;
+    },
+    forecast: (season, sky, wind) => {
+      const day = { autumn: 'An autumn day', winter: 'A winter day' };
+      const skies = { sunny: 'sun all day', grey: 'clouds all day', morning: 'clouds in the morning', afternoon: 'clouds in the afternoon' };
+      const winds = { storm: 'a storm during the day', morning: 'strong wind in the morning', afternoon: 'strong wind in the afternoon', light: 'light wind during the day' };
+      return `${day[season]}: ${skies[sky]}, ${winds[wind]}, and no wind in the evening and at night.`;
+    },
     graphTitle: 'Electricity in Belgium during one day',
     axisY: 'Energy (units)',
     axisX: 'Time (h)',
@@ -105,20 +140,29 @@ LabEngine.addText('grid', {
     captionTest1: 'Test 1: only the wind farm and the solar panels work. Run the day and watch the city.',
     captionRunning: 'The day is running… Watch the city, the weather and the graph.',
     captionTest1Done: 'Test 1 is over. Touch an hour of the graph to see the details. Then write your observations in your notebook.',
-    captionTest2: 'Test 2: the same day, with the same weather. Switch on the power plants you need, then run the day. Goal: no blackout!',
-    captionBlackout: (n, when) => `Blackout during ${n === 1 ? '1 hour' : n + ' hours'} (${when}). Change your power plants and run the day again.`,
+    captionTest2: 'Test 2: the same day, with the same weather. Add one power plant at a time, until there is no blackout!',
+    captionAddPlant: 'Switch on one more power plant (only one), then run the day.',
+    captionTryReady: plant => `${plant}: switched on. Run the day!`,
+    // Sans le nombre d'heures : l'élève compte les colonnes rouges lui-même.
+    captionBlackout: when => `Blackout (${when})! Count the red columns of the graph and write the hours of blackout in your notebook. Then switch on one more power plant.`,
     captionSuccess: 'No blackout all day long. Well done! Touch the hours of the graph, then write your observations in your notebook.',
     captionTest2Done: 'Test 2 is done: your day without blackout is saved. Touch an hour of the graph to see the details.',
     lockTest1Plant: 'Test 1: only the wind farm and the solar panels work.',
     lockRunning: 'The day is running. Wait until the end.',
     lockTest2Done: 'Test 2 is done: your day without blackout is saved.',
-    lockNotes1: 'Write your observations of test 1 first.',
     lockRun1First: 'Run test 1 first.',
+    lockRunFirst: 'Run the day first.',
+    lockAlreadyOn: 'Already on: it stays on for the next tries.',
+    lockPickPlant: 'Switch on one more power plant first.',
+    lockHoursFirst: 'First count the hours of blackout of the last day and write them in your notebook.',
     lockSuccessFirst: 'First run a day without blackout (test 2).',
-    lockShowTest2: 'Run test 2 first.',
 
     notebookTitle: 'Your notebook',
-    n1Blackout: 'Was there a blackout?',
+    // Les heures de panne de chaque journée : l'élève compte les colonnes rouges.
+    hoursTitle: 'Hours of blackout',
+    hoursHint: 'Count the red columns of the graph.',
+    hoursAria: day => `Hours of blackout, ${day}`,
+    hourUnit: 'h',
     n1Nothing: 'When did wind and sun give no electricity at all?',
     n1NothingHint: 'Choose one or more.',
     darkCalm: 'Dark and calm: the hours with the moon and no wind.',
@@ -138,9 +182,14 @@ LabEngine.addText('grid', {
 
     // Étape 3
     resultsTitle: 'Your results',
-    concl1: (b, c) => `My results show that wind and sun alone ${b} give Belgium electricity all day long, because at night without wind they give ${c}.`,
+    concl1a: b => `My results show that with wind and sun alone, Belgium had a blackout: ${b}.`,
+    concl1: (b, c) => `So wind and sun alone ${b} give Belgium electricity all day long, because at night without wind they give ${c}.`,
     q1why: { none: 'no electricity', little: 'a little electricity', lot: 'a lot of electricity' },
-    concl2: 'My results show that at night without wind, Belgium can use:',
+    concl2: {
+      night: 'My results show that at night without wind, Belgium can use:',
+      follow: 'My results show that these installations give more electricity in the evening, when more is needed:',
+      coo: (a, b) => `My results show that Coo pumps water up when Belgium has ${a} electricity, and lets the water fall down when Belgium has ${b} electricity.`
+    },
     concl2b: b => `Coo gives back the energy that it ${b} during the day.`,
     stored: { stored: 'stored', made: 'made', destroyed: 'destroyed' },
     qVerdict: n => `So my hypothesis ${n} is`,
@@ -163,19 +212,20 @@ LabEngine.addText('grid', {
       title: 'Laboratory report — Keep the lights on',
       because: 'Because',
       materials: day => `A model of the electricity network of Belgium: a wind farm, solar panels, a nuclear power plant, a gas power plant and the Coo storage plant. ${day}`,
-      day: (season, clouds) => `One day in ${season === 'winter' ? 'winter' : 'autumn'}, ${clouds === 'none' ? 'with sun all day' : clouds === 'morning' ? 'with clouds in the morning' : 'with clouds in the afternoon'}, and no wind in the evening and at night.`,
       procedure: [
         'Complete the identity card of each power plant: energy resource, renewable or not, form of energy at the start.',
         'Test 1: run the day with the wind farm and the solar panels only. Observe the city and the graph.',
-        'Test 2: run the same day (same weather: fair test) with the power plants of your choice, until there is no blackout.',
+        'Test 2: run the same day again (same weather: fair test), with one more power plant at each try, until there is no blackout.',
         'Write your observations in the notebook.'
       ],
       cardsCaption: 'Identity cards',
       notes1Caption: 'Notebook: test 1',
       notes2Caption: 'Notebook: test 2',
+      triesCaption: 'Hours of blackout (test 1, then one more power plant at each try of test 2)',
+      triesHead: { try: 'Try', added: 'Power plant added', hours: 'Hours of blackout' },
       graphCaption: n => `Test ${n}`,
       graphTitle: 'Electricity in Belgium during one day',
-      test1: (blackout, when) => `Test 1 (wind and sun only): blackout: ${blackout}. Wind and sun gave no electricity ${when}.`,
+      test1: (hours, when) => `Test 1 (wind and sun only): ${hours} hours of blackout. Wind and sun gave no electricity ${when}.`,
       test2: (tries, plants) => `Test 2: a day without blackout after ${tries === 1 ? '1 try' : tries + ' tries'}, with ${plants}.`,
       dark: list => `When it was dark and calm, the electricity came from: ${list}.`,
       verdict: (n, word) => `My hypothesis ${n} is ${word}.`,
@@ -221,7 +271,7 @@ LabEngine.addText('grid', {
     },
     notesScore: (good, total) => `${good} / ${total} observations match what happened.`,
     notesAllGood: 'Your notebook matches what happened in the control room. Well observed!',
-    blackoutWrong: said => `Test 1, blackout: you wrote “${said}”. In test 1, the city went dark: there was a blackout.`,
+    hoursWrong: (day, said, right) => `${day}: you wrote ${said} hours of blackout, but the graph has ${right} red columns.`,
     nothingWrong: (said, right) => `Test 1: you chose ${said}. Wind and sun gave no electricity at all ${right}: look at the empty columns of the graph.`,
     plantWrong: (plant, q, said, right) => `${plant}, “${q}”: you wrote “${said}”, but the answer is “${right}”.`,
     answerOk: 'Correct!',

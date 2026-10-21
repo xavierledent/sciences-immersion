@@ -94,7 +94,7 @@
 
 .gr-recap th,
 .gr-recap td {
-  text-align: left;
+  text-align: left !important;
 }
 
 /* ===== Étape 1 : hypothèses ===== */
@@ -181,6 +181,23 @@
   height: 40px;
   padding: 0 14px;
   font-size: 0.9rem;
+}
+
+/* Coo : « stocke quand il y a… », « rend quand il y a… » */
+.gr-coo-row {
+  align-items: center;
+}
+
+.gr-coo-row + .gr-coo-row {
+  margin-top: 6px;
+}
+
+.gr-coo-row-label {
+  min-width: 190px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-align: left;
 }
 
 .gr-because {
@@ -325,47 +342,187 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
   color: var(--color-current-darker);
 }
 
-.gr-slot {
-  min-height: 36px;
+/* Listes déroulantes : la ressource, la première forme de la chaîne */
+.gr-select {
+  width: 100%;
+  min-height: 34px;
   padding: 0 8px;
   border-radius: 10px;
   border: 2px dashed #a9b3bd;
   background: #fbfaf7;
   color: var(--color-muted);
   font-family: inherit;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 700;
-  transition: background var(--transition), border-color var(--transition);
+  cursor: pointer;
 }
 
-.gr-slot.is-filled {
+.gr-select.is-filled {
   border-style: solid;
   border-color: var(--color-current);
   background: rgba(var(--color-current-rgb), 0.08);
   color: var(--color-current-darkest);
 }
 
-.gr-slot.is-drop-ready {
-  border-style: solid;
-  border-color: var(--color-current);
-  background: rgba(var(--color-current-rgb), 0.12);
-  animation: gr-pulse 1.1s ease-in-out infinite;
-}
-
-.gr-slot.is-drop-target {
-  background: rgba(var(--color-current-rgb), 0.28);
-}
-
-.gr-slot:focus-visible {
+.gr-select:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.3);
 }
 
-@keyframes gr-pulse {
-  50% { border-color: rgba(var(--color-current-rgb), 0.35); }
+.gr-select.lab-is-missing {
+  border-color: #d64545;
 }
 
-/* « niet-hernieuwbaar » : le second choix passe à la ligne s'il ne tient pas. */
+/* La liste ouverte aux couleurs du site (Chrome récent : appearance:
+   base-select) : coins arrondis, police du site, choix surligné. Ailleurs,
+   la liste du système. */
+@supports (appearance: base-select) {
+  .gr-select,
+  .gr-select::picker(select) {
+    appearance: base-select;
+  }
+
+  .gr-select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 0 10px;
+  }
+
+  .gr-select::picker-icon {
+    color: var(--color-current);
+    transition: rotate 0.2s ease;
+  }
+
+  .gr-select:open::picker-icon {
+    rotate: 180deg;
+  }
+
+  .gr-select::picker(select) {
+    margin-top: 4px;
+    padding: 5px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(var(--color-current-rgb), 0.35);
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(17, 36, 72, 0.2);
+  }
+
+  .gr-select option {
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .gr-select option:hover,
+  .gr-select option:focus-visible {
+    outline: none;
+    background: rgba(var(--color-current-rgb), 0.1);
+  }
+
+  .gr-select option:checked {
+    background: rgba(var(--color-current-rgb), 0.18);
+    color: var(--color-current-darkest);
+  }
+
+  .gr-select option::checkmark {
+    display: none;
+  }
+
+  /* « — choose — » ne sert qu'à la case vide : pas dans la liste. */
+  .gr-select option[value=''] {
+    display: none;
+  }
+}
+
+/* La chaîne d'énergie, en colonne comme un diagramme de flux : objets dans
+   des ovales, formes d'énergie dans des cases, reliés par des flèches. Sept
+   lignes sur toutes les cartes (turbine et générateur alignés) ; la chaîne
+   se cale en bas de la carte. */
+.gr-chain-label {
+  margin-top: auto !important;
+}
+
+.gr-chain {
+  position: relative;
+  display: grid;
+  grid-template-rows: repeat(7, 24px);
+  row-gap: 12px;
+  justify-items: center;
+}
+
+.gr-chain::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: #b7c0cc;
+}
+
+.gr-ch {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  height: 24px;
+  font-size: 0.72rem;
+  line-height: 1.1;
+  text-align: center;
+}
+
+/* Pointe de flèche au-dessus de chaque objet et de chaque forme */
+.gr-ch-obj::before,
+.gr-ch-form::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-top: 6px solid #8a95a1;
+  border-bottom: 0;
+}
+
+.gr-ch-start {
+  width: 100%;
+}
+
+.gr-ch-start .gr-select {
+  min-height: 24px;
+  height: 26px;
+  font-size: 0.76rem;
+}
+
+.gr-ch-obj {
+  min-width: 62%;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1.5px solid #5d728f;
+  background: #ffffff;
+  color: #34465e;
+  font-weight: 600;
+}
+
+.gr-ch-form {
+  min-width: 80%;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.55);
+  background: #f7f5fc;
+  color: var(--color-current-darkest);
+  font-weight: 700;
+}
+
+.gr-ch-gap {
+  height: 24px;
+}
+
 .gr-ren {
   display: flex;
   flex-wrap: wrap;
@@ -390,67 +547,14 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
 }
 
 .gr-noturbine {
+  position: relative;
+  z-index: 1;
   display: inline-block;
-  margin-top: 2px;
   padding: 1px 8px;
   border-radius: 999px;
   background: rgba(240, 138, 36, 0.15);
   color: #a35a10;
   font-size: 0.72rem;
-}
-
-.gr-banks {
-  display: grid;
-  gap: 6px;
-}
-
-.gr-bank {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.gr-bank-title {
-  flex: 0 0 150px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-current-darker);
-  text-align: left;
-}
-
-.gr-bank-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.gr-word {
-  height: 36px;
-  padding: 0 14px;
-  font-size: 0.82rem;
-  touch-action: none;
-}
-
-.gr-ghost {
-  display: grid;
-  place-items: center;
-  height: 36px;
-  padding: 0 14px;
-  border-radius: 10px;
-  border: 2px solid var(--color-current);
-  background: #ffffff;
-  color: var(--color-current-darkest);
-  font-size: 0.84rem;
-  font-weight: 700;
-  white-space: nowrap;
-  transform: translate(-50%, -50%) rotate(-3deg);
-  filter: drop-shadow(0 8px 14px rgba(17, 36, 72, 0.25));
-}
-
-.lab-drag-ghost.is-carried .gr-ghost {
-  transform: translate(-50%, -50%);
 }
 
 /* --- b) La salle de contrôle --- */
@@ -468,37 +572,91 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
   inset: 0;
 }
 
-.gr-show {
+/* Les journées jouées, en haut du ciel : test 1, le but du test 2, ses
+   essais (heures de panne, ou ✓) et le prochain essai. */
+.gr-runs {
   position: absolute;
   top: 8px;
-  right: 10px;
+  left: 12px;
+  right: 130px;
   display: flex;
-  gap: 4px;
-  padding: 3px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 2px 8px rgba(17, 36, 72, 0.18);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
 }
 
-.gr-show-btn {
+.gr-runs > * {
+  pointer-events: auto;
+}
+
+.gr-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   height: 28px;
-  padding: 0 12px;
+  padding: 0 6px 0 12px;
   border-radius: 999px;
-  border: none;
-  background: transparent;
+  border: 1.5px solid transparent;
+  background: rgba(255, 255, 255, 0.92);
   color: var(--color-current-darker);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 700;
+  box-shadow: 0 2px 6px rgba(17, 36, 72, 0.18);
 }
 
-.gr-show-btn.is-on {
+.gr-pill.is-on {
   background: var(--color-current);
   color: var(--color-current-text);
 }
 
-.gr-show-btn:focus-visible {
+.gr-pill.is-next {
+  padding-right: 12px;
+  border: 1.5px dashed var(--color-current);
+}
+
+.gr-pill.is-next.is-on {
+  border-style: solid;
+}
+
+.gr-pill:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.3);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.35);
+}
+
+.gr-badge {
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.gr-badge.is-ko {
+  background: #b3261e;
+  color: #ffffff;
+}
+
+/* Panne, heures pas encore comptées : un point rouge. */
+.gr-badge.is-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.gr-badge.is-ok {
+  background: var(--color-emerald);
+  color: #ffffff;
+}
+
+.gr-goal {
+  margin-left: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(31, 42, 55, 0.78);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 /* Le paysage (SVG) */
@@ -526,6 +684,25 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
 }
 
 /* Lisible sur le sol de jour comme de nuit : blanc, contour sombre. */
+.gr-coo-flow {
+  fill: none;
+  stroke: #9fd0ff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 4 6;
+  transition: opacity 0.2s ease;
+}
+
+.gr-coo-flow.is-down { animation: gr-flow-down 0.6s linear infinite; }
+.gr-coo-flow.is-up { animation: gr-flow-up 0.6s linear infinite; }
+
+@keyframes gr-flow-down { to { stroke-dashoffset: -10; } }
+@keyframes gr-flow-up { to { stroke-dashoffset: 10; } }
+
+.gr-coo-say {
+  font-size: 11px;
+}
+
 .gr-scene-label {
   font-size: 12px;
   font-weight: 700;
@@ -585,6 +762,28 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
   outline: none;
 }
 
+html[data-pointer='fine'] .gr-hit:hover {
+  fill: rgba(var(--color-current-rgb), 0.08);
+}
+
+.gr-taphint rect {
+  fill: var(--color-current);
+}
+
+.gr-taphint text {
+  font-size: 11.5px;
+  font-weight: 700;
+  fill: #ffffff;
+}
+
+.gr-taphint {
+  animation: gr-hint 1.6s ease-in-out infinite;
+}
+
+@keyframes gr-hint {
+  50% { opacity: 0.6; }
+}
+
 .gr-hit:focus-visible {
   stroke: var(--color-current);
   stroke-width: 2;
@@ -597,9 +796,35 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
   pointer-events: none;
 }
 
+/* « Faster » (SVG) : en bas à droite du paysage. */
 .gr-speed {
-  bottom: auto;
-  top: 8px;
+  cursor: pointer;
+  outline: none;
+}
+
+.gr-speed rect {
+  fill: #ffffff;
+  stroke: var(--color-current-dark);
+  stroke-width: 1.5;
+}
+
+.gr-speed text {
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--color-current-darker);
+}
+
+.gr-speed.is-active rect {
+  fill: var(--color-current);
+  stroke: var(--color-current);
+}
+
+.gr-speed.is-active text {
+  fill: #ffffff;
+}
+
+.gr-speed:focus-visible rect {
+  stroke-width: 3;
 }
 
 /* Interrupteurs et bouton de la journée */
@@ -672,6 +897,17 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
   color: #ffffff;
 }
 
+.gr-switch.is-new {
+  box-shadow: 0 0 0 3px rgba(12, 163, 127, 0.35);
+}
+
+/* Libre (on peut l'allumer) : blanc, bord en pointillés, pour inviter au geste. */
+.gr-switch:not(.is-on):not(.lab-is-locked) {
+  border-style: dashed;
+  border-color: var(--color-current);
+  background: #ffffff;
+}
+
 .gr-switch:not(.is-on) .gr-switch-icon {
   opacity: 0.5;
   filter: grayscale(1);
@@ -692,13 +928,39 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
   align-self: center;
 }
 
+/* --- Le bulletin du jour --- */
+.gr-today {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+  padding: 5px 12px;
+  border-radius: 12px;
+  background: rgba(var(--color-current-rgb), 0.09);
+  text-align: left;
+}
+
+.gr-today-title {
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-current-darker);
+}
+
+.gr-today-text {
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
 /* --- Le carnet --- */
 .gr-side {
   min-width: 0;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .gr-side .lab-panel-title {
@@ -706,7 +968,7 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
 }
 
 .gr-nb-block {
-  padding: 8px 10px;
+  padding: 6px 10px;
   border-radius: 14px;
   border: 1.5px solid rgba(var(--color-current-rgb), 0.2);
   background: #ffffff;
@@ -722,6 +984,68 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
   font-size: 0.8rem;
   font-weight: 800;
   color: var(--color-current-darker);
+}
+
+/* Les heures de panne : une case par journée jouée */
+.gr-hours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.gr-hours-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 5px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+}
+
+.gr-hours-day {
+  font-size: 0.66rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--color-current-darker);
+}
+
+.gr-hours-in {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.gr-hours-input {
+  width: 40px;
+  height: 28px;
+  padding: 0 2px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.gr-hours-input:focus {
+  outline: none;
+  border-color: var(--color-current);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+}
+
+.gr-hours-input.is-invalid {
+  border-color: #d64545;
+  background: #fff1f0;
+}
+
+.gr-hours-cell.lab-is-missing {
+  border-color: #d64545;
 }
 
 .gr-nb-q {
@@ -763,7 +1087,7 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
 
 .gr-nb-table th,
 .gr-nb-table td {
-  padding: 3px 3px;
+  padding: 2px 3px;
   border-top: 1px solid #edf0f3;
   font-size: 0.74rem;
   text-align: left;
@@ -787,7 +1111,7 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
 }
 
 .gr-nb-table .gr-nb-chip {
-  height: 28px;
+  height: 26px;
   padding: 0 8px;
 }
 
@@ -828,10 +1152,45 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
   gap: 4px;
 }
 
+.gr-zoom {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: none;
+  cursor: zoom-in;
+}
+
+.gr-zoom:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.35);
+}
+
+html[data-pointer='fine'] .gr-zoom:hover .gr-mini {
+  border-color: var(--color-current);
+}
+
+/* Le graphique en grand : le panneau superposé s'élargit. */
+.lab-sheet-card:has(.gr-zoom-view) {
+  width: min(1180px, 100%);
+}
+
+/* Sous la croix du panneau : la légende reste dégagée. */
+.gr-zoom-view {
+  padding-top: 30px;
+}
+
+.gr-big {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .gr-mini {
   display: block;
   width: 100%;
-  height: 152px;
+  height: 148px;
   border-radius: 10px;
   border: 1px solid rgba(17, 36, 72, 0.08);
   background: #ffffff;
@@ -1046,7 +1405,11 @@ html[data-pointer='fine'] .gr-crit:not(.is-selected):hover,
 .gr-facts th,
 .gr-facts td {
   font-size: 0.78rem;
-  text-align: left;
+  text-align: center !important;
+}
+
+.gr-facts .gr-nb-plant {
+  justify-content: center;
 }
 
 .gr-facts thead th {
@@ -1096,7 +1459,8 @@ html[data-pointer='fine'] .gr-crit:not(.is-selected):hover,
 @media (prefers-reduced-motion: reduce) {
   .gr-steam,
   .gr-smoke,
-  .gr-slot.is-drop-ready { animation: none; }
+  .gr-coo-flow,
+  .gr-taphint { animation: none; }
 }
 
 /* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */

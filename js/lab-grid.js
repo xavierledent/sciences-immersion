@@ -84,41 +84,56 @@
   // Couleurs du graphique d'Elia (cours), Coo en vert (« Other »).
   const COLORS = { nuclear: '#f0c04a', wind: '#7eb6db', solar: '#f08a24', gas: '#9aa3ab', coo: '#5aa86a' };
   const CARD_SLOTS = SOURCES.length * 3 + 1;                        // ressource, renouvelable, forme ; Coo : forme
-  const NOTES_TOTAL = 2 + PLANTS.length * 2;
 
   const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
   const pickOne = arr => arr[Math.floor(Math.random() * arr.length)];
 
-  // Une journée tirée au sort : météo, demande, puissance des centrales.
-  function weatherDay() {
-    const season = pickOne(['autumn', 'winter']);
+  /* Une journée tirée au sort : d'abord son type (saison, ciel, vent), puis
+     ses chiffres. Ciel : grand soleil, gris toute la journée, nuages le
+     matin ou l'après-midi ; vent : tempête, vent fort le matin ou
+     l'après-midi, vent faible. Le soir et la nuit sont toujours sans vent.
+     Types écartés (presque jamais de journée sans panne possible) : le gris
+     sans tempête (rien pour remplir Coo à midi), l'hiver nuageux l'après-midi
+     avec vent faible. */
+  const SKIES = ['sunny', 'grey', 'morning', 'afternoon'];
+  const WINDS = ['storm', 'morning', 'afternoon', 'light'];
+  const DAY_TYPES = [];
+  ['autumn', 'winter'].forEach(season => SKIES.forEach(sky => WINDS.forEach(wind => {
+    if (sky === 'grey' && wind !== 'storm') return;
+    if (season === 'winter' && sky === 'afternoon' && wind === 'light') return;
+    DAY_TYPES.push({ season, sky, wind });
+  })));
+
+  function weatherDay(type) {
+    const { season, sky, wind: windType } = type;
     const winter = season === 'winter';
-    const clouds = pickOne(['none', 'morning', 'afternoon']);
     const [rise, set] = winter ? [8.4, 17.2] : [7.4, 19.0];
     const peak = winter ? rnd(28, 34) : rnd(34, 42);
     const cloudy = [], sun = [];
     for (let i = 0; i < HOURS; i++) {
       const t = FIRST_HOUR + i + 0.5;
-      cloudy.push((clouds === 'morning' && t < 12) || (clouds === 'afternoon' && t >= 12 && t < 18));
+      cloudy.push(sky === 'grey' || (sky === 'morning' && t < 12) || (sky === 'afternoon' && t >= 12 && t < 18));
       let v = t > rise && t < set ? peak * Math.sin(Math.PI * (t - rise) / (set - rise)) : 0;
       if (cloudy[i]) v *= 0.3;
       sun.push(Math.round(v));
     }
     const calmFrom = rnd(12, 13);               // 18 h ou 19 h : plus de vent jusqu'au matin
     const morningCalm = Math.random() < 0.5;
-    const base = winter ? rnd(14, 20) : rnd(10, 16);
-    const gustStart = rnd(1, 7);
-    const gust = winter ? rnd(28, 38) : rnd(24, 34);
+    const base = windType === 'light' ? (winter ? rnd(16, 22) : rnd(14, 20)) : (winter ? rnd(14, 20) : rnd(10, 16));
+    let gustStart = 0, gustLen = 0, gust = 0;
+    if (windType === 'storm') { gustStart = rnd(1, 2); gustLen = rnd(8, 10); gust = rnd(34, 44); }
+    else if (windType === 'morning') { gustStart = rnd(0, 2); gustLen = 5; gust = winter ? rnd(28, 38) : rnd(24, 34); }
+    else if (windType === 'afternoon') { gustStart = rnd(6, 8); gustLen = 5; gust = winter ? rnd(28, 38) : rnd(24, 34); }
     const wind = [];
     for (let i = 0; i < HOURS; i++) {
       if (i >= calmFrom || (morningCalm && i < 2)) { wind.push(0); continue; }
       let v = base + rnd(-2, 2);
-      if (i >= gustStart && i < gustStart + 5) v = gust + rnd(-3, 3) - (i === gustStart || i === gustStart + 4 ? 8 : 0);
+      if (gustLen && i >= gustStart && i < gustStart + gustLen) v = gust + rnd(-3, 3) - (i === gustStart || i === gustStart + gustLen - 1 ? 8 : 0);
       wind.push(Math.max(1, v));
     }
     const f = 0.95 + Math.random() * 0.1;
     return {
-      season, clouds, rise, set, peak, cloudy, sun, wind,
+      season, sky, windType, rise, set, peak, cloudy, sun, wind,
       need: DEMAND.map(d => Math.round(d * f)),
       nuclear: rnd(32, 36), gasMax: rnd(48, 54), cooSize: rnd(40, 56)
     };
@@ -161,7 +176,9 @@
 
   // Le tirage garantit les conclusions du labo.
   function fits(r) {
-    if (!blackoutHours(simulate(TEST1_ON, r))) return false;
+    const t1 = simulate(TEST1_ON, r);
+    // Test 1 : une panne le jour (soleil) comme la nuit (réponse de l'hypothèse 1).
+    if (!t1.some((h, i) => h.missing > 0 && r.sun[i] > 0) || !t1.some((h, i) => h.missing > 0 && r.sun[i] === 0)) return false;
     const all = simulate(ALL_ON, r);
     if (blackoutHours(all)) return false;
     if (PLANTS.some(p => !blackoutHours(simulate(without(p), r)))) return false;
@@ -169,36 +186,56 @@
     return all.some(h => h.gas !== all[0].gas);
   }
 
+  // Un type de journée, puis des chiffres jusqu'à un tirage qui convient
+  // (chaque type gardé réussit au moins une fois sur dix).
   function draw() {
-    for (let tries = 0; ; tries++) {
-      const r = weatherDay();
-      if (fits(r) || tries > 500) return r;
+    for (;;) {
+      const type = pickOne(DAY_TYPES);
+      for (let k = 0; k < 300; k++) {
+        const r = weatherDay(type);
+        if (fits(r)) return r;
+      }
     }
   }
+
+  /* Les questions : la 1 est la même pour tous ; la 2 est tirée au sort
+     parmi trois, toutes répondues par la même expérience :
+       night  — comment avoir de l'électricité la nuit sans vent ?
+                (installations : nucléaire, gaz, Coo ; « stored »)
+       follow — quelles installations donnent plus le soir, quand il en faut
+                plus ? (installations : gaz, Coo)
+       coo    — à quoi sert Coo ? (il stocke quand il y en a trop, rend quand
+                il n'y en a pas assez ; « stored »)
+     L'hypothèse et la conclusion 2 ont la forme de leur question. */
+  const Q2_KINDS = ['night', 'follow', 'coo'];
+  const Q2_PLANTS = { night: ['nuclear', 'gas', 'coo'], follow: ['gas', 'coo'] };
+  const WHEN = ['never', 'night', 'both'];          // hypothèse 1 : la panne du test 1
+  const COO_WHEN = ['much', 'little'];
 
   let run;      // tirage : la journée
   let state;    // travail de l'élève
 
   function reset() {
     run = draw();
+    run.q2 = pickOne(Q2_KINDS);
     const cards = {};
     SOURCES.forEach(p => { cards[p] = { res: null, ren: null, form: null }; });
     cards.coo = { form: null };
     const plants = {};
     PLANTS.forEach(p => { plants[p] = { dark: null, same: null }; });
     state = {
-      hyp: { h1: null, h2: [] },     // h1 : can / cannot ; h2 : installations
+      hyp: { h1: null, h2: [], coo: { a: null, b: null } },   // h1 : WHEN ; h2 : installations ; coo : COO_WHEN × 2
       because: '',
       view: 'cards',                 // 'cards' ou 'room'
       cards,
       ran1: false,                   // test 1 joué
-      on2: Object.assign({}, TEST1_ON),   // interrupteurs du test 2
-      last2: null,                   // dernière journée du test 2 (installations allumées)
-      tries: 0,                      // journées jouées au test 2
-      success: false,                // test 2 : une journée sans panne
-      shown: 1,                      // test dont le graphique est affiché
-      notes: { blackout: null, nothing: [], plants },
-      concl: { q1: null, why: null, q2: [], stored: null, v1: null, v2: null },
+      tries: [],                     // test 2 : une installation de plus à chaque essai (installations allumées)
+      next: null,                    // test 2 : l'installation ajoutée au prochain essai
+      shown: 'test1',                // journée affichée : 'test1', un essai (0, 1…) ou 'next'
+      tapped: false,                 // une colonne du graphique a déjà été touchée
+      // hours : heures de panne de chaque journée (0 : test 1, puis un par essai)
+      notes: { hours: [], nothing: [], plants },
+      concl: { when: null, q1: null, why: null, q2: [], cooA: null, cooB: null, stored: null, v1: null, v2: null },
       order: { res: shuffle(RESOURCES.slice()), forms: shuffle(FORMS.slice()) },
       selected: 'plants'
     };
@@ -206,13 +243,12 @@
     running = false;
     liveRun = null;
     hour = null;
-    held = null;
   }
 
   // Ce que le carnet doit dire (les faits de la journée).
   function truth() {
     const t1 = simulate(TEST1_ON);
-    const t2 = simulate(state.last2 || ALL_ON);
+    const t2 = simulate(finalConfig());
     const darkCalm = i => run.sun[i] === 0 && run.wind[i] === 0;
     const plants = {};
     PLANTS.forEach(p => {
@@ -222,8 +258,11 @@
         same: v.every(x => x === v[0]) ? 'yes' : 'no'
       };
     });
+    const dayBO = t1.some((h, i) => h.missing > 0 && run.sun[i] > 0);
+    const nightBO = t1.some((h, i) => h.missing > 0 && run.sun[i] === 0);
     return {
-      blackout: blackoutHours(t1) ? 'yes' : 'no',
+      when: dayBO ? 'both' : nightBO ? 'night' : 'never',
+      hours: [blackoutHours(t1)].concat(state.tries.map(on => blackoutHours(simulate(on)))),
       nothing: PERIODS.filter(p => run.need.some((_, i) => periodOf(i) === p && run.wind[i] + run.sun[i] === 0)),
       plants
     };
@@ -231,11 +270,23 @@
 
   const cardsFilled = () => SOURCES.reduce((n, p) => n + ['res', 'ren', 'form'].filter(k => state.cards[p][k]).length, 0) + (state.cards.coo.form ? 1 : 0);
   const cardsDone = () => cardsFilled() === CARD_SLOTS;
-  const notesFilled = () => (state.notes.blackout ? 1 : 0) + (state.notes.nothing.length ? 1 : 0) +
+  // Le carnet : une case d'heures par journée jouée, le moment sans vent ni soleil, deux oui/non par installation.
+  const daysPlayed = () => (state.ran1 ? 1 + state.tries.length : 0);
+  const hoursFilled = () => state.notes.hours.slice(0, daysPlayed()).filter(v => v != null).length;
+  const notesTotal = () => Math.max(1, daysPlayed()) + 1 + PLANTS.length * 2;
+  const notesFilled = () => hoursFilled() + (state.notes.nothing.length ? 1 : 0) +
     PLANTS.reduce((n, p) => n + ['dark', 'same'].filter(k => state.notes.plants[p][k]).length, 0);
-  const notes1Done = () => !!(state.notes.blackout && state.notes.nothing.length);
-  const notesDone = () => notesFilled() === NOTES_TOTAL;
+  const notes1Done = () => state.notes.hours[0] != null && state.notes.nothing.length > 0;
+  const notesDone = () => notesFilled() === notesTotal();
+  // Les heures de la dernière journée jouée sont-elles notées ?
+  const lastHoursWritten = () => daysPlayed() === 0 || state.notes.hours[daysPlayed() - 1] != null;
   const started = () => state.ran1;
+  // Test 2 : les installations du dernier essai (au départ, celles du test 1).
+  const lastConfig = () => (state.tries.length ? state.tries[state.tries.length - 1] : TEST1_ON);
+  const success = () => state.tries.length > 0 && blackoutHours(simulate(lastConfig())) === 0;
+  const finalConfig = () => (success() ? lastConfig() : ALL_ON);
+  const nextConfig = () => Object.assign({}, lastConfig(), state.next ? { [state.next]: true } : {});
+  const added = k => PLANTS.find(p => state.tries[k][p] && !(k ? state.tries[k - 1] : TEST1_ON)[p]);
   const plantName = p => LABELS.plants[p].name;
   const plantThe = p => LABELS.plants[p].the;
   const sameSet = (a, b) => a.length === b.length && a.every(x => b.includes(x));
@@ -276,7 +327,7 @@
       `</defs>` +
       `<rect x="-400" y="0" width="1600" height="${GROUND}" fill="url(#gr-sky)"/>` +
       `<g id="gr-stars" fill="#ffffff">${STARS.map(([x, y], k) => `<circle cx="${x}" cy="${y}" r="${k % 3 ? 1 : 1.5}"/>`).join('')}</g>` +
-      `<g id="gr-moon" transform="translate(548 30)"><circle r="12" fill="#f4f1de"/><circle cx="6" cy="-4" r="11" fill="#1a2c4f" id="gr-moon-cut"/></g>` +
+      `<g id="gr-moon" transform="translate(610 58)"><circle r="12" fill="#f4f1de"/><circle cx="6" cy="-4" r="11" fill="#1a2c4f" id="gr-moon-cut"/></g>` +
       `<g id="gr-sun"><circle r="30" fill="url(#gr-sunglow)"/><circle r="13" fill="#ffd34d"/></g>` +
       `<g id="gr-clouds" fill="#ffffff">` +
         [[150, 40, 1], [380, 28, 1.2], [610, 46, 0.9]].map(([x, y, s]) => `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="6" rx="30" ry="10"/><ellipse cx="-12" cy="0" rx="14" ry="11"/><ellipse cx="10" cy="-4" rx="16" ry="13"/></g>`).join('') +
@@ -296,7 +347,7 @@
     out += `<g id="gr-p-solar" class="gr-plant">` + [[168, 132], [204, 132], [240, 132], [182, 142], [218, 142], [254, 142]].map(([x, y]) =>
       `<path d="M${x},${y + 10} L${x + 7},${y} L${x + 33},${y} L${x + 26},${y + 10} Z" fill="#2f5f9e" stroke="#1d3d6b" stroke-width="0.8"/>` +
       `<path d="M${x + 3.5},${y + 5} L${x + 29.5},${y + 5} M${x + 15},${y} L${x + 11},${y + 10} M${x + 23},${y} L${x + 19},${y + 10}" stroke="#7fa6d8" stroke-width="0.6"/>`).join('') +
-      `<g id="gr-glint" opacity="0">${[[180, 136], [252, 146]].map(([x, y]) => `<path d="M${x},${y} l3,-3 l3,3 l-3,3 Z" fill="#ffffff"/>`).join('')}</g></g>`;
+      `<g id="gr-glint" opacity="0">${[[168, 132], [204, 132], [240, 132], [182, 142], [218, 142], [254, 142]].map(([x, y]) => `<path d="M${x + 17},${y + 5} l3,-3 l3,3 l-3,3 Z" fill="#ffffff"/>`).join('')}</g></g>`;
 
     // Centrale nucléaire : tour de refroidissement, réacteur, vapeur
     out += `<g id="gr-p-nuclear" class="gr-plant">` +
@@ -312,15 +363,16 @@
       `<rect x="462" y="80" width="10" height="70" fill="#6f7a87"/><rect x="460" y="78" width="14" height="5" fill="#5d6773"/></g>`;
 
     // Coo : colline, lac du haut (niveau = énergie stockée), conduite, lac du bas
-    out += `<g id="gr-p-coo" class="gr-plant">` +
+    out += `<g id="gr-p-coo" class="gr-plant" transform="translate(-14 0)">` +
       `<path d="M496,${GROUND} L540,96 L580,96 L622,${GROUND} Z" fill="#93bd70"/>` +
       `<rect x="540" y="86" width="40" height="12" rx="3" fill="#5f7a4a"/>` +
       `<clipPath id="gr-lake-clip"><rect x="542" y="88" width="36" height="9" rx="2"/></clipPath>` +
       `<rect id="gr-lake" x="542" y="97" width="36" height="0" fill="#4a90d9" clip-path="url(#gr-lake-clip)"/>` +
       `<path d="M570,98 L606,146" stroke="#4f5a66" stroke-width="3"/>` +
-      `<ellipse cx="610" cy="151" rx="26" ry="5" fill="#4a90d9"/>` +
-      `<path id="gr-coo-up" class="gr-coo-arrow" d="M592,128 l-7,-2 l4,-9 Z" fill="#2f6fbf" opacity="0"/>` +
-      `<path id="gr-coo-down" class="gr-coo-arrow" d="M592,118 l7,2 l-4,9 Z" fill="#2f8a4c" opacity="0"/></g>`;
+      `<ellipse cx="606" cy="151" rx="20" ry="5" fill="#4a90d9"/>` +
+      // L'eau dans la conduite : monte quand Coo stocke, descend quand il rend.
+      `<path id="gr-coo-flow" class="gr-coo-flow" d="M570,98 L606,146" opacity="0"/>` +
+      `<text id="gr-coo-say" x="560" y="80" text-anchor="middle" class="gr-scene-label gr-coo-say" opacity="0"></text></g>`;
 
     // La ville
     out += `<g id="gr-city">` + BUILDINGS.map(([x, top, w]) => `<rect x="${x}" y="${top}" width="${w}" height="${GROUND - top}" fill="#5b6778"/>`).join('') +
@@ -333,21 +385,26 @@
       `<text x="710" y="75" text-anchor="middle" class="gr-blackout-text" data-no-gloss>${LABELS.blackoutSign}</text></g></g>`;
 
     // Étiquettes, horloge
-    out += [['wind', 88], ['solar', 214], ['nuclear', 334], ['gas', 438], ['coo', 560]].map(([p, x]) =>
+    out += [['wind', 88], ['solar', 214], ['nuclear', 334], ['gas', 438], ['coo', 546]].map(([p, x]) =>
       `<text x="${x}" y="${GROUND + 26}" text-anchor="middle" class="gr-scene-label">${LABELS.plants[p].short}</text>`).join('') +
-      `<text x="712" y="${GROUND + 26}" text-anchor="middle" class="gr-scene-label">${LABELS.city}</text>` +
-      `<g class="gr-clock"><rect x="10" y="8" width="78" height="28" rx="8" fill="#1f2a37" fill-opacity="0.85"/>` +
-      `<text id="gr-clock" x="49" y="28" text-anchor="middle">06:00</text></g>`;
+      `<text x="662" y="${GROUND + 26}" text-anchor="middle" class="gr-scene-label">${LABELS.city}</text>` +
+      // « Faster », en bas à droite du paysage, pendant que la journée défile.
+      `<g class="gr-speed" data-speed role="button" tabindex="0" aria-label="${escapeHtml(LABELS.faster)}" ${running ? '' : 'display="none"'}>` +
+      `<rect x="700" y="${GROUND + 8}" width="92" height="26" rx="13"/><text x="746" y="${GROUND + 25}" text-anchor="middle">⏩ ${LABELS.faster}</text></g>` +
+      `<g class="gr-clock"><rect x="712" y="8" width="78" height="28" rx="8" fill="#1f2a37" fill-opacity="0.85"/>` +
+      `<text id="gr-clock" x="751" y="28" text-anchor="middle">06:00</text></g>`;
     return out;
   }
 
-  /* --- Le graphique : sous le paysage, de y = 192 à 450 ---
+  /* --- Le graphique : sous le paysage, de y = 192 à 462 ---
      Une colonne par heure, découpée par installation (couleurs d'Elia) ; la
      demande en ligne ; ce qui manque en rouge hachuré ; ce que Coo stocke,
-     sous l'axe. Au-dessus des colonnes, la météo de chaque heure. uid : les
+     sous l'axe ; en dessous, la météo de chaque heure, puis les heures. uid : les
      id du graphique (plusieurs graphiques sur la page : le rapport). */
   const GX = 64, COL = 30, BAR = 22;
-  const Y0 = 392, KY = 1.38, YMAX = 110;
+  const Y0 = 378, KY = 1.418, YMAX = 110;
+  const VIEW_H = 462;          // hauteur du SVG de la salle de contrôle (paysage + graphique)
+  const WEATHER_Y = 413;       // la météo de chaque heure, sous l'axe et ce que stocke Coo
   const yOf = v => Y0 - v * KY;
   const xOf = i => GX + i * COL;
 
@@ -373,11 +430,11 @@
     let out = `<defs>` +
       `<pattern id="gr-miss-${uid}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fde2df"/><rect width="2.4" height="6" fill="#d64545"/></pattern>` +
       `<pattern id="gr-store-${uid}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="6" height="6" fill="#e2f1e4"/><rect width="2.4" height="6" fill="#5aa86a"/></pattern>` +
-      `<clipPath id="gr-reveal-${uid}"><rect id="gr-reveal-rect-${uid}" x="${GX}" y="200" width="${o.reveal == null ? HOURS * COL : o.reveal * COL}" height="240"/></clipPath>` +
+      `<clipPath id="gr-reveal-${uid}"><rect id="gr-reveal-rect-${uid}" x="${GX}" y="200" width="${o.reveal == null ? HOURS * COL : o.reveal * COL}" height="210"/></clipPath>` +
       `</defs>`;
 
     // Fond blanc, puis titre et légende
-    out += `<rect x="-400" y="192" width="1600" height="258" fill="#ffffff"/>`;
+    out += `<rect x="-400" y="192" width="1600" height="${VIEW_H - 192}" fill="#ffffff"/>`;
     out += `<text x="${GX - 52}" y="208" class="gr-g-title">${escapeHtml(o.title)}</text>`;
     const legend = [['nuclear'], ['wind'], ['solar'], ['gas'], ['coo'], ['need', 'line'], ['missing', 'miss'], ['stored', 'store']];
     // Largeur estimée de chaque entrée (5,6 px par lettre) : la légende finit au bord droit.
@@ -407,12 +464,12 @@
       `<text transform="translate(16 ${(Y0 + yOf(YMAX)) / 2}) rotate(-90)" text-anchor="middle" class="gr-g-axis">${LABELS.axisY}</text>`;
     for (let i = 0; i <= HOURS; i += 3) {
       out += `<path d="M${xOf(i)},${Y0} v5" stroke="#5d6773"/>` +
-        `<text x="${xOf(i)}" y="${Y0 + 40}" text-anchor="middle" class="gr-g-tick">${LABELS.hour(clockOf(i % HOURS))}</text>`;
+        `<text x="${xOf(i)}" y="${Y0 + 64}" text-anchor="middle" class="gr-g-tick">${LABELS.hour(clockOf(i % HOURS))}</text>`;
     }
-    out += `<text x="${GX + HOURS * COL}" y="${Y0 + 54}" text-anchor="end" class="gr-g-axis">${LABELS.axisX}</text>`;
+    out += `<text x="${GX + HOURS * COL}" y="${Y0 + 78}" text-anchor="end" class="gr-g-axis">${LABELS.axisX}</text>`;
 
     // Météo de chaque heure
-    for (let i = 0; i < HOURS; i++) out += weatherIcon(i, xOf(i) + COL / 2, 222);
+    for (let i = 0; i < HOURS; i++) out += weatherIcon(i, xOf(i) + COL / 2, WEATHER_Y);
 
     // Colonnes (dévoilées pendant la journée)
     let cols = '';
@@ -440,9 +497,12 @@
 
     // Heures à toucher (détail), heure choisie
     if (o.mode === 'live') {
-      out += `<rect id="gr-sel" class="gr-sel" x="0" y="${yOf(YMAX) - 2}" width="${COL}" height="${Y0 - yOf(YMAX) + 26}" rx="4" opacity="0"/>`;
+      out += `<rect id="gr-sel" class="gr-sel" x="0" y="${yOf(YMAX) - 2}" width="${COL}" height="${Y0 + 52 - yOf(YMAX)}" rx="4" opacity="0"/>`;
+      // Tant qu'aucune colonne n'a été touchée : la consigne, dans un coin du graphique.
+      if (o.hint) out += `<g id="gr-taphint" class="gr-taphint" pointer-events="none"><rect x="${GX + HOURS * COL - 236}" y="${yOf(YMAX) + 18}" width="230" height="22" rx="11"/>` +
+        `<text x="${GX + HOURS * COL - 121}" y="${yOf(YMAX) + 33}" text-anchor="middle">${LABELS.tapHint}</text></g>`;
       for (let i = 0; i < HOURS; i++) {
-        out += `<rect class="gr-hit" data-hour="${i}" data-lab-look x="${xOf(i)}" y="214" width="${COL}" height="${Y0 - 214 + 26}" fill="transparent" tabindex="0" role="button" aria-label="${escapeHtml(LABELS.hourButton(clockOf(i)))}"/>`;
+        out += `<rect class="gr-hit" data-hour="${i}" data-lab-look x="${xOf(i)}" y="${yOf(YMAX)}" width="${COL}" height="${Y0 + 52 - yOf(YMAX)}" fill="transparent" tabindex="0" role="button" aria-label="${escapeHtml(LABELS.hourButton(clockOf(i)))}"/>`;
       }
     }
     return out;
@@ -474,7 +534,7 @@
     set('#gr-stars', 'opacity', (1 - day).toFixed(2));
     set('#gr-moon', 'opacity', (1 - day).toFixed(2));
     const k = (tt - run.rise) / (run.set - run.rise);
-    set('#gr-sun', 'transform', `translate(${(30 + 740 * k).toFixed(1)} ${(132 - 104 * Math.sin(Math.PI * clamp01(k))).toFixed(1)})`);
+    set('#gr-sun', 'transform', `translate(${(30 + 740 * k).toFixed(1)} ${(132 - 86 * Math.sin(Math.PI * clamp01(k))).toFixed(1)})`);
     set('#gr-sun', 'opacity', day.toFixed(2));
     set('#gr-clouds', 'opacity', run.cloudy[i] && day > 0 ? '0.92' : '0');
     const hh = Math.floor(tt) % 24, mm = Math.floor((tt % 1) * 60 / 15) * 15;
@@ -488,8 +548,18 @@
     const level = h ? (h.storeBefore + (h.store - h.storeBefore) * (t - i)) / run.cooSize : 0;
     set('#gr-lake', 'height', (9 * clamp01(level)).toFixed(1));
     set('#gr-lake', 'y', (97 - 9 * clamp01(level)).toFixed(1));
-    set('#gr-coo-up', 'opacity', h && h.cooIn > 0 ? '1' : '0');
-    set('#gr-coo-down', 'opacity', h && h.coo > 0 ? '1' : '0');
+    const flow = $('#gr-coo-flow');
+    const say = $('#gr-coo-say');
+    const cooDir = h && h.cooIn > 0 ? 'up' : h && h.coo > 0 ? 'down' : null;
+    if (flow) {
+      flow.setAttribute('opacity', cooDir ? '1' : '0');
+      flow.classList.toggle('is-up', cooDir === 'up');
+      flow.classList.toggle('is-down', cooDir === 'down');
+    }
+    if (say) {
+      say.textContent = cooDir === 'up' ? LABELS.cooStores : cooDir === 'down' ? LABELS.cooGives : '';
+      say.setAttribute('opacity', cooDir ? '1' : '0');
+    }
     const dark = !!(h && h.missing > 0);
     const win = $('#gr-windows');
     if (win) win.setAttribute('fill', dark ? '#3a4553' : mix('#ffd970', '#e9e3c8', day * 0.8));
@@ -511,8 +581,8 @@
      1 : les deux hypothèses ; 2 : les cartes, les deux tests (dont une
      journée sans panne) et le carnet ; 3 : toutes les réponses. */
   function stepComplete(n) {
-    if (n === 1) return !!(state.hyp.h1 && state.hyp.h2.length);
-    if (n === 2) return cardsDone() && state.ran1 && state.success && notesDone();
+    if (n === 1) return hypDone();
+    if (n === 2) return cardsDone() && state.ran1 && success() && notesDone();
     return conclusionsComplete();
   }
 
@@ -520,22 +590,39 @@
     if (n === 1) return LABELS.lockHypothesis;
     if (n === 2) {
       if (!cardsDone()) return LABELS.lockCards(CARD_SLOTS - cardsFilled());
-      if (!state.ran1 || !state.success) return LABELS.lockTests;
-      return LABELS.lockNotes(NOTES_TOTAL - notesFilled());
+      if (!state.ran1 || !success()) return LABELS.lockTests;
+      return LABELS.lockNotes(notesTotal() - notesFilled());
     }
     return lab.L.missingConclusions;
   }
 
   function questionsHTML() {
-    return `<ol class="gr-questions"><li>${gloss(LABELS.questions.q1)}</li><li>${gloss(LABELS.questions.q2)}</li></ol>`;
+    return `<ol class="gr-questions"><li>${gloss(LABELS.questions.q1)}</li><li>${gloss(LABELS.questions.q2[run.q2])}</li></ol>`;
   }
 
+  const usesPlants = () => run.q2 !== 'coo';
+  const usesStored = () => run.q2 !== 'follow';
+  const hypDone = () => !!(state.hyp.h1 && (usesPlants() ? state.hyp.h2.length : state.hyp.coo.a && state.hyp.coo.b));
+  const hyp1Text = h => LABELS.hyp1(h ? LABELS.when[h] : '—');
+  const hyp2Text = () => (usesPlants() ? `${LABELS.hyp2[run.q2]} ${listOf(state.hyp.h2, plantThe)}.`
+    : LABELS.hyp2.coo(state.hyp.coo.a ? LABELS.cooWhen[state.hyp.coo.a] : '—', state.hyp.coo.b ? LABELS.cooWhen[state.hyp.coo.b] : '—'));
+  // La bonne conclusion 2, en une phrase.
+  const right2Text = () => (usesPlants()
+    ? `${LABELS.concl2[run.q2]} ${LABELS.list(Q2_PLANTS[run.q2].map(plantThe))}.` + (usesStored() ? ` ${LABELS.concl2b(LABELS.stored.stored)}` : '')
+    : `${LABELS.concl2.coo(LABELS.cooWhen.much, LABELS.cooWhen.little)} ${LABELS.concl2b(LABELS.stored.stored)}`);
+
   const blankHTML = text => (text ? `<span class="gr-blank is-filled">${text}</span>` : `<span class="gr-blank">……………</span>`);
+
+  // Coo : « stocke quand il y a… », « rend quand il y a… » (deux lignes de choix).
+  function cooRowsHTML(a, b, chip) {
+    return [['a', a, LABELS.cooRowA], ['b', b, LABELS.cooRowB]].map(([row, v, label]) =>
+      `<div class="gr-choices gr-coo-row"><span class="gr-coo-row-label">${label}</span>${COO_WHEN.map(x => chip(row, x, v === x)).join('')}</div>`).join('');
+  }
 
   /* ===== Étape 1 : hypothèses ===== */
   function renderPredict() {
     const h = state.hyp;
-    const miss = key => (lab.state.showMissing && !(key === 'h2' ? h.h2.length : h[key]) ? 'lab-is-missing' : '');
+    const miss = key => (lab.state.showMissing && !(key === 'h2' ? (usesPlants() ? h.h2.length : h.coo.a && h.coo.b) : h[key]) ? 'lab-is-missing' : '');
     const chip = (key, val, label, on, icon) => `<button type="button" class="lab-choice gr-choice ${on ? 'is-selected' : ''}" data-hyp="${key}" data-val="${val}" aria-pressed="${on}">${icon || ''}<span>${label}</span></button>`;
 
     lab.body.innerHTML = `<div class="gr-predict">` +
@@ -546,11 +633,15 @@
       `<div class="gr-hyp-card">` +
         `<p class="gr-kicker">${LABELS.hypothesisTitle}</p>` +
         `<div class="gr-hyp ${miss('h1')}"><span class="gr-num" aria-hidden="true">1</span><div>` +
-          `<p class="gr-sentence">${gloss(LABELS.hyp1(blankHTML(h.h1 && LABELS[h.h1])))}</p>` +
-          `<div class="gr-choices">${['can', 'cannot'].map(x => chip('h1', x, LABELS[x], h.h1 === x)).join('')}</div></div></div>` +
+          `<p class="gr-sentence">${gloss(LABELS.hyp1(blankHTML(h.h1 && LABELS.when[h.h1])))}</p>` +
+          `<div class="gr-choices">${WHEN.map(x => chip('h1', x, LABELS.when[x], h.h1 === x)).join('')}</div></div></div>` +
         `<div class="gr-hyp ${miss('h2')}"><span class="gr-num" aria-hidden="true">2</span><div>` +
-          `<p class="gr-sentence">${gloss(LABELS.hyp2)} <span class="gr-hint">${LABELS.hyp2Hint}</span></p>` +
-          `<div class="gr-choices">${PLANTS.map(p => chip('h2', p, plantName(p), h.h2.includes(p), plantIcon(p))).join('')}</div></div></div>` +
+          (usesPlants()
+            ? `<p class="gr-sentence">${gloss(LABELS.hyp2[run.q2])} <span class="gr-hint">${LABELS.hyp2Hint}</span></p>` +
+              `<div class="gr-choices">${PLANTS.map(p => chip('h2', p, plantName(p), h.h2.includes(p), plantIcon(p))).join('')}</div>`
+            : `<p class="gr-sentence">${gloss(LABELS.hyp2.coo(blankHTML(h.coo.a && LABELS.cooWhen[h.coo.a]), blankHTML(h.coo.b && LABELS.cooWhen[h.coo.b])))}</p>` +
+              cooRowsHTML(h.coo.a, h.coo.b, (row, x, on) => chip(row === 'a' ? 'cooA' : 'cooB', x, LABELS.cooWhen[x], on))) +
+          `</div></div>` +
         `<label class="gr-because"><span>${LABELS.because}</span>` +
         `<input type="text" class="lab-input gr-because-input" maxlength="160" placeholder="${LABELS.becausePlaceholder}" value="${escapeHtml(state.because)}" autocomplete="off"></label>` +
       `</div></div>`;
@@ -558,6 +649,8 @@
     $$('[data-hyp]').forEach(btn => btn.addEventListener('click', () => {
       const key = btn.dataset.hyp, val = btn.dataset.val;
       if (key === 'h2') h.h2 = h.h2.includes(val) ? h.h2.filter(x => x !== val) : inOrder(h.h2.concat(val), PLANTS);
+      else if (key === 'cooA') h.coo.a = val;
+      else if (key === 'cooB') h.coo.b = val;
       else h[key] = val;
       renderPredict();
       lab.renderStepper();
@@ -571,7 +664,7 @@
       lab.setLock(because, LABELS.lockHypothesisFixed);
     }
 
-    const ready = h.h1 && h.h2.length;
+    const ready = hypDone();
     const info = lab.state.showMissing && !ready ? lab.footerInfo(LABELS.lockHypothesis, true)
       : lab.footerInfo(ready ? LABELS.hypothesisReady : LABELS.hypothesisPending);
     lab.setFooter(info + `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" data-next>${LABELS.toCards} →</button></div>`);
@@ -583,23 +676,23 @@
   /* ===== Étape 2 : les cartes d'identité, puis la salle de contrôle ===== */
   let stepperDone = null;
   let running = false;     // une journée défile
-  let liveRun = null;      // la journée qui défile : { test, on, sim }
+  let liveRun = null;      // la journée qui défile : { kind: 'test1' | 'try' | 'replay', on, sim, title }
   let hour = null;         // heure choisie sur le graphique (détail)
-  let held = null;         // mot en main : 'res|wind', 'form|light'…
   let speed = 1;
 
   function renderExperiment() {
     lab.release();
     if (lab.state.showMissing && !lab.isFrozen() && !cardsDone()) state.view = 'cards';
     const room = state.view === 'room';
+    if (room) fixShown();
     lab.body.innerHTML = `<div class="gr-run ${room ? 'is-room' : 'is-cards'}">` +
       `<section class="gr-main">` + tabsHTML() +
         (room ? roomHTML() : cardsHTML()) +
       `</section>` +
-      (room ? `<section class="gr-side">${notebookHTML()}</section>` : '') +
+      (room ? `<section class="gr-side">${todayHTML()}${notebookHTML()}</section>` : '') +
       `</div>`;
     bindTabs();
-    if (room) { bindRoom(); bindNotebook(); } else bindCards();
+    if (room) { bindRoom(); bindNotebook(); bindHours(); } else bindCards();
     setCaption(defaultCaption());
     renderRunFooter();
   }
@@ -623,14 +716,39 @@
   }
 
   /* --- a) Les cartes d'identité ---
-     Une carte par installation. Un mot de la banque se prend en main et se
-     pose dans une case de son genre (ressource ou forme d'énergie) ;
-     renouvelable ou non se choisit sur la carte. */
-  function slotHTML(p, kind, what) {
+     Une carte par installation : la ressource (liste), renouvelable ou non,
+     et la chaîne d'énergie, en colonne comme un diagramme de flux du cours
+     (objets dans des ovales, formes d'énergie dans des cases). L'élève
+     choisit la première forme, la suite est donnée. Les lignes sont les
+     mêmes sur toutes les cartes : turbine et générateur tombent à la même
+     hauteur partout, et les panneaux solaires n'en ont pas. */
+  const CHAINS = {
+    wind: ['start', null, null, 'turbine', 'mechanical', 'generator', 'electrical'],
+    solar: ['start', null, null, 'noturbine', null, 'panel', 'electrical'],
+    nuclear: ['start', 'reactor', 'thermal', 'turbine', 'mechanical', 'generator', 'electrical'],
+    gas: ['start', 'boiler', 'thermal', 'turbine', 'mechanical', 'generator', 'electrical'],
+    coo: ['start', null, null, 'turbine', 'mechanical', 'generator', 'electrical']
+  };
+  const OBJECTS = ['boiler', 'reactor', 'turbine', 'generator', 'panel'];
+
+  function selectHTML(p, kind, label) {
     const v = state.cards[p][kind];
-    const word = v ? (kind === 'res' ? LABELS.resources[v] : LABELS.forms[v]) : '';
     const miss = lab.state.showMissing && !v;
-    return `<button type="button" class="gr-slot ${v ? 'is-filled' : ''} ${miss ? 'lab-is-missing' : ''}" data-slot="${p}|${kind}" aria-label="${escapeHtml(LABELS.slotLabel(what, plantName(p)))}: ${escapeHtml(word || LABELS.emptySlot)}">${word || '…'}</button>`;
+    const list = kind === 'res' ? state.order.res : state.order.forms;
+    const name = x => (kind === 'res' ? LABELS.resources[x] : LABELS.forms[x]);
+    return `<select class="gr-select ${v ? 'is-filled' : ''} ${miss ? 'lab-is-missing' : ''}" data-card="${p}|${kind}" aria-label="${escapeHtml(LABELS.slotLabel(label, plantName(p)))}">` +
+      `<option value="" disabled ${v ? '' : 'selected'}>${LABELS.choose}</option>` +
+      list.map(x => `<option value="${x}" ${v === x ? 'selected' : ''}>${name(x)}</option>`).join('') + `</select>`;
+  }
+
+  function chainHTML(p) {
+    return `<div class="gr-chain">` + CHAINS[p].map(row => {
+      if (row === 'start') return `<div class="gr-ch gr-ch-start">${selectHTML(p, 'form', p === 'coo' ? LABELS.cardStored : LABELS.cardChain)}</div>`;
+      if (row === null) return `<div class="gr-ch gr-ch-gap"></div>`;
+      if (row === 'noturbine') return `<div class="gr-ch gr-ch-gap"><strong class="gr-noturbine">${LABELS.noTurbine}</strong></div>`;
+      if (OBJECTS.includes(row)) return `<div class="gr-ch gr-ch-obj"><span>${LABELS.objects[row]}</span></div>`;
+      return `<div class="gr-ch gr-ch-form"><span>${LABELS.forms[row]}</span></div>`;
+    }).join('') + `</div>`;
   }
 
   function cardHTML(p) {
@@ -638,57 +756,33 @@
     const head = `<div class="gr-card-head">${plantIcon(p, 'is-big')}<strong>${plantName(p)}</strong></div>`;
     if (p === 'coo') {
       return `<article class="gr-card is-storage">${head}` +
-        `<p class="gr-card-label">${gloss(LABELS.cardStored)}</p>${slotHTML(p, 'form', LABELS.cardStored)}` +
-        `<p class="gr-chain-text">${gloss(LABELS.chainCoo)}</p></article>`;
+        `<p class="gr-chain-text">${gloss(LABELS.cooNote)}</p>` +
+        `<p class="gr-card-label gr-chain-label">${gloss(LABELS.cardStored)}</p>${chainHTML(p)}</article>`;
     }
     const missRen = lab.state.showMissing && !c.ren;
     return `<article class="gr-card">${head}` +
-      `<p class="gr-card-label">${LABELS.cardResource}</p>${slotHTML(p, 'res', LABELS.cardResource)}` +
+      `<p class="gr-card-label">${LABELS.cardResource}</p>${selectHTML(p, 'res', LABELS.cardResource)}` +
       `<p class="gr-card-label">${LABELS.cardRenewable}</p>` +
       `<div class="gr-ren ${missRen ? 'lab-is-missing' : ''}">${['yes', 'no'].map(x => `<button type="button" class="lab-choice gr-ren-chip ${c.ren === x ? 'is-selected' : ''}" data-ren="${p}" data-val="${x}" aria-pressed="${c.ren === x}">${LABELS.renewable[x]}</button>`).join('')}</div>` +
-      `<p class="gr-card-label">${LABELS.cardChain}</p>${slotHTML(p, 'form', LABELS.cardChain)}` +
-      `<p class="gr-chain-text">${p === 'solar' ? `${gloss(LABELS.chainSolar)} <strong class="gr-noturbine">${LABELS.noTurbine}</strong>` : gloss(LABELS.chainTurbine)}</p>` +
+      `<p class="gr-card-label gr-chain-label">${LABELS.cardChain}</p>${chainHTML(p)}` +
       `</article>`;
   }
 
   function cardsHTML() {
-    const chip = (kind, v, label) => `<button type="button" class="lab-choice gr-word" data-word="${kind}|${v}" aria-pressed="false">${label}</button>`;
     return `<div class="gr-cards">${PLANTS.map(cardHTML).join('')}</div>` +
-      `<p class="lab-caption gr-caption" data-caption aria-live="polite"></p>` +
-      `<div class="gr-banks">` +
-        `<div class="gr-bank"><span class="gr-bank-title">${LABELS.bankResources}</span><div class="gr-bank-items">${state.order.res.map(r => chip('res', r, LABELS.resources[r])).join('')}</div></div>` +
-        `<div class="gr-bank"><span class="gr-bank-title">${LABELS.bankForms}</span><div class="gr-bank-items">${state.order.forms.map(f => chip('form', f, LABELS.forms[f])).join('')}</div></div>` +
-      `</div>`;
+      `<p class="lab-caption gr-caption" data-caption aria-live="polite"></p>`;
   }
 
   function bindCards() {
-    $$('[data-word]').forEach(el => {
-      const [kind, v] = el.dataset.word.split('|');
-      const label = kind === 'res' ? LABELS.resources[v] : LABELS.forms[v];
-      lab.makeDraggable(el, {
-        hold: true,
-        ghost: () => `<div class="gr-ghost">${label}</div>`,
-        targets: () => $$(`[data-slot$="|${kind}"]`),
-        onDrop: target => setSlot(target.dataset.slot, v),
-        onHold: on => {
-          held = on ? el.dataset.word : null;
-          el.setAttribute('aria-pressed', String(on));
-          setCaption(defaultCaption());
-        }
-      });
-    });
-    // Une case touchée sans mot en main, ou avec un mot d'un autre genre.
-    $$('[data-slot]').forEach(el => el.addEventListener('click', () => setCaption(LABELS.captionPickWord, true)));
+    $$('[data-card]').forEach(sel => sel.addEventListener('change', () => {
+      const [p, kind] = sel.dataset.card.split('|');
+      state.cards[p][kind] = sel.value || null;
+      afterCardChange();
+    }));
     $$('[data-ren]').forEach(btn => btn.addEventListener('click', () => {
       state.cards[btn.dataset.ren].ren = btn.dataset.val;
       afterCardChange();
     }));
-  }
-
-  function setSlot(slot, v) {
-    const [p, kind] = slot.split('|');
-    state.cards[p][kind] = v;
-    afterCardChange();
   }
 
   function afterCardChange() {
@@ -698,73 +792,106 @@
   }
 
   /* --- b) La salle de contrôle ---
-     Le paysage et le graphique de la journée (un seul SVG, 800 × 450), les
-     interrupteurs des installations, le bouton qui lance la journée. Test 1 :
-     vent et soleil seuls, imposés. Test 2 : la même journée, avec les
-     installations choisies, jusqu'à une journée sans panne. */
-  const currentTest = () => (state.ran1 && notes1Done() ? 2 : 1);
-  const configOf = n => (n === 1 ? TEST1_ON : (state.success ? state.last2 : state.on2));
-  // Ce qui est affiché : la journée jouée du test choisi (null : pas encore
-  // jouée) ; pendant le test 2, le paysage montre les installations prévues.
-  const shownSim = () => (running ? liveRun.sim : state.shown === 1 ? (state.ran1 ? simulate(TEST1_ON) : null) : (state.last2 ? simulate(state.last2) : null));
-  const shownOn = () => (running ? liveRun.on : state.shown === 1 ? TEST1_ON : state.success ? state.last2 : state.on2);
+     Le paysage et le graphique de la journée (un seul SVG), les journées
+     jouées (en haut du ciel), les interrupteurs, le bouton qui lance la
+     journée, et à droite le bulletin du jour et le carnet.
+     Test 1 : vent et soleil seuls, imposés ; il peut être rejoué. Test 2,
+     la même journée (test équitable) : une installation de plus à chaque
+     essai, jusqu'à une journée sans panne. Chaque essai garde ses heures de
+     panne : l'échelle des essais montre ce que chaque centrale apporte.
+     Une journée déjà jouée peut être revue (rejouée) sans rien changer. */
+  const test2Open = () => (state.ran1 && notes1Done()) || state.tries.length > 0;
+  const tryTitle = k => LABELS.tryTitle(k + 1, LABELS.plants[added(k)].short);
+
+  // La journée affichée doit exister : sinon, la plus proche.
+  function fixShown() {
+    const s = state.shown;
+    if (s === 'next' && (!test2Open() || success())) state.shown = state.tries.length ? state.tries.length - 1 : 'test1';
+    else if (typeof s === 'number' && !(s < state.tries.length)) state.shown = state.tries.length ? state.tries.length - 1 : 'test1';
+    else if (s !== 'test1' && s !== 'next' && typeof s !== 'number') state.shown = 'test1';
+  }
+
+  const simOf = s => (s === 'test1' ? (state.ran1 ? simulate(TEST1_ON) : null) : typeof s === 'number' ? simulate(state.tries[s]) : null);
+  const onOf = s => (s === 'test1' ? TEST1_ON : typeof s === 'number' ? state.tries[s] : nextConfig());
+  const shownSim = () => (running ? liveRun.sim : simOf(state.shown));
+  const shownOn = () => (running ? liveRun.on : onOf(state.shown));
+  const titleOf = s => (s === 'test1' ? LABELS.testTitle[1] : typeof s === 'number' ? tryTitle(s)
+    : LABELS.tryTitle(state.tries.length + 1, state.next ? LABELS.plants[state.next].short : '?'));
+
+  // Les journées jouées : test 1, puis les essais du test 2 et le prochain.
+  function runsHTML() {
+    // Panne ou pas (point rouge, ✓) ; le nombre d'heures une fois que l'élève
+    // l'a compté et noté dans son carnet (le sien, juste ou non).
+    const badge = (sim, d) => {
+      if (!sim) return '';
+      const w = state.notes.hours[d];
+      if (w != null) return `<span class="gr-badge ${w ? 'is-ko' : 'is-ok'}">${LABELS.hoursShort(w)}</span>`;
+      return blackoutHours(sim) ? `<span class="gr-badge is-ko is-dot" aria-label="${escapeHtml(LABELS.blackoutSign)}"></span>` : `<span class="gr-badge is-ok">✓</span>`;
+    };
+    const pill = (s, label, sim, d, extra) => `<button type="button" class="gr-pill ${state.shown === s ? 'is-on' : ''} ${extra || ''}" data-show="${s}" data-lab-look aria-pressed="${state.shown === s}"><span>${label}</span>${badge(sim, d)}</button>`;
+    let out = pill('test1', LABELS.pillTest1, state.ran1 ? simulate(TEST1_ON) : null, 0);
+    if (test2Open()) {
+      out += `<span class="gr-goal">${LABELS.test2Goal}</span>` +
+        state.tries.map((on, k) => pill(k, `+ ${LABELS.plants[added(k)].short}`, simulate(on), k + 1)).join('');
+      if (!success()) out += pill('next', `+ ${state.next ? LABELS.plants[state.next].short : '?'}`, null, -1, 'is-next');
+    }
+    return `<div class="gr-runs" role="group">${out}</div>`;
+  }
 
   function roomHTML() {
-    const test = currentTest();
-    const toggle = state.ran1 ? `<div class="gr-show" role="group">${[1, 2].map(n => `<button type="button" class="gr-show-btn ${state.shown === n ? 'is-on' : ''}" data-show="${n}" data-lab-look aria-pressed="${state.shown === n}">${LABELS.test(n)}</button>`).join('')}</div>` : '';
     const sim = shownSim();
-    const title = LABELS.testTitle[running ? liveRun.test : state.shown];
+    const title = running ? liveRun.title : titleOf(state.shown);
     return `<div class="lab-scene-wrap gr-stage" data-stage>` +
-        `<svg class="lab-svg gr-svg" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet" aria-label="${escapeHtml(LABELS.sceneLabel)}">` +
-          `<g role="img" aria-label="${escapeHtml(LABELS.sceneLabel)}">${sceneSVG()}</g>${graphSVG(sim, { uid: 'live', title, mode: 'live', reveal: sim && !running ? null : 0 })}</svg>` +
-        toggle +
-        `<button type="button" class="lab-speed gr-speed" data-speed ${running ? '' : 'hidden'}>⏩ ${LABELS.faster}</button>` +
+        `<svg class="lab-svg gr-svg" viewBox="0 0 800 ${VIEW_H}" preserveAspectRatio="xMidYMid meet" aria-label="${escapeHtml(LABELS.sceneLabel)}">` +
+          `<g role="img" aria-label="${escapeHtml(LABELS.sceneLabel)}">${sceneSVG()}</g>` +
+          graphSVG(sim, { uid: 'live', title, mode: 'live', reveal: sim && !running ? null : 0, hint: !!sim && !running && !state.tapped }) + `</svg>` +
+        runsHTML() +
       `</div>` +
       `<p class="lab-caption gr-caption" data-caption aria-live="polite"></p>` +
       `<div class="gr-controls">` +
-        `<div class="gr-switches">${PLANTS.map(p => switchHTML(p, test)).join('')}</div>` +
-        `<button type="button" class="lab-btn lab-btn-primary gr-runbtn" data-run>▶ ${LABELS.run(test)}</button>` +
+        `<div class="gr-switches">${PLANTS.map(switchHTML).join('')}</div>` +
+        `<button type="button" class="lab-btn lab-btn-primary gr-runbtn" data-run>${runLabel()}</button>` +
       `</div>`;
   }
 
-  function switchHTML(p, test) {
-    const on = configOf(test)[p];
-    return `<button type="button" class="gr-switch ${on ? 'is-on' : ''}" data-plant="${p}" aria-pressed="${on}">` +
+  // Interrupteurs : ceux de la journée affichée ; au test 2, ceux du prochain essai.
+  const switchesOn = () => (running ? liveRun.on : test2Open() && !success() && state.shown !== 'test1' ? nextConfig()
+    : success() && state.shown !== 'test1' ? lastConfig() : onOf(state.shown));
+
+  function switchHTML(p) {
+    const on = !!switchesOn()[p];
+    return `<button type="button" class="gr-switch ${on ? 'is-on' : ''} ${state.next === p && !running ? 'is-new' : ''}" data-plant="${p}" aria-pressed="${on}">` +
       `<span class="gr-switch-icon">${plantIcon(p)}</span><span class="gr-switch-name">${LABELS.plants[p].short}</span>` +
       `<span class="gr-switch-state">${on ? LABELS.on : LABELS.off}</span></button>`;
   }
 
+  const runLabel = () => (state.shown === 'next' || (state.shown === 'test1' && !state.ran1) ? `▶ ${LABELS.runDay}` : `↻ ${LABELS.runAgain}`);
+
   function bindRoom() {
-    const test = currentTest();
-    const done2 = state.success;
+    const open = test2Open() && !success();
     $$('[data-plant]').forEach(btn => {
       const p = btn.dataset.plant;
-      const reason = running ? LABELS.lockRunning : test === 1 ? LABELS.lockTest1Plant : done2 ? LABELS.lockTest2Done : null;
+      const reason = running ? LABELS.lockRunning
+        : success() && state.shown !== 'test1' ? LABELS.lockTest2Done
+          : !open || (state.shown === 'test1') ? LABELS.lockTest1Plant
+            : lastConfig()[p] ? LABELS.lockAlreadyOn : null;
       lab.setLock(btn, reason, { icon: false });
       btn.addEventListener('click', () => {
-        state.on2[p] = !state.on2[p];
-        btn.classList.toggle('is-on', state.on2[p]);
-        btn.setAttribute('aria-pressed', String(state.on2[p]));
-        btn.querySelector('.gr-switch-state').textContent = state.on2[p] ? LABELS.on : LABELS.off;
-        if (state.shown === 2) paintScene(shownSim(), shownOn(), hour == null ? 0 : hour + 0.5);
+        state.next = state.next === p ? null : p;
+        state.shown = 'next';
+        hour = null;
+        renderExperiment();
         lab.save();
       });
     });
-    const runBtn = $('[data-run]');
-    const runLock = running ? LABELS.lockRunning : (test === 1 && state.ran1 ? LABELS.lockNotes1 : done2 ? LABELS.lockTest2Done : null);
-    lab.setLock(runBtn, runLock, { missing: test === 1 && state.ran1, key: 'run' });
-    runBtn.addEventListener('click', () => runDay(test));
-    $$('[data-show]').forEach(b => b.addEventListener('click', () => {
-      const n = Number(b.dataset.show);
-      if (n === state.shown) return;
-      state.shown = n;
-      hour = null;
-      renderExperiment();
-    }));
-    $$('[data-show]').forEach(b => {
-      const n = Number(b.dataset.show);
-      lab.setLock(b, running ? LABELS.lockRunning : n === 2 && currentTest() !== 2 ? LABELS.lockShowTest2 : null, { icon: false });
+    $('[data-run]').addEventListener('click', () => {
+      const s = state.shown;
+      if (s === 'test1') runDay('test1', TEST1_ON, LABELS.testTitle[1]);
+      else if (s === 'next') runDay('try', nextConfig(), titleOf('next'));
+      else runDay('replay', state.tries[s], tryTitle(s));
     });
+    refreshRunButton();
+    bindRuns();
     $$('[data-hour]').forEach(el => {
       const go = () => showHour(Number(el.dataset.hour));
       el.addEventListener('click', go);
@@ -775,21 +902,75 @@
       });
     });
     const speedBtn = $('[data-speed]');
-    if (speedBtn) speedBtn.addEventListener('click', () => {
+    const toggleSpeed = () => {
       speed = speed === 1 ? 4 : 1;
       speedBtn.classList.toggle('is-active', speed > 1);
-    });
+    };
+    if (speedBtn) {
+      speedBtn.addEventListener('click', toggleSpeed);
+      speedBtn.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        toggleSpeed();
+      });
+    }
     paintScene(shownSim(), shownOn(), hour == null ? 0 : hour + 0.5);
     spinRotors(shownOn(), 0, 0);
     if (hour != null) markHour(hour);
+  }
+
+  // Le bouton de la journée : son texte et son verrou (le prochain essai attend
+  // les heures notées de la journée précédente, puis une centrale de plus).
+  function refreshRunButton() {
+    const btn = $('[data-run]');
+    if (!btn) return;
+    btn.textContent = runLabel();
+    const waitHours = state.shown === 'next' && !lastHoursWritten();
+    const reason = running ? LABELS.lockRunning : waitHours ? LABELS.lockHoursFirst
+      : state.shown === 'next' && !state.next ? LABELS.lockPickPlant : null;
+    lab.setLock(btn, reason, { key: 'run', missing: waitHours });
+  }
+
+  function bindRuns() {
+    $$('[data-show]').forEach(b => {
+      lab.setLock(b, running ? LABELS.lockRunning : null, { icon: false });
+      b.addEventListener('click', () => {
+        const v = b.dataset.show;
+        const s = v === 'test1' || v === 'next' ? v : Number(v);
+        if (s === state.shown) return;
+        state.shown = s;
+        hour = null;
+        renderExperiment();
+      });
+    });
+  }
+
+  // Après une saisie du carnet : les pastilles, le bouton et le pied de page
+  // suivent, sans redessiner la salle (le geste suivant ne se perd pas).
+  function refreshRoom() {
+    const runs = $('.gr-runs');
+    if (runs) {
+      runs.insertAdjacentHTML('afterend', runsHTML());
+      runs.remove();
+      bindRuns();
+    }
+    refreshRunButton();
+    setCaption(defaultCaption());
+    updateRunFooter();
   }
 
   // Le détail d'une heure : le paysage à ce moment, la légende en mots.
   function showHour(i) {
     if (running) return;
     const sim = shownSim();
-    if (!sim) { setCaption(state.shown === 1 ? LABELS.lockRun1First : LABELS.lockShowTest2, true); return; }
+    if (!sim) { setCaption(LABELS.lockRunFirst, true); return; }
     hour = i;
+    if (!state.tapped) {
+      state.tapped = true;
+      const hint = $('#gr-taphint');
+      if (hint) hint.remove();
+      lab.save();
+    }
     paintScene(sim, shownOn(), i + 0.5);
     markHour(i);
     const h = sim[i];
@@ -808,20 +989,19 @@
   }
 
   /* La journée défile : environ 14 s (⏩ : 4 fois plus vite). Le graphique
-     se dévoile heure par heure, le paysage suit. À la fin : test 1 joué, ou
-     test 2 (essai compté ; sans panne, il est réussi et figé). */
+     se dévoile heure par heure, le paysage suit. À la fin : le test 1 est
+     joué, ou un essai du test 2 est compté ; une journée revue ne change
+     rien. Rien n'est enregistré avant la fin (fermée en route : rien). */
   const HOUR_MS = 600;
 
-  function runDay(test) {
+  function runDay(kind, on, title) {
     if (running) return;
-    const on = Object.assign({}, configOf(test));
-    const sim = simulate(on);
-    // Rien n'est enregistré avant la fin de la journée (fermée en route : rien).
-    liveRun = { test, on, sim };
+    const config = Object.assign({}, on);
+    const sim = simulate(config);
+    liveRun = { kind, on: config, sim, title };
     running = true;
     speed = 1;
     hour = null;
-    state.shown = test;
     renderExperiment();
     const reveal = $('#gr-reveal-rect-live');
     const token = lab.newScene();
@@ -833,34 +1013,43 @@
       last = now;
       t = Math.min(HOURS, t + dt / (reduceMotion ? HOUR_MS / 6 : HOUR_MS) * speed);
       if (reveal) reveal.setAttribute('width', (t * COL).toFixed(1));
-      paintScene(sim, on, Math.min(t, HOURS - 0.01));
-      spinRotors(on, t, dt);
+      paintScene(sim, config, Math.min(t, HOURS - 0.01));
+      spinRotors(config, t, dt);
       if (t < HOURS) { requestAnimationFrame(step); return; }
-      finishDay(test, on, sim);
+      finishDay(kind, config, sim);
     };
     requestAnimationFrame(step);
   }
 
-  function finishDay(test, on, sim) {
+  function finishDay(kind, on, sim) {
     running = false;
     liveRun = null;
-    const missing = sim.filter(h => h.missing > 0);
-    if (test === 1) state.ran1 = true;
-    else {
-      state.tries++;
-      state.last2 = on;
-      state.success = missing.length === 0;
+    const missing = blackoutHours(sim);
+    if (kind === 'test1') state.ran1 = true;
+    if (kind === 'try') {
+      state.tries.push(on);
+      state.next = null;
+      state.shown = state.tries.length - 1;
     }
     renderExperiment();
-    if (test === 2) {
-      if (state.success) setCaption(LABELS.captionSuccess);
+    if (kind === 'try') {
+      if (!missing) setCaption(LABELS.captionSuccess);
       else {
         const when = LABELS.list(PERIODS.filter(p => sim.some((h, i) => h.missing > 0 && periodOf(i) === p)).map(p => LABELS.periodsShort[p]));
-        setCaption(LABELS.captionBlackout(missing.length, when), true);
+        // Le nombre d'heures n'est pas donné : l'élève compte les colonnes rouges.
+        setCaption(LABELS.captionBlackout(when), true);
       }
     }
     lab.renderStepper();
     lab.save();
+  }
+
+  /* --- Le bulletin du jour (à droite, au-dessus du carnet) ---
+     Le type de journée tiré au sort, en mots : chacun voit que sa journée
+     n'est pas celle de son voisin. */
+  function todayHTML() {
+    return `<div class="gr-today"><span class="gr-today-title">${LABELS.today}</span>` +
+      `<span class="gr-today-text">${gloss(LABELS.forecastShort(run.season, run.sky, run.windType))}</span></div>`;
   }
 
   /* --- Le carnet (à droite) ---
@@ -877,14 +1066,23 @@
         ['yes', 'no'].map(v => chip(`${p}|${k}`, v, LABELS[v], n.plants[p][k] === v,
           `aria-label="${escapeHtml(LABELS.choiceLabel(LABELS.plants[p].short, k === 'dark' ? LABELS.n2Dark : LABELS.n2Same, LABELS[v]))}"`)).join('') +
       `</div></td>`).join('') + `</tr>`).join('');
+    // Une case par journée jouée : le test 1, puis chaque essai du test 2.
+    const days = [LABELS.test(1)].concat(state.tries.map((on, k) => `+ ${LABELS.plants[added(k)].short}`));
+    const cells = (state.ran1 ? days : [LABELS.test(1)]).map((day, d) => `<label class="gr-hours-cell ${show && n.hours[d] == null ? 'lab-is-missing' : ''}">` +
+      `<span class="gr-hours-day">${day}</span><span class="gr-hours-in">` +
+      `<input type="text" inputmode="numeric" class="gr-hours-input" data-hours="${d}" value="${n.hours[d] == null ? '' : n.hours[d]}" maxlength="2" autocomplete="off" spellcheck="false" aria-label="${escapeHtml(LABELS.hoursAria(day))}">` +
+      `<span>${LABELS.hourUnit}</span></span></label>`).join('');
     return `<h3 class="lab-panel-title">${LABELS.notebookTitle}</h3>` +
       `<div class="gr-nb-block ${state.ran1 ? '' : 'is-waiting'}">` +
+        `<p class="gr-nb-title">${gloss(LABELS.hoursTitle)} <span class="gr-hint">${LABELS.hoursHint}</span></p>` +
+        `<div class="gr-hours">${cells}</div>` +
+      `</div>` +
+      `<div class="gr-nb-block ${state.ran1 ? '' : 'is-waiting'}">` +
         `<p class="gr-nb-title">${LABELS.testTitle[1]}</p>` +
-        `<div class="gr-nb-q ${show && !n.blackout ? 'lab-is-missing' : ''}"><p>${gloss(LABELS.n1Blackout)}</p><div class="gr-yn">${['yes', 'no'].map(v => chip('blackout', v, LABELS[v], n.blackout === v)).join('')}</div></div>` +
         `<div class="gr-nb-q ${show && !n.nothing.length ? 'lab-is-missing' : ''}"><p>${gloss(LABELS.n1Nothing)} <span class="gr-hint">${LABELS.n1NothingHint}</span></p>` +
           `<div class="gr-yn">${PERIODS.map(p => chip('nothing', p, LABELS.periodsShort[p], n.nothing.includes(p))).join('')}</div></div>` +
       `</div>` +
-      `<div class="gr-nb-block ${state.success ? '' : 'is-waiting'}">` +
+      `<div class="gr-nb-block ${success() ? '' : 'is-waiting'}">` +
         `<p class="gr-nb-title">${LABELS.testTitle[2]}</p>` +
         `<p class="gr-nb-hint">${gloss(LABELS.darkCalm)}</p>` +
         `<table class="gr-nb-table"><thead><tr><th scope="col">${LABELS.n2Head}</th><th scope="col">${gloss(LABELS.n2Dark)}</th><th scope="col">${gloss(LABELS.n2Same)}</th></tr></thead><tbody>${rows}</tbody></table>` +
@@ -895,41 +1093,71 @@
     const n = state.notes;
     $$('[data-note]').forEach(btn => {
       const field = btn.dataset.note;
-      const t1 = field === 'blackout' || field === 'nothing';
-      const reason = t1 ? (state.ran1 ? null : LABELS.lockRun1First) : (state.success ? null : LABELS.lockSuccessFirst);
+      const t1 = field === 'nothing';
+      const reason = t1 ? (state.ran1 ? null : LABELS.lockRun1First) : (success() ? null : LABELS.lockSuccessFirst);
       lab.setLock(btn, running ? LABELS.lockRunning : reason, { icon: false });
       btn.addEventListener('click', () => {
         const v = btn.dataset.val;
-        const wasTest = currentTest();
-        if (field === 'blackout') n.blackout = v;
-        else if (field === 'nothing') n.nothing = n.nothing.includes(v) ? n.nothing.filter(x => x !== v) : inOrder(n.nothing.concat(v), PERIODS);
+        const wasOpen = test2Open();
+        if (field === 'nothing') n.nothing = n.nothing.includes(v) ? n.nothing.filter(x => x !== v) : inOrder(n.nothing.concat(v), PERIODS);
         else {
           const [p, k] = field.split('|');
           n.plants[p][k] = v;
         }
         if (lab.state.showMissing && stepComplete(2)) lab.state.showMissing = false;
         // Le test 2 s'ouvre quand le carnet du test 1 est complet.
-        if (currentTest() !== wasTest) { state.shown = 2; hour = null; }
+        const opened = !wasOpen && test2Open();
+        if (opened) { state.shown = 'next'; hour = null; }
         renderExperiment();
-        if (currentTest() !== wasTest) setCaption(LABELS.captionTest2);
+        if (opened) setCaption(LABELS.captionTest2);
         lab.save();
       });
     });
   }
 
+  function bindHours() {
+    const n = state.notes;
+    $$('[data-hours]').forEach(input => {
+      const d = Number(input.dataset.hours);
+      lab.setLock(input, running ? LABELS.lockRunning : d < daysPlayed() ? null : LABELS.lockRun1First);
+      const read = final => {
+        const raw = input.value.trim();
+        const valid = /^\d{1,2}$/.test(raw) && Number(raw) <= HOURS;
+        const wasOpen = test2Open();
+        const before = n.hours[d];
+        n.hours[d] = valid ? Number(raw) : null;
+        if (valid) input.classList.remove('lab-is-missing');
+        if (final) {
+          if (valid) input.value = String(Number(raw));
+          input.classList.toggle('is-invalid', !valid && raw !== '');
+        }
+        if (lab.state.showMissing && stepComplete(2)) lab.state.showMissing = false;
+        // Le test 2 s'ouvre (carnet du test 1 complet) : la salle est redessinée,
+        // à la sortie du champ. Sinon, seuls les pastilles et le bouton suivent.
+        if (!wasOpen && test2Open()) {
+          if (final) {
+            state.shown = 'next';
+            hour = null;
+            renderExperiment();
+            setCaption(LABELS.captionTest2);
+          }
+        } else if (final || n.hours[d] !== before) refreshRoom();
+        lab.save();
+      };
+      input.addEventListener('input', () => { input.classList.remove('is-invalid'); read(false); });
+      input.addEventListener('change', () => read(true));
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } });
+    });
+  }
+
   function defaultCaption() {
-    if (state.view === 'cards') {
-      if (cardsDone()) return LABELS.captionCardsDone;
-      if (held) {
-        const [kind, v] = held.split('|');
-        return LABELS.captionWordPicked(kind === 'res' ? LABELS.resources[v] : LABELS.forms[v]);
-      }
-      return LABELS.captionCards;
-    }
+    if (state.view === 'cards') return cardsDone() ? LABELS.captionCardsDone : LABELS.captionCards;
     if (running) return LABELS.captionRunning;
     if (!state.ran1) return LABELS.captionTest1;
-    if (!notes1Done()) return LABELS.captionTest1Done;
-    if (state.success) return LABELS.captionTest2Done;
+    if (!notes1Done() && !state.tries.length) return LABELS.captionTest1Done;
+    if (success()) return LABELS.captionTest2Done;
+    if (state.shown === 'next' && !lastHoursWritten()) return LABELS.lockHoursFirst;
+    if (state.shown === 'next') return state.next ? LABELS.captionTryReady(LABELS.plants[state.next].short) : LABELS.captionAddPlant;
     return LABELS.captionTest2;
   }
 
@@ -957,7 +1185,7 @@
     const warn = lab.state.showMissing && !complete;
     const info = $('.lab-footer .lab-footer-info');
     if (info) {
-      info.textContent = warn ? lockReason(2) : LABELS.runInfo(cardsFilled(), CARD_SLOTS, notesFilled(), NOTES_TOTAL);
+      info.textContent = warn ? lockReason(2) : LABELS.runInfo(cardsFilled(), CARD_SLOTS, notesFilled(), notesTotal());
       info.classList.toggle('is-warning', warn);
     }
     const next = $('[data-next]');
@@ -975,22 +1203,44 @@
      hypothèses. */
   function conclusionParts() {
     const c = state.concl;
-    return { q1: !!(c.q1 && c.why), q2: !!(c.q2.length && c.stored), verdict: !!(c.v1 && c.v2) };
+    return {
+      q1: !!(c.when && c.q1 && c.why),
+      q2: !!((usesPlants() ? c.q2.length : c.cooA && c.cooB) && (!usesStored() || c.stored)),
+      verdict: !!(c.v1 && c.v2)
+    };
   }
 
   function conclusionsComplete() {
     return Object.values(conclusionParts()).every(Boolean);
   }
 
+  // Le graphique d'un test (1, ou 2 : le dernier essai, sans panne).
+  const graphTitle = n => (n === 1 ? LABELS.testTitle[1] : state.tries.length ? tryTitle(state.tries.length - 1) : LABELS.testTitle[2]);
+  const graphOnly = (n, uid, cls) => `<svg class="lab-svg ${cls}" viewBox="0 192 800 ${VIEW_H - 192}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeHtml(graphTitle(n))}">` +
+    graphSVG(simulate(n === 1 ? TEST1_ON : finalConfig()), { uid, title: graphTitle(n), mode: 'print' }) + `</svg>`;
+
+  // Petit graphique : un toucher l'ouvre en grand, par-dessus le labo.
   function miniGraph(n, uid) {
-    const sim = n === 1 ? simulate(TEST1_ON) : simulate(state.last2 || ALL_ON);
-    return `<svg class="lab-svg gr-mini" viewBox="0 192 800 258" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeHtml(LABELS.testTitle[n])}">${graphSVG(sim, { uid, title: LABELS.testTitle[n], mode: 'print' })}</svg>`;
+    return `<button type="button" class="gr-zoom" data-zoom="${n}" data-lab-look aria-label="${escapeHtml(LABELS.zoom(graphTitle(n)))}">${graphOnly(n, uid, 'gr-mini')}</button>`;
   }
+
+  function bindZoom() {
+    $$('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+      const n = Number(b.dataset.zoom);
+      lab.openSheet(`<div class="gr-zoom-view">${graphOnly(n, 'z' + n, 'gr-big')}</div>`, graphTitle(n));
+    }));
+  }
+
+  // L'échelle des essais du test 2 : « + Gas 9 h → + Nuclear 3 h → + Coo ✓ ».
+  const writtenHours = d => (state.notes.hours[d] == null ? '?' : LABELS.hoursShort(state.notes.hours[d]));
+  const ladderText = () => [`${LABELS.test(1)} ${writtenHours(0)}`]
+    .concat(state.tries.map((on, k) => `+ ${LABELS.plants[added(k)].short} ${writtenHours(k + 1)}`)).join(' → ');
 
   function notesRecapHTML() {
     const n = state.notes;
     const yn = v => (v ? LABELS[v] : '—');
-    return `<p class="gr-recap-line"><strong>${LABELS.test(1)}</strong> · ${gloss(LABELS.n1Blackout)} <b>${yn(n.blackout)}</b> · ${gloss(LABELS.n1Nothing)} <b>${listOf(n.nothing, p => LABELS.periodsShort[p])}</b></p>` +
+    return `<p class="gr-recap-line"><strong>${gloss(LABELS.hoursTitle)}:</strong> ${ladderText()}</p>` +
+      `<p class="gr-recap-line"><strong>${LABELS.test(1)}</strong> · ${gloss(LABELS.n1Nothing)} <b>${listOf(n.nothing, p => LABELS.periodsShort[p])}</b></p>` +
       `<table class="lab-table gr-recap"><thead><tr><th scope="col">${LABELS.test(2)}</th><th scope="col">${gloss(LABELS.n2Dark)}</th><th scope="col">${gloss(LABELS.n2Same)}</th></tr></thead><tbody>` +
       PLANTS.map(p => `<tr><th scope="row"><span class="gr-nb-plant">${plantIcon(p)}<span>${LABELS.plants[p].short}</span></span></th><td>${yn(n.plants[p].dark)}</td><td>${yn(n.plants[p].same)}</td></tr>`).join('') +
       `</tbody></table>`;
@@ -1012,16 +1262,23 @@
       `<section class="gr-form">` +
         `<div class="gr-q ${miss('q1')}">` +
           `<p class="gr-q-title"><span class="gr-num" aria-hidden="true">1</span><span>${gloss(LABELS.questions.q1)}</span></p>` +
+          `<p class="gr-sentence-sm">${gloss(LABELS.concl1a(blankHTML(c.when && LABELS.when[c.when])))}</p>` +
+          `<div class="gr-chips">${WHEN.map(x => chip('when', x, LABELS.when[x], c.when === x)).join('')}</div>` +
           `<p class="gr-sentence-sm">${gloss(LABELS.concl1(blankHTML(c.q1 && LABELS[c.q1]), blankHTML(c.why && LABELS.q1why[c.why])))}</p>` +
           `<div class="gr-chips">${['can', 'cannot'].map(x => chip('q1', x, LABELS[x], c.q1 === x)).join('')}</div>` +
           `<div class="gr-chips">${['none', 'little', 'lot'].map(x => chip('why', x, LABELS.q1why[x], c.why === x)).join('')}</div>` +
         `</div>` +
         `<div class="gr-q ${miss('q2')}">` +
-          `<p class="gr-q-title"><span class="gr-num" aria-hidden="true">2</span><span>${gloss(LABELS.questions.q2)}</span></p>` +
-          `<p class="gr-sentence-sm">${gloss(LABELS.concl2)}</p>` +
-          `<div class="gr-chips">${PLANTS.map(p => chip('q2', p, plantName(p), c.q2.includes(p), plantIcon(p))).join('')}</div>` +
-          `<p class="gr-sentence-sm">${gloss(LABELS.concl2b(blankHTML(c.stored && LABELS.stored[c.stored])))}</p>` +
-          `<div class="gr-chips">${['stored', 'made', 'destroyed'].map(x => chip('stored', x, LABELS.stored[x], c.stored === x)).join('')}</div>` +
+          `<p class="gr-q-title"><span class="gr-num" aria-hidden="true">2</span><span>${gloss(LABELS.questions.q2[run.q2])}</span></p>` +
+          (usesPlants()
+            ? `<p class="gr-sentence-sm">${gloss(LABELS.concl2[run.q2])}</p>` +
+              `<div class="gr-chips">${PLANTS.map(p => chip('q2', p, plantName(p), c.q2.includes(p), plantIcon(p))).join('')}</div>`
+            : `<p class="gr-sentence-sm">${gloss(LABELS.concl2.coo(blankHTML(c.cooA && LABELS.cooWhen[c.cooA]), blankHTML(c.cooB && LABELS.cooWhen[c.cooB])))}</p>` +
+              cooRowsHTML(c.cooA, c.cooB, (row, x, on) => chip(row === 'a' ? 'cooA' : 'cooB', x, LABELS.cooWhen[x], on))) +
+          (usesStored()
+            ? `<p class="gr-sentence-sm">${gloss(LABELS.concl2b(blankHTML(c.stored && LABELS.stored[c.stored])))}</p>` +
+              `<div class="gr-chips">${['stored', 'made', 'destroyed'].map(x => chip('stored', x, LABELS.stored[x], c.stored === x)).join('')}</div>`
+            : '') +
         `</div>` +
         `<div class="gr-q gr-verdicts ${miss('verdict')}">` +
           [1, 2].map(n => `<div class="gr-chips"><span class="gr-q-text">${LABELS.qVerdict(n)}</span>` +
@@ -1029,6 +1286,7 @@
         `</div>` +
       `</section></div>`;
 
+    bindZoom();
     $$('[data-c]').forEach(btn => btn.addEventListener('click', () => {
       const f = btn.dataset.c, v = btn.dataset.val;
       if (f === 'q2') c.q2 = c.q2.includes(v) ? c.q2.filter(x => x !== v) : inOrder(c.q2.concat(v), PLANTS);
@@ -1050,7 +1308,6 @@
 
   /* ===== Étape 4 : correction ===== */
   const CRITERIA = ['plants', 'chains', 'notes', 'answers', 'verdicts'];
-  const Q2_TRUTH = ['nuclear', 'gas', 'coo'];
 
   function evaluate() {
     const c = state.concl;
@@ -1063,19 +1320,21 @@
     });
     const chainMiss = PLANTS.filter(p => state.cards[p].form !== START_FORM[p]);
     const noteMiss = [];
-    if (state.notes.blackout !== t.blackout) noteMiss.push({ k: 'blackout' });
+    t.hours.forEach((h, d) => { if (state.notes.hours[d] !== h) noteMiss.push({ k: 'hours', d }); });
     if (!sameSet(state.notes.nothing, t.nothing)) noteMiss.push({ k: 'nothing' });
     PLANTS.forEach(p => ['dark', 'same'].forEach(k => {
       if (state.notes.plants[p][k] !== t.plants[p][k]) noteMiss.push({ k: 'plant', p, q: k });
     }));
-    const q1Ok = c.q1 === 'cannot' && c.why === 'none';
-    const q2Ok = sameSet(c.q2, Q2_TRUTH) && c.stored === 'stored';
-    const should1 = state.hyp.h1 === c.q1 ? 'confirmed' : 'rejected';
-    const should2 = sameSet(state.hyp.h2, c.q2) ? 'confirmed' : 'rejected';
+    const q1Ok = c.when === t.when && c.q1 === 'cannot' && c.why === 'none';
+    const q2Ok = (usesPlants() ? sameSet(c.q2, Q2_PLANTS[run.q2]) : c.cooA === 'much' && c.cooB === 'little') &&
+      (!usesStored() || c.stored === 'stored');
+    const should1 = state.hyp.h1 === c.when ? 'confirmed' : 'rejected';
+    const same2 = usesPlants() ? sameSet(state.hyp.h2, c.q2) : state.hyp.coo.a === c.cooA && state.hyp.coo.b === c.cooB;
+    const should2 = same2 ? 'confirmed' : 'rejected';
     return {
       t, cardMiss, chainMiss, noteMiss, q1Ok, q2Ok, should1, should2,
       v1Ok: c.v1 === should1, v2Ok: c.v2 === should2,
-      notesGood: NOTES_TOTAL - noteMiss.length,
+      notesGood: notesTotal() - noteMiss.length,
       plants: cardMiss.length === 0,
       chains: chainMiss.length === 0,
       notes: noteMiss.length === 0,
@@ -1094,11 +1353,13 @@
       : CHECK.cardWrongRen(plantName(m.p), said('ren', card.ren), LABELS.renewable[RENEWABLE[m.p]]);
   }
 
+  const dayName = d => (d ? `${LABELS.test(2)}, + ${plantName(added(d - 1))}` : LABELS.test(1));
+
   const chainMissText = p => CHECK.chainWrong(plantName(p), said('form', state.cards[p].form), LABELS.forms[START_FORM[p]]);
 
   function noteMissText(m, t) {
     const n = state.notes;
-    if (m.k === 'blackout') return CHECK.blackoutWrong(said('yn', n.blackout));
+    if (m.k === 'hours') return CHECK.hoursWrong(dayName(m.d), n.hours[m.d] == null ? CHECK.nothing : n.hours[m.d], t.hours[m.d]);
     if (m.k === 'nothing') return CHECK.nothingWrong(listOf(n.nothing, p => LABELS.periodsShort[p]), LABELS.list(t.nothing.map(p => LABELS.periods[p])));
     return CHECK.plantWrong(plantName(m.p), qName(m.q), said('yn', n.plants[m.p][m.q]), LABELS[t.plants[m.p][m.q]]);
   }
@@ -1131,26 +1392,31 @@
         `<p>${gloss(EXPLAIN.noTurbine)}</p><p>${gloss(EXPLAIN.coo)}</p><p class="gr-muted">${gloss(EXPLAIN.losses)}</p>`;
     }
     if (key === 'notes') {
-      return `<p>${CHECK.notesScore(ev.notesGood, NOTES_TOTAL)}</p>` +
+      return `<p>${CHECK.notesScore(ev.notesGood, notesTotal())}</p>` +
         (ev.notes ? `<p class="gr-ok">${CHECK.notesAllGood}</p>` : `<ul class="gr-misslist">${ev.noteMiss.map(m => `<li class="gr-ko">${gloss(noteMissText(m, ev.t))}</li>`).join('')}</ul>`) +
         `<ul class="gr-plainlist">${PLANTS.map(p => `<li>${gloss(EXPLAIN[p])}</li>`).join('')}</ul>`;
     }
     if (key === 'answers') {
-      const right1 = LABELS.concl1(LABELS.cannot, LABELS.q1why.none);
-      const right2 = `${LABELS.concl2} ${LABELS.list(Q2_TRUTH.map(plantThe))}. ${LABELS.concl2b(LABELS.stored.stored)}`;
+      const right1 = `${LABELS.concl1a(LABELS.when[ev.t.when])} ${LABELS.concl1(LABELS.cannot, LABELS.q1why.none)}`;
+      const right2 = right2Text();
+      const why2 = run.q2 === 'night' ? `${gloss(EXPLAIN.nuclear)} ${gloss(EXPLAIN.gas)}</p><p>${gloss(EXPLAIN.coo)}`
+        : run.q2 === 'follow' ? `${gloss(EXPLAIN.gas)}</p><p>${gloss(EXPLAIN.coo)} ${gloss(EXPLAIN.nuclear)}`
+          : `${gloss(EXPLAIN.coo)}</p><p>${gloss(EXPLAIN.losses)}`;
       return `<p class="gr-q-head">1. ${gloss(LABELS.questions.q1)}</p>` +
         (ev.q1Ok ? `<p class="gr-ok">${CHECK.answerOk} ${gloss(right1)}</p>` : `<p class="gr-ko">${CHECK.answerWrong} <strong>${gloss(right1)}</strong></p>`) +
         `<p>${gloss(EXPLAIN.wind)} ${gloss(EXPLAIN.solar)}</p>` +
-        `<p class="gr-q-head">2. ${gloss(LABELS.questions.q2)}</p>` +
+        `<p class="gr-q-head">2. ${gloss(LABELS.questions.q2[run.q2])}</p>` +
         (ev.q2Ok ? `<p class="gr-ok">${CHECK.answerOk} ${gloss(right2)}</p>` : `<p class="gr-ko">${CHECK.answerWrong} <strong>${gloss(right2)}</strong></p>`) +
-        `<p>${gloss(EXPLAIN.nuclear)} ${gloss(EXPLAIN.gas)}</p><p>${gloss(EXPLAIN.coo)}</p><p class="gr-muted">${gloss(EXPLAIN.other)}</p>`;
+        `<p>${why2}</p><p class="gr-muted">${gloss(EXPLAIN.other)}</p>`;
     }
     const block = (n, hypText, conclText, ok, given, should) =>
       `<p><strong>${CHECK.yourHyp(n)}</strong> ${gloss(hypText)}</p>` +
       `<p><strong>${CHECK.yourConcl(n)}</strong> ${gloss(conclText)}</p>` +
       `<p class="${ok ? 'gr-ok' : 'gr-ko'}">${ok ? CHECK.verdictOk(given) : CHECK.verdictWrong(should)}</p>`;
-    return block(1, LABELS.hyp1(state.hyp.h1 ? LABELS[state.hyp.h1] : '—'), LABELS.concl1(c.q1 ? LABELS[c.q1] : '—', c.why ? LABELS.q1why[c.why] : '—'), ev.v1Ok, c.v1, ev.should1) +
-      block(2, `${LABELS.hyp2} ${listOf(state.hyp.h2, plantThe)}.`, `${LABELS.concl2} ${listOf(c.q2, plantThe)}.`, ev.v2Ok, c.v2, ev.should2) +
+    const concl2 = usesPlants() ? `${LABELS.concl2[run.q2]} ${listOf(c.q2, plantThe)}.`
+      : LABELS.concl2.coo(c.cooA ? LABELS.cooWhen[c.cooA] : '—', c.cooB ? LABELS.cooWhen[c.cooB] : '—');
+    return block(1, hyp1Text(state.hyp.h1), LABELS.concl1a(c.when ? LABELS.when[c.when] : '—'), ev.v1Ok, c.v1, ev.should1) +
+      block(2, hyp2Text(), concl2, ev.v2Ok, c.v2, ev.should2) +
       (ev.should1 === 'rejected' || ev.should2 === 'rejected' ? `<p class="gr-muted">${CHECK.rejectedNote}</p>` : '');
   }
 
@@ -1202,42 +1468,49 @@
       PLANTS.map(p => `<tr><th>${plantName(p)}</th>` + (p === 'coo' ? `<td>—</td><td>—</td>` : `<td>${cell(p, 'res')}</td><td>${cell(p, 'ren')}</td>`) + `<td>${cell(p, 'form')}</td></tr>`).join('') + `</table>`;
 
     const noteMissOf = m => noteMissText(m, ev.t);
-    const missFor = (k, p, q) => ev.noteMiss.find(m => m.k === k && (k !== 'plant' || (m.p === p && m.q === q)));
+    const missFor = (k, p, q) => ev.noteMiss.find(m => m.k === k && (k === 'hours' ? m.d === p : k !== 'plant' || (m.p === p && m.q === q)));
     const noteCell = (text, m) => (m ? mark(text, plainText(noteMissOf(m)), { box: true }) : text);
     const yn = v => (v ? LABELS[v] : '—');
     const notes1 = `<table class="gr-report-table"><caption>${R.notes1Caption}</caption>` +
-      `<tr><th>${LABELS.n1Blackout}</th><td>${noteCell(yn(n.blackout), missFor('blackout'))}</td></tr>` +
       `<tr><th>${LABELS.n1Nothing}</th><td>${noteCell(listOf(n.nothing, p => LABELS.periodsShort[p]), missFor('nothing'))}</td></tr></table>`;
     const notes2 = `<table class="gr-report-table"><caption>${R.notes2Caption}</caption>` +
       `<tr><th></th><th>${LABELS.n2Dark}</th><th>${LABELS.n2Same}</th></tr>` +
       PLANTS.map(p => `<tr><th>${plantName(p)}</th>${['dark', 'same'].map(q => `<td>${noteCell(yn(n.plants[p][q]), missFor('plant', p, q))}</td>`).join('')}</tr>`).join('') + `</table>`;
     const graph = k => `<div class="gr-report-graph"><p class="gr-report-graph-title">${R.graphTitle} — ${R.graphCaption(k)}</p>` +
-      `<svg class="gr-report-svg" viewBox="0 192 800 258" role="img" aria-label="${escapeHtml(LABELS.testTitle[k])}">${graphSVG(k === 1 ? simulate(TEST1_ON) : simulate(state.last2 || ALL_ON), { uid: 'r' + k, title: LABELS.testTitle[k], mode: 'print' })}</svg></div>`;
+      graphOnly(k, 'r' + k, 'gr-report-svg') + `</div>`;
+    // Les heures de panne de chaque journée, notées par l'élève (test 1, puis les essais du test 2).
+    const hoursCell = d => noteCell(n.hours[d] == null ? '—' : String(n.hours[d]), missFor('hours', d));
+    const ladder = `<table class="gr-report-table"><caption>${R.triesCaption}</caption>` +
+      `<tr><th>${R.triesHead.try}</th><th>${R.triesHead.added}</th><th>${R.triesHead.hours}</th></tr>` +
+      `<tr><td>${LABELS.test(1)}</td><td>${LABELS.pillTest1}</td><td>${hoursCell(0)}</td></tr>` +
+      state.tries.map((on, k) => `<tr><td>${k + 1}</td><td>+ ${plantName(added(k))}</td><td>${hoursCell(k + 1)}</td></tr>`).join('') + `</table>`;
 
     // Interprétation : ce que disent les deux tests, avec les mots de l'élève
     // (une erreur du carnet est déjà marquée dans les résultats).
-    const blackout1 = yn(n.blackout);
+    const blackout1 = n.hours[0] == null ? '—' : n.hours[0];
     const nothing = listOf(n.nothing, p => LABELS.periods[p]);
     const darkPlants = PLANTS.filter(p => n.plants[p].dark === 'yes');
-    const plantsOn = PLANTS.filter(p => (state.last2 || ALL_ON)[p]);
+    const plantsOn = PLANTS.filter(p => finalConfig()[p]);
     const interpretation = `<p>${R.test1(blackout1, nothing)}</p>` +
-      `<p>${R.test2(state.tries, LABELS.list(plantsOn.map(plantThe)))} ${R.dark(listOf(darkPlants, plantThe))}</p>`;
+      `<p>${R.test2(state.tries.length, LABELS.list(plantsOn.map(plantThe)))} ${R.dark(listOf(darkPlants, plantThe))}</p>`;
 
     // Conclusion : les phrases de l'élève, chaque mot faux marqué à sa place.
     const word = (text, ok, note) => (ok ? text : mark(text, note));
-    const right1 = `${CHECK.answerWrong} ${LABELS.concl1(LABELS.cannot, LABELS.q1why.none)}`;
-    const right2 = `${CHECK.answerWrong} ${LABELS.concl2} ${LABELS.list(Q2_TRUTH.map(plantThe))}. ${LABELS.concl2b(LABELS.stored.stored)}`;
+    const right1 = `${CHECK.answerWrong} ${LABELS.concl1a(LABELS.when[ev.t.when])} ${LABELS.concl1(LABELS.cannot, LABELS.q1why.none)}`;
+    const right2 = `${CHECK.answerWrong} ${right2Text()}`;
+    const when = c.when ? word(LABELS.when[c.when], c.when === ev.t.when, right1) : '—';
     const q1 = c.q1 ? word(LABELS[c.q1], c.q1 === 'cannot', right1) : '—';
     const why = c.why ? word(LABELS.q1why[c.why], c.why === 'none', right1) : '—';
-    const q2 = c.q2.length ? word(LABELS.list(c.q2.map(plantThe)), sameSet(c.q2, Q2_TRUTH), right2) : '—';
+    const q2 = usesPlants()
+      ? (c.q2.length ? word(LABELS.list(c.q2.map(plantThe)), sameSet(c.q2, Q2_PLANTS[run.q2]), right2) : '—')
+      : LABELS.concl2.coo(c.cooA ? word(LABELS.cooWhen[c.cooA], c.cooA === 'much', right2) : '—', c.cooB ? word(LABELS.cooWhen[c.cooB], c.cooB === 'little', right2) : '—');
     const stored = c.stored ? word(LABELS.stored[c.stored], c.stored === 'stored', `${right2} ${plainText(EXPLAIN.coo)}`) : '—';
     const verdict = (k, given, ok, should) => R.verdict(k, given ? word(LABELS[given], ok, CHECK.verdictWrong(should)) : '—');
-    const conclusion = `<p>${LABELS.concl1(q1, why)}</p>` +
-      `<p>${LABELS.concl2} ${q2}. ${LABELS.concl2b(stored)}</p>` +
+    const conclusion = `<p>${LABELS.concl1a(when)} ${LABELS.concl1(q1, why)}</p>` +
+      `<p>${usesPlants() ? `${LABELS.concl2[run.q2]} ${q2}.` : q2}${usesStored() ? ` ${LABELS.concl2b(stored)}` : ''}</p>` +
       `<p>${verdict(1, c.v1, ev.v1Ok, ev.should1)} ${verdict(2, c.v2, ev.v2Ok, ev.should2)}</p>`;
 
-    const hyp = `<ol><li>${LABELS.hyp1(state.hyp.h1 ? LABELS[state.hyp.h1] : '—')}</li>` +
-      `<li>${LABELS.hyp2} ${listOf(state.hyp.h2, plantThe)}.</li></ol>` +
+    const hyp = `<ol><li>${hyp1Text(state.hyp.h1)}</li><li>${hyp2Text()}</li></ol>` +
       (state.because.trim() ? `<p>${R.because}: ${escapeHtml(state.because.trim())}</p>` : '');
 
     const correction = CRITERIA.map(k => `<tr><th>${LABELS.criteria[k]}</th><td class="${ev[k] ? 'ok' : 'ko'}">${ev[k] ? '✓' : '✗'}</td></tr>`).join('');
@@ -1245,11 +1518,11 @@
     return {
       title: R.title,
       sections: [
-        `<ol><li>${LABELS.questions.q1}</li><li>${LABELS.questions.q2}</li></ol>`,
+        `<ol><li>${LABELS.questions.q1}</li><li>${LABELS.questions.q2[run.q2]}</li></ol>`,
         hyp,
-        `<p>${R.materials(R.day(run.season, run.clouds))}</p>`,
+        `<p>${R.materials(LABELS.forecast(run.season, run.sky, run.windType))}</p>`,
         `<ol>${R.procedure.map(s => `<li>${s}</li>`).join('')}</ol>`,
-        `<div class="gr-report-results">${cards}${notes1}${notes2}</div><div class="gr-report-graphs">${graph(1)}${graph(2)}</div>`,
+        `<div class="gr-report-results">${cards}${notes1}${ladder}${notes2}</div><div class="gr-report-graphs">${graph(1)}${graph(2)}</div>`,
         interpretation,
         conclusion
       ],
@@ -1266,23 +1539,24 @@
     reset,
     stepComplete,
     lockReason,
-    isStarted: () => !!(state.hyp.h1 || state.hyp.h2.length || cardsFilled()),
+    isStarted: () => !!(state.hyp.h1 || state.hyp.h2.length || state.hyp.coo.a || state.hyp.coo.b || cardsFilled()),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 1,
+    // 4 : question 2 tirée au sort (run.q2), hypothèse 1 sur la panne du test 1 (concl.when, hyp.coo).
+    version: 4,
     save: () => ({ run, state }),
     // Ce qui ne vaut que pendant un geste ou une journée qui défile repart à zéro.
     load(data) {
       const r = data.run, s = data.state;
       if (!r || !Array.isArray(r.need) || r.need.length !== HOURS || !Array.isArray(r.sun) || !Array.isArray(r.wind) ||
-        !s || !s.hyp || !Array.isArray(s.hyp.h2) || !s.cards || !s.notes || !s.concl || !Array.isArray(s.concl.q2) || !s.on2) throw new Error('labProgress');
+        !s || !s.hyp || !Array.isArray(s.hyp.h2) || !s.cards || !s.notes || !s.concl || !Array.isArray(s.concl.q2) || !Array.isArray(s.tries) || !Array.isArray(s.notes.hours) || !r.sky ||
+        !Q2_KINDS.includes(r.q2) || !s.hyp.coo) throw new Error('labProgress');
       run = r;
       state = s;
       stepperDone = null;
       running = false;
       liveRun = null;
       hour = null;
-      held = null;
     },
     summary() {
       const ev = evaluate();
@@ -1294,10 +1568,11 @@
         criteria,
         labels: LABELS.criteria, // noms des critères, pour le tableau de bord
         details: {
-          day: `${run.season}-${run.clouds}`, tries: state.tries,
+          day: `${run.season}-${run.sky}-${run.windType}`, tries: state.tries.length,
           cardsRight: CARD_SLOTS - ev.cardMiss.length - ev.chainMiss.length, cards: CARD_SLOTS,
-          notesRight: ev.notesGood, notes: NOTES_TOTAL,
-          hypothesis1: state.hyp.h1, hypothesis2: state.hyp.h2.join('-')
+          notesRight: ev.notesGood, notes: notesTotal(),
+          question2: run.q2, hypothesis1: state.hyp.h1,
+          hypothesis2: usesPlants() ? state.hyp.h2.join('-') : `${state.hyp.coo.a}-${state.hyp.coo.b}`
         }
       };
     }
