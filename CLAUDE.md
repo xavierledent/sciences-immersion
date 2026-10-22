@@ -40,7 +40,10 @@ vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 Labos virtuels (en anglais et en néerlandais) : `chem1` « Metal detectives » et
 « Under our feet » (composition du sol), `bio1` « The vanishing leaves » et
 « Inside two ecosystems » (mission 1 de la sortie de terrain : facteurs
-abiotiques, carré de comptage, histogramme FO5b), `phys1` « The energy test
+abiotiques, carré de comptage, histogramme FO5b) et « Pull one thread »
+(réseau trophique d'une forêt belge : construire le modèle à partir des
+cartes écologiques, puis une maladie et 10 ans de graphiques, réseau contre
+chaîne seule ; expérience sur un modèle, partie du cours), `phys1` « The energy test
 bench » (dynamo à manivelle et deux lampes : mesures en units, diagramme de
 flux d'énergie, bilan) et « Keep the lights on » (salle de contrôle de
 l'électricité belge pendant une journée : centrales, météo, stockage de Coo,
