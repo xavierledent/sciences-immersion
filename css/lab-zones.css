@@ -803,7 +803,7 @@ html[data-pointer='fine'] .zn-id-choice:not(.is-wrong):hover,
   font-size: 0.8rem !important;
 }
 
-/* --- Dans le carré : la loupe et les interactions --- */
+/* --- Dans le carré : les interactions --- */
 .zn-qtitle {
   flex: 1 1 auto;
   min-width: 0;
@@ -816,17 +816,9 @@ html[data-pointer='fine'] .zn-id-choice:not(.is-wrong):hover,
   white-space: nowrap;
 }
 
-/* Six outils quand le carré est ouvert (la loupe en plus) : un peu plus étroits. */
-.zn-tools.has-loupe .zn-tool {
-  width: 80px;
-}
-
-.zn-quadrat.is-scanning {
-  cursor: progress;
-}
-
-/* Une interaction trouvée : cercle pointillé, puis plein une fois notée ;
-   la pastille loupe s'ouvre au toucher. */
+/* Une interaction découverte : cercle pointillé, puis plein une fois notée ;
+   la pastille « ! » l'ouvre en gros plan. Allumée tant qu'une de ses
+   espèces est entourée. */
 .zn-clue.is-hidden {
   display: none;
 }
@@ -844,9 +836,25 @@ html[data-pointer='fine'] .zn-id-choice:not(.is-wrong):hover,
   stroke-dasharray: none;
 }
 
-.zn-clue.is-open .zn-clue-ring {
+.zn-clue.is-open .zn-clue-ring,
+.zn-clue.is-lit .zn-clue-ring {
   stroke: #ffffff;
-  stroke-width: 3;
+  stroke-width: 3.2;
+}
+
+.zn-clue.is-lit .zn-clue-pulse {
+  animation: zn-badge 1.2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes zn-badge {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zn-clue.is-lit .zn-clue-pulse { animation: none; }
 }
 
 .zn-clue-badge {
@@ -872,7 +880,7 @@ html[data-pointer='fine'] .zn-clue-badge:hover .zn-clue-dot {
   fill: #ffe866;
 }
 
-/* Apparition au passage de la loupe */
+/* Apparition quand l'espèce est nommée */
 .zn-clue.is-revealed {
   animation: zn-clue-pop 0.45s ease-out;
   transform-box: fill-box;
@@ -885,14 +893,45 @@ html[data-pointer='fine'] .zn-clue-badge:hover .zn-clue-dot {
   100% { transform: scale(1); }
 }
 
-.zn-id-loupe {
-  padding: 6px 10px;
-  border-radius: 10px;
-  background: #fff7cc;
-  font-weight: 600;
+/* Carré ouvert, rien de touché : les deux choses à faire */
+.zn-tasks-title {
+  font-weight: 700;
 }
 
-/* La fiche de la loupe : ce qu'on voit en grand, la fiche de l'interaction,
+.zn-tasks {
+  margin: 0;
+  padding-left: 1.4em;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.zn-tasks li + li {
+  margin-top: 4px;
+}
+
+/* L'espèce entourée a une interaction : elle ressort, avec « Look closer ». */
+.zn-id-inter {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1.5px solid #e9c400;
+  background: #fff7cc;
+}
+
+.zn-id-inter p {
+  font-weight: 700;
+}
+
+.zn-closer.lab-btn {
+  height: 34px;
+  font-size: 0.84rem;
+}
+
+/* La fiche du gros plan : ce qu'on voit en grand, la fiche de l'interaction,
    puis les deux interactions notées. */
 .zn-idcard.zn-lenscard {
   justify-content: space-between;
@@ -1777,7 +1816,7 @@ html[data-pointer='fine'] .zn-crit:not(.is-selected):hover,
   font-size: 1rem;
 }
 
-/* Les interactions notées, à côté de leur vue à la loupe */
+/* Les interactions notées, à côté de leur gros plan */
 .zn-inter-check {
   display: grid;
   grid-template-columns: 84px minmax(0, 1fr);

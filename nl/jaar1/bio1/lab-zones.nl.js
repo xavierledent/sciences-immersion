@@ -57,7 +57,7 @@ LabEngine.addText('zones', {
       pond: '[Oever van de vijver]'
     },
 
-    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Voel de bodem', quadrat: 'Telkader', loupe: 'Loep' },
+    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Voel de bodem', quadrat: 'Telkader' },
     // L'instrument dans une phrase (« de … toonde »).
     instruments: { temp: 'thermometer', lux: 'luxmeter', air: 'hygrometer' },
     views: { field: 'Op het terrein', graph: 'Histogram' },
@@ -87,14 +87,16 @@ LabEngine.addText('zones', {
     idNoted: n => `In je telblad: ${n}`,
 
     // La loupe et la fiche des interactions (dans le carré)
-    idEmptyLoupe: 'Om interacties tussen levende wezens te vinden, gebruik je de [loep] (bij de meettoestellen).',
-    idEmptyScanned: 'De [loep] heeft interacties gevonden: tik op een loepteken in het kader.',
+    tasksTitle: 'In elk telkader:',
+    tasks: ['Determineer elke soort en tel ze.', 'Noteer twee interacties tussen levende wezens (in de twee kaders samen).'],
+    interHere: 'Kijk! Eén ervan heeft een [interactie] met een ander levend wezen.',
+    lookCloser: 'Kijk van dichterbij',
     openClue: pair => `Interactie: ${pair}`,
     noteInter: 'Deze interactie noteren',
     interSheet: 'Mijn interacties',
     interCount: (n, max) => `${n} / ${max}`,
     toComplete: 'nog aan te vullen',
-    emptySlot: 'Zoek een interactie met de loep.',
+    emptySlot: 'Determineer de levende wezens om een interactie te vinden.',
     removeInter: 'Deze interactie weghalen',
     removeTitle: 'Deze interactie weghalen?',
     removeText: pair => `${pair}: je antwoorden voor deze interactie gaan verloren. Daarna kun je een andere noteren.`,
@@ -123,7 +125,7 @@ LabEngine.addText('zones', {
       find: Z => `Open het telkader van zone ${Z} en zoek de levende wezens.`,
       count: (name, Z) => `Telblad, zone ${Z}: noteer het aantal voor “${name}”.`,
       bars: n => `Je histogram is niet af: nog ${n === 1 ? '1 staaf' : n + ' staven'} te tekenen.`,
-      inter: n => n === 0 ? 'Gebruik de loep in een telkader en noteer twee interacties.' : 'Noteer nog één interactie (loep, in een telkader).',
+      inter: n => n === 0 ? 'Determineer de levende wezens in de telkaders: licht een interactie op, kijk dan van dichterbij en noteer ze. Noteer er twee.' : 'Noteer nog één interactie: determineer de levende wezens in de telkaders.',
       interOpen: pair => `Je interacties, ${pair}: geef beide levende wezens een +, − of 0, en kies de relatie.`
     },
 
@@ -143,13 +145,12 @@ LabEngine.addText('zones', {
         hygro: Z => `De [hygrometer] meet de luchtvochtigheid in zone ${Z}. Noteer de waarde op je terreinfiche.`
       },
       felt: Z => `Noteer nu op je terreinfiche of de bodem van zone ${Z} droog, vochtig of nat is.`,
-      quadrat: 'Tik op een [levend wezen] om te weten wat het is. Tel dan alle [omcirkelde] exemplaren en noteer het aantal in je telblad. Interacties zoek je met de [loep].',
+      quadrat: 'Tik op een [levend wezen] om te weten wat het is. Tel dan alle [omcirkelde] exemplaren en noteer het aantal in je telblad. Sommige levende wezens hebben ook een [interactie]: licht er een op, kijk dan van dichterbij.',
       identify: 'Welke naam is juist? Kijk goed naar het levende wezen.',
       wrongName: 'Niet deze: lees de aanwijzing en kijk nog eens.',
       selected: name => `[${name.charAt(0).toUpperCase() + name.slice(1)}|${name}]: tel alle [omcirkelde] exemplaren en noteer het aantal in je telblad.`,
       quadratOpen: Z => `Zone ${Z}: tik op het [telkader] om het opnieuw te openen.`,
-      scanning: Z => `De [loep] bekijkt het telkader van zone ${Z}…`,
-      scanFound: (Z, n) => `De [loep] vond ${n === 1 ? 'een interactie' : n + ' interacties'} in zone ${Z}. Tik op een loepteken om ze groot te zien.`,
+      interHere: 'Kijk! Eén ervan heeft een [interactie] met een ander levend wezen. Tik op „Kijk van dichterbij”.',
       found: 'Hier hebben twee levende wezens een [interactie]! Noteer ze in je fiche.',
       foundNoted: 'Deze interactie staat in je fiche: +, − of 0 voor elk levend wezen, en dan de relatie.',
       noted: 'Genoteerd! Geef nu elk levend wezen een +, − of 0, en kies de relatie.',
@@ -214,13 +215,13 @@ LabEngine.addText('zones', {
       hypothesis: (warmer, brighter, humid, moss, bloom, influence, each) =>
         `Ik denk: ${warmer}, ${brighter} en ${humid}. Ik denk ook: ${moss}, en ${bloom}. Ik denk tot slot: ${influence}, en ${each}.`,
       because: 'Omdat',
-      materials: 'Een thermometer, een luxmeter, een hygrometer, een telkader (1 m × 1 m), een loep, de terreinfiche, een telblad, ruitjespapier en een lat.',
+      materials: 'Een thermometer, een luxmeter, een hygrometer, een telkader (1 m × 1 m), de terreinfiche, een telblad, ruitjespapier en een lat.',
       procedure: [
         'Meet in elke zone de luchttemperatuur met de thermometer, de lichtsterkte met de luxmeter en de luchtvochtigheid met de hygrometer.',
         'Raak de bodem aan om te voelen of hij droog, vochtig of nat is.',
         'Leg het telkader op de grond. Determineer elke soort levend wezen erin, en tel de individuen.',
         'Noteer alles op de terreinfiche en in het telblad.',
-        'Bekijk de telkaders van dichtbij met de loep en zoek twee interacties tussen levende wezens. Noteer voor elke interactie +, − of 0 voor beide levende wezens, en geef de relatie een naam.',
+        'Kijk in de telkaders wat de levende wezens doen en zoek twee interacties tussen hen. Noteer voor elke interactie +, − of 0 voor beide levende wezens, en geef de relatie een naam.',
         'Teken een histogram van het aantal individuen van elke soort in beide zones (fiche FO5b).'
       ],
       zoneCol: 'Zone',
@@ -233,7 +234,7 @@ LabEngine.addText('zones', {
       barWrong: (name, Z, got, want) => `${name} zone ${Z} (${got} in plaats van ${want})`,
       interCaption: 'Biotische factoren: mijn interacties',
       interCols: { what: 'Wat ik zag', signs: 'Tekens (+, −, 0)', rel: 'Relatie' },
-      interFound: list => `Met de loep vond ik ${list}.`,
+      interFound: list => `In de telkaders vond ik ${list}.`,
       interItem: (rel, a, b) => `${rel} (${a} en ${b})`,
       interpretation: (warmer, brighter, humid, moss, bloom) =>
         `Mijn resultaten tonen: ${warmer}, ${brighter} en ${humid}. In de telkaders: ${moss} en ${bloom}.`,
@@ -346,7 +347,7 @@ LabEngine.addText('zones', {
     moss: '[Mossen] en [varens] hebben veel water nodig: mossen hebben geen wortels en kunnen snel [uitdrogen], en varens hebben water nodig om zich voort te planten. Ze leven waar het vochtig is, vaak in de schaduw.',
     bloom: '[Wilde bloemen] hebben veel licht nodig om te groeien en te bloeien. Bijen en vlinders [voeden zich met] hun nectar, en ze houden van warmte.',
     influence: 'Je twee zones liggen maar 50 m uit elkaar, maar hun abiotische factoren (temperatuur, licht, vochtigheid) zijn heel verschillend, en hun levende wezens ook: elke soort leeft waar de omstandigheden voor haar [gunstig] zijn. [Mossen] en [varens] hebben vooral vochtigheid nodig: zonder water [drogen ze uit]. Abiotische factoren hebben dus een invloed op biotische factoren.',
-    each: 'Met de [loep] vond je levende wezens die een [interactie] hebben: het ene eet het andere op, het ene leeft op het andere en schaadt het, twee helpen elkaar, twee delen hetzelfde licht en water… Levende wezens hebben dus een invloed op elkaar: ze zijn biotische factoren.'
+    each: 'In de telkaders vond je levende wezens die een [interactie] hebben: het ene eet het andere op, het ene leeft op het andere en schaadt het, twee helpen elkaar, twee delen hetzelfde licht en water… Levende wezens hebben dus een invloed op elkaar: ze zijn biotische factoren.'
   },
 
   // said, real : valeurs déjà écrites avec leur unité (said vaut null si rien

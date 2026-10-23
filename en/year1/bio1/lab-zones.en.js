@@ -57,7 +57,7 @@ LabEngine.addText('zones', {
       pond: '[Edge of the pond]'
     },
 
-    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Feel the soil', quadrat: 'Counting square', loupe: 'Magnifying glass' },
+    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Feel the soil', quadrat: 'Counting square' },
     // L'instrument dans une phrase (« the … showed »).
     instruments: { temp: 'thermometer', lux: 'luxmeter', air: 'hygrometer' },
     views: { field: 'In the field', graph: 'Histogram' },
@@ -87,14 +87,16 @@ LabEngine.addText('zones', {
     idNoted: n => `In your count sheet: ${n}`,
 
     // La loupe et la fiche des interactions (dans le carré)
-    idEmptyLoupe: 'To find interactions between living things, use the [magnifying glass] (with the tools).',
-    idEmptyScanned: 'The [magnifying glass] has found interactions: tap a magnifying glass sign in the square.',
+    tasksTitle: 'In each counting square:',
+    tasks: ['Identify every species and count it.', 'Note two interactions between living things (in both squares together).'],
+    interHere: 'Look! One of them [interacts] with another living thing.',
+    lookCloser: 'Look closer',
     openClue: pair => `Interaction: ${pair}`,
     noteInter: 'Note this interaction',
     interSheet: 'My interactions',
     interCount: (n, max) => `${n} / ${max}`,
     toComplete: 'to complete',
-    emptySlot: 'Find an interaction with the magnifying glass.',
+    emptySlot: 'Identify the living things to find an interaction.',
     removeInter: 'Remove this interaction',
     removeTitle: 'Remove this interaction?',
     removeText: pair => `${pair}: your answers for this interaction will be lost. Then you can note another one.`,
@@ -123,7 +125,7 @@ LabEngine.addText('zones', {
       find: Z => `Open the counting square of zone ${Z} and find its living things.`,
       count: (name, Z) => `Count sheet, zone ${Z}: write the number for “${name}”.`,
       bars: n => `Your histogram is not finished: ${n === 1 ? '1 bar' : n + ' bars'} still to draw.`,
-      inter: n => n === 0 ? 'In a counting square, use the magnifying glass and note two interactions.' : 'Note one more interaction (magnifying glass, in a counting square).',
+      inter: n => n === 0 ? 'Identify the living things in the counting squares: when an interaction lights up, look closer and note it. Note two interactions.' : 'Note one more interaction: identify the living things in the counting squares.',
       interOpen: pair => `Your interactions, ${pair}: give +, − or 0 to both living things, and choose the relation.`
     },
 
@@ -143,13 +145,12 @@ LabEngine.addText('zones', {
         hygro: Z => `The [hygrometer] measures the humidity of the air in zone ${Z}. Write the value in your data sheet.`
       },
       felt: Z => `Now note in your data sheet if the soil of zone ${Z} is dry, moist or wet.`,
-      quadrat: 'Tap a [living thing] to find out what it is. Then count all the [circled] ones and write the number in your count sheet. To find interactions, use the [magnifying glass].',
+      quadrat: 'Tap a [living thing] to find out what it is. Then count all the [circled] ones and write the number in your count sheet. Some living things also [interact]: when one lights up, look closer.',
       identify: 'Which name is right? Look closely at the living thing.',
       wrongName: 'Not this one: read the hint and look again.',
       selected: name => `[${name.charAt(0).toUpperCase() + name.slice(1)}|${name}]: count all the [circled] ones and write the number in your count sheet.`,
       quadratOpen: Z => `Zone ${Z}: tap the [counting square] to open it again.`,
-      scanning: Z => `The [magnifying glass] looks over the counting square of zone ${Z}…`,
-      scanFound: (Z, n) => `The [magnifying glass] found ${n === 1 ? 'an interaction' : n + ' interactions'} in zone ${Z}. Tap a magnifying glass sign to see it big.`,
+      interHere: 'Look! One of them [interacts] with another living thing. Tap “Look closer”.',
       found: 'Two living things [interact] here! Note this interaction in your sheet.',
       foundNoted: 'This interaction is in your sheet: +, − or 0 for each living thing, then the relation.',
       noted: 'Noted! Now give +, − or 0 to each living thing, and choose the relation.',
@@ -214,13 +215,13 @@ LabEngine.addText('zones', {
       hypothesis: (warmer, brighter, humid, moss, bloom, influence, each) =>
         `I think that ${warmer}, ${brighter} and ${humid}. I think that ${moss}, and ${bloom}. I think that ${influence}, and that ${each}.`,
       because: 'Because',
-      materials: 'A thermometer, a luxmeter, a hygrometer, a counting square (1 m × 1 m), a magnifying glass, the field data sheet, a count sheet, squared paper and a ruler.',
+      materials: 'A thermometer, a luxmeter, a hygrometer, a counting square (1 m × 1 m), the field data sheet, a count sheet, squared paper and a ruler.',
       procedure: [
         'In each zone, measure the temperature of the air with the thermometer, the light intensity with the luxmeter and the humidity of the air with the hygrometer.',
         'Touch the soil to feel if it is dry, moist or wet.',
         'Put the counting square on the ground. Identify each species of living thing inside it, and count its individuals.',
         'Write everything in the field data sheet and in the count sheet.',
-        'With the magnifying glass, look closely at the counting squares and find two interactions between living things. For each one, note +, − or 0 for both living things, and name the relation.',
+        'In the counting squares, look at what the living things do and find two interactions between them. For each one, note +, − or 0 for both living things, and name the relation.',
         'Draw a histogram of the number of individuals of each species in both zones (tool sheet FO5b).'
       ],
       zoneCol: 'Zone',
@@ -233,7 +234,7 @@ LabEngine.addText('zones', {
       barWrong: (name, Z, got, want) => `${name} zone ${Z} (${got} instead of ${want})`,
       interCaption: 'Biotic factors: my interactions',
       interCols: { what: 'What I saw', signs: 'Signs (+, −, 0)', rel: 'Relation' },
-      interFound: list => `With the magnifying glass, I found ${list}.`,
+      interFound: list => `In the counting squares, I found ${list}.`,
       interItem: (rel, a, b) => `${rel} (${a} and ${b})`,
       interpretation: (warmer, brighter, humid, moss, bloom) =>
         `My results show that ${warmer}, ${brighter} and ${humid}. In the counting squares, ${moss} and ${bloom}.`,
@@ -256,7 +257,7 @@ LabEngine.addText('zones', {
     butterfly: 'papillon', bee: 'abeille', grasshopper: 'sauterelle', ant: 'fourmi', woodlouse: 'cloporte', snail: 'escargot',
     dragonfly: 'libellule', frog: 'grenouille',
     'feed on': 'se nourrissent de', 'dry out': 'se dessèchent', 'suit it': 'lui conviennent',
-    'magnifying glass': 'loupe', interact: 'interagissent', 'each other': 'les uns sur les autres',
+    interact: 'interagissent', interacts: 'interagit', 'each other': 'les uns sur les autres',
     aphids: 'pucerons', spider: 'araignée', fly: 'mouche', 'rust fungus': 'rouille (un champignon parasite)', centipede: 'mille-pattes',
     tree: 'arbre', trunk: 'tronc', roots: 'racines', sap: 'sève', web: 'toile', silk: 'soie', sticky: 'collante', claws: 'crochets',
     gains: 'gagne (y trouve un avantage)', loses: 'perd (y trouve un désavantage)', 'is not affected': "n'est pas touché"
@@ -345,7 +346,7 @@ LabEngine.addText('zones', {
     moss: '[Mosses] and [ferns] need a lot of water: mosses have no roots and [dry out] quickly, and ferns need water to reproduce. They live where it is humid, often in the shade.',
     bloom: '[Wildflowers] need a lot of light to grow and to flower. Bees and butterflies [feed on] their nectar, and they like warmth.',
     influence: 'Your two zones are only 50 m apart, but their abiotic factors (temperature, light, humidity) are very different, and so are their living things: each species lives where the conditions [suit it]. [Mosses] and [ferns] need humidity above all: without water, they [dry out]. So abiotic factors have an influence on biotic factors.',
-    each: 'With the [magnifying glass], you found living things that [interact]: one eats another, one lives on another and harms it, two help each other, two share the same light and water… So living things have an influence on each other: they are biotic factors.'
+    each: 'In the counting squares, you found living things that [interact]: one eats another, one lives on another and harms it, two help each other, two share the same light and water… So living things have an influence on each other: they are biotic factors.'
   },
 
   // said, real : valeurs déjà écrites avec leur unité (said vaut null si rien
