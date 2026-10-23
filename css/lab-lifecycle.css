@@ -32,8 +32,31 @@
 }
 
 .lc-icon.is-big {
-  width: 46px;
-  height: 46px;
+  width: 64px;
+  height: 64px;
+}
+
+/* Images (planche Gemini) : objets et étapes du cycle */
+.lc-img {
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Numéro de question (1, 2) */
+.lc-qnum {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--color-current);
+  color: var(--color-current-text);
+  font-size: 0.74rem;
+  font-weight: 800;
+  vertical-align: 2px;
 }
 
 .lc-ok { color: var(--color-emerald); font-weight: 600; }
@@ -92,8 +115,8 @@
 }
 
 .lc-object.is-compact .lc-icon.is-big {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
 }
 
 .lc-object.is-compact .lc-object-text {
@@ -153,15 +176,35 @@
   height: 20px;
 }
 
+/* Question 2 : les étapes du chemin « jeter » */
+.lc-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+}
+
+.lc-step-chip .lc-icon {
+  width: 26px;
+  height: 26px;
+}
+
 /* ===== Étape 1 : hypothèse ===== */
 .lc-predict {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 12px;
-  width: min(920px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-content: center;
+  align-items: start;
+  gap: 14px;
+  width: min(1160px, 100%);
   margin: 0 auto;
+}
+
+.lc-question-card .lc-big-q {
+  margin-bottom: 8px;
 }
 
 .lc-question-card,
@@ -180,6 +223,11 @@
 .lc-hyp-text {
   margin: 0 0 6px;
   font-size: 0.95rem;
+}
+
+.lc-hyp-text + .lc-rank,
+.lc-hyp-text + .lc-steps {
+  margin-bottom: 8px;
 }
 
 .lc-because {
@@ -397,11 +445,19 @@ html[data-pointer='fine'] :is(.lc-tab, .lc-pill):not(.is-on):not(.lab-is-locked)
 }
 
 .lc-box-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.74rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: #2f3b48;
+}
+
+.lc-box-img {
+  width: 24px;
+  height: 24px;
 }
 
 .lc-box-empty {
@@ -414,7 +470,12 @@ html[data-pointer='fine'] :is(.lc-tab, .lc-pill):not(.is-on):not(.lab-is-locked)
   font-size: 0.74rem;
 }
 
-.lc-box.is-drop-ready .lc-box-empty {
+.lc-box.is-drop-ready .lc-box-img {
+  width: 24px;
+  height: 24px;
+}
+
+.lc-box-empty {
   border-color: var(--color-current);
   background: rgba(var(--color-current-rgb), 0.08);
 }
@@ -765,7 +826,7 @@ html[data-pointer='fine'] :is(.lc-tab, .lc-pill):not(.is-on):not(.lab-is-locked)
 .lc-conclude {
   height: 100%;
   display: grid;
-  grid-template-columns: 470px minmax(0, 1fr);
+  grid-template-columns: 430px minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -803,7 +864,56 @@ html[data-pointer='fine'] :is(.lc-tab, .lc-pill):not(.is-on):not(.lab-is-locked)
 }
 
 .lc-zoom .lc-chart {
-  max-height: 260px;
+  max-height: 230px;
+}
+
+/* L'énergie de « jeter », étape par étape : barre et légende */
+.lc-ebar {
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #ffffff;
+}
+
+.lc-ebar-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-current-darker);
+}
+
+.lc-ebar-svg {
+  display: block;
+  width: 100%;
+  height: 16px;
+  border-radius: 3px;
+  background: #f3f5f8;
+}
+
+.lc-legend {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-size: 0.7rem;
+  color: #2f3b48;
+}
+
+.lc-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lc-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
 }
 
 .lc-zoom:focus-visible {
@@ -831,7 +941,17 @@ html[data-pointer='fine'] .lc-zoom:hover {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
+}
+
+.lc-form .lc-rank {
+  gap: 4px;
+  padding: 0 6px;
+}
+
+.lc-form .lc-chip {
+  height: 32px;
 }
 
 .lc-q {
@@ -858,6 +978,10 @@ html[data-pointer='fine'] .lc-zoom:hover {
   margin: 0;
   font-size: 0.9rem;
   line-height: 2.6;
+}
+
+.lc-q .lc-rank + .lc-concl-line {
+  margin-top: 2px;
 }
 
 .lc-best {
@@ -894,10 +1018,22 @@ html[data-pointer='fine'] .lc-zoom:hover {
 }
 
 .lc-verdicts {
+  display: grid;
+  gap: 4px;
+}
+
+.lc-verdict-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+  padding: 1px 4px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+}
+
+.lc-verdict-row.lab-is-missing {
+  border-color: #d64545;
 }
 
 .lc-verdicts .lc-q-text {
@@ -929,8 +1065,8 @@ html[data-pointer='fine'] .lc-zoom:hover {
   grid-template-columns: minmax(0, 1fr) 28px;
   align-items: center;
   gap: 8px;
-  min-height: 52px;
-  padding: 6px 14px;
+  min-height: 46px;
+  padding: 4px 14px;
   border-radius: 12px;
   border: 1.5px solid transparent;
   background: #ffffff;
@@ -980,7 +1116,18 @@ html[data-pointer='fine'] .lc-crit:not(.is-selected):hover,
 }
 
 .lc-reminder .lc-big-q {
-  font-size: 0.86rem;
+  font-size: 0.82rem;
+}
+
+.lc-reminder .lc-big-q + .lc-big-q {
+  margin-top: 4px;
+}
+
+.lc-reminder .lc-qnum {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  font-size: 0.68rem;
 }
 
 .lc-check-detail {
@@ -1015,6 +1162,16 @@ html[data-pointer='fine'] .lc-crit:not(.is-selected):hover,
   background: #ffffff;
 }
 
+.lc-facts tr.is-big {
+  background: rgba(var(--color-current-rgb), 0.12);
+  font-weight: 700;
+}
+
+.lc-facts .lc-icon {
+  width: 24px;
+  height: 24px;
+}
+
 .lc-check-chart {
   max-width: 420px;
   margin-bottom: 8px;
@@ -1041,6 +1198,7 @@ html[data-pointer='fine'] .lc-crit:not(.is-selected):hover,
 
 /* ===== Écrans plus étroits ===== */
 @media (max-width: 760px) {
+  .lc-predict,
   .lc-run,
   .lc-conclude,
   .lc-check { grid-template-columns: 1fr; height: auto; }

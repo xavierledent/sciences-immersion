@@ -23,23 +23,31 @@ LabEngine.addText('lifecycle', {
     num: v => String(v).replace('.', ','),
 
     question: 'Weggooien, recycleren of hergebruiken: welke manier is het beste voor de planeet?',
-    yourQuestion: 'Jouw onderzoeksvraag',
+    yourQuestions: 'Jouw onderzoeksvragen',
+    question2: 'Als de voorwerpen weggegooid worden, welke stap van de levenscyclus verbruikt dan de meeste energie?',
     hypothesisTitle: 'Jouw hypothese',
     hypIntro: 'Rangschik de drie manieren, van de beste tot de slechtste voor de planeet.',
+    hypIntro2: 'Kies de stap die de meeste energie verbruikt als de voorwerpen weggegooid worden.',
     places: ['1ste: de beste', '2de', '3de: de slechtste'],
     hypText: list => `Ik denk dat de manieren, van de beste tot de slechtste voor de planeet, deze zijn: ${list}.`,
+    hypText2: step => `Ik denk dat ${step} de stap is die de meeste energie verbruikt als de voorwerpen weggegooid worden.`,
     because: 'Waarom denk je dat? (niet verplicht)',
     becausePlaceholder: 'Omdat…',
     hypothesisReady: 'Je hypothese is klaar.',
-    hypothesisPending: 'Rangschik de drie manieren: één manier per regel.',
+    hypothesisPending: 'Rangschik de drie manieren en kies een stap.',
     toJourney: 'Verder: de reis',
-    lockHypothesis: 'Rangschik eerst de drie manieren.',
+    lockHypothesis: 'Beantwoord de twee delen van je hypothese: rangschik de drie manieren en kies een stap.',
     lockHypothesisFixed: 'Je hypothese ligt vast: het model heeft al gelopen. Een wetenschapper verandert zijn hypothese niet nadat hij de resultaten gezien heeft!',
 
     // Les étapes du cycle de vie (schéma du cours), les trois façons, les quatre compteurs.
     steps: {
       extraction: 'Winning van grondstoffen', manufacturing: 'Productie', distribution: 'Distributie',
       use: 'Gebruik', disposal: 'Afdanking', recycling: 'Recyclage'
+    },
+    // Dans une phrase (« … is de stap die de meeste energie verbruikt »).
+    stepIn: {
+      extraction: 'de winning van grondstoffen', manufacturing: 'de productie', distribution: 'de distributie',
+      use: 'het gebruik', disposal: 'de afdanking', recycling: 'de recyclage'
     },
     ways: { throw: { name: 'Weggooien', lower: 'weggooien' }, recycle: { name: 'Recycleren', lower: 'recycleren' }, reuse: { name: 'Hergebruiken', lower: 'hergebruiken' } },
     counters: {
@@ -49,30 +57,71 @@ LabEngine.addText('lifecycle', {
     taking: 'NEMEN',
     givingBack: 'TERUGGEVEN',
 
-    /* Les objets : many (« 150 blikjes frisdrank »), scenario (la situation),
-       ways (ce que veut dire chaque façon pour cet objet), loop (la boucle de
-       la réutilisation, sur le dessin), events (les six cartes du voyage). */
+    /* Les objets : many (« 3 smartphones »), period (la durée, à la suite
+       d'un titre), scenario (la situation), ways (ce que veut dire chaque
+       façon pour cet objet), loop (la boucle de la réutilisation, sur le
+       dessin), events (les six cartes du voyage). */
     objects: {
-      cans: {
-        many: q => `${q} blikjes frisdrank`,
-        scenario: q => `In één schooljaar drink je ${q} blikjes frisdrank.`,
+      lunchbox: {
+        many: q => `${q} brooddozen`,
+        period: 'in 6 jaar secundair onderwijs',
+        scenario: q => `Je hebt een aluminium brooddoos nodig voor je 6 jaar secundair onderwijs. Veel leerlingen krijgen elk schooljaar een nieuwe: dat zijn ${q} brooddozen.`,
         ways: {
-          throw: 'de lege blikjes gaan bij het restafval (grijze vuilnisbak).',
-          recycle: 'de lege blikjes gaan in de blauwe PMD-zak.',
-          reuse: 'één hervulbare metalen drinkfles voor het hele jaar.'
+          throw: 'elk jaar gaat de oude brooddoos bij het restafval (grijze vuilnisbak).',
+          recycle: 'elk jaar gaat de oude brooddoos naar het containerpark, bij de metalen.',
+          reuse: 'je houdt dezelfde brooddoos 6 jaar: je wast ze en herstelt haar sluitingen.'
         },
-        loop: 'gewassen en opnieuw gevuld',
+        loop: 'gewassen en opnieuw gebruikt',
         events: {
           extraction: 'Enorme machines graven bauxiet uit de ondergrond. Het wordt omgezet in zuiver aluminium.',
-          manufacturing: 'Een fabriek walst het aluminium tot dunne platen en vormt er blikjes van.',
-          distribution: 'Vrachtwagens brengen de volle blikjes naar de winkels.',
-          use: 'Je koopt een koude frisdrank en drinkt hem op.',
-          disposal: 'Het lege blikje gaat bij het restafval: het wordt afval.',
-          recycling: 'Het lege blikje wordt gesmolten om nieuw aluminium te maken.'
+          manufacturing: 'Een fabriek perst aluminium platen tot dozen en deksels, en zet er sluitingen op.',
+          distribution: 'Vrachtwagens brengen de brooddozen naar de winkels.',
+          use: 'Elke schooldag neem je je boterhammen mee in de brooddoos.',
+          disposal: 'De oude brooddoos gaat bij het restafval: ze wordt afval.',
+          recycling: 'De oude brooddoos wordt gesmolten om nieuw aluminium te maken.'
+        }
+      },
+      phone: {
+        many: q => `${q} smartphones`,
+        period: 'in 6 jaar secundair onderwijs',
+        scenario: q => `In 6 jaar secundair onderwijs gebruik je ${q} smartphones, de ene na de andere.`,
+        ways: {
+          throw: 'de oude smartphones belanden bij het restafval (grijze vuilnisbak).',
+          recycle: 'de oude smartphones gaan terug naar de winkel: hun metalen worden teruggewonnen.',
+          reuse: 'je koopt refurbished smartphones: tweedehands, nagekeken en hersteld.'
+        },
+        loop: 'hersteld en opnieuw gebruikt',
+        events: {
+          extraction: 'Mijnen graven veel gesteente op om een paar gram koper, goud en andere metalen te krijgen.',
+          manufacturing: 'Fabrieken maken de chips, het scherm en de batterij, en zetten de smartphone in elkaar.',
+          distribution: 'Vliegtuigen, schepen en vrachtwagens brengen de smartphones naar de winkels.',
+          use: 'Je belt, chat en laadt je smartphone elke dag op.',
+          disposal: 'De oude smartphone gaat bij het restafval: zijn metalen gaan verloren.',
+          recycling: 'De oude smartphone wordt uit elkaar gehaald: koper, goud en andere metalen worden teruggewonnen.'
+        }
+      },
+      pan: {
+        many: q => `${q} inox kookpotten`,
+        period: 'in 6 jaar',
+        scenario: q => `In 6 jaar heeft je gezin ${q} kookpotten van roestvrij staal (inox) nodig: telkens een nieuwe als de oude beschadigd is.`,
+        ways: {
+          throw: 'de beschadigde kookpotten gaan bij het restafval (grijze vuilnisbak).',
+          recycle: 'de beschadigde kookpotten gaan naar het containerpark: het staal wordt gerecycleerd.',
+          reuse: 'de kookpotten worden hersteld (een nieuw handvat) of tweedehands gekocht.'
+        },
+        loop: 'hersteld en opnieuw gebruikt',
+        events: {
+          extraction: 'Mijnen graven ijzererts, chroom en nikkel uit de ondergrond. Ze worden omgezet in roestvrij staal.',
+          manufacturing: 'Een fabriek perst stalen platen tot kookpotten, poetst ze op en zet er een handvat aan.',
+          distribution: 'Vrachtwagens brengen de kookpotten naar de winkels.',
+          use: 'Je gezin kookt bijna elke dag met de kookpot.',
+          disposal: 'De beschadigde kookpot gaat bij het restafval: hij wordt afval.',
+          recycling: 'De beschadigde kookpot wordt samen met ander oud staal gesmolten om nieuw staal te maken.'
         }
       },
       glass: {
         many: q => `${q} flessen fruitsap`,
+        period: 'in één schooljaar',
         scenario: q => `In één schooljaar drinkt je gezin ${q} glazen flessen fruitsap.`,
         ways: {
           throw: 'de lege flessen gaan bij het restafval (grijze vuilnisbak).',
@@ -91,6 +140,7 @@ LabEngine.addText('lifecycle', {
       },
       tshirts: {
         many: q => `${q} T-shirts`,
+        period: 'in één schooljaar',
         scenario: q => `In één schooljaar heb je ${q} T-shirts nodig.`,
         ways: {
           throw: 'de oude T-shirts gaan bij het restafval (grijze vuilnisbak).',
@@ -133,7 +183,7 @@ LabEngine.addText('lifecycle', {
     captionWay: way => `${way}: laat het model lopen en kijk naar de tellers.`,
     captionStep: step => `${step}…`,
     captionRan: way => `${way}: klaar. Lees de vier tellers af en noteer de totalen in je schrift.`,
-    notebookTitle: 'Jouw schrift: totalen voor één schooljaar',
+    notebookTitle: period => `Jouw schrift: totalen ${period}`,
     numAria: (way, head) => `${way}, ${head}`,
     lockWays: 'Laat eerst de drie manieren lopen.',
     lockNotes: n => `Vul je schrift aan: nog ${n === 1 ? '1 getal' : n + ' getallen'}.`,
@@ -153,13 +203,16 @@ LabEngine.addText('lifecycle', {
     // Étape 3
     resultsTitle: 'Jouw resultaten',
     zoom: 'De grafiek groot tonen',
+    energyBar: way => `Energie · ${way}: de kleuren van de stappen`,
     conclRank: 'Van de beste tot de slechtste voor de planeet:',
     conclRankText: list => `Van de beste tot de slechtste voor de planeet zijn de manieren: ${list}.`,
     conclWhy: (best, avoid) => `De beste manier is ${best}, omdat ze ${avoid} grotendeels vermijdt.`,
     avoid: { make: 'de winning van grondstoffen en de productie', transport: 'de distributie (het transport)', use: 'het gebruik van het voorwerp', bin: 'de afdanking (de vuilnisbak)' },
     avoidAria: 'Welke stappen vermijdt ze?',
+    conclStep: step => `Als de voorwerpen weggegooid worden, is ${step} de stap die de meeste energie verbruikt.`,
+    stepAria: 'Welke stap verbruikt de meeste energie?',
     choose: '— kies —',
-    verdictLine: 'Dus mijn hypothese is',
+    verdictLine: n => `Dus mijn hypothese ${n} is`,
     confirmed: 'bevestigd',
     rejected: 'verworpen',
     checkConclusions: 'Mijn besluiten controleren',
@@ -169,27 +222,28 @@ LabEngine.addText('lifecycle', {
     scoreLabel: 'controles geslaagd',
     markCorrect: 'juist',
     markIncorrect: 'fout',
-    criteria: { journey: 'Levenscyclus', notes: 'Waarnemingen', graph: 'Grafiek', answer: 'Besluit', verdict: 'Hypothese' },
-    criteriaSub: { journey: 'De reis', notes: 'Jouw schrift', graph: 'Jouw staven', answer: 'Jouw antwoord', verdict: 'Jouw oordeel' },
+    criteria: { journey: 'Levenscyclus', notes: 'Waarnemingen', graph: 'Grafiek', answer: 'Vraag 1', step: 'Vraag 2', verdict: 'Hypotheses' },
+    criteriaSub: { journey: 'De reis', notes: 'Jouw schrift', graph: 'Jouw staven', answer: 'De beste manier', step: 'De stap met de meeste energie', verdict: 'Jouw oordelen' },
     factsTitle: 'De totalen van het model:',
 
     report: {
       title: 'Laboratoriumverslag — Van de aarde en terug',
       because: 'Omdat',
-      materials: many => `Een model van de levenscyclus van ${many} in één schooljaar, met vier tellers: grondstoffen, energie, CO₂ en afval.`,
+      materials: (many, period) => `Een model van de levenscyclus van ${many} ${period}, met vier tellers: grondstoffen, energie, CO₂ en afval.`,
       procedure: counter => [
         'Leg elke kaart op haar stap van de levenscyclus.',
         'Laat het model lopen voor elke manier: weggooien, recycleren, hergebruiken. Lees de vier tellers af en noteer de totalen in het schrift.',
-        `Teken een staafdiagram van „${counter}” voor de drie manieren.`
+        `Teken een staafdiagram van „${counter}” voor de drie manieren.`,
+        'Kijk naar de kleuren van de energieteller voor „weggooien”: zoek de grootste stap.'
       ],
       journeyCaption: 'De reis van het voorwerp',
       stepHead: 'Stap',
       eventHead: 'Kaart',
-      notesCaption: 'Schrift: totalen voor één schooljaar',
+      notesCaption: period => `Schrift: totalen ${period}`,
       chartCaption: 'Staafdiagram',
       wayLine: (way, raw, energy, co2, waste) => `${way}: ${raw} kg grondstoffen, ${energy} eenheden energie, ${co2} kg CO₂ en ${waste} kg afval.`,
-      verdict: word => `Dus mijn hypothese is ${word}.`,
-      score: n => `Score: ${n} / 5 controles geslaagd.`
+      verdict: (n, word) => `Dus mijn hypothese ${n} is ${word}.`,
+      score: (n, total) => `Score: ${n} / ${total} controles geslaagd.`
     }
   },
 
@@ -198,17 +252,26 @@ LabEngine.addText('lifecycle', {
     productie: 'fabrication', afdanking: 'élimination (fin de vie)', recyclage: 'recyclage', weggooien: 'jeter', recycleren: 'recycler',
     hergebruiken: 'réutiliser', verminderen: 'réduire', afval: 'déchets', restafval: 'déchets résiduels (poubelle grise)',
     'grijze vuilnisbak': 'poubelle grise', vuilnisbak: 'poubelle', 'PMD-zak': 'sac PMC', glasbol: 'bulle à verre',
-    textielcontainer: 'conteneur à textiles', tweedehands: 'de seconde main', hervulbare: 'qu’on peut remplir à nouveau',
-    drinkfles: 'gourde', statiegeld: 'consigne', gewassen: 'lavé(e)s', 'opnieuw gevuld': 'rempli(e)s à nouveau', ondergrond: 'sous-sol',
-    gesmolten: 'fondu(e)', walst: 'lamine', platen: 'plaques', vormt: 'met en forme', gevormd: 'mis en forme', vrachtwagens: 'camions',
+    textielcontainer: 'conteneur à textiles', tweedehands: 'de seconde main', statiegeld: 'consigne', gewassen: 'lavé(e)s', 'opnieuw gevuld': 'rempli(e)s à nouveau', ondergrond: 'sous-sol',
+    gesmolten: 'fondu(e)', platen: 'plaques', vormt: 'met en forme', gevormd: 'mis en forme', vrachtwagens: 'camions',
     winkels: 'magasins', groeve: 'carrière', zand: 'sable', kalksteen: 'calcaire', vermalen: 'broyé(e)', katoen: 'coton',
     katoenplanten: 'plants de coton', geplukt: 'récolté', spinnen: 'filent', garen: 'fil', weven: 'tissent', stof: 'tissu',
     verven: 'teignent', naaien: 'cousent', verbrand: 'brûlé', vezels: 'fibres', draagt: 'portes', 'opnieuw gedragen': 'porté à nouveau',
     tellers: 'compteurs', teller: 'compteur', nemen: 'prendre', teruggeven: 'rendre', vermijdt: 'évite', grotendeels: 'en grande partie',
     slechtste: 'le pire', beste: 'le meilleur', rangschik: 'classe', staafdiagram: 'graphique en colonnes', staven: 'colonnes', staaf: 'colonne',
-    fruitsap: 'jus de fruits', blikjes: 'canettes', blikje: 'canette', frisdrank: 'soda', enorme: 'énormes', graven: 'creusent',
+    fruitsap: 'jus de fruits', enorme: 'énormes', graven: 'creusent',
     schepen: 'bateaux', 'brandt niet': 'ne brûle pas', 'neemt ze terug': 'les reprend', groeien: 'poussent', veld: 'champ', gezin: 'famille',
-    voorwerp: 'objet', schooljaar: 'année scolaire', schrift: 'cahier'
+    voorwerp: 'objet', schooljaar: 'année scolaire', schrift: 'cahier',
+    brooddoos: 'boîte à tartines', brooddozen: 'boîtes à tartines', containerpark: 'parc à conteneurs (recyparc)',
+    sluitingen: 'fermoirs', herstelt: 'répares', hersteld: 'réparé(e)s', refurbished: 'reconditionné(s)', nagekeken: 'vérifié(s)',
+    teruggewonnen: 'récupéré(e)s', 'uit elkaar gehaald': 'démonté', chips: 'puces électroniques', scherm: 'écran',
+    vliegtuigen: 'avions', 'roestvrij staal': 'acier inoxydable', staal: 'acier', kookpot: 'casserole', kookpotten: 'casseroles',
+    beschadigd: 'abîmé(e)', beschadigde: 'abîmé(e)s', ijzererts: 'minerai de fer', erts: 'minerai', chroom: 'chrome',
+    perst: 'presse', 'poetst ze op': 'les polit', handvat: 'manche', 'oud staal': 'acier usagé (ferraille)', kookt: 'cuisine',
+    mijnen: 'mines', gesteente: 'roche', koper: 'cuivre', goud: 'or', 'gaan verloren': 'sont perdus', verbruikt: 'consomme',
+    weggegooid: 'jeté(e)s', boterhammen: 'tartines', schooldag: 'jour d’école', deksels: 'couvercles',
+    'de ene na de andere': 'l’un après l’autre', laadt: 'recharges', belanden: 'finissent', 'secundair onderwijs': 'enseignement secondaire',
+    telkens: 'chaque fois'
   },
 
   // Étape Check : pourquoi.
@@ -216,14 +279,26 @@ LabEngine.addText('lifecycle', {
     steps: 'De levenscyclus van een voorwerp: winning van grondstoffen, productie, distributie, gebruik, en dan afdanking of recyclage.',
     arrows: 'Recyclage sluit de kringloop: het afval wordt opnieuw een grondstof. Daarom zijn de pijlen van een duurzame levenscyclus dubbel.',
     reuse: {
-      cans: 'Eén metalen drinkfles voor het hele jaar: het metaal wordt maar één keer gewonnen en de fles maar één keer gemaakt. Ze afwassen kost een beetje energie, veel minder dan nieuwe blikjes maken.',
+      lunchbox: 'Eén brooddoos voor 6 jaar: het aluminium wordt maar één keer gewonnen en de doos maar één keer gemaakt. Nieuwe sluitingen kosten maar een beetje energie.',
+      phone: 'Een refurbished smartphone is al gemaakt: hij heeft alleen een nieuwe batterij en wat herstellingen nodig. Geen nieuwe chips, geen nieuw scherm.',
+      pan: 'Een herstelde of tweedehands kookpot is al gemaakt: geen erts om op te graven, geen nieuw staal. Een nieuw handvat kost maar een beetje energie.',
       glass: 'Een fles met statiegeld wordt ongeveer 25 keer gebruikt: er worden heel weinig nieuwe flessen gemaakt. De flessen wassen en met vrachtwagens terugbrengen kost ook energie, maar veel minder dan nieuw glas smelten.',
       tshirts: 'Een tweedehands T-shirt is al gemaakt: geen katoen om te telen, geen fabriek. Sorteren, wassen en transport kosten maar een beetje energie.'
     },
     recycle: {
-      cans: 'Gerecycleerd aluminium vraagt ongeveer 95 % minder energie dan nieuw aluminium uit bauxiet: recyclage vermijdt het grootste deel van de winning van grondstoffen. Maar er moeten nog altijd nieuwe blikjes gemaakt worden, en niet alle blikjes worden ingezameld.',
+      lunchbox: 'Gerecycleerd aluminium vraagt ongeveer 95 % minder energie dan nieuw aluminium uit bauxiet. Maar er moet nog altijd elk jaar een nieuwe brooddoos gemaakt worden, en niet al het aluminium wordt teruggewonnen.',
+      phone: 'Recyclage wint een deel van de metalen terug: er wordt minder gesteente opgegraven. Maar de meeste energie gaat naar het maken van de chips en het scherm, en dat kan recyclage niet besparen: er moet nog altijd een nieuwe smartphone gemaakt worden.',
+      pan: 'Staal kan telkens opnieuw gerecycleerd worden: oud staal smelten vraagt veel minder energie dan staal maken uit erts. Maar er moet nog altijd een nieuwe kookpot gemaakt worden.',
       glass: 'Gerecycleerd glas smelt gemakkelijker: het bespaart ongeveer een kwart van de energie, en er wordt minder zand gegraven. Maar de fabriek moet nog altijd nieuwe flessen maken: recycleren bespaart minder dan hergebruiken.',
       tshirts: 'Gerecycleerde vezels vervangen een deel van het nieuwe katoen. Maar de stof en de T-shirts moeten nog altijd in een fabriek gemaakt worden.'
+    },
+    // Question 2 : pourquoi cette étape consomme le plus.
+    step: {
+      lunchbox: 'Voor aluminium is de winning van grondstoffen de grootste stap: bauxiet omzetten in zuiver aluminium vraagt enorm veel energie. Daarom bespaart aluminium recycleren zoveel.',
+      phone: 'Voor een smartphone is de productie de grootste stap: chips en schermen maken vraagt heel schone fabrieken en veel energie. De metalen recycleren kan die energie niet besparen.',
+      pan: 'Voor roestvrij staal is de winning van grondstoffen de grootste stap: ijzererts, chroom en nikkel omzetten in staal vraagt veel warmte.',
+      glass: 'Voor glas is de productie de grootste stap: het zand moet bij 1500 °C gesmolten worden. Het zand zelf is gemakkelijk op te graven.',
+      tshirts: 'Voor een T-shirt is de productie de grootste stap: spinnen, weven, verven en naaien kosten veel energie en water.'
     },
     rs: 'De 3 R’s: verminderen, hergebruiken, recycleren. Hergebruiken komt vóór recycleren: een voorwerp dat opnieuw gebruikt wordt, moet niet opnieuw gemaakt worden. De getallen van dit model zijn afgeronde, echte grootteordes.'
   },
@@ -241,6 +316,10 @@ LabEngine.addText('lifecycle', {
     graphHow: 'Een staafdiagram (FO4): één staaf per manier, zo hoog als haar getal; de titel, de as en de eenheid zeggen wat er gemeten wordt.',
     answerOk: 'Juist!',
     answerWrong: 'Niet helemaal. Het juiste antwoord:',
+    stepHead: 'Stap',
+    stepFacts: way => `${way}: de energie van elke stap (eenheden)`,
+    stepHow: 'De grootste stap vinden: zoek op de energieteller van „weggooien” de langste kleur. Elke kleur is een stap van de levenscyclus.',
+    hypHead: n => `Hypothese ${n}`,
     yourHyp: 'Jouw hypothese:',
     yourConcl: 'Jouw besluit:',
     verdictOk: v => `Je hypothese en je besluit ${v === 'confirmed' ? 'zeggen hetzelfde' : 'zeggen niet hetzelfde'}: je hypothese is dus inderdaad ${v === 'confirmed' ? 'bevestigd' : 'verworpen'}. Goed geoordeeld!`,
