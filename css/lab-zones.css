@@ -926,6 +926,22 @@ html[data-pointer='fine'] .zn-clue-badge:hover .zn-clue-dot {
   font-weight: 700;
 }
 
+/* Interaction déjà notée : une ligne discrète, pour la revoir */
+.zn-id-noted {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: #eef1ee;
+}
+
+.zn-id-noted p {
+  color: var(--color-muted);
+  font-size: 0.8rem !important;
+}
+
 .zn-closer.lab-btn {
   height: 34px;
   font-size: 0.84rem;
@@ -1081,14 +1097,6 @@ html[data-pointer='fine'] .zn-clue-badge:hover .zn-clue-dot {
   background: rgba(var(--color-current-rgb), 0.1);
 }
 
-.zn-inter-item.is-empty {
-  align-items: center;
-  padding: 0 10px;
-  border-style: dashed;
-  color: var(--color-muted);
-  font-size: 0.76rem;
-}
-
 .zn-inter-open {
   flex: 1 1 auto;
   min-width: 0;
@@ -1114,28 +1122,9 @@ html[data-pointer='fine'] .zn-clue-badge:hover .zn-clue-dot {
   font-weight: 600;
 }
 
-.zn-inter-del {
-  flex: 0 0 auto;
-  width: 34px;
-  border: 0;
-  border-left: 1px solid rgba(17, 36, 72, 0.08);
-  border-radius: 0 9px 9px 0;
-  background: transparent;
-  color: var(--color-muted);
-  font-size: 1.1rem;
-  line-height: 1;
-}
-
 html[data-pointer='fine'] .zn-inter-open:hover,
 .zn-inter-open:focus-visible {
   background: rgba(var(--color-current-rgb), 0.08);
-  outline: none;
-}
-
-html[data-pointer='fine'] .zn-inter-del:hover,
-.zn-inter-del:focus-visible {
-  background: #fdf3f5;
-  color: var(--color-rose);
   outline: none;
 }
 

@@ -73,7 +73,7 @@ LabEngine.addText('zones', {
     nSpecies: n => n === 1 ? '1 species' : `${n} species`,
     countLabel: (name, Z) => `Number of individuals: ${name}, zone ${Z}`,
     cellLabel: (Z, factor) => `Zone ${Z}, ${factor}`,
-    infoField: (v, q, i) => `${v} / 8 measurements written · ${q} / 2 counting squares done · ${i} / 2 interactions`,
+    infoField: (v, q) => `${v} / 8 measurements written · ${q} / 2 counting squares done`,
     toGraph: 'Next: build your histogram',
     toConclude: 'Next: conclude',
     backToZones: 'Back to the zones',
@@ -88,19 +88,15 @@ LabEngine.addText('zones', {
 
     // La loupe et la fiche des interactions (dans le carré)
     tasksTitle: 'In each counting square:',
-    tasks: ['Identify every species and count it.', 'Note two interactions between living things (in both squares together).'],
+    tasks: ['Identify every species and count it.', 'Note every interaction you find between living things.'],
     interHere: 'Look! One of them [interacts] with another living thing.',
     lookCloser: 'Look closer',
+    notedHere: 'You have noted the interaction of this living thing.',
+    openNoted: 'See my interaction',
     openClue: pair => `Interaction: ${pair}`,
     noteInter: 'Note this interaction',
     interSheet: 'My interactions',
-    interCount: (n, max) => `${n} / ${max}`,
     toComplete: 'to complete',
-    emptySlot: 'Identify the living things to find an interaction.',
-    removeInter: 'Remove this interaction',
-    removeTitle: 'Remove this interaction?',
-    removeText: pair => `${pair}: your answers for this interaction will be lost. Then you can note another one.`,
-    removeYes: 'Remove',
     signLegend: '+ it gains · − it loses · 0 it is not affected',
     signs: { '+': '+', '-': '−', '0': '0' },
     // Le signe dans une phrase (question 2, correction).
@@ -108,7 +104,6 @@ LabEngine.addText('zones', {
     relationLabel: 'Relation',
     relations: { predation: 'Predation', parasitism: 'Parasitism', mutualism: 'Mutualism', commensalism: 'Commensalism', competition: 'Competition' },
     relationWords: { predation: 'predation', parasitism: 'parasitism', mutualism: 'mutualism', commensalism: 'commensalism', competition: 'competition' },
-    lockTwoNoted: 'You have already noted two interactions. To note this one, first remove one from your list.',
 
     lockCell: {
       temp: Z => `First put the thermometer in zone ${Z}.`,
@@ -125,7 +120,8 @@ LabEngine.addText('zones', {
       find: Z => `Open the counting square of zone ${Z} and find its living things.`,
       count: (name, Z) => `Count sheet, zone ${Z}: write the number for “${name}”.`,
       bars: n => `Your histogram is not finished: ${n === 1 ? '1 bar' : n + ' bars'} still to draw.`,
-      inter: n => n === 0 ? 'Identify the living things in the counting squares: when an interaction lights up, look closer and note it. Note two interactions.' : 'Note one more interaction: identify the living things in the counting squares.',
+      inter: 'Identify the living things in the counting squares: when an interaction lights up, look closer and note it.',
+      interNote: pair => `An interaction is waiting to be noted: ${pair}. Look closer and note it.`,
       interOpen: pair => `Your interactions, ${pair}: give +, − or 0 to both living things, and choose the relation.`
     },
 
@@ -370,7 +366,7 @@ LabEngine.addText('zones', {
     verdictOk: verdict => `You judged your hypothesis “${verdict}”: that is right. Well judged!`,
     verdictWrong: verdict => `Compare your hypothesis with your answers: your hypothesis is ${verdict}.`,
     verdictRule: 'All seven parts the same as your answers: confirmed. Some of them: partly confirmed. None of them: rejected.',
-    interScore: (good, total) => `${good} / ${total} interactions right (signs and relation).`,
+    interScore: (good, total) => `${good} / ${total} ${total === 1 ? 'interaction' : 'interactions'} right (signs and relation).`,
     interOk: 'Your signs and your relations are all right. Well observed!',
     youNoted: 'You noted:',
     // rel : la relation choisie ; s1, s2 : ses deux signes, en mots.

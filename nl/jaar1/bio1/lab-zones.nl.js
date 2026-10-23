@@ -73,7 +73,7 @@ LabEngine.addText('zones', {
     nSpecies: n => n === 1 ? '1 soort' : `${n} soorten`,
     countLabel: (name, Z) => `Aantal individuen: ${name}, zone ${Z}`,
     cellLabel: (Z, factor) => `Zone ${Z}, ${factor}`,
-    infoField: (v, q, i) => `${v} / 8 metingen genoteerd · ${q} / 2 telkaders klaar · ${i} / 2 interacties`,
+    infoField: (v, q) => `${v} / 8 metingen genoteerd · ${q} / 2 telkaders klaar`,
     toGraph: 'Verder: maak je histogram',
     toConclude: 'Verder: besluiten',
     backToZones: 'Terug naar de zones',
@@ -88,19 +88,15 @@ LabEngine.addText('zones', {
 
     // La loupe et la fiche des interactions (dans le carré)
     tasksTitle: 'In elk telkader:',
-    tasks: ['Determineer elke soort en tel ze.', 'Noteer twee interacties tussen levende wezens (in de twee kaders samen).'],
+    tasks: ['Determineer elke soort en tel ze.', 'Noteer elke interactie tussen levende wezens die je vindt.'],
     interHere: 'Kijk! Eén ervan heeft een [interactie] met een ander levend wezen.',
     lookCloser: 'Kijk van dichterbij',
+    notedHere: 'Je hebt de interactie van dit levende wezen genoteerd.',
+    openNoted: 'Mijn interactie bekijken',
     openClue: pair => `Interactie: ${pair}`,
     noteInter: 'Deze interactie noteren',
     interSheet: 'Mijn interacties',
-    interCount: (n, max) => `${n} / ${max}`,
     toComplete: 'nog aan te vullen',
-    emptySlot: 'Determineer de levende wezens om een interactie te vinden.',
-    removeInter: 'Deze interactie weghalen',
-    removeTitle: 'Deze interactie weghalen?',
-    removeText: pair => `${pair}: je antwoorden voor deze interactie gaan verloren. Daarna kun je een andere noteren.`,
-    removeYes: 'Weghalen',
     signLegend: '+ heeft voordeel · − heeft nadeel · 0 ondervindt geen invloed',
     signs: { '+': '+', '-': '−', '0': '0' },
     // Le signe dans une phrase (question 2, correction).
@@ -108,7 +104,6 @@ LabEngine.addText('zones', {
     relationLabel: 'Relatie',
     relations: { predation: 'Predatie', parasitism: 'Parasitisme', mutualism: 'Mutualisme', commensalism: 'Commensalisme', competition: 'Competitie' },
     relationWords: { predation: 'predatie', parasitism: 'parasitisme', mutualism: 'mutualisme', commensalism: 'commensalisme', competition: 'competitie' },
-    lockTwoNoted: 'Je noteerde al twee interacties. Haal er eerst een weg uit je lijst om deze te noteren.',
 
     lockCell: {
       temp: Z => `Zet eerst de thermometer in zone ${Z}.`,
@@ -125,7 +120,8 @@ LabEngine.addText('zones', {
       find: Z => `Open het telkader van zone ${Z} en zoek de levende wezens.`,
       count: (name, Z) => `Telblad, zone ${Z}: noteer het aantal voor “${name}”.`,
       bars: n => `Je histogram is niet af: nog ${n === 1 ? '1 staaf' : n + ' staven'} te tekenen.`,
-      inter: n => n === 0 ? 'Determineer de levende wezens in de telkaders: licht een interactie op, kijk dan van dichterbij en noteer ze. Noteer er twee.' : 'Noteer nog één interactie: determineer de levende wezens in de telkaders.',
+      inter: 'Determineer de levende wezens in de telkaders: licht een interactie op, kijk dan van dichterbij en noteer ze.',
+      interNote: pair => `Er wacht nog een interactie om genoteerd te worden: ${pair}. Kijk van dichterbij en noteer ze.`,
       interOpen: pair => `Je interacties, ${pair}: geef beide levende wezens een +, − of 0, en kies de relatie.`
     },
 
@@ -371,7 +367,7 @@ LabEngine.addText('zones', {
     verdictOk: verdict => `Je beoordeelde je hypothese als “${verdict}”: dat klopt. Goed geoordeeld!`,
     verdictWrong: verdict => `Vergelijk je hypothese met je antwoorden: je hypothese is ${verdict}.`,
     verdictRule: 'Alle zeven delen hetzelfde als je antwoorden: bevestigd. Sommige: gedeeltelijk bevestigd. Geen enkel: verworpen.',
-    interScore: (good, total) => `${good} / ${total} interacties juist (tekens en relatie).`,
+    interScore: (good, total) => `${good} / ${total} ${total === 1 ? 'interactie' : 'interacties'} juist (tekens en relatie).`,
     interOk: 'Je tekens en je relaties zijn allemaal juist. Goed waargenomen!',
     youNoted: 'Jij noteerde:',
     // rel : la relation choisie ; s1, s2 : ses deux signes, en mots.

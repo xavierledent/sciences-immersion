@@ -25,7 +25,7 @@
 
    Les interactions (facteurs biotiques), comme la recherche de la sortie :
    en identifiant les êtres vivants du carré, l'élève découvre leurs
-   interactions (chacune portée par des espèces comptées) ; il en note deux ; pour chacune, + / − / 0 pour les deux êtres vivants, et
+   interactions (chacune portée par des espèces comptées) ; il note toutes celles qu'il trouve ; pour chacune, + / − / 0 pour les deux êtres vivants, et
    le nom de la relation (prédation, parasitisme, mutualisme, commensalisme,
    compétition : vocabulaire du chapitre). Deuxième question de départ.
 
@@ -44,7 +44,7 @@
                      Dans le carré, nommer une espèce qui a une interaction
                      la fait ressortir (cercle, pastille « ! ») ; « Look
                      closer » montre l'endroit en gros plan et sa fiche
-                     (deux à noter). Enfin
+                     (toutes à noter ; notée, elle s'efface du carré). Enfin
                      l'histogramme (fiche outil FO5b) : un bâton par
                      espèce et par zone, à monter jusqu'au nombre noté
      3. Conclude   — les questions de la fiche de terrain : quelle zone est la
@@ -627,6 +627,7 @@
   const whoName = w => (w.t ? SPECIES[w.t].name : CLUES.names[w.k]);
   const clueFact = c => CLUES.fact[c.id](whoName(c.a), whoName(c.b));
   const interDone = x => !!(x.sa && x.sb && x.rel);
+  const interOf = uid => state.inter.find(x => x.clue === uid) || null;
   const pairName = c => LABELS.pair(capitalize(whoName(c.a)), whoName(c.b));
   const interRight = x => {
     const { c } = clueByUid(x.clue);
@@ -712,13 +713,13 @@
 
   /* ===== Étapes complètes (progression stricte, voir lab-engine.js) =====
      1 : l'hypothèse (7 choix) ; 2 : la fiche de terrain remplie, au moins une
-     espèce trouvée et notée dans chaque carré, deux interactions notées en
-     entier, tous les bâtons tracés ; 3 : toutes les questions. */
+     espèce trouvée et notée dans chaque carré, chaque interaction découverte
+     notée en entier (au moins une), tous les bâtons tracés ; 3 : toutes les
+     questions. */
   // La conclusion reprend exactement les lignes de l'hypothèse, puis la juge.
   const HYP_KEYS = ['warmer', 'brighter', 'humid', 'moss', 'bloom', 'influence', 'each'];
   const YES_NO = ['influence', 'each'];
   const CONCL_KEYS = HYP_KEYS.concat('verdict');
-  const INTER_MAX = 2;
 
   const hypComplete = () => HYP_KEYS.every(k => state.hypothesis[k]);
   const squareDone = Z => state.found[Z].length > 0 && state.found[Z].every(t => state.counts[Z][t] != null);
@@ -744,7 +745,9 @@
       const t = state.found[Z].find(x => state.counts[Z][x] == null);
       if (t) return M.count(SPECIES[t].name, Z);
     }
-    if (state.inter.length < INTER_MAX) return M.inter(state.inter.length);
+    const waiting = state.seen.find(uid => !interOf(uid));
+    if (waiting) return M.interNote(pairName(clueByUid(waiting).c));
+    if (!state.inter.length) return M.inter;
     const open = state.inter.find(x => !interDone(x));
     if (open) {
       const { c } = clueByUid(open.clue);
@@ -754,7 +757,6 @@
     return left ? M.bars(left) : null;
   }
 
-  const interNoted = () => state.inter.filter(interDone).length;
   const exDone = () => !!(state.conclusion.ex.rel && state.conclusion.ex.s1 && state.conclusion.ex.s2);
   const conclusionsComplete = () => CONCL_KEYS.every(k => state.conclusion[k]) && exDone();
 
@@ -981,8 +983,9 @@
 
   /* Une interaction découverte : un cercle pointillé et une pastille « ! »
      à toucher (au-dessus des êtres vivants : identifier reste possible à
-     côté). Allumée quand une de ses espèces est entourée ; notée, son
-     cercle est plein. */
+     côté). Allumée quand une de ses espèces est entourée. Notée, elle
+     s'efface du carré (elle ne se confond plus avec le comptage) ; elle se
+     rouvre depuis la fiche de l'espèce ou la liste des interactions. */
   const clueLit = (Z, c) => {
     const t = state.qz === Z ? circledType() : null;
     return !!t && c.uids.some(u => itemOf(Z, u).t === t);
@@ -990,8 +993,9 @@
 
   function clueClasses(Z, c) {
     const uid = clueUid(Z, c);
-    return ['zn-clue', state.seen.includes(uid) ? '' : 'is-hidden', state.inter.some(x => x.clue === uid) ? 'is-noted' : '',
-      state.lens === uid ? 'is-open' : '', clueLit(Z, c) ? 'is-lit' : ''].join(' ');
+    const open = state.lens === uid;
+    const hidden = !state.seen.includes(uid) || (interOf(uid) && !open);
+    return ['zn-clue', hidden ? 'is-hidden' : '', open ? 'is-open' : '', clueLit(Z, c) && !interOf(uid) ? 'is-lit' : ''].join(' ');
   }
 
   function clueMark(Z, c) {
@@ -1626,19 +1630,17 @@
       `<p class="zn-id-cap">${gloss(SPECIES[it.t].cap)}</p>` +
       `<p class="zn-id-count">${gloss(LABELS.idCount)}</p>` +
       (n != null ? `<p class="zn-id-state">${LABELS.idNoted(n)}</p>` : '') +
-      (lit ? `<div class="zn-id-inter"><p>${gloss(LABELS.interHere)}</p>` +
-        `<button type="button" class="lab-btn lab-btn-primary zn-closer" data-closer="${lit}" data-lab-look>${LABELS.lookCloser}</button></div>` : '');
+      (lit && !interOf(lit) ? `<div class="zn-id-inter"><p>${gloss(LABELS.interHere)}</p>` +
+        `<button type="button" class="lab-btn lab-btn-primary zn-closer" data-closer="${lit}" data-lab-look>${LABELS.lookCloser}</button></div>` : '') +
+      (lit && interOf(lit) ? `<div class="zn-id-noted"><p>${LABELS.notedHere}</p>` +
+        `<button type="button" class="lab-btn lab-btn-ghost zn-closer" data-closer="${lit}" data-lab-look>${LABELS.openNoted}</button></div>` : '');
     const closer = box.querySelector('[data-closer]');
     if (closer) closer.addEventListener('click', () => openClue(closer.dataset.closer));
   }
 
   /* --- Le gros plan, et la fiche des interactions ---
-     Un indice trouvé se note dans la fiche (deux au plus, comme sur la
-     fiche de la sortie) ; une interaction notée se complète ici : le signe
-     de chaque être vivant, puis le nom de la relation. Une interaction se
-     retire de la fiche pour en noter une autre. */
-  const interOf = uid => state.inter.find(x => x.clue === uid) || null;
-
+     Chaque interaction trouvée se note dans la fiche ; elle se complète
+     ici : le signe de chaque être vivant, puis le nom de la relation. */
   function interForm(x, c) {
     const row = (key, w) => `<div class="zn-sign-row"><span class="zn-sign-who">${gloss(`[${capitalize(whoName(w))}|${whoName(w)}]`)}</span>` +
       `<span class="zn-chips">${SIGNS.map(s => chip('sign', `${x.clue}|${key}`, s, LABELS.signs[s], x[key] === s)).join('')}</span></div>`;
@@ -1657,11 +1659,10 @@
     const rows = state.inter.map(x => {
       const { c } = clueByUid(x.clue);
       return `<li class="zn-inter-item ${current === x.clue ? 'is-current' : ''} ${show && !interDone(x) ? 'lab-is-missing' : ''}">` +
-        `<button type="button" class="zn-inter-open" data-open-inter="${x.clue}" data-lab-look><b>${pairName(c)}</b><small>${x.rel ? LABELS.relations[x.rel] : LABELS.toComplete}</small></button>` +
-        `<button type="button" class="zn-inter-del" data-del-inter="${x.clue}" aria-label="${escapeHtml(LABELS.removeInter)}">×</button></li>`;
+        `<button type="button" class="zn-inter-open" data-open-inter="${x.clue}" data-lab-look><b>${pairName(c)}</b><small>${x.rel ? LABELS.relations[x.rel] : LABELS.toComplete}</small></button></li>`;
     });
-    for (let i = state.inter.length; i < INTER_MAX; i++) rows.push(`<li class="zn-inter-item is-empty ${show ? 'lab-is-missing' : ''}">${LABELS.emptySlot}</li>`);
-    return `<div class="zn-inter-list"><p class="zn-inter-head">${LABELS.interSheet}<small>${LABELS.interCount(state.inter.length, INTER_MAX)}</small></p><ul>${rows.join('')}</ul></div>`;
+    if (!rows.length) return '';
+    return `<div class="zn-inter-list"><p class="zn-inter-head">${LABELS.interSheet}</p><ul>${rows.join('')}</ul></div>`;
   }
 
   function renderLensCard(box) {
@@ -1675,11 +1676,9 @@
 
     const note = box.querySelector('[data-note]');
     if (note) {
-      lab.setLock(note, state.inter.length >= INTER_MAX ? LABELS.lockTwoNoted : null);
       note.addEventListener('click', () => {
         state.inter.push({ clue: note.dataset.note, sa: null, sb: null, rel: null });
         afterInter();
-        markNoted();
         setCaption(LABELS.caption.noted);
       });
     }
@@ -1694,18 +1693,6 @@
       afterInter();
     }));
     box.querySelectorAll('[data-open-inter]').forEach(b => b.addEventListener('click', () => openClue(b.dataset.openInter)));
-    box.querySelectorAll('[data-del-inter]').forEach(b => b.addEventListener('click', async () => {
-      const uid = b.dataset.delInter;
-      if (!(await lab.confirm({ title: LABELS.removeTitle, text: LABELS.removeText(pairName(clueByUid(uid).c)), confirm: LABELS.removeYes, danger: true }))) return;
-      state.inter = state.inter.filter(x => x.clue !== uid);
-      afterInter();
-      markNoted();
-    }));
-  }
-
-  // Le cercle d'une interaction notée est plein (sans redessiner le carré).
-  function markNoted() {
-    $$('[data-clue-mark]').forEach(g => g.classList.toggle('is-noted', state.inter.some(x => x.clue === g.dataset.clueMark)));
   }
 
   function afterInter() {
@@ -1823,7 +1810,7 @@
 
   function renderFooter() {
     const info = $('.lab-footer .lab-footer-info');
-    if (info) info.textContent = LABELS.infoField(valuesWritten(), squaresDone(), interNoted());
+    if (info) info.textContent = LABELS.infoField(valuesWritten(), squaresDone());
     const reason = missingReason();
     const done = !reason;
     if (done && lab.state.showMissing) lab.state.showMissing = false;
@@ -2112,7 +2099,7 @@
       measures: measureMiss.length === 0,
       count: countMiss.length === 0,
       graph: barMiss.length === 0,
-      inter: state.inter.length === INTER_MAX && interMiss.length === 0,
+      inter: state.inter.length > 0 && interMiss.length === 0,
       conclusion: wrongQ.length === 0 && exOk,
       verdict: c.verdict === verdictShould()
     };
@@ -2164,7 +2151,7 @@
           (r.signs && r.rel ? '' : `<p><b>${CHECK.right} ${signs(want[0], want[1])} · ${LABELS.relationWords[CLUE_DEFS[c.id].rel]}</b></p>`) +
           `<p class="zn-muted">${gloss(CLUES.why[c.id](whoName(c.a), whoName(c.b)))}</p></div></div>`;
       }).join('');
-      return `<p>${CHECK.interScore(state.inter.length - ev.interMiss.length, INTER_MAX)}</p>` + rows + (ev.inter ? `<p class="zn-ok">${CHECK.interOk}</p>` : '');
+      return `<p>${CHECK.interScore(state.inter.length - ev.interMiss.length, state.inter.length)}</p>` + rows + (ev.inter ? `<p class="zn-ok">${CHECK.interOk}</p>` : '');
     }
     if (key === 'conclusion') {
       const items = ev.qKeys.map(k => {
@@ -2323,7 +2310,7 @@
     isStarted: () => HYP_KEYS.some(k => state.hypothesis[k]) || started(),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 6,
+    version: 7,
     save: () => ({ state: Object.assign({}, state, { tool: null }) }),
     load(data) {
       const s = data.state;
