@@ -352,6 +352,17 @@ html[data-pointer='fine'] :is(.fw-tab, .fw-mode, .fw-testpill):not(.is-on):not(.
   z-index: 2;
 }
 
+/* Une flèche se touche pour l'enlever (mode « Draw the arrows ») : une
+   large bande invisible posée dessus, seule partie du SVG qui réagit. */
+.fw-arrows .fw-arrow-hit {
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+html[data-pointer='fine'] .fw-arrows .fw-arrow-hit:hover {
+  stroke: rgba(214, 69, 69, 0.22);
+}
+
 .fw-slot {
   position: absolute;
   width: 140px;
@@ -390,6 +401,29 @@ html[data-pointer='fine'] :is(.fw-tab, .fw-mode, .fw-testpill):not(.is-on):not(.
   text-align: left;
   touch-action: none;
   box-shadow: 0 2px 6px rgba(17, 36, 72, 0.1);
+}
+
+/* Après une comparaison : carte dans une mauvaise rangée, flèche qui manque */
+.fw-token.is-wrong {
+  border-color: #d64545;
+  background: #fff1f0;
+  box-shadow: 0 0 0 2px rgba(214, 69, 69, 0.25);
+}
+
+.fw-missing {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #d64545;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 800;
+  box-shadow: 0 0 0 2px #ffffff;
 }
 
 .fw-token .fw-icon {
@@ -542,6 +576,13 @@ html[data-pointer='fine'] :is(.fw-tab, .fw-mode, .fw-testpill):not(.is-on):not(.
   font-size: 0.84rem;
   font-weight: 600;
   line-height: 1.4;
+}
+
+.fw-legend {
+  margin: 4px 0 0;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: #9f2c2c;
 }
 
 .fw-result.is-ok {
@@ -872,7 +913,7 @@ html[data-pointer='fine'] .fw-zoom:hover {
   gap: 8px;
   margin: 0 0 5px;
   font-size: 0.86rem;
-  line-height: 2;
+  line-height: 2.6;
 }
 
 .fw-concl-line .fw-icon {
@@ -883,7 +924,8 @@ html[data-pointer='fine'] .fw-zoom:hover {
 .fw-select {
   height: 32px;
   max-width: 100%;
-  margin: 0 2px;
+  margin: 2px;
+  vertical-align: middle;
   border-style: dashed;
   color: var(--color-muted);
   cursor: pointer;

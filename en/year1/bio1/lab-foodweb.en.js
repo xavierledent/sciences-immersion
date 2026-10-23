@@ -20,11 +20,11 @@ LabEngine.addText('foodweb', {
 
     /* Les êtres vivants : name (carte, jeton), short (dans une chaîne,
        « grass → rabbit → fox »), the (dans une phrase), many (le groupe :
-       « the number of foxes »). */
+       « the number of foxes »), food (une plante : ce qu'on en mange). */
     species: {
       oak: { name: 'Oak tree', short: 'oak', the: 'the oak tree', many: 'oak trees' },
       grass: { name: 'Grass', short: 'grass', the: 'the grass', many: 'grass' },
-      bramble: { name: 'Bramble', short: 'bramble', the: 'the bramble', many: 'brambles' },
+      bramble: { name: 'Bramble', short: 'bramble', the: 'the bramble', many: 'brambles', food: 'blackberries' },
       rabbit: { name: 'Rabbit', short: 'rabbit', the: 'the rabbit', many: 'rabbits' },
       mouse: { name: 'Mouse', short: 'mouse', the: 'the mouse', many: 'mice' },
       deer: { name: 'Deer', short: 'deer', the: 'the deer', many: 'deer' },
@@ -45,7 +45,7 @@ LabEngine.addText('foodweb', {
       deer: 'Eats grass, bramble leaves and young oak leaves.',
       caterpillar: 'Eats oak leaves.',
       squirrel: 'Eats acorns.',
-      bluetit: 'Eats caterpillars.',
+      bluetit: 'Eats caterpillars, and blackberries in autumn.',
       fox: 'Hunts rabbits and mice.',
       owl: 'Hunts mice and blue tits, at night.',
       buzzard: 'Hunts rabbits and mice.'
@@ -87,13 +87,16 @@ LabEngine.addText('foodweb', {
     compareResult: (row, right, missing, wrong) => `${row === 0 ? 'All the cards are in the right row.' : row === 1 ? '1 card is in the wrong row.' : `${row} cards are in the wrong row.`} ` +
       `Arrows: ${right} right, ${missing} missing, ${wrong} wrong.`,
     compareOk: 'Your model matches the cards. Well done!',
+    compareLegend: 'On the model: a red card is in the wrong row, a red arrow is wrong, and “!” shows a living thing that is missing an arrow (something that it eats).',
+    missingHere: 'An arrow is missing here: something that it eats',
     captionPlace: 'Take a card (touch it), then touch a free place of the model. Producers at the bottom!',
     captionPlaced: 'All the cards are on the model. Now draw the arrows: “is eaten by”.',
     captionHold: n => `${n}: touch a free place of the model.`,
-    captionArrows: 'Touch the food first, then the living thing that eats it. The arrow means “is eaten by”.',
+    captionArrows: 'Touch the food first, then the living thing that eats it. The arrow means “is eaten by”. To remove an arrow, touch it.',
     captionFrom: the => `Now touch the living thing that eats ${the}.`,
     captionAdded: (a, b) => `New arrow: ${a} is eaten by ${b}.`,
     captionRemoved: (a, b) => `Arrow removed: ${a} → ${b}.`,
+    captionTurned: (a, b) => `Arrow turned around: ${a} is eaten by ${b}.`,
     captionModelDone: 'Your model is ready. Next: the disease!',
     lockArrows: n => `Place all the cards first: ${n === 1 ? '1 card' : n + ' cards'} left.`,
     lockPlaceAll: 'Place all the cards on the model first.',
@@ -144,7 +147,7 @@ LabEngine.addText('foodweb', {
     conclA: (num, trend, cause) => `${num} ${trend} because ${cause}.`,
     trendAria: many => `How the number of ${many} changes`,
     causeAria: many => `Why the number of ${many} changes`,
-    causes: { less: 'they have less food', hunted: 'they are hunted more', more: 'they have more food', disease: 'the disease kills them too' },
+    causes: { less: 'they have less food', hunted: 'they are hunted more', more: 'they have more food', none: 'nothing changes in their food or their predators', disease: 'the disease kills them too' },
     conclB: (resist, reason) => `So a food web ${resist} than a single food chain, because in a food web, the animals ${reason}.`,
     resist: { better: 'resists better', worse: 'does not resist better' },
     reasons: { other: 'have other food sources', babies: 'have more babies', strong: 'are stronger' },
@@ -190,7 +193,7 @@ LabEngine.addText('foodweb', {
 
   glossary: {
     'food web': 'réseau trophique', 'food chain': 'chaîne alimentaire', single: 'seul(e)',
-    'is eaten by': 'est mangé par', eats: 'mange', hunts: 'chasse', hunted: 'chassé(e)s',
+    'is eaten by': 'est mangé par', eats: 'mange', hunts: 'chasse', hunted: 'chassé(e)s', predators: 'prédateurs',
     disease: 'maladie', species: 'espèce(s)', 'living thing': 'être vivant', 'living things': 'êtres vivants',
     food: 'nourriture', 'food sources': 'sources de nourriture', leaves: 'feuilles',
     'oak tree': 'chêne', oak: 'chêne', 'oak trees': 'chênes', acorns: 'glands', grass: 'herbe',
@@ -208,6 +211,8 @@ LabEngine.addText('foodweb', {
   explanations: {
     pred: (pred, sick, others) => `The ${pred} eat ${sick}, but also ${others}. Without ${sick}, they have less food: their number falls. But they do not disappear, because they still have other food.`,
     other: (other, preds, sick) => `The ${preds} cannot eat ${sick} any more: they hunt more ${other}. So the number of ${other} falls.`,
+    other2: (other, top, mid, sick) => `Without ${sick}, the ${mid} have less food: there are fewer ${mid}. The ${top} eat ${mid} and ${other}: now they hunt more ${other}. So the number of ${other} falls.`,
+    same: (who, sick) => `The ${who} do not eat ${sick}, and ${sick} do not eat ${who}: their food and their predators stay the same. So their number stays about the same.`,
     rival: (rival, food, sick) => `The ${sick} and the ${rival} ate the same food: ${food}. Without ${sick}, there is more ${food} for the ${rival}: their number rises.`,
     // Les flèches qui arrivent à un mangeur : « rabbit and mouse → fox ».
     eats: (eater, foods) => `${foods} → ${eater}`,

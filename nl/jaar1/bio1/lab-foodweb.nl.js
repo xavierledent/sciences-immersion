@@ -20,11 +20,12 @@ LabEngine.addText('foodweb', {
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',
 
     /* Les êtres vivants : name (carte, jeton), short (dans une chaîne), the
-       (dans une phrase), many (le groupe : « het aantal vossen »). */
+       (dans une phrase), many (le groupe : « het aantal vossen »), food (une
+       plante : ce qu'on en mange). */
     species: {
       oak: { name: 'Eik', short: 'eik', the: 'de eik', many: 'eiken' },
       grass: { name: 'Gras', short: 'gras', the: 'het gras', many: 'gras' },
-      bramble: { name: 'Braamstruik', short: 'braamstruik', the: 'de braamstruik', many: 'braamstruiken' },
+      bramble: { name: 'Braamstruik', short: 'braamstruik', the: 'de braamstruik', many: 'braamstruiken', food: 'bramen' },
       rabbit: { name: 'Konijn', short: 'konijn', the: 'het konijn', many: 'konijnen' },
       mouse: { name: 'Bosmuis', short: 'bosmuis', the: 'de bosmuis', many: 'bosmuizen' },
       deer: { name: 'Hert', short: 'hert', the: 'het hert', many: 'herten' },
@@ -45,7 +46,7 @@ LabEngine.addText('foodweb', {
       deer: 'Eet gras, braambladeren en jonge eikenbladeren.',
       caterpillar: 'Eet eikenbladeren.',
       squirrel: 'Eet eikels.',
-      bluetit: 'Eet rupsen.',
+      bluetit: 'Eet rupsen, en in de herfst bramen.',
       fox: 'Jaagt op konijnen en bosmuizen.',
       owl: '’s Nachts jaagt hij op bosmuizen en pimpelmezen.',
       buzzard: 'Jaagt op konijnen en bosmuizen.'
@@ -87,13 +88,16 @@ LabEngine.addText('foodweb', {
     compareResult: (row, right, missing, wrong) => `${row === 0 ? 'Alle kaarten liggen in de juiste rij.' : row === 1 ? '1 kaart ligt in de verkeerde rij.' : `${row} kaarten liggen in de verkeerde rij.`} ` +
       `Pijlen: ${right} juist, ${missing} ontbreken, ${wrong} fout.`,
     compareOk: 'Je model komt overeen met de kaarten. Goed gedaan!',
+    compareLegend: 'Op het model: een rode kaart ligt in de verkeerde rij, een rode pijl is fout, en „!” toont een levend wezen waarbij een pijl ontbreekt (iets wat het eet).',
+    missingHere: 'Hier ontbreekt een pijl: iets wat het eet',
     captionPlace: 'Neem een kaart (raak ze aan) en raak dan een vrije plaats van het model aan. Producenten onderaan!',
     captionPlaced: 'Alle kaarten liggen in het model. Teken nu de pijlen: „wordt gegeten door”.',
     captionHold: n => `${n}: raak een vrije plaats van het model aan.`,
-    captionArrows: 'Raak eerst het voedsel aan, en dan het levende wezen dat het eet. De pijl betekent „wordt gegeten door”.',
+    captionArrows: 'Raak eerst het voedsel aan, en dan het levende wezen dat het eet. De pijl betekent „wordt gegeten door”. Om een pijl weg te halen, raak je hem aan.',
     captionFrom: the => `Raak nu het levende wezen aan dat ${the} eet.`,
     captionAdded: (a, b) => `Nieuwe pijl: ${a} wordt gegeten door ${b}.`,
     captionRemoved: (a, b) => `Pijl weggehaald: ${a} → ${b}.`,
+    captionTurned: (a, b) => `Pijl omgedraaid: ${a} wordt gegeten door ${b}.`,
     captionModelDone: 'Je model is klaar. Verder: de ziekte!',
     lockArrows: n => `Plaats eerst alle kaarten: nog ${n === 1 ? '1 kaart' : n + ' kaarten'}.`,
     lockPlaceAll: 'Plaats eerst alle kaarten in het model.',
@@ -144,7 +148,7 @@ LabEngine.addText('foodweb', {
     conclA: (num, trend, cause) => `${num} ${trend}, omdat ${cause}.`,
     trendAria: many => `Hoe het aantal ${many} verandert`,
     causeAria: many => `Waarom het aantal ${many} verandert`,
-    causes: { less: 'ze minder voedsel hebben', hunted: 'er meer op hen gejaagd wordt', more: 'ze meer voedsel hebben', disease: 'de ziekte hen ook doodt' },
+    causes: { less: 'ze minder voedsel hebben', hunted: 'er meer op hen gejaagd wordt', more: 'ze meer voedsel hebben', none: 'er niets verandert aan hun voedsel of hun roofdieren', disease: 'de ziekte hen ook doodt' },
     conclB: (resist, reason) => `Een voedselweb ${resist} dan één enkele voedselketen, omdat de dieren in een voedselweb ${reason}.`,
     resist: { better: 'houdt dus beter stand', worse: 'houdt dus niet beter stand' },
     reasons: { other: 'andere voedselbronnen hebben', babies: 'meer jongen krijgen', strong: 'sterker zijn' },
@@ -192,7 +196,7 @@ LabEngine.addText('foodweb', {
     voedselweb: 'réseau trophique', voedselketen: 'chaîne alimentaire', 'één enkele': 'un(e) seul(e)',
     'wordt gegeten door': 'est mangé par', eet: 'mange', eten: 'manger', 'jaagt op': 'chasse', gejaagd: 'chassé',
     ziekte: 'maladie', soort: 'espèce', soorten: 'espèces', 'levend wezen': 'être vivant', 'levende wezens': 'êtres vivants',
-    'levende wezen': 'être vivant', voedsel: 'nourriture', voedselbronnen: 'sources de nourriture', bladeren: 'feuilles',
+    'levende wezen': 'être vivant', voedsel: 'nourriture', roofdieren: 'prédateurs', voedselbronnen: 'sources de nourriture', bladeren: 'feuilles',
     eik: 'chêne', eiken: 'chênes', eikels: 'glands', eikenbladeren: 'feuilles de chêne', gras: 'herbe',
     braamstruik: 'ronce', braamstruiken: 'ronces', bramen: 'mûres', braambladeren: 'feuilles de ronce',
     konijn: 'lapin', konijnen: 'lapins', bosmuis: 'mulot', bosmuizen: 'mulots', hert: 'cerf', herten: 'cerfs',
@@ -210,6 +214,8 @@ LabEngine.addText('foodweb', {
   explanations: {
     pred: (pred, sick, others) => `De ${pred} eten ${sick}, maar ook ${others}. Zonder ${sick} hebben ze minder voedsel: hun aantal daalt. Maar ze verdwijnen niet, want ze hebben nog ander voedsel.`,
     other: (other, preds, sick) => `De ${preds} kunnen geen ${sick} meer eten: ze jagen meer op ${other}. Daardoor daalt het aantal ${other}.`,
+    other2: (other, top, mid, sick) => `Zonder ${sick} hebben de ${mid} minder voedsel: er zijn minder ${mid}. De ${top} eten ${mid} en ${other}: nu jagen ze meer op ${other}. Daardoor daalt het aantal ${other}.`,
+    same: (who, sick) => `De ${who} eten geen ${sick}, en ${sick} eten geen ${who}: hun voedsel en hun roofdieren blijven dezelfde. Daardoor blijft hun aantal ongeveer gelijk.`,
     rival: (rival, food, sick) => `De ${sick} en de ${rival} aten hetzelfde voedsel: ${food}. Zonder ${sick} is er meer ${food} voor de ${rival}: hun aantal stijgt.`,
     // Les flèches qui arrivent à un mangeur : « konijn en bosmuis → vos ».
     eats: (eater, foods) => `${foods} → ${eater}`,

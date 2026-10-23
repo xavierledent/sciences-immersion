@@ -585,13 +585,14 @@ html[data-pointer='fine'] .hm-obj:hover,
 .hm-concl-line {
   margin: 0;
   font-size: 0.86rem;
-  line-height: 2;
+  line-height: 2.6;
 }
 
 .hm-select {
   height: 30px;
   max-width: 100%;
-  margin: 0 2px;
+  margin: 2px;
+  vertical-align: middle;
   border-style: dashed;
   color: var(--color-muted);
   font-size: 0.8rem;

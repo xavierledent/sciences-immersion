@@ -13,27 +13,29 @@
    de loup (sujet du French challenge) : le cerf n'a pas de prédateur ici,
    et il n'est jamais tiré au sort.
 
-   Le modèle : 12 êtres vivants, 15 flèches « is eaten by ». Une maladie tue
+   Le modèle : 12 êtres vivants, 16 flèches « is eaten by ». Une maladie tue
    toutes les bêtes d'une espèce ; le modèle tourne sur 10 ans. Les courbes
    suivent des formes fixes (le prédateur baisse sans disparaître, l'autre
-   proie de ce prédateur baisse, le concurrent qui mangeait la même chose
-   monte) ; seuls les effectifs varient. Les valeurs des années 0 et 10
+   proie qu'il chasse plus baisse, la troisième espèce monte si elle
+   mangeait la même chose, ou ne bouge pas si rien ne change pour elle) ;
+   seuls les effectifs varient. Les valeurs des années 0 et 10
    tombent sur une ligne du quadrillage : l'élève peut les lire. Dans une
    chaîne seule, le prédateur n'a plus rien à manger et disparaît.
 
-   Tirés au sort : l'espèce malade (lapin ou souris), le prédateur suivi
-   (renard, buse, ou chouette pour la souris), les effectifs, l'ordre des
-   cartes écologiques. Le reste en découle : l'autre proie du prédateur, le
-   concurrent, la chaîne du test 2.
+   Tirés au sort : l'espèce malade (lapin, souris ou chenille), le prédateur
+   suivi (renard ou buse, chouette aussi pour la souris, mésange pour la
+   chenille), les effectifs, l'ordre des cartes écologiques. Le reste en
+   découle : l'autre proie, la troisième espèce, la chaîne du test 2.
 
    Déroulé :
      1. Predict    — l'allure de 3 courbes dans le réseau (prédateur, autre
                      proie, concurrent) et celle du prédateur dans une chaîne
                      seule (4 vignettes : monte, pareil, baisse, disparaît)
      2. Experiment — a) le modèle : poser chaque carte sur son niveau
-                     (producteurs en bas, objet en main), tracer les flèches,
-                     comparer avec les cartes (des comptes, jamais l'endroit) ;
-                     la suite reste fermée tant que le modèle ne correspond pas ;
+                     (producteurs en bas, objet en main), tracer les flèches
+                     (toucher une flèche l'enlève), comparer avec les cartes :
+                     les erreurs sont montrées sur le modèle ; la suite reste
+                     fermée tant que le modèle ne correspond pas ;
                      b) la maladie : test 1 (le réseau), test 2 (une chaîne
                      seule) ; le carnet : années 0 et 10 lues sur les
                      graphiques, et l'allure de chaque courbe
@@ -68,19 +70,32 @@
   // Ce que mange chaque animal (cartes écologiques).
   const EATS = {
     rabbit: ['grass'], mouse: ['oak', 'bramble'], deer: ['grass', 'bramble', 'oak'], caterpillar: ['oak'], squirrel: ['oak'],
-    bluetit: ['caterpillar'], fox: ['rabbit', 'mouse'], owl: ['mouse', 'bluetit'], buzzard: ['rabbit', 'mouse']
+    bluetit: ['caterpillar', 'bramble'], fox: ['rabbit', 'mouse'], owl: ['mouse', 'bluetit'], buzzard: ['rabbit', 'mouse']
   };
   // Les flèches justes, « a>b » : a est mangé par b.
   const ARROWS = [];
   Object.keys(EATS).forEach(b => EATS[b].forEach(a => ARROWS.push(`${a}>${b}`)));
 
   /* Les scénarios : l'espèce malade, ses prédateurs possibles (celui qu'on
-     suit est tiré au sort), l'autre proie de ce prédateur (elle baisse : le
-     prédateur la chasse plus), le concurrent (il monte : il mangeait la même
-     chose) et la plante du début de la chaîne du test 2. */
+     suit est tiré au sort), l'autre proie (elle baisse : elle est chassée
+     plus), la troisième espèce (elle monte : elle mangeait la même chose ; ou
+     elle ne bouge pas : rien ne change pour elle), la plante du début de la
+     chaîne du test 2, la bonne cause de chaque changement et la baisse de
+     l'autre proie. Le cerf n'est jamais suivi (French challenge). Chenille :
+     la chouette, qui trouve moins de mésanges, chasse plus de souris. */
   const SCENARIOS = {
-    rabbit: { preds: ['fox', 'buzzard'], other: { fox: 'mouse', buzzard: 'mouse' }, rival: 'deer', food: 'grass' },
-    mouse: { preds: ['fox', 'buzzard', 'owl'], other: { fox: 'rabbit', buzzard: 'rabbit', owl: 'bluetit' }, rival: 'squirrel', food: 'oak' }
+    rabbit: {
+      preds: ['fox', 'buzzard'], other: { fox: 'mouse', buzzard: 'mouse' }, rival: 'squirrel', food: 'grass',
+      causes: { pred: 'less', other: 'hunted', rival: 'none' }, otherDrop: [0.6, 0.72]
+    },
+    mouse: {
+      preds: ['fox', 'buzzard', 'owl'], other: { fox: 'rabbit', buzzard: 'rabbit', owl: 'bluetit' }, rival: 'squirrel', food: 'oak',
+      causes: { pred: 'less', other: 'hunted', rival: 'more' }, otherDrop: [0.6, 0.72]
+    },
+    caterpillar: {
+      preds: ['bluetit'], other: { bluetit: 'mouse' }, rival: 'rabbit', food: 'oak',
+      causes: { pred: 'less', other: 'hunted', rival: 'none' }, otherDrop: [0.72, 0.82]
+    }
   };
 
   /* Les axes des graphiques, par espèce : g = pas du quadrillage (les
@@ -91,6 +106,7 @@
     mouse: { g: 20, max: 320, n0: [220, 280] },
     deer: { g: 4, max: 64, n0: [28, 36] },
     squirrel: { g: 4, max: 80, n0: [40, 48] },
+    caterpillar: { g: 250, max: 4000, n0: [2500, 3250] },
     bluetit: { g: 5, max: 80, n0: [50, 65] },
     fox: { g: 1, max: 16, n0: [11, 14] },
     owl: { g: 1, max: 14, n0: [8, 12] },
@@ -100,20 +116,21 @@
   /* L'allure des courbes, année par année (0 à 10) : part du changement
      déjà faite. Le prédateur baisse avec un peu de retard ; l'autre proie
      baisse vite (le prédateur se reporte sur elle), passe sous sa valeur
-     finale puis remonte un peu ; le concurrent monte ; dans une chaîne
-     seule, le prédateur s'éteint en trois ans. */
+     finale puis remonte un peu ; le concurrent monte ; une espèce pour qui
+     rien ne change ne bouge pas ; dans une chaîne seule, le prédateur
+     s'éteint en trois ans. */
   const SHAPES = {
     pred: [0, 0.08, 0.3, 0.55, 0.74, 0.86, 0.93, 0.97, 0.99, 1, 1],
     other: [0, 0.4, 0.95, 1.2, 1.16, 1.1, 1.06, 1.03, 1.01, 1, 1],
     rival: [0, 0.12, 0.38, 0.64, 0.82, 0.92, 0.97, 0.99, 1, 1, 1],
+    flat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     chain: [0, 0.35, 0.78, 1, 1, 1, 1, 1, 1, 1, 1]
   };
   const YEARS = 10;
   const TRENDS = ['rise', 'same', 'fall', 'gone'];
   const ROLES = ['pred', 'other', 'rival'];                  // les trois espèces suivies dans le réseau
   const NOTE_ROWS = ['pred', 'other', 'rival', 'chain'];     // le carnet : trois au test 1, une au test 2
-  const CAUSES = ['less', 'hunted', 'more', 'disease'];
-  const RIGHT_CAUSE = { pred: 'less', other: 'hunted', rival: 'more' };
+  const CAUSES = ['less', 'hunted', 'more', 'none', 'disease'];
   const RESIST = ['better', 'worse'];
   const REASONS = ['other', 'babies', 'strong'];
   // Couleur de chaque courbe : l'espèce malade, le prédateur, l'autre proie, le concurrent.
@@ -148,14 +165,16 @@
     });
     n10.sick = 0;
     n10.pred = Math.max(AXIS[pred].g, snap(n0.pred * (0.55 + Math.random() * 0.12), AXIS[pred].g));
-    n10.other = snap(n0.other * (0.6 + Math.random() * 0.12), AXIS[sp.other].g);
-    n10.rival = Math.min(AXIS[sp.rival].max - 2 * AXIS[sp.rival].g, snap(n0.rival * (1.32 + Math.random() * 0.16), AXIS[sp.rival].g));
+    const [lo, hi] = sc.otherDrop;
+    n10.other = snap(n0.other * (lo + Math.random() * (hi - lo)), AXIS[sp.other].g);
+    const rises = sc.causes.rival === 'more';
+    n10.rival = rises ? Math.min(AXIS[sp.rival].max - 2 * AXIS[sp.rival].g, snap(n0.rival * (1.32 + Math.random() * 0.16), AXIS[sp.rival].g)) : n0.rival;
     const seed = seedFrom(`${sick}-${pred}-${n0.pred}-${n0.other}-${Date.now()}`);
     const web = {
       sick: [n0.sick].concat(Array(YEARS).fill(0)),
       pred: series(n0.pred, n10.pred, 'pred', seed + 1),
       other: series(n0.other, n10.other, 'other', seed + 2),
-      rival: series(n0.rival, n10.rival, 'rival', seed + 3)
+      rival: series(n0.rival, n10.rival, rises ? 'rival' : 'flat', seed + 3)
     };
     const chain = {
       sick: web.sick.slice(),
@@ -204,6 +223,7 @@
     return 'same';
   };
   const truthTrend = role => trendOf(seriesOf(role));
+  const rightCause = role => SCENARIOS[run.sp.sick].causes[role];
 
   const name = sp => LABELS.species[sp].name;
   const many = sp => LABELS.species[sp].many;
@@ -213,12 +233,31 @@
   const rowOf = sp => 2 - LEVEL[sp];        // rangée du plateau : 0 en haut (mangent des animaux), 2 en bas (producteurs)
   const started = () => state.ran1;
 
-  // Comparer le modèle aux cartes : des comptes seulement.
+  /* Comparer le modèle aux cartes : les comptes, et où sont les erreurs
+     (cartes dans une mauvaise rangée, flèches fausses, êtres vivants à qui
+     il manque une flèche qui arrive). */
+  const missingAt = (b, arrows) => ARROWS.some(a => a.split('>')[1] === b && !arrows.includes(a));
   function compareModel() {
     const m = state.model;
-    const wrongRow = SPECIES.filter(sp => m.pos[sp] && m.pos[sp].row !== rowOf(sp)).length;
-    const right = m.arrows.filter(a => ARROWS.includes(a)).length;
-    return { wrongRow, right, missing: ARROWS.length - right, wrong: m.arrows.length - right };
+    const rowSp = SPECIES.filter(sp => m.pos[sp] && m.pos[sp].row !== rowOf(sp));
+    const wrongArrows = m.arrows.filter(a => !ARROWS.includes(a));
+    const right = m.arrows.length - wrongArrows.length;
+    return {
+      wrongRow: rowSp.length, right, missing: ARROWS.length - right, wrong: wrongArrows.length,
+      rowAt: rowSp.map(sp => [sp, m.pos[sp].row]), wrongArrows, missingFor: SPECIES.filter(b => missingAt(b, m.arrows))
+    };
+  }
+
+  // Les erreurs montrées par la dernière comparaison, tant qu'elles sont
+  // encore là (une erreur faite après n'apparaît qu'à la comparaison suivante).
+  function lastIssues() {
+    const r = state.model.last, m = state.model;
+    if (!r || m.done || !r.rowAt) return { rows: [], arrows: [], missing: [] };
+    return {
+      rows: r.rowAt.filter(([sp, row]) => m.pos[sp] && m.pos[sp].row === row).map(([sp]) => sp),
+      arrows: r.wrongArrows.filter(a => m.arrows.includes(a)),
+      missing: r.missingFor.filter(b => m.pos[b] && missingAt(b, m.arrows))
+    };
   }
   const modelMatches = r => r.wrongRow === 0 && r.missing === 0 && r.wrong === 0;
 
@@ -301,8 +340,11 @@
       const i = g.indexOf(a);
       return (i - (g.length - 1) / 2) * 15;
     };
-    let out = `<defs><marker id="fw-head-${uid}" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">` +
-      `<path d="M0,0 L10,5 L0,10 Z" fill="${o.color || '#2f3b48'}"/></marker></defs>`;
+    const bad = o.bad || [];
+    const head = (id, color) => `<marker id="${id}" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">` +
+      `<path d="M0,0 L10,5 L0,10 Z" fill="${color}"/></marker>`;
+    let out = `<defs>${head(`fw-head-${uid}`, o.color || '#2f3b48')}${head(`fw-head-bad-${uid}`, '#d64545')}</defs>`;
+    let hits = '';
     list.forEach(a => {
       const [x, y] = a.split('>');
       const x1 = center(x) + spread(outs[x], a, 1);
@@ -315,10 +357,13 @@
         const lift = Math.max(top(x) - 46, 6);
         d = `M${x1},${top(x)} C${x1},${lift} ${x2},${lift} ${x2},${top(y)}`;
       }
-      const wrong = o.truth && !ARROWS.includes(a);
-      out += `<path d="${d}" fill="none" stroke="${wrong ? '#d64545' : (o.color || '#2f3b48')}" stroke-width="${o.width || 2}" marker-end="url(#fw-head-${uid})"/>`;
+      const wrong = bad.includes(a);
+      out += `<path d="${d}" fill="none" stroke="${wrong ? '#d64545' : (o.color || '#2f3b48')}" stroke-width="${wrong ? 2.6 : (o.width || 2)}"` +
+        `${wrong ? ' stroke-dasharray="7 4"' : ''} marker-end="url(#fw-head-${wrong ? 'bad-' : ''}${uid})"/>`;
+      // Une large bande invisible sur la flèche : la toucher l'enlève.
+      if (o.hit) hits += `<path class="fw-arrow-hit" data-arrow="${a}" d="${d}" fill="none" stroke="transparent" stroke-width="16"/>`;
     });
-    return out;
+    return out + hits;
   }
 
   /* --- Les graphiques : un panneau par espèce (FO5c) ---
@@ -501,6 +546,7 @@
       if (state.view === btn.dataset.view) return;
       state.view = btn.dataset.view;
       from = null;
+      lab.state.showMissing = false;
       renderExperiment();
     }));
     if (state.view !== 'disease') lab.setLock($('[data-view="disease"]'), state.model.done ? null : LABELS.lockDisease, { missing: true, key: 'tab-disease' });
@@ -511,33 +557,38 @@
      À droite, les cartes écologiques (à lire, mots soulignés) ; chaque
      carte a son jeton, à prendre en main et à poser sur une place libre du
      plateau. Puis les flèches : toucher la nourriture, puis ce qui la mange
-     (toucher de nouveau la même paire enlève la flèche). « Compare with the
-     cards » donne des comptes, jamais l'endroit de l'erreur. */
+     (toucher la flèche l'enlève ; la paire à l'envers la retourne).
+     « Compare with the cards » donne les comptes et montre les erreurs sur
+     le modèle : carte en rouge, flèche rouge, « ! » où il manque une flèche. */
   function modesHTML() {
     return `<div class="fw-modes" role="group">` + ['place', 'arrows'].map(m =>
       `<button type="button" class="fw-mode ${state.mode === m ? 'is-on' : ''}" data-mode="${m}" aria-pressed="${state.mode === m}">${LABELS.modes[m]}</button>`).join('') + `</div>`;
   }
 
-  function tokenHTML(sp, extra) {
-    const cls = [from === sp ? 'is-from' : '', extra || ''].join(' ');
-    return `<button type="button" class="fw-token ${cls}" data-token="${sp}">${icon(sp)}<span class="fw-token-name">${LABELS.species[sp].name}</span></button>`;
+  function tokenHTML(sp, extra, issues) {
+    const wrong = issues && issues.rows.includes(sp);
+    const missing = issues && issues.missing.includes(sp);
+    const cls = [from === sp ? 'is-from' : '', wrong ? 'is-wrong' : '', extra || ''].join(' ');
+    return `<button type="button" class="fw-token ${cls}" data-token="${sp}">${icon(sp)}<span class="fw-token-name">${LABELS.species[sp].name}</span>` +
+      `${missing ? `<span class="fw-missing" title="${escapeHtml(LABELS.missingHere)}" aria-label="${escapeHtml(LABELS.missingHere)}">!</span>` : ''}</button>`;
   }
 
   function boardHTML() {
     const pos = state.model.pos;
+    const issues = lastIssues();
     const at = {};
     SPECIES.forEach(sp => { if (pos[sp]) at[`${pos[sp].row}|${pos[sp].col}`] = sp; });
     let slots = '';
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < COLS; col++) {
         const sp = at[`${row}|${col}`];
-        slots += `<div class="fw-slot ${sp ? 'is-full' : ''}" data-slot="${row}|${col}" style="left:${slotX(col)}px;top:${TOKEN_Y[row]}px">${sp ? tokenHTML(sp, 'is-placed') : ''}</div>`;
+        slots += `<div class="fw-slot ${sp ? 'is-full' : ''}" data-slot="${row}|${col}" style="left:${slotX(col)}px;top:${TOKEN_Y[row]}px">${sp ? tokenHTML(sp, 'is-placed', issues) : ''}</div>`;
       }
     }
     const bands = [0, 1, 2].map(row => `<div class="fw-band" style="top:${BAND_TOP[row]}px;height:${(BAND_TOP[row + 1] || BOARD_H) - BAND_TOP[row] - 3}px">` +
       `<span class="fw-band-label">${gloss(LABELS.rows[row])}</span></div>`).join('');
     return `<div class="fw-board-wrap"><div class="fw-board" style="width:${BOARD_W}px;height:${BOARD_H}px">${bands}` +
-      `<svg class="fw-arrows" viewBox="0 0 ${BOARD_W} ${BOARD_H}" aria-hidden="true" focusable="false">${arrowsSVG(pos, state.model.arrows, 'live')}</svg>` +
+      `<svg class="fw-arrows" viewBox="0 0 ${BOARD_W} ${BOARD_H}" aria-hidden="true" focusable="false">${arrowsSVG(pos, state.model.arrows, 'live', { bad: issues.arrows, hit: state.mode === 'arrows' && !state.model.done && !lab.isFrozen() })}</svg>` +
       `${slots}</div></div>` +
       `<div class="fw-controls"><p class="lab-caption fw-caption" data-caption aria-live="polite"></p>` +
       `<button type="button" class="lab-btn lab-btn-primary fw-compare" data-compare>${LABELS.compare}</button></div>`;
@@ -554,7 +605,8 @@
     let result = '';
     if (state.model.done) result = `<p class="fw-result is-ok">${LABELS.compareOk}</p>`;
     else if (r) {
-      result = `<p class="fw-result">${LABELS.compareResult(r.wrongRow, r.right, r.missing, r.wrong)}</p>`;
+      result = `<p class="fw-result">${LABELS.compareResult(r.wrongRow, r.right, r.missing, r.wrong)}</p>` +
+        (r.rowAt && !modelMatches(r) ? `<p class="fw-legend">${gloss(LABELS.compareLegend)}</p>` : '');
     }
     return `<h3 class="lab-panel-title">${LABELS.cardsTitle}</h3>` +
       `<ul class="fw-card-list" data-tray>${rows}</ul>` +
@@ -603,17 +655,26 @@
     cmp.addEventListener('click', () => {
       if (m.dirty) { m.compares++; m.dirty = false; }
       m.last = compareModel();
-      if (modelMatches(m.last)) { m.done = true; from = null; }
+      if (modelMatches(m.last)) { m.done = true; from = null; lab.state.showMissing = false; }
       renderExperiment();
       if (m.done) setCaption(LABELS.captionModelDone);
       lab.renderStepper();
       lab.save();
     });
     lab.setLock(cmp, m.done ? LABELS.lockModelDone : !allPlaced() ? LABELS.lockPlaceAll : !m.arrows.length ? LABELS.lockNoArrow : null, { key: 'compare' });
+    $$('[data-arrow]').forEach(p => p.addEventListener('click', () => {
+      const [a, b] = p.dataset.arrow.split('>');
+      m.arrows = m.arrows.filter(x => x !== p.dataset.arrow);
+      m.dirty = true;
+      from = null;
+      renderExperiment();
+      setCaption(LABELS.captionRemoved(LABELS.species[a].the, LABELS.species[b].the));
+      lab.save();
+    }));
   }
 
   // Toucher la nourriture, puis ce qui la mange : la flèche apparaît (ou
-  // disparaît, si elle était déjà là).
+  // disparaît, si elle était déjà là ; dans l'autre sens, elle se retourne).
   function arrowTap(sp) {
     const m = state.model;
     if (from == null) {
@@ -624,10 +685,13 @@
     }
     if (from === sp) { from = null; renderExperiment(); return; }
     const a = `${from}>${sp}`;
+    const back = `${sp}>${from}`;
     const had = m.arrows.includes(a);
-    m.arrows = had ? m.arrows.filter(x => x !== a) : m.arrows.concat(a);
+    const turned = !had && m.arrows.includes(back);
+    m.arrows = had ? m.arrows.filter(x => x !== a) : m.arrows.filter(x => x !== back).concat(a);
     m.dirty = true;
-    const text = had ? LABELS.captionRemoved(LABELS.species[from].the, LABELS.species[sp].the) : LABELS.captionAdded(LABELS.species[from].the, LABELS.species[sp].the);
+    const [ta, tb] = [LABELS.species[from].the, LABELS.species[sp].the];
+    const text = had ? LABELS.captionRemoved(ta, tb) : turned ? LABELS.captionTurned(ta, tb) : LABELS.captionAdded(ta, tb);
     from = null;
     renderExperiment();
     setCaption(text);
@@ -797,7 +861,11 @@
     lab.setFooter(lab.footerInfo('') + `<div class="lab-footer-actions">` +
       `<button type="button" class="lab-btn lab-btn-primary" data-next></button></div>`);
     $('[data-next]').addEventListener('click', () => {
-      if (state.view === 'model' && state.model.done && !stepComplete(2)) { state.view = 'disease'; renderExperiment(); } else lab.goToStep(3);
+      if (state.view === 'model' && state.model.done && !stepComplete(2)) {
+        state.view = 'disease';
+        lab.state.showMissing = false;
+        renderExperiment();
+      } else lab.goToStep(3);
     });
     updateRunFooter();
   }
@@ -945,7 +1013,7 @@
       ['y0', 'y10'].forEach(k => { if (!readOk(r, k)) noteMiss.push({ r, k }); });
       if (state.notes[r].trend !== truthTrend(r)) noteMiss.push({ r, k: 'trend' });
     });
-    const aMiss = ROLES.filter(r => c[r].trend !== truthTrend(r) || c[r].cause !== RIGHT_CAUSE[r]);
+    const aMiss = ROLES.filter(r => c[r].trend !== truthTrend(r) || c[r].cause !== rightCause(r));
     const should = {};
     NOTE_ROWS.forEach(r => { should[r] = state.hyp[r] && state.hyp[r] === resultTrend(r) ? 'confirmed' : 'rejected'; });
     const vMiss = NOTE_ROWS.filter(r => c.v[r] !== should[r]);
@@ -971,15 +1039,24 @@
   }
 
   // La bonne réponse a, espèce par espèce, et pourquoi.
-  const rightA = r => LABELS.conclA(numberOf(spOf(r), true), LABELS.trends[truthTrend(r)], LABELS.causes[RIGHT_CAUSE[r]]);
+  const rightA = r => LABELS.conclA(numberOf(spOf(r), true), LABELS.trends[truthTrend(r)], LABELS.causes[rightCause(r)]);
   const rightB = () => LABELS.conclB(LABELS.resist.better, LABELS.reasons.other);
+
+  // Une plante dans une phrase : ce qu'on en mange (« blackberries »).
+  const foodWord = x => LABELS.species[x].food || many(x);
 
   function whyA(r) {
     const s = run.sp;
     const theList = list => LABELS.list(list.map(many));
-    if (r === 'pred') return EXPLAIN.pred(many(s.pred), many(s.sick), theList(EATS[s.pred].filter(x => x !== s.sick)));
-    if (r === 'other') return EXPLAIN.other(many(s.other), theList(SPECIES.filter(x => EATS[x] && EATS[x].includes(s.sick) && EATS[x].includes(s.other))), many(s.sick));
-    return EXPLAIN.rival(many(s.rival), LABELS.sharedFood[s.sick], many(s.sick));
+    if (r === 'pred') return EXPLAIN.pred(many(s.pred), many(s.sick), LABELS.list(EATS[s.pred].filter(x => x !== s.sick).map(foodWord)));
+    if (r === 'other') {
+      const both = SPECIES.filter(x => EATS[x] && EATS[x].includes(s.sick) && EATS[x].includes(s.other));
+      if (both.length) return EXPLAIN.other(many(s.other), theList(both), many(s.sick));
+      // Deux maillons plus loin : le prédateur du prédateur se reporte sur l'autre proie.
+      const top = SPECIES.find(x => EATS[x] && EATS[x].includes(s.pred) && EATS[x].includes(s.other));
+      return EXPLAIN.other2(many(s.other), many(top), many(s.pred), many(s.sick));
+    }
+    return rightCause(r) === 'none' ? EXPLAIN.same(many(s.rival), many(s.sick)) : EXPLAIN.rival(many(s.rival), LABELS.sharedFood[s.sick], many(s.sick));
   }
 
   // Le modèle juste, mangeur par mangeur : « rabbit and mouse → fox ».
@@ -1089,7 +1166,7 @@
     const linesA = ROLES.map(r => {
       const note = `${CHECK.answerWrong} ${plainText(rightA(r))} ${plainText(whyA(r))}`;
       const t = c[r].trend ? word(LABELS.trends[c[r].trend], c[r].trend === truthTrend(r), note) : '—';
-      const k = c[r].cause ? word(LABELS.causes[c[r].cause], c[r].cause === RIGHT_CAUSE[r], note) : '—';
+      const k = c[r].cause ? word(LABELS.causes[c[r].cause], c[r].cause === rightCause(r), note) : '—';
       return `<p>${LABELS.conclA(numberOf(spOf(r), true), t, k)}</p>`;
     }).join('');
     const noteB = `${CHECK.answerWrong} ${plainText(rightB())} ${plainText(EXPLAIN.web)}`;
@@ -1133,7 +1210,8 @@
     isStarted: () => !!(NOTE_ROWS.some(r => state.hyp[r]) || placedCount()),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 1,
+    // 2 : la mésange mange aussi des mûres (16 flèches), chenille malade, erreurs de la comparaison.
+    version: 2,
     save: () => ({ run, state }),
     // Ce qui ne vaut que pendant un geste ou un modèle qui tourne repart à zéro.
     load(data) {

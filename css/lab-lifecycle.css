@@ -857,7 +857,7 @@ html[data-pointer='fine'] .lc-zoom:hover {
 .lc-concl-line {
   margin: 0;
   font-size: 0.9rem;
-  line-height: 2.1;
+  line-height: 2.6;
 }
 
 .lc-best {
@@ -875,7 +875,8 @@ html[data-pointer='fine'] .lc-zoom:hover {
 .lc-select {
   height: 34px;
   max-width: 100%;
-  margin: 0 2px;
+  margin: 2px;
+  vertical-align: middle;
   border-style: dashed;
   color: var(--color-muted);
   cursor: pointer;
