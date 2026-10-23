@@ -890,7 +890,7 @@ html[data-pointer='fine'] .dc-jar-svg:has(.dc-bag-hit:hover) .dc-bag-net,
 
 .dc-ghost-bag {
   width: 120px;
-  transform: translate(-50%, -50%) rotate(-5deg);
+  transform: translate(-50%, -50%);
   filter: drop-shadow(0 10px 16px rgba(17, 36, 72, 0.28));
 }
 

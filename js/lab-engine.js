@@ -216,6 +216,20 @@
 
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Retour d'une vérification, sur les éléments eux-mêmes : une classe
+     d'animation le temps d'un éclat, puis retirée. lab-flash-ok (juste,
+     vert un court instant), lab-shake-wrong (faux, tremble ; la marque
+     d'erreur, elle, reste au labo). Styles dans lab-engine.css. */
+  function flash(els, cls, ms) {
+    (els || []).forEach(el => {
+      if (!el) return;
+      el.classList.remove(cls);
+      void el.getBoundingClientRect(); // relance l'animation si elle tournait
+      el.classList.add(cls);
+      setTimeout(() => el.classList.remove(cls), ms || 1000);
+    });
+  }
+
   /* Cadenas des verrous : anse arrondie, corps à reflet, trou de serrure.
      Couleur du texte (currentColor) : il prend le ton de ce qu'il verrouille. */
   const LOCK_SVG = `<svg class="lab-lock-svg" viewBox="0 0 20 24" aria-hidden="true" focusable="false">` +
@@ -955,6 +969,11 @@
 
     /* ===== Ouverture / fermeture ===== */
     async function openLab() {
+      // Plein écran d'office : toute la hauteur du Chromebook pour le labo.
+      // Demandé tout de suite, pendant le geste qui ouvre le labo (sans
+      // geste, lien direct, le navigateur refuse : le labo s'ajuste alors
+      // à la fenêtre, voir fitToScreen).
+      if (!document.fullscreenElement && card.requestFullscreen) card.requestFullscreen().catch(() => {});
       // Travail de l'élève chargé (Firestore) avant de chercher une reprise.
       // Lancé dès le chargement de la page : déjà prêt au moment du clic.
       if (window.SiteStorage) await SiteStorage.ready;
@@ -1010,12 +1029,15 @@
     });
 
     /* ===== Grand écran : le labo grandit avec la place =====
-       Chaque labo est dessiné pour le Chromebook à 100 % (corps du labo de
-       LAB_W × LAB_H). Avec plus de place (plein écran sur un grand écran),
-       le corps et le pied de page sont agrandis d'un même facteur (zoom CSS) :
-       tout grandit, au lieu d'ajouter du vide. Jamais réduits. Les mesures
-       à l'écran (getBoundingClientRect, getScreenCTM) tiennent compte du zoom. */
-    const LAB_W = 1204, LAB_H = 594, ZOOM_MAX = 1.8, FILL_MAX = 1.5;
+       Chaque labo est dessiné pour le Chromebook à 100 % en plein écran
+       (corps du labo de LAB_W × LAB_H). Avec plus de place (plein écran sur
+       un grand écran), le corps et le pied de page sont agrandis d'un même
+       facteur (zoom CSS) : tout grandit, au lieu d'ajouter du vide. Avec
+       moins (fenêtre du navigateur, plein écran quitté), ils sont réduits
+       de même, jusqu'à ZOOM_MIN : tout reste visible, sans défilement. Les
+       mesures à l'écran (getBoundingClientRect, getScreenCTM) tiennent
+       compte du zoom. */
+    const LAB_W = 1204, LAB_H = 594, ZOOM_MAX = 1.8, ZOOM_MIN = 0.75, FILL_MAX = 1.5;
     const fillEls = new Set();
 
     function fitFill(el) {
@@ -1041,8 +1063,8 @@
       footerEl.style.zoom = '';
       const b = bodyEl.getBoundingClientRect();
       const f = footerEl.getBoundingClientRect();
-      const z = Math.min(b.width / LAB_W, (b.height + f.height) / (LAB_H + f.height), ZOOM_MAX);
-      if (z > 1.04) {
+      const z = Math.max(ZOOM_MIN, Math.min(b.width / LAB_W, (b.height + f.height) / (LAB_H + f.height), ZOOM_MAX));
+      if (z > 1.04 || z < 0.99) {
         bodyEl.style.zoom = z.toFixed(3);
         footerEl.style.zoom = z.toFixed(3);
       }
@@ -1134,7 +1156,7 @@
        hold (règle des labos : tout objet à poser sur une cible parmi
        plusieurs) : un toucher ou un clic prend l'objet « en main » au lieu
        d'appeler onTap. À la souris, l'objet devient le curseur (la flèche
-       disparaît, un point marque l'endroit visé, au centre) ; les cibles
+       disparaît, le centre de l'objet marque l'endroit visé) ; les cibles
        s'annoncent (is-drop-ready) ; un clic ou un toucher sur une cible le
        pose (onDrop). Le reprendre, Échap ou en prendre un autre le lâche ;
        un clic ailleurs ne le lâche pas (geste manqué de peu). onHold dit au
@@ -1153,7 +1175,9 @@
       // fantôme doit y être, sinon il reste invisible.
       const host = document.fullscreenElement || document.body;
       if (ghostEl.parentNode !== host) host.appendChild(ghostEl);
-      ghostEl.style.transform = `translate(${x}px, ${y}px)`;
+      // translate (et non transform) : l'inclinaison commune (rotate, CSS)
+      // tourne alors autour du pointeur.
+      ghostEl.style.translate = `${x}px ${y}px`;
     }
 
     function takeHeld(el, opts, ev) {
@@ -1387,6 +1411,6 @@
     commonGlossary: COMMON_GLOSSARY,
     lang: pageLang,
     labels: L,
-    util: { escapeHtml, mulberry32, seedFrom, pick, shuffle, lerp, ease, reduceMotion }
+    util: { escapeHtml, mulberry32, seedFrom, pick, shuffle, lerp, ease, reduceMotion, flash }
   };
 })();

@@ -996,7 +996,7 @@
       hand.innerHTML = TOOL_ICON[t].replace('class="zn-tool-ic"', 'class="zn-ghost-tool"');
       host.appendChild(hand);
     }
-    hand.style.transform = `translate(${handAt.x}px, ${handAt.y}px) translate(-50%, -50%)`;
+    hand.style.transform = `translate(${handAt.x}px, ${handAt.y}px) translate(-50%, -50%) rotate(-4deg)`; // même inclinaison que le cadre commun
   }
   window.addEventListener('pointermove', followTool);
   window.addEventListener('pointerdown', followTool);
@@ -1028,7 +1028,7 @@
         followTool();
       }
       if (!dragging) return;
-      ghost.style.transform = `translate(${ev.clientX}px, ${ev.clientY}px) translate(-50%, -50%)`;
+      ghost.style.transform = `translate(${ev.clientX}px, ${ev.clientY}px) translate(-50%, -50%) rotate(-4deg)`; // même inclinaison que le cadre commun
       setOver(zoneAt(ev));
     };
     const up = ev => {

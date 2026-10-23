@@ -577,6 +577,34 @@ input.lab-is-locked {
   animation: lab-nudge 0.38s ease;
 }
 
+/* Retour d'une vérification (LabEngine.util.flash) : juste, un éclat vert ;
+   faux, l'élément tremble, comme dans les jeux de la page Practice. */
+.lab-flash-ok {
+  animation: lab-flash-ok 0.9s ease;
+}
+
+@keyframes lab-flash-ok {
+  0%, 55% {
+    border-color: #2f8f5b;
+    background-color: #e8f6ee;
+    box-shadow: 0 0 0 3px rgba(47, 143, 91, 0.3);
+  }
+}
+
+.lab-shake-wrong {
+  animation: lab-shake-wrong 0.5s ease-in-out;
+}
+
+@keyframes lab-shake-wrong {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-shake-wrong { animation: none; }
+}
+
 /* Bulle qui dit ce qui manque, au plus près de l'élément touché */
 .lab-lock-tip {
   position: absolute;
@@ -905,7 +933,10 @@ tspan.lab-gloss:focus-visible {
   75% { transform: translateX(4px); }
 }
 
-/* Élément saisi qui suit le doigt (contenu fourni par chaque labo) */
+/* Élément saisi qui suit le doigt (contenu fourni par chaque labo, centré
+   sur le pointeur). Il penche un peu, comme un objet qu'on porte : même
+   inclinaison dans tous les labos, autour du pointeur (position par la
+   propriété translate, posée en JS). */
 .lab-drag-ghost {
   position: fixed;
   left: 0;
@@ -913,6 +944,8 @@ tspan.lab-gloss:focus-visible {
   z-index: 1000;
   pointer-events: none;
   opacity: 0;
+  transform-origin: 0 0;
+  rotate: -4deg;
 }
 
 .lab-drag-ghost.is-visible {
@@ -920,23 +953,10 @@ tspan.lab-gloss:focus-visible {
 }
 
 /* Objet en main (makeDraggable, hold) : à la souris, il devient le curseur.
-   La flèche disparaît ; un point, au centre de l'objet, marque l'endroit
-   visé (là où le clic pose l'objet). */
+   La flèche disparaît ; le centre de l'objet marque l'endroit visé. */
 html.lab-carrying,
 html.lab-carrying * {
   cursor: none !important;
-}
-
-.lab-drag-ghost.is-carried::after {
-  content: '';
-  position: absolute;
-  left: -4px;
-  top: -4px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-current, #2b6cb0);
-  box-shadow: 0 0 0 2px #ffffff;
 }
 
 .is-held {

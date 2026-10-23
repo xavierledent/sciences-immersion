@@ -395,7 +395,7 @@ html[data-pointer='fine'] .lab-note-opt:not(.lab-is-locked):not(.is-selected):ho
 
 .lab-ghost-sample,
 .lab-ghost-tool {
-  transform: translate(-50%, -50%) rotate(-4deg);
+  transform: translate(-50%, -50%);
   filter: drop-shadow(0 10px 16px rgba(17, 36, 72, 0.25));
 }
 

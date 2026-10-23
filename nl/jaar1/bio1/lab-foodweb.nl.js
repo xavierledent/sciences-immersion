@@ -89,9 +89,9 @@ LabEngine.addText('foodweb', {
     hypChain: chain => `In één enkele voedselketen (${chain}):`,
     hypRow: num => `${num} zal:`,
     // Les quatre allures : will (hypothèse), trends (phrase), trendShort (schrift).
-    will: { rise: 'stijgen', same: 'ongeveer gelijk blijven', fall: 'dalen', gone: 'verdwijnen' },
-    trends: { rise: 'stijgt', same: 'blijft ongeveer gelijk', fall: 'daalt', gone: 'verdwijnt' },
-    trendShort: { rise: 'stijgt', same: 'gelijk', fall: 'daalt', gone: 'verdwijnt' },
+    will: { rise: 'stijgen', same: 'ongeveer gelijk blijven', fall: 'dalen', gone: 'tot nul dalen' },
+    trends: { rise: 'stijgt', same: 'blijft ongeveer gelijk', fall: 'daalt', gone: 'daalt tot nul' },
+    trendShort: { rise: 'stijgt', same: 'gelijk', fall: 'daalt', gone: 'tot nul' },
     because: 'Waarom denk je dat? (niet verplicht)',
     becausePlaceholder: 'Omdat…',
     hypothesisReady: 'Je hypothese is klaar.',
@@ -126,6 +126,7 @@ LabEngine.addText('foodweb', {
     captionArrows: 'Raak eerst het voedsel aan, en dan het levende wezen dat het eet. De pijl betekent „wordt gegeten door”. Om een pijl weg te halen, raak je hem aan.',
     captionFrom: the => `Raak nu het levende wezen aan dat ${the} eet.`,
     captionAdded: (a, b) => `Nieuwe pijl: ${a} wordt gegeten door ${b}.`,
+    captionPicked: (a, b) => `Pijl ${a} → ${b}: raak hem nog eens aan om hem weg te halen.`,
     captionRemoved: (a, b) => `Pijl weggehaald: ${a} → ${b}.`,
     captionTurned: (a, b) => `Pijl omgedraaid: ${a} wordt gegeten door ${b}.`,
     captionModelDone: 'Je model is klaar. Verder: de ziekte!',
@@ -198,8 +199,9 @@ LabEngine.addText('foodweb', {
     criteriaSub: { model: 'Jouw voedselweb', notes: 'Jouw schrift', answerA: 'Welke soorten veranderen?', answerB: 'Web of keten?', verdicts: 'Jouw oordeel' },
     rightWeb: 'Het voedselweb van de kaarten (de pijl betekent „wordt gegeten door”):',
     webTitle: 'Mijn model van het voedselweb',
-    hypText: (num, will) => `Ik denk dat ${num} zal ${will}.`,
-    hypChainText: (chain, num, will) => `In één enkele voedselketen (${chain}) denk ik dat ${num} zal ${will}.`,
+    // Bijzin : « zal » vlak voor het laatste werkwoord (tot nul zal dalen).
+    hypText: (num, will) => `Ik denk dat ${num} ${will.replace(/(\S+)$/, 'zal $1')}.`,
+    hypChainText: (chain, num, will) => `In één enkele voedselketen (${chain}) denk ik dat ${num} ${will.replace(/(\S+)$/, 'zal $1')}.`,
 
     report: {
       title: 'Laboratoriumverslag — Trek aan één draad',
@@ -236,7 +238,7 @@ LabEngine.addText('foodweb', {
     rups: 'chenille', rupsen: 'chenilles', eekhoorn: 'écureuil', eekhoorns: 'écureuils',
     pimpelmees: 'mésange bleue', pimpelmezen: 'mésanges bleues', vos: 'renard', vossen: 'renards',
     bosuil: 'chouette hulotte', bosuilen: 'chouettes hulottes', buizerd: 'buse', buizerds: 'buses',
-    stijgt: 'augmente', daalt: 'diminue', 'blijft ongeveer gelijk': 'reste à peu près pareil', verdwijnt: 'disparaît',
+    stijgt: 'augmente', daalt: 'diminue', 'blijft ongeveer gelijk': 'reste à peu près pareil', verdwijnt: 'disparaît', 'tot nul': 'jusqu’à zéro',
     aantal: 'nombre', rij: 'rangée', pijlen: 'flèches', pijl: 'flèche', jongen: 'petits', sterker: 'plus forts',
     'beter stand': 'résiste mieux', zonlicht: 'la lumière du soleil', vruchten: 'fruits',
     overeenkomen: 'correspondre', 'komt overeen': 'correspond', 'kwam overeen': 'correspondait', verkeerde: 'mauvaise',

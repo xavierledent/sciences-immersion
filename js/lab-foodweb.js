@@ -52,7 +52,7 @@
 (function () {
   'use strict';
 
-  const { escapeHtml, shuffle, mulberry32, seedFrom, reduceMotion } = LabEngine.util;
+  const { escapeHtml, shuffle, mulberry32, seedFrom, reduceMotion, flash } = LabEngine.util;
 
   // Cadre commun, créé en fin de fichier (LabEngine.create).
   let lab;
@@ -441,26 +441,31 @@
     const head = (id, color) => `<marker id="${id}" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">` +
       `<path d="M0,0 L10,5 L0,10 Z" fill="${color}"/></marker>`;
     let out = `<defs>${head(`fw-head-${uid}`, o.color || '#2f3b48')}${head(`fw-head-bad-${uid}`, '#d64545')}</defs>`;
-    let hits = '';
     list.forEach(a => {
       const [x, y] = a.split('>');
       const x1 = center(x) + spread(outs[x], a, 1);
       const x2 = center(y) + spread(ins[y], a, 0);
       const rx = pos[x].row, ry = pos[y].row;
-      let d;
-      if (ry < rx) d = `M${x1},${top(x)} L${x2},${top(y) + TOKEN_H}`;
-      else if (ry > rx) d = `M${x1},${top(x) + TOKEN_H} L${x2},${top(y)}`;
+      let d, mx = (x1 + x2) / 2, my;
+      if (ry < rx) { d = `M${x1},${top(x)} L${x2},${top(y) + TOKEN_H}`; my = (top(x) + top(y) + TOKEN_H) / 2; }
+      else if (ry > rx) { d = `M${x1},${top(x) + TOKEN_H} L${x2},${top(y)}`; my = (top(x) + TOKEN_H + top(y)) / 2; }
       else {
         const lift = Math.max(top(x) - 46, 6);
         d = `M${x1},${top(x)} C${x1},${lift} ${x2},${lift} ${x2},${top(y)}`;
+        my = 0.25 * top(x) + 0.75 * lift;
       }
       const wrong = bad.includes(a);
-      out += `<path ${wrong ? 'class="is-bad" ' : ''}d="${d}" fill="none" stroke="${wrong ? '#d64545' : (o.color || '#2f3b48')}" stroke-width="${wrong ? 2.6 : (o.width || 2)}"` +
+      const line = `<path class="fw-arrow-line ${wrong ? 'is-bad' : ''}" data-a="${a}" d="${d}" fill="none" stroke="${wrong ? '#d64545' : (o.color || '#2f3b48')}" stroke-width="${wrong ? 2.6 : (o.width || 2)}"` +
         `${wrong ? ' stroke-dasharray="7 4"' : ''} marker-end="url(#fw-head-${wrong ? 'bad-' : ''}${uid})"/>`;
-      // Une large bande invisible sur la flèche : la toucher l'enlève.
-      if (o.hit) hits += `<path class="fw-arrow-hit" data-arrow="${a}" d="${d}" fill="none" stroke="transparent" stroke-width="16"/>`;
+      if (!o.hit) { out += line; return; }
+      /* Flèche qu'on peut enlever : une large bande invisible la rend facile
+         à toucher. Survolée (souris) ou choisie (toucher), elle passe au
+         rouge et montre une pastille × en son milieu. */
+      out += `<g class="fw-arrow ${o.picked === a ? 'is-picked' : ''}" data-arrow="${a}">${line}` +
+        `<path class="fw-arrow-hit" d="${d}" fill="none" stroke="transparent" stroke-width="16"/>` +
+        `<g class="fw-arrow-x" transform="translate(${mx.toFixed(1)} ${my.toFixed(1)})"><circle r="10"/><path d="M-3.6,-3.6 L3.6,3.6 M3.6,-3.6 L-3.6,3.6"/></g></g>`;
     });
-    return out + hits;
+    return out;
   }
 
   /* --- Les graphiques : un panneau par espèce (FO5c) ---
@@ -612,6 +617,7 @@
 
   /* ===== Étape 2 : le modèle, puis la maladie ===== */
   let from = null;          // le modèle : la nourriture touchée, en attente de son mangeur
+  let picked = null;        // le modèle : la flèche choisie au toucher, prête à être enlevée
   let issuesOn = false;     // le modèle : les erreurs de la comparaison sont montrées
   let running = false;      // le modèle tourne (10 ans)
   let stepperDone = null;
@@ -688,7 +694,7 @@
     const bands = [0, 1, 2].map(row => `<div class="fw-band" style="top:${BAND_TOP[row]}px;height:${(BAND_TOP[row + 1] || BOARD_H) - BAND_TOP[row] - 3}px">` +
       `<span class="fw-band-label">${gloss(LABELS.rows[row])}</span></div>`).join('');
     return `<div class="fw-board-wrap"><div class="fw-board" style="width:${BOARD_W}px;height:${BOARD_H}px">${bands}` +
-      `<svg class="fw-arrows" viewBox="0 0 ${BOARD_W} ${BOARD_H}" aria-hidden="true" focusable="false">${arrowsSVG(pos, state.model.arrows, 'live', { bad: issues.arrows, hit: state.mode === 'arrows' && !state.model.done && !lab.isFrozen() })}</svg>` +
+      `<svg class="fw-arrows" viewBox="0 0 ${BOARD_W} ${BOARD_H}" aria-hidden="true" focusable="false">${arrowsSVG(pos, state.model.arrows, 'live', { bad: issues.arrows, hit: state.mode === 'arrows' && !state.model.done && !lab.isFrozen(), picked })}</svg>` +
       `${slots}</div></div>` +
       `<div class="fw-controls"><p class="lab-caption fw-caption" data-caption aria-live="polite"></p>` +
       `<button type="button" class="lab-btn lab-btn-primary fw-compare" data-compare>${state.mode === 'place' ? LABELS.checkRows : LABELS.compare}</button></div>`;
@@ -730,6 +736,7 @@
       btn.addEventListener('click', () => {
         state.mode = btn.dataset.mode;
         from = null;
+        picked = null;
         renderExperiment();
       });
     });
@@ -770,11 +777,22 @@
       : state.mode === 'place' ? (m.rowsOk ? LABELS.lockRowsDone : null)
         : !m.arrows.length ? LABELS.lockNoArrow : null;
     lab.setLock(cmp, reason, { key: 'compare' });
-    $$('[data-arrow]').forEach(p => p.addEventListener('click', () => {
-      const [a, b] = p.dataset.arrow.split('>');
-      m.arrows = m.arrows.filter(x => x !== p.dataset.arrow);
-      m.dirty = true;
+    /* Enlever une flèche : à la souris, un clic (le survol l'a déjà montrée
+       en rouge, avec ×) ; au toucher, un premier toucher la choisit (rouge,
+       ×), un second l'enlève : pas d'effacement par mégarde. */
+    $$('[data-arrow]').forEach(g => g.addEventListener('click', e => {
+      const arrow = g.dataset.arrow;
+      const [a, b] = arrow.split('>');
       from = null;
+      if (e.pointerType !== 'mouse' && picked !== arrow) {
+        picked = arrow;
+        renderExperiment();
+        setCaption(LABELS.captionPicked(LABELS.species[a].the, LABELS.species[b].the));
+        return;
+      }
+      picked = null;
+      m.arrows = m.arrows.filter(x => x !== arrow);
+      m.dirty = true;
       renderExperiment();
       setCaption(LABELS.captionRemoved(LABELS.species[a].the, LABELS.species[b].the));
       lab.save();
@@ -798,7 +816,12 @@
       issuesOn = true;
     }
     from = null;
+    picked = null;
     renderExperiment();
+    // Sur le modèle : les cartes bien rangées s'allument en vert, les autres tremblent.
+    const token = sp => $(`.fw-slot [data-token="${sp}"]`);
+    flash(run.species.filter(sp => m.pos[sp] && !wrong.includes(sp)).map(token), 'lab-flash-ok', 900);
+    flash(wrong.map(token), 'lab-shake-wrong', 600);
     if (m.rowsOk) setCaption(LABELS.captionRowsOk);
     lab.save();
   }
@@ -811,7 +834,14 @@
     if (modelMatches(m.last)) { m.done = true; from = null; lab.state.showMissing = false; }
     shownIssues = { rows: [], arrows: m.last.wrongArrows, missing: m.last.missingFor };
     issuesOn = !m.done;
+    picked = null;
     renderExperiment();
+    // Sur le modèle : les bonnes flèches s'allument en vert, les fausses
+    // clignotent (puis restent rouges), les « ! » apparaissent.
+    const line = a => $(`.fw-arrow-line[data-a="${a}"]`);
+    flash(m.arrows.filter(a => !m.last.wrongArrows.includes(a)).map(line), 'fw-line-ok', 1000);
+    flash(m.last.wrongArrows.map(line), 'fw-line-bad', 1000);
+    flash($$('.fw-missing'), 'fw-pop', 500);
     if (m.done) setCaption(LABELS.captionModelDone);
     lab.renderStepper();
     lab.save();
@@ -837,6 +867,7 @@
   // disparaît, si elle était déjà là ; dans l'autre sens, elle se retourne).
   function arrowTap(sp) {
     const m = state.model;
+    picked = null;
     if (from == null) {
       from = sp;
       renderExperiment();
@@ -878,8 +909,11 @@
       : `<p class="fw-banner fw-chain">${[run.sp.food, run.sp.sick, run.sp.pred].map((sp, k) =>
         `<span class="fw-chain-item ${k === 1 ? 'is-sick' : ''}">${icon(sp)}<span>${LABELS.species[sp].short}</span></span>`).join('<span class="fw-chain-arrow" aria-hidden="true">→</span>')}` +
         `<span class="fw-chain-text">${gloss(LABELS.banner2(many(run.sp.sick)))}</span></p>`;
+    // Courbes dessinées : les graphiques s'agrandissent au toucher.
+    const zoomable = ran && !running;
     return strip +
-      `<div class="lab-scene-wrap fw-stage">${panelsHTML(t, { uid: 'live', mode: 'live', reveal: ran && !running ? null : 0, values: ran || running })}</div>` +
+      `<div class="lab-scene-wrap fw-stage ${zoomable ? 'is-zoomable' : ''}"${zoomable ? ` data-zoom="${t}" data-lab-look role="button" tabindex="0" aria-label="${escapeHtml(LABELS.zoom(LABELS.testTitle[t]))}"` : ''}>` +
+      `${panelsHTML(t, { uid: 'live', mode: 'live', reveal: zoomable ? null : 0, values: ran || running })}${zoomable ? LOUPE : ''}</div>` +
       `<div class="fw-controls"><p class="lab-caption fw-caption" data-caption aria-live="polite"></p>` +
       `<button type="button" class="lab-btn lab-btn-primary fw-runbtn" data-run>${ran ? `↻ ${LABELS.runAgain}` : `▶ ${LABELS.runModel}`}</button></div>`;
   }
@@ -894,6 +928,7 @@
         renderExperiment();
       });
     });
+    bindZoom();
     const btn = $('[data-run]');
     btn.addEventListener('click', () => runModel(state.test));
     lab.setLock(btn, running ? LABELS.lockRunning : null);
@@ -940,7 +975,7 @@
       const n = state.notes[r];
       const sp = spOf(r);
       const input = k => `<label class="fw-num ${show && n[k] == null ? 'lab-is-missing' : ''}"><span>${LABELS.yearShort(k === 'y0' ? 0 : YEARS)}</span>` +
-        `<input type="text" inputmode="numeric" class="fw-num-input" data-num="${r}|${k}" value="${n[k] == null ? '' : n[k]}" maxlength="3" autocomplete="off" spellcheck="false" ` +
+        `<input type="text" inputmode="numeric" class="fw-num-input" data-num="${r}|${k}" value="${n[k] == null ? '' : n[k]}" maxlength="5" autocomplete="off" spellcheck="false" ` +
         `aria-label="${escapeHtml(LABELS.numAria(many(sp), k === 'y0' ? 0 : YEARS))}"></label>`;
       return `<div class="fw-nb-row">` +
         `<div class="fw-nb-who">${icon(sp)}<strong>${LABELS.graphTitle(many(sp))}</strong></div>` +
@@ -970,8 +1005,11 @@
       const [r, k] = input.dataset.num.split('|');
       lab.setLock(input, lockFor(r));
       const read = final => {
-        const raw = input.value.trim();
-        const valid = /^\d{1,3}$/.test(raw);
+        // Jusqu'à 4 chiffres (chenilles, escargots : plus de 2 000) ; un
+        // séparateur de milliers (2 750, 2.750, 2,750) est accepté.
+        const typed = input.value.trim();
+        const raw = /^\d{1,3}[\s.,']\d{3}$/.test(typed) ? typed.replace(/\D/g, '') : typed;
+        const valid = /^\d{1,4}$/.test(raw);
         const wasOpen = test2Open();
         state.notes[r][k] = valid ? Number(raw) : null;
         if (valid) input.closest('.fw-num').classList.remove('lab-is-missing');
@@ -1083,16 +1121,27 @@
 
   function miniPanels(test) {
     return `<button type="button" class="fw-zoom" data-zoom="${test}" data-lab-look aria-label="${escapeHtml(LABELS.zoom(LABELS.testTitle[test]))}">` +
-      `<span class="fw-zoom-title">${LABELS.testTitle[test]}</span>${panelsHTML(test, { uid: `m${test}`, mode: 'print' })}</button>`;
+      `<span class="fw-zoom-title">${LABELS.testTitle[test]}</span>${panelsHTML(test, { uid: `m${test}`, mode: 'print' })}${LOUPE}</button>`;
   }
 
+  // Petite loupe dans un coin : ce qui s'agrandit au toucher (le curseur
+  // zoom-in ne se voit qu'à la souris).
+  const LOUPE = '<svg class="fw-loupe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2.2"/>' +
+    '<path d="M15 15 L20.5 20.5 M8 10.5 H13 M10.5 8 V13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+
+  // Étape 2 (courbes dessinées) et étape 3 : le test en grand, valeur d'un
+  // point au toucher.
   function bindZoom() {
-    $$('[data-zoom]').forEach(b => b.addEventListener('click', () => {
-      const t = Number(b.dataset.zoom);
-      lab.openSheet(`<h3 class="lab-sheet-title">${LABELS.testTitle[t]}</h3><div class="fw-zoom-view">${panelsHTML(t, { uid: `z${t}`, mode: 'read' })}</div>` +
-        `<p class="lab-sheet-intro">${LABELS.tapPoint}</p>`, LABELS.testTitle[t]);
-      bindPoints();
-    }));
+    $$('[data-zoom]').forEach(b => {
+      const open = () => {
+        const t = Number(b.dataset.zoom);
+        lab.openSheet(`<h3 class="lab-sheet-title">${LABELS.testTitle[t]}</h3><div class="fw-zoom-view">${panelsHTML(t, { uid: `z${t}`, mode: 'read' })}</div>` +
+          `<p class="lab-sheet-intro">${LABELS.tapPoint}</p>`, LABELS.testTitle[t]);
+        bindPoints();
+      };
+      b.addEventListener('click', open);
+      if (b.tagName !== 'BUTTON') b.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
   }
 
   function renderConclude() {

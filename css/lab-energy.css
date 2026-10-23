@@ -421,16 +421,12 @@ html[data-pointer='fine'] .eb-item:not(.lab-is-locked):not(.is-in):hover {
   border-radius: 16px;
   border: 2px solid var(--color-current);
   background: #ffffff;
-  transform: translate(-50%, -50%) rotate(-4deg);
+  transform: translate(-50%, -50%);
   filter: drop-shadow(0 10px 16px rgba(17, 36, 72, 0.25));
 }
 
-/* Instrument en main, à la souris : l'instrument seul, droit, centré sur
+/* Instrument en main, à la souris : l'instrument seul, centré sur
    l'endroit visé, comme un curseur. */
-.lab-drag-ghost.is-carried .eb-ghost {
-  transform: translate(-50%, -50%);
-}
-
 .lab-drag-ghost.is-carried .eb-ghost-tool {
   border-color: transparent;
   background: transparent;
