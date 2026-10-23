@@ -57,7 +57,7 @@ LabEngine.addText('zones', {
       pond: '[Edge of the pond]'
     },
 
-    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Feel the soil', quadrat: 'Counting square' },
+    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Feel the soil', quadrat: 'Counting square', loupe: 'Magnifying glass' },
     // L'instrument dans une phrase (« the … showed »).
     instruments: { temp: 'thermometer', lux: 'luxmeter', air: 'hygrometer' },
     views: { field: 'In the field', graph: 'Histogram' },
@@ -87,9 +87,9 @@ LabEngine.addText('zones', {
     idNoted: n => `In your count sheet: ${n}`,
 
     // La loupe et la fiche des interactions (dans le carré)
-    modes: { count: 'Identify and count', loupe: 'Magnifying glass' },
-    lensEmpty: 'Tap anywhere in the [counting square] to look at it with the [magnifying glass]. Find two places where two living things [interact].',
-    lensNothing: 'Nothing special here. Look somewhere else!',
+    idEmptyLoupe: 'To find interactions between living things, use the [magnifying glass] (with the tools).',
+    idEmptyScanned: 'The [magnifying glass] has found interactions: tap a magnifying glass sign in the square.',
+    openClue: pair => `Interaction: ${pair}`,
     noteInter: 'Note this interaction',
     interSheet: 'My interactions',
     interCount: (n, max) => `${n} / ${max}`,
@@ -123,7 +123,7 @@ LabEngine.addText('zones', {
       find: Z => `Open the counting square of zone ${Z} and find its living things.`,
       count: (name, Z) => `Count sheet, zone ${Z}: write the number for “${name}”.`,
       bars: n => `Your histogram is not finished: ${n === 1 ? '1 bar' : n + ' bars'} still to draw.`,
-      inter: n => n === 0 ? 'Use the magnifying glass in the counting squares and note two interactions.' : 'Note one more interaction: use the magnifying glass in a counting square.',
+      inter: n => n === 0 ? 'In a counting square, use the magnifying glass and note two interactions.' : 'Note one more interaction (magnifying glass, in a counting square).',
       interOpen: pair => `Your interactions, ${pair}: give +, − or 0 to both living things, and choose the relation.`
     },
 
@@ -148,9 +148,8 @@ LabEngine.addText('zones', {
       wrongName: 'Not this one: read the hint and look again.',
       selected: name => `[${name.charAt(0).toUpperCase() + name.slice(1)}|${name}]: count all the [circled] ones and write the number in your count sheet.`,
       quadratOpen: Z => `Zone ${Z}: tap the [counting square] to open it again.`,
-      loupe: 'Tap a place in the square to see it big. Look for two living things that [interact].',
-      nothing: 'Nothing special here. Look somewhere else!',
-      hint: 'Nothing here. Look at the places that are shining!',
+      scanning: Z => `The [magnifying glass] looks over the counting square of zone ${Z}…`,
+      scanFound: (Z, n) => `The [magnifying glass] found ${n === 1 ? 'an interaction' : n + ' interactions'} in zone ${Z}. Tap a magnifying glass sign to see it big.`,
       found: 'Two living things [interact] here! Note this interaction in your sheet.',
       foundNoted: 'This interaction is in your sheet: +, − or 0 for each living thing, then the relation.',
       noted: 'Noted! Now give +, − or 0 to each living thing, and choose the relation.',

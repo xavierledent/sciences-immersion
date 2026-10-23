@@ -803,93 +803,93 @@ html[data-pointer='fine'] .zn-id-choice:not(.is-wrong):hover,
   font-size: 0.8rem !important;
 }
 
-/* --- Dans le carré : identifier et compter, ou la loupe --- */
+/* --- Dans le carré : la loupe et les interactions --- */
 .zn-qtitle {
   flex: 1 1 auto;
   min-width: 0;
-  font-size: 0.84rem;
+  font-size: 0.86rem;
   line-height: 1.25;
 }
 
-.zn-modes {
+.zn-back.lab-btn {
   flex: 0 0 auto;
-  display: flex;
-  gap: 3px;
-  padding: 3px;
-  border-radius: 12px;
-  background: rgba(var(--color-current-rgb), 0.12);
-}
-
-.zn-mode {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  height: 32px;
-  padding: 0 10px;
-  border: 0;
-  border-radius: 9px;
-  background: transparent;
-  color: var(--color-current-darker);
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 0.78rem;
   white-space: nowrap;
-  transition: background var(--transition), color var(--transition);
 }
 
-.zn-mode.is-current {
-  background: var(--color-current);
-  color: var(--color-current-text);
+/* Six outils quand le carré est ouvert (la loupe en plus) : un peu plus étroits. */
+.zn-tools.has-loupe .zn-tool {
+  width: 80px;
 }
 
-html[data-pointer='fine'] .zn-mode:not(.is-current):hover,
-.zn-mode:focus-visible {
-  background: rgba(var(--color-current-rgb), 0.22);
+.zn-quadrat.is-scanning {
+  cursor: progress;
+}
+
+/* Une interaction trouvée : cercle pointillé, puis plein une fois notée ;
+   la pastille loupe s'ouvre au toucher. */
+.zn-clue.is-hidden {
+  display: none;
+}
+
+.zn-clue-ring {
+  fill: none;
+  stroke: #ffd400;
+  stroke-width: 2.2;
+  stroke-dasharray: 5 4;
+  filter: drop-shadow(0 0 1.2px rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+}
+
+.zn-clue.is-noted .zn-clue-ring {
+  stroke-dasharray: none;
+}
+
+.zn-clue.is-open .zn-clue-ring {
+  stroke: #ffffff;
+  stroke-width: 3;
+}
+
+.zn-clue-badge {
+  color: #2b3440;
+  cursor: pointer;
   outline: none;
 }
 
-.zn-loupe-ic {
-  flex: 0 0 auto;
-  width: 17px;
-  height: 17px;
-}
-
-/* À la loupe : tout le carré se regarde (le curseur le dit à la souris). */
-.zn-quadrat.is-loupe,
-.zn-quadrat.is-loupe .zn-it {
-  cursor: zoom-in;
-}
-
-.zn-lens-ring {
-  fill: none;
+.zn-clue-dot {
+  fill: #ffd400;
   stroke: #ffffff;
-  stroke-width: 2.4;
-  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.6));
+  stroke-width: 1.6;
+  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.5));
 }
 
-.zn-clue-seen {
-  fill: none;
-  stroke: #ffd400;
-  stroke-width: 2;
-  stroke-dasharray: 5 4;
-  opacity: 0.9;
+.zn-clue.is-open .zn-clue-dot,
+.zn-clue-badge:focus-visible .zn-clue-dot {
+  fill: #ffffff;
+  stroke: #2b3440;
 }
 
-/* Après quelques touchers pour rien : les indices pas encore trouvés brillent. */
-.zn-clue-hint {
-  fill: rgba(255, 244, 160, 0.18);
-  stroke: #fff4a0;
-  stroke-width: 2.4;
-  animation: zn-hint 1.6s ease-in-out infinite;
+html[data-pointer='fine'] .zn-clue-badge:hover .zn-clue-dot {
+  fill: #ffe866;
 }
 
-@keyframes zn-hint {
-  0%, 100% { opacity: 0.35; }
-  50% { opacity: 1; }
+/* Apparition au passage de la loupe */
+.zn-clue.is-revealed {
+  animation: zn-clue-pop 0.45s ease-out;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .zn-clue-hint { animation: none; opacity: 0.8; }
+@keyframes zn-clue-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  70% { opacity: 1; transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.zn-id-loupe {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #fff7cc;
+  font-weight: 600;
 }
 
 /* La fiche de la loupe : ce qu'on voit en grand, la fiche de l'interaction,
@@ -918,18 +918,6 @@ html[data-pointer='fine'] .zn-mode:not(.is-current):hover,
   overflow: hidden;
 }
 
-.zn-lens.is-empty {
-  display: grid;
-  place-items: center;
-  box-shadow: none;
-  color: var(--color-current-darker);
-}
-
-.zn-lens.is-empty .zn-loupe-ic {
-  width: 54px;
-  height: 54px;
-}
-
 .zn-lens-svg {
   display: block;
   width: 100%;
@@ -940,11 +928,6 @@ html[data-pointer='fine'] .zn-mode:not(.is-current):hover,
   margin: 0;
   font-size: 0.8rem;
   line-height: 1.35;
-}
-
-.zn-lens-nothing {
-  color: var(--color-muted);
-  font-weight: 600;
 }
 
 .zn-note-btn.lab-btn,

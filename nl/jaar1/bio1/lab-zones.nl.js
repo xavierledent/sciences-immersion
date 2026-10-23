@@ -57,7 +57,7 @@ LabEngine.addText('zones', {
       pond: '[Oever van de vijver]'
     },
 
-    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Voel de bodem', quadrat: 'Telkader' },
+    tools: { thermo: 'Thermometer', lux: 'Luxmeter', hygro: 'Hygrometer', hand: 'Voel de bodem', quadrat: 'Telkader', loupe: 'Loep' },
     // L'instrument dans une phrase (« de … toonde »).
     instruments: { temp: 'thermometer', lux: 'luxmeter', air: 'hygrometer' },
     views: { field: 'Op het terrein', graph: 'Histogram' },
@@ -87,9 +87,9 @@ LabEngine.addText('zones', {
     idNoted: n => `In je telblad: ${n}`,
 
     // La loupe et la fiche des interactions (dans le carré)
-    modes: { count: 'Determineren en tellen', loupe: 'Loep' },
-    lensEmpty: 'Tik ergens in het [telkader] om het met de [loep] te bekijken. Zoek twee plekken waar twee levende wezens een [interactie] hebben.',
-    lensNothing: 'Niets bijzonders hier. Kijk ergens anders!',
+    idEmptyLoupe: 'Om interacties tussen levende wezens te vinden, gebruik je de [loep] (bij de meettoestellen).',
+    idEmptyScanned: 'De [loep] heeft interacties gevonden: tik op een loepteken in het kader.',
+    openClue: pair => `Interactie: ${pair}`,
     noteInter: 'Deze interactie noteren',
     interSheet: 'Mijn interacties',
     interCount: (n, max) => `${n} / ${max}`,
@@ -123,7 +123,7 @@ LabEngine.addText('zones', {
       find: Z => `Open het telkader van zone ${Z} en zoek de levende wezens.`,
       count: (name, Z) => `Telblad, zone ${Z}: noteer het aantal voor “${name}”.`,
       bars: n => `Je histogram is niet af: nog ${n === 1 ? '1 staaf' : n + ' staven'} te tekenen.`,
-      inter: n => n === 0 ? 'Gebruik de loep in de telkaders en noteer twee interacties.' : 'Noteer nog één interactie: gebruik de loep in een telkader.',
+      inter: n => n === 0 ? 'Gebruik de loep in een telkader en noteer twee interacties.' : 'Noteer nog één interactie (loep, in een telkader).',
       interOpen: pair => `Je interacties, ${pair}: geef beide levende wezens een +, − of 0, en kies de relatie.`
     },
 
@@ -148,9 +148,8 @@ LabEngine.addText('zones', {
       wrongName: 'Niet deze: lees de aanwijzing en kijk nog eens.',
       selected: name => `[${name.charAt(0).toUpperCase() + name.slice(1)}|${name}]: tel alle [omcirkelde] exemplaren en noteer het aantal in je telblad.`,
       quadratOpen: Z => `Zone ${Z}: tik op het [telkader] om het opnieuw te openen.`,
-      loupe: 'Tik op een plek in het kader om ze groot te zien. Zoek twee levende wezens die een [interactie] hebben.',
-      nothing: 'Niets bijzonders hier. Kijk ergens anders!',
-      hint: 'Niets hier. Kijk naar de plekken die oplichten!',
+      scanning: Z => `De [loep] bekijkt het telkader van zone ${Z}…`,
+      scanFound: (Z, n) => `De [loep] vond ${n === 1 ? 'een interactie' : n + ' interacties'} in zone ${Z}. Tik op een loepteken om ze groot te zien.`,
       found: 'Hier hebben twee levende wezens een [interactie]! Noteer ze in je fiche.',
       foundNoted: 'Deze interactie staat in je fiche: +, − of 0 voor elk levend wezen, en dan de relatie.',
       noted: 'Genoteerd! Geef nu elk levend wezen een +, − of 0, en kies de relatie.',

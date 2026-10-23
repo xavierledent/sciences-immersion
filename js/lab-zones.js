@@ -24,8 +24,8 @@
    ceux que permettent les espèces du carré (voir CLUE_DEFS).
 
    Les interactions (facteurs biotiques), comme la recherche de la sortie :
-   à la loupe, l'élève cherche dans les carrés deux interactions entre
-   êtres vivants ; pour chacune, + / − / 0 pour les deux êtres vivants, et
+   la loupe fait apparaître, dans chaque carré, des interactions entre
+   êtres vivants ; l'élève en note deux ; pour chacune, + / − / 0 pour les deux êtres vivants, et
    le nom de la relation (prédation, parasitisme, mutualisme, commensalisme,
    compétition : vocabulaire du chapitre). Deuxième question de départ.
 
@@ -41,9 +41,10 @@
                      de dessus : toucher un être vivant demande son nom (un
                      indice si l'élève se trompe), puis entoure tous les
                      individus de son espèce, que l'élève compte et note.
-                     Dans le carré, la loupe (au lieu d'identifier) : un
-                     toucher montre l'endroit en grand ; sur un indice, la
-                     fiche de l'interaction (deux à noter). Enfin
+                     Dans le carré, l'outil loupe (comme dans le labo des
+                     sols) balaie le carré et fait apparaître les
+                     interactions ; toucher l'une d'elles montre l'endroit en
+                     grand et sa fiche (deux à noter). Enfin
                      l'histogramme (fiche outil FO5b) : un bâton par
                      espèce et par zone, à monter jusqu'au nombre noté
      3. Conclude   — les questions de la fiche de terrain : quelle zone est la
@@ -57,7 +58,7 @@
 (function () {
   'use strict';
 
-  const { escapeHtml, mulberry32, seedFrom, pick, shuffle, ease } = LabEngine.util;
+  const { escapeHtml, mulberry32, seedFrom, pick, shuffle, ease, reduceMotion } = LabEngine.util;
 
   // Cadre commun, créé en fin de fichier (LabEngine.create).
   let lab;
@@ -267,8 +268,11 @@
   const SIGNS = ['+', '-', '0'];
   const FLOWERS = ['daisy', 'dandelion', 'buttercup'];
   const LENS = 30;            // demi-côté de la vue à la loupe (unités du carré)
-  const CLUE_HIT = 36;        // un toucher à moins de CLUE_HIT d'un indice le trouve
-  const HINT_AFTER = 3;       // touchers sans rien trouver avant que les indices brillent
+  const CLUE_GAP = 72;        // deux indices d'une zone, au moins à cette distance
+  const SCAN_R = 46;          // rayon de la loupe qui balaie le carré
+  const SCAN_MS = 3200;       // durée du balayage
+  // Balayage en zigzag : des lignes assez proches pour que la loupe passe partout.
+  const SCAN_PATH = [[50, 55], [350, 55], [350, 145], [50, 145], [50, 235], [350, 235], [350, 325], [50, 325]];
 
   /* Toile d'araignée vue de dessus : rayons et spirale, presque invisible
      sans la loupe. */
@@ -403,7 +407,7 @@
   const FACTORS = ['temp', 'lux', 'air', 'soil'];
   const INSTR = { thermo: 'temp', lux: 'lux', hygro: 'air' };
   const UNIT = { temp: '°C', lux: 'lux', air: '%' };
-  const TOOLS = ['thermo', 'lux', 'hygro', 'hand', 'quadrat'];
+  const TOOLS = ['thermo', 'lux', 'hygro', 'hand', 'quadrat'];   // + 'loupe', dans le carré ouvert
 
   // Couleurs des zones (palette de référence dataviz) ; la zone B est
   // hachurée en plus (daltonisme, impression en noir et blanc).
@@ -528,7 +532,7 @@
   }
 
   // Assez loin des indices déjà posés : la loupe et le toucher n'en voient qu'un.
-  const farFromClues = (zone, x, y) => zone.clues.every(c => Math.hypot(c.x - x, c.y - y) > 2 * CLUE_HIT);
+  const farFromClues = (zone, x, y) => zone.clues.every(c => Math.hypot(c.x - x, c.y - y) > CLUE_GAP);
 
   // Une place libre de rayon R (loin des zones à toucher des autres éléments).
   function freeSpot(zone, R, skip) {
@@ -604,10 +608,8 @@
       tries: [],                                          // noms déjà essayés à tort pour cet élément
       tool: null,
       bars: {},                                           // histogramme : espèce → { A, B }
-      mode: 'count',                                      // dans le carré : identifier et compter, ou la loupe
-      lens: null,                                         // loupe : { x, y, clue } dernier endroit regardé
-      misses: { A: 0, B: 0 },                             // touchers à la loupe sans rien trouver
-      seen: [],                                           // indices trouvés (Z-id)
+      scanned: { A: false, B: false },                    // la loupe a balayé le carré : ses interactions sont visibles
+      lens: null,                                         // l'interaction regardée en grand (Z-id)
       inter: [],                                          // fiche des interactions : { clue, sa, sb, rel }, deux au plus
       conclusion: { warmer: null, brighter: null, humid: null, moss: null, bloom: null, influence: null, each: null, verdict: null,
         ex: { rel: null, s1: null, s2: null } },          // exemple de la question 2
@@ -625,6 +627,7 @@
   const whoName = w => (w.t ? SPECIES[w.t].name : CLUES.names[w.k]);
   const clueFact = c => CLUES.fact[c.id](whoName(c.a), whoName(c.b));
   const interDone = x => !!(x.sa && x.sb && x.rel);
+  const pairName = c => LABELS.pair(capitalize(whoName(c.a)), whoName(c.b));
   const interRight = x => {
     const { c } = clueByUid(x.clue);
     const want = REL[CLUE_DEFS[c.id].rel];
@@ -976,24 +979,31 @@
     return d ? `<g transform="translate(${c.x} ${c.y})">${d}</g>` : '';
   }).join('');
 
+  // Une interaction trouvée par la loupe : un cercle pointillé et une
+  // pastille loupe à toucher (au-dessus des êtres vivants : identifier
+  // reste possible à côté). Notée, son cercle est plein.
+  function clueMark(Z, c) {
+    const uid = clueUid(Z, c);
+    const k = (LENS - 4) * 0.72;
+    const bx = Math.min(386, Math.max(14, c.x + k)), by = Math.min(386, Math.max(14, c.y - k));
+    return `<g class="zn-clue ${state.scanned[Z] ? '' : 'is-hidden'} ${state.inter.some(x => x.clue === uid) ? 'is-noted' : ''} ${state.lens === uid ? 'is-open' : ''}" data-clue-mark="${uid}">` +
+      `<circle class="zn-clue-ring" cx="${c.x}" cy="${c.y}" r="${LENS - 4}"/>` +
+      `<g class="zn-clue-badge" data-clue="${uid}" data-lab-look transform="translate(${bx.toFixed(1)} ${by.toFixed(1)})" role="button" tabindex="0" aria-label="${escapeHtml(LABELS.openClue(pairName(c)))}">` +
+      `<circle r="16" fill="transparent"/><circle r="10.5" class="zn-clue-dot"/>` +
+      `<circle cx="-1.6" cy="-1.6" r="4.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M1.6 1.6 L5.4 5.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></g></g>`;
+  }
+
+  // La loupe qui balaie le carré, dessinée autour de (0, 0).
+  const SCAN_LENS = `<circle r="${SCAN_R}" fill="#ffffff" fill-opacity=".14"/>` +
+    `<circle r="${SCAN_R}" fill="none" stroke="#ffffff" stroke-opacity=".75" stroke-width="9"/><circle r="${SCAN_R}" fill="none" stroke="#2b3440" stroke-width="5"/>` +
+    `<line x1="${SCAN_R * 0.72}" y1="${SCAN_R * 0.72}" x2="${SCAN_R * 0.72 + 24}" y2="${SCAN_R * 0.72 + 24}" stroke="#2b3440" stroke-width="9" stroke-linecap="round"/>`;
+
   function quadratSVG(Z) {
     const items = zoneOf(Z).items.slice().sort((a, b) => T[a.t].layer - T[b.t].layer);
-    const loupe = state.mode === 'loupe';
-    // À la loupe : les indices déjà trouvés sont marqués ; après quelques
-    // touchers sans rien trouver, les autres brillent ; l'endroit regardé
-    // est entouré.
-    let marks = '';
-    if (loupe) {
-      zoneOf(Z).clues.forEach(c => {
-        const seen = state.seen.includes(clueUid(Z, c));
-        if (seen) marks += `<circle class="zn-clue-seen" cx="${c.x}" cy="${c.y}" r="${LENS - 4}"/>`;
-        else if (state.misses[Z] >= HINT_AFTER) marks += `<circle class="zn-clue-hint" cx="${c.x}" cy="${c.y}" r="${LENS - 4}"/>`;
-      });
-      if (state.lens && state.lens.Z === Z) marks += `<circle class="zn-lens-ring" cx="${state.lens.x}" cy="${state.lens.y}" r="${LENS}"/>`;
-    }
-    return `<svg class="zn-quadrat ${loupe ? 'is-loupe' : ''}" data-quadrat ${loupe ? 'data-lab-look' : ''} viewBox="0 0 400 400" role="group" aria-label="${escapeHtml(plain(LABELS.quadratHead(Z)))}">` +
+    return `<svg class="zn-quadrat" data-quadrat viewBox="0 0 400 400" role="group" aria-label="${escapeHtml(plain(LABELS.quadratHead(Z)))}">` +
       groundSVG(Z) + QUADRAT_FRAME + decoSVG(Z, 'under') + items.map(it => itemMarkup(Z, it)).join('') +
-      `<g pointer-events="none">${decoSVG(Z, 'over')}${marks}</g></svg>`;
+      `<g pointer-events="none">${decoSVG(Z, 'over')}</g>` + zoneOf(Z).clues.map(c => clueMark(Z, c)).join('') +
+      `<g data-scan-lens display="none" pointer-events="none">${SCAN_LENS}</g></svg>`;
   }
 
   // Vue à la loupe : un disque de 2 × LENS unités autour de (x, y).
@@ -1019,6 +1029,7 @@
     lux: '<svg class="zn-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M20.5 1.5 V4.5 M10.5 5 L12.5 7 M30.5 5 L28.5 7" stroke="#f0a400" stroke-width="2" stroke-linecap="round"/><path d="M10.5 16 A10 8.5 0 0 1 30.5 16 Z" fill="#ffffff" stroke="#5d6b78" stroke-width="1.4"/><path d="M10.5 16 H30.5" stroke="#f0b400" stroke-width="2"/><rect x="8.5" y="16" width="24" height="22" rx="5" fill="#f4f6f8" stroke="#5d6b78" stroke-width="1.6"/><rect x="11.5" y="19.5" width="18" height="9" rx="1.5" fill="#d6e5c3" stroke="#3d4a3a" stroke-width=".8"/><circle cx="16" cy="33" r="1.7" fill="#9aa6b1"/><circle cx="25" cy="33" r="1.7" fill="#9aa6b1"/></svg>',
     hygro: '<svg class="zn-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M20.5 .8 C22.6 4 23.6 5.4 23.6 6.8 A3.1 3.1 0 0 1 17.4 6.8 C17.4 5.4 18.4 4 20.5 .8 Z" fill="#4b9fdb"/><rect x="11" y="10" width="19" height="7" rx="2" fill="#8cc0e2" stroke="#5d6b78" stroke-width="1"/><path d="M15 11.5 V15.5 M18.5 11.5 V15.5 M22 11.5 V15.5 M25.5 11.5 V15.5" stroke="#3f7fae" stroke-width="1.2"/><rect x="8.5" y="16" width="24" height="22" rx="5" fill="#f4f6f8" stroke="#5d6b78" stroke-width="1.6"/><rect x="11.5" y="19.5" width="18" height="9" rx="1.5" fill="#d6e5c3" stroke="#3d4a3a" stroke-width=".8"/><circle cx="16" cy="33" r="1.7" fill="#9aa6b1"/><circle cx="25" cy="33" r="1.7" fill="#9aa6b1"/></svg>',
     hand: '<svg class="zn-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M4 37 C10 33.5 26 33.5 36 37" stroke="#7a5634" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M15 33 C11 30 8 25 7 21 C6.4 19 8.8 17.8 10 19.6 L13 24 V5.5 C13 3.4 16.4 3.4 16.4 5.5 V17 V14 C16.4 12 19.8 12 19.8 14 V18 V15.5 C19.8 13.5 23.2 13.5 23.2 15.5 V19 V17.5 C23.2 15.6 26.6 15.6 26.6 17.5 V25 C26.6 29 24.5 32 23 33 Z" fill="#f1c9a5" stroke="#b98a63" stroke-width="1.4" stroke-linejoin="round"/></svg>',
+    loupe: '<svg class="zn-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="10" fill="#e6f3fb" stroke="#2b3440" stroke-width="3.4"/><path d="M11.5 12.5 A6 6 0 0 1 16 10" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/><path d="M23.5 23.5 L34 34" stroke="#2b3440" stroke-width="5" stroke-linecap="round"/></svg>',
     quadrat: '<svg class="zn-tool-ic" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect x="5" y="5" width="30" height="30" fill="#a8d08d"/><path d="M20 6 V34 M6 20 H34" stroke="#ffffff" stroke-width="1"/><path d="M11 14 l-3 -4 M11 14 l0 -5 M11 14 l3 -4 M27 29 l-3 -4 M27 29 l0 -5 M27 29 l3 -4" stroke="#4f8a2e" stroke-width="1.6" stroke-linecap="round"/><circle cx="27" cy="12" r="2.6" fill="#ffffff"/><circle cx="27" cy="12" r="1.1" fill="#f6c429"/><rect x="5" y="5" width="30" height="30" fill="none" stroke="#f7f7f2" stroke-width="4"/><rect x="3" y="3" width="34" height="34" fill="none" stroke="#8d968d" stroke-width="1"/></svg>'
   };
 
@@ -1174,7 +1185,7 @@
 
   function defaultCaption() {
     const C = LABELS.caption;
-    if (state.view === 'quadrat') return state.mode === 'loupe' ? C.loupe : C.quadrat;
+    if (state.view === 'quadrat') return C.quadrat;
     if (state.view === 'graph') return graphDone() ? C.graphDone : C.graph;
     if (state.tool) return C.tool[state.tool];
     if (fieldDone()) return C.fieldDone;
@@ -1193,7 +1204,9 @@
     const box = $('[data-tools]');
     if (!box) return;
     box.hidden = state.view === 'graph';
-    box.innerHTML = TOOLS.map(t => `<button type="button" class="zn-tool ${state.tool === t ? 'is-active' : ''}" data-tool="${t}" aria-pressed="${state.tool === t}">${TOOL_ICON[t]}<span>${LABELS.tools[t]}</span></button>`).join('');
+    const tools = state.view === 'quadrat' ? TOOLS.concat('loupe') : TOOLS;
+    box.classList.toggle('has-loupe', state.view === 'quadrat');
+    box.innerHTML = tools.map(t => `<button type="button" class="zn-tool ${state.tool === t ? 'is-active' : ''}" data-tool="${t}" aria-pressed="${state.tool === t}">${TOOL_ICON[t]}<span>${LABELS.tools[t]}</span></button>`).join('');
   }
 
   function renderViews() {
@@ -1228,6 +1241,7 @@
   }
 
   function toolTap(t) {
+    if (t === 'loupe') { scanQuadrat(state.qz); return; }
     const next = state.tool === t ? null : t;
     if (state.view !== 'field') {
       state.view = 'field';
@@ -1317,6 +1331,8 @@
     if (!b || e.button !== 0) return;
     e.preventDefault();
     const t = b.dataset.tool;
+    // La loupe ne se pose pas : un toucher lance le balayage du carré ouvert.
+    if (t === 'loupe') { scanQuadrat(state.qz); return; }
     press(e, {
       ghost: TOOL_ICON[t].replace('class="zn-tool-ic"', 'class="zn-ghost-tool"'),
       onStart: () => {
@@ -1371,6 +1387,7 @@
     state.qz = Z;
     state.pick = null;
     state.tries = [];
+    renderTools();
     renderViews();
     renderStage();
     setCaption(defaultCaption());
@@ -1441,75 +1458,100 @@
     const Z = state.qz;
     box.innerHTML = `<div class="zn-qview">` +
       `<div class="zn-qhead"><button type="button" class="lab-btn lab-btn-ghost zn-back" data-back data-lab-look>← ${LABELS.backToZones}</button>` +
-      `${letter(Z)}<span class="zn-qtitle">${gloss(LABELS.quadratHead(Z))}</span>` +
-      `<div class="zn-modes" role="group">${['count', 'loupe'].map(m => `<button type="button" class="zn-mode ${state.mode === m ? 'is-current' : ''}" data-mode="${m}" data-lab-look aria-pressed="${state.mode === m}">${MODE_ICON[m]}<span>${LABELS.modes[m]}</span></button>`).join('')}</div></div>` +
+      `${letter(Z)}<span class="zn-qtitle">${gloss(LABELS.quadratHead(Z))}</span></div>` +
       `<div class="zn-qbody"><div class="zn-qframe">${quadratSVG(Z)}</div><div class="zn-idcard" data-idcard aria-live="polite"></div></div></div>`;
     $('[data-back]').addEventListener('click', () => setView('field'));
-    $$('[data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
     const svg = $('[data-quadrat]');
-    // Identifier (toucher un être vivant) ou regarder à la loupe (toucher un endroit).
+    // Toucher une pastille ouvre l'interaction ; toucher un être vivant l'identifie.
     svg.addEventListener('click', e => {
-      if (state.mode === 'loupe') {
-        const p = toSquare(svg, e);
-        if (p) lookAt(Z, p.x, p.y);
-        return;
-      }
+      if (busy) return;
+      const b = e.target.closest('[data-clue]');
+      if (b) { openClue(b.dataset.clue); return; }
+      if (corrected()) return;
       const g = e.target.closest('[data-uid]');
       if (g) pickItem(Z, g.dataset.uid);
     });
     svg.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const b = e.target.closest('[data-clue]');
       const g = e.target.closest('[data-uid]');
-      if (!g || (e.key !== 'Enter' && e.key !== ' ')) return;
+      if (!b && !g) return;
       e.preventDefault();
-      if (state.mode === 'loupe') { const it = itemOf(Z, g.dataset.uid); lookAt(Z, it.x, it.y); }
+      if (b) openClue(b.dataset.clue);
       else pickItem(Z, g.dataset.uid);
     });
     renderIdCard();
   }
 
-  // Un point du carré (unités du dessin), quel que soit le zoom du labo.
-  function toSquare(svg, e) {
-    const m = svg.getScreenCTM();
-    if (!m) return null;
-    const p = svg.createSVGPoint();
-    p.x = e.clientX;
-    p.y = e.clientY;
-    const q = p.matrixTransform(m.inverse());
-    return { x: q.x, y: q.y };
+  /* La loupe balaie le carré ouvert en zigzag ; les interactions
+     apparaissent quand elle passe dessus. Le carré balayé le reste. */
+  let busy = false;
+
+  function scanQuadrat(Z) {
+    if (busy || state.view !== 'quadrat') return;
+    const svg = $('[data-quadrat]');
+    if (!svg) return;
+    const clues = zoneOf(Z).clues;
+    const show = c => {
+      const g = svg.querySelector(`[data-clue-mark="${clueUid(Z, c)}"]`);
+      if (g && g.classList.contains('is-hidden')) {
+        g.classList.remove('is-hidden');
+        if (!reduceMotion) g.classList.add('is-revealed');
+      }
+    };
+    const finish = () => {
+      busy = false;
+      svg.classList.remove('is-scanning');
+      const lens = svg.querySelector('[data-scan-lens]');
+      if (lens) lens.setAttribute('display', 'none');
+      clues.forEach(show);
+      state.scanned[Z] = true;
+      renderIdCard();
+      setCaption(LABELS.caption.scanFound(Z, clues.length));
+      renderFooter();
+      lab.save();
+    };
+    if (reduceMotion) { finish(); return; }
+    busy = true;
+    svg.classList.add('is-scanning');
+    setCaption(LABELS.caption.scanning(Z));
+    const lens = svg.querySelector('[data-scan-lens]');
+    lens.setAttribute('display', 'inline');
+    const segs = SCAN_PATH.slice(1).map((p, i) => Math.hypot(p[0] - SCAN_PATH[i][0], p[1] - SCAN_PATH[i][1]));
+    const total = segs.reduce((a, b) => a + b, 0);
+    const at = dist => {
+      let i = 0;
+      while (i < segs.length - 1 && dist > segs[i]) { dist -= segs[i]; i++; }
+      const k = Math.min(1, dist / segs[i]), a = SCAN_PATH[i], b = SCAN_PATH[i + 1];
+      return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k];
+    };
+    // Animation propre au carré (pas lab.tween), comme le balayage du labo des sols.
+    const t0 = performance.now();
+    const frame = now => {
+      if (!svg.isConnected) { busy = false; return; }
+      const t = Math.min(1, (now - t0) / SCAN_MS);
+      const [x, y] = at(total * (0.5 - Math.cos(Math.PI * t) / 2));
+      lens.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+      clues.forEach(c => { if (Math.hypot(c.x - x, c.y - y) < SCAN_R + 10) show(c); });
+      if (t < 1) requestAnimationFrame(frame);
+      else finish();
+    };
+    requestAnimationFrame(frame);
   }
 
-  // Identifier et compter, ou la loupe : ne change rien au travail.
-  function setMode(m) {
-    if (state.mode === m) return;
-    state.mode = m;
+  // Une interaction en grand, avec sa fiche (aussi au labo corrigé : on regarde).
+  function openClue(uid) {
+    const { Z } = clueByUid(uid);
+    state.lens = uid;
     state.pick = null;
     state.tries = [];
-    renderStage();
-    renderCounts();
-    setCaption(defaultCaption());
-  }
-
-  /* La loupe posée sur un endroit du carré : un indice tout près, il est
-     trouvé (sa fiche s'ouvre) ; sinon, on voit l'endroit en grand, sans
-     rien de particulier. Après HINT_AFTER touchers pour rien, les indices
-     pas encore trouvés de la zone brillent. */
-  function lookAt(Z, x, y) {
-    const C = LABELS.caption;
-    const near = zoneOf(Z).clues.map(c => ({ c, d: Math.hypot(c.x - x, c.y - y) })).filter(o => o.d < CLUE_HIT).sort((a, b) => a.d - b.d)[0];
-    if (near) {
-      const uid = clueUid(Z, near.c);
-      state.lens = { Z, x: near.c.x, y: near.c.y, clue: uid };
-      if (!state.seen.includes(uid)) state.seen.push(uid);
-      renderStage();
-      setCaption(state.inter.some(i => i.clue === uid) ? C.foundNoted : C.found);
-      return;
+    if (state.qz !== Z) { state.qz = Z; renderStage(); } else {
+      updateItems();
+      $$('[data-clue-mark]').forEach(g => g.classList.toggle('is-open', g.dataset.clueMark === uid));
+      renderIdCard();
     }
-    const clamp = v => Math.min(400 - LENS, Math.max(LENS, Math.round(v)));
-    state.lens = { Z, x: clamp(x), y: clamp(y), clue: null };
-    if (!corrected()) state.misses[Z]++;
-    const hidden = zoneOf(Z).clues.some(c => !state.seen.includes(clueUid(Z, c)));
-    renderStage();
-    setCaption(hidden && state.misses[Z] >= HINT_AFTER ? C.hint : C.nothing);
+    renderCounts();
+    setCaption(state.inter.some(i => i.clue === uid) ? LABELS.caption.foundNoted : LABELS.caption.found);
   }
 
   // L'espèce entourée : celle de l'élément touché, une fois nommée.
@@ -1531,6 +1573,10 @@
   function pickItem(Z, uid) {
     const it = itemOf(Z, uid);
     if (!it) return;
+    if (state.lens) {
+      state.lens = null;
+      $$('[data-clue-mark]').forEach(g => g.classList.remove('is-open'));
+    }
     state.pick = uid;
     state.tries = [];
     if (state.identified[it.t]) {
@@ -1574,12 +1620,13 @@
   function renderIdCard() {
     const box = $('[data-idcard]');
     if (!box) return;
-    if (state.mode === 'loupe') { renderLensCard(box); return; }
     const Z = state.qz;
+    if (state.lens && clueByUid(state.lens).Z === Z) { renderLensCard(box); return; }
     const it = state.pick ? itemOf(Z, state.pick) : null;
     if (!it) {
       box.className = 'zn-idcard is-empty';
-      box.innerHTML = `<div class="zn-id-pic">${TOOL_ICON.quadrat}</div><p>${gloss(LABELS.idEmpty)}</p>`;
+      box.innerHTML = `<div class="zn-id-pic">${TOOL_ICON.quadrat}</div><p>${gloss(LABELS.idEmpty)}</p>` +
+        `<p class="zn-id-loupe">${gloss(state.scanned[Z] ? LABELS.idEmptyScanned : LABELS.idEmptyLoupe)}</p>`;
       return;
     }
     const pic = `<div class="zn-id-pic">${iconSVG(it.t, 'zn-id-ic')}</div>`;
@@ -1611,14 +1658,7 @@
      fiche de la sortie) ; une interaction notée se complète ici : le signe
      de chaque être vivant, puis le nom de la relation. Une interaction se
      retire de la fiche pour en noter une autre. */
-  const LOUPE_SVG = '<svg class="zn-loupe-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="6.2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M14.6 14.6 L20.5 20.5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>';
-  const MODE_ICON = {
-    count: '<svg class="zn-loupe-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 4 V20 M4 12 H20" stroke="currentColor" stroke-width="1.2"/></svg>',
-    loupe: LOUPE_SVG
-  };
-
   const interOf = uid => state.inter.find(x => x.clue === uid) || null;
-  const pairName = c => LABELS.pair(capitalize(whoName(c.a)), whoName(c.b));
 
   function interForm(x, c) {
     const row = (key, w) => `<div class="zn-sign-row"><span class="zn-sign-who">${gloss(`[${capitalize(whoName(w))}|${whoName(w)}]`)}</span>` +
@@ -1634,7 +1674,7 @@
 
   function interListHTML() {
     const show = lab.state.showMissing;
-    const current = state.lens && state.lens.clue;
+    const current = state.lens;
     const rows = state.inter.map(x => {
       const { c } = clueByUid(x.clue);
       return `<li class="zn-inter-item ${current === x.clue ? 'is-current' : ''} ${show && !interDone(x) ? 'lab-is-missing' : ''}">` +
@@ -1646,18 +1686,11 @@
   }
 
   function renderLensCard(box) {
-    const L = state.lens && state.lens.Z === state.qz ? state.lens : null;
-    let top;
-    if (!L) {
-      top = `<div class="zn-lens is-empty">${LOUPE_SVG}</div><p>${gloss(LABELS.lensEmpty)}</p>`;
-    } else if (!L.clue) {
-      top = `<div class="zn-lens">${lensSVG(L.Z, L.x, L.y)}</div><p class="zn-lens-nothing">${LABELS.lensNothing}</p>`;
-    } else {
-      const { Z, c } = clueByUid(L.clue);
-      const x = interOf(L.clue);
-      top = `<div class="zn-lens">${lensSVG(Z, c.x, c.y)}</div><p class="zn-lens-fact">${gloss(clueFact(c))}</p>` +
-        (x ? interForm(x, c) : `<button type="button" class="lab-btn lab-btn-primary zn-note-btn" data-note="${L.clue}">${LABELS.noteInter}</button>`);
-    }
+    const uid = state.lens;
+    const { Z, c } = clueByUid(uid);
+    const x = interOf(uid);
+    const top = `<div class="zn-lens">${lensSVG(Z, c.x, c.y)}</div><p class="zn-lens-fact">${gloss(clueFact(c))}</p>` +
+      (x ? interForm(x, c) : `<button type="button" class="lab-btn lab-btn-primary zn-note-btn" data-note="${uid}">${LABELS.noteInter}</button>`);
     box.className = 'zn-idcard zn-lenscard';
     box.innerHTML = `<div class="zn-lens-top">${top}</div>${interListHTML()}`;
 
@@ -1667,6 +1700,7 @@
       note.addEventListener('click', () => {
         state.inter.push({ clue: note.dataset.note, sa: null, sb: null, rel: null });
         afterInter();
+        markNoted();
         setCaption(LABELS.caption.noted);
       });
     }
@@ -1680,19 +1714,19 @@
       interOf(sel.dataset.rel).rel = sel.value || null;
       afterInter();
     }));
-    box.querySelectorAll('[data-open-inter]').forEach(b => b.addEventListener('click', () => {
-      const { Z, c } = clueByUid(b.dataset.openInter);
-      state.qz = Z;
-      state.lens = { Z, x: c.x, y: c.y, clue: b.dataset.openInter };
-      renderStage();
-      setCaption(LABELS.caption.foundNoted);
-    }));
+    box.querySelectorAll('[data-open-inter]').forEach(b => b.addEventListener('click', () => openClue(b.dataset.openInter)));
     box.querySelectorAll('[data-del-inter]').forEach(b => b.addEventListener('click', async () => {
       const uid = b.dataset.delInter;
       if (!(await lab.confirm({ title: LABELS.removeTitle, text: LABELS.removeText(pairName(clueByUid(uid).c)), confirm: LABELS.removeYes, danger: true }))) return;
       state.inter = state.inter.filter(x => x.clue !== uid);
       afterInter();
+      markNoted();
     }));
+  }
+
+  // Le cercle d'une interaction notée est plein (sans redessiner le carré).
+  function markNoted() {
+    $$('[data-clue-mark]').forEach(g => g.classList.toggle('is-noted', state.inter.some(x => x.clue === g.dataset.clueMark)));
   }
 
   function afterInter() {
@@ -2310,14 +2344,15 @@
     isStarted: () => HYP_KEYS.some(k => state.hypothesis[k]) || started(),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 4,
+    version: 5,
     save: () => ({ state: Object.assign({}, state, { tool: null }) }),
     load(data) {
       const s = data.state;
-      if (!s || !s.zones || !s.found || !Array.isArray(s.inter) || !s.conclusion || !s.conclusion.ex ||
+      if (!s || !s.zones || !s.found || !Array.isArray(s.inter) || !s.scanned || !s.conclusion || !s.conclusion.ex ||
         !ZONES.every(Z => s.zones[Z] && HABITATS[s.zones[Z].key] && Array.isArray(s.zones[Z].items) && Array.isArray(s.zones[Z].clues))) throw new Error('labProgress');
       state = Object.assign(s, { tool: null });
       stepperDone = null;
+      busy = false;
     },
     summary() {
       const ev = evaluate();
