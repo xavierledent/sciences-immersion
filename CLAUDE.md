@@ -44,9 +44,10 @@ T-shirts ; jeter, recycler, réutiliser ; quatre compteurs TAKING / GIVING
 BACK, graphique en colonnes ; expérience sur un modèle, partie du cours), `bio1` « The vanishing leaves » et
 « Inside two ecosystems » (mission 1 de la sortie de terrain : facteurs
 abiotiques, carré de comptage, histogramme FO5b) et « Pull one thread »
-(réseau trophique d'une forêt belge : construire le modèle à partir des
-cartes écologiques, puis une maladie et 10 ans de graphiques, réseau contre
-chaîne seule ; expérience sur un modèle, partie du cours), `phys1` « The energy test
+(réseau trophique d'une forêt belge : 12 êtres vivants tirés dans une
+réserve de 19, rangées vérifiées avant les flèches, puis une maladie et
+10 ans de graphiques, réseau contre chaîne seule ; expérience sur un
+modèle, partie du cours), `phys1` « The energy test
 bench » (dynamo à manivelle et deux lampes : mesures en units, diagramme de
 flux d'énergie, bilan), « Keep the lights on » (salle de contrôle de
 l'électricité belge pendant une journée : centrales, météo, stockage de Coo,

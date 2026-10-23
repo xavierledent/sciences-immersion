@@ -18,37 +18,61 @@ LabEngine.addText('foodweb', {
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',
 
-    /* Les êtres vivants : name (carte, jeton), short (dans une chaîne,
-       « grass → rabbit → fox »), the (dans une phrase), many (le groupe :
-       « the number of foxes »), food (une plante : ce qu'on en mange). */
+    /* Les êtres vivants (la réserve : 12 par partie) : name (carte, jeton),
+       short (dans une chaîne, « grass → rabbit → fox »), the (dans une
+       phrase), many (le groupe : « the number of foxes »). */
     species: {
       oak: { name: 'Oak tree', short: 'oak', the: 'the oak tree', many: 'oak trees' },
+      beech: { name: 'Beech tree', short: 'beech', the: 'the beech tree', many: 'beech trees' },
+      hazel: { name: 'Hazel', short: 'hazel', the: 'the hazel', many: 'hazels' },
       grass: { name: 'Grass', short: 'grass', the: 'the grass', many: 'grass' },
-      bramble: { name: 'Bramble', short: 'bramble', the: 'the bramble', many: 'brambles', food: 'blackberries' },
+      bramble: { name: 'Bramble', short: 'bramble', the: 'the bramble', many: 'brambles' },
       rabbit: { name: 'Rabbit', short: 'rabbit', the: 'the rabbit', many: 'rabbits' },
       mouse: { name: 'Mouse', short: 'mouse', the: 'the mouse', many: 'mice' },
       deer: { name: 'Deer', short: 'deer', the: 'the deer', many: 'deer' },
+      boar: { name: 'Wild boar', short: 'wild boar', the: 'the wild boar', many: 'wild boars' },
       caterpillar: { name: 'Caterpillar', short: 'caterpillar', the: 'the caterpillar', many: 'caterpillars' },
       squirrel: { name: 'Squirrel', short: 'squirrel', the: 'the squirrel', many: 'squirrels' },
+      snail: { name: 'Snail', short: 'snail', the: 'the snail', many: 'snails' },
       bluetit: { name: 'Blue tit', short: 'blue tit', the: 'the blue tit', many: 'blue tits' },
       fox: { name: 'Fox', short: 'fox', the: 'the fox', many: 'foxes' },
       owl: { name: 'Tawny owl', short: 'tawny owl', the: 'the tawny owl', many: 'tawny owls' },
-      buzzard: { name: 'Buzzard', short: 'buzzard', the: 'the buzzard', many: 'buzzards' }
+      buzzard: { name: 'Buzzard', short: 'buzzard', the: 'the buzzard', many: 'buzzards' },
+      wolf: { name: 'Wolf', short: 'wolf', the: 'the wolf', many: 'wolves' },
+      hedgehog: { name: 'Hedgehog', short: 'hedgehog', the: 'the hedgehog', many: 'hedgehogs' },
+      marten: { name: 'Pine marten', short: 'pine marten', the: 'the pine marten', many: 'pine martens' }
     },
-    // Les cartes écologiques : ce que mange chaque être vivant.
+    // Ce qu'un animal mange d'une plante : ses fruits ou ses feuilles.
+    parts: {
+      oak: { fruit: 'acorns', leaf: 'oak leaves' },
+      beech: { fruit: 'beechnuts', leaf: 'beech leaves' },
+      hazel: { fruit: 'hazelnuts', leaf: 'hazel leaves' },
+      grass: { fruit: 'grass seeds', leaf: 'grass' },
+      bramble: { fruit: 'blackberries', leaf: 'bramble leaves' }
+    },
+    /* Les cartes écologiques. Une plante : une phrase. Un animal : une
+       fonction qui reçoit ce qu'il mange dans le réseau de la partie, déjà
+       en liste (« rabbits and mice »). */
     cards: {
       oak: 'A tree: makes its own food with sunlight. Fruits: acorns.',
+      beech: 'A tree: makes its own food with sunlight. Fruits: beechnuts.',
+      hazel: 'A shrub: makes its own food with sunlight. Fruits: hazelnuts.',
       grass: 'A plant: makes its own food with sunlight.',
       bramble: 'A plant with blackberries: makes its own food with sunlight.',
-      rabbit: 'Eats grass.',
-      mouse: 'Eats acorns and blackberries.',
-      deer: 'Eats grass, bramble leaves and young oak leaves.',
-      caterpillar: 'Eats oak leaves.',
-      squirrel: 'Eats acorns.',
-      bluetit: 'Eats caterpillars, and blackberries in autumn.',
-      fox: 'Hunts rabbits and mice.',
-      owl: 'Hunts mice and blue tits, at night.',
-      buzzard: 'Hunts rabbits and mice.'
+      rabbit: f => `Eats ${f}.`,
+      mouse: f => `Eats ${f}.`,
+      deer: f => `Eats ${f}.`,
+      boar: f => `Eats ${f}.`,
+      caterpillar: f => `Eats ${f}.`,
+      squirrel: f => `Eats ${f}.`,
+      snail: f => `Eats ${f}.`,
+      bluetit: f => `Eats ${f}.`,
+      fox: f => `Hunts ${f}.`,
+      owl: f => `Hunts ${f}, at night.`,
+      buzzard: f => `Hunts ${f}.`,
+      wolf: f => `Hunts ${f}, in a pack.`,
+      hedgehog: f => `Eats ${f}, at night.`,
+      marten: f => `Hunts ${f}, in the trees and on the ground.`
     },
     numberOf: (many, cap) => `${cap ? 'The' : 'the'} number of ${many}`,
 
@@ -78,19 +102,25 @@ LabEngine.addText('foodweb', {
     tabs: { model: 'The model', disease: 'The disease' },
 
     // Onglet 1 : le modèle
-    modes: { place: 'Place the cards', arrows: 'Draw the arrows' },
+    modes: { place: '1 · Place the cards', arrows: '2 · Draw the arrows' },
     rows: ['Consumers that eat animals', 'Consumers that eat plants', 'Producers'],
     cardsTitle: 'The ecological cards',
     onBoard: 'on the model',
+    checkRows: 'Check the rows',
     compare: 'Compare with the cards',
-    comparesCount: n => (n ? `Comparisons: ${n}` : 'Read the cards carefully before you compare.'),
-    compareResult: (row, right, missing, wrong) => `${row === 0 ? 'All the cards are in the right row.' : row === 1 ? '1 card is in the wrong row.' : `${row} cards are in the wrong row.`} ` +
-      `Arrows: ${right} right, ${missing} missing, ${wrong} wrong.`,
+    comparesCount: (rows, arrows) => (rows || arrows ? `Row checks: ${rows} · Arrow comparisons: ${arrows}` : 'Read the cards carefully before you check.'),
+    rowsResult: n => (n === 1 ? '1 card is in the wrong row.' : `${n} cards are in the wrong row.`),
+    rowsOk: 'All the cards are in the right row.',
+    rowsLegend: 'On the model, a red card is in the wrong row.',
+    compareResult: (right, missing, wrong) => `Arrows: ${right} right, ${missing} missing, ${wrong} wrong.`,
     compareOk: 'Your model matches the cards. Well done!',
-    compareLegend: 'On the model: a red card is in the wrong row, a red arrow is wrong, and “!” shows a living thing that is missing an arrow (something that it eats).',
+    compareLegend: 'On the model: a red arrow is wrong, and “!” shows a living thing that is missing an arrow (something that it eats).',
     missingHere: 'An arrow is missing here: something that it eats',
     captionPlace: 'Take a card (touch it), then touch a free place of the model. Producers at the bottom!',
-    captionPlaced: 'All the cards are on the model. Now draw the arrows: “is eaten by”.',
+    captionPlaced: 'All the cards are on the model. Check the rows.',
+    captionRowsOk: 'All the cards are in the right row! Now draw the arrows: “is eaten by”.',
+    lockRowsFirst: 'Check the rows of your cards first.',
+    lockRowsDone: 'Your cards are in the right rows: now draw the arrows.',
     captionHold: n => `${n}: touch a free place of the model.`,
     captionArrows: 'Touch the food first, then the living thing that eats it. The arrow means “is eaten by”. To remove an arrow, touch it.',
     captionFrom: the => `Now touch the living thing that eats ${the}.`,
@@ -167,8 +197,6 @@ LabEngine.addText('foodweb', {
     criteriaSub: { model: 'Your food web', notes: 'Your notebook', answerA: 'Which species change?', answerB: 'Web or chain?', verdicts: 'Your judgement' },
     rightWeb: 'The food web of the cards (the arrow means “is eaten by”):',
     webTitle: 'My food web model',
-    // La nourriture que l'espèce malade partageait avec son concurrent.
-    sharedFood: { rabbit: 'grass', mouse: 'acorns' },
     hypText: (num, will) => `I think that ${num} will ${will}.`,
     hypChainText: (chain, num, will) => `In a single food chain (${chain}), I think that ${num} will ${will}.`,
 
@@ -177,13 +205,14 @@ LabEngine.addText('foodweb', {
       because: 'Because',
       materials: '12 ecological cards of a Belgian forest. A computer model of the food web that runs over 10 years.',
       procedure: (sick, chain) => [
-        'Place each ecological card on its level: producers at the bottom, then consumers that eat plants, then consumers that eat animals.',
-        'Draw the arrows (“is eaten by”) and compare the model with the cards until it matches.',
+        'Place each ecological card on its level: producers at the bottom, then consumers that eat plants, then consumers that eat animals. Check the rows until every card is in the right row.',
+        'Draw the arrows (“is eaten by”) and compare them with the cards until the model matches.',
         `Test 1: a disease kills all the ${sick}. Run the model over 10 years and read the graphs.`,
         `Test 2: the same disease in a single food chain (${chain}). Run the model and read the graph.`,
         'Write the numbers at year 0 and year 10, and the shape of each curve, in the notebook.'
       ],
-      model: n => `The model matched the cards after ${n === 1 ? '1 comparison' : n + ' comparisons'}.`,
+      rows: n => `The cards were in the right rows after ${n === 1 ? '1 check' : n + ' checks'}.`,
+      model: n => `The arrows matched the cards after ${n === 1 ? '1 comparison' : n + ' comparisons'}.`,
       notesCaption: 'Notebook: number of animals',
       change: (row, a, b) => `${row}: from ${a} (year 0) to ${b} (year 10).`,
       verdict: (row, word) => `${row}: my hypothesis is ${word}.`,
@@ -197,7 +226,10 @@ LabEngine.addText('foodweb', {
     disease: 'maladie', species: 'espèce(s)', 'living thing': 'être vivant', 'living things': 'êtres vivants',
     food: 'nourriture', 'food sources': 'sources de nourriture', leaves: 'feuilles',
     'oak tree': 'chêne', oak: 'chêne', 'oak trees': 'chênes', acorns: 'glands', grass: 'herbe',
-    bramble: 'ronce', brambles: 'ronces', blackberries: 'mûres',
+    bramble: 'ronce', brambles: 'ronces', blackberries: 'mûres', 'beech tree': 'hêtre', 'beech trees': 'hêtres', beech: 'hêtre',
+    beechnuts: 'faînes', hazel: 'noisetier', hazels: 'noisetiers', hazelnuts: 'noisettes', shrub: 'arbuste', 'grass seeds': 'graines d’herbe',
+    'wild boar': 'sanglier', 'wild boars': 'sangliers', snail: 'escargot', snails: 'escargots', wolf: 'loup', wolves: 'loups',
+    hedgehog: 'hérisson', hedgehogs: 'hérissons', 'pine marten': 'martre', 'pine martens': 'martres', pack: 'meute',
     rabbit: 'lapin', rabbits: 'lapins', mouse: 'souris (mulot)', mice: 'souris (mulots)', deer: 'cerf(s)',
     caterpillar: 'chenille', caterpillars: 'chenilles', squirrel: 'écureuil', squirrels: 'écureuils',
     'blue tit': 'mésange bleue', 'blue tits': 'mésanges bleues', fox: 'renard', foxes: 'renards',

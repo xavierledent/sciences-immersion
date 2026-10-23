@@ -19,37 +19,61 @@ LabEngine.addText('foodweb', {
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',
 
-    /* Les êtres vivants : name (carte, jeton), short (dans une chaîne), the
-       (dans une phrase), many (le groupe : « het aantal vossen »), food (une
-       plante : ce qu'on en mange). */
+    /* Les êtres vivants (la réserve : 12 par partie) : name (carte, jeton),
+       short (dans une chaîne), the (dans une phrase), many (le groupe :
+       « het aantal vossen »). */
     species: {
       oak: { name: 'Eik', short: 'eik', the: 'de eik', many: 'eiken' },
+      beech: { name: 'Beuk', short: 'beuk', the: 'de beuk', many: 'beuken' },
+      hazel: { name: 'Hazelaar', short: 'hazelaar', the: 'de hazelaar', many: 'hazelaars' },
       grass: { name: 'Gras', short: 'gras', the: 'het gras', many: 'gras' },
-      bramble: { name: 'Braamstruik', short: 'braamstruik', the: 'de braamstruik', many: 'braamstruiken', food: 'bramen' },
+      bramble: { name: 'Braamstruik', short: 'braamstruik', the: 'de braamstruik', many: 'braamstruiken' },
       rabbit: { name: 'Konijn', short: 'konijn', the: 'het konijn', many: 'konijnen' },
       mouse: { name: 'Bosmuis', short: 'bosmuis', the: 'de bosmuis', many: 'bosmuizen' },
       deer: { name: 'Hert', short: 'hert', the: 'het hert', many: 'herten' },
+      boar: { name: 'Wild zwijn', short: 'wild zwijn', the: 'het wilde zwijn', many: 'wilde zwijnen' },
       caterpillar: { name: 'Rups', short: 'rups', the: 'de rups', many: 'rupsen' },
       squirrel: { name: 'Eekhoorn', short: 'eekhoorn', the: 'de eekhoorn', many: 'eekhoorns' },
+      snail: { name: 'Slak', short: 'slak', the: 'de slak', many: 'slakken' },
       bluetit: { name: 'Pimpelmees', short: 'pimpelmees', the: 'de pimpelmees', many: 'pimpelmezen' },
       fox: { name: 'Vos', short: 'vos', the: 'de vos', many: 'vossen' },
       owl: { name: 'Bosuil', short: 'bosuil', the: 'de bosuil', many: 'bosuilen' },
-      buzzard: { name: 'Buizerd', short: 'buizerd', the: 'de buizerd', many: 'buizerds' }
+      buzzard: { name: 'Buizerd', short: 'buizerd', the: 'de buizerd', many: 'buizerds' },
+      wolf: { name: 'Wolf', short: 'wolf', the: 'de wolf', many: 'wolven' },
+      hedgehog: { name: 'Egel', short: 'egel', the: 'de egel', many: 'egels' },
+      marten: { name: 'Boommarter', short: 'boommarter', the: 'de boommarter', many: 'boommarters' }
     },
-    // Les cartes écologiques : ce que mange chaque être vivant.
+    // Ce qu'un animal mange d'une plante : ses vruchten ou ses bladeren.
+    parts: {
+      oak: { fruit: 'eikels', leaf: 'eikenbladeren' },
+      beech: { fruit: 'beukennootjes', leaf: 'beukenbladeren' },
+      hazel: { fruit: 'hazelnoten', leaf: 'hazelaarbladeren' },
+      grass: { fruit: 'graszaad', leaf: 'gras' },
+      bramble: { fruit: 'bramen', leaf: 'braambladeren' }
+    },
+    /* Les cartes écologiques. Une plante : une phrase. Un animal : une
+       fonction qui reçoit ce qu'il mange dans le réseau de la partie, déjà
+       en liste (« konijnen en bosmuizen »). */
     cards: {
       oak: 'Een boom: maakt zelf voedsel met zonlicht. Vruchten: eikels.',
+      beech: 'Een boom: maakt zelf voedsel met zonlicht. Vruchten: beukennootjes.',
+      hazel: 'Een struik: maakt zelf voedsel met zonlicht. Vruchten: hazelnoten.',
       grass: 'Een plant: maakt zelf voedsel met zonlicht.',
       bramble: 'Een plant met bramen: maakt zelf voedsel met zonlicht.',
-      rabbit: 'Eet gras.',
-      mouse: 'Eet eikels en bramen.',
-      deer: 'Eet gras, braambladeren en jonge eikenbladeren.',
-      caterpillar: 'Eet eikenbladeren.',
-      squirrel: 'Eet eikels.',
-      bluetit: 'Eet rupsen, en in de herfst bramen.',
-      fox: 'Jaagt op konijnen en bosmuizen.',
-      owl: '’s Nachts jaagt hij op bosmuizen en pimpelmezen.',
-      buzzard: 'Jaagt op konijnen en bosmuizen.'
+      rabbit: f => `Eet ${f}.`,
+      mouse: f => `Eet ${f}.`,
+      deer: f => `Eet ${f}.`,
+      boar: f => `Eet ${f}.`,
+      caterpillar: f => `Eet ${f}.`,
+      squirrel: f => `Eet ${f}.`,
+      snail: f => `Eet ${f}.`,
+      bluetit: f => `Eet ${f}.`,
+      fox: f => `Jaagt op ${f}.`,
+      owl: f => `Jaagt ’s nachts op ${f}.`,
+      buzzard: f => `Jaagt op ${f}.`,
+      wolf: f => `Jaagt in een roedel op ${f}.`,
+      hedgehog: f => `Eet ’s nachts ${f}.`,
+      marten: f => `Jaagt in de bomen en op de grond op ${f}.`
     },
     numberOf: (many, cap) => `${cap ? 'Het' : 'het'} aantal ${many}`,
 
@@ -79,19 +103,25 @@ LabEngine.addText('foodweb', {
     tabs: { model: 'Het model', disease: 'De ziekte' },
 
     // Onglet 1 : le modèle
-    modes: { place: 'Kaarten plaatsen', arrows: 'Pijlen tekenen' },
+    modes: { place: '1 · Kaarten plaatsen', arrows: '2 · Pijlen tekenen' },
     rows: ['Consumenten die dieren eten', 'Consumenten die planten eten', 'Producenten'],
     cardsTitle: 'De ecologische kaarten',
     onBoard: 'in het model',
+    checkRows: 'De rijen controleren',
     compare: 'Vergelijken met de kaarten',
-    comparesCount: n => (n ? `Vergelijkingen: ${n}` : 'Lees de kaarten goed voor je vergelijkt.'),
-    compareResult: (row, right, missing, wrong) => `${row === 0 ? 'Alle kaarten liggen in de juiste rij.' : row === 1 ? '1 kaart ligt in de verkeerde rij.' : `${row} kaarten liggen in de verkeerde rij.`} ` +
-      `Pijlen: ${right} juist, ${missing} ontbreken, ${wrong} fout.`,
+    comparesCount: (rows, arrows) => (rows || arrows ? `Rijcontroles: ${rows} · Pijlvergelijkingen: ${arrows}` : 'Lees de kaarten goed voor je controleert.'),
+    rowsResult: n => (n === 1 ? '1 kaart ligt in de verkeerde rij.' : `${n} kaarten liggen in de verkeerde rij.`),
+    rowsOk: 'Alle kaarten liggen in de juiste rij.',
+    rowsLegend: 'Op het model ligt een rode kaart in de verkeerde rij.',
+    compareResult: (right, missing, wrong) => `Pijlen: ${right} juist, ${missing} ontbreken, ${wrong} fout.`,
     compareOk: 'Je model komt overeen met de kaarten. Goed gedaan!',
-    compareLegend: 'Op het model: een rode kaart ligt in de verkeerde rij, een rode pijl is fout, en „!” toont een levend wezen waarbij een pijl ontbreekt (iets wat het eet).',
+    compareLegend: 'Op het model: een rode pijl is fout, en „!” toont een levend wezen waarbij een pijl ontbreekt (iets wat het eet).',
     missingHere: 'Hier ontbreekt een pijl: iets wat het eet',
     captionPlace: 'Neem een kaart (raak ze aan) en raak dan een vrije plaats van het model aan. Producenten onderaan!',
-    captionPlaced: 'Alle kaarten liggen in het model. Teken nu de pijlen: „wordt gegeten door”.',
+    captionPlaced: 'Alle kaarten liggen in het model. Controleer de rijen.',
+    captionRowsOk: 'Alle kaarten liggen in de juiste rij! Teken nu de pijlen: „wordt gegeten door”.',
+    lockRowsFirst: 'Controleer eerst de rijen van je kaarten.',
+    lockRowsDone: 'Je kaarten liggen in de juiste rijen: teken nu de pijlen.',
     captionHold: n => `${n}: raak een vrije plaats van het model aan.`,
     captionArrows: 'Raak eerst het voedsel aan, en dan het levende wezen dat het eet. De pijl betekent „wordt gegeten door”. Om een pijl weg te halen, raak je hem aan.',
     captionFrom: the => `Raak nu het levende wezen aan dat ${the} eet.`,
@@ -168,8 +198,6 @@ LabEngine.addText('foodweb', {
     criteriaSub: { model: 'Jouw voedselweb', notes: 'Jouw schrift', answerA: 'Welke soorten veranderen?', answerB: 'Web of keten?', verdicts: 'Jouw oordeel' },
     rightWeb: 'Het voedselweb van de kaarten (de pijl betekent „wordt gegeten door”):',
     webTitle: 'Mijn model van het voedselweb',
-    // La nourriture que l'espèce malade partageait avec son concurrent.
-    sharedFood: { rabbit: 'gras', mouse: 'eikels' },
     hypText: (num, will) => `Ik denk dat ${num} zal ${will}.`,
     hypChainText: (chain, num, will) => `In één enkele voedselketen (${chain}) denk ik dat ${num} zal ${will}.`,
 
@@ -178,13 +206,14 @@ LabEngine.addText('foodweb', {
       because: 'Omdat',
       materials: '12 ecologische kaarten van een Belgisch bos. Een computermodel van het voedselweb dat 10 jaar loopt.',
       procedure: (sick, chain) => [
-        'Leg elke ecologische kaart op haar niveau: producenten onderaan, dan consumenten die planten eten, dan consumenten die dieren eten.',
-        'Teken de pijlen („wordt gegeten door”) en vergelijk het model met de kaarten tot het overeenkomt.',
+        'Leg elke ecologische kaart op haar niveau: producenten onderaan, dan consumenten die planten eten, dan consumenten die dieren eten. Controleer de rijen tot elke kaart in de juiste rij ligt.',
+        'Teken de pijlen („wordt gegeten door”) en vergelijk ze met de kaarten tot het model overeenkomt.',
         `Test 1: een ziekte doodt alle ${sick}. Laat het model 10 jaar lopen en lees de grafieken af.`,
         `Test 2: dezelfde ziekte in één enkele voedselketen (${chain}). Laat het model lopen en lees de grafiek af.`,
         'Noteer in het schrift het aantal in jaar 0 en in jaar 10, en de vorm van elke curve.'
       ],
-      model: n => `Het model kwam overeen met de kaarten na ${n === 1 ? '1 vergelijking' : n + ' vergelijkingen'}.`,
+      rows: n => `De kaarten lagen in de juiste rijen na ${n === 1 ? '1 controle' : n + ' controles'}.`,
+      model: n => `De pijlen kwamen overeen met de kaarten na ${n === 1 ? '1 vergelijking' : n + ' vergelijkingen'}.`,
       notesCaption: 'Schrift: aantal dieren',
       change: (row, a, b) => `${row}: van ${a} (jaar 0) naar ${b} (jaar 10).`,
       verdict: (row, word) => `${row}: mijn hypothese is ${word}.`,
@@ -199,6 +228,10 @@ LabEngine.addText('foodweb', {
     'levende wezen': 'être vivant', voedsel: 'nourriture', roofdieren: 'prédateurs', voedselbronnen: 'sources de nourriture', bladeren: 'feuilles',
     eik: 'chêne', eiken: 'chênes', eikels: 'glands', eikenbladeren: 'feuilles de chêne', gras: 'herbe',
     braamstruik: 'ronce', braamstruiken: 'ronces', bramen: 'mûres', braambladeren: 'feuilles de ronce',
+    beuk: 'hêtre', beuken: 'hêtres', beukennootjes: 'faînes', beukenbladeren: 'feuilles de hêtre', hazelaar: 'noisetier',
+    hazelaars: 'noisetiers', hazelnoten: 'noisettes', hazelaarbladeren: 'feuilles de noisetier', struik: 'arbuste', graszaad: 'graines d’herbe',
+    'wild zwijn': 'sanglier', 'wilde zwijnen': 'sangliers', 'wilde zwijn': 'sanglier', slak: 'escargot', slakken: 'escargots',
+    wolf: 'loup', wolven: 'loups', egel: 'hérisson', egels: 'hérissons', boommarter: 'martre', boommarters: 'martres', roedel: 'meute',
     konijn: 'lapin', konijnen: 'lapins', bosmuis: 'mulot', bosmuizen: 'mulots', hert: 'cerf', herten: 'cerfs',
     rups: 'chenille', rupsen: 'chenilles', eekhoorn: 'écureuil', eekhoorns: 'écureuils',
     pimpelmees: 'mésange bleue', pimpelmezen: 'mésanges bleues', vos: 'renard', vossen: 'renards',
