@@ -208,6 +208,7 @@
       selected: 'model'
     };
     from = null;
+    issuesOn = false;
     running = false;
     stepperDone = null;
   }
@@ -248,11 +249,12 @@
     };
   }
 
-  // Les erreurs montrées par la dernière comparaison, tant qu'elles sont
-  // encore là (une erreur faite après n'apparaît qu'à la comparaison suivante).
+  // Les erreurs de la dernière comparaison : montrées juste après le
+  // bouton, effacées au geste suivant (voir clearIssues). Elles guident sans
+  // accompagner chaque geste.
   function lastIssues() {
     const r = state.model.last, m = state.model;
-    if (!r || m.done || !r.rowAt) return { rows: [], arrows: [], missing: [] };
+    if (!issuesOn || !r || m.done || !r.rowAt) return { rows: [], arrows: [], missing: [] };
     return {
       rows: r.rowAt.filter(([sp, row]) => m.pos[sp] && m.pos[sp].row === row).map(([sp]) => sp),
       arrows: r.wrongArrows.filter(a => m.arrows.includes(a)),
@@ -358,7 +360,7 @@
         d = `M${x1},${top(x)} C${x1},${lift} ${x2},${lift} ${x2},${top(y)}`;
       }
       const wrong = bad.includes(a);
-      out += `<path d="${d}" fill="none" stroke="${wrong ? '#d64545' : (o.color || '#2f3b48')}" stroke-width="${wrong ? 2.6 : (o.width || 2)}"` +
+      out += `<path ${wrong ? 'class="is-bad" ' : ''}d="${d}" fill="none" stroke="${wrong ? '#d64545' : (o.color || '#2f3b48')}" stroke-width="${wrong ? 2.6 : (o.width || 2)}"` +
         `${wrong ? ' stroke-dasharray="7 4"' : ''} marker-end="url(#fw-head-${wrong ? 'bad-' : ''}${uid})"/>`;
       // Une large bande invisible sur la flèche : la toucher l'enlève.
       if (o.hit) hits += `<path class="fw-arrow-hit" data-arrow="${a}" d="${d}" fill="none" stroke="transparent" stroke-width="16"/>`;
@@ -515,6 +517,7 @@
 
   /* ===== Étape 2 : le modèle, puis la maladie ===== */
   let from = null;          // le modèle : la nourriture touchée, en attente de son mangeur
+  let issuesOn = false;     // le modèle : les erreurs de la comparaison sont montrées
   let running = false;      // le modèle tourne (10 ans)
   let stepperDone = null;
 
@@ -606,7 +609,7 @@
     if (state.model.done) result = `<p class="fw-result is-ok">${LABELS.compareOk}</p>`;
     else if (r) {
       result = `<p class="fw-result">${LABELS.compareResult(r.wrongRow, r.right, r.missing, r.wrong)}</p>` +
-        (r.rowAt && !modelMatches(r) ? `<p class="fw-legend">${gloss(LABELS.compareLegend)}</p>` : '');
+        (r.rowAt && issuesOn && !modelMatches(r) ? `<p class="fw-legend">${gloss(LABELS.compareLegend)}</p>` : '');
     }
     return `<h3 class="lab-panel-title">${LABELS.cardsTitle}</h3>` +
       `<ul class="fw-card-list" data-tray>${rows}</ul>` +
@@ -656,6 +659,7 @@
       if (m.dirty) { m.compares++; m.dirty = false; }
       m.last = compareModel();
       if (modelMatches(m.last)) { m.done = true; from = null; lab.state.showMissing = false; }
+      issuesOn = !m.done;
       renderExperiment();
       if (m.done) setCaption(LABELS.captionModelDone);
       lab.renderStepper();
@@ -671,6 +675,24 @@
       setCaption(LABELS.captionRemoved(LABELS.species[a].the, LABELS.species[b].the));
       lab.save();
     }));
+    // Erreurs montrées : le premier geste dans le labo les efface.
+    if (issuesOn) lab.body.addEventListener('pointerdown', clearIssues, { capture: true, once: true });
+  }
+
+  /* Effacer les erreurs sans redessiner : le geste qui commence (prendre un
+     jeton, toucher une flèche) garde ses éléments et va jusqu'au bout. */
+  function clearIssues() {
+    if (!issuesOn) return;
+    issuesOn = false;
+    $$('.fw-token.is-wrong').forEach(el => el.classList.remove('is-wrong'));
+    $$('.fw-missing, .fw-legend').forEach(el => el.remove());
+    $$('.fw-arrows path.is-bad').forEach(p => {
+      p.classList.remove('is-bad');
+      p.setAttribute('stroke', '#2f3b48');
+      p.setAttribute('stroke-width', '2');
+      p.removeAttribute('stroke-dasharray');
+      p.setAttribute('marker-end', 'url(#fw-head-live)');
+    });
   }
 
   // Toucher la nourriture, puis ce qui la mange : la flèche apparaît (ou
@@ -1222,6 +1244,7 @@
       run = r;
       state = s;
       from = null;
+      issuesOn = false;
       running = false;
       stepperDone = null;
     },
