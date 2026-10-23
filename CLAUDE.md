@@ -42,8 +42,9 @@ Labos virtuels (en anglais et en néerlandais) : `chem1` « Metal detectives »,
 de vie d'un objet pendant une année scolaire : canettes, bouteilles ou
 T-shirts ; jeter, recycler, réutiliser ; quatre compteurs TAKING / GIVING
 BACK, graphique en colonnes ; expérience sur un modèle, partie du cours), `bio1` « The vanishing leaves » et
-« Inside two ecosystems » (mission 1 de la sortie de terrain : facteurs
-abiotiques, carré de comptage, histogramme FO5b) et « Pull one thread »
+« Inside two ecosystems » (sortie de terrain : facteurs abiotiques, carré
+de comptage, histogramme FO5b, puis deux interactions trouvées à la loupe,
++ / − / 0 et nom de la relation) et « Pull one thread »
 (réseau trophique d'une forêt belge : 12 êtres vivants tirés dans une
 réserve de 19, rangées vérifiées avant les flèches, puis une maladie et
 10 ans de graphiques, réseau contre chaîne seule ; expérience sur un

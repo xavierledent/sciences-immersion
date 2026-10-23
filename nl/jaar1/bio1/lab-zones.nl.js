@@ -17,11 +17,15 @@ LabEngine.addText('zones', {
   labels: {
     title: 'Twee ecosystemen onder de loep',
     question: 'Hebben abiotische factoren (temperatuur, licht, vochtigheid) een invloed op biotische factoren (de levende wezens)?',
+    question2: 'En hebben levende wezens ook een invloed op elkaar?',
     questionCase: 'Om dat te [weten te komen], vergelijk je twee zones die maar [50 m uit elkaar] liggen: je meet hun abiotische factoren en je telt hun levende wezens.',
     yourQuestion: 'Jouw onderzoeksvraag',
     zone: Z => `Zone ${Z}`,
     apart: '50 m',
     same: 'Allebei gelijk',
+    // « a, b en c » ; « a en b »
+    list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',
+    pair: (a, b) => `${a} en ${b}`,
 
     // Valeur au dixième (température), avec le séparateur décimal de la langue.
     num: v => v.toFixed(1).replace('.', ','),
@@ -34,7 +38,8 @@ LabEngine.addText('zones', {
       humid: 'de vochtigste zone is',
       moss: 'meer [mossen] en [varens] in',
       bloom: 'meer [wilde bloemen] en [vliegende insecten] in',
-      influence: 'abiotische factoren hebben een invloed op levende wezens:'
+      influence: 'abiotische factoren hebben een invloed op levende wezens:',
+      each: 'levende wezens hebben een invloed op elkaar:'
     },
     yesNo: { yes: 'Ja', no: 'Nee' },
     because: 'Waarom denk je dat? (niet verplicht)',
@@ -68,7 +73,7 @@ LabEngine.addText('zones', {
     nSpecies: n => n === 1 ? '1 soort' : `${n} soorten`,
     countLabel: (name, Z) => `Aantal individuen: ${name}, zone ${Z}`,
     cellLabel: (Z, factor) => `Zone ${Z}, ${factor}`,
-    infoField: (v, q) => `${v} / 8 metingen genoteerd · ${q} / 2 telkaders klaar`,
+    infoField: (v, q, i) => `${v} / 8 metingen genoteerd · ${q} / 2 telkaders klaar · ${i} / 2 interacties`,
     toGraph: 'Verder: maak je histogram',
     toConclude: 'Verder: besluiten',
     backToZones: 'Terug naar de zones',
@@ -80,6 +85,28 @@ LabEngine.addText('zones', {
     idWrong: wrong => `Geen ${wrong}. Lees de beschrijvingen opnieuw en vergelijk met wat je ziet!`,
     idCount: 'Alle individuen van deze soort zijn [omcirkeld]. Tel ze en noteer het aantal in je telblad.',
     idNoted: n => `In je telblad: ${n}`,
+
+    // La loupe et la fiche des interactions (dans le carré)
+    modes: { count: 'Determineren en tellen', loupe: 'Loep' },
+    lensEmpty: 'Tik ergens in het [telkader] om het met de [loep] te bekijken. Zoek twee plekken waar twee levende wezens een [interactie] hebben.',
+    lensNothing: 'Niets bijzonders hier. Kijk ergens anders!',
+    noteInter: 'Deze interactie noteren',
+    interSheet: 'Mijn interacties',
+    interCount: (n, max) => `${n} / ${max}`,
+    toComplete: 'nog aan te vullen',
+    emptySlot: 'Zoek een interactie met de loep.',
+    removeInter: 'Deze interactie weghalen',
+    removeTitle: 'Deze interactie weghalen?',
+    removeText: pair => `${pair}: je antwoorden voor deze interactie gaan verloren. Daarna kun je een andere noteren.`,
+    removeYes: 'Weghalen',
+    signLegend: '+ heeft voordeel · − heeft nadeel · 0 ondervindt geen invloed',
+    signs: { '+': '+', '-': '−', '0': '0' },
+    // Le signe dans une phrase (question 2, correction).
+    signWords: { '+': 'heeft voordeel (+)', '-': 'heeft nadeel (−)', '0': 'ondervindt geen invloed (0)' },
+    relationLabel: 'Relatie',
+    relations: { predation: 'Predatie', parasitism: 'Parasitisme', mutualism: 'Mutualisme', commensalism: 'Commensalisme', competition: 'Competitie' },
+    relationWords: { predation: 'predatie', parasitism: 'parasitisme', mutualism: 'mutualisme', commensalism: 'commensalisme', competition: 'competitie' },
+    lockTwoNoted: 'Je noteerde al twee interacties. Haal er eerst een weg uit je lijst om deze te noteren.',
 
     lockCell: {
       temp: Z => `Zet eerst de thermometer in zone ${Z}.`,
@@ -95,7 +122,9 @@ LabEngine.addText('zones', {
       soil: Z => `Voel aan de bodem van zone ${Z} en noteer of hij droog, vochtig of nat is.`,
       find: Z => `Open het telkader van zone ${Z} en zoek de levende wezens.`,
       count: (name, Z) => `Telblad, zone ${Z}: noteer het aantal voor “${name}”.`,
-      bars: n => `Je histogram is niet af: nog ${n === 1 ? '1 staaf' : n + ' staven'} te tekenen.`
+      bars: n => `Je histogram is niet af: nog ${n === 1 ? '1 staaf' : n + ' staven'} te tekenen.`,
+      inter: n => n === 0 ? 'Gebruik de loep in de telkaders en noteer twee interacties.' : 'Noteer nog één interactie: gebruik de loep in een telkader.',
+      interOpen: pair => `Je interacties, ${pair}: geef beide levende wezens een +, − of 0, en kies de relatie.`
     },
 
     caption: {
@@ -114,11 +143,17 @@ LabEngine.addText('zones', {
         hygro: Z => `De [hygrometer] meet de luchtvochtigheid in zone ${Z}. Noteer de waarde op je terreinfiche.`
       },
       felt: Z => `Noteer nu op je terreinfiche of de bodem van zone ${Z} droog, vochtig of nat is.`,
-      quadrat: 'Tik op een [levend wezen] om te weten wat het is. Tel dan alle [omcirkelde] exemplaren en noteer het aantal in je telblad.',
+      quadrat: 'Tik op een [levend wezen] om te weten wat het is. Tel dan alle [omcirkelde] exemplaren en noteer het aantal in je telblad. Interacties zoek je met de [loep].',
       identify: 'Welke naam is juist? Kijk goed naar het levende wezen.',
       wrongName: 'Niet deze: lees de aanwijzing en kijk nog eens.',
       selected: name => `[${name.charAt(0).toUpperCase() + name.slice(1)}|${name}]: tel alle [omcirkelde] exemplaren en noteer het aantal in je telblad.`,
       quadratOpen: Z => `Zone ${Z}: tik op het [telkader] om het opnieuw te openen.`,
+      loupe: 'Tik op een plek in het kader om ze groot te zien. Zoek twee levende wezens die een [interactie] hebben.',
+      nothing: 'Niets bijzonders hier. Kijk ergens anders!',
+      hint: 'Niets hier. Kijk naar de plekken die oplichten!',
+      found: 'Hier hebben twee levende wezens een [interactie]! Noteer ze in je fiche.',
+      foundNoted: 'Deze interactie staat in je fiche: +, − of 0 voor elk levend wezen, en dan de relatie.',
+      noted: 'Genoteerd! Geef nu elk levend wezen een +, − of 0, en kies de relatie.',
       fieldDone: 'Je terreinfiche en je telblad zijn volledig. Maak nu je histogram.',
       graph: 'Sleep elke staaf omhoog tot het aantal in je telblad, of tik op de juiste hoogte.',
       graphDone: 'Je histogram is klaar. Je kunt verder naar het besluit.',
@@ -146,14 +181,19 @@ LabEngine.addText('zones', {
 
     qFactors: 'Abiotische factoren · lees je terreinfiche.',
     qLiving: 'Biotische factoren · lees je histogram.',
-    qAnswer: 'Antwoord op de vraag',
+    qAnswer: 'Antwoord op vraag 1',
+    qEach: 'Antwoord op vraag 2',
+    // Question 2 : l'exemple (rel, s1, s2 : listes déroulantes, ou les mots dans la correction).
+    example: (rel, s1, s2) => `Bijvoorbeeld bij ${rel}: het ene [levende wezen] ${s1} en het andere ${s2}.`,
+    exAria: { rel: 'De relatie', s1: 'Het eerste levende wezen', s2: 'Het andere levende wezen' },
     rows: {
       warmer: 'Warmer',
       brighter: 'Meer licht',
       humid: 'Vochtiger',
       moss: 'Meer [mossen] en [varens]',
       bloom: 'Meer [wilde bloemen] en [vliegende insecten]',
-      influence: 'Abiotische factoren hebben een invloed op levende wezens:'
+      influence: 'Abiotische factoren hebben een invloed op levende wezens:',
+      each: 'Levende wezens hebben een invloed op elkaar:'
     },
     qVerdict: 'Dus mijn hypothese is',
     verdicts: { confirmed: 'bevestigd', partly: 'gedeeltelijk bevestigd', rejected: 'verworpen' },
@@ -163,23 +203,25 @@ LabEngine.addText('zones', {
     scoreLabel: 'controles geslaagd',
     markCorrect: 'juist',
     markIncorrect: 'fout',
-    criteria: { measures: 'Metingen', count: 'Tellen', graph: 'Histogram', conclusion: 'Besluit', verdict: 'Hypothese' },
-    criteriaSub: { measures: 'Jouw terreinfiche', count: 'Jouw telblad', graph: 'Jouw staven', conclusion: 'Jouw antwoorden', verdict: 'Jouw oordeel' },
+    criteria: { measures: 'Metingen', count: 'Tellen', graph: 'Histogram', inter: 'Interacties', conclusion: 'Besluit', verdict: 'Hypothese' },
+    criteriaSub: { measures: 'Jouw terreinfiche', count: 'Jouw telblad', graph: 'Jouw staven', inter: 'Jouw tekens en relaties', conclusion: 'Jouw antwoorden', verdict: 'Jouw oordeel' },
 
     report: {
       title: 'Laboratoriumverslag — Twee ecosystemen onder de loep',
       question: 'Hebben abiotische factoren (temperatuur, licht, vochtigheid) een invloed op biotische factoren (de levende wezens)?',
+      question2: 'Hebben levende wezens ook een invloed op elkaar?',
       questionCase: (a, b) => `Om dat te weten te komen, vergeleek ik twee zones die maar 50 m uit elkaar liggen: zone A (${a}) en zone B (${b}).`,
       // Morceaux de phrase de phrase.<clé> (hypMoss et hypBloom pour les êtres vivants).
-      hypothesis: (warmer, brighter, humid, moss, bloom, influence) =>
-        `Ik denk: ${warmer}, ${brighter} en ${humid}. Ik denk ook: ${moss}, en ${bloom}. Ik denk tot slot: ${influence}.`,
+      hypothesis: (warmer, brighter, humid, moss, bloom, influence, each) =>
+        `Ik denk: ${warmer}, ${brighter} en ${humid}. Ik denk ook: ${moss}, en ${bloom}. Ik denk tot slot: ${influence}, en ${each}.`,
       because: 'Omdat',
-      materials: 'Een thermometer, een luxmeter, een hygrometer, een telkader (1 m × 1 m), de terreinfiche, een telblad, ruitjespapier en een lat.',
+      materials: 'Een thermometer, een luxmeter, een hygrometer, een telkader (1 m × 1 m), een loep, de terreinfiche, een telblad, ruitjespapier en een lat.',
       procedure: [
         'Meet in elke zone de luchttemperatuur met de thermometer, de lichtsterkte met de luxmeter en de luchtvochtigheid met de hygrometer.',
         'Raak de bodem aan om te voelen of hij droog, vochtig of nat is.',
         'Leg het telkader op de grond. Determineer elke soort levend wezen erin, en tel de individuen.',
         'Noteer alles op de terreinfiche en in het telblad.',
+        'Bekijk de telkaders van dichtbij met de loep en zoek twee interacties tussen levende wezens. Noteer voor elke interactie +, − of 0 voor beide levende wezens, en geef de relatie een naam.',
         'Teken een histogram van het aantal individuen van elke soort in beide zones (fiche FO5b).'
       ],
       zoneCol: 'Zone',
@@ -190,10 +232,14 @@ LabEngine.addText('zones', {
       speciesMiss: (Z, n, list) => `Zone ${Z}: er waren ${n} soorten in het telkader (${list}).`,
       barsWrong: list => `Staven op de verkeerde hoogte: ${list}.`,
       barWrong: (name, Z, got, want) => `${name} zone ${Z} (${got} in plaats van ${want})`,
+      interCaption: 'Biotische factoren: mijn interacties',
+      interCols: { what: 'Wat ik zag', signs: 'Tekens (+, −, 0)', rel: 'Relatie' },
+      interFound: list => `Met de loep vond ik ${list}.`,
+      interItem: (rel, a, b) => `${rel} (${a} en ${b})`,
       interpretation: (warmer, brighter, humid, moss, bloom) =>
         `Mijn resultaten tonen: ${warmer}, ${brighter} en ${humid}. In de telkaders: ${moss} en ${bloom}.`,
-      conclusion: (answer, verdict) => `Besluit: ${answer}. Mijn hypothese is ${verdict}.`,
-      score: n => `Score: ${n} / 5 controles geslaagd.`
+      conclusion: (answer, each, example, verdict) => `Besluit: ${answer}, en ${each}. ${example} Mijn hypothese is ${verdict}.`,
+      score: (n, total) => `Score: ${n} / ${total} controles geslaagd.`
     }
   },
 
@@ -210,7 +256,11 @@ LabEngine.addText('zones', {
     klimop: 'lierre', varen: 'fougère', mos: 'mousse', paddenstoel: 'champignon', pitrus: 'jonc', 'gele lis': 'iris des marais',
     vlinder: 'papillon', bij: 'abeille', sprinkhaan: 'sauterelle', mier: 'fourmi', pissebed: 'cloporte', slak: 'escargot',
     libel: 'libellule', kikker: 'grenouille',
-    'voeden zich met': 'se nourrissent de', uitdrogen: 'se dessécher', 'drogen ze uit': 'elles se dessèchent', gunstig: 'favorables'
+    'voeden zich met': 'se nourrissent de', uitdrogen: 'se dessécher', 'drogen ze uit': 'elles se dessèchent', gunstig: 'favorables',
+    loep: 'loupe', interactie: 'interaction', 'op elkaar': 'les uns sur les autres', 'levende wezen': 'être vivant',
+    bladluizen: 'pucerons', spin: 'araignée', vlieg: 'mouche', roestschimmel: 'rouille (un champignon parasite)', duizendpoot: 'mille-pattes',
+    boom: 'arbre', stam: 'tronc', wortels: 'racines', plantensap: 'sève', web: 'toile', spinsel: 'soie (de l’araignée)', kleverige: 'collante', kaken: 'mâchoires',
+    stuifmeel: 'pollen', voordeel: 'avantage', nadeel: 'désavantage', 'geen invloed': 'aucune influence'
   },
 
   /* Les espèces du carré. name : le nom (aussi clé du lexique) ; key : le
@@ -239,6 +289,39 @@ LabEngine.addText('zones', {
     frog: { name: 'kikker', key: 'een gladde groene huid en lange achterpoten', cap: 'Een groen dier dat bij het water leeft. Zijn huid is altijd nat.' }
   },
 
+  /* Les indices d'interactions vus à la loupe. names : les êtres vivants qui
+     ne sont que dans un indice (on ne les compte pas). fact : ce qu'on voit
+     (a, b : les noms des deux êtres vivants, dans l'ordre de la fiche) ;
+     why : les signes et la relation, pour la correction. Article indéfini
+     (« een ») : le même pour tous les noms. */
+  clues: {
+    names: { spider: 'spin', fly: 'vlieg', aphids: 'bladluizen', rust: 'roestschimmel', tree: 'boom', centipede: 'duizendpoot' },
+    fact: {
+      pollen: (a, b) => `Een ${a} zit op een ${b}. Het insect drinkt de nectar van de bloem, en geel [stuifmeel] blijft aan zijn lijf plakken. Het brengt dat stuifmeel naar de volgende bloem: zo kan de bloem zaden maken.`,
+      frog: () => 'Een kikker schiet zijn lange, [kleverige] tong uit en vangt een libel. Hij slikt ze in.',
+      web: () => 'Een [spin] heeft haar [web] tussen de planten gemaakt. Er zit een [vlieg] in vast, ingepakt in [spinsel]: de spin zal ze opeten.',
+      aphids: () => 'Heel kleine groene [bladluizen] bedekken een blad van de brandnetel. Ze steken hun mond in de plant en zuigen het [plantensap] op. Dit blad is gekruld en geel.',
+      rust: () => 'Kleine oranje vlekjes bedekken de bladeren van de braam. Het is een heel kleine [roestschimmel] die in het blad leeft en zich ermee voedt. De gevlekte bladeren worden geel en sterven af.',
+      ivy: () => 'Klimop klimt tegen de [stam] van een [boom] op en houdt zich vast met kleine worteltjes. Hij neemt geen voedsel van de boom: daarboven krijgt hij gewoon meer licht.',
+      mycorrhiza: () => 'Paddenstoelen groeien aan de voet van een [boom]. Onder de grond wikkelen de witte draden van de [schimmel] zich rond de [wortels] van de boom: de schimmel geeft de boom water en mineralen, en de boom geeft de schimmel suiker.',
+      fernmoss: () => 'Grote varens groeien over het mos. Onder de varens krijgt het mos weinig licht: het is bleek en geel. De varens en het mos halen ook water uit dezelfde bodem.',
+      bramblegrass: () => 'Een braam groeit over het gras. Onder de braam krijgt het gras weinig licht: het is bleek en dun. Beide planten halen water uit dezelfde bodem.',
+      centipede: () => 'Een [duizendpoot] houdt een pissebed vast in zijn [kaken] en eet hem op.'
+    },
+    why: {
+      pollen: () => 'Het insect krijgt voedsel: de nectar (+). De bloem krijgt haar stuifmeel naar een andere bloem gebracht, zodat ze zaden kan maken (+). Allebei hebben ze voordeel: dit is mutualisme.',
+      frog: () => 'De kikker krijgt voedsel (+); de libel wordt gedood en opgegeten (−). Het ene dier jaagt op het andere en eet het op: dit is predatie.',
+      web: () => 'De spin krijgt voedsel (+); de vlieg wordt gedood en opgegeten (−). Dit is predatie.',
+      aphids: () => 'De bladluizen krijgen voedsel van de brandnetel (+); de brandnetel verliest sap en wordt zwakker, maar gaat niet dood (−). Het ene leeft op het andere en schaadt het: dit is parasitisme.',
+      rust: () => 'De schimmel krijgt voedsel van de braam (+); de braam verliest bladeren en wordt zwakker (−). Dit is parasitisme.',
+      ivy: () => 'De klimop krijgt meer licht (+); de boom wint niets en verliest niets (0). Dit is commensalisme.',
+      mycorrhiza: () => 'De schimmel krijgt suiker (+); de boom krijgt water en mineralen (+). Allebei hebben ze voordeel: dit is mutualisme.',
+      fernmoss: () => 'De varens en het mos delen hetzelfde licht en hetzelfde water: elk krijgt minder (− en −). Dit is competitie.',
+      bramblegrass: () => 'De braam en het gras delen hetzelfde licht en hetzelfde water: elk krijgt minder (− en −). Dit is competitie.',
+      centipede: () => 'De duizendpoot krijgt voedsel (+); de pissebed wordt gedood en opgegeten (−). Dit is predatie.'
+    }
+  },
+
   /* Morceaux de phrase tirés des choix de l'élève (v : A, B, same ; yes, no),
      lisibles seuls (correction) ; le rapport les assemble (labels.report).
      hypBloom suit hypMoss dans la phrase du rapport ; hypBloomRow est la
@@ -250,6 +333,7 @@ LabEngine.addText('zones', {
     moss: v => v === 'same' ? 'er zijn in beide zones evenveel mossen en varens' : `er zijn meer mossen en varens in zone ${v}`,
     bloom: v => v === 'same' ? 'er zijn in beide zones evenveel wilde bloemen en vliegende insecten' : `er zijn meer wilde bloemen en vliegende insecten in zone ${v}`,
     influence: v => v === 'yes' ? 'abiotische factoren hebben een invloed op levende wezens' : 'abiotische factoren hebben geen invloed op levende wezens',
+    each: v => v === 'yes' ? 'levende wezens hebben een invloed op elkaar' : 'levende wezens hebben geen invloed op elkaar',
     hypMoss: v => v === 'same' ? 'ik zal in beide zones evenveel mossen en varens vinden' : `ik zal in zone ${v} meer mossen en varens vinden`,
     hypBloom: v => v === 'same' ? 'in beide zones evenveel wilde bloemen en vliegende insecten' : `in zone ${v} meer wilde bloemen en vliegende insecten`,
     hypBloomRow: v => v === 'same' ? 'ik zal in beide zones evenveel wilde bloemen en vliegende insecten vinden' : `ik zal in zone ${v} meer wilde bloemen en vliegende insecten vinden`
@@ -262,7 +346,8 @@ LabEngine.addText('zones', {
     humid: 'Waar het koel en schaduwrijk is, verdampt er minder water: de lucht en de bodem blijven vochtig. Bij een vijver maakt het water dat verdampt de lucht heel vochtig.',
     moss: '[Mossen] en [varens] hebben veel water nodig: mossen hebben geen wortels en kunnen snel [uitdrogen], en varens hebben water nodig om zich voort te planten. Ze leven waar het vochtig is, vaak in de schaduw.',
     bloom: '[Wilde bloemen] hebben veel licht nodig om te groeien en te bloeien. Bijen en vlinders [voeden zich met] hun nectar, en ze houden van warmte.',
-    influence: 'Je twee zones liggen maar 50 m uit elkaar, maar hun abiotische factoren (temperatuur, licht, vochtigheid) zijn heel verschillend, en hun levende wezens ook: elke soort leeft waar de omstandigheden voor haar [gunstig] zijn. [Mossen] en [varens] hebben vooral vochtigheid nodig: zonder water [drogen ze uit]. Abiotische factoren hebben dus een invloed op biotische factoren.'
+    influence: 'Je twee zones liggen maar 50 m uit elkaar, maar hun abiotische factoren (temperatuur, licht, vochtigheid) zijn heel verschillend, en hun levende wezens ook: elke soort leeft waar de omstandigheden voor haar [gunstig] zijn. [Mossen] en [varens] hebben vooral vochtigheid nodig: zonder water [drogen ze uit]. Abiotische factoren hebben dus een invloed op biotische factoren.',
+    each: 'Met de [loep] vond je levende wezens die een [interactie] hebben: het ene eet het andere op, het ene leeft op het andere en schaadt het, twee helpen elkaar, twee delen hetzelfde licht en water… Levende wezens hebben dus een invloed op elkaar: ze zijn biotische factoren.'
   },
 
   // said, real : valeurs déjà écrites avec leur unité (said vaut null si rien
@@ -285,7 +370,12 @@ LabEngine.addText('zones', {
     // verdict : le libellé (labels.verdicts).
     verdictOk: verdict => `Je beoordeelde je hypothese als “${verdict}”: dat klopt. Goed geoordeeld!`,
     verdictWrong: verdict => `Vergelijk je hypothese met je antwoorden: je hypothese is ${verdict}.`,
-    verdictRule: 'Alle zes delen hetzelfde als je antwoorden: bevestigd. Sommige: gedeeltelijk bevestigd. Geen enkel: verworpen.',
+    verdictRule: 'Alle zeven delen hetzelfde als je antwoorden: bevestigd. Sommige: gedeeltelijk bevestigd. Geen enkel: verworpen.',
+    interScore: (good, total) => `${good} / ${total} interacties juist (tekens en relatie).`,
+    interOk: 'Je tekens en je relaties zijn allemaal juist. Goed waargenomen!',
+    youNoted: 'Jij noteerde:',
+    // rel : la relation choisie ; s1, s2 : ses deux signes, en mots.
+    exWrong: (rel, s1, s2) => `Bij ${rel}: het ene levende wezen ${s1} en het andere ${s2}.`,
     rejectedNote: 'Een verworpen hypothese is geen fout: zo gaat de wetenschap vooruit.',
     hypPart: 'Hypothese',
     answerPart: 'Jouw antwoord'

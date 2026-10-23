@@ -185,6 +185,12 @@
   color: rgba(var(--color-current-rgb), 0.8);
 }
 
+/* La deuxième question, sous la première */
+.zn-question-2 {
+  margin-top: -4px;
+  font-size: 1.02rem;
+}
+
 .zn-question-case {
   margin: -4px 0 2px;
   font-size: 0.95rem;
@@ -797,6 +803,320 @@ html[data-pointer='fine'] .zn-id-choice:not(.is-wrong):hover,
   font-size: 0.8rem !important;
 }
 
+/* --- Dans le carré : identifier et compter, ou la loupe --- */
+.zn-qtitle {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.84rem;
+  line-height: 1.25;
+}
+
+.zn-modes {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 12px;
+  background: rgba(var(--color-current-rgb), 0.12);
+}
+
+.zn-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--color-current-darker);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  transition: background var(--transition), color var(--transition);
+}
+
+.zn-mode.is-current {
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+html[data-pointer='fine'] .zn-mode:not(.is-current):hover,
+.zn-mode:focus-visible {
+  background: rgba(var(--color-current-rgb), 0.22);
+  outline: none;
+}
+
+.zn-loupe-ic {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+}
+
+/* À la loupe : tout le carré se regarde (le curseur le dit à la souris). */
+.zn-quadrat.is-loupe,
+.zn-quadrat.is-loupe .zn-it {
+  cursor: zoom-in;
+}
+
+.zn-lens-ring {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.6));
+}
+
+.zn-clue-seen {
+  fill: none;
+  stroke: #ffd400;
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+  opacity: 0.9;
+}
+
+/* Après quelques touchers pour rien : les indices pas encore trouvés brillent. */
+.zn-clue-hint {
+  fill: rgba(255, 244, 160, 0.18);
+  stroke: #fff4a0;
+  stroke-width: 2.4;
+  animation: zn-hint 1.6s ease-in-out infinite;
+}
+
+@keyframes zn-hint {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zn-clue-hint { animation: none; opacity: 0.8; }
+}
+
+/* La fiche de la loupe : ce qu'on voit en grand, la fiche de l'interaction,
+   puis les deux interactions notées. */
+.zn-idcard.zn-lenscard {
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 8px;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.zn-lens-top {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.zn-lens {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background: #eef3e8;
+  box-shadow: 0 0 0 4px #3d4a3a, 0 3px 10px rgba(17, 36, 72, 0.25);
+  overflow: hidden;
+}
+
+.zn-lens.is-empty {
+  display: grid;
+  place-items: center;
+  box-shadow: none;
+  color: var(--color-current-darker);
+}
+
+.zn-lens.is-empty .zn-loupe-ic {
+  width: 54px;
+  height: 54px;
+}
+
+.zn-lens-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.zn-lenscard .zn-lens-top > p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.zn-lens-nothing {
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.zn-note-btn.lab-btn,
+.zn-inter-form {
+  grid-column: 1 / -1;
+}
+
+.zn-note-btn.lab-btn {
+  justify-self: center;
+  height: 36px;
+  font-size: 0.84rem;
+}
+
+.zn-inter-form {
+  display: grid;
+  gap: 4px;
+}
+
+.zn-sign-legend {
+  margin: 0;
+  font-size: 0.72rem !important;
+  color: var(--color-muted);
+}
+
+.zn-sign-row,
+.zn-rel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.zn-sign-who {
+  min-width: 0;
+}
+
+.zn-sign-row .zn-chips {
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+
+.zn-sign-row .zn-chip.lab-choice {
+  min-width: 40px;
+  height: 30px;
+  padding: 0 8px;
+  font-size: 1rem;
+}
+
+.zn-rel.lab-select {
+  height: 32px;
+  min-width: 150px;
+  border-radius: 9px;
+  border: 1.5px dashed rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  color: var(--color-muted);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.zn-rel.lab-select.is-filled,
+.zn-ex.lab-select.is-filled {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+  color: var(--color-current-darkest);
+}
+
+/* Les deux interactions de la fiche */
+.zn-inter-list {
+  padding-top: 6px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+}
+
+.zn-inter-head {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 4px !important;
+  font-size: 0.78rem !important;
+  font-weight: 700;
+  color: var(--color-current-darkest);
+}
+
+.zn-inter-head small {
+  color: var(--color-muted);
+  font-size: inherit;
+}
+
+.zn-inter-list ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.zn-inter-item {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  min-height: 34px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.35);
+  background: #ffffff;
+}
+
+.zn-inter-item.is-current {
+  border-color: var(--color-current-dark);
+  background: rgba(var(--color-current-rgb), 0.1);
+}
+
+.zn-inter-item.is-empty {
+  align-items: center;
+  padding: 0 10px;
+  border-style: dashed;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+}
+
+.zn-inter-open {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.zn-inter-open b {
+  text-transform: capitalize;
+}
+
+.zn-inter-open small {
+  color: var(--color-current-darker);
+  font-weight: 600;
+}
+
+.zn-inter-del {
+  flex: 0 0 auto;
+  width: 34px;
+  border: 0;
+  border-left: 1px solid rgba(17, 36, 72, 0.08);
+  border-radius: 0 9px 9px 0;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+html[data-pointer='fine'] .zn-inter-open:hover,
+.zn-inter-open:focus-visible {
+  background: rgba(var(--color-current-rgb), 0.08);
+  outline: none;
+}
+
+html[data-pointer='fine'] .zn-inter-del:hover,
+.zn-inter-del:focus-visible {
+  background: #fdf3f5;
+  color: var(--color-rose);
+  outline: none;
+}
+
 /* --- Colonne de droite : fiche de terrain et comptage --- */
 .zn-side {
   min-height: 0;
@@ -1265,6 +1585,29 @@ html[data-pointer='fine'] .zn-id-choice:not(.is-wrong):hover,
   padding: 0 7px;
 }
 
+/* Question 2 : l'exemple, des listes au milieu de la phrase */
+.zn-example {
+  margin: 4px 0 0;
+  font-size: 0.84rem;
+  line-height: 2.6;
+  text-align: left;
+}
+
+.zn-ex.lab-select {
+  height: 30px;
+  max-width: 100%;
+  margin: 0 2px;
+  vertical-align: middle;
+  border-radius: 9px;
+  border: 1.5px dashed rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  color: var(--color-muted);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 /* ===== Étape 4 : correction ===== */
 .zn-check {
   height: 100%;
@@ -1451,6 +1794,33 @@ html[data-pointer='fine'] .zn-crit:not(.is-selected):hover,
   font-size: 1rem;
 }
 
+/* Les interactions notées, à côté de leur vue à la loupe */
+.zn-inter-check {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(17, 36, 72, 0.08);
+}
+
+.zn-inter-check.is-ok { border-color: rgba(47, 143, 91, 0.35); }
+.zn-inter-check.is-ko { border-color: rgba(214, 69, 69, 0.35); }
+
+.zn-inter-check p {
+  margin: 0 0 2px;
+}
+
+.zn-lens-mini {
+  display: block;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #3d4a3a;
+}
+
 /* ===== Écrans plus étroits ===== */
 @media (max-width: 980px) {
   .zn-run { grid-template-columns: minmax(0, 1fr) 330px; }
@@ -1550,5 +1920,13 @@ html[data-pointer='fine'] .zn-crit:not(.is-selected):hover,
 }
 
 .lab-doc .zn-report-corr th {
+  text-align: left;
+}
+
+.lab-doc .zn-report-inter {
+  margin-top: 8px;
+}
+
+.lab-doc .zn-report-inter td:nth-child(2) {
   text-align: left;
 }

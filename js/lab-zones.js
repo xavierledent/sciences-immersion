@@ -19,11 +19,20 @@
    leur nombre d'individus et leur place. La zone la plus riche en espèces
    change d'un tirage à l'autre ; mousses et fougères sont toujours plus
    nombreuses dans la zone la plus humide, fleurs sauvages et insectes volants
-   dans la plus lumineuse.
+   dans la plus lumineuse. Enfin, 3 ou 4 indices d'interactions (au moins un
+   par zone, des relations toutes différentes si possible), choisis parmi
+   ceux que permettent les espèces du carré (voir CLUE_DEFS).
+
+   Les interactions (facteurs biotiques), comme la recherche de la sortie :
+   à la loupe, l'élève cherche dans les carrés deux interactions entre
+   êtres vivants ; pour chacune, + / − / 0 pour les deux êtres vivants, et
+   le nom de la relation (prédation, parasitisme, mutualisme, commensalisme,
+   compétition : vocabulaire du chapitre). Deuxième question de départ.
 
    Déroulé :
      1. Predict    — quelle zone est la plus chaude, la plus lumineuse, la
-                     plus humide, où trouver le plus de mousses et de fougères
+                     plus humide, où trouver le plus de mousses et de fougères ;
+                     les deux réponses (abiotique, entre êtres vivants)
                      (+ « because » libre)
      2. Experiment — sur le terrain : thermomètre, luxmètre, hygromètre (un
                      par zone ; seul le dernier instrument pris reste affiché,
@@ -32,14 +41,18 @@
                      de dessus : toucher un être vivant demande son nom (un
                      indice si l'élève se trompe), puis entoure tous les
                      individus de son espèce, que l'élève compte et note.
-                     Enfin l'histogramme (fiche outil FO5b) : un bâton par
+                     Dans le carré, la loupe (au lieu d'identifier) : un
+                     toucher montre l'endroit en grand ; sur un indice, la
+                     fiche de l'interaction (deux à noter). Enfin
+                     l'histogramme (fiche outil FO5b) : un bâton par
                      espèce et par zone, à monter jusqu'au nombre noté
      3. Conclude   — les questions de la fiche de terrain : quelle zone est la
                      plus chaude…, où sont mousses et fougères, fleurs et
-                     insectes volants, la plus grande biodiversité, le facteur
-                     clé, la réponse à la question, l'hypothèse
-     4. Check      — 5 critères : mesures, comptage, histogramme, conclusion,
-                     hypothèse ; rapport (FO3) */
+                     insectes volants, la réponse à la question 1 ; la
+                     réponse à la question 2 et un exemple (une relation
+                     trouvée, le signe de chaque être vivant) ; l'hypothèse
+     4. Check      — 6 critères : mesures, comptage, histogramme,
+                     interactions, conclusion, hypothèse ; rapport (FO3) */
 
 (function () {
   'use strict';
@@ -63,7 +76,7 @@
      explications et correction. La température s'affiche par LABELS.num
      (séparateur décimal de la langue). */
   const {
-    labels: LABELS, glossary: GLOSSARY, species: SPECIES, phrase: PHRASE, explain: EXPLAIN, check: CHECK
+    labels: LABELS, glossary: GLOSSARY, species: SPECIES, clues: CLUES, phrase: PHRASE, explain: EXPLAIN, check: CHECK
   } = LabEngine.textFor('zones');
   const num = LABELS.num;
 
@@ -246,6 +259,101 @@
   const MOSS_FERN = ['moss', 'fern'];
   const BLOOM = ['daisy', 'dandelion', 'buttercup', 'iris', 'butterfly', 'bee', 'dragonfly'];
 
+  /* ===== Les interactions (facteurs biotiques) =====
+     Les cinq relations du chapitre et le signe de chaque être vivant : le
+     premier (a) est celui qui gagne quand un seul gagne. */
+  const REL = { predation: ['+', '-'], parasitism: ['+', '-'], mutualism: ['+', '+'], commensalism: ['+', '0'], competition: ['-', '-'] };
+  const RELS = Object.keys(REL);
+  const SIGNS = ['+', '-', '0'];
+  const FLOWERS = ['daisy', 'dandelion', 'buttercup'];
+  const LENS = 30;            // demi-côté de la vue à la loupe (unités du carré)
+  const CLUE_HIT = 36;        // un toucher à moins de CLUE_HIT d'un indice le trouve
+  const HINT_AFTER = 3;       // touchers sans rien trouver avant que les indices brillent
+
+  /* Toile d'araignée vue de dessus : rayons et spirale, presque invisible
+     sans la loupe. */
+  const SPOKES = Array.from({ length: 8 }, (_, i) => i * Math.PI / 4 + 0.2);
+  const WEB = '<g stroke="#f4f6f8" stroke-width=".35" fill="none" opacity=".9">' +
+    SPOKES.map(a => `<path d="M0 0 L${(Math.cos(a) * 15).toFixed(1)} ${(Math.sin(a) * 15).toFixed(1)}"/>`).join('') +
+    [4, 7.5, 11, 14].map(r => `<polygon points="${SPOKES.map(a => `${(Math.cos(a) * r).toFixed(1)},${(Math.sin(a) * r).toFixed(1)}`).join(' ')}"/>`).join('') + '</g>';
+  const SPIDER = '<g transform="translate(2 -2)"><path d="M-1 -1 L-4 -3.5 L-5 -6 M-1 0 L-4.5 -.5 L-6 -2 M-1 1 L-4 2.5 L-5 5 M-1 2 L-3 4.5 L-3.5 7 M1 -1 L4 -3.5 L5 -6 M1 0 L4.5 -.5 L6 -2 M1 1 L4 2.5 L5 5 M1 2 L3 4.5 L3.5 7" stroke="#2e2620" stroke-width=".4" fill="none"/>' +
+    '<ellipse cy="2.4" rx="1.6" ry="2" fill="#3b2f26"/><circle cy="-.6" r="1.1" fill="#2e2620"/><path d="M-.6 2 h1.2 M-.4 3 h.8" stroke="#c9a46a" stroke-width=".3"/></g>';
+  const CAUGHT_FLY = '<g transform="translate(-6 5) rotate(-20)"><ellipse rx="2.4" ry="1.7" fill="#f4f4f0" opacity=".85"/><ellipse rx="1.5" ry=".9" fill="#2a2a30"/>' +
+    '<path d="M-2 -1.2 C-1 -.4 1 -.4 2 -1.2 M-2.2 .2 C-1 .8 1 .8 2.2 .2 M-1.6 1.3 C-.6 1.7 .6 1.7 1.6 1.3" stroke="#ffffff" stroke-width=".3" fill="none"/><ellipse cx="1" cy="-1.6" rx="1.2" ry=".6" fill="#c9d4dc" opacity=".8"/></g>';
+  // Pied d'un arbre vu de dessus : écorce et grosses racines (dessous des êtres vivants).
+  const TRUNK = '<g transform="translate(-6 -5)"><ellipse cx="1" cy="1.5" rx="19" ry="18" fill="#000" opacity=".15"/>' +
+    [0, 80, 165, 250].map(a => `<ellipse cx="0" cy="-15" rx="5" ry="9" fill="#5e4129" transform="rotate(${a})"/>`).join('') +
+    '<circle r="15" fill="#6b4a2f"/>' + [10, 55, 100, 150, 200, 245, 290, 335].map(a => `<path d="M0 -14 L0 -5" stroke="#4e3522" stroke-width="1.1" stroke-linecap="round" transform="rotate(${a})"/>`).join('') +
+    '<circle r="6" fill="#77543a"/><ellipse cx="-3" cy="-4" rx="4" ry="2.4" fill="#8a6446" opacity=".6"/></g>';
+
+  /* Les indices : où ils peuvent se trouver (where), ce qu'il faut dans le
+     carré de la zone (setup : rend les deux êtres vivants, a puis b, soit une
+     espèce du carré { t }, soit un être vivant qui n'est que dans l'indice et
+     qu'on ne compte pas { k } ; l'élément du carré qui porte l'indice,
+     anchor ; celui qu'on pose tout contre, partner ; pale : celui qui
+     manque de lumière). free : rayon d'une place libre à trouver (pied
+     d'arbre, toile). Dessins à la place de l'indice : under (sous les êtres
+     vivants), over (dessus). Les êtres vivants de l'indice ne bougent pas
+     (still), dans une position fixée (anchorRot, partnerRot). */
+  const CLUE_DEFS = {
+    pollen: { rel: 'mutualism', where: ['meadow', 'edge', 'pond'],
+      setup: has => {
+        const insect = ['bee', 'butterfly'].find(has), flower = shuffle(FLOWERS.filter(has))[0];
+        return insect && flower ? { anchor: flower, partner: insect, a: { t: insect }, b: { t: flower } } : null;
+      },
+      partnerAt: [2, -1], partnerRot: 20,
+      over: '<g transform="translate(2 -1)">' + [[-2.5, 3], [3, 3.5], [1, -2.5], [4.5, .5], [-3.5, -1]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r=".75" fill="#f6d33c" stroke="#c99a12" stroke-width=".2"/>`).join('') + '</g>' },
+    frog: { rel: 'predation', where: ['pond'],
+      setup: has => (has('frog') && has('dragonfly') ? { anchor: 'frog', partner: 'dragonfly', a: { t: 'frog' }, b: { t: 'dragonfly' } } : null),
+      anchorAt: [-7, 6], anchorRot: 50, partnerAt: [11, -9], partnerRot: 205,
+      over: '<path d="M0 0 Q5 -1.5 8.5 -6.5" stroke="#e5707e" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="8.6" cy="-6.6" r="1.4" fill="#e5707e"/>' },
+    web: { rel: 'predation', where: ['meadow', 'edge', 'pond'], free: 20,
+      setup: has => ({ anchor: has('grass') ? 'grass' : null, a: { k: 'spider' }, b: { k: 'fly' } }),
+      anchorAt: [-13, 11],
+      over: WEB + CAUGHT_FLY + SPIDER },
+    aphids: { rel: 'parasitism', where: ['edge', 'pond', 'shade'],
+      setup: has => (has('nettle') ? { anchor: 'nettle', a: { k: 'aphids' }, b: { t: 'nettle' } } : null),
+      over: '<path d="M0 -5 C4 -8 4.4 -13 0 -16 C-4.4 -13 -4 -8 0 -5 Z" fill="#e8d55a" opacity=".5"/>' +
+        [[-1.4, -5], [1.3, -6.2], [-1.6, -7.6], [1, -8.8], [-.9, -10.2], [1.7, -10.9], [-1.5, -12.2], [.8, -13.3], [-.4, -14.6], [2.2, -7.6], [-2.4, -9.6], [.2, -4.2]]
+          .map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="1" ry=".7" fill="#a9d158" stroke="#5f8a2a" stroke-width=".25"/>`).join('') },
+    rust: { rel: 'parasitism', where: ['edge', 'shade'],
+      setup: has => (has('bramble') ? { anchor: 'bramble', a: { k: 'rust' }, b: { t: 'bramble' } } : null),
+      over: [[-15, -9.5], [-14, -8], [-17.5, -6.5], [-16.4, -5.6], [-11.5, -10.6], [-10.8, -9], [7, -14.2], [6.4, -12.8], [10.6, -13.6], [11.4, -12.4], [13.2, -11], [12.4, -9.8]]
+        .map(([x, y]) => `<circle cx="${x}" cy="${y}" r=".8" fill="#e07b1f" stroke="#9c4a10" stroke-width=".2"/>`).join('') },
+    ivy: { rel: 'commensalism', where: ['edge', 'shade'], free: 26,
+      setup: has => (has('ivy') ? { anchor: 'ivy', a: { t: 'ivy' }, b: { k: 'tree' } } : null),
+      anchorAt: [12, 9], anchorRot: 10,
+      under: TRUNK,
+      over: '<path d="M2 3 C-2 -1 -6 -4 -10 -12 M-4 -3 l-2 1 M-7 -7 l-2 .5" stroke="#4a3e22" stroke-width=".8" fill="none" stroke-linecap="round"/>' +
+        [[-2, -1, -40], [-7, -7, 10], [-10, -13, -20]].map(([x, y, a]) => `<g transform="translate(${x} ${y}) rotate(${a}) scale(.55)"><path d="${IVY_LEAF}" fill="#24502a" stroke="#173a1c" stroke-width=".9"/></g>`).join('') },
+    mycorrhiza: { rel: 'mutualism', where: ['edge', 'shade'], free: 26,
+      setup: has => (has('mushroom') ? { anchor: 'mushroom', a: { t: 'mushroom' }, b: { k: 'tree' } } : null),
+      anchorAt: [13, 11],
+      under: TRUNK + '<path d="M9 9 C6 8 4 6 3 4 M12 13 C8 15 4 13 1 10 M15 8 C13 4 11 2 9 1 M6 12 C4 13 1 14 -2 12" stroke="#f3efe2" stroke-width=".55" fill="none" opacity=".95"/>' },
+    fernmoss: { rel: 'competition', where: ['shade'],
+      setup: has => (has('fern') && has('moss') ? { anchor: 'moss', partner: 'fern', pale: 'anchor', a: { t: 'fern' }, b: { t: 'moss' } } : null),
+      partnerAt: [6, -5] },
+    bramblegrass: { rel: 'competition', where: ['edge'],
+      setup: has => (has('bramble') && has('grass') ? { anchor: 'grass', partner: 'bramble', pale: 'anchor', a: { t: 'bramble' }, b: { t: 'grass' } } : null),
+      partnerAt: [5, -5] },
+    centipede: { rel: 'predation', where: ['edge', 'shade'],
+      setup: has => (has('woodlouse') ? { anchor: 'woodlouse', a: { k: 'centipede' }, b: { t: 'woodlouse' } } : null),
+      anchorAt: [6, 0],
+      over: (() => {
+        let s = '', prev = null;
+        for (let i = 0; i <= 10; i++) {
+          const k = i / 10, x = (1 - k) * (1 - k) * -19 + 2 * (1 - k) * k * -13 + k * k * -3.4, y = (1 - k) * (1 - k) * 12 + 2 * (1 - k) * k * -4 + k * k * 0;
+          if (prev) {
+            const dx = x - prev[0], dy = y - prev[1], l = Math.hypot(dx, dy) || 1, nx = -dy / l * 2.6, ny = dx / l * 2.6;
+            s += `<path d="M${(x - nx).toFixed(1)} ${(y - ny).toFixed(1)} L${(x + nx).toFixed(1)} ${(y + ny).toFixed(1)}" stroke="#7a4218" stroke-width=".35"/>`;
+          }
+          s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i === 10 ? 1.5 : 1.2}" fill="${i === 10 ? '#7a3c12' : '#a35a22'}"/>`;
+          prev = [x, y];
+        }
+        return s + '<path d="M-2.4 -1 Q-.6 -1.6 .4 -.6 M-2.4 1 Q-.6 1.6 .4 .6" stroke="#4a240a" stroke-width=".5" fill="none"/><path d="M-4 -1 L-6 -3.5 M-4 1 L-6.5 2.5" stroke="#7a3c12" stroke-width=".3"/>';
+      })() }
+  };
+
   /* ===== Les milieux =====
      rank : du plus ensoleillé au plus ombragé. Les plages de valeurs ne se
      recouvrent pas : dans chaque paire tirée, la zone la plus ensoleillée est
@@ -381,7 +489,87 @@
   function buildZone(Z, key, living) {
     const items = [];
     living.types.forEach(t => { for (let i = 0; i < living.counts[t]; i++) items.push(t); });
-    return { key, values: drawValues(key), items: placeItems(items, Z), seed: String(Math.random()) };
+    return { key, values: drawValues(key), items: placeItems(items, Z), seed: String(Math.random()), clues: [] };
+  }
+
+  /* Les indices des deux zones : 2 par zone au plus, au moins 1 par zone,
+     deux fois la même relation le moins possible, jamais deux indices d'une
+     zone sur la même espèce, ni trop près l'un de l'autre (la loupe n'en
+     voit qu'un). On garde le meilleur de plusieurs tirages (4 indices de
+     préférence) ; rend le nombre d'indices posés par zone. */
+  function drawClues(zones) {
+    const options = ZONES.flatMap(Z => {
+      const types = new Set(zones[Z].items.map(it => it.t));
+      return Object.keys(CLUE_DEFS).map(id => {
+        const def = CLUE_DEFS[id];
+        const s = def.where.includes(zones[Z].key) && def.setup(t => types.has(t));
+        return s ? { id, Z, s } : null;
+      }).filter(Boolean);
+    });
+    const uses = o => [o.s.anchor, o.s.partner].filter(Boolean);
+    const relOf = o => CLUE_DEFS[o.id].rel;
+    let best = [], bestScore = -1;
+    for (let k = 0; k < 400; k++) {
+      // Une fois sur deux, une relation déjà prise est écartée d'office.
+      const strict = k % 2 === 0;
+      const chosen = [];
+      shuffle(options).forEach(o => {
+        const mine = chosen.filter(c => c.Z === o.Z);
+        if (mine.length >= 2 || mine.some(c => uses(c).some(t => uses(o).includes(t))) || chosen.some(c => c.id === o.id)) return;
+        if (strict && chosen.some(c => relOf(c) === relOf(o))) return;
+        chosen.push(o);
+      });
+      const dups = chosen.length - new Set(chosen.map(relOf)).size;
+      const score = chosen.length * 10 + (ZONES.every(Z => chosen.some(c => c.Z === Z)) ? 8 : 0) - dups * 12;
+      if (score > bestScore) { best = chosen; bestScore = score; }
+    }
+    best.forEach(o => placeClue(zones[o.Z], o));
+    return ZONES.map(Z => zones[Z].clues.length);
+  }
+
+  // Assez loin des indices déjà posés : la loupe et le toucher n'en voient qu'un.
+  const farFromClues = (zone, x, y) => zone.clues.every(c => Math.hypot(c.x - x, c.y - y) > 2 * CLUE_HIT);
+
+  // Une place libre de rayon R (loin des zones à toucher des autres éléments).
+  function freeSpot(zone, R, skip) {
+    for (let k = 0; k < 400; k++) {
+      const x = 22 + R + Math.random() * (356 - 2 * R), y = 22 + R + Math.random() * (356 - 2 * R);
+      if (farFromClues(zone, x, y) && zone.items.every(it => skip.includes(it) || Math.hypot(it.x - x, it.y - y) > hitR(it.t) + R)) return { x: Math.round(x), y: Math.round(y) };
+    }
+    return null;
+  }
+
+  // L'indice prend place : l'élément qui le porte, et l'autre tout contre.
+  function placeClue(zone, o) {
+    const def = CLUE_DEFS[o.id];
+    // L'élément qui porte l'indice : un individu loin des autres indices.
+    const take = (t, far) => zone.items.find(it => it.t === t && !it.clue && (!far || farFromClues(zone, it.x, it.y)));
+    const anchor = o.s.anchor ? take(o.s.anchor, !def.free) : null;
+    const partner = o.s.partner ? take(o.s.partner) : null;
+    if ((o.s.anchor && !anchor) || (o.s.partner && !partner)) return;
+    let spot = def.free ? freeSpot(zone, def.free, [anchor, partner]) : null;
+    if (!spot && anchor && farFromClues(zone, anchor.x, anchor.y)) spot = { x: anchor.x, y: anchor.y };
+    if (!spot) return;
+    const m = LENS - 6;
+    spot = { x: Math.min(400 - m, Math.max(m, spot.x)), y: Math.min(400 - m, Math.max(m, spot.y)) };
+    const put = (it, at, rot) => {
+      it.x = Math.round(spot.x + (at ? at[0] : 0));
+      it.y = Math.round(spot.y + (at ? at[1] : 0));
+      it.rot = rot || 0;
+      it.clue = true;
+      it.still = true;
+    };
+    if (anchor) {
+      put(anchor, def.anchorAt, def.anchorRot);
+      if (o.s.pale === 'anchor') anchor.pale = true;
+    }
+    if (partner) {
+      put(partner, def.partnerAt, def.partnerRot);
+      // Dessiné après les autres de sa couche : il passe par-dessus.
+      zone.items.splice(zone.items.indexOf(partner), 1);
+      zone.items.push(partner);
+    }
+    zone.clues.push({ id: o.id, x: spot.x, y: spot.y, a: o.s.a, b: o.s.b });
   }
 
   /* ===== État ===== */
@@ -390,12 +578,19 @@
   function reset() {
     const pair = pick(PAIRS);
     const keys = Math.random() < 0.5 ? pair : [pair[1], pair[0]];
-    const living = drawLiving(keys);
     const blank = v => ({ temp: v, lux: v, air: v, soil: v });
+    // Au moins un indice par zone et trois en tout : sinon, on tire à nouveau les êtres vivants.
+    let zones;
+    for (let k = 0; k < 60; k++) {
+      const living = drawLiving(keys);
+      zones = { A: buildZone('A', keys[0], living[0]), B: buildZone('B', keys[1], living[1]) };
+      const n = drawClues(zones);
+      if (n[0] >= 1 && n[1] >= 1 && n[0] + n[1] >= 3) break;
+    }
     state = {
-      hypothesis: { warmer: null, brighter: null, humid: null, moss: null, bloom: null, influence: null },
+      hypothesis: { warmer: null, brighter: null, humid: null, moss: null, bloom: null, influence: null, each: null },
       because: '',
-      zones: { A: buildZone('A', keys[0], living[0]), B: buildZone('B', keys[1], living[1]) },
+      zones,
       shown: null,                                        // instrument affiché dans les zones : le dernier pris
       measured: { A: blank(false), B: blank(false) },     // l'instrument (ou la main) est passé par la zone
       table: { A: blank(null), B: blank(null) },          // fiche de terrain de l'élève
@@ -409,12 +604,32 @@
       tries: [],                                          // noms déjà essayés à tort pour cet élément
       tool: null,
       bars: {},                                           // histogramme : espèce → { A, B }
-      conclusion: { warmer: null, brighter: null, humid: null, moss: null, bloom: null, influence: null, verdict: null },
+      mode: 'count',                                      // dans le carré : identifier et compter, ou la loupe
+      lens: null,                                         // loupe : { x, y, clue } dernier endroit regardé
+      misses: { A: 0, B: 0 },                             // touchers à la loupe sans rien trouver
+      seen: [],                                           // indices trouvés (Z-id)
+      inter: [],                                          // fiche des interactions : { clue, sa, sb, rel }, deux au plus
+      conclusion: { warmer: null, brighter: null, humid: null, moss: null, bloom: null, influence: null, each: null, verdict: null,
+        ex: { rel: null, s1: null, s2: null } },          // exemple de la question 2
       crit: 'measures'
     };
   }
 
   const zoneOf = Z => state.zones[Z];
+  const clueUid = (Z, c) => `${Z}-${c.id}`;
+  function clueByUid(uid) {
+    const [Z, id] = uid.split('-');
+    const c = zoneOf(Z).clues.find(x => x.id === id);
+    return c ? { Z, c } : null;
+  }
+  const whoName = w => (w.t ? SPECIES[w.t].name : CLUES.names[w.k]);
+  const clueFact = c => CLUES.fact[c.id](whoName(c.a), whoName(c.b));
+  const interDone = x => !!(x.sa && x.sb && x.rel);
+  const interRight = x => {
+    const { c } = clueByUid(x.clue);
+    const want = REL[CLUE_DEFS[c.id].rel];
+    return { signs: x.sa === want[0] && x.sb === want[1], rel: x.rel === CLUE_DEFS[c.id].rel };
+  };
   const itemOf = (Z, uid) => zoneOf(Z).items.find(i => i.uid === uid) || null;
   const habitatName = Z => LABELS.habitats[zoneOf(Z).key];
 
@@ -493,12 +708,14 @@
   }
 
   /* ===== Étapes complètes (progression stricte, voir lab-engine.js) =====
-     1 : l'hypothèse (6 choix) ; 2 : la fiche de terrain remplie, au moins une
-     espèce trouvée et notée dans chaque carré, tous les bâtons tracés ; 3 :
-     toutes les questions. */
+     1 : l'hypothèse (7 choix) ; 2 : la fiche de terrain remplie, au moins une
+     espèce trouvée et notée dans chaque carré, deux interactions notées en
+     entier, tous les bâtons tracés ; 3 : toutes les questions. */
   // La conclusion reprend exactement les lignes de l'hypothèse, puis la juge.
-  const HYP_KEYS = ['warmer', 'brighter', 'humid', 'moss', 'bloom', 'influence'];
+  const HYP_KEYS = ['warmer', 'brighter', 'humid', 'moss', 'bloom', 'influence', 'each'];
+  const YES_NO = ['influence', 'each'];
   const CONCL_KEYS = HYP_KEYS.concat('verdict');
+  const INTER_MAX = 2;
 
   const hypComplete = () => HYP_KEYS.every(k => state.hypothesis[k]);
   const squareDone = Z => state.found[Z].length > 0 && state.found[Z].every(t => state.counts[Z][t] != null);
@@ -524,11 +741,19 @@
       const t = state.found[Z].find(x => state.counts[Z][x] == null);
       if (t) return M.count(SPECIES[t].name, Z);
     }
+    if (state.inter.length < INTER_MAX) return M.inter(state.inter.length);
+    const open = state.inter.find(x => !interDone(x));
+    if (open) {
+      const { c } = clueByUid(open.clue);
+      return M.interOpen(LABELS.pair(whoName(c.a), whoName(c.b)));
+    }
     const left = barsLeft();
     return left ? M.bars(left) : null;
   }
 
-  const conclusionsComplete = () => CONCL_KEYS.every(k => state.conclusion[k]);
+  const interNoted = () => state.inter.filter(interDone).length;
+  const exDone = () => !!(state.conclusion.ex.rel && state.conclusion.ex.s1 && state.conclusion.ex.s2);
+  const conclusionsComplete = () => CONCL_KEYS.every(k => state.conclusion[k]) && exDone();
 
   function stepComplete(n) {
     if (n === 1) return hypComplete();
@@ -725,22 +950,62 @@
 
   // Entouré : un individu de l'espèce touchée, une fois nommée ; avant, seul
   // l'élément touché est marqué.
+  // Le dessin d'un élément, tourné ; celui d'un indice ne bouge pas, et la
+  // plante qui manque de lumière (compétition) est pâle.
+  function itemBody(Z, it) {
+    const t = T[it.t];
+    const pale = it.pale ? `<circle r="${(t.r * 0.85).toFixed(1)}" fill="#e9dc85" opacity=".55"/>` : '';
+    const body = t.move && !it.still ? `<g>${itemDrawing(Z, it)}${MOVES[t.move]}</g>` : itemDrawing(Z, it);
+    return `<g transform="rotate(${it.rot})">${body}${pale}</g>`;
+  }
+
   function itemMarkup(Z, it) {
     const t = T[it.t];
     const hr = hitR(it.t);
     const circled = circledType();
     const cls = circled ? (circled === it.t ? 'is-circled' : '') : (state.pick === it.uid ? 'is-picked' : '');
-    const body = t.move ? `<g>${itemDrawing(Z, it)}${MOVES[t.move]}</g>` : itemDrawing(Z, it);
     return `<g class="zn-it ${cls}" data-uid="${it.uid}" transform="translate(${it.x} ${it.y})" tabindex="0" role="button" aria-label="${escapeHtml(state.identified[it.t] ? t.name : LABELS.unknown)}">` +
-      `<g transform="rotate(${it.rot})">${body}</g>` +
+      itemBody(Z, it) +
       `<circle class="zn-it-ring" r="${hr}" fill="none"/>` +
       `<circle class="zn-it-hit" r="${hr}" fill="transparent"/></g>`;
   }
 
+  // Dessins des indices d'une zone, sous ou sur les êtres vivants.
+  const decoSVG = (Z, layer) => zoneOf(Z).clues.map(c => {
+    const d = CLUE_DEFS[c.id][layer];
+    return d ? `<g transform="translate(${c.x} ${c.y})">${d}</g>` : '';
+  }).join('');
+
   function quadratSVG(Z) {
     const items = zoneOf(Z).items.slice().sort((a, b) => T[a.t].layer - T[b.t].layer);
-    return `<svg class="zn-quadrat" data-quadrat viewBox="0 0 400 400" role="group" aria-label="${escapeHtml(plain(LABELS.quadratHead(Z)))}">` +
-      groundSVG(Z) + QUADRAT_FRAME + items.map(it => itemMarkup(Z, it)).join('') + `</svg>`;
+    const loupe = state.mode === 'loupe';
+    // À la loupe : les indices déjà trouvés sont marqués ; après quelques
+    // touchers sans rien trouver, les autres brillent ; l'endroit regardé
+    // est entouré.
+    let marks = '';
+    if (loupe) {
+      zoneOf(Z).clues.forEach(c => {
+        const seen = state.seen.includes(clueUid(Z, c));
+        if (seen) marks += `<circle class="zn-clue-seen" cx="${c.x}" cy="${c.y}" r="${LENS - 4}"/>`;
+        else if (state.misses[Z] >= HINT_AFTER) marks += `<circle class="zn-clue-hint" cx="${c.x}" cy="${c.y}" r="${LENS - 4}"/>`;
+      });
+      if (state.lens && state.lens.Z === Z) marks += `<circle class="zn-lens-ring" cx="${state.lens.x}" cy="${state.lens.y}" r="${LENS}"/>`;
+    }
+    return `<svg class="zn-quadrat ${loupe ? 'is-loupe' : ''}" data-quadrat ${loupe ? 'data-lab-look' : ''} viewBox="0 0 400 400" role="group" aria-label="${escapeHtml(plain(LABELS.quadratHead(Z)))}">` +
+      groundSVG(Z) + QUADRAT_FRAME + decoSVG(Z, 'under') + items.map(it => itemMarkup(Z, it)).join('') +
+      `<g pointer-events="none">${decoSVG(Z, 'over')}${marks}</g></svg>`;
+  }
+
+  // Vue à la loupe : un disque de 2 × LENS unités autour de (x, y).
+  function lensSVG(Z, x, y, cls) {
+    const u = `znl${++svgUid}`;
+    const items = zoneOf(Z).items.slice().sort((a, b) => T[a.t].layer - T[b.t].layer)
+      .filter(it => Math.hypot(it.x - x, it.y - y) < LENS + T[it.t].r + 4);
+    return `<svg class="${cls || 'zn-lens-svg'}" viewBox="${x - LENS} ${y - LENS} ${2 * LENS} ${2 * LENS}" aria-hidden="true" focusable="false">` +
+      `<defs><clipPath id="${u}"><circle cx="${x}" cy="${y}" r="${LENS - 0.5}"/></clipPath></defs>` +
+      `<g clip-path="url(#${u})">${groundSVG(Z)}${QUADRAT_FRAME}${decoSVG(Z, 'under')}` +
+      items.map(it => `<g transform="translate(${it.x} ${it.y})">${itemBody(Z, it)}</g>`).join('') + decoSVG(Z, 'over') + `</g>` +
+      `<circle cx="${x}" cy="${y}" r="${LENS - 0.6}" fill="none" stroke="#3d4a3a" stroke-width="1.2"/></svg>`;
   }
 
   // Petit portrait d'une espèce (fiche, liste de comptage).
@@ -784,20 +1049,21 @@
     const places = ZONES.map(Z => `<div class="zn-place">${sceneSVG(Z, { mini: true })}<span class="zn-place-name">${letter(Z)}<strong>${LABELS.zone(Z)}</strong><small>${gloss(habitatName(Z))}</small></span></div>`)
       .join(`<span class="zn-apart" aria-hidden="true"><span>←</span>${LABELS.apart}<span>→</span></span>`);
     const row = k => `<div class="zn-hrow ${show && !h[k] ? 'lab-is-missing' : ''}"><span class="zn-hrow-label">${gloss(LABELS.hypRows[k])}</span>` +
-      (k === 'influence' ? yesNoChips('hyp', k, h[k]) : zoneChips('hyp', k, h[k])) + `</div>`;
+      (YES_NO.includes(k) ? yesNoChips('hyp', k, h[k]) : zoneChips('hyp', k, h[k])) + `</div>`;
     const group = (g, keys) => `<div class="zn-hgroup"><p class="zn-hgroup-title">${LABELS.hypGroups[g]}</p>${keys.map(row).join('')}</div>`;
 
     lab.body.innerHTML = `<div class="zn-predict">` +
       `<div class="zn-question-card">` +
         `<p class="zn-kicker">${LABELS.yourQuestion}</p>` +
         `<p class="zn-question">${gloss(LABELS.question)}</p>` +
+        `<p class="zn-question zn-question-2">${gloss(LABELS.question2)}</p>` +
         `<p class="zn-question-case">${gloss(LABELS.questionCase)}</p>` +
         `<div class="zn-places">${places}</div>` +
       `</div>` +
       `<div class="zn-hyp-card">` +
         `<p class="zn-kicker">${LABELS.hypothesisTitle}</p>` +
         `<div class="zn-hgroups">${group('abiotic', ['warmer', 'brighter', 'humid'])}${group('biotic', ['moss', 'bloom'])}</div>` +
-        group('answer', ['influence']) +
+        group('answer', ['influence', 'each']) +
         `<label class="zn-because"><span>${LABELS.because}</span>` +
         `<input type="text" class="lab-input zn-because-input" maxlength="160" placeholder="${LABELS.becausePlaceholder}" value="${escapeHtml(state.because)}" autocomplete="off"></label>` +
       `</div></div>`;
@@ -908,7 +1174,7 @@
 
   function defaultCaption() {
     const C = LABELS.caption;
-    if (state.view === 'quadrat') return C.quadrat;
+    if (state.view === 'quadrat') return state.mode === 'loupe' ? C.loupe : C.quadrat;
     if (state.view === 'graph') return graphDone() ? C.graphDone : C.graph;
     if (state.tool) return C.tool[state.tool];
     if (fieldDone()) return C.fieldDone;
@@ -1107,7 +1373,7 @@
     state.tries = [];
     renderViews();
     renderStage();
-    setCaption(LABELS.caption.quadrat);
+    setCaption(defaultCaption());
     renderFooter();
   }
 
@@ -1175,11 +1441,19 @@
     const Z = state.qz;
     box.innerHTML = `<div class="zn-qview">` +
       `<div class="zn-qhead"><button type="button" class="lab-btn lab-btn-ghost zn-back" data-back data-lab-look>← ${LABELS.backToZones}</button>` +
-      `${letter(Z)}<span class="zn-qtitle">${gloss(LABELS.quadratHead(Z))}</span></div>` +
+      `${letter(Z)}<span class="zn-qtitle">${gloss(LABELS.quadratHead(Z))}</span>` +
+      `<div class="zn-modes" role="group">${['count', 'loupe'].map(m => `<button type="button" class="zn-mode ${state.mode === m ? 'is-current' : ''}" data-mode="${m}" data-lab-look aria-pressed="${state.mode === m}">${MODE_ICON[m]}<span>${LABELS.modes[m]}</span></button>`).join('')}</div></div>` +
       `<div class="zn-qbody"><div class="zn-qframe">${quadratSVG(Z)}</div><div class="zn-idcard" data-idcard aria-live="polite"></div></div></div>`;
     $('[data-back]').addEventListener('click', () => setView('field'));
+    $$('[data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
     const svg = $('[data-quadrat]');
+    // Identifier (toucher un être vivant) ou regarder à la loupe (toucher un endroit).
     svg.addEventListener('click', e => {
+      if (state.mode === 'loupe') {
+        const p = toSquare(svg, e);
+        if (p) lookAt(Z, p.x, p.y);
+        return;
+      }
       const g = e.target.closest('[data-uid]');
       if (g) pickItem(Z, g.dataset.uid);
     });
@@ -1187,9 +1461,55 @@
       const g = e.target.closest('[data-uid]');
       if (!g || (e.key !== 'Enter' && e.key !== ' ')) return;
       e.preventDefault();
-      pickItem(Z, g.dataset.uid);
+      if (state.mode === 'loupe') { const it = itemOf(Z, g.dataset.uid); lookAt(Z, it.x, it.y); }
+      else pickItem(Z, g.dataset.uid);
     });
     renderIdCard();
+  }
+
+  // Un point du carré (unités du dessin), quel que soit le zoom du labo.
+  function toSquare(svg, e) {
+    const m = svg.getScreenCTM();
+    if (!m) return null;
+    const p = svg.createSVGPoint();
+    p.x = e.clientX;
+    p.y = e.clientY;
+    const q = p.matrixTransform(m.inverse());
+    return { x: q.x, y: q.y };
+  }
+
+  // Identifier et compter, ou la loupe : ne change rien au travail.
+  function setMode(m) {
+    if (state.mode === m) return;
+    state.mode = m;
+    state.pick = null;
+    state.tries = [];
+    renderStage();
+    renderCounts();
+    setCaption(defaultCaption());
+  }
+
+  /* La loupe posée sur un endroit du carré : un indice tout près, il est
+     trouvé (sa fiche s'ouvre) ; sinon, on voit l'endroit en grand, sans
+     rien de particulier. Après HINT_AFTER touchers pour rien, les indices
+     pas encore trouvés de la zone brillent. */
+  function lookAt(Z, x, y) {
+    const C = LABELS.caption;
+    const near = zoneOf(Z).clues.map(c => ({ c, d: Math.hypot(c.x - x, c.y - y) })).filter(o => o.d < CLUE_HIT).sort((a, b) => a.d - b.d)[0];
+    if (near) {
+      const uid = clueUid(Z, near.c);
+      state.lens = { Z, x: near.c.x, y: near.c.y, clue: uid };
+      if (!state.seen.includes(uid)) state.seen.push(uid);
+      renderStage();
+      setCaption(state.inter.some(i => i.clue === uid) ? C.foundNoted : C.found);
+      return;
+    }
+    const clamp = v => Math.min(400 - LENS, Math.max(LENS, Math.round(v)));
+    state.lens = { Z, x: clamp(x), y: clamp(y), clue: null };
+    if (!corrected()) state.misses[Z]++;
+    const hidden = zoneOf(Z).clues.some(c => !state.seen.includes(clueUid(Z, c)));
+    renderStage();
+    setCaption(hidden && state.misses[Z] >= HINT_AFTER ? C.hint : C.nothing);
   }
 
   // L'espèce entourée : celle de l'élément touché, une fois nommée.
@@ -1254,6 +1574,7 @@
   function renderIdCard() {
     const box = $('[data-idcard]');
     if (!box) return;
+    if (state.mode === 'loupe') { renderLensCard(box); return; }
     const Z = state.qz;
     const it = state.pick ? itemOf(Z, state.pick) : null;
     if (!it) {
@@ -1283,6 +1604,101 @@
       `<p class="zn-id-cap">${gloss(SPECIES[it.t].cap)}</p>` +
       `<p class="zn-id-count">${gloss(LABELS.idCount)}</p>` +
       (n != null ? `<p class="zn-id-state">${LABELS.idNoted(n)}</p>` : '');
+  }
+
+  /* --- La loupe : ce qu'on voit en grand, et la fiche des interactions ---
+     Un indice trouvé se note dans la fiche (deux au plus, comme sur la
+     fiche de la sortie) ; une interaction notée se complète ici : le signe
+     de chaque être vivant, puis le nom de la relation. Une interaction se
+     retire de la fiche pour en noter une autre. */
+  const LOUPE_SVG = '<svg class="zn-loupe-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="6.2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M14.6 14.6 L20.5 20.5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>';
+  const MODE_ICON = {
+    count: '<svg class="zn-loupe-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 4 V20 M4 12 H20" stroke="currentColor" stroke-width="1.2"/></svg>',
+    loupe: LOUPE_SVG
+  };
+
+  const interOf = uid => state.inter.find(x => x.clue === uid) || null;
+  const pairName = c => LABELS.pair(capitalize(whoName(c.a)), whoName(c.b));
+
+  function interForm(x, c) {
+    const row = (key, w) => `<div class="zn-sign-row"><span class="zn-sign-who">${gloss(`[${capitalize(whoName(w))}|${whoName(w)}]`)}</span>` +
+      `<span class="zn-chips">${SIGNS.map(s => chip('sign', `${x.clue}|${key}`, s, LABELS.signs[s], x[key] === s)).join('')}</span></div>`;
+    const show = lab.state.showMissing;
+    return `<div class="zn-inter-form">` +
+      `<p class="zn-sign-legend">${LABELS.signLegend}</p>` + row('sa', c.a) + row('sb', c.b) +
+      `<label class="zn-rel-row"><span>${LABELS.relationLabel}</span>` +
+      `<select class="lab-select zn-rel ${x.rel ? 'is-filled' : ''} ${show && !x.rel ? 'lab-is-missing' : ''}" data-rel="${x.clue}" aria-label="${escapeHtml(LABELS.relationLabel)}">` +
+      `<option value="" disabled ${x.rel ? '' : 'selected'}>${LABELS.choose}</option>` +
+      RELS.map(r => `<option value="${r}" ${x.rel === r ? 'selected' : ''}>${LABELS.relations[r]}</option>`).join('') + `</select></label></div>`;
+  }
+
+  function interListHTML() {
+    const show = lab.state.showMissing;
+    const current = state.lens && state.lens.clue;
+    const rows = state.inter.map(x => {
+      const { c } = clueByUid(x.clue);
+      return `<li class="zn-inter-item ${current === x.clue ? 'is-current' : ''} ${show && !interDone(x) ? 'lab-is-missing' : ''}">` +
+        `<button type="button" class="zn-inter-open" data-open-inter="${x.clue}" data-lab-look><b>${pairName(c)}</b><small>${x.rel ? LABELS.relations[x.rel] : LABELS.toComplete}</small></button>` +
+        `<button type="button" class="zn-inter-del" data-del-inter="${x.clue}" aria-label="${escapeHtml(LABELS.removeInter)}">×</button></li>`;
+    });
+    for (let i = state.inter.length; i < INTER_MAX; i++) rows.push(`<li class="zn-inter-item is-empty ${show ? 'lab-is-missing' : ''}">${LABELS.emptySlot}</li>`);
+    return `<div class="zn-inter-list"><p class="zn-inter-head">${LABELS.interSheet}<small>${LABELS.interCount(state.inter.length, INTER_MAX)}</small></p><ul>${rows.join('')}</ul></div>`;
+  }
+
+  function renderLensCard(box) {
+    const L = state.lens && state.lens.Z === state.qz ? state.lens : null;
+    let top;
+    if (!L) {
+      top = `<div class="zn-lens is-empty">${LOUPE_SVG}</div><p>${gloss(LABELS.lensEmpty)}</p>`;
+    } else if (!L.clue) {
+      top = `<div class="zn-lens">${lensSVG(L.Z, L.x, L.y)}</div><p class="zn-lens-nothing">${LABELS.lensNothing}</p>`;
+    } else {
+      const { Z, c } = clueByUid(L.clue);
+      const x = interOf(L.clue);
+      top = `<div class="zn-lens">${lensSVG(Z, c.x, c.y)}</div><p class="zn-lens-fact">${gloss(clueFact(c))}</p>` +
+        (x ? interForm(x, c) : `<button type="button" class="lab-btn lab-btn-primary zn-note-btn" data-note="${L.clue}">${LABELS.noteInter}</button>`);
+    }
+    box.className = 'zn-idcard zn-lenscard';
+    box.innerHTML = `<div class="zn-lens-top">${top}</div>${interListHTML()}`;
+
+    const note = box.querySelector('[data-note]');
+    if (note) {
+      lab.setLock(note, state.inter.length >= INTER_MAX ? LABELS.lockTwoNoted : null);
+      note.addEventListener('click', () => {
+        state.inter.push({ clue: note.dataset.note, sa: null, sb: null, rel: null });
+        afterInter();
+        setCaption(LABELS.caption.noted);
+      });
+    }
+    box.querySelectorAll('[data-sign]').forEach(b => b.addEventListener('click', () => {
+      const [ref, v] = b.dataset.sign.split(':');
+      const [uid, key] = ref.split('|');
+      interOf(uid)[key] = v;
+      afterInter();
+    }));
+    box.querySelectorAll('[data-rel]').forEach(sel => sel.addEventListener('change', () => {
+      interOf(sel.dataset.rel).rel = sel.value || null;
+      afterInter();
+    }));
+    box.querySelectorAll('[data-open-inter]').forEach(b => b.addEventListener('click', () => {
+      const { Z, c } = clueByUid(b.dataset.openInter);
+      state.qz = Z;
+      state.lens = { Z, x: c.x, y: c.y, clue: b.dataset.openInter };
+      renderStage();
+      setCaption(LABELS.caption.foundNoted);
+    }));
+    box.querySelectorAll('[data-del-inter]').forEach(b => b.addEventListener('click', async () => {
+      const uid = b.dataset.delInter;
+      if (!(await lab.confirm({ title: LABELS.removeTitle, text: LABELS.removeText(pairName(clueByUid(uid).c)), confirm: LABELS.removeYes, danger: true }))) return;
+      state.inter = state.inter.filter(x => x.clue !== uid);
+      afterInter();
+    }));
+  }
+
+  function afterInter() {
+    if (lab.state.showMissing && !missingReason()) lab.state.showMissing = false;
+    renderIdCard();
+    renderFooter();
   }
 
   /* --- Fiche de terrain : une colonne par zone, comme la fiche papier
@@ -1394,7 +1810,7 @@
 
   function renderFooter() {
     const info = $('.lab-footer .lab-footer-info');
-    if (info) info.textContent = LABELS.infoField(valuesWritten(), squaresDone());
+    if (info) info.textContent = LABELS.infoField(valuesWritten(), squaresDone(), interNoted());
     const reason = missingReason();
     const done = !reason;
     if (done && lab.state.showMissing) lab.state.showMissing = false;
@@ -1568,7 +1984,13 @@
     const c = state.conclusion;
     const show = lab.state.showMissing;
     const miss = k => show && !c[k] ? 'lab-is-missing' : '';
-    const row = k => `<div class="zn-qrow ${miss(k)}"><span class="zn-qrow-label">${gloss(LABELS.rows[k])}</span>${k === 'influence' ? yesNoChips('c', k, c[k]) : zoneChips('c', k, c[k])}</div>`;
+    const row = k => `<div class="zn-qrow ${miss(k)}"><span class="zn-qrow-label">${gloss(LABELS.rows[k])}</span>${YES_NO.includes(k) ? yesNoChips('c', k, c[k]) : zoneChips('c', k, c[k])}</div>`;
+    // Question 2 : un exemple, avec une des relations notées dans la fiche des interactions.
+    const sel = (field, opts, labelOf) => `<select class="lab-select zn-ex ${c.ex[field] ? 'is-filled' : ''} ${show && !c.ex[field] ? 'lab-is-missing' : ''}" data-ex="${field}" aria-label="${escapeHtml(LABELS.exAria[field])}">` +
+      `<option value="" disabled ${c.ex[field] ? '' : 'selected'}>${LABELS.choose}</option>` +
+      opts.map(v => `<option value="${v}" ${c.ex[field] === v ? 'selected' : ''}>${labelOf(v)}</option>`).join('') + `</select>`;
+    const relOpts = RELS.filter(r => state.inter.some(x => x.rel === r) || c.ex.rel === r);
+    const example = `<p class="zn-example">${gloss(LABELS.example(sel('rel', relOpts, r => LABELS.relationWords[r]), sel('s1', SIGNS, v => LABELS.signWords[v]), sel('s2', SIGNS, v => LABELS.signWords[v])))}</p>`;
     const options = (k, opts, long) => `<div class="zn-chips ${long ? 'is-long' : ''}">` +
       Object.keys(opts).map(v => `<button type="button" class="lab-choice zn-chip ${long ? 'zn-chip-long' : ''} ${c[k] === v ? 'is-selected' : ''}" data-c="${k}:${v}" aria-pressed="${c[k] === v}">${opts[v]}</button>`).join('') + `</div>`;
 
@@ -1578,12 +2000,13 @@
         `<div class="zn-panel zn-ref-graph"><div class="zn-chart-head"><h3 class="lab-panel-title">${LABELS.graphTitle}</h3>${legendHTML()}</div><div class="zn-chart-wrap">${chartSVG({ mode: 'read' })}</div></div>` +
       `</section>` +
       `<section class="zn-form">` +
-        `<p class="zn-reminder">${gloss(LABELS.question)}</p>` +
+        `<p class="zn-reminder">${gloss(LABELS.question)} ${gloss(LABELS.question2)}</p>` +
         `<div class="zn-form-cols"><div class="zn-form-col">` +
           `<div class="zn-q"><p class="zn-q-title">${LABELS.qFactors}</p>${row('warmer')}${row('brighter')}${row('humid')}</div>` +
           `<div class="zn-q"><p class="zn-q-title">${LABELS.qLiving}</p>${row('moss')}${row('bloom')}</div>` +
         `</div><div class="zn-form-col">` +
           `<div class="zn-q"><p class="zn-q-title">${LABELS.qAnswer}</p>${row('influence')}</div>` +
+          `<div class="zn-q"><p class="zn-q-title">${LABELS.qEach}</p>${row('each')}${example}</div>` +
           `<div class="zn-q ${miss('verdict')}"><p class="zn-q-title">${LABELS.qVerdict}</p>${options('verdict', LABELS.verdicts)}</div>` +
         `</div></div>` +
       `</section></div>`;
@@ -1591,6 +2014,11 @@
     $$('[data-c]').forEach(btn => btn.addEventListener('click', () => {
       const [k, v] = btn.dataset.c.split(':');
       c[k] = v;
+      if (conclusionsComplete()) lab.state.showMissing = false;
+      renderConclude();
+    }));
+    $$('[data-ex]').forEach(el => el.addEventListener('change', () => {
+      c.ex[el.dataset.ex] = el.value || null;
       if (conclusionsComplete()) lab.state.showMissing = false;
       renderConclude();
     }));
@@ -1618,7 +2046,8 @@
       humid: higher(v('A').air, v('B').air),
       moss: higher(groupOf('A', MOSS_FERN), groupOf('B', MOSS_FERN)),
       bloom: higher(groupOf('A', BLOOM), groupOf('B', BLOOM)),
-      influence: 'yes'
+      influence: 'yes',
+      each: 'yes'
     };
   }
 
@@ -1654,17 +2083,24 @@
       if (want !== got) barMiss.push({ t, Z, want, got });
     }));
 
+    // Interactions : le signe de chaque être vivant et le nom de la relation.
+    const interMiss = state.inter.map(x => Object.assign({ x }, interRight(x))).filter(m => !m.signs || !m.rel);
+
     const tr = truth();
     const c = state.conclusion;
     const qKeys = CONCL_KEYS.filter(k => k !== 'verdict');
     const wrongQ = qKeys.filter(k => c[k] !== tr[k]);
+    // L'exemple de la question 2 : les deux signes de la relation choisie, dans un ordre ou l'autre.
+    const want = c.ex.rel ? REL[c.ex.rel].slice().sort().join('') : '';
+    const exOk = !!c.ex.rel && [c.ex.s1, c.ex.s2].sort().join('') === want;
 
     return {
-      measureMiss, countMiss, barMiss, tr, wrongQ, qKeys,
+      measureMiss, countMiss, barMiss, interMiss, tr, wrongQ, qKeys, exOk,
       measures: measureMiss.length === 0,
       count: countMiss.length === 0,
       graph: barMiss.length === 0,
-      conclusion: wrongQ.length === 0,
+      inter: state.inter.length === INTER_MAX && interMiss.length === 0,
+      conclusion: wrongQ.length === 0 && exOk,
       verdict: c.verdict === verdictShould()
     };
   }
@@ -1703,6 +2139,20 @@
       return (ev.barMiss.length ? `<ul class="zn-misslist">${ev.barMiss.map(m => `<li>${CHECK.barMiss(SPECIES[m.t].name, m.Z, m.got, m.want)}</li>`).join('')}</ul>` : `<p class="zn-ok">${CHECK.barsOk}</p>`) +
         `<div class="zn-chart-wrap zn-chart-mini">${chartSVG({ mode: 'read' })}</div>`;
     }
+    if (key === 'inter') {
+      const rows = state.inter.map(x => {
+        const { Z, c } = clueByUid(x.clue);
+        const r = interRight(x);
+        const want = REL[CLUE_DEFS[c.id].rel];
+        const signs = (a, b) => `${capitalize(whoName(c.a))} ${LABELS.signs[a] || '—'} · ${capitalize(whoName(c.b))} ${LABELS.signs[b] || '—'}`;
+        return `<div class="zn-inter-check ${r.signs && r.rel ? 'is-ok' : 'is-ko'}">${lensSVG(Z, c.x, c.y, 'zn-lens-mini')}<div>` +
+          `<p><b>${pairName(c)}</b> <span class="zn-muted">(${LABELS.zone(Z)})</span></p>` +
+          `<p>${CHECK.youNoted} ${signs(x.sa, x.sb)} · ${x.rel ? LABELS.relationWords[x.rel] : '—'} <span class="${r.signs && r.rel ? 'zn-ok' : 'zn-ko'}">${r.signs && r.rel ? '✓' : '✗'}</span></p>` +
+          (r.signs && r.rel ? '' : `<p><b>${CHECK.right} ${signs(want[0], want[1])} · ${LABELS.relationWords[CLUE_DEFS[c.id].rel]}</b></p>`) +
+          `<p class="zn-muted">${gloss(CLUES.why[c.id](whoName(c.a), whoName(c.b)))}</p></div></div>`;
+      }).join('');
+      return `<p>${CHECK.interScore(state.inter.length - ev.interMiss.length, INTER_MAX)}</p>` + rows + (ev.inter ? `<p class="zn-ok">${CHECK.interOk}</p>` : '');
+    }
     if (key === 'conclusion') {
       const items = ev.qKeys.map(k => {
         const ok = !ev.wrongQ.includes(k);
@@ -1710,9 +2160,13 @@
         const right = answerText(k, ev.tr[k]);
         return `<li class="${ok ? 'zn-ok-item' : 'zn-ko-item'}"><span class="zn-mark">${ok ? '✓' : '✗'}</span><span>` +
           (ok ? `${capitalize(mine)}.` : `${CHECK.youSaid} ${mine}. <b>${CHECK.right} ${right}.</b>`) +
-          (!ok || k === 'influence' ? ` <span class="zn-muted">${gloss(EXPLAIN[k])}</span>` : '') + `</span></li>`;
+          (!ok || YES_NO.includes(k) ? ` <span class="zn-muted">${gloss(EXPLAIN[k])}</span>` : '') + `</span></li>`;
       }).join('');
-      return `<p>${CHECK.concScore(ev.qKeys.length - ev.wrongQ.length, ev.qKeys.length)}</p><ul class="zn-answers">${items}</ul>`;
+      const ex = state.conclusion.ex;
+      const exItem = `<li class="${ev.exOk ? 'zn-ok-item' : 'zn-ko-item'}"><span class="zn-mark">${ev.exOk ? '✓' : '✗'}</span><span>${exampleText(ex)}` +
+        (ev.exOk ? '' : ` <b>${CHECK.exWrong(LABELS.relationWords[ex.rel], LABELS.signWords[REL[ex.rel][0]], LABELS.signWords[REL[ex.rel][1]])}</b>`) + `</span></li>`;
+      const good = ev.qKeys.length - ev.wrongQ.length + (ev.exOk ? 1 : 0);
+      return `<p>${CHECK.concScore(good, ev.qKeys.length + 1)}</p><ul class="zn-answers">${items}${exItem}</ul>`;
     }
     const should = verdictShould();
     const rows = HYP_KEYS.map(k => {
@@ -1725,7 +2179,10 @@
       `<p class="zn-muted">${CHECK.verdictRule}</p>` + (should !== 'confirmed' ? `<p class="zn-muted">${CHECK.rejectedNote}</p>` : '');
   }
 
-  const CRITS = ['measures', 'count', 'graph', 'conclusion', 'verdict'];
+  const CRITS = ['measures', 'count', 'graph', 'inter', 'conclusion', 'verdict'];
+
+  // L'exemple de la question 2 en phrase (les mots, sans liste).
+  const exampleText = ex => plain(LABELS.example(ex.rel ? LABELS.relationWords[ex.rel] : '—', ex.s1 ? LABELS.signWords[ex.s1] : '—', ex.s2 ? LABELS.signWords[ex.s2] : '—'));
 
   function renderCheck() {
     const ev = evaluate();
@@ -1763,7 +2220,7 @@
     const c = state.conclusion;
 
     const hyp = R.hypothesis(PHRASE.warmer(h.warmer), PHRASE.brighter(h.brighter), PHRASE.humid(h.humid),
-      PHRASE.hypMoss(h.moss), PHRASE.hypBloom(h.bloom), PHRASE.influence(h.influence));
+      PHRASE.hypMoss(h.moss), PHRASE.hypBloom(h.bloom), PHRASE.influence(h.influence), PHRASE.each(h.each));
 
     // Fiche de terrain : les zones en lignes, comme la fiche papier.
     const measMiss = new Map(ev.measureMiss.map(m => [`${m.Z}-${m.f}`, m]));
@@ -1797,27 +2254,48 @@
       const text = answerText(k, c[k]);
       return ev.wrongQ.includes(k) ? mark(text, `${capitalize(answerText(k, ev.tr[k]))}. ${plain(EXPLAIN[k])}`) : text;
     };
-    const interp = R.interpretation(said('warmer'), said('brighter'), said('humid'), said('moss'), said('bloom'));
+    // Fiche des interactions : ce que l'élève a vu, ses signes, sa relation.
+    const interBody = state.inter.map(x => {
+      const { Z, c } = clueByUid(x.clue);
+      const r = interRight(x);
+      const want = REL[CLUE_DEFS[c.id].rel];
+      const why = plain(CLUES.why[c.id](whoName(c.a), whoName(c.b)));
+      const signs = `${capitalize(whoName(c.a))} ${LABELS.signs[x.sa] || '—'}, ${whoName(c.b)} ${LABELS.signs[x.sb] || '—'}`;
+      const rel = x.rel ? LABELS.relationWords[x.rel] : '—';
+      return `<tr><td>${Z}</td><td>${plain(clueFact(c))}</td>` +
+        `<td>${r.signs ? signs : mark(signs, `${capitalize(whoName(c.a))} ${LABELS.signs[want[0]]}, ${whoName(c.b)} ${LABELS.signs[want[1]]}. ${why}`, { box: true })}</td>` +
+        `<td>${r.rel ? rel : mark(rel, `${capitalize(LABELS.relationWords[CLUE_DEFS[c.id].rel])}. ${why}`, { box: true })}</td></tr>`;
+    }).join('') || `<tr><td colspan="4">${R.nothing}</td></tr>`;
+    const interTable = `<table class="zn-report-table zn-report-inter"><caption>${R.interCaption}</caption>` +
+      `<tr><th>${R.zoneCol}</th><th>${R.interCols.what}</th><th>${R.interCols.signs}</th><th>${R.interCols.rel}</th></tr>${interBody}</table>`;
+
+    const interp = R.interpretation(said('warmer'), said('brighter'), said('humid'), said('moss'), said('bloom')) + ' ' +
+      R.interFound(LABELS.list(state.inter.map(x => {
+        const { c } = clueByUid(x.clue);
+        return R.interItem(x.rel ? LABELS.relationWords[x.rel] : '—', whoName(c.a), whoName(c.b));
+      })));
     let verdictWord = LABELS.verdicts[c.verdict] || '—';
     if (!ev.verdict) verdictWord = mark(verdictWord, `${CHECK.verdictWrong(LABELS.verdicts[verdictShould()])} ${CHECK.verdictRule}`);
-    const conclusion = R.conclusion(said('influence'), verdictWord);
+    let example = exampleText(c.ex);
+    if (!ev.exOk && c.ex.rel) example = mark(example, CHECK.exWrong(LABELS.relationWords[c.ex.rel], LABELS.signWords[REL[c.ex.rel][0]], LABELS.signWords[REL[c.ex.rel][1]]));
+    const conclusion = R.conclusion(said('influence'), said('each'), example, verdictWord);
 
     const correction = CRITS.map(k => `<tr><th>${LABELS.criteria[k]}</th><td class="${ev[k] ? 'ok' : 'ko'}">${ev[k] ? '✓' : '✗'}</td></tr>`).join('');
 
     return {
       title: R.title,
       sections: [
-        `<p>${R.question}</p><p>${R.questionCase(plain(habitatName('A')).toLowerCase(), plain(habitatName('B')).toLowerCase())}</p>`,
+        `<p>${R.question}</p><p>${R.question2}</p><p>${R.questionCase(plain(habitatName('A')).toLowerCase(), plain(habitatName('B')).toLowerCase())}</p>`,
         `<p>${hyp}</p>` + (state.because.trim() ? `<p>${R.because}: ${escapeHtml(state.because.trim())}</p>` : ''),
         `<p>${R.materials}</p>`,
         `<ol>${R.procedure.map(p => `<li>${p}</li>`).join('')}</ol>`,
         `<table class="zn-report-table"><caption>${R.sheetCaption}</caption>${dataHead}${dataBody}</table>` +
           `<div class="zn-report-results"><table class="zn-report-count"><caption>${R.countCaption}</caption><tr><th>${R.species}</th>${ZONES.map(Z => `<th>${LABELS.zone(Z)}</th>`).join('')}</tr>${countBody}</table>` +
-          `<div class="zn-report-graph"><p class="zn-report-graph-title">${LABELS.chartTitle}</p>${chart}</div></div>`,
+          `<div class="zn-report-graph"><p class="zn-report-graph-title">${LABELS.chartTitle}</p>${chart}</div></div>` + interTable,
         `<p>${interp}</p>`,
         `<p>${conclusion}</p>`
       ],
-      correction: `<p><strong>${R.score(CRITS.filter(k => ev[k]).length)}</strong></p>` +
+      correction: `<p><strong>${R.score(CRITS.filter(k => ev[k]).length, CRITS.length)}</strong></p>` +
         `<table class="zn-report-corr">${correction}</table>`
     };
   }
@@ -1832,11 +2310,12 @@
     isStarted: () => HYP_KEYS.some(k => state.hypothesis[k]) || started(),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 3,
+    version: 4,
     save: () => ({ state: Object.assign({}, state, { tool: null }) }),
     load(data) {
       const s = data.state;
-      if (!s || !s.zones || !s.found || !ZONES.every(Z => s.zones[Z] && HABITATS[s.zones[Z].key] && Array.isArray(s.zones[Z].items))) throw new Error('labProgress');
+      if (!s || !s.zones || !s.found || !Array.isArray(s.inter) || !s.conclusion || !s.conclusion.ex ||
+        !ZONES.every(Z => s.zones[Z] && HABITATS[s.zones[Z].key] && Array.isArray(s.zones[Z].items) && Array.isArray(s.zones[Z].clues))) throw new Error('labProgress');
       state = Object.assign(s, { tool: null });
       stepperDone = null;
     },
@@ -1854,7 +2333,9 @@
           valuesRight: 8 - ev.measureMiss.length,
           countMistakes: ev.countMiss.length,
           barMistakes: ev.barMiss.length,
-          wrongAnswers: ev.wrongQ
+          interactions: state.inter.map(x => `${x.clue.split('-')[1]}:${x.rel || '-'}`),
+          interMistakes: ev.interMiss.length,
+          wrongAnswers: ev.wrongQ.concat(ev.exOk ? [] : ['example'])
         }
       };
     }

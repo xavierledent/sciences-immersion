@@ -10,12 +10,12 @@
       "labs": {
         "en": [
           { "id": "decomposition", "file": "lab-decomposition", "title": "The vanishing leaves", "question": "What makes dead leaves disappear?", "text": "Every autumn, tons of leaves fall in the forest. A year later, they are gone. Set up your own experiment to find out why." },
-          { "id": "zones", "file": "lab-zones", "title": "Inside two ecosystems", "question": "Do abiotic factors have an influence on living things?", "text": "Measure the temperature, the light and the humidity of two zones, then identify and count the living things in a counting square. Your histogram will show the difference." },
+          { "id": "zones", "file": "lab-zones", "title": "Inside two ecosystems", "question": "Do abiotic factors and other living things have an influence on living things?", "text": "Measure the temperature, the light and the humidity of two zones, then identify and count the living things in a counting square. Your histogram will show the difference. With a magnifying glass, find how living things interact." },
           { "id": "foodweb", "file": "lab-foodweb", "title": "Pull one thread", "question": "What happens to a forest when one species disappears?", "text": "Build the food web of a Belgian forest with ecological cards. Then a disease strikes: run the model over 10 years, and compare with a single food chain." }
         ],
         "nl": [
           { "id": "decomposition", "file": "lab-decomposition", "title": "De verdwijnende bladeren", "question": "Waardoor verdwijnen dode bladeren?", "text": "Elke herfst vallen er tonnen bladeren in het bos. Een jaar later zijn ze verdwenen. Zet zelf een experiment op om te ontdekken waarom." },
-          { "id": "zones", "file": "lab-zones", "title": "Twee ecosystemen onder de loep", "question": "Hebben abiotische factoren een invloed op levende wezens?", "text": "Meet de temperatuur, het licht en de vochtigheid van twee zones, en determineer en tel dan de levende wezens in een telkader. Je histogram zal het verschil tonen." },
+          { "id": "zones", "file": "lab-zones", "title": "Twee ecosystemen onder de loep", "question": "Hebben abiotische factoren en andere levende wezens een invloed op levende wezens?", "text": "Meet de temperatuur, het licht en de vochtigheid van twee zones, en determineer en tel dan de levende wezens in een telkader. Je histogram zal het verschil tonen. Zoek met een loep hoe levende wezens een interactie hebben." },
           { "id": "foodweb", "file": "lab-foodweb", "title": "Trek aan één draad", "question": "Wat gebeurt er met een bos als één soort verdwijnt?", "text": "Bouw met ecologische kaarten het voedselweb van een Belgisch bos. Dan slaat een ziekte toe: laat het model 10 jaar lopen, en vergelijk met één enkele voedselketen." }
         ]
       }
