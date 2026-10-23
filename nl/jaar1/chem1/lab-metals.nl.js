@@ -181,6 +181,12 @@ LabEngine.addText('metals', {
       wood: 'Er valt fijn [zaagsel]. De [geschuurde plek] is lichtbruin en weerkaatst geen licht.',
       granite: 'De rots is erg hard: ze raakt amper [gekrast]. Ze blijft gespikkeld en weerkaatst geen licht.'
     },
+    // IJzer, koper, aluminium zonder laagje: al glanzend vóór het schuren.
+    lusterClean: {
+      copper: 'Het oppervlak is al oranjeroze en weerkaatst het licht sterk. De [geschuurde plek] ziet er hetzelfde uit.',
+      iron: 'Het oppervlak is al zilvergrijs en weerkaatst het licht sterk. De [geschuurde plek] ziet er hetzelfde uit.',
+      aluminium: 'Het oppervlak is al lichtgrijs en weerkaatst het licht sterk. De [geschuurde plek] ziet er hetzelfde uit.'
+    },
     lusterRunning: 'Het [schuurpapier] wrijft over het oppervlak van het staafje…',
     magnetRunning: 'De [magneet] komt dichter bij het staafje…',
     magnetYes: 'Het staafje springt omhoog en blijft aan de [magneet] hangen.',
@@ -211,6 +217,8 @@ LabEngine.addText('metals', {
     silver: 'Dit is <strong>zilver</strong>: helder wit na het schuren, niet magnetisch, geleidt elektriciteit, buigt zonder te breken, en laat het kaarsvet van allemaal het snelst smelten.',
     granite: '<strong>Graniet</strong> is een rots, geen metaal: het is dof, geleidt geen elektriciteit en geen warmte, en verandert niet van vorm onder de hamer. Je leerde graniet kennen in het deel van het hoofdstuk over rotsen.',
     aluminium: 'Dit is <strong>aluminium</strong>. Het oppervlak was dofgrijs, bedekt met een dun laagje oxide, en leek dus niet op een metaal. Na het schuren is het lichtgrijs en glanzend. Het is niet magnetisch, geleidt elektriciteit en warmte (snel, maar trager dan zilver en koper), en buigt zonder te breken.',
+    // Aluminium zonder laagje oxide.
+    aluminiumClean: 'Dit is <strong>aluminium</strong>: lichtgrijs en glanzend, al vóór het schuren. Het is niet magnetisch, geleidt elektriciteit en warmte (snel, maar trager dan zilver en koper), en buigt zonder te breken.',
     plasticSilver: 'Dit is <strong>zilverkleurig geverfd plastic</strong>. Door de verf lijkt het op een metaal, maar onder de verf is het dof, het geleidt geen elektriciteit en geen warmte, en het barst.',
     gold: 'Dit is <strong>goud</strong>: geel en glanzend, niet magnetisch, geleidt elektriciteit en warmte, en buigt heel gemakkelijk.'
   },

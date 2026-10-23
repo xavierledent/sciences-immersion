@@ -179,6 +179,12 @@ LabEngine.addText('metals', {
       wood: 'Fine [sawdust] falls. The [sanded area] is light brown and does not reflect light.',
       granite: 'The rock is very hard: it is hardly [scratched]. It stays speckled and does not reflect light.'
     },
+    // Fer, cuivre, aluminium tirés propres : déjà brillants avant ponçage.
+    lusterClean: {
+      copper: 'The surface is already orange-pink and reflects light strongly. The [sanded area] looks the same.',
+      iron: 'The surface is already silvery grey and reflects light strongly. The [sanded area] looks the same.',
+      aluminium: 'The surface is already light grey and reflects light strongly. The [sanded area] looks the same.'
+    },
     lusterRunning: 'The [sandpaper] rubs the surface of the bar…',
     magnetRunning: 'The [magnet] comes closer to the bar…',
     magnetYes: 'The bar jumps up and sticks to the [magnet].',
@@ -209,6 +215,8 @@ LabEngine.addText('metals', {
     silver: 'This is <strong>silver</strong>: bright white once sanded, not magnetic, conducts electricity, bends without breaking, and is the fastest of all to melt the wax.',
     granite: '<strong>Granite</strong> is a rock, not a metal: it is dull, does not conduct electricity or heat, and does not change shape under the hammer. You met granite in the part of the chapter about rocks.',
     aluminium: 'This is <strong>aluminium</strong>. Its surface was dull grey, covered with a thin layer of oxide, so it did not look like a metal. Once sanded, it is light grey and shiny. It is not magnetic, conducts electricity and heat (fast, but more slowly than silver and copper), and bends without breaking.',
+    // Aluminium tiré propre (sans couche d'oxyde).
+    aluminiumClean: 'This is <strong>aluminium</strong>: light grey and shiny, even before sanding. It is not magnetic, conducts electricity and heat (fast, but more slowly than silver and copper), and bends without breaking.',
     plasticSilver: 'This is <strong>plastic painted silver</strong>. The paint makes it look like a metal, but under the paint it is dull, it does not conduct electricity or heat, and it cracks.',
     gold: 'This is <strong>gold</strong>: yellow and shiny, not magnetic, conducts electricity and heat, and bends very easily.'
   },

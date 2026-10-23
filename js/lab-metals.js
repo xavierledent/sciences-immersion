@@ -111,13 +111,18 @@
      E dans un ordre mélangé, donc propres à chaque élève ; le rapport imprimé
      dit quel matériau se cachait derrière chaque lettre.
        — le fer, toujours ;
-       — un métal piège, qui ne ressemble pas à un métal avant ponçage ;
+       — le cuivre ou l'aluminium ;
        — un non-métal piège, qui ressemble à un métal ;
        — le métal qui lui ressemble (même aspect, tests différents) ;
-       — un non-métal évident. */
+       — un non-métal évident.
+     Le fer, le cuivre et l'aluminium ont, une fois sur deux, la surface
+     couverte (rouille, ternissure, oxyde : pas l'air d'un métal avant
+     ponçage) ; sinon, ils brillent déjà (clean: true). Un piège pas toujours
+     là : l'élève ponce pour vérifier, pas par habitude. */
   const DRAW = {
     always: 'iron',
     trapMetal: ['copper', 'aluminium'],
+    mayBeClean: ['iron', 'copper', 'aluminium'],
     trapNonMetal: ['plasticGold', 'plasticSilver', 'glass'],
     lookAlike: { plasticGold: ['gold'], plasticSilver: ['silver'], glass: ['gold', 'silver'] },
     plainNonMetal: ['wood', 'granite']
@@ -126,7 +131,18 @@
   function drawSamples() {
     const trap = pick(DRAW.trapNonMetal);
     const mats = shuffle([DRAW.always, pick(DRAW.trapMetal), pick(DRAW.lookAlike[trap]), trap, pick(DRAW.plainNonMetal)]);
-    return mats.map((mat, i) => ({ id: 'ABCDEFGHIJ'[i], mat }));
+    // clean seulement quand il vaut true : une reprise d'avant ce tirage
+    // garde ses métaux couverts.
+    return mats.map((mat, i) => Object.assign({ id: 'ABCDEFGHIJ'[i], mat },
+      DRAW.mayBeClean.includes(mat) && Math.random() < 0.5 ? { clean: true } : {}));
+  }
+
+  // Aspect d'un échantillon : celui du matériau, ou, métal propre, sa
+  // surface poncée partout (couleur, éclat, sans dépôt).
+  function lookOf(mat, sampleId) {
+    const m = MATERIALS[mat];
+    const sm = sampleId && SAMPLES.find(s => s.id === sampleId);
+    return sm && sm.clean ? Object.assign({}, m, { surface: m.fresh, texture: 'none', glossy: true }) : m;
   }
 
   let SAMPLES = [];
@@ -149,7 +165,8 @@
 
   function explanation(s) {
     const other = LOOK_ALIKE[s.mat] && SAMPLES.find(x => x.mat === LOOK_ALIKE[s.mat]);
-    return EXPLANATIONS[s.mat] + (other ? ' ' + COMPARE_TEXT[s.mat](other.id) : '');
+    const text = (s.clean && EXPLANATIONS[s.mat + 'Clean']) || EXPLANATIONS[s.mat];
+    return text + (other ? ' ' + COMPARE_TEXT[s.mat](other.id) : '');
   }
 
   const HEAT_LIMIT = 300;      // secondes simulées
@@ -307,7 +324,7 @@
 
   /* o : { mat, x, y, w, h, bend, sanded (0..1), label, id, sampleId } */
   function barSVG(o) {
-    const m = MATERIALS[o.mat];
+    const m = lookOf(o.mat, o.sampleId);
     const uid = 'bar' + (++uidCounter);
     const { x, y, w, h } = o;
     const d = barPath(x, y, w, h, o.bend);
@@ -651,7 +668,7 @@
     const loupe = host.querySelector('#loupe');
     const spark = host.querySelector('#sparkles');
     const fullW = 260 * 0.4;
-    const caption = gloss(CAPTIONS.luster[sm.mat]);
+    const caption = gloss((sm.clean ? CAPTIONS.lusterClean : CAPTIONS.luster)[sm.mat]);
 
     if (instant) {
       sp.setAttribute('transform', 'translate(560 270)');
