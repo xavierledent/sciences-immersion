@@ -184,7 +184,7 @@ LabEngine.addText('lifecycle', {
     captionWay: way => `${way}: run the model and watch the counters.`,
     captionStep: step => `${step}…`,
     captionRan: way => `${way}: done. Read the four counters and write the totals in your notebook.`,
-    notebookTitle: period => `Your notebook: totals ${period}`,
+    notebookTitle: 'Your notebook: totals',
     numAria: (way, head) => `${way}, ${head}`,
     lockWays: 'Run the three ways first.',
     lockNotes: n => `Complete your notebook: ${n === 1 ? '1 number' : n + ' numbers'} still missing.`,

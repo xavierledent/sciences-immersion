@@ -520,11 +520,13 @@
     rank[i] = rank[i] === w && j === i ? null : w;
   }
 
+  // En petit (onglet des trois façons) : l'objet, sa durée et la seule façon affichée.
   function objectCardHTML(compact) {
     const o = LABELS.objects[run.obj];
+    const ways = compact ? [state.way] : WAYS;
     return `<div class="lc-object ${compact ? 'is-compact' : ''}">${objectIcon('is-big')}<div>` +
-      `<p class="lc-object-text">${gloss(o.scenario(run.qty))}</p>` +
-      `<ul class="lc-ways">${WAYS.map(w => `<li>${wayIcon(w)}<span><strong>${wayName(w)}</strong> · ${gloss(o.ways[w])}</span></li>`).join('')}</ul>` +
+      `<p class="lc-object-text">${gloss(compact ? `${o.many(run.qty)} ${o.period}` : o.scenario(run.qty))}</p>` +
+      `<ul class="lc-ways">${ways.map(w => `<li>${wayIcon(w)}<span><strong>${wayName(w)}</strong> · ${gloss(o.ways[w])}</span></li>`).join('')}</ul>` +
       `</div></div>`;
   }
 
@@ -777,7 +779,7 @@
         return `<td class="${show && val == null ? 'lab-is-missing' : ''}"><input type="text" inputmode="decimal" class="lc-num-input" data-num="${w}|${c}" ` +
           `value="${val == null ? '' : escapeHtml(num(val))}" maxlength="7" autocomplete="off" spellcheck="false" aria-label="${escapeHtml(LABELS.numAria(wayName(w), counterHead(c)))}"></td>`;
       }).join('') + `</tr>`).join('');
-    return `<div class="lc-notebook"><h3 class="lab-panel-title">${LABELS.notebookTitle(LABELS.objects[run.obj].period)}</h3>` +
+    return `<div class="lc-notebook"><h3 class="lab-panel-title">${LABELS.notebookTitle}</h3>` +
       `<table class="lc-nb-table"><thead><tr><th scope="col"></th>${COUNTERS.map(c => `<th scope="col">${LABELS.counters[c].name}<small>${LABELS.counters[c].unit}</small></th>`).join('')}</tr></thead>` +
       `<tbody>${rows}</tbody></table></div>`;
   }

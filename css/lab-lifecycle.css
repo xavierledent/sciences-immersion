@@ -634,11 +634,27 @@ html[data-pointer='fine'] :is(.lc-tab, .lc-pill):not(.is-on):not(.lab-is-locked)
   fill: #4a6fd9;
 }
 
+/* Les jauges cèdent la place quand il en manque : le carnet, en dessous,
+   reste toujours entier. */
 .lc-gauges {
+  flex: 0 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   padding: 6px 10px 2px;
   border-radius: 14px;
   border: 1.5px solid rgba(var(--color-current-rgb), 0.2);
   background: #ffffff;
+}
+
+.lc-gauges > [data-gauges] {
+  flex: 0 1 240px;
+  min-height: 0;
+}
+
+.lc-side > .lc-object,
+.lc-side > .lc-notebook {
+  flex: 0 0 auto;
 }
 
 .lc-gauges-title {
@@ -652,7 +668,9 @@ html[data-pointer='fine'] :is(.lc-tab, .lc-pill):not(.is-on):not(.lab-is-locked)
 }
 
 .lc-gauges-svg {
-  height: auto;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .lc-g-title {

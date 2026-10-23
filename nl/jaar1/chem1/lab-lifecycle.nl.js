@@ -183,7 +183,7 @@ LabEngine.addText('lifecycle', {
     captionWay: way => `${way}: laat het model lopen en kijk naar de tellers.`,
     captionStep: step => `${step}…`,
     captionRan: way => `${way}: klaar. Lees de vier tellers af en noteer de totalen in je schrift.`,
-    notebookTitle: period => `Jouw schrift: totalen ${period}`,
+    notebookTitle: 'Jouw schrift: totalen',
     numAria: (way, head) => `${way}, ${head}`,
     lockWays: 'Laat eerst de drie manieren lopen.',
     lockNotes: n => `Vul je schrift aan: nog ${n === 1 ? '1 getal' : n + ' getallen'}.`,
