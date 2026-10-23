@@ -736,7 +736,7 @@
     const miss = lab.state.showMissing && !v;
     const list = kind === 'res' ? state.order.res : state.order.forms;
     const name = x => (kind === 'res' ? LABELS.resources[x] : LABELS.forms[x]);
-    return `<select class="gr-select ${v ? 'is-filled' : ''} ${miss ? 'lab-is-missing' : ''}" data-card="${p}|${kind}" aria-label="${escapeHtml(LABELS.slotLabel(label, plantName(p)))}">` +
+    return `<select class="lab-select gr-select ${v ? 'is-filled' : ''} ${miss ? 'lab-is-missing' : ''}" data-card="${p}|${kind}" aria-label="${escapeHtml(LABELS.slotLabel(label, plantName(p)))}">` +
       `<option value="" disabled ${v ? '' : 'selected'}>${LABELS.choose}</option>` +
       list.map(x => `<option value="${x}" ${v === x ? 'selected' : ''}>${name(x)}</option>`).join('') + `</select>`;
   }

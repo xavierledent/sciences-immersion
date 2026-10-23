@@ -373,70 +373,7 @@ html[data-pointer='fine'] .gr-tab:not(.is-on):not(.lab-is-locked):hover,
   border-color: #d64545;
 }
 
-/* La liste ouverte aux couleurs du site (Chrome récent : appearance:
-   base-select) : coins arrondis, police du site, choix surligné. Ailleurs,
-   la liste du système. */
-@supports (appearance: base-select) {
-  .gr-select,
-  .gr-select::picker(select) {
-    appearance: base-select;
-  }
-
-  .gr-select {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    padding: 0 10px;
-  }
-
-  .gr-select::picker-icon {
-    color: var(--color-current);
-    transition: rotate 0.2s ease;
-  }
-
-  .gr-select:open::picker-icon {
-    rotate: 180deg;
-  }
-
-  .gr-select::picker(select) {
-    margin-top: 4px;
-    padding: 5px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(var(--color-current-rgb), 0.35);
-    background: #ffffff;
-    box-shadow: 0 12px 28px rgba(17, 36, 72, 0.2);
-  }
-
-  .gr-select option {
-    padding: 7px 12px;
-    border-radius: 8px;
-    font-size: 0.84rem;
-    font-weight: 600;
-    color: var(--color-text);
-    cursor: pointer;
-  }
-
-  .gr-select option:hover,
-  .gr-select option:focus-visible {
-    outline: none;
-    background: rgba(var(--color-current-rgb), 0.1);
-  }
-
-  .gr-select option:checked {
-    background: rgba(var(--color-current-rgb), 0.18);
-    color: var(--color-current-darkest);
-  }
-
-  .gr-select option::checkmark {
-    display: none;
-  }
-
-  /* « — choose — » ne sert qu'à la case vide : pas dans la liste. */
-  .gr-select option[value=''] {
-    display: none;
-  }
-}
+/* La liste ouverte : style commun de .lab-select (lab-engine.css). */
 
 /* La chaîne d'énergie, en colonne comme un diagramme de flux : objets dans
    des ovales, formes d'énergie dans des cases, reliés par des flèches. Sept

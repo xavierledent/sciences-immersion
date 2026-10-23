@@ -186,6 +186,13 @@ Règles qui font l'harmonie du site :
   et souris au même niveau ; tailles mesurées en JS. Design sobre : pas
   d'emoji ni d'icône décorative, couleurs du site (`--color-current` pour un
   choix sélectionné, `--color-rose` pour une erreur).
+- **Listes déroulantes** : tout `<select>` porte la classe `lab-select` (en
+  plus de la sienne) : lab-engine.css habille la liste ouverte aux couleurs
+  du site ; la classe du labo ne règle que la case fermée. Première option
+  `<option value="" disabled selected>` pour « — choose — » (cachée dans la
+  liste ouverte). Une liste au milieu d'une phrase est plus haute que la
+  ligne : interligne d'au moins 2,6 et `vertical-align: middle`, sinon deux
+  listes de lignes voisines se chevauchent.
 
 ### Les textes
 
