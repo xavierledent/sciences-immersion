@@ -50,11 +50,13 @@
       "labs": {
         "en": [
           { "id": "energy", "file": "lab-energy", "title": "The energy test bench", "question": "Where does the energy go when a lamp shines?", "text": "Turn the crank of a dynamo to light two different lamps. Measure the energy everywhere on the bench and find out where it goes." },
-          { "id": "grid", "file": "lab-grid", "title": "Keep the lights on", "question": "Can wind and sun alone give Belgium electricity all day long?", "text": "Run the control room of Belgium for one day. Switch on power plants, watch the weather and the city, and avoid a blackout." }
+          { "id": "grid", "file": "lab-grid", "title": "Keep the lights on", "question": "Can wind and sun alone give Belgium electricity all day long?", "text": "Run the control room of Belgium for one day. Switch on power plants, watch the weather and the city, and avoid a blackout." },
+          { "id": "home", "file": "lab-home", "title": "Energy detectives at home", "question": "Where is energy stored, transformed and wasted in a house?", "text": "Investigate a house with a thermal camera and a power meter. Find the energy storages, the devices that get warm, and the most powerful device." }
         ],
         "nl": [
           { "id": "energy", "file": "lab-energy", "title": "De energietestbank", "question": "Waar blijft de energie als een lamp brandt?", "text": "Draai aan de slinger van een dynamo om twee verschillende lampen te laten branden. Meet overal op de testbank de energie en ontdek waar ze naartoe gaat." },
-          { "id": "grid", "file": "lab-grid", "title": "Hou de lichten aan", "question": "Kunnen wind en zon alleen België de hele dag elektriciteit geven?", "text": "Bedien een dag lang de controlekamer van België. Zet centrales aan, volg het weer en de stad, en vermijd een stroompanne." }
+          { "id": "grid", "file": "lab-grid", "title": "Hou de lichten aan", "question": "Kunnen wind en zon alleen België de hele dag elektriciteit geven?", "text": "Bedien een dag lang de controlekamer van België. Zet centrales aan, volg het weer en de stad, en vermijd een stroompanne." },
+          { "id": "home", "file": "lab-home", "title": "Energiespeurders in huis", "question": "Waar wordt energie in een huis opgeslagen, omgezet en verloren?", "text": "Onderzoek een huis met een warmtecamera en een vermogensmeter. Zoek de energieopslag, de toestellen die warm worden, en het krachtigste toestel." }
         ]
       }
     },

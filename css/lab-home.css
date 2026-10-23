@@ -1,0 +1,809 @@
+/* ===== Labo virtuel « Energy detectives at home » (phys1) =====
+   Ce qui est propre à ce labo : hypothèses, la maison et ses objets, les
+   deux outils (caméra thermique, wattmètre) et leur écran, le carnet,
+   conclusion, correction. Le cadre commun (modale, étapes, boutons,
+   tableaux, rapport) est dans lab-engine.css. Classes préfixées hm- (home).
+   Tout tient dans le corps du labo (1204 × 594 sur le Chromebook à 100 %)
+   sans défilement. */
+
+/* ===== Commun aux étapes ===== */
+.hm-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+  text-align: left;
+}
+
+.hm-questions {
+  margin: 0;
+  padding-left: 1.3em;
+  text-align: left;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.hm-questions li + li {
+  margin-top: 2px;
+}
+
+.hm-num {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-current);
+  color: var(--color-current-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.hm-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+}
+
+.hm-icon.is-big {
+  width: 40px;
+  height: 40px;
+}
+
+.hm-icon.is-huge {
+  width: 64px;
+  height: 64px;
+}
+
+.hm-hint {
+  font-size: 0.8em;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.hm-ok { color: var(--color-emerald); font-weight: 600; }
+.hm-ko { color: var(--color-rose); font-weight: 600; }
+.hm-muted { color: var(--color-muted); }
+
+.hm-caption.is-warning {
+  background: #fff1f0;
+  color: #9f2c2c;
+}
+
+/* Le texte du labo est aligné à gauche (style.css justifie les paragraphes). */
+.hm-predict p,
+.hm-run p,
+.hm-conclude p,
+.hm-check p {
+  text-align: left;
+}
+
+.hm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px 0 8px;
+  font-size: 0.82rem;
+}
+
+.hm-chip .hm-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.hm-chip.is-small {
+  height: 30px;
+  padding: 0 10px;
+  font-size: 0.76rem;
+}
+
+/* ===== Étape 1 : hypothèses ===== */
+.hm-predict {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: min(980px, 100%);
+  margin: 0 auto;
+}
+
+.hm-question-card,
+.hm-hyp-card {
+  padding: 12px 22px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.3);
+  background: #ffffff;
+}
+
+.hm-question-card {
+  background: rgba(var(--color-current-rgb), 0.08);
+  border-color: transparent;
+}
+
+.hm-intro {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 0;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+}
+
+.hm-intro .hm-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.hm-hyp {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 6px;
+  padding: 5px 10px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+}
+
+.hm-hyp > .hm-num {
+  margin-top: 2px;
+}
+
+.hm-sentence {
+  margin: 2px 0 6px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.hm-because {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+
+.hm-because span {
+  flex: 0 0 auto;
+}
+
+.hm-because .lab-input {
+  flex: 1;
+  width: auto;
+  height: 36px;
+}
+
+/* ===== Étape 2 : l'enquête ===== */
+.hm-run {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 760px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.hm-main {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hm-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hm-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px 0 6px;
+  border-radius: 12px;
+  border: 1.5px solid var(--color-current-dark);
+  background: #ffffff;
+  color: var(--color-current-darkest);
+  font-size: 0.84rem;
+  font-weight: 700;
+  touch-action: none;
+}
+
+.hm-tool .hm-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.hm-tool:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.35);
+}
+
+.hm-tools-hint {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.76rem;
+  line-height: 1.3;
+  color: var(--color-muted);
+}
+
+.hm-ghost {
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 6px 12px rgba(17, 36, 72, 0.3));
+}
+
+.hm-ghost .hm-icon.is-big {
+  width: 54px;
+  height: 54px;
+}
+
+/* La maison : taille fixe en px, mêmes coordonnées que son dessin */
+.hm-board {
+  position: relative;
+  flex: 0 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.hm-house {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hm-room {
+  font-size: 13px;
+  font-weight: 700;
+  fill: #6b5a48;
+}
+
+.hm-obj {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 2px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--color-text);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.hm-obj-name {
+  max-width: 100%;
+}
+
+.hm-obj-marks {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  gap: 1px;
+}
+
+.hm-icon.is-mark {
+  width: 14px;
+  height: 14px;
+}
+
+.hm-obj.is-shown {
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.14);
+}
+
+.hm-obj.is-drop-ready {
+  border-color: rgba(var(--color-current-rgb), 0.7);
+  border-style: dashed;
+}
+
+html[data-pointer='fine'] .hm-obj:hover,
+.hm-obj:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.6);
+  outline: none;
+}
+
+/* --- L'écran de l'outil et le carnet (à droite) --- */
+.hm-side {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.hm-screen {
+  min-height: 196px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.25);
+  background: #ffffff;
+}
+
+.hm-screen-empty {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+
+.hm-screen-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  font-size: 0.88rem;
+}
+
+.hm-screen-kind {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(var(--color-current-rgb), 0.12);
+  color: var(--color-current-darker);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.hm-clue {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.hm-thermal {
+  max-width: 330px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.hm-th-max {
+  font-size: 15px;
+  font-weight: 800;
+  fill: #ffffff;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 2px;
+}
+
+.hm-th-room {
+  font-size: 10px;
+  font-weight: 600;
+  fill: #ffffff;
+}
+
+.hm-th-tick {
+  font-size: 8.5px;
+  fill: #ffffff;
+}
+
+.hm-meter {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 4px 12px;
+}
+
+.hm-lcd {
+  justify-self: start;
+  min-width: 130px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #203040;
+  color: #7cfc9a;
+  font-family: ui-monospace, 'Courier New', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.hm-lcd.is-off {
+  color: #6b7f93;
+}
+
+.hm-meter-text {
+  grid-column: 1 / -1;
+  margin: 2px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.hm-notebook .lab-panel-title {
+  margin: 0 0 4px;
+}
+
+.hm-nb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.hm-nb-table th,
+.hm-nb-table td {
+  padding: 2px 4px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.06);
+  text-align: left;
+}
+
+.hm-nb-table thead th {
+  font-size: 0.7rem;
+  color: var(--color-current-darkest);
+}
+
+.hm-nb-table td.lab-is-missing {
+  border: 1.5px solid #d64545;
+}
+
+.hm-nb-obj {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.hm-nb-obj .hm-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.hm-watt {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hm-num-input {
+  width: 54px;
+  height: 28px;
+  padding: 0 2px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.hm-num-input:focus {
+  outline: none;
+  border-color: var(--color-current);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+}
+
+.hm-num-input.is-invalid {
+  border-color: #d64545;
+  background: #fff1f0;
+}
+
+.hm-noplug {
+  height: 28px;
+  padding: 0 7px;
+  font-size: 0.7rem;
+}
+
+/* ===== Étape 3 : conclusion ===== */
+.hm-conclude {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.hm-results {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.hm-results .lab-panel-title {
+  margin: 0;
+}
+
+.hm-recap td,
+.hm-recap tbody th {
+  height: 34px;
+  font-size: 0.78rem;
+}
+
+.hm-recap tbody th {
+  text-align: left;
+}
+
+.hm-recap-room {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+.hm-form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.hm-q {
+  padding: 7px 12px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+  text-align: left;
+}
+
+.hm-q-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 5px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.hm-codes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 14px;
+}
+
+.hm-code {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 0.78rem;
+}
+
+.hm-concl-line {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 2;
+}
+
+.hm-select {
+  height: 30px;
+  max-width: 100%;
+  margin: 0 2px;
+  border-style: dashed;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.hm-select.is-filled {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+  color: var(--color-current-darkest);
+}
+
+.hm-select.lab-is-missing {
+  border-color: #d64545;
+}
+
+.hm-verdicts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+
+.hm-verdict {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hm-verdict-text {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* ===== Étape 4 : correction ===== */
+.hm-check {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.hm-check-left {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hm-crit-list {
+  display: grid;
+  gap: 6px;
+}
+
+.hm-crit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #ffffff;
+  color: var(--color-text);
+  text-align: left;
+  box-shadow: inset 4px 0 0 var(--hm-crit-accent, transparent);
+}
+
+.hm-crit.is-ok { --hm-crit-accent: var(--color-emerald); background: rgba(12, 163, 127, 0.06); }
+.hm-crit.is-ko { --hm-crit-accent: var(--color-rose); background: rgba(212, 82, 122, 0.07); }
+
+.hm-crit.is-selected {
+  border-color: var(--color-current);
+}
+
+html[data-pointer='fine'] .hm-crit:not(.is-selected):hover,
+.hm-crit:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.5);
+  outline: none;
+}
+
+.hm-crit-text strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.hm-crit-text small {
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.hm-crit-mark {
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.is-ok .hm-crit-mark { color: var(--color-emerald); }
+.is-ko .hm-crit-mark { color: var(--color-rose); }
+
+.hm-reminder {
+  margin-top: auto;
+  padding: 8px 14px;
+  border-left: 3px solid var(--color-current);
+  border-radius: 0 12px 12px 0;
+  background: rgba(var(--color-current-rgb), 0.08);
+}
+
+.hm-reminder .hm-questions {
+  font-size: 0.78rem;
+}
+
+.hm-check-detail {
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #fbfaf7;
+  text-align: left;
+}
+
+.hm-check-detail h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.hm-check-detail p {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.hm-check-detail .hm-q-head {
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.hm-check-detail ol {
+  margin: 0 0 8px;
+  padding-left: 1.3em;
+  font-size: 0.84rem;
+}
+
+.hm-facts {
+  width: auto;
+  margin-bottom: 8px;
+  background: #ffffff;
+}
+
+.hm-facts th,
+.hm-facts td {
+  font-size: 0.78rem;
+}
+
+.hm-misslist,
+.hm-plainlist {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.hm-misslist li {
+  padding-left: 12px;
+  border-left: 3px solid var(--color-rose);
+}
+
+.hm-plainlist li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 10px;
+  border-left: 3px solid var(--color-emerald);
+}
+
+/* ===== Écrans plus étroits ===== */
+@media (max-width: 760px) {
+  .hm-run,
+  .hm-conclude,
+  .hm-check { grid-template-columns: 1fr; height: auto; }
+  .hm-tools { flex-wrap: wrap; }
+  .hm-codes { grid-template-columns: 1fr; }
+}
+
+/* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */
+.lab-doc .hm-report-table {
+  width: auto;
+  min-width: 90mm;
+  margin-bottom: 8px;
+}
+
+.lab-doc .hm-report-table caption {
+  padding-bottom: 2px;
+  font-size: 8.5pt;
+  color: #5d728f;
+  text-align: left;
+}
+
+.lab-doc .hm-report-table th {
+  text-align: left;
+}
+
+.lab-doc .hm-report-corr {
+  width: auto;
+  min-width: 70mm;
+}
+
+.lab-doc .hm-report-corr th {
+  text-align: left;
+}
