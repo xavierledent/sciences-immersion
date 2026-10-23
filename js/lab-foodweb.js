@@ -333,70 +333,11 @@
   let shownIssues = null;
   const lastIssues = () => (issuesOn && shownIssues ? shownIssues : { rows: [], arrows: [], missing: [] });
 
-  /* ===== Dessins ===== */
-  const ICONS = {
-    oak: `<rect x="17" y="24" width="6" height="14" rx="1.5" fill="#8a5a3b"/><circle cx="12" cy="18" r="9" fill="#5c9a3c"/><circle cx="28" cy="18" r="9" fill="#5c9a3c"/>` +
-      `<circle cx="20" cy="11" r="10" fill="#6aab47"/><ellipse cx="30" cy="28" rx="2.8" ry="3.4" fill="#b07a3a"/><path d="M27.4,25.4 h5.2" stroke="#6e4a26" stroke-width="2.2" stroke-linecap="round"/>`,
-    grass: `<path d="M7,38 C8,28 6,21 3,15 M13,38 C13,27 15,19 18,11 M20,38 C20,30 22,22 28,15 M26,38 C27,31 30,26 35,22 M32,38 C32,33 33,29 37,27" stroke="#4f9a3a" stroke-width="3" fill="none" stroke-linecap="round"/>`,
-    bramble: `<path d="M4,37 C8,18 22,9 37,19" stroke="#7a4a5a" stroke-width="2.4" fill="none" stroke-linecap="round"/>` +
-      `<ellipse cx="13" cy="21" rx="6" ry="3.4" fill="#4f8f3a" transform="rotate(-35 13 21)"/><ellipse cx="26" cy="12" rx="6" ry="3.4" fill="#4f8f3a" transform="rotate(8 26 12)"/>` +
-      `<g fill="#3b2140">${[[30, 25], [33.5, 27], [30.5, 29], [33, 31], [19, 27], [22, 29], [19.5, 30.5]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2"/>`).join('')}</g>`,
-    rabbit: `<ellipse cx="23" cy="29" rx="11" ry="7.5" fill="#a58d74"/><circle cx="13" cy="23" r="6" fill="#a58d74"/>` +
-      `<ellipse cx="10.5" cy="11" rx="2.4" ry="7" fill="#a58d74"/><ellipse cx="15.5" cy="11" rx="2.4" ry="7" fill="#a58d74" transform="rotate(14 15.5 11)"/>` +
-      `<ellipse cx="10.5" cy="11" rx="1" ry="5" fill="#e3c9c0"/><circle cx="34" cy="27" r="3" fill="#f2ede6"/><circle cx="11" cy="22" r="1.2" fill="#2b2b2b"/><ellipse cx="17" cy="35.5" rx="4" ry="2" fill="#97806a"/>`,
-    mouse: `<path d="M31,29 C38,30 38,37 30,37" stroke="#8a6a4c" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="28" rx="10" ry="6.5" fill="#9b7653"/>` +
-      `<circle cx="12.5" cy="25" r="5.2" fill="#9b7653"/><circle cx="13" cy="18.5" r="3.8" fill="#9b7653"/><circle cx="13" cy="18.5" r="2.4" fill="#d9a99a"/>` +
-      `<circle cx="10.6" cy="24" r="1.1" fill="#222"/><circle cx="7.6" cy="26.4" r="0.9" fill="#4a3426"/>`,
-    deer: `<ellipse cx="23" cy="22" rx="11" ry="6" fill="#a8723f"/>` +
-      [14, 19, 26, 31].map(x => `<rect x="${x}" y="25" width="2.4" height="13" rx="1" fill="#8a5a30"/>`).join('') +
-      `<path d="M12.6,21 L8.6,10 L12.6,9 L16.2,19.6 Z" fill="#a8723f"/><ellipse cx="9" cy="10" rx="4.2" ry="3" fill="#a8723f"/>` +
-      `<path d="M10,7 L8.6,1.6 M10,7 L13.4,2.4 M8.9,3.6 L6.2,2.4" stroke="#6e4a26" stroke-width="1.4" stroke-linecap="round"/><circle cx="7.6" cy="9.4" r="0.9" fill="#222"/><circle cx="34" cy="19" r="2.2" fill="#f2ede6"/>`,
-    caterpillar: [[8, 27], [14, 25], [20, 27], [26, 25], [32, 23]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" fill="#7cb342"/>`).join('') +
-      `<circle cx="33" cy="19" r="5.4" fill="#5d9a2d"/><circle cx="35" cy="17.6" r="1.1" fill="#1f2a1a"/><path d="M33,14 L32,10 M35.5,14.2 L37,10.4" stroke="#3f6b1d" stroke-width="1.2" stroke-linecap="round"/>`,
-    squirrel: `<path d="M25,35 C38,33 39,14 31,8 C27,5 22,8 25,13 C30,18 31,26 24,29 Z" fill="#c4622d"/><ellipse cx="18.5" cy="28" rx="7" ry="7.4" fill="#d07436"/>` +
-      `<circle cx="13.5" cy="18.5" r="5.2" fill="#d07436"/><path d="M11.4,14.6 L12.6,9.4 L16,14 Z" fill="#d07436"/><circle cx="11.8" cy="18" r="1" fill="#222"/>` +
-      `<ellipse cx="12.4" cy="27" rx="2.6" ry="3.2" fill="#b07a3a"/><ellipse cx="15" cy="35.4" rx="4" ry="2" fill="#b85a28"/>`,
-    bluetit: `<path d="M26,23 C33,22 37,27 35,31 C31,31 27,28 26,23 Z" fill="#5b8fb0"/><ellipse cx="20" cy="24" rx="11" ry="9.4" fill="#f2d24b"/>` +
-      `<path d="M10.6,19 C13,9 27,9 30,18 Z" fill="#3b82c4"/><path d="M11,21 C14,19 20,19 22,22 C18,24 13,24 11,21 Z" fill="#ffffff"/>` +
-      `<circle cx="15.6" cy="20.6" r="1.3" fill="#1f2a37"/><path d="M8,21 L11.4,19.8 L11.4,22.4 Z" fill="#3a3a3a"/><path d="M18,33 v4.4 M23,33 v4.4" stroke="#7a6a5a" stroke-width="1.4" stroke-linecap="round"/>`,
-    fox: `<path d="M30,25 C38,22 40,31 35,35 C31,34 29,30 30,25 Z" fill="#e07b2a"/><circle cx="35.6" cy="33.4" r="2.3" fill="#ffffff"/>` +
-      `<ellipse cx="22" cy="27" rx="10" ry="6" fill="#e07b2a"/>` + [15, 19, 25, 29].map(x => `<rect x="${x}" y="30" width="2.2" height="8" rx="1" fill="#5a3418"/>`).join('') +
-      `<path d="M5,20 L11,13 L13,6 L16.4,12.6 L19.6,11.4 L18.4,22 C14,25 9,24 5,20 Z" fill="#e07b2a"/><path d="M5,20 C9,24 14,25 18.4,22 L12,21 Z" fill="#ffffff"/>` +
-      `<circle cx="13" cy="16.4" r="1.1" fill="#222"/><circle cx="4.8" cy="19.8" r="1.2" fill="#222"/>`,
-    owl: `<path d="M9,10 L12,4 L15,10 Z M25,10 L28,4 L31,10 Z" fill="#7a5a3e"/><ellipse cx="20" cy="22" rx="12" ry="14" fill="#8d6748"/><ellipse cx="20" cy="27" rx="7" ry="8.4" fill="#b89474"/>` +
-      `<circle cx="15" cy="16" r="4.8" fill="#f3e3c8"/><circle cx="25" cy="16" r="4.8" fill="#f3e3c8"/><circle cx="15" cy="16" r="2.1" fill="#1f1a15"/><circle cx="25" cy="16" r="2.1" fill="#1f1a15"/>` +
-      `<path d="M20,19 L18.4,22.4 L21.6,22.4 Z" fill="#e0a73a"/>`,
-    buzzard: `<path d="M20,18 C14,9 6,9 1,14 C8,15 12,19 16,24 Z" fill="#7a5532"/><path d="M20,18 C26,9 34,9 39,14 C32,15 28,19 24,24 Z" fill="#7a5532"/>` +
-      `<path d="M17,31 L20,38 L23,31 Z" fill="#7a5532"/><ellipse cx="20" cy="23" rx="5" ry="9.4" fill="#8f6a44"/><ellipse cx="20" cy="25.4" rx="3" ry="5" fill="#d9c3a3"/>` +
-      `<circle cx="20" cy="13.6" r="3.8" fill="#8f6a44"/><path d="M20,15 L18.4,18 L21.2,17.2 Z" fill="#e0a73a"/>`,
-    beech: `<rect x="17.5" y="22" width="5" height="16" rx="1.5" fill="#8d8d8d"/><ellipse cx="20" cy="15" rx="15.5" ry="12" fill="#7aa83c"/>` +
-      `<ellipse cx="19" cy="11" rx="10" ry="7" fill="#8cbb4a"/><path d="M29,25 L33,30 L28.4,31 Z" fill="#9a6b3e"/>`,
-    hazel: `<path d="M12,38 L16,22 M20,38 L20,19 M28,38 L24,22" stroke="#8a5a3b" stroke-width="2.4" stroke-linecap="round"/>` +
-      `<circle cx="12" cy="17" r="8" fill="#6aab47"/><circle cx="28" cy="17" r="8" fill="#6aab47"/><circle cx="20" cy="11" r="9" fill="#7cbb52"/>` +
-      `<circle cx="26" cy="26" r="3" fill="#b07a3a"/><circle cx="31.4" cy="24" r="2.6" fill="#b07a3a"/>`,
-    boar: [12, 17, 27, 32].map(x => `<rect x="${x}" y="28" width="2.6" height="9" rx="1" fill="#3b2c22"/>`).join('') +
-      `<ellipse cx="22" cy="24" rx="13" ry="8.5" fill="#5a4636"/><path d="M14,16 C20,13 28,13 33,17" stroke="#3b2c22" stroke-width="2.2" fill="none"/>` +
-      `<path d="M10,19 L3,23 L4,28 L11,29 Z" fill="#5a4636"/><ellipse cx="3.6" cy="25.6" rx="1.6" ry="2.2" fill="#3b2c22"/>` +
-      `<path d="M6,28 q1,3.4 3.6,2" stroke="#f2ede6" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M12,16 L14,11 L16.6,16 Z" fill="#5a4636"/><circle cx="9.6" cy="21.4" r="1" fill="#e8d9c0"/>`,
-    snail: `<path d="M3,33 H30 C34,33 36,31 37,27" stroke="#b9a07a" stroke-width="4.4" fill="none" stroke-linecap="round"/>` +
-      `<path d="M36,26 L38,19 M33.4,26.4 L32,19.6" stroke="#8a7a5a" stroke-width="1.4" stroke-linecap="round"/><circle cx="38" cy="18.4" r="1.2" fill="#5a4a3a"/>` +
-      `<circle cx="18" cy="20" r="11" fill="#c08a5a" stroke="#8a5a30" stroke-width="1.4"/>` +
-      `<path d="M18,20 m0,-6 a6,6 0 1 1 -6,6 a3.6,3.6 0 1 1 3.6,3.6" fill="none" stroke="#8a5a30" stroke-width="1.6"/>`,
-    wolf: `<path d="M30,23 C38,20 40,29 35,34 C31,33 29,28 30,23 Z" fill="#7d858f"/>` +
-      `<ellipse cx="22" cy="26" rx="10.5" ry="6.4" fill="#8e96a0"/>` + [14, 18.6, 25, 29.4].map(x => `<rect x="${x}" y="29" width="2.4" height="9" rx="1" fill="#5d646c"/>`).join('') +
-      `<path d="M4,21 L11,13 L12,5 L16,12 L19.4,10.6 L18.4,22 C14,25 8.6,24.6 4,21 Z" fill="#8e96a0"/><path d="M4,21 C8.6,24.6 14,25 18.4,22 L12,21 Z" fill="#dfe3e8"/>` +
-      `<circle cx="12.6" cy="15.6" r="1.1" fill="#222"/><circle cx="3.8" cy="20.8" r="1.2" fill="#222"/>`,
-    hedgehog: `<path d="M5,31 C5,16 30,11 35,27 L35,31 Z" fill="#6b4f36"/>` +
-      `<path d="M6,26 L4,21 L9,22 L8,16 L13,18 L14,12 L18,16 L21,10 L23,15 L27,11 L28,17 L32,15 L31,21 L35,21" fill="none" stroke="#4a3626" stroke-width="1.6" stroke-linejoin="round"/>` +
-      `<path d="M28,24 C33,23 37,26 39,30 L30,32 Z" fill="#d9b98f"/><circle cx="38.6" cy="29.8" r="1.3" fill="#222"/><circle cx="33" cy="26.4" r="1" fill="#222"/>` +
-      `<path d="M12,31 v4 M18,31 v4 M26,31 v4" stroke="#4a3626" stroke-width="2" stroke-linecap="round"/>`,
-    marten: `<path d="M28,24 C36,21 40,30 34,35 C31,33 29,29 28,24 Z" fill="#5e3f26"/><ellipse cx="19" cy="25" rx="11" ry="5.4" fill="#7a5233"/>` +
-      [12, 16, 23, 27].map(x => `<rect x="${x}" y="28" width="2.2" height="8" rx="1" fill="#5e3f26"/>`).join('') +
-      `<ellipse cx="9" cy="21" rx="5.6" ry="4.6" fill="#7a5233"/><path d="M5,23 q3,3.4 7.4,1.2 l-0.6,3.4 q-4.4,1.4 -6.8,-1.4 Z" fill="#f2d48a"/>` +
-      `<path d="M6,17.4 L7,13.6 L9.4,17 M11,17 L12.4,13.4 L14,17.4" fill="#7a5233" stroke="#7a5233" stroke-width="1.2"/><circle cx="7" cy="20" r="0.9" fill="#222"/><circle cx="3.6" cy="22" r="1" fill="#222"/>`
-  };
-
-  const icon = (sp, cls) => `<svg class="fw-icon ${cls || ''}" viewBox="0 0 40 40" aria-hidden="true" focusable="false">${ICONS[sp]}</svg>`;
+  /* ===== Dessins =====
+     Les êtres vivants : illustrations Gemini, fond transparent
+     (assets/lab-fw-<espèce>.png, dans chaque filière, 96 × 96). */
+  const iconSrc = sp => `assets/lab-fw-${sp}.png`;
+  const icon = (sp, cls) => `<img class="fw-icon ${cls || ''}" src="${iconSrc(sp)}" alt="" draggable="false">`;
 
   // Allure d'une courbe (vignette) : monte, pareil, baisse, disparaît.
   const TREND_PATHS = {
@@ -521,9 +462,14 @@
       : [['sick', run.sp.sick, run.chain.sick], ['pred', run.sp.pred, run.chain.pred]];
   }
 
+  // o.zoomEach (étape 2, courbes dessinées) : chaque graphique s'agrandit au toucher.
   function panelsHTML(test, o) {
-    return `<div class="fw-panels is-test${test}">` + panelsOf(test).map(([role, sp, values], k) =>
-      panelSVG(sp, o.values === false ? null : values, role, Object.assign({}, o, { uid: `${o.uid}${test}${k}` }))).join('') + `</div>`;
+    return `<div class="fw-panels is-test${test}">` + panelsOf(test).map(([role, sp, values], k) => {
+      const svg = panelSVG(sp, o.values === false ? null : values, role, Object.assign({}, o, { uid: `${o.uid}${test}${k}` }));
+      return o.zoomEach
+        ? `<button type="button" class="fw-panel-zoom" data-zoom-panel="${test}|${k}" data-lab-look aria-label="${escapeHtml(LABELS.zoomOne(LABELS.graphTitle(many(sp))))}">${svg}${LOUPE}</button>`
+        : svg;
+    }).join('') + `</div>`;
   }
 
   // Valeur d'un point au toucher (conclusion, correction).
@@ -820,7 +766,7 @@
     renderExperiment();
     // Sur le modèle : les cartes bien rangées s'allument en vert, les autres tremblent.
     const token = sp => $(`.fw-slot [data-token="${sp}"]`);
-    flash(run.species.filter(sp => m.pos[sp] && !wrong.includes(sp)).map(token), 'lab-flash-ok', 900);
+    flash(run.species.filter(sp => m.pos[sp] && !wrong.includes(sp)).map(token), 'lab-flash-ok', 1400);
     flash(wrong.map(token), 'lab-shake-wrong', 600);
     if (m.rowsOk) setCaption(LABELS.captionRowsOk);
     lab.save();
@@ -909,11 +855,10 @@
       : `<p class="fw-banner fw-chain">${[run.sp.food, run.sp.sick, run.sp.pred].map((sp, k) =>
         `<span class="fw-chain-item ${k === 1 ? 'is-sick' : ''}">${icon(sp)}<span>${LABELS.species[sp].short}</span></span>`).join('<span class="fw-chain-arrow" aria-hidden="true">→</span>')}` +
         `<span class="fw-chain-text">${gloss(LABELS.banner2(many(run.sp.sick)))}</span></p>`;
-    // Courbes dessinées : les graphiques s'agrandissent au toucher.
+    // Courbes dessinées : chaque graphique s'agrandit au toucher.
     const zoomable = ran && !running;
     return strip +
-      `<div class="lab-scene-wrap fw-stage ${zoomable ? 'is-zoomable' : ''}"${zoomable ? ` data-zoom="${t}" data-lab-look role="button" tabindex="0" aria-label="${escapeHtml(LABELS.zoom(LABELS.testTitle[t]))}"` : ''}>` +
-      `${panelsHTML(t, { uid: 'live', mode: 'live', reveal: zoomable ? null : 0, values: ran || running })}${zoomable ? LOUPE : ''}</div>` +
+      `<div class="lab-scene-wrap fw-stage">${panelsHTML(t, { uid: 'live', mode: 'live', reveal: zoomable ? null : 0, values: ran || running, zoomEach: zoomable })}</div>` +
       `<div class="fw-controls"><p class="lab-caption fw-caption" data-caption aria-live="polite"></p>` +
       `<button type="button" class="lab-btn lab-btn-primary fw-runbtn" data-run>${ran ? `↻ ${LABELS.runAgain}` : `▶ ${LABELS.runModel}`}</button></div>`;
   }
@@ -1129,19 +1074,22 @@
   const LOUPE = '<svg class="fw-loupe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2.2"/>' +
     '<path d="M15 15 L20.5 20.5 M8 10.5 H13 M10.5 8 V13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
 
-  // Étape 2 (courbes dessinées) et étape 3 : le test en grand, valeur d'un
-  // point au toucher.
+  /* Agrandir : à l'étape 3, un test entier, valeur d'un point au toucher ;
+     à l'étape 2, un seul graphique, très grand, pour bien lire le
+     quadrillage (sans valeur au toucher : l'élève lit lui-même). */
   function bindZoom() {
-    $$('[data-zoom]').forEach(b => {
-      const open = () => {
-        const t = Number(b.dataset.zoom);
-        lab.openSheet(`<h3 class="lab-sheet-title">${LABELS.testTitle[t]}</h3><div class="fw-zoom-view">${panelsHTML(t, { uid: `z${t}`, mode: 'read' })}</div>` +
-          `<p class="lab-sheet-intro">${LABELS.tapPoint}</p>`, LABELS.testTitle[t]);
-        bindPoints();
-      };
-      b.addEventListener('click', open);
-      if (b.tagName !== 'BUTTON') b.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
-    });
+    $$('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+      const t = Number(b.dataset.zoom);
+      lab.openSheet(`<h3 class="lab-sheet-title">${LABELS.testTitle[t]}</h3><div class="fw-zoom-view">${panelsHTML(t, { uid: `z${t}`, mode: 'read' })}</div>` +
+        `<p class="lab-sheet-intro">${LABELS.tapPoint}</p>`, LABELS.testTitle[t]);
+      bindPoints();
+    }));
+    $$('[data-zoom-panel]').forEach(b => b.addEventListener('click', () => {
+      const [t, k] = b.dataset.zoomPanel.split('|').map(Number);
+      const [role, sp, values] = panelsOf(t)[k];
+      lab.openSheet(`<h3 class="lab-sheet-title">${LABELS.testTitle[t]}</h3>` +
+        `<div class="fw-zoom-one">${panelSVG(sp, values, role, { uid: 'zone', mode: 'print' })}</div>`, LABELS.graphTitle(many(sp)));
+    }));
   }
 
   function renderConclude() {
@@ -1344,7 +1292,7 @@
       if (!pos[sp]) return;
       const x = slotX(pos[sp].col), y = TOKEN_Y[pos[sp].row];
       out += `<rect x="${x}" y="${y}" width="${TOKEN_W}" height="${TOKEN_H}" rx="10" fill="#ffffff" stroke="#8d97a3" stroke-width="1.4"/>` +
-        `<g transform="translate(${x + 8} ${y + 11}) scale(0.9)">${ICONS[sp]}</g>` +
+        `<image href="${iconSrc(sp)}" x="${x + 7}" y="${y + 11}" width="36" height="36"/>` +
         `<text x="${x + 50}" y="${y + 34}" class="fw-web-name">${escapeHtml(LABELS.species[sp].name)}</text>`;
     });
     return `<svg class="fw-report-web" viewBox="0 0 ${BOARD_W} ${BOARD_H}" role="img" aria-label="${escapeHtml(LABELS.webTitle)}">${out}</svg>`;

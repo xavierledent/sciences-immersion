@@ -951,18 +951,36 @@ html[data-pointer='fine'] .fw-zoom:hover {
   border-color: var(--color-current);
 }
 
-/* Étape 2 : les graphiques du test, une fois les courbes dessinées. */
-.fw-stage.is-zoomable {
+/* Étape 2 : chaque graphique, une fois les courbes dessinées, s'agrandit. */
+.fw-panel-zoom {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: none;
   cursor: zoom-in;
 }
 
-.fw-stage.is-zoomable:focus-visible {
+.fw-panel-zoom:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.35);
 }
 
-html[data-pointer='fine'] .fw-stage.is-zoomable:hover {
+html[data-pointer='fine'] .fw-panel-zoom:hover .fw-panel {
   border-color: var(--color-current);
+}
+
+/* Un graphique seul, en grand : aussi large que possible sans défilement. */
+.lab-sheet-card:has(.fw-zoom-one) {
+  width: min(1100px, 100%);
+}
+
+.fw-zoom-one .fw-panel {
+  display: block;
+  width: min(100%, calc((100dvh - 200px) * 2));
+  margin: 0 auto;
 }
 
 /* La loupe, en haut à droite de ce qui s'agrandit */
@@ -1047,23 +1065,29 @@ html[data-pointer='fine'] .fw-stage.is-zoomable:hover {
   border-color: #d64545;
 }
 
+/* Deux colonnes de jugements : les boutons juste après l'être vivant
+   (pas au bout de la ligne), alignés d'une rangée à l'autre. */
 .fw-verdict-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 14px;
+  grid-template-columns: minmax(0, max-content) max-content minmax(0, max-content) max-content;
+  justify-content: start;
+  align-items: center;
+  gap: 6px 12px;
 }
 
 .fw-verdict {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
+  display: contents;
+}
+
+.fw-verdict:nth-child(even) .fw-verdict-text {
+  padding-left: 22px;
 }
 
 .fw-verdict-text {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 2px 6px;
   min-width: 0;
   font-size: 0.78rem;
   font-weight: 700;

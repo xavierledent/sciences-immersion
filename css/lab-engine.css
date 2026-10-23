@@ -580,7 +580,7 @@ input.lab-is-locked {
 /* Retour d'une vérification (LabEngine.util.flash) : juste, un éclat vert ;
    faux, l'élément tremble, comme dans les jeux de la page Practice. */
 .lab-flash-ok {
-  animation: lab-flash-ok 0.9s ease;
+  animation: lab-flash-ok 1.35s ease;
 }
 
 @keyframes lab-flash-ok {
