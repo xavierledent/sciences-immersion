@@ -37,8 +37,11 @@ Chapitres : `bio1`, `chem1`, `phys1`, `chem2`, `phys2`, `bio2`. Tous ont leur
 vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
 `bio1`, `chem1`. Ailleurs, les tableaux sont vides (contenu pas encore rédigé).
 
-Labos virtuels (en anglais et en néerlandais) : `chem1` « Metal detectives » et
-« Under our feet » (composition du sol), `bio1` « The vanishing leaves » et
+Labos virtuels (en anglais et en néerlandais) : `chem1` « Metal detectives »,
+« Under our feet » (composition du sol) et « From the Earth and back » (cycle
+de vie d'un objet pendant une année scolaire : canettes, bouteilles ou
+T-shirts ; jeter, recycler, réutiliser ; quatre compteurs TAKING / GIVING
+BACK, graphique en colonnes ; expérience sur un modèle, partie du cours), `bio1` « The vanishing leaves » et
 « Inside two ecosystems » (mission 1 de la sortie de terrain : facteurs
 abiotiques, carré de comptage, histogramme FO5b) et « Pull one thread »
 (réseau trophique d'une forêt belge : construire le modèle à partir des
