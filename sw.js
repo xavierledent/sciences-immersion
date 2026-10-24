@@ -66,10 +66,16 @@ function cacheKey(request) {
   return url.toString();
 }
 
+/* « Réseau d'abord » doit vraiment demander au serveur : GitHub Pages
+   autorise le navigateur à garder un fichier 10 minutes (max-age=600), et
+   fetch() passe par ce cache. Juste après une mise en ligne, l'élève
+   recevrait encore l'ancien script, voire une page neuve avec un script
+   ancien. no-cache : le serveur est toujours consulté ; si rien n'a changé,
+   il répond « 304 », presque rien sur le wifi. */
 async function networkFirst(request) {
   const key = cacheKey(request);
   try {
-    const response = await fetch(request);
+    const response = await fetch(new Request(request, { cache: 'no-cache' }));
     if (response && response.ok) {
       const cache = await caches.open(CACHE_NAME);
       cache.put(key, response.clone());
