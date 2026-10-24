@@ -482,10 +482,9 @@
       record: function (name, data) {
         ready.then(function () {
           if (!cloud) return;
-          try {
-            countEvent(name, data);
-            journalAdd(journalEntry(name, data || {}));
-          } catch (e) { return; }
+          try { countEvent(name, data); } catch (e) { return; }
+          // Le journal à part : une erreur n'y change rien aux compteurs.
+          try { journalAdd(journalEntry(name, data || {})); } catch (e) { /* journal sans cette ligne */ }
           // Événement envoyé en quittant la page : ne pas attendre.
           if (document.visibilityState === 'hidden') flush();
         });
