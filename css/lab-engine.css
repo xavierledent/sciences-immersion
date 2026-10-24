@@ -716,7 +716,15 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
     padding: 0 10px;
   }
 
+  /* Le choix centré entre le bord gauche et la flèche, que Chrome colle
+     à droite (margin auto) : un vide élastique de chaque côté du texte. */
+  .lab-select::before {
+    content: '';
+    margin-inline-end: auto;
+  }
+
   .lab-select::picker-icon {
+    margin-inline-start: auto;
     color: var(--color-current);
     transition: rotate 0.2s ease;
   }
