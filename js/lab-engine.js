@@ -491,25 +491,11 @@
         fitFill(el);
       },
 
-      /* Liste au milieu d'une phrase : la case fermée (base-select) prend la
-         largeur du choix affiché, et la phrase bougerait à chaque choix.
-         Chaque liste de root reçoit la largeur de son choix le plus long, en
-         em (le zoom du grand écran ne fausse rien). À rappeler après chaque
-         rendu des listes. */
+      // Listes à largeur stable : le moteur le fait d'office pour toute liste
+      // dessinée (voir steadySelect) ; à appeler seulement si le labo change
+      // les choix d'une liste déjà affichée.
       steadySelects(root) {
-        (root || bodyEl).querySelectorAll('select.lab-select').forEach(sel => {
-          const index = sel.selectedIndex;
-          sel.style.width = '10em';
-          const em = sel.offsetWidth / 10;
-          sel.style.width = '';
-          let widest = 0;
-          for (let i = 0; i < sel.options.length; i++) {
-            sel.selectedIndex = i;
-            widest = Math.max(widest, sel.offsetWidth);
-          }
-          sel.selectedIndex = index;
-          if (em > 0 && widest > 0) sel.style.width = `${(widest / em + 0.1).toFixed(2)}em`;
-        });
+        (root || bodyEl).querySelectorAll('select.lab-select').forEach(steadySelect);
       },
 
       // Pied de l'étape Check, identique pour tous les labos : le rapport
@@ -520,6 +506,40 @@
         footerEl.querySelector('[data-lab-report]').addEventListener('click', openReport);
       }
     };
+
+    /* Liste au milieu d'une phrase : la case fermée (base-select) prend la
+       largeur du choix affiché, et la phrase bougerait à chaque choix (des
+       mots changeraient de ligne). Une liste dont la largeur dépend du choix
+       reçoit celle de son choix le plus long, en em (le zoom du grand écran
+       ne fausse rien) ; une liste dont le labo fixe la largeur (tableau,
+       carte) ne change pas. Fait d'office pour toute liste ajoutée au corps
+       du labo, avant l'affichage. */
+    function steadySelect(sel) {
+      if (!sel.offsetParent) return;
+      sel.style.width = '';
+      const index = sel.selectedIndex;
+      const widths = [];
+      for (let i = 0; i < sel.options.length; i++) {
+        sel.selectedIndex = i;
+        widths.push(sel.offsetWidth);
+      }
+      sel.selectedIndex = index;
+      const widest = Math.max(...widths);
+      if (!widths.length || widest - Math.min(...widths) < 1) return;
+      sel.style.width = '10em';
+      const em = sel.offsetWidth / 10;
+      sel.style.width = em > 0 ? `${(widest / em + 0.1).toFixed(2)}em` : '';
+    }
+
+    new MutationObserver(records => {
+      const added = new Set();
+      records.forEach(r => r.addedNodes.forEach(n => {
+        if (n.nodeType !== 1) return;
+        if (n.matches('select.lab-select')) added.add(n);
+        n.querySelectorAll('select.lab-select').forEach(s => added.add(s));
+      }));
+      added.forEach(steadySelect);
+    }).observe(bodyEl, { childList: true, subtree: true });
 
     lab.state = freshFrameState();
     def.reset();

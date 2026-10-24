@@ -698,7 +698,6 @@
           `<p class="hm-concl-line">${LABELS.concl3(selectHTML('top', c.top, run.devices, objName, LABELS.questions[3], show))}</p></div>` +
         `<div class="hm-q hm-verdicts ${miss('verdict')}">${['q1', 'q2', 'q3'].map(verdict).join('')}</div>` +
       `</section></div>`;
-    lab.steadySelects();
 
     $$('select[data-c]').forEach(sel => sel.addEventListener('change', () => {
       c[sel.dataset.c] = sel.value || null;
