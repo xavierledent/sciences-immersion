@@ -413,7 +413,8 @@ function statusBar(c, total) {
 }
 
 /* Colonne « N° » (liste des devoirs, fiche élève) : le numéro de la classe
-   choisie, ou ceux de toutes les classes (« 1C 4 · 1D 3 ») ; « brouillon »
+   choisie, ou ceux de toutes les classes (« 1C 4 · 1D 3 », la classe
+   seulement s'il y a plusieurs numéros : sinon la colonne Classes la dit) ; « brouillon »
    tant que le devoir n'est pas envoyé (numéro attribué à l'envoi) ;
    « individuel » pour un envoi à moins de la moitié de la classe. */
 function numberHtml(a, classId) {
@@ -423,6 +424,7 @@ function numberHtml(a, classId) {
     return numbers[classId] ? `<span class="h-num">${numbers[classId]}</span>` : '<span class="d-zero">individuel</span>';
   }
   const ids = Object.keys(numbers).sort();
+  if (ids.length === 1) return `<span class="h-num">${numbers[ids[0]]}</span>`;
   return ids.length
     ? ids.map(id => `<span class="h-num-class">${esc(id)}</span> <span class="h-num">${numbers[id]}</span>`).join(' · ')
     : '<span class="d-zero">individuel</span>';
