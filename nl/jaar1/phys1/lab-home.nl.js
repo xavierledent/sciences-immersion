@@ -11,7 +11,9 @@
    « verloren energie », « thermische energie », « vermogen » in watt (W),
    « ledlamp », « gloeilamp », « koelkast », « haardroger »,
    « microgolfoven », « vaatwasser », « batterij », « powerbank »,
-   « warmtecamera » (comme dans The energy test bench). */
+   « warmtecamera » (comme dans The energy test bench). Le compteur :
+   « elektriciteitsmeter », sa « meterstand » (index) et son « scherm »
+   (afficheur), usage belge. */
 
 LabEngine.addText('home', {
   labels: {
@@ -19,6 +21,8 @@ LabEngine.addText('home', {
 
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',
+    // Nombre décimal (index du compteur) : virgule en néerlandais
+    num: (v, d) => v.toFixed(d).replace('.', ','),
 
     questions: {
       1: 'Waar is er in dit huis energie opgeslagen, en in welke vorm?',
@@ -26,7 +30,7 @@ LabEngine.addText('home', {
       3: 'Welk toestel zet elke seconde de meeste energie om?'
     },
     yourQuestions: 'Jouw onderzoeksvragen',
-    intro: 'Jij bent een energiespeurder. Onderzoek een huis met twee hulpmiddelen: een warmtecamera en een vermogensmeter.',
+    intro: 'Jij bent een energiespeurder. Onderzoek een huis met een warmtecamera en zijn elektriciteitsmeter.',
     hypothesisTitle: 'Jouw hypotheses',
     chooseSeveral: 'Kies er één of meer.',
     hyp1: 'Ik denk dat deze voorwerpen energie opslaan:',
@@ -44,15 +48,21 @@ LabEngine.addText('home', {
     lockHypothesisFixed: 'Je hypotheses liggen vast: het onderzoek is begonnen. Een wetenschapper verandert zijn hypothese niet nadat hij de resultaten gezien heeft!',
 
     // La maison et ses objets : name (bouton, carnet), the (dans une phrase), clue (carte d'indices)
-    rooms: { bedroom: 'Slaapkamer', bathroom: 'Badkamer', living: 'Woonkamer', kitchen: 'Keuken', cellar: 'Kelder' },
+    rooms: {
+      bedroom: { name: 'Slaapkamer', the: 'de slaapkamer' },
+      bathroom: { name: 'Badkamer', the: 'de badkamer' },
+      living: { name: 'Woonkamer', the: 'de woonkamer' },
+      kitchen: { name: 'Keuken', the: 'de keuken' },
+      cellar: { name: 'Kelder', the: 'de kelder' }
+    },
     objects: {
-      led: { name: 'Ledlamp', the: 'de ledlamp', clue: 'Een plafondlamp met een ledlamp. Ze staat aan: ze geeft licht.' },
-      bulb: { name: 'Gloeilamp', the: 'de gloeilamp', clue: 'Een bureaulamp met een gewone gloeilamp. Ze staat aan: ze geeft licht.' },
-      fridge: { name: 'Koelkast', the: 'de koelkast', clue: 'De koelkast houdt het eten koud. Haar motor werkt de hele dag.' },
-      hairdryer: { name: 'Haardroger', the: 'de haardroger', clue: 'De haardroger staat aan: hij blaast warme lucht.' },
-      microwave: { name: 'Microgolfoven', the: 'de microgolfoven', clue: 'De microgolfoven warmt een kom soep op.' },
-      dishwasher: { name: 'Vaatwasser', the: 'de vaatwasser', clue: 'De vaatwasser wast de vaat met warm water.' },
-      tank: { name: 'Warmwaterboiler', the: 'de warmwaterboiler', clue: 'De warmwaterboiler heeft het water ’s nachts opgewarmd. Nu staat hij uit, maar het water erin is nog warm: de hele dag komt er warm water uit de kraan.' },
+      led: { name: 'Ledlamp', the: 'de ledlamp', clue: 'Een plafondlamp met een ledlamp. Zet ze aan: ze geeft licht.' },
+      bulb: { name: 'Gloeilamp', the: 'de gloeilamp', clue: 'Een bureaulamp met een gewone gloeilamp. Zet ze aan: ze geeft licht.' },
+      fridge: { name: 'Koelkast', the: 'de koelkast', clue: 'De koelkast houdt het eten koud. In een huis staat ze de hele dag aan.' },
+      hairdryer: { name: 'Haardroger', the: 'de haardroger', clue: 'Een haardroger. Zet hem aan: hij blaast warme lucht.' },
+      microwave: { name: 'Microgolfoven', the: 'de microgolfoven', clue: 'Er staat een kom soep in de microgolfoven. Zet hem aan: hij warmt de soep op.' },
+      dishwasher: { name: 'Vaatwasser', the: 'de vaatwasser', clue: 'De vaatwasser zit vol vuile vaat. Zet hem aan: hij wast de vaat met warm water.' },
+      tank: { name: 'Warmwaterboiler', the: 'de warmwaterboiler', clue: 'De warmwaterboiler werkt op elektriciteit, maar alleen ’s nachts: hij heeft het water vannacht opgewarmd. Nu staat hij uit, maar het water erin is nog warm: de hele dag komt er warm water uit de kraan.' },
       battery: { name: 'Batterijen', the: 'de batterijen', clue: 'Nieuwe batterijen in een lade. Steek ze in een zaklamp, en de zaklamp geeft licht.' },
       powerbank: { name: 'Powerbank', the: 'de powerbank', clue: 'Een opgeladen powerbank. Later kan hij een gsm opladen.' },
       wood: { name: 'Houtblokken', the: 'de houtblokken', clue: 'Houtblokken voor de kachel. Vanavond zullen ze branden en de kamer verwarmen.' },
@@ -60,41 +70,60 @@ LabEngine.addText('home', {
       slingshot: { name: 'Katapult', the: 'de katapult', clue: 'Een katapult met een uitgerekt elastiek. Laat los, en het balletje vliegt weg.' },
       toycar: { name: 'Speelgoedauto', the: 'de speelgoedauto', clue: 'Een opwindautootje: aan zijn sleutel is gedraaid. Laat los, en het rijdt vanzelf.' }
     },
-    tools: { camera: 'Warmtecamera', meter: 'Vermogensmeter' },
-    toolsHint: 'Neem een hulpmiddel en raak dan een voorwerp aan. Raak een voorwerp zonder hulpmiddel aan om zijn kaart te lezen.',
-    clueTitle: 'Kaart',
-    screenEmpty: 'Raak een voorwerp aan om zijn kaart te lezen. Neem de warmtecamera of de vermogensmeter en raak dan een voorwerp aan om het te meten.',
-    maxTemp: t => `Max: ${t} °C`,
-    roomTemp: t => `Kamer: ${t} °C`,
-    cameraAria: (name, t) => `Warmtecamera, ${name}: ${t} °C`,
-    noPlug: the => `Geen stekker: de vermogensmeter kan ${the} niet meten.`,
-    meterReads: the => `De vermogensmeter toont het vermogen van ${the}: de energie die het toestel elke seconde omzet.`,
-    noPlugShort: 'geen stekker',
 
-    captionStart: 'Onderzoek elk voorwerp van het huis met de twee hulpmiddelen. Noteer wat ze tonen in je schrift.',
-    captionGoOn: 'Ga verder: twee metingen voor elk voorwerp (temperatuur en vermogen).',
+    // Les outils : étiquettes, caméra, compteur et interrupteurs
+    tagsTitle: 'Opgeslagen energie:',
+    tags: { C: 'chemisch', M: 'mechanisch', T: 'thermisch', no: 'geen opslag' },
+    badges: { C: 'C', M: 'M', T: 'T', no: 'geen' },
+    cameraName: 'Warmtecamera',
+    meterName: 'Elektriciteitsmeter',
+    meterIndex: 'Meterstand',
+    displayTitle: 'Scherm',
+    meterText: 'Het scherm toont het vermogen van het hele huis: de energie die alle toestellen die werken samen elke seconde omzetten.',
+    on: 'aan',
+    off: 'uit',
+    switchAria: name => `${name}: schakelaar`,
+    clueTitle: 'Kaart',
+    screenEmpty: 'Raak een voorwerp aan om zijn kaart te lezen. Neem een etiket en leg het op een voorwerp. Neem de warmtecamera en raak een kamer aan. Raak de elektriciteitsmeter in de kelder aan.',
+    roomTemp: t => `Kamer: ${t} °C`,
+    cameraAria: room => `Warmtecamera: ${room}`,
+
+    captionStart: 'Drie opdrachten, in de volgorde die je wilt: geef elk voorwerp een etiket met de energie die het opslaat, film de kamers met de warmtecamera, en lees de elektriciteitsmeter af.',
+    captionGoOn: 'Ga verder: een etiket op elk voorwerp, en een volledig schrift.',
     captionDone: 'Je schrift is volledig. Verder: besluiten!',
-    captionHold: tool => `${tool}: raak een voorwerp van het huis aan.`,
+    captionHoldTag: form => `Etiket „${form}”: raak een voorwerp van het huis aan.`,
+    captionHoldCamera: 'Warmtecamera: raak een kamer van het huis aan.',
     captionClue: name => `${name}: lees de kaart, rechts.`,
-    captionCamera: name => `${name}: lees de temperatuur af op de warmtecamera en noteer ze in je schrift.`,
-    captionMeter: name => `${name}: lees de vermogensmeter af en noteer wat hij toont in je schrift.`,
+    captionTagged: (name, form) => `${name}: etiket „${form}”. Lees de kaart nog eens, rechts.`,
+    captionCamera: room => `De warmtecamera filmt ${room}. Noteer de temperatuur van elk toestel dat werkt in je schrift.`,
+    captionMeter: 'Zet de toestellen aan en uit, en kijk naar het scherm. Noteer het vermogen van elk toestel in je schrift.',
 
     notebookTitle: 'Jouw schrift',
-    tempHead: 'Temperatuur (°C)',
+    tempHead: 'Temperatuur als het werkt (°C)',
+    tempShort: 'Temperatuur',
     wattHead: 'Vermogen (W)',
     tempAria: name => `${name}: temperatuur in °C`,
     wattAria: name => `${name}: vermogen in W`,
-    lockCamera: the => `Meet eerst ${the} met de warmtecamera.`,
-    lockMeter: the => `Meet eerst ${the} met de vermogensmeter.`,
-    lockNotes: n => `Vul je schrift aan: nog ${n === 1 ? '1 meting' : n + ' metingen'}.`,
-    runInfo: (n, t) => `Schrift: ${n} / ${t}`,
+    lockCamera: room => `Film eerst ${room} met de warmtecamera.`,
+    lockMeter: the => `Open eerst de elektriciteitsmeter in de kelder. Zet dan ${the} aan of uit en kijk naar het scherm.`,
+    lockRun: (tags, notes) => {
+      const parts = [];
+      if (tags) parts.push(tags === 1 ? '1 voorwerp zonder etiket' : `${tags} voorwerpen zonder etiket`);
+      if (notes) parts.push(notes === 1 ? 'nog 1 meting in je schrift' : `nog ${notes} metingen in je schrift`);
+      return `Nog niet klaar: ${parts.join(' en ')}.`;
+    },
+    runInfo: (tags, tagsTotal, notes, notesTotal) => `Etiketten: ${tags} / ${tagsTotal} · Schrift: ${notes} / ${notesTotal}`,
     toConclude: 'Verder: besluiten',
 
     // Étape 3
     resultsTitle: 'Jouw resultaten',
     choose: '— kies —',
     forms: { C: 'chemisch (C)', M: 'mechanisch (M)', T: 'thermisch (T)', no: 'geen opslag' },
-    codeAria: name => `${name}: opgeslagen energie`,
+    storedHead: 'Opgeslagen energie',
+    concl1: (n, store) => `In dit huis is er energie opgeslagen in ${n} voorwerpen. De toestellen die werken, ${store} energie op.`,
+    countAria: 'Aantal voorwerpen',
+    storeWords: { not: 'slaan geen', yes: 'slaan' },
+    storeAria: 'De toestellen die werken',
     concl2: (all, why, fate) => `Mijn metingen tonen dat ${all} toestellen die werken thermische energie aan de lucht afgeven: ze zijn ${why} de kamer. Die thermische energie verspreidt zich in de lucht: ze is ${fate}.`,
     why: { warmer: 'warmer dan', colder: 'kouder dan', same: 'even warm als' },
     whyAria: 'In vergelijking met de kamer',
@@ -114,18 +143,18 @@ LabEngine.addText('home', {
     criteria: { notes: 'Waarnemingen', storage: 'Vraag 1', dissipation: 'Vraag 2', power: 'Vraag 3', verdicts: 'Hypotheses' },
     criteriaSub: { notes: 'Jouw schrift', storage: 'Energieopslag', dissipation: 'Verloren energie', power: 'Vermogen', verdicts: 'Jouw oordeel' },
     factsTitle: 'De feiten van het huis:',
-    storedHead: 'Opgeslagen energie',
 
     report: {
       title: 'Laboratoriumverslag — Energiespeurders in huis',
       because: 'Omdat',
-      materials: list => `Een huis met ${list}. Een warmtecamera (temperatuur in °C) en een vermogensmeter (vermogen in W).`,
+      materials: list => `Een huis met ${list}. Een warmtecamera (temperatuur in °C). De elektriciteitsmeter van het huis en zijn scherm (vermogen in W).`,
       procedure: [
-        'Lees de kaart van elk voorwerp.',
-        'Richt de warmtecamera op elk voorwerp en lees de hoogste temperatuur af.',
-        'Steek de stekker van elk toestel in de vermogensmeter en lees het vermogen af. Sommige voorwerpen hebben geen stekker.',
+        'Lees de kaart van elk voorwerp en geef het een etiket met de energie die het opslaat.',
+        'Film elke kamer met de warmtecamera, met de toestellen aan, en lees hun temperatuur af.',
+        'Zet elk toestel alleen aan en lees het vermogen af op het scherm van de elektriciteitsmeter.',
         'Noteer de metingen in het schrift.'
       ],
+      tagsCaption: 'Etiketten: de opgeslagen energie',
       notesCaption: room => `Schrift (temperatuur van de kamer: ${room} °C)`,
       warm: (list, room) => `Toestellen die werken en warmer zijn dan de kamer (${room} °C): ${list}.`,
       powers: list => `Vermogen van de toestellen: ${list}.`,
@@ -135,27 +164,30 @@ LabEngine.addText('home', {
   },
 
   glossary: {
-    energieopslag: 'stockage d’énergie', opgeslagen: 'stocké(e)', opslaan: 'stocker', opslag: 'stockage',
-    warmtecamera: 'caméra thermique', vermogensmeter: 'wattmètre', vermogen: 'puissance', stekker: 'prise',
-    toestellen: 'appareils', toestel: 'appareil', afgeven: 'cèdent', omzet: 'transforme', 'elke seconde': 'chaque seconde',
-    verloren: 'perdue (gaspillée)', verspreidt: 'se répand', warmer: 'plus chaud(s)', kouder: 'plus froid(s)', 'even warm als': 'aussi chaud(s) que',
-    'staat aan': 'est allumé(e)', 'staat uit': 'est éteint', ledlamp: 'ampoule LED', gloeilamp: 'ampoule classique (à incandescence)',
-    plafondlamp: 'plafonnier', bureaulamp: 'lampe de bureau', koelkast: 'frigo', haardroger: 'sèche-cheveux', blaast: 'souffle',
-    microgolfoven: 'four à micro-ondes', vaatwasser: 'lave-vaisselle', vaat: 'vaisselle', warmwaterboiler: 'ballon d’eau chaude (boiler)',
-    kraan: 'robinet', batterijen: 'piles', lade: 'tiroir', zaklamp: 'lampe de poche', powerbank: 'batterie externe', opladen: 'charger',
-    opgeladen: 'chargé(e)', houtblokken: 'bûches', kachel: 'poêle', branden: 'brûler', appels: 'pommes', schaal: 'coupe (plat)',
-    katapult: 'lance-pierre', elastiek: 'élastique', uitgerekt: 'tendu', opwindautootje: 'petite voiture à remonter',
-    speelgoedauto: 'petite voiture (jouet)', sleutel: 'clé', 'laat los': 'lâche', vanzelf: 'tout seul', kelder: 'cave',
-    slaapkamer: 'chambre', badkamer: 'salle de bain', woonkamer: 'salon', keuken: 'cuisine', onderzoek: 'enquête sur',
-    energiespeurder: 'détective de l’énergie', soep: 'soupe', motor: 'moteur', 'de hele dag': 'toute la journée',
-    opgewarmd: 'chauffé', 'warmt op': 'réchauffe', '’s nachts': 'pendant la nuit', schrift: 'cahier', hulpmiddel: 'outil', hulpmiddelen: 'outils'
+    energieopslag: 'stockage d’énergie', opgeslagen: 'stocké(e)', opslaan: 'stocker', opslag: 'stockage', opslaat: 'stocke',
+    warmtecamera: 'caméra thermique', elektriciteitsmeter: 'compteur électrique', meterstand: 'index du compteur', scherm: 'afficheur (écran)',
+    vermogen: 'puissance', toestellen: 'appareils', toestel: 'appareil', afgeven: 'cèdent', omzet: 'transforme', omzetten: 'transforment',
+    'elke seconde': 'chaque seconde', verloren: 'perdue (gaspillée)', verspreidt: 'se répand', warmer: 'plus chaud(s)', kouder: 'plus froid(s)',
+    'even warm als': 'aussi chaud(s) que', 'staat aan': 'est allumé(e)', 'staat uit': 'est éteint', 'zet ze aan': 'allume-la', 'zet hem aan': 'allume-le',
+    'aan en uit': 'allume et éteins', 'aan of uit': 'allume ou éteins', film: 'filme', filmt: 'filme', etiket: 'étiquette', etiketten: 'étiquettes',
+    ledlamp: 'ampoule LED', gloeilamp: 'ampoule classique (à incandescence)', plafondlamp: 'plafonnier', bureaulamp: 'lampe de bureau',
+    koelkast: 'frigo', haardroger: 'sèche-cheveux', blaast: 'souffle', microgolfoven: 'four à micro-ondes', vaatwasser: 'lave-vaisselle',
+    vaat: 'vaisselle', vuile: 'sale', warmwaterboiler: 'ballon d’eau chaude (boiler)', kraan: 'robinet', batterijen: 'piles', lade: 'tiroir',
+    zaklamp: 'lampe de poche', powerbank: 'batterie externe', opladen: 'charger', opgeladen: 'chargé(e)', houtblokken: 'bûches', kachel: 'poêle',
+    branden: 'brûler', appels: 'pommes', schaal: 'coupe (plat)', katapult: 'lance-pierre', elastiek: 'élastique', uitgerekt: 'tendu',
+    opwindautootje: 'petite voiture à remonter', speelgoedauto: 'petite voiture (jouet)', sleutel: 'clé', 'laat los': 'lâche', vanzelf: 'tout seul',
+    kelder: 'cave', slaapkamer: 'chambre', badkamer: 'salle de bain', woonkamer: 'salon', keuken: 'cuisine', onderzoek: 'enquête sur',
+    energiespeurder: 'détective de l’énergie', soep: 'soupe', 'de hele dag': 'toute la journée', opgewarmd: 'chauffé', 'warmt op': 'réchauffe',
+    '’s nachts': 'pendant la nuit', vannacht: 'la nuit dernière', schrift: 'cahier', 'hele huis': 'toute la maison', alleen: 'seul',
+    geïsoleerd: 'isolé', ontsnapt: 's’échappe', oppervlak: 'surface', opdrachten: 'missions'
   },
 
   // Étape Check : pourquoi.
   explanations: {
-    camera: 'Een warmtecamera toont hoe warm iets is, in °C. Ze meet geen energie, maar een toestel dat warmer is dan de kamer, geeft thermische energie aan de lucht.',
+    camera: 'Een warmtecamera toont hoe warm iets is, in °C. Ze meet geen energie, maar een toestel dat werkt en warmer is dan de kamer, geeft thermische energie aan de lucht. Een toestel dat uit staat, warmt niet op: het heeft de temperatuur van de kamer.',
+    meter: 'Het scherm van de elektriciteitsmeter toont het vermogen van het hele huis. Om het vermogen van één toestel te kennen, zet je het alleen aan, of vergelijk je het scherm voor en nadat je het aanzet.',
     stores: {
-      tank: 'De warmwaterboiler bewaart warm water voor later: hij slaat thermische energie op (T).',
+      tank: 'De warmwaterboiler werkt ’s nachts op elektriciteit: hij warmt het water op en houdt het warm voor de dag. Hij slaat thermische energie op (T). Zijn oppervlak is een beetje warmer dan de kelder: een deel van die thermische energie ontsnapt langzaam. Daarom is een warmwaterboiler geïsoleerd.',
       battery: 'Batterijen slaan chemische energie op (C). In een zaklamp wordt ze omgezet in elektrische energie, en dan in licht.',
       powerbank: 'Een powerbank is een batterij: hij slaat chemische energie op (C). We kunnen elektriciteit niet rechtstreeks opslaan.',
       wood: 'Hout slaat chemische energie op (C). Als het brandt, geeft het thermische energie en licht.',
@@ -166,18 +198,20 @@ LabEngine.addText('home', {
     devices: 'De toestellen die werken, slaan geen energie op: ze zetten de elektrische energie die door de draden komt, meteen om.',
     dissipation: (list, room) => `Alle toestellen die werkten, waren warmer dan de kamer (${room} °C): ${list}. Bij elke omzetting wordt een deel van de energie thermische energie in de lucht.`,
     conservation: 'Die thermische energie wordt niet vernietigd: energie wordt nooit gemaakt en nooit vernietigd. Ze verspreidt zich in de lucht en we kunnen ze niet meer gebruiken: ze is verloren.',
-    power: list => `De vermogensmeter gaf: ${list}. Hoe groter het vermogen, hoe meer energie het toestel elke seconde omzet.`,
+    power: list => `Elk toestel alleen: ${list}. Hoe groter het vermogen, hoe meer energie het toestel elke seconde omzet.`,
     powerHot: 'Het warmste toestel is niet altijd het krachtigste: een groot toestel kan zijn thermische energie over een groot oppervlak verspreiden.'
   },
 
   check: {
     nothing: 'niets',
-    tempWrong: (name, said, right) => `${name}: je schreef ${said}, maar de warmtecamera toont ${right}.`,
-    wattWrong: (name, said, right) => `${name}: je schreef „${said}”, maar de vermogensmeter toont „${right}”.`,
-    notesScore: (good, total) => `${good} / ${total} metingen komen overeen met de hulpmiddelen.`,
-    notesAllGood: 'Jouw schrift komt overeen met wat de hulpmiddelen toonden. Goed gemeten!',
-    codeWrong: (name, said, right) => `${name}: je koos „${said}”. Het juiste antwoord: ${right}.`,
-    codesAllGood: 'Je vond alle energieopslag van het huis, met de juiste vorm. Goed gedaan!',
+    tempWrong: (name, said, right) => `${name}: je schreef ${said}, maar als het toestel werkt, toont de warmtecamera ${right}.`,
+    tempOff: (name, said, right) => `${name}: je schreef ${said}, de temperatuur van de kamer. Je filmde het toestel toen het uit stond: een toestel dat niet werkt, warmt niet op. Als het werkt, toont de warmtecamera ${right}.`,
+    wattWrong: (name, said, right) => `${name}: je schreef ${said}, maar alleen zet het toestel ${right} om.`,
+    wattSum: (name, said, others, right) => `${name}: je schreef ${said}, maar er werkten ook andere toestellen (${others}). Alleen zet het toestel ${right} om.`,
+    notesScore: (good, total) => `${good} / ${total} metingen zijn juist.`,
+    notesAllGood: 'Jouw schrift komt overeen met wat de camera en de meter toonden. Goed gemeten!',
+    tagWrong: (name, said, right) => `${name}: je etiket is „${said}”. Het juiste antwoord: ${right}.`,
+    tagsAllGood: 'Je vond alle energieopslag van het huis, met de juiste vorm. Goed gedaan!',
     answerOk: 'Juist!',
     answerWrong: 'Niet helemaal. Het juiste antwoord:',
     yourHyps: 'Jouw hypotheses:',

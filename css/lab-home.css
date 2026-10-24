@@ -1,7 +1,7 @@
 /* ===== Labo virtuel « Energy detectives at home » (phys1) =====
-   Ce qui est propre à ce labo : hypothèses, la maison et ses objets, les
-   deux outils (caméra thermique, wattmètre) et leur écran, le carnet,
-   conclusion, correction. Le cadre commun (modale, étapes, boutons,
+   Ce qui est propre à ce labo : hypothèses, la maison (pièces, objets,
+   étiquettes, interrupteurs), la caméra thermique, le compteur et leur
+   panneau, le carnet, conclusion, correction. Le cadre commun (modale, étapes, boutons,
    tableaux, rapport) est dans lab-engine.css. Classes préfixées hm- (home).
    Tout tient dans le corps du labo (1204 × 594 sur le Chromebook à 100 %)
    sans défilement. */
@@ -232,12 +232,56 @@
   box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.35);
 }
 
-.hm-tools-hint {
-  flex: 1 1 auto;
-  min-width: 0;
-  font-size: 0.76rem;
-  line-height: 1.3;
-  color: var(--color-muted);
+.hm-tools .hm-tool {
+  margin-left: auto;
+}
+
+.hm-tools-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-current-darkest);
+}
+
+/* Les étiquettes : à prendre en main, puis à poser sur un objet */
+.hm-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 40px;
+  padding: 0 11px 0 6px;
+  border-radius: 12px;
+  border: 1.5px solid var(--color-current-dark);
+  background: #ffffff;
+  color: var(--color-current-darkest);
+  font-size: 0.8rem;
+  font-weight: 600;
+  touch-action: none;
+}
+
+.hm-tag.is-no {
+  padding-left: 11px;
+  border-style: dashed;
+}
+
+.hm-tag b {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(var(--color-current-rgb), 0.16);
+  font-weight: 800;
+}
+
+.hm-tag:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.35);
+}
+
+.hm-tag.is-held,
+.hm-tool.is-held {
+  background: rgba(var(--color-current-rgb), 0.14);
+  border-color: var(--color-current);
 }
 
 .hm-ghost {
@@ -274,14 +318,33 @@
   fill: #6b5a48;
 }
 
+/* Une pièce : cible de la caméra ; ses objets sont placés dedans */
+.hm-zone {
+  position: absolute;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+.hm-zone.is-drop-ready {
+  border-color: rgba(var(--color-current-rgb), 0.55);
+  border-style: dashed;
+}
+
+.hm-zone.is-drop-target,
+.hm-zone.is-filmed {
+  border-color: var(--color-current);
+  border-style: solid;
+  background: rgba(var(--color-current-rgb), 0.06);
+}
+
 .hm-obj {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 2px;
-  padding: 4px 2px;
+  padding: 22px 2px 4px;
   border-radius: 12px;
   border: 1.5px solid transparent;
   background: rgba(255, 255, 255, 0.75);
@@ -292,21 +355,78 @@
   text-align: center;
 }
 
+.hm-obj .hm-icon.is-big {
+  width: 30px;
+  height: 30px;
+}
+
 .hm-obj-name {
   max-width: 100%;
 }
 
-.hm-obj-marks {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  display: flex;
-  gap: 1px;
+.hm-obj.lab-is-missing {
+  border-color: #d64545;
 }
 
-.hm-icon.is-mark {
-  width: 14px;
-  height: 14px;
+/* L'étiquette posée sur un objet (en haut à gauche) */
+.hm-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 6px;
+  background: var(--color-current);
+  color: var(--color-current-text);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.hm-obj .hm-badge {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+}
+
+.hm-badge.is-no {
+  background: #e3e7ec;
+  color: var(--color-muted);
+  font-size: 0.62rem;
+}
+
+.hm-badge.is-big {
+  min-width: 40px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+/* L'interrupteur d'un appareil (en haut à droite de sa vignette) */
+.hm-switch {
+  position: absolute;
+  width: 38px;
+  height: 20px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1.5px solid #9aa5b1;
+  background: #eef1f4;
+  color: #5d6773;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.hm-switch.is-on {
+  border-color: var(--color-current-dark);
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.hm-switch:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.35);
 }
 
 .hm-obj.is-shown {
@@ -336,7 +456,7 @@ html[data-pointer='fine'] .hm-obj:hover,
 }
 
 .hm-screen {
-  min-height: 196px;
+  min-height: 238px;
   padding: 8px 12px;
   border-radius: 14px;
   border: 1.5px solid rgba(var(--color-current-rgb), 0.25);
@@ -375,7 +495,8 @@ html[data-pointer='fine'] .hm-obj:hover,
 }
 
 .hm-thermal {
-  max-width: 330px;
+  display: block;
+  width: 100%;
   height: auto;
   border-radius: 8px;
 }
@@ -400,11 +521,38 @@ html[data-pointer='fine'] .hm-obj:hover,
   fill: #ffffff;
 }
 
-.hm-meter {
+/* La fenêtre du compteur : le compteur (index) et, à côté, son afficheur (W) */
+.hm-meterwin {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px 14px;
+}
+
+.hm-meterbox {
+  display: flex;
   align-items: center;
-  gap: 4px 12px;
+  gap: 8px;
+}
+
+.hm-displaybox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.hm-meter-label {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+
+.hm-lcd.is-index {
+  min-width: 0;
+  padding: 6px 10px;
+  font-size: 1rem;
 }
 
 .hm-lcd {
@@ -418,10 +566,6 @@ html[data-pointer='fine'] .hm-obj:hover,
   font-size: 1.6rem;
   font-weight: 700;
   text-align: right;
-}
-
-.hm-lcd.is-off {
-  color: #6b7f93;
 }
 
 .hm-meter-text {
@@ -470,12 +614,6 @@ html[data-pointer='fine'] .hm-obj:hover,
   height: 22px;
 }
 
-.hm-watt {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
 .hm-num-input {
   width: 54px;
   height: 28px;
@@ -500,12 +638,6 @@ html[data-pointer='fine'] .hm-obj:hover,
 .hm-num-input.is-invalid {
   border-color: #d64545;
   background: #fff1f0;
-}
-
-.hm-noplug {
-  height: 28px;
-  padding: 0 7px;
-  font-size: 0.7rem;
 }
 
 /* ===== Étape 3 : conclusion ===== */
@@ -566,20 +698,6 @@ html[data-pointer='fine'] .hm-obj:hover,
   margin: 0 0 5px;
   font-size: 0.86rem;
   font-weight: 700;
-}
-
-.hm-codes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 14px;
-}
-
-.hm-code {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  font-size: 0.78rem;
 }
 
 .hm-concl-line {
@@ -779,7 +897,6 @@ html[data-pointer='fine'] .hm-crit:not(.is-selected):hover,
   .hm-conclude,
   .hm-check { grid-template-columns: 1fr; height: auto; }
   .hm-tools { flex-wrap: wrap; }
-  .hm-codes { grid-template-columns: 1fr; }
 }
 
 /* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */

@@ -54,8 +54,9 @@ bench » (dynamo à manivelle et deux lampes : mesures en units, diagramme de
 flux d'énergie, bilan), « Keep the lights on » (salle de contrôle de
 l'électricité belge pendant une journée : centrales, météo, stockage de Coo,
 panne ; expérience sur un modèle) et « Energy detectives at home » (enquête
-dans une maison avec une caméra thermique et un wattmètre : stockage C / M / T,
-dissipation, puissance ; trois petites questions) ; `phys1` n'a pas de labo
+dans une maison, trois missions dans l'ordre voulu : étiquettes C / M / T, caméra
+thermique sur une pièce, compteur électrique et son afficheur en W, interrupteurs
+des appareils, frigo allumé au départ ; trois petites questions) ; `phys1` n'a pas de labo
 réel dans le cours. Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans

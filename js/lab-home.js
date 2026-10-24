@@ -12,32 +12,41 @@
    missions 8 et 9 : la puissance en watts, en enrichissement). Trois
    petites questions, chacune avec son hypothèse et sa réponse.
 
-   Le modèle : une maison de cinq pièces, huit objets. Quatre appareils
-   électriques qui fonctionnent (tirés parmi six, puissances du cours,
-   mission 9) et quatre objets qui gardent ou non de l'énergie (le ballon
-   d'eau chaude, un objet qui stocke de l'énergie mécanique, deux qui
-   stockent de l'énergie chimique). Deux outils : la caméra thermique
-   (température la plus haute de l'objet, en °C) et le wattmètre (puissance
-   en W, seulement pour ce qui a une prise). Toucher un objet sans outil
-   montre sa carte d'indices. Températures : ordres de grandeur réels, un
-   peu tirés au sort ; la pièce est entre 19 et 21 °C.
+   Le modèle : une maison de cinq pièces, huit objets et le compteur
+   électrique (dans la cave). Quatre appareils électriques, chacun avec son
+   interrupteur : le frigo (allumé au départ, comme dans toute maison) et
+   trois tirés parmi cinq, puissances du cours (mission 9). Quatre objets
+   qui gardent de l'énergie : le boiler (il chauffe l'eau la nuit, éteint
+   maintenant, sans interrupteur), un objet qui stocke de l'énergie
+   mécanique, deux qui stockent de l'énergie chimique. Un appareil allumé
+   chauffe en 3 s (temps accéléré), éteint il refroidit de même ; éteint, il
+   est à la température de la pièce. Le compteur : son index en kWh avance
+   (une minute par seconde), son afficheur donne en W la puissance de toute
+   la maison. Températures : ordres de grandeur réels, un peu tirés au
+   sort ; la pièce est entre 19 et 21 °C.
 
-   Tirés au sort : les quatre appareils, les objets de stockage, la place
-   de chaque objet dans la maison, la température de la pièce et des objets.
+   Tirés au sort : les trois appareils à côté du frigo, les objets de
+   stockage, la place de chaque objet dans la maison, la température de la
+   pièce et des objets, l'index de départ du compteur.
 
    Déroulé :
      1. Predict    — trois hypothèses : les objets qui stockent de
                      l'énergie ; tous, certains ou aucun des appareils
-                     dissipent de l'énergie thermique ; l'appareil qui
-                     transforme le plus d'énergie chaque seconde
-     2. Experiment — mesurer chaque objet avec les deux outils (objet en
-                     main), lire les cartes d'indices ; le carnet : la
-                     température et la puissance (ou « pas de prise »)
-     3. Conclude   — question 1 (forme stockée, objet par objet),
-                     question 2 (dissipation : qui, pourquoi, où va cette
-                     énergie), question 3 (le plus puissant), jugement des
-                     trois hypothèses
-     4. Check      — 5 vérifications : mesures, stockage, dissipation,
+                     qui fonctionnent dissipent de l'énergie thermique ;
+                     l'appareil qui transforme le plus d'énergie chaque
+                     seconde
+     2. Experiment — trois missions, dans l'ordre que l'élève veut :
+                     étiqueter chaque objet (C, M, T, rien) d'après sa
+                     carte ; filmer les pièces à la caméra thermique ; lire
+                     le compteur en allumant et éteignant les appareils.
+                     Le carnet : la température et la puissance de chaque
+                     appareil qui fonctionne
+     3. Conclude   — question 1 (combien d'objets gardent de l'énergie,
+                     les appareils en gardent-ils), question 2
+                     (dissipation : qui, pourquoi, où va cette énergie),
+                     question 3 (le plus puissant), jugement des trois
+                     hypothèses
+     4. Check      — 5 vérifications : carnet, stockage, dissipation,
                      puissance, hypothèses ; rapport (FO3) */
 
 (function () {
@@ -62,9 +71,9 @@
   // Les appareils : puissance (W, cours, mission 9), température de leur
   // partie la plus chaude quand ils fonctionnent (°C), pièces possibles.
   const DEVICES = {
+    fridge: { power: 200, temp: [36, 41], rooms: ['kitchen'] },
     led: { power: 10, temp: [42, 48], rooms: ['bedroom', 'living', 'bathroom'] },
     bulb: { power: 100, temp: [120, 135], rooms: ['bedroom', 'living'] },
-    fridge: { power: 200, temp: [36, 41], rooms: ['kitchen'] },
     hairdryer: { power: 800, temp: [65, 75], rooms: ['bathroom'] },
     microwave: { power: 1200, temp: [33, 37], rooms: ['kitchen'] },
     dishwasher: { power: 2000, temp: [29, 32], rooms: ['kitchen'] }
@@ -72,7 +81,7 @@
   // Les objets de stockage (ou non) : forme stockée (C, M, T), température
   // (null : celle de la pièce), pièces possibles.
   const STORES = {
-    tank: { form: 'T', temp: [29, 32], rooms: ['cellar'] },
+    tank: { form: 'T', temp: [26, 29], rooms: ['cellar'] },
     battery: { form: 'C', rooms: ['living', 'bedroom'] },
     powerbank: { form: 'C', rooms: ['bedroom', 'living'] },
     wood: { form: 'C', rooms: ['living', 'cellar'] },
@@ -84,9 +93,15 @@
   const ALL = ['all', 'some', 'none'];
   const WHY = ['warmer', 'colder', 'same'];
   const FATE = ['wasted', 'destroyed', 'stored'];
+  const STORE_WORDS = ['not', 'yes'];
+  const COUNTS = ['1', '2', '3', '4', '5', '6', '7', '8'];
+
+  const HEAT_MS = 3000;   // un appareil chauffe (ou refroidit) en 3 s, temps accéléré
+  const ACCEL = 60;       // l'index du compteur : une minute par seconde
+  const TICK_MS = 200;
 
   /* La maison : 760 × 470 px, cinq pièces ; les places des objets (coin
-     haut gauche des boutons de 80 × 78 px). */
+     haut gauche des boutons de 80 × 78 px) et celle du compteur. */
   const HOUSE_W = 760, HOUSE_H = 470;
   const OBJ_W = 80, OBJ_H = 78;
   const ROOMS = {
@@ -97,12 +112,13 @@
     cellar: { box: [20, 356, 720, 110], slots: [[36, 382], [136, 382], [236, 382]] }
   };
   const ROOM_KEYS = Object.keys(ROOMS);
+  const METER_AT = [644, 382];
 
   const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
   const pickOne = arr => arr[Math.floor(Math.random() * arr.length)];
 
   function draw() {
-    const devices = shuffle(Object.keys(DEVICES)).slice(0, 4);
+    const devices = ['fridge'].concat(shuffle(Object.keys(DEVICES).filter(id => id !== 'fridge')).slice(0, 3));
     const chem = shuffle(['battery', 'powerbank', 'wood', 'fruit']).slice(0, 2);
     const stores = ['tank', pickOne(['slingshot', 'toycar'])].concat(chem);
     const room = rnd(19, 21);
@@ -129,31 +145,42 @@
 
   function reset() {
     run = draw();
-    const temp = {}, watt = {}, codes = {};
-    run.objects.forEach(id => { temp[id] = null; watt[id] = null; codes[id] = null; });
+    const temp = {}, watt = {}, sw = {};
+    run.devices.forEach(id => {
+      temp[id] = null;
+      watt[id] = null;
+      sw[id] = { on: id === 'fridge', k: id === 'fridge' ? 1 : 0 };
+    });
     state = {
       hyp: { stores: [], all: null, top: null },
       because: '',
-      measured: { temp: {}, watt: {} },   // ce que l'élève a mesuré, outil par outil
-      shown: null,                         // le panneau : { kind: 'clue' | 'temp' | 'watt', id }
-      notes: { temp, watt },               // watt : un nombre, ou 'none' (pas de prise)
-      concl: { codes, all: null, why: null, fate: null, top: null, v: { q1: null, q2: null, q3: null } },
+      started: false,                      // premier geste dans la maison : hypothèses figées
+      tags: {},                            // objet → C, M, T ou no (étiquette posée)
+      sw,                                  // appareil → { on, k } (k : 0 froid → 1 chaud)
+      kwh: rnd(2000, 8999) + Math.random(), // index du compteur
+      measured: { temp: {}, watt: {} },    // appareil filmé ; interrupteur actionné, compteur ouvert
+      shown: null,                         // le panneau : { kind: 'clue', id } | { kind: 'camera', room } | { kind: 'meter' }
+      notes: { temp, watt },               // le carnet : les appareils
+      concl: { n: null, store: null, all: null, why: null, fate: null, top: null, v: { q1: null, q2: null, q3: null } },
       selected: 'notes'
     };
     stepperDone = null;
   }
 
   /* --- Ce que disent les objets --- */
-  const isDevice = id => !!DEVICES[id];
   const powerOf = id => (DEVICES[id] ? DEVICES[id].power : null);
   const formOf = id => (STORES[id] ? STORES[id].form : 'no');
   const topDevice = () => run.devices.reduce((a, b) => (powerOf(b) > powerOf(a) ? b : a));
   const objName = id => LABELS.objects[id].name;
   const objThe = id => LABELS.objects[id].the;
-  const started = () => Object.keys(state.measured.temp).length + Object.keys(state.measured.watt).length > 0;
-  const notesFilled = () => run.objects.reduce((n, id) => n + (state.notes.temp[id] != null ? 1 : 0) + (state.notes.watt[id] != null ? 1 : 0), 0);
-  const NOTES_TOTAL = 16;
-  const notesDone = () => notesFilled() === NOTES_TOTAL;
+  const roomOf = id => run.place[id].room;
+  // Ce que la caméra voit maintenant : un appareil éteint est à la température de la pièce.
+  const tempNow = id => (DEVICES[id] ? Math.round(run.room + state.sw[id].k * (run.temps[id] - run.room)) : run.temps[id]);
+  const housePower = () => run.devices.reduce((s, id) => s + (state.sw[id].on ? powerOf(id) : 0), 0);
+  const tagsPlaced = () => run.objects.filter(id => state.tags[id]).length;
+  const notesFilled = () => run.devices.reduce((n, id) => n + (state.notes.temp[id] != null ? 1 : 0) + (state.notes.watt[id] != null ? 1 : 0), 0);
+  const NOTES_TOTAL = 8;
+  const runDone = () => tagsPlaced() === run.objects.length && notesFilled() === NOTES_TOTAL;
   const sameSet = (a, b) => a.length === b.length && a.every(x => b.includes(x));
 
   /* ===== Dessins ===== */
@@ -190,12 +217,13 @@
   };
   const icon = (id, cls) => `<svg class="hm-icon ${cls || ''}" viewBox="0 0 40 40" aria-hidden="true" focusable="false">${ICONS[id]}</svg>`;
 
+  // La caméra thermique et le compteur électrique (boîtier, écran, bornes).
   const TOOL_ICONS = {
     camera: `<rect x="3" y="12" width="26" height="18" rx="3" fill="#3d4a57"/><rect x="7" y="8" width="9" height="5" rx="1.5" fill="#3d4a57"/>` +
       `<circle cx="16" cy="21" r="6" fill="#ff8a3d"/><circle cx="16" cy="21" r="3" fill="#ffd34d"/><rect x="29" y="16" width="8" height="10" rx="2" fill="#5d6773"/>`,
-    meter: `<rect x="8" y="3" width="24" height="30" rx="4" fill="#eef2f6" stroke="#5d6773" stroke-width="1.6"/><rect x="11" y="7" width="18" height="9" rx="1.5" fill="#203040"/>` +
-      `<text x="20" y="14.5" text-anchor="middle" font-size="7" font-weight="700" fill="#7cfc9a" font-family="monospace">W</text>` +
-      `<circle cx="16" cy="24" r="1.8" fill="#5d6773"/><circle cx="24" cy="24" r="1.8" fill="#5d6773"/><path d="M15,33 v4 M25,33 v4" stroke="#5d6773" stroke-width="2.4" stroke-linecap="round"/>`
+    meter: `<rect x="7" y="3" width="26" height="30" rx="3" fill="#e8ecf0" stroke="#5d6773" stroke-width="1.6"/><rect x="10" y="7" width="20" height="9" rx="1.5" fill="#203040"/>` +
+      `<path d="M12.5,11.5 h3 M17.5,11.5 h3 M22.5,11.5 h3" stroke="#7cfc9a" stroke-width="2"/><circle cx="20" cy="24" r="2.6" fill="#e0a73a"/>` +
+      `<path d="M13,37 v-4 M20,37 v-4 M27,37 v-4" stroke="#5d6773" stroke-width="2.2" stroke-linecap="round"/>`
   };
   const toolIcon = (t, cls) => `<svg class="hm-icon ${cls || ''}" viewBox="0 0 40 40" aria-hidden="true" focusable="false">${TOOL_ICONS[t]}</svg>`;
 
@@ -209,7 +237,7 @@
       `<path d="M16,201 H744 M16,351 H744" stroke="#8d7a66" stroke-width="5"/><path d="M390,62 V201 M400,201 V351" stroke="#8d7a66" stroke-width="4"/>`;
     ROOM_KEYS.forEach(r => {
       const [x, y] = ROOMS[r].box;
-      out += `<text x="${x + 8}" y="${y + 18}" class="hm-room">${escapeHtml(LABELS.rooms[r])}</text>`;
+      out += `<text x="${x + 8}" y="${y + 18}" class="hm-room">${escapeHtml(LABELS.rooms[r].name)}</text>`;
     });
     return `<svg class="hm-house" viewBox="0 0 ${HOUSE_W} ${HOUSE_H}" aria-hidden="true" focusable="false">${out}</svg>`;
   }
@@ -231,43 +259,60 @@
     return HEAT[HEAT.length - 1][1];
   }
 
-  function thermalSVG(id) {
-    const t = run.temps[id];
+  // Une pièce entière vue par la caméra : chaque objet et sa température la plus haute.
+  function thermalSVG(room) {
+    const ids = run.objects.filter(id => roomOf(id) === room);
+    const W = 400, H = 196, cy = 96;
+    const step = W / ids.length;
     const scale = HEAT.map(([v, c]) => `<stop offset="${((v - 10) / 130).toFixed(3)}" stop-color="${c}"/>`).join('');
-    return `<svg class="lab-svg hm-thermal" viewBox="0 0 240 132" role="img" aria-label="${escapeHtml(LABELS.cameraAria(objName(id), t))}">` +
-      `<defs><radialGradient id="hm-glow"><stop offset="0" stop-color="${heatColor(t)}"/><stop offset="0.55" stop-color="${heatColor((t + run.room) / 2)}"/><stop offset="1" stop-color="${heatColor(run.room)}"/></radialGradient>` +
-      `<linearGradient id="hm-scale">${scale}</linearGradient></defs>` +
-      `<rect x="0" y="0" width="240" height="132" rx="8" fill="${heatColor(run.room)}"/>` +
-      `<ellipse cx="74" cy="56" rx="62" ry="48" fill="url(#hm-glow)"/>` +
-      `<g transform="translate(46 28) scale(1.4)" opacity="0.55" style="mix-blend-mode:luminosity">${ICONS[id]}</g>` +
-      `<text x="226" y="34" text-anchor="end" class="hm-th-max">${escapeHtml(LABELS.maxTemp(t))}</text>` +
-      `<text x="226" y="52" text-anchor="end" class="hm-th-room">${escapeHtml(LABELS.roomTemp(run.room))}</text>` +
-      `<rect x="14" y="110" width="212" height="8" rx="2" fill="url(#hm-scale)"/>` +
-      [20, 60, 100, 140].map(v => `<text x="${(14 + (v - 10) / 130 * 212).toFixed(1)}" y="129" text-anchor="middle" class="hm-th-tick">${v} °C</text>`).join('') +
+    let defs = `<linearGradient id="hm-scale">${scale}</linearGradient>`, body = '';
+    ids.forEach((id, i) => {
+      const t = tempNow(id), cx = step * (i + 0.5);
+      defs += `<radialGradient id="hm-glow-${id}"><stop offset="0" stop-color="${heatColor(t)}"/>` +
+        `<stop offset="0.55" stop-color="${heatColor((t + run.room) / 2)}"/><stop offset="1" stop-color="${heatColor(run.room)}"/></radialGradient>`;
+      body += `<ellipse cx="${cx}" cy="${cy}" rx="${Math.min(70, step / 2 - 4)}" ry="50" fill="url(#hm-glow-${id})"/>` +
+        `<g transform="translate(${cx - 28} ${cy - 28}) scale(1.4)" opacity="0.55" style="mix-blend-mode:luminosity">${ICONS[id]}</g>` +
+        `<text x="${cx}" y="${cy - 40}" text-anchor="middle" class="hm-th-max">${t} °C</text>`;
+    });
+    return `<svg class="lab-svg hm-thermal" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHtml(LABELS.cameraAria(LABELS.rooms[room].name))}">` +
+      `<defs>${defs}</defs><rect x="0" y="0" width="${W}" height="${H}" rx="8" fill="${heatColor(run.room)}"/>${body}` +
+      `<text x="12" y="20" class="hm-th-room">${escapeHtml(LABELS.roomTemp(run.room))}</text>` +
+      `<rect x="14" y="166" width="372" height="8" rx="2" fill="url(#hm-scale)"/>` +
+      [20, 60, 100, 140].map(v => `<text x="${(14 + (v - 10) / 130 * 372).toFixed(1)}" y="189" text-anchor="middle" class="hm-th-tick">${v} °C</text>`).join('') +
       `</svg>`;
   }
 
-  // Le wattmètre : sa lecture, ou « pas de prise ».
-  function meterHTML(id) {
-    const p = powerOf(id);
-    return `<div class="hm-meter">${toolIcon('meter', 'is-huge')}<div class="hm-lcd ${p == null ? 'is-off' : ''}">${p == null ? '– – –' : `${p} W`}</div>` +
-      `<p class="hm-meter-text">${gloss(p == null ? LABELS.noPlug(objThe(id)) : LABELS.meterReads(objThe(id)))}</p></div>`;
+  // Le compteur et son afficheur : l'index (kWh) et la puissance de toute la maison (W).
+  const kwhText = () => `${LABELS.num(state.kwh, 3)} kWh`;
+  function meterHTML() {
+    return `<div class="hm-meterwin">` +
+      `<div class="hm-meterbox">${toolIcon('meter', 'is-huge')}<div><span class="hm-meter-label">${LABELS.meterIndex}</span>` +
+        `<div class="hm-lcd is-index" data-kwh>${kwhText()}</div></div></div>` +
+      `<div class="hm-displaybox"><span class="hm-meter-label">${LABELS.displayTitle}</span><div class="hm-lcd" data-watts>${housePower()} W</div></div>` +
+      `<p class="hm-meter-text">${gloss(LABELS.meterText)}</p></div>`;
+  }
+
+  function updateMeter() {
+    const k = $('[data-kwh]');
+    if (k) k.textContent = kwhText();
+    const w = $('[data-watts]');
+    if (w) w.textContent = `${housePower()} W`;
   }
 
   /* ===== Étapes complètes (progression stricte, voir lab-engine.js) =====
-     1 : les trois hypothèses ; 2 : le carnet complet (deux mesures par
-     objet) ; 3 : toutes les réponses. */
+     1 : les trois hypothèses ; 2 : les huit étiquettes et le carnet
+     complet ; 3 : toutes les réponses. */
   const hypDone = () => !!(state.hyp.stores.length && state.hyp.all && state.hyp.top);
 
   function stepComplete(n) {
     if (n === 1) return hypDone();
-    if (n === 2) return notesDone();
+    if (n === 2) return runDone();
     return conclusionsComplete();
   }
 
   function lockReason(n) {
     if (n === 1) return LABELS.lockHypothesis;
-    if (n === 2) return LABELS.lockNotes(NOTES_TOTAL - notesFilled());
+    if (n === 2) return LABELS.lockRun(run.objects.length - tagsPlaced(), NOTES_TOTAL - notesFilled());
     return lab.L.missingConclusions;
   }
 
@@ -309,8 +354,8 @@
     }));
     const because = $('.hm-because-input');
     because.addEventListener('input', e => { state.because = e.target.value; });
-    // Hypothèses figées dès la première mesure.
-    if (started()) {
+    // Hypothèses figées dès le premier geste dans la maison.
+    if (state.started) {
       $$('[data-hyp]').forEach(btn => lab.setLock(btn, LABELS.lockHypothesisFixed, { icon: false }));
       because.readOnly = true;
       lab.setLock(because, LABELS.lockHypothesisFixed);
@@ -326,105 +371,197 @@
   }
 
   /* ===== Étape 2 : l'enquête =====
-     À gauche, la maison et ses huit objets ; au-dessus, les deux outils (à
-     prendre en main, puis toucher un objet). Toucher un objet sans outil
-     montre sa carte d'indices. À droite, l'écran de l'outil et le carnet. */
+     À gauche, la maison : ses huit objets, les interrupteurs des appareils,
+     le compteur dans la cave ; au-dessus, les étiquettes (à poser sur un
+     objet) et la caméra (à poser sur une pièce). Toucher un objet sans
+     outil montre sa carte d'indices, toucher le compteur ouvre sa fenêtre.
+     À droite, ce panneau et le carnet. Trois missions, dans n'importe quel
+     ordre. */
   let stepperDone = null;
 
   function renderExperiment() {
     lab.release();
     lab.body.innerHTML = `<div class="hm-run">` +
       `<section class="hm-main">` +
-        `<div class="hm-tools">${['camera', 'meter'].map(t => `<button type="button" class="hm-tool" data-tool="${t}">${toolIcon(t)}<span>${LABELS.tools[t]}</span></button>`).join('')}` +
-          `<span class="hm-tools-hint">${gloss(LABELS.toolsHint)}</span></div>` +
-        `<div class="hm-board" style="width:${HOUSE_W}px;height:${HOUSE_H}px">${houseSVG()}${objectsHTML()}</div>` +
+        `<div class="hm-tools"><span class="hm-tools-label">${LABELS.tagsTitle}</span>` +
+          FORMS.map(f => `<button type="button" class="hm-tag is-${f}" data-tag="${f}">${f === 'no' ? '' : `<b>${LABELS.badges[f]}</b>`}<span>${LABELS.tags[f]}</span></button>`).join('') +
+          `<button type="button" class="hm-tool" data-tool="camera" data-lab-look>${toolIcon('camera')}<span>${LABELS.cameraName}</span></button></div>` +
+        boardHTML() +
         `<p class="lab-caption hm-caption" data-caption aria-live="polite"></p>` +
       `</section>` +
       `<section class="hm-side"><div class="hm-screen" aria-live="polite">${screenHTML()}</div>${notebookHTML()}</section>` +
       `</div>`;
     bindTools();
-    bindObjects();
+    bindHouse();
     bindNotebook();
     setCaption(defaultCaption());
     renderRunFooter();
+    startTicker(lab.newScene());
   }
 
-  function objectsHTML() {
-    return run.objects.map(id => {
-      const { room, slot } = run.place[id];
-      const [x, y] = ROOMS[room].slots[slot];
-      const m = state.measured;
-      const marks = `<span class="hm-obj-marks">${m.temp[id] ? toolIcon('camera', 'is-mark') : ''}${m.watt[id] ? toolIcon('meter', 'is-mark') : ''}</span>`;
-      const on = state.shown && state.shown.id === id;
-      return `<button type="button" class="hm-obj ${on ? 'is-shown' : ''}" data-obj="${id}" data-lab-look style="left:${x}px;top:${y}px;width:${OBJ_W}px;height:${OBJ_H}px">` +
-        `${icon(id, 'is-big')}<span class="hm-obj-name">${objName(id)}</span>${marks}</button>`;
+  // Les pièces (cibles de la caméra) et leurs objets (cibles des étiquettes) ;
+  // les interrupteurs à part, pour qu'un toucher ne pose rien.
+  function boardHTML() {
+    const show = lab.state.showMissing;
+    const s = state.shown;
+    const box = (x, y) => `left:${x}px;top:${y}px;width:${OBJ_W}px;height:${OBJ_H}px`;
+    const zones = ROOM_KEYS.map(r => {
+      const [bx, by, bw, bh] = ROOMS[r].box;
+      const objs = run.objects.filter(id => roomOf(id) === r).map(id => {
+        const [x, y] = ROOMS[r].slots[run.place[id].slot];
+        const tag = state.tags[id];
+        const shown = s && s.kind === 'clue' && s.id === id;
+        return `<button type="button" class="hm-obj ${shown ? 'is-shown' : ''} ${show && !tag ? 'lab-is-missing' : ''}" data-obj="${id}" data-lab-look style="${box(x - bx, y - by)}">` +
+          (tag ? `<span class="hm-badge is-${tag}">${LABELS.badges[tag]}</span>` : '') +
+          `${icon(id, 'is-big')}<span class="hm-obj-name">${objName(id)}</span></button>`;
+      }).join('');
+      const meter = r === 'cellar' ? `<button type="button" class="hm-obj hm-meter-obj ${s && s.kind === 'meter' ? 'is-shown' : ''}" data-meter data-lab-look style="${box(METER_AT[0] - bx, METER_AT[1] - by)}">` +
+        `${toolIcon('meter', 'is-big')}<span class="hm-obj-name">${LABELS.meterName}</span></button>` : '';
+      const filmed = s && s.kind === 'camera' && s.room === r;
+      return `<div class="hm-zone ${filmed ? 'is-filmed' : ''}" data-room="${r}" data-lab-look style="left:${bx}px;top:${by}px;width:${bw}px;height:${bh}px">${objs}${meter}</div>`;
     }).join('');
+    const switches = run.devices.map(id => {
+      const [x, y] = ROOMS[roomOf(id)].slots[run.place[id].slot];
+      const on = state.sw[id].on;
+      return `<button type="button" class="hm-switch ${on ? 'is-on' : ''}" data-sw="${id}" aria-pressed="${on}" aria-label="${escapeHtml(LABELS.switchAria(objName(id)))}" style="left:${x + OBJ_W - 40}px;top:${y + 2}px">${on ? LABELS.on : LABELS.off}</button>`;
+    }).join('');
+    return `<div class="hm-board" style="width:${HOUSE_W}px;height:${HOUSE_H}px">${houseSVG()}${zones}${switches}</div>`;
   }
 
-  // L'écran à droite : la carte d'indices, l'image de la caméra ou le wattmètre.
+  // Le panneau à droite : la carte d'indices, la vue de la caméra ou le compteur.
   function screenHTML() {
     const s = state.shown;
     if (!s) return `<p class="hm-screen-empty">${gloss(LABELS.screenEmpty)}</p>`;
-    const head = `<p class="hm-screen-head">${icon(s.id)}<strong>${objName(s.id)}</strong>` +
-      `<span class="hm-screen-kind">${s.kind === 'clue' ? LABELS.clueTitle : LABELS.tools[s.kind]}</span></p>`;
-    if (s.kind === 'clue') return head + `<p class="hm-clue">${gloss(LABELS.objects[s.id].clue)}</p>`;
-    if (s.kind === 'camera') return head + thermalSVG(s.id);
-    return head + meterHTML(s.id);
+    if (s.kind === 'meter') return `<p class="hm-screen-head">${toolIcon('meter')}<strong>${LABELS.meterName}</strong></p>${meterHTML()}`;
+    if (s.kind === 'camera') {
+      return `<p class="hm-screen-head">${toolIcon('camera')}<strong>${LABELS.rooms[s.room].name}</strong><span class="hm-screen-kind">${LABELS.cameraName}</span></p>` + thermalSVG(s.room);
+    }
+    return `<p class="hm-screen-head">${icon(s.id)}<strong>${objName(s.id)}</strong><span class="hm-screen-kind">${LABELS.clueTitle}</span></p>` +
+      `<p class="hm-clue">${gloss(LABELS.objects[s.id].clue)}</p>`;
   }
 
   function bindTools() {
-    $$('[data-tool]').forEach(el => {
-      const t = el.dataset.tool;
+    $$('[data-tag]').forEach(el => {
+      const f = el.dataset.tag;
       lab.makeDraggable(el, {
         hold: true,
-        ghost: () => `<div class="hm-ghost">${toolIcon(t, 'is-big')}</div>`,
+        ghost: () => `<div class="hm-ghost"><span class="hm-badge is-big is-${f}">${LABELS.badges[f]}</span></div>`,
         targets: () => $$('[data-obj]'),
-        onHold: on => setCaption(on ? LABELS.captionHold(LABELS.tools[t]) : defaultCaption()),
-        onDrop: target => measure(t, target.dataset.obj)
+        onHold: on => setCaption(on ? LABELS.captionHoldTag(LABELS.tags[f]) : defaultCaption()),
+        onDrop: target => tagObject(target.dataset.obj, f)
       });
+    });
+    lab.makeDraggable($('[data-tool="camera"]'), {
+      hold: true,
+      ghost: () => `<div class="hm-ghost">${toolIcon('camera', 'is-big')}</div>`,
+      targets: () => $$('[data-room]'),
+      onHold: on => setCaption(on ? LABELS.captionHoldCamera : defaultCaption()),
+      onDrop: target => film(target.dataset.room)
     });
   }
 
-  function bindObjects() {
+  function bindHouse() {
     $$('[data-obj]').forEach(el => el.addEventListener('click', () => {
       const id = el.dataset.obj;
       state.shown = { kind: 'clue', id };
       refreshSide();
       setCaption(LABELS.captionClue(objName(id)));
     }));
+    $('[data-meter]').addEventListener('click', () => {
+      state.shown = { kind: 'meter' };
+      refreshSide();
+      setCaption(LABELS.captionMeter);
+    });
+    $$('[data-sw]').forEach(btn => btn.addEventListener('click', () => toggle(btn)));
   }
 
-  // Une mesure : l'écran montre ce que l'outil voit ; la case du carnet s'ouvre.
-  function measure(tool, id) {
-    const key = tool === 'camera' ? 'temp' : 'watt';
-    state.measured[key][id] = true;
-    state.shown = { kind: tool, id };
+  // Une étiquette posée : la carte de l'objet s'affiche, pour vérifier.
+  function tagObject(id, form) {
+    state.tags[id] = form;
+    state.started = true;
+    state.shown = { kind: 'clue', id };
+    if (lab.state.showMissing && runDone()) lab.state.showMissing = false;
     renderExperiment();
-    setCaption(tool === 'camera' ? LABELS.captionCamera(objName(id)) : LABELS.captionMeter(objName(id)));
-    lab.renderStepper();
+    setCaption(LABELS.captionTagged(objName(id), LABELS.tags[form]));
     lab.save();
   }
 
-  // Après une carte d'indices : l'écran et la marque de l'objet, sans tout redessiner.
+  // Une pièce filmée : la case de température de ses appareils s'ouvre.
+  function film(room) {
+    if (!lab.isFrozen()) {
+      run.devices.filter(id => roomOf(id) === room).forEach(id => { state.measured.temp[id] = true; });
+      state.started = true;
+    }
+    state.shown = { kind: 'camera', room };
+    renderExperiment();
+    setCaption(LABELS.captionCamera(LABELS.rooms[room].the));
+    lab.save();
+  }
+
+  // Un interrupteur : sans tout redessiner (l'outil en main reste en main).
+  // Actionné pendant que le compteur est ouvert, il ouvre la case de puissance.
+  function toggle(btn) {
+    const id = btn.dataset.sw;
+    const sw = state.sw[id];
+    sw.on = !sw.on;
+    state.started = true;
+    btn.classList.toggle('is-on', sw.on);
+    btn.setAttribute('aria-pressed', String(sw.on));
+    btn.textContent = sw.on ? LABELS.on : LABELS.off;
+    if (state.shown && state.shown.kind === 'meter') {
+      state.measured.watt[id] = true;
+      lab.setLock($(`[data-watt="${id}"]`), null);
+      updateMeter();
+    }
+    lab.save();
+  }
+
+  /* Le temps qui passe, tant que l'enquête est affichée : les appareils
+     chauffent ou refroidissent, l'index du compteur avance. Arrêté au
+     changement de scène (autre étape, labo fermé) et dans le labo corrigé. */
+  let ticker = 0;
+  function startTicker(token) {
+    clearInterval(ticker);
+    let last = performance.now();
+    ticker = setInterval(() => {
+      if (!lab.isScene(token)) { clearInterval(ticker); return; }
+      const now = performance.now();
+      const dt = Math.min(1000, now - last);
+      last = now;
+      if (lab.isFrozen()) return;
+      let moved = false;
+      run.devices.forEach(id => {
+        const sw = state.sw[id];
+        const k = sw.on ? Math.min(1, sw.k + dt / HEAT_MS) : Math.max(0, sw.k - dt / HEAT_MS);
+        if (k !== sw.k) { sw.k = k; moved = true; }
+      });
+      state.kwh += housePower() / 1000 * (dt / 3600e3) * ACCEL;
+      const s = state.shown;
+      if (s && s.kind === 'camera' && moved) {
+        const screen = $('.hm-screen');
+        if (screen) screen.innerHTML = screenHTML();
+      }
+      if (s && s.kind === 'meter') updateMeter();
+    }, TICK_MS);
+  }
+
+  // Après une carte ou le compteur : le panneau et la marque de l'objet, sans tout redessiner.
   function refreshSide() {
     const screen = $('.hm-screen');
     if (screen) screen.innerHTML = screenHTML();
-    $$('[data-obj]').forEach(b => b.classList.toggle('is-shown', !!state.shown && state.shown.id === b.dataset.obj));
+    const s = state.shown;
+    $$('[data-obj]').forEach(b => b.classList.toggle('is-shown', !!s && s.kind === 'clue' && s.id === b.dataset.obj));
+    $('[data-meter]').classList.toggle('is-shown', !!s && s.kind === 'meter');
+    $$('[data-room]').forEach(z => z.classList.toggle('is-filmed', !!s && s.kind === 'camera' && s.room === z.dataset.room));
   }
 
-  /* --- Le carnet : la température et la puissance de chaque objet --- */
+  /* --- Le carnet : la température et la puissance de chaque appareil --- */
   function notebookHTML() {
     const show = lab.state.showMissing;
     const n = state.notes;
-    const rows = run.objects.map(id => {
-      const w = n.watt[id];
-      return `<tr><th scope="row"><span class="hm-nb-obj">${icon(id)}<span>${objName(id)}</span></span></th>` +
-        `<td class="${show && n.temp[id] == null ? 'lab-is-missing' : ''}"><input type="text" inputmode="numeric" class="hm-num-input" data-temp="${id}" value="${n.temp[id] == null ? '' : n.temp[id]}" maxlength="3" autocomplete="off" spellcheck="false" aria-label="${escapeHtml(LABELS.tempAria(objName(id)))}"></td>` +
-        `<td class="${show && w == null ? 'lab-is-missing' : ''}"><span class="hm-watt">` +
-          `<input type="text" inputmode="numeric" class="hm-num-input" data-watt="${id}" value="${typeof w === 'number' ? w : ''}" maxlength="4" autocomplete="off" spellcheck="false" aria-label="${escapeHtml(LABELS.wattAria(objName(id)))}">` +
-          `<button type="button" class="lab-choice hm-noplug ${w === 'none' ? 'is-selected' : ''}" data-noplug="${id}" aria-pressed="${w === 'none'}">${LABELS.noPlugShort}</button>` +
-        `</span></td></tr>`;
-    }).join('');
+    const rows = run.devices.map(id => `<tr><th scope="row"><span class="hm-nb-obj">${icon(id)}<span>${objName(id)}</span></span></th>` +
+      `<td class="${show && n.temp[id] == null ? 'lab-is-missing' : ''}"><input type="text" inputmode="numeric" class="hm-num-input" data-temp="${id}" value="${n.temp[id] == null ? '' : n.temp[id]}" maxlength="3" autocomplete="off" spellcheck="false" aria-label="${escapeHtml(LABELS.tempAria(objName(id)))}"></td>` +
+      `<td class="${show && n.watt[id] == null ? 'lab-is-missing' : ''}"><input type="text" inputmode="numeric" class="hm-num-input" data-watt="${id}" value="${n.watt[id] == null ? '' : n.watt[id]}" maxlength="4" autocomplete="off" spellcheck="false" aria-label="${escapeHtml(LABELS.wattAria(objName(id)))}"></td></tr>`).join('');
     return `<div class="hm-notebook"><h3 class="lab-panel-title">${LABELS.notebookTitle}</h3>` +
       `<table class="hm-nb-table"><thead><tr><th scope="col"></th><th scope="col">${LABELS.tempHead}</th><th scope="col">${LABELS.wattHead}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   }
@@ -433,26 +570,13 @@
     const n = state.notes;
     $$('[data-temp]').forEach(input => {
       const id = input.dataset.temp;
-      lab.setLock(input, state.measured.temp[id] ? null : LABELS.lockCamera(objThe(id)));
+      lab.setLock(input, state.measured.temp[id] ? null : LABELS.lockCamera(LABELS.rooms[roomOf(id)].the));
       bindNumber(input, v => { n.temp[id] = v; }, 3);
     });
     $$('[data-watt]').forEach(input => {
       const id = input.dataset.watt;
       lab.setLock(input, state.measured.watt[id] ? null : LABELS.lockMeter(objThe(id)));
-      bindNumber(input, v => {
-        if (v == null && n.watt[id] === 'none') return;
-        n.watt[id] = v;
-        const chip = input.parentElement.querySelector('[data-noplug]');
-        if (chip && v != null) { chip.classList.remove('is-selected'); chip.setAttribute('aria-pressed', 'false'); }
-      }, 4);
-    });
-    $$('[data-noplug]').forEach(btn => {
-      const id = btn.dataset.noplug;
-      lab.setLock(btn, state.measured.watt[id] ? null : LABELS.lockMeter(objThe(id)), { icon: false });
-      btn.addEventListener('click', () => {
-        n.watt[id] = n.watt[id] === 'none' ? null : 'none';
-        afterNote(true);
-      });
+      bindNumber(input, v => { n.watt[id] = v; }, 4);
     });
   }
 
@@ -467,22 +591,22 @@
         if (v != null) input.value = String(v);
         input.classList.toggle('is-invalid', v == null && raw !== '');
       }
-      afterNote(false);
+      afterNote();
     };
     input.addEventListener('input', () => { input.classList.remove('is-invalid'); read(false); });
     input.addEventListener('change', () => read(true));
     input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } });
   }
 
-  function afterNote(redraw) {
+  function afterNote() {
     if (lab.state.showMissing && stepComplete(2)) lab.state.showMissing = false;
-    if (redraw) renderExperiment(); else updateRunFooter();
+    updateRunFooter();
     lab.save();
   }
 
   function defaultCaption() {
-    if (notesDone()) return LABELS.captionDone;
-    return started() ? LABELS.captionGoOn : LABELS.captionStart;
+    if (runDone()) return LABELS.captionDone;
+    return state.started ? LABELS.captionGoOn : LABELS.captionStart;
   }
 
   function setCaption(text, warn) {
@@ -504,7 +628,7 @@
     const warn = lab.state.showMissing && !complete;
     const info = $('.lab-footer .lab-footer-info');
     if (info) {
-      info.textContent = warn ? lockReason(2) : LABELS.runInfo(notesFilled(), NOTES_TOTAL);
+      info.textContent = warn ? lockReason(2) : LABELS.runInfo(tagsPlaced(), run.objects.length, notesFilled(), NOTES_TOTAL);
       info.classList.toggle('is-warning', warn);
     }
     const next = $('[data-next]');
@@ -513,12 +637,12 @@
   }
 
   /* ===== Étape 3 : conclusion =====
-     À gauche, le carnet ; à droite, les trois questions (listes dans les
-     phrases), puis le jugement des trois hypothèses. */
+     À gauche, les étiquettes et le carnet ; à droite, les trois questions
+     (listes dans les phrases), puis le jugement des trois hypothèses. */
   function conclusionParts() {
     const c = state.concl;
     return {
-      q1: run.objects.every(id => c.codes[id]),
+      q1: !!(c.n && c.store),
       q2: !!(c.all && c.why && c.fate),
       q3: !!c.top,
       verdict: ['q1', 'q2', 'q3'].every(k => c.v[k])
@@ -535,13 +659,15 @@
       options.map(x => `<option value="${x}" ${value === x ? 'selected' : ''}>${escapeHtml(labelOf(x))}</option>`).join('') + `</select>`;
   }
 
-  const wattText = w => (w == null ? '—' : w === 'none' ? LABELS.noPlugShort : `${w} W`);
+  const tempText = t => (t == null ? '—' : `${t} °C`);
+  const wattText = w => (w == null ? '—' : `${w} W`);
+  const tagText = id => (state.tags[id] ? LABELS.forms[state.tags[id]] : '—');
 
   function recapHTML() {
     const n = state.notes;
-    return `<table class="lab-table hm-recap"><thead><tr><th scope="col"></th><th scope="col">${LABELS.tempHead}</th><th scope="col">${LABELS.wattHead}</th></tr></thead><tbody>` +
-      run.objects.map(id => `<tr><th scope="row"><span class="hm-nb-obj">${icon(id)}<span>${objName(id)}</span></span></th>` +
-        `<td>${n.temp[id] == null ? '—' : `${n.temp[id]} °C`}</td><td>${wattText(n.watt[id])}</td></tr>`).join('') +
+    return `<table class="lab-table hm-recap"><thead><tr><th scope="col"></th><th scope="col">${LABELS.storedHead}</th><th scope="col">${LABELS.tempShort}</th><th scope="col">${LABELS.wattHead}</th></tr></thead><tbody>` +
+      run.objects.map(id => `<tr><th scope="row"><span class="hm-nb-obj">${icon(id)}<span>${objName(id)}</span></span></th><td>${tagText(id)}</td>` +
+        (DEVICES[id] ? `<td>${tempText(n.temp[id])}</td><td>${wattText(n.watt[id])}</td>` : `<td class="hm-muted">—</td><td class="hm-muted">—</td>`) + `</tr>`).join('') +
       `</tbody></table><p class="hm-recap-room">${gloss(LABELS.roomTemp(run.room))}</p>`;
   }
 
@@ -550,8 +676,6 @@
     const parts = conclusionParts();
     const show = lab.state.showMissing;
     const miss = key => (show && !parts[key] ? 'lab-is-missing' : '');
-    const code = id => `<div class="hm-code"><span class="hm-nb-obj">${icon(id)}<span>${objName(id)}</span></span>` +
-      selectHTML(`code|${id}`, c.codes[id], FORMS, f => LABELS.forms[f], LABELS.codeAria(objName(id)), show) + `</div>`;
     const verdict = k => `<div class="hm-verdict"><span class="hm-verdict-text">${LABELS.verdictRow(k)}</span>` +
       ['confirmed', 'rejected'].map(x => `<button type="button" class="lab-choice hm-chip is-small ${c.v[k] === x ? 'is-selected' : ''}" data-v="${k}" data-val="${x}" aria-pressed="${c.v[k] === x}">${LABELS[x]}</button>`).join('') + `</div>`;
 
@@ -559,7 +683,9 @@
       `<section class="hm-results"><h3 class="lab-panel-title">${LABELS.resultsTitle}</h3>${recapHTML()}</section>` +
       `<section class="hm-form">` +
         `<div class="hm-q ${miss('q1')}"><p class="hm-q-title"><span class="hm-num" aria-hidden="true">1</span><span>${gloss(LABELS.questions[1])}</span></p>` +
-          `<div class="hm-codes">${run.objects.map(code).join('')}</div></div>` +
+          `<p class="hm-concl-line">${LABELS.concl1(
+            selectHTML('n', c.n, COUNTS, x => x, LABELS.countAria, show),
+            selectHTML('store', c.store, STORE_WORDS, x => LABELS.storeWords[x], LABELS.storeAria, show))}</p></div>` +
         `<div class="hm-q ${miss('q2')}"><p class="hm-q-title"><span class="hm-num" aria-hidden="true">2</span><span>${gloss(LABELS.questions[2])}</span></p>` +
           `<p class="hm-concl-line">${LABELS.concl2(
             selectHTML('all', c.all, ALL, x => LABELS.allWords[x], LABELS.questions[2], show),
@@ -571,8 +697,7 @@
       `</section></div>`;
 
     $$('select[data-c]').forEach(sel => sel.addEventListener('change', () => {
-      const [f, id] = sel.dataset.c.split('|');
-      if (f === 'code') c.codes[id] = sel.value || null; else c[f] = sel.value || null;
+      c[sel.dataset.c] = sel.value || null;
       afterConcl();
     }));
     $$('[data-v]').forEach(btn => btn.addEventListener('click', () => { c.v[btn.dataset.v] = btn.dataset.val; afterConcl(); }));
@@ -596,54 +721,72 @@
 
   /* ===== Étape 4 : correction ===== */
   const CRITERIA = ['notes', 'storage', 'dissipation', 'power', 'verdicts'];
-  // Ce que l'élève a conclu, pour juger ses hypothèses.
-  const conclStores = () => run.objects.filter(id => state.concl.codes[id] && state.concl.codes[id] !== 'no');
+  // Ce que l'élève a trouvé, pour juger ses hypothèses : les objets étiquetés C, M ou T.
+  const taggedStores = () => run.objects.filter(id => state.tags[id] && state.tags[id] !== 'no');
 
   function evaluate() {
     const c = state.concl;
     const n = state.notes;
     const noteMiss = [];
-    run.objects.forEach(id => {
+    run.devices.forEach(id => {
       if (n.temp[id] == null || Math.abs(n.temp[id] - run.temps[id]) > 1) noteMiss.push({ id, k: 'temp' });
-      const p = powerOf(id);
-      if (p == null ? n.watt[id] !== 'none' : n.watt[id] !== p) noteMiss.push({ id, k: 'watt' });
+      if (n.watt[id] !== powerOf(id)) noteMiss.push({ id, k: 'watt' });
     });
-    const codeMiss = run.objects.filter(id => c.codes[id] !== formOf(id));
+    const tagMiss = run.objects.filter(id => state.tags[id] !== formOf(id));
+    const q1Ok = Number(c.n) === run.stores.length && c.store === 'not';
     const q2Ok = c.all === 'all' && c.why === 'warmer' && c.fate === 'wasted';
     const q3Ok = c.top === topDevice();
     const should = {
-      q1: sameSet(state.hyp.stores, conclStores()) ? 'confirmed' : 'rejected',
+      q1: sameSet(state.hyp.stores, taggedStores()) ? 'confirmed' : 'rejected',
       q2: state.hyp.all && state.hyp.all === c.all ? 'confirmed' : 'rejected',
       q3: state.hyp.top && state.hyp.top === c.top ? 'confirmed' : 'rejected'
     };
     const vMiss = ['q1', 'q2', 'q3'].filter(k => c.v[k] !== should[k]);
     return {
-      noteMiss, codeMiss, q2Ok, q3Ok, should, vMiss,
+      noteMiss, tagMiss, q1Ok, q2Ok, q3Ok, should, vMiss,
       notesGood: NOTES_TOTAL - noteMiss.length,
       notes: noteMiss.length === 0,
-      storage: codeMiss.length === 0,
+      storage: tagMiss.length === 0 && q1Ok,
       dissipation: q2Ok,
       power: q3Ok,
       verdicts: vMiss.length === 0
     };
   }
 
-  function noteMissText(m) {
-    const n = state.notes;
-    if (m.k === 'temp') return CHECK.tempWrong(objName(m.id), n.temp[m.id] == null ? CHECK.nothing : `${n.temp[m.id]} °C`, `${run.temps[m.id]} °C`);
-    const p = powerOf(m.id);
-    return CHECK.wattWrong(objName(m.id), n.watt[m.id] == null ? CHECK.nothing : wattText(n.watt[m.id]), p == null ? LABELS.noPlugShort : `${p} W`);
+  // Une puissance notée qui est celle de plusieurs appareils allumés ensemble : lesquels.
+  function sumWith(id, value) {
+    const others = run.devices.filter(x => x !== id);
+    for (let mask = 1; mask < (1 << others.length); mask++) {
+      const set = others.filter((x, i) => mask & (1 << i));
+      if (set.reduce((s, x) => s + powerOf(x), powerOf(id)) === value) return set;
+    }
+    return null;
   }
 
-  const codeMissText = id => CHECK.codeWrong(objName(id), state.concl.codes[id] ? LABELS.forms[state.concl.codes[id]] : CHECK.nothing, LABELS.forms[formOf(id)]);
+  function noteMissText(m) {
+    const n = state.notes;
+    const name = objName(m.id);
+    if (m.k === 'temp') {
+      const v = n.temp[m.id];
+      if (v != null && Math.abs(v - run.room) <= 1) return CHECK.tempOff(name, tempText(v), tempText(run.temps[m.id]));
+      return CHECK.tempWrong(name, v == null ? CHECK.nothing : tempText(v), tempText(run.temps[m.id]));
+    }
+    const v = n.watt[m.id];
+    const set = v == null ? null : sumWith(m.id, v);
+    if (set) return CHECK.wattSum(name, wattText(v), LABELS.list(set.map(objName)), wattText(powerOf(m.id)));
+    return CHECK.wattWrong(name, v == null ? CHECK.nothing : wattText(v), wattText(powerOf(m.id)));
+  }
+
+  const tagMissText = id => CHECK.tagWrong(objName(id), state.tags[id] ? LABELS.forms[state.tags[id]] : CHECK.nothing, LABELS.forms[formOf(id)]);
+  const right1 = () => LABELS.concl1(String(run.stores.length), LABELS.storeWords.not);
   const right2 = () => LABELS.concl2(LABELS.allWords.all, LABELS.why.warmer, LABELS.fate.wasted);
   const right3 = () => LABELS.concl3(objName(topDevice()));
 
-  // Les faits : chaque objet, ce qu'il garde, sa température et sa puissance.
+  // Les faits : chaque objet, ce qu'il garde, sa température (en marche) et sa puissance.
   function factsHTML() {
     return `<table class="lab-table hm-facts"><thead><tr><th scope="col"></th><th scope="col">${LABELS.storedHead}</th><th scope="col">${LABELS.tempHead}</th><th scope="col">${LABELS.wattHead}</th></tr></thead><tbody>` +
       run.objects.map(id => `<tr><th scope="row"><span class="hm-nb-obj">${icon(id)}<span>${objName(id)}</span></span></th>` +
-        `<td>${LABELS.forms[formOf(id)]}</td><td>${run.temps[id]} °C</td><td>${wattText(powerOf(id) == null ? 'none' : powerOf(id))}</td></tr>`).join('') +
+        `<td>${LABELS.forms[formOf(id)]}</td><td>${tempText(run.temps[id])}</td><td>${wattText(powerOf(id))}</td></tr>`).join('') +
       `</tbody></table>`;
   }
 
@@ -652,22 +795,23 @@
     if (key === 'notes') {
       return `<p>${CHECK.notesScore(ev.notesGood, NOTES_TOTAL)}</p>` +
         (ev.notes ? `<p class="hm-ok">${CHECK.notesAllGood}</p>` : `<ul class="hm-misslist">${ev.noteMiss.map(m => `<li class="hm-ko">${gloss(noteMissText(m))}</li>`).join('')}</ul>`) +
-        `<p class="hm-q-head">${LABELS.factsTitle}</p>${factsHTML()}<p class="hm-muted">${gloss(EXPLAIN.camera)}</p>`;
+        `<p class="hm-q-head">${LABELS.factsTitle}</p>${factsHTML()}<p class="hm-muted">${gloss(EXPLAIN.camera)}</p><p class="hm-muted">${gloss(EXPLAIN.meter)}</p>`;
     }
     if (key === 'storage') {
-      return (ev.storage ? `<p class="hm-ok">${CHECK.codesAllGood}</p>` : `<ul class="hm-misslist">${ev.codeMiss.map(id => `<li class="hm-ko">${gloss(codeMissText(id))}</li>`).join('')}</ul>`) +
+      return (ev.tagMiss.length ? `<ul class="hm-misslist">${ev.tagMiss.map(id => `<li class="hm-ko">${gloss(tagMissText(id))}</li>`).join('')}</ul>` : `<p class="hm-ok">${CHECK.tagsAllGood}</p>`) +
+        (ev.q1Ok ? `<p class="hm-ok">${CHECK.answerOk} ${gloss(right1())}</p>` : `<p class="hm-ko">${CHECK.answerWrong} <strong>${gloss(right1())}</strong></p>`) +
         `<ul class="hm-plainlist">${run.stores.map(id => `<li>${icon(id)}<span>${gloss(EXPLAIN.stores[id])}</span></li>`).join('')}</ul>` +
         `<p class="hm-muted">${gloss(EXPLAIN.devices)}</p>`;
     }
     if (key === 'dissipation') {
       return (ev.q2Ok ? `<p class="hm-ok">${CHECK.answerOk} ${gloss(right2())}</p>` : `<p class="hm-ko">${CHECK.answerWrong} <strong>${gloss(right2())}</strong></p>`) +
-        `<p>${gloss(EXPLAIN.dissipation(LABELS.list(run.devices.map(id => `${objName(id)} ${run.temps[id]} °C`)), run.room))}</p>` +
+        `<p>${gloss(EXPLAIN.dissipation(LABELS.list(run.devices.map(id => `${objName(id)} ${tempText(run.temps[id])}`)), run.room))}</p>` +
         `<p>${gloss(EXPLAIN.conservation)}</p>`;
     }
     if (key === 'power') {
       const sorted = run.devices.slice().sort((a, b) => powerOf(b) - powerOf(a));
       return (ev.q3Ok ? `<p class="hm-ok">${CHECK.answerOk} ${gloss(right3())}</p>` : `<p class="hm-ko">${CHECK.answerWrong} <strong>${gloss(right3())}</strong></p>`) +
-        `<p>${gloss(EXPLAIN.power(LABELS.list(sorted.map(id => `${objName(id)} ${powerOf(id)} W`))))}</p>` +
+        `<p>${gloss(EXPLAIN.power(LABELS.list(sorted.map(id => `${objName(id)} ${wattText(powerOf(id))}`))))}</p>` +
         `<p class="hm-muted">${gloss(EXPLAIN.powerHot)}</p>`;
     }
     return ['q1', 'q2', 'q3'].map(k => `<p><strong>${LABELS.verdictRow(k)}</strong> · ` +
@@ -711,18 +855,27 @@
 
   /* ===== Rapport imprimable : contenu des 7 sections de la fiche outil FO3
      (en-tête, numérotation et mise en page : cadre commun) =====
-     Les erreurs passent par mark() (lab-engine.js) : mesures du carnet,
-     formes stockées, réponses, jugements. */
+     Les erreurs passent par mark() (lab-engine.js) : étiquettes, mesures du
+     carnet, réponses, jugements. */
   function buildReport(mark) {
     const R = LABELS.report;
     const ev = evaluate();
     const c = state.concl;
     const n = state.notes;
+    const word = (text, ok, note) => (ok ? text : mark(text, note));
+
+    // Observations : les étiquettes, puis le carnet, chaque erreur encadrée.
+    const tags = `<table class="hm-report-table"><caption>${R.tagsCaption}</caption>` +
+      run.objects.map(id => {
+        const ok = !ev.tagMiss.includes(id);
+        const note = `${plainText(tagMissText(id))} ${plainText(STORES[id] ? EXPLAIN.stores[id] : EXPLAIN.devices)}`;
+        return `<tr><th>${objName(id)}</th><td>${ok ? tagText(id) : mark(tagText(id), note, { box: true })}</td></tr>`;
+      }).join('') + `</table>`;
     const missOf = (id, k) => ev.noteMiss.find(m => m.id === id && m.k === k);
     const cell = (text, m) => (m ? mark(text, plainText(noteMissText(m)), { box: true }) : text);
     const notes = `<table class="hm-report-table"><caption>${R.notesCaption(run.room)}</caption>` +
       `<tr><th></th><th>${LABELS.tempHead}</th><th>${LABELS.wattHead}</th></tr>` +
-      run.objects.map(id => `<tr><th>${objName(id)}</th><td>${cell(n.temp[id] == null ? '—' : `${n.temp[id]} °C`, missOf(id, 'temp'))}</td>` +
+      run.devices.map(id => `<tr><th>${objName(id)}</th><td>${cell(tempText(n.temp[id]), missOf(id, 'temp'))}</td>` +
         `<td>${cell(wattText(n.watt[id]), missOf(id, 'watt'))}</td></tr>`).join('') + `</table>`;
 
     // Interprétation : les appareils plus chauds que la pièce, d'après les mesures de l'élève.
@@ -731,9 +884,9 @@
       `<p>${R.powers(LABELS.list(run.devices.map(id => `${objName(id)}: ${wattText(n.watt[id])}`)))}</p>`;
 
     // Conclusion : les choix de l'élève, chaque erreur marquée à sa place.
-    const word = (text, ok, note) => (ok ? text : mark(text, note));
-    const codes = `<table class="hm-report-table"><caption>${LABELS.questions[1]}</caption>` +
-      run.objects.map(id => `<tr><th>${objName(id)}</th><td>${c.codes[id] ? word(LABELS.forms[c.codes[id]], c.codes[id] === formOf(id), `${plainText(codeMissText(id))} ${STORES[id] ? plainText(EXPLAIN.stores[id]) : plainText(EXPLAIN.devices)}`) : '—'}</td></tr>`).join('') + `</table>`;
+    const note1 = `${CHECK.answerWrong} ${plainText(right1())}`;
+    const q1 = LABELS.concl1(c.n ? word(c.n, Number(c.n) === run.stores.length, note1) : '—',
+      c.store ? word(LABELS.storeWords[c.store], c.store === 'not', `${note1} ${plainText(EXPLAIN.devices)}`) : '—');
     const note2 = `${CHECK.answerWrong} ${plainText(right2())}`;
     const q2 = LABELS.concl2(c.all ? word(LABELS.allWords[c.all], c.all === 'all', note2) : '—',
       c.why ? word(LABELS.why[c.why], c.why === 'warmer', note2) : '—',
@@ -752,9 +905,9 @@
         hyp,
         `<p>${R.materials(LABELS.list(run.objects.map(objThe)))}</p>`,
         `<ol>${R.procedure.map(s => `<li>${s}</li>`).join('')}</ol>`,
-        notes,
+        tags + notes,
         interp,
-        codes + `<p>${q2}</p><p>${q3}</p>` + verdicts
+        `<p>${q1}</p><p>${q2}</p><p>${q3}</p>` + verdicts
       ],
       correction: `<p><strong>${R.score(CRITERIA.filter(k => ev[k]).length)}</strong></p><table class="hm-report-corr">${correction}</table>`
     };
@@ -769,15 +922,16 @@
     reset,
     stepComplete,
     lockReason,
-    isStarted: () => !!(state.hyp.stores.length || state.hyp.all || state.hyp.top || started()),
+    isStarted: () => !!(state.hyp.stores.length || state.hyp.all || state.hyp.top || state.started),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 1,
+    version: 2,
     save: () => ({ run, state }),
     load(data) {
       const r = data.run, s = data.state;
-      if (!r || !Array.isArray(r.objects) || r.objects.length !== 8 || !Array.isArray(r.devices) || !r.place || !r.temps ||
-        !s || !s.hyp || !Array.isArray(s.hyp.stores) || !s.measured || !s.notes || !s.notes.temp || !s.notes.watt || !s.concl || !s.concl.codes || !s.concl.v ||
+      if (!r || !Array.isArray(r.objects) || r.objects.length !== 8 || !Array.isArray(r.devices) || r.devices.length !== 4 || !r.place || !r.temps ||
+        !s || !s.hyp || !Array.isArray(s.hyp.stores) || !s.tags || !s.sw || typeof s.kwh !== 'number' || !s.measured || !s.notes || !s.notes.temp || !s.notes.watt ||
+        !s.concl || !s.concl.v || !r.devices.every(id => DEVICES[id] && s.sw[id]) ||
         !r.objects.every(id => DEVICES[id] || STORES[id])) throw new Error('labProgress');
       run = r;
       state = s;
@@ -794,7 +948,7 @@
         labels: LABELS.criteria, // noms des critères, pour le tableau de bord
         details: {
           devices: run.devices.join('-'), stores: run.stores.join('-'),
-          notesRight: ev.notesGood, notes: NOTES_TOTAL, codesRight: run.objects.length - ev.codeMiss.length,
+          notesRight: ev.notesGood, notes: NOTES_TOTAL, tagsRight: run.objects.length - ev.tagMiss.length,
           hypothesis: `${state.hyp.stores.length}-${state.hyp.all || '-'}-${state.hyp.top || '-'}`
         }
       };
