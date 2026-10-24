@@ -6,7 +6,7 @@
    des gestes, pas le temps passé à réfléchir (décision de l'enseignant).
 
    Données : les journaux du jour écrits par storage.js
-   (users/{uid}/days/{AAAA-MM-JJ}, champ entries), lus par loadJournal
+   (journal/{AAAA-MM-JJ}/students/{uid}, champ entries), lus par loadJournal
    (dashboard-data.js). Au premier affichage, les 7 derniers jours ;
    « Jours précédents » ajoute la semaine d'avant. Un seul filtre, la classe,
    « Toutes les classes » à chaque ouverture du tableau de bord (choix non

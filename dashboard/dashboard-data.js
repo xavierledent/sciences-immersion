@@ -142,26 +142,24 @@ export async function loadWork() {
 }
 
 /* Journal (onglet « Journal ») : les journaux du jour de tous les élèves
-   entre deux dates (AAAA-MM-JJ, comprises), users/{uid}/days/{jour}, écrits
-   par storage.js. Requête de groupe sur le champ date : demande l'index
-   « days / date » (portée groupe de collections) de la console Firebase.
+   entre deux dates (AAAA-MM-JJ, comprises), journal/{jour}/students/{uid},
+   écrits par storage.js. Un dossier par jour, lu en entier : pas d'index.
    → [{ email, date, entries }] ; email null si l'élève n'a pas de fiche users. */
 export async function loadJournal(from, to) {
-  const [users, days] = await Promise.all([
-    fb.getDocs(fb.collection(fb.db, 'users')),
-    fb.getDocs(fb.query(fb.collectionGroup(fb.db, 'days'),
-      fb.where('date', '>=', from), fb.where('date', '<=', to)))
-  ]);
+  const dates = [];
+  for (let d = new Date(from + 'T12:00:00'); dayKey(d) <= to; d.setDate(d.getDate() + 1)) dates.push(dayKey(d));
+  const [users, ...days] = await Promise.all([fb.getDocs(fb.collection(fb.db, 'users'))]
+    .concat(dates.map(date => fb.getDocs(fb.collection(fb.db, 'journal', date, 'students')))));
   const emailOf = {};
   users.forEach(d => { emailOf[d.id] = String(d.data().email || '').toLowerCase() || null; });
   const out = [];
-  days.forEach(d => {
-    const uid = d.ref.parent.parent && d.ref.parent.parent.id;
-    const data = d.data();
-    out.push({ email: emailOf[uid] || null, date: data.date, entries: data.entries || {} });
-  });
+  days.forEach((snap, i) => snap.forEach(d => {
+    out.push({ email: emailOf[d.id] || null, date: dates[i], entries: d.data().entries || {} });
+  }));
   return out;
 }
+
+const dayKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
 function parseJson(text) {
   try { return JSON.parse(text); } catch (e) { return null; }

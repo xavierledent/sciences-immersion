@@ -138,8 +138,9 @@
     .map(function (section) { return ACTIVITY_SECTIONS[section]; })));
 
   /* Journal du jour (onglet « Journal » du tableau de bord) : un document par
-     élève et par jour, users/{uid}/days/{AAAA-MM-JJ} (date de l'appareil),
-     lu par les enseignantes seulement. Mêmes événements que les compteurs,
+     jour et par élève, journal/{AAAA-MM-JJ}/students/{uid} (date de
+     l'appareil), lu par les enseignantes seulement : le tableau de bord lit
+     les jours voulus, dossier par dossier, sans index à créer. Mêmes événements que les compteurs,
      rien de plus. Champ entries : une entrée par activité de la journée
      (un exercice, un jeu, le vocabulaire d'un chapitre…), clé
      « chapitre::activité » ; refaire la même activité augmente ses totaux
@@ -359,8 +360,8 @@
       Object.keys(e.inc).forEach(function (f) { value[f] = fb.increment(e.inc[f]); });
       out[key] = value;
     });
-    fb.setDoc(fb.doc(fb.db, 'users', cloud.uid, 'days', day),
-      { date: day, updatedAt: fb.serverTimestamp(), entries: out }, { merge: true })
+    fb.setDoc(fb.doc(fb.db, 'journal', day, 'students', cloud.uid),
+      { updatedAt: fb.serverTimestamp(), entries: out }, { merge: true })
       .catch(function (error) { console.error('SiteStorage : journal du jour non enregistré', error); });
   }
 

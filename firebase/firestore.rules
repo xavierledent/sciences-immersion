@@ -76,20 +76,6 @@ service cloud.firestore {
                'stats', 'updatedAt'
              ]);
       }
-
-      // ===== users/{uid}/days/{jour} : son journal du jour (onglet Journal) =====
-      // Écrit par storage.js (une entrée par activité de la journée), lu par
-      // les enseignants seulement. Jour = AAAA-MM-JJ, répété dans le champ
-      // date (requête du tableau de bord) ; au plus 400 activités par jour.
-      match /days/{day} {
-        allow read: if isTeacher();
-        allow create, update: if isOwner(uid)
-          && day.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')
-          && request.resource.data.keys().hasOnly(['date', 'entries', 'updatedAt'])
-          && request.resource.data.date == day
-          && request.resource.data.entries is map
-          && request.resource.data.entries.size() <= 400;
-      }
     }
 
     // ===== teachers/{email} : la liste des enseignants =====
@@ -137,6 +123,18 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['chapters', 'cutoff', 'importedAt', 'importedBy', 'sourceRows']);
     }
 
+    // ===== journal/{jour}/students/{uid} : le journal du jour (onglet Journal) =====
+    // Écrit par storage.js : chaque élève, son propre document du jour (une
+    // entrée par activité, au plus 400). Lu par les enseignants seulement.
+    match /journal/{day}/students/{uid} {
+      allow read: if isTeacher();
+      allow create, update: if isOwner(uid)
+        && day.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')
+        && request.resource.data.keys().hasOnly(['entries', 'updatedAt'])
+        && request.resource.data.entries is map
+        && request.resource.data.entries.size() <= 400;
+    }
+
     // ===== assignments/{id} : les devoirs =====
     // Composés et envoyés depuis le tableau de bord (dashboard-homework.js),
     // lus par les enseignants seulement (les élèves les reçoivent par mail).
@@ -156,13 +154,6 @@ service cloud.firestore {
     // ===== Tableau de bord (phase 6) =====
     // L'enseignant lit les chapitres de tous les élèves en une seule requête.
     match /{path=**}/chapters/{chapterId} {
-      allow read: if isTeacher();
-    }
-
-    // Onglet Journal : les journaux du jour de tous les élèves, d'une date à
-    // une autre (demande l'index « days / date » en portée groupe de
-    // collections, console → Firestore → Index → Champ unique).
-    match /{path=**}/days/{day} {
       allow read: if isTeacher();
     }
   }
