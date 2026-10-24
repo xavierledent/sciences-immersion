@@ -491,6 +491,27 @@
         fitFill(el);
       },
 
+      /* Liste au milieu d'une phrase : la case fermée (base-select) prend la
+         largeur du choix affiché, et la phrase bougerait à chaque choix.
+         Chaque liste de root reçoit la largeur de son choix le plus long, en
+         em (le zoom du grand écran ne fausse rien). À rappeler après chaque
+         rendu des listes. */
+      steadySelects(root) {
+        (root || bodyEl).querySelectorAll('select.lab-select').forEach(sel => {
+          const index = sel.selectedIndex;
+          sel.style.width = '10em';
+          const em = sel.offsetWidth / 10;
+          sel.style.width = '';
+          let widest = 0;
+          for (let i = 0; i < sel.options.length; i++) {
+            sel.selectedIndex = i;
+            widest = Math.max(widest, sel.offsetWidth);
+          }
+          sel.selectedIndex = index;
+          if (em > 0 && widest > 0) sel.style.width = `${(widest / em + 0.1).toFixed(2)}em`;
+        });
+      },
+
       // Pied de l'étape Check, identique pour tous les labos : le rapport
       // s'affiche d'abord, l'impression se lance depuis là.
       checkFooter() {

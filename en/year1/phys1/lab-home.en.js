@@ -70,8 +70,8 @@ LabEngine.addText('home', {
 
     // Les outils : étiquettes, caméra, compteur et interrupteurs
     tagsTitle: 'Energy stored:',
-    tags: { C: 'chemical', M: 'mechanical', T: 'thermal', no: 'no storage' },
-    badges: { C: 'C', M: 'M', T: 'T', no: 'none' },
+    tags: { C: 'chemical', M: 'mechanical', T: 'thermal' },
+    badges: { C: 'C', M: 'M', T: 'T' },
     cameraName: 'Thermal camera',
     meterName: 'Electricity meter',
     meterIndex: 'Index',
@@ -81,17 +81,18 @@ LabEngine.addText('home', {
     off: 'off',
     switchAria: name => `${name}: switch`,
     clueTitle: 'Card',
-    screenEmpty: 'Touch an object to read its card. Take a label and put it on an object. Take the thermal camera and touch a room. Touch the electricity meter in the cellar.',
+    screenEmpty: 'Touch an object to read its card. Take a label and put it on an object that stores energy. Take the thermal camera and touch a room. Touch the electricity meter in the cellar.',
     roomTemp: t => `Room: ${t} °C`,
     cameraAria: room => `Thermal camera: ${room}`,
 
-    captionStart: 'Three missions, in any order: label each object with the energy it stores, film the rooms with the thermal camera, and read the electricity meter.',
-    captionGoOn: 'Go on: a label on every object, and a complete notebook.',
+    captionStart: 'Three missions, in any order: label the objects that store energy, film the rooms with the thermal camera, and read the electricity meter.',
+    captionGoOn: 'Go on: a label on each object that stores energy, and a complete notebook.',
     captionDone: 'Your notebook is complete. Next: conclude!',
     captionHoldTag: form => `Label “${form}”: touch an object of the house.`,
     captionHoldCamera: 'Thermal camera: touch a room of the house.',
     captionClue: name => `${name}: read its card, on the right.`,
-    captionTagged: (name, form) => `${name}: label “${form}”. Read its card again, on the right.`,
+    captionTagged: (name, form) => `${name}: label “${form}”. To take it off, put the same label on it again.`,
+    captionUntagged: name => `${name}: no label any more.`,
     captionCamera: room => `The thermal camera films ${room}. Write the temperature of each working device in your notebook.`,
     captionMeter: 'Switch the devices on and off, and watch the display. Write the power of each device in your notebook.',
 
@@ -103,13 +104,13 @@ LabEngine.addText('home', {
     wattAria: name => `${name}: power in W`,
     lockCamera: room => `Film ${room} with the thermal camera first.`,
     lockMeter: the => `Open the electricity meter in the cellar first. Then switch ${the} on or off and watch the display.`,
-    lockRun: (tags, notes) => {
+    lockRun: (noLabel, notes) => {
       const parts = [];
-      if (tags) parts.push(tags === 1 ? '1 object without a label' : `${tags} objects without a label`);
+      if (noLabel) parts.push('no label on an object yet');
       if (notes) parts.push(notes === 1 ? '1 measurement missing in your notebook' : `${notes} measurements missing in your notebook`);
       return `Not finished yet: ${parts.join(' and ')}.`;
     },
-    runInfo: (tags, tagsTotal, notes, notesTotal) => `Labels: ${tags} / ${tagsTotal} · Notebook: ${notes} / ${notesTotal}`,
+    runInfo: (tags, notes, notesTotal) => `Labels: ${tags} · Notebook: ${notes} / ${notesTotal}`,
     toConclude: 'Next: conclude',
 
     // Étape 3
@@ -146,7 +147,7 @@ LabEngine.addText('home', {
       because: 'Because',
       materials: list => `A house with ${list}. A thermal camera (temperature in °C). The electricity meter of the house and its display (power in W).`,
       procedure: [
-        'Read the card of each object and label the energy that it stores.',
+        'Read the card of each object and put a label on each object that stores energy: the form of the energy stored.',
         'Film each room with the thermal camera, with the devices switched on, and read their temperature.',
         'Switch each device on alone and read the power on the display of the electricity meter.',
         'Write the measurements in the notebook.'
@@ -207,6 +208,8 @@ LabEngine.addText('home', {
     notesScore: (good, total) => `${good} / ${total} measurements are correct.`,
     notesAllGood: 'Your notebook matches what the camera and the meter showed. Well measured!',
     tagWrong: (name, said, right) => `${name}: your label is “${said}”. The correct answer: ${right}.`,
+    tagMissing: (name, right) => `${name}: no label. The energy stored: ${right}.`,
+    tagExtra: (name, said) => `${name}: your label is “${said}”. The correct answer: no label, no energy stored.`,
     tagsAllGood: 'You found every energy storage of the house, with the right form. Well done!',
     answerOk: 'Correct!',
     answerWrong: 'Not quite. The correct answer:',

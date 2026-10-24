@@ -73,8 +73,8 @@ LabEngine.addText('home', {
 
     // Les outils : étiquettes, caméra, compteur et interrupteurs
     tagsTitle: 'Opgeslagen energie:',
-    tags: { C: 'chemisch', M: 'mechanisch', T: 'thermisch', no: 'geen opslag' },
-    badges: { C: 'C', M: 'M', T: 'T', no: 'geen' },
+    tags: { C: 'chemisch', M: 'mechanisch', T: 'thermisch' },
+    badges: { C: 'C', M: 'M', T: 'T' },
     cameraName: 'Warmtecamera',
     meterName: 'Elektriciteitsmeter',
     meterIndex: 'Meterstand',
@@ -84,17 +84,18 @@ LabEngine.addText('home', {
     off: 'uit',
     switchAria: name => `${name}: schakelaar`,
     clueTitle: 'Kaart',
-    screenEmpty: 'Raak een voorwerp aan om zijn kaart te lezen. Neem een etiket en leg het op een voorwerp. Neem de warmtecamera en raak een kamer aan. Raak de elektriciteitsmeter in de kelder aan.',
+    screenEmpty: 'Raak een voorwerp aan om zijn kaart te lezen. Neem een etiket en leg het op een voorwerp dat energie opslaat. Neem de warmtecamera en raak een kamer aan. Raak de elektriciteitsmeter in de kelder aan.',
     roomTemp: t => `Kamer: ${t} °C`,
     cameraAria: room => `Warmtecamera: ${room}`,
 
-    captionStart: 'Drie opdrachten, in de volgorde die je wilt: geef elk voorwerp een etiket met de energie die het opslaat, film de kamers met de warmtecamera, en lees de elektriciteitsmeter af.',
-    captionGoOn: 'Ga verder: een etiket op elk voorwerp, en een volledig schrift.',
+    captionStart: 'Drie opdrachten, in de volgorde die je wilt: geef de voorwerpen die energie opslaan een etiket, film de kamers met de warmtecamera, en lees de elektriciteitsmeter af.',
+    captionGoOn: 'Ga verder: een etiket op elk voorwerp dat energie opslaat, en een volledig schrift.',
     captionDone: 'Je schrift is volledig. Verder: besluiten!',
     captionHoldTag: form => `Etiket „${form}”: raak een voorwerp van het huis aan.`,
     captionHoldCamera: 'Warmtecamera: raak een kamer van het huis aan.',
     captionClue: name => `${name}: lees de kaart, rechts.`,
-    captionTagged: (name, form) => `${name}: etiket „${form}”. Lees de kaart nog eens, rechts.`,
+    captionTagged: (name, form) => `${name}: etiket „${form}”. Om het weg te halen, leg je hetzelfde etiket er nog eens op.`,
+    captionUntagged: name => `${name}: geen etiket meer.`,
     captionCamera: room => `De warmtecamera filmt ${room}. Noteer de temperatuur van elk toestel dat werkt in je schrift.`,
     captionMeter: 'Zet de toestellen aan en uit, en kijk naar het scherm. Noteer het vermogen van elk toestel in je schrift.',
 
@@ -106,13 +107,13 @@ LabEngine.addText('home', {
     wattAria: name => `${name}: vermogen in W`,
     lockCamera: room => `Film eerst ${room} met de warmtecamera.`,
     lockMeter: the => `Open eerst de elektriciteitsmeter in de kelder. Zet dan ${the} aan of uit en kijk naar het scherm.`,
-    lockRun: (tags, notes) => {
+    lockRun: (noLabel, notes) => {
       const parts = [];
-      if (tags) parts.push(tags === 1 ? '1 voorwerp zonder etiket' : `${tags} voorwerpen zonder etiket`);
+      if (noLabel) parts.push('nog geen etiket op een voorwerp');
       if (notes) parts.push(notes === 1 ? 'nog 1 meting in je schrift' : `nog ${notes} metingen in je schrift`);
       return `Nog niet klaar: ${parts.join(' en ')}.`;
     },
-    runInfo: (tags, tagsTotal, notes, notesTotal) => `Etiketten: ${tags} / ${tagsTotal} · Schrift: ${notes} / ${notesTotal}`,
+    runInfo: (tags, notes, notesTotal) => `Etiketten: ${tags} · Schrift: ${notes} / ${notesTotal}`,
     toConclude: 'Verder: besluiten',
 
     // Étape 3
@@ -149,7 +150,7 @@ LabEngine.addText('home', {
       because: 'Omdat',
       materials: list => `Een huis met ${list}. Een warmtecamera (temperatuur in °C). De elektriciteitsmeter van het huis en zijn scherm (vermogen in W).`,
       procedure: [
-        'Lees de kaart van elk voorwerp en geef het een etiket met de energie die het opslaat.',
+        'Lees de kaart van elk voorwerp en geef elk voorwerp dat energie opslaat een etiket: de vorm van de opgeslagen energie.',
         'Film elke kamer met de warmtecamera, met de toestellen aan, en lees hun temperatuur af.',
         'Zet elk toestel alleen aan en lees het vermogen af op het scherm van de elektriciteitsmeter.',
         'Noteer de metingen in het schrift.'
@@ -211,6 +212,8 @@ LabEngine.addText('home', {
     notesScore: (good, total) => `${good} / ${total} metingen zijn juist.`,
     notesAllGood: 'Jouw schrift komt overeen met wat de camera en de meter toonden. Goed gemeten!',
     tagWrong: (name, said, right) => `${name}: je etiket is „${said}”. Het juiste antwoord: ${right}.`,
+    tagMissing: (name, right) => `${name}: geen etiket. De opgeslagen energie: ${right}.`,
+    tagExtra: (name, said) => `${name}: je etiket is „${said}”. Het juiste antwoord: geen etiket, geen opgeslagen energie.`,
     tagsAllGood: 'Je vond alle energieopslag van het huis, met de juiste vorm. Goed gedaan!',
     answerOk: 'Juist!',
     answerWrong: 'Niet helemaal. Het juiste antwoord:',

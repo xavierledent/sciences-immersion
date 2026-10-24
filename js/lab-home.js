@@ -36,8 +36,8 @@
                      l'appareil qui transforme le plus d'énergie chaque
                      seconde
      2. Experiment — trois missions, dans l'ordre que l'élève veut :
-                     étiqueter chaque objet (C, M, T, rien) d'après sa
-                     carte ; filmer les pièces à la caméra thermique ; lire
+                     étiqueter (C, M, T) les objets qui stockent de
+                     l'énergie, d'après leur carte ; filmer les pièces à la caméra thermique ; lire
                      le compteur en allumant et éteignant les appareils.
                      Le carnet : la température et la puissance de chaque
                      appareil qui fonctionne
@@ -89,7 +89,7 @@
     slingshot: { form: 'M', rooms: ['bedroom'] },
     toycar: { form: 'M', rooms: ['bedroom', 'living'] }
   };
-  const FORMS = ['C', 'M', 'T', 'no'];
+  const TAGS = ['C', 'M', 'T'];         // les étiquettes : seulement sur ce qui stocke
   const ALL = ['all', 'some', 'none'];
   const WHY = ['warmer', 'colder', 'same'];
   const FATE = ['wasted', 'destroyed', 'stored'];
@@ -155,7 +155,7 @@
       hyp: { stores: [], all: null, top: null },
       because: '',
       started: false,                      // premier geste dans la maison : hypothèses figées
-      tags: {},                            // objet → C, M, T ou no (étiquette posée)
+      tags: {},                            // objet → C, M ou T (étiquette posée)
       sw,                                  // appareil → { on, k } (k : 0 froid → 1 chaud)
       kwh: rnd(2000, 8999) + Math.random(), // index du compteur
       measured: { temp: {}, watt: {} },    // appareil filmé ; interrupteur actionné, compteur ouvert
@@ -180,7 +180,7 @@
   const tagsPlaced = () => run.objects.filter(id => state.tags[id]).length;
   const notesFilled = () => run.devices.reduce((n, id) => n + (state.notes.temp[id] != null ? 1 : 0) + (state.notes.watt[id] != null ? 1 : 0), 0);
   const NOTES_TOTAL = 8;
-  const runDone = () => tagsPlaced() === run.objects.length && notesFilled() === NOTES_TOTAL;
+  const runDone = () => tagsPlaced() > 0 && notesFilled() === NOTES_TOTAL;
   const sameSet = (a, b) => a.length === b.length && a.every(x => b.includes(x));
 
   /* ===== Dessins ===== */
@@ -272,7 +272,8 @@
         `<stop offset="0.55" stop-color="${heatColor((t + run.room) / 2)}"/><stop offset="1" stop-color="${heatColor(run.room)}"/></radialGradient>`;
       body += `<ellipse cx="${cx}" cy="${cy}" rx="${Math.min(70, step / 2 - 4)}" ry="50" fill="url(#hm-glow-${id})"/>` +
         `<g transform="translate(${cx - 28} ${cy - 28}) scale(1.4)" opacity="0.55" style="mix-blend-mode:luminosity">${ICONS[id]}</g>` +
-        `<text x="${cx}" y="${cy - 40}" text-anchor="middle" class="hm-th-max">${t} °C</text>`;
+        `<text x="${cx}" y="${cy - 40}" text-anchor="middle" class="hm-th-max">${t} °C</text>` +
+        `<text x="${cx}" y="${cy + 58}" text-anchor="middle" class="hm-th-name">${escapeHtml(objName(id))}</text>`;
     });
     return `<svg class="lab-svg hm-thermal" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHtml(LABELS.cameraAria(LABELS.rooms[room].name))}">` +
       `<defs>${defs}</defs><rect x="0" y="0" width="${W}" height="${H}" rx="8" fill="${heatColor(run.room)}"/>${body}` +
@@ -300,7 +301,7 @@
   }
 
   /* ===== Étapes complètes (progression stricte, voir lab-engine.js) =====
-     1 : les trois hypothèses ; 2 : les huit étiquettes et le carnet
+     1 : les trois hypothèses ; 2 : au moins une étiquette et le carnet
      complet ; 3 : toutes les réponses. */
   const hypDone = () => !!(state.hyp.stores.length && state.hyp.all && state.hyp.top);
 
@@ -312,7 +313,7 @@
 
   function lockReason(n) {
     if (n === 1) return LABELS.lockHypothesis;
-    if (n === 2) return LABELS.lockRun(run.objects.length - tagsPlaced(), NOTES_TOTAL - notesFilled());
+    if (n === 2) return LABELS.lockRun(tagsPlaced() === 0, NOTES_TOTAL - notesFilled());
     return lab.L.missingConclusions;
   }
 
@@ -373,7 +374,8 @@
   /* ===== Étape 2 : l'enquête =====
      À gauche, la maison : ses huit objets, les interrupteurs des appareils,
      le compteur dans la cave ; au-dessus, les étiquettes (à poser sur un
-     objet) et la caméra (à poser sur une pièce). Toucher un objet sans
+     objet qui stocke de l'énergie ; la même encore une fois l'enlève) et la
+     caméra (à poser sur une pièce). Toucher un objet sans
      outil montre sa carte d'indices, toucher le compteur ouvre sa fenêtre.
      À droite, ce panneau et le carnet. Trois missions, dans n'importe quel
      ordre. */
@@ -384,7 +386,7 @@
     lab.body.innerHTML = `<div class="hm-run">` +
       `<section class="hm-main">` +
         `<div class="hm-tools"><span class="hm-tools-label">${LABELS.tagsTitle}</span>` +
-          FORMS.map(f => `<button type="button" class="hm-tag is-${f}" data-tag="${f}">${f === 'no' ? '' : `<b>${LABELS.badges[f]}</b>`}<span>${LABELS.tags[f]}</span></button>`).join('') +
+          TAGS.map(f => `<button type="button" class="hm-tag" data-tag="${f}"><b>${LABELS.badges[f]}</b><span>${LABELS.tags[f]}</span></button>`).join('') +
           `<button type="button" class="hm-tool" data-tool="camera" data-lab-look>${toolIcon('camera')}<span>${LABELS.cameraName}</span></button></div>` +
         boardHTML() +
         `<p class="lab-caption hm-caption" data-caption aria-live="polite"></p>` +
@@ -402,7 +404,6 @@
   // Les pièces (cibles de la caméra) et leurs objets (cibles des étiquettes) ;
   // les interrupteurs à part, pour qu'un toucher ne pose rien.
   function boardHTML() {
-    const show = lab.state.showMissing;
     const s = state.shown;
     const box = (x, y) => `left:${x}px;top:${y}px;width:${OBJ_W}px;height:${OBJ_H}px`;
     const zones = ROOM_KEYS.map(r => {
@@ -411,8 +412,8 @@
         const [x, y] = ROOMS[r].slots[run.place[id].slot];
         const tag = state.tags[id];
         const shown = s && s.kind === 'clue' && s.id === id;
-        return `<button type="button" class="hm-obj ${shown ? 'is-shown' : ''} ${show && !tag ? 'lab-is-missing' : ''}" data-obj="${id}" data-lab-look style="${box(x - bx, y - by)}">` +
-          (tag ? `<span class="hm-badge is-${tag}">${LABELS.badges[tag]}</span>` : '') +
+        return `<button type="button" class="hm-obj ${shown ? 'is-shown' : ''}" data-obj="${id}" data-lab-look style="${box(x - bx, y - by)}">` +
+          (tag ? `<span class="hm-badge">${LABELS.badges[tag]}</span>` : '') +
           `${icon(id, 'is-big')}<span class="hm-obj-name">${objName(id)}</span></button>`;
       }).join('');
       const meter = r === 'cellar' ? `<button type="button" class="hm-obj hm-meter-obj ${s && s.kind === 'meter' ? 'is-shown' : ''}" data-meter data-lab-look style="${box(METER_AT[0] - bx, METER_AT[1] - by)}">` +
@@ -445,7 +446,7 @@
       const f = el.dataset.tag;
       lab.makeDraggable(el, {
         hold: true,
-        ghost: () => `<div class="hm-ghost"><span class="hm-badge is-big is-${f}">${LABELS.badges[f]}</span></div>`,
+        ghost: () => `<div class="hm-ghost"><span class="hm-badge is-big">${LABELS.badges[f]}</span></div>`,
         targets: () => $$('[data-obj]'),
         onHold: on => setCaption(on ? LABELS.captionHoldTag(LABELS.tags[f]) : defaultCaption()),
         onDrop: target => tagObject(target.dataset.obj, f)
@@ -475,14 +476,16 @@
     $$('[data-sw]').forEach(btn => btn.addEventListener('click', () => toggle(btn)));
   }
 
-  // Une étiquette posée : la carte de l'objet s'affiche, pour vérifier.
+  // Une étiquette posée : la carte de l'objet s'affiche, pour vérifier. La
+  // même étiquette posée une deuxième fois l'enlève.
   function tagObject(id, form) {
-    state.tags[id] = form;
+    const off = state.tags[id] === form;
+    if (off) delete state.tags[id]; else state.tags[id] = form;
     state.started = true;
     state.shown = { kind: 'clue', id };
     if (lab.state.showMissing && runDone()) lab.state.showMissing = false;
     renderExperiment();
-    setCaption(LABELS.captionTagged(objName(id), LABELS.tags[form]));
+    setCaption(off ? LABELS.captionUntagged(objName(id)) : LABELS.captionTagged(objName(id), LABELS.tags[form]));
     lab.save();
   }
 
@@ -628,7 +631,7 @@
     const warn = lab.state.showMissing && !complete;
     const info = $('.lab-footer .lab-footer-info');
     if (info) {
-      info.textContent = warn ? lockReason(2) : LABELS.runInfo(tagsPlaced(), run.objects.length, notesFilled(), NOTES_TOTAL);
+      info.textContent = warn ? lockReason(2) : LABELS.runInfo(tagsPlaced(), notesFilled(), NOTES_TOTAL);
       info.classList.toggle('is-warning', warn);
     }
     const next = $('[data-next]');
@@ -695,6 +698,7 @@
           `<p class="hm-concl-line">${LABELS.concl3(selectHTML('top', c.top, run.devices, objName, LABELS.questions[3], show))}</p></div>` +
         `<div class="hm-q hm-verdicts ${miss('verdict')}">${['q1', 'q2', 'q3'].map(verdict).join('')}</div>` +
       `</section></div>`;
+    lab.steadySelects();
 
     $$('select[data-c]').forEach(sel => sel.addEventListener('change', () => {
       c[sel.dataset.c] = sel.value || null;
@@ -721,8 +725,8 @@
 
   /* ===== Étape 4 : correction ===== */
   const CRITERIA = ['notes', 'storage', 'dissipation', 'power', 'verdicts'];
-  // Ce que l'élève a trouvé, pour juger ses hypothèses : les objets étiquetés C, M ou T.
-  const taggedStores = () => run.objects.filter(id => state.tags[id] && state.tags[id] !== 'no');
+  // Ce que l'élève a trouvé, pour juger ses hypothèses : les objets étiquetés.
+  const taggedStores = () => run.objects.filter(id => state.tags[id]);
 
   function evaluate() {
     const c = state.concl;
@@ -732,7 +736,7 @@
       if (n.temp[id] == null || Math.abs(n.temp[id] - run.temps[id]) > 1) noteMiss.push({ id, k: 'temp' });
       if (n.watt[id] !== powerOf(id)) noteMiss.push({ id, k: 'watt' });
     });
-    const tagMiss = run.objects.filter(id => state.tags[id] !== formOf(id));
+    const tagMiss = run.objects.filter(id => (state.tags[id] || 'no') !== formOf(id));
     const q1Ok = Number(c.n) === run.stores.length && c.store === 'not';
     const q2Ok = c.all === 'all' && c.why === 'warmer' && c.fate === 'wasted';
     const q3Ok = c.top === topDevice();
@@ -777,7 +781,12 @@
     return CHECK.wattWrong(name, v == null ? CHECK.nothing : wattText(v), wattText(powerOf(m.id)));
   }
 
-  const tagMissText = id => CHECK.tagWrong(objName(id), state.tags[id] ? LABELS.forms[state.tags[id]] : CHECK.nothing, LABELS.forms[formOf(id)]);
+  function tagMissText(id) {
+    const tag = state.tags[id], right = formOf(id);
+    if (!tag) return CHECK.tagMissing(objName(id), LABELS.forms[right]);
+    if (right === 'no') return CHECK.tagExtra(objName(id), LABELS.forms[tag]);
+    return CHECK.tagWrong(objName(id), LABELS.forms[tag], LABELS.forms[right]);
+  }
   const right1 = () => LABELS.concl1(String(run.stores.length), LABELS.storeWords.not);
   const right2 = () => LABELS.concl2(LABELS.allWords.all, LABELS.why.warmer, LABELS.fate.wasted);
   const right3 = () => LABELS.concl3(objName(topDevice()));
@@ -933,6 +942,7 @@
         !s || !s.hyp || !Array.isArray(s.hyp.stores) || !s.tags || !s.sw || typeof s.kwh !== 'number' || !s.measured || !s.notes || !s.notes.temp || !s.notes.watt ||
         !s.concl || !s.concl.v || !r.devices.every(id => DEVICES[id] && s.sw[id]) ||
         !r.objects.every(id => DEVICES[id] || STORES[id])) throw new Error('labProgress');
+      Object.keys(s.tags).forEach(id => { if (!TAGS.includes(s.tags[id])) delete s.tags[id]; });
       run = r;
       state = s;
       stepperDone = null;

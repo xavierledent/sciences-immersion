@@ -192,7 +192,10 @@ Règles qui font l'harmonie du site :
   `<option value="" disabled selected>` pour « — choose — » (cachée dans la
   liste ouverte). Une liste au milieu d'une phrase est plus haute que la
   ligne : interligne d'au moins 2,6 et `vertical-align: middle`, sinon deux
-  listes de lignes voisines se chevauchent.
+  listes de lignes voisines se chevauchent. La case fermée prend la largeur
+  du choix affiché : appeler `lab.steadySelects()` après chaque rendu des
+  listes (largeur du choix le plus long), sinon la phrase bouge à chaque
+  choix et des mots changent de ligne.
 
 ### Les textes
 
