@@ -2125,3 +2125,98 @@
 .s-hw-rate {
   font-size: 1.05rem;
 }
+
+/* ===== Journal (dashboard-journal.js) ===== */
+
+.j-day {
+  margin-bottom: 18px;
+}
+
+.j-day-title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.j-students,
+.j-entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.j-student {
+  border: 1px solid var(--t-border);
+  border-radius: var(--t-radius);
+  background: var(--color-surface);
+  margin-bottom: 4px;
+}
+
+.j-student-row {
+  display: grid;
+  grid-template-columns: 16px 48px minmax(180px, 280px) 1fr;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.j-student-row:hover,
+.j-student-row:focus-visible {
+  background: rgba(var(--color-slate-rgb), 0.06);
+  border-radius: var(--t-radius);
+  outline: none;
+}
+
+.j-caret {
+  color: var(--color-muted);
+}
+
+.j-time {
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.j-name {
+  font-weight: 600;
+}
+
+.j-summary {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.j-entries {
+  padding: 2px 12px 10px 38px;
+}
+
+.j-entries li {
+  display: grid;
+  grid-template-columns: 48px 52px 1fr;
+  gap: 10px;
+  padding: 4px 0;
+  border-top: 1px solid var(--t-border);
+  font-size: 0.92rem;
+}
+
+.j-chapter {
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.j-more {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.j-empty {
+  margin: 8px 0 0;
+}

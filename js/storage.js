@@ -137,6 +137,71 @@
   const COUNTED_EVENTS = new Set([].concat.apply([], Object.keys(ACTIVITY_SECTIONS)
     .map(function (section) { return ACTIVITY_SECTIONS[section]; })));
 
+  /* Journal du jour (onglet « Journal » du tableau de bord) : un document par
+     élève et par jour, users/{uid}/days/{AAAA-MM-JJ} (date de l'appareil),
+     lu par les enseignantes seulement. Mêmes événements que les compteurs,
+     rien de plus. Champ entries : une entrée par activité de la journée
+     (un exercice, un jeu, le vocabulaire d'un chapitre…), clé
+     « chapitre::activité » ; refaire la même activité augmente ses totaux
+     et son heure (t) au lieu d'ajouter une ligne. Chaque entrée : k (sorte),
+     c (chapitre), t (dernière action, ms), ses totaux (n, done…) et ses
+     derniers résultats (score…). Envoyé avec les compteurs, sans journal de
+     secours non plus (des ajouts renvoyés compteraient deux fois). */
+  const KEY_MAX = 80;
+  const short = function (text) { return String(text == null ? '' : text).slice(0, KEY_MAX); };
+
+  function journalEntry(name, d) {
+    const ex = function (extra) {
+      return { key: 'ex::' + d.level + '::' + d.exerciseId, set: { k: 'ex', level: String(d.level), ex: String(d.exerciseId) }, inc: extra };
+    };
+    const game = function (set, inc) {
+      return { key: 'game::' + short(d.quizTitle), set: Object.assign({ k: 'game', g: short(d.quizTitle) }, set), inc: inc };
+    };
+    const lab = function (set, inc) {
+      return { key: 'lab::' + d.lab, set: Object.assign({ k: 'lab', lab: String(d.lab) }, set), inc: inc };
+    };
+    switch (name) {
+      case 'answer_checked': return ex({ n: 1 });
+      case 'self_assess_rated': return d.rating ? ex({ sa: 1 }) : null;
+      case 'revision_mode_started': return { key: 'rev::' + d.level, set: { k: 'rev', level: String(d.level) }, inc: { n: 1 } };
+      case 'qcm_answer_checked': return game({}, { a: 1 });
+      case 'qcm_quiz_completed': return game({ score: d.score, total: d.total }, { done: 1 });
+      case 'fitb_completed':
+      case 'dnd_completed':
+      case 'sorting_completed': return game({ mistakes: d.mistakes }, { done: 1 });
+      case 'memory_completed': return game({ moves: d.moves }, { done: 1 });
+      case 'vocabulary_section_opened': return { key: 'vocab', set: { k: 'vocab' }, inc: { open: 1 } };
+      case 'vocabulary_word_marked': return d.known ? { key: 'vocab', set: { k: 'vocab' }, inc: { known: 1 } } : null;
+      case 'autoeval_page_opened': return { key: 'auto', set: { k: 'auto' }, inc: { open: 1 } };
+      case 'autoeval_item_rated': return { key: 'auto', set: { k: 'auto' }, inc: { rated: 1 } };
+      case 'resource_link_opened': return { key: 'res::' + short(d.label), set: { k: 'res', label: short(d.label) }, inc: { n: 1 } };
+      case 'exploration_link_opened': return { key: 'expl::' + short(d.label), set: { k: 'expl', label: short(d.label) }, inc: { n: 1 } };
+      case 'lab_opened': return lab({}, { open: 1 });
+      case 'lab_step_reached': return lab({ step: d.step }, {});
+      case 'lab_checked': return lab({ score: d.score, total: d.total }, { checks: 1 });
+      default: return null;
+    }
+  }
+
+  function today() {
+    const d = new Date();
+    const pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+
+  // Une activité du jour : ses champs à jour (set) et ses totaux (inc).
+  function journalAdd(entry) {
+    if (!entry) return;
+    const day = cloud.days[today()] = cloud.days[today()] || {};
+    const key = cloud.chapterId + '::' + entry.key;
+    const e = day[key] = day[key] || { set: {}, inc: {} };
+    Object.keys(entry.set).forEach(function (f) { if (entry.set[f] !== undefined) e.set[f] = entry.set[f]; });
+    Object.keys(entry.inc).forEach(function (f) { e.inc[f] = (e.inc[f] || 0) + entry.inc[f]; });
+    e.set.c = cloud.chapterId;
+    e.set.t = Date.now();
+    if (!flushTimer) flushTimer = setTimeout(flush, STATS_DELAY);
+  }
+
   function checkFamily(family) {
     if (!DATA_FAMILIES.has(family)) {
       console.error('SiteStorage : famille de données inconnue « ' + family + ' »');
@@ -186,7 +251,9 @@
          Pas de journal pour eux : un ajout (increment) renvoyé deux fois
          compterait deux fois, et le cache de Firestore garde déjà les
          écritures faites hors ligne. Au pire, une page fermée très vite
-         perd quelques unités. */
+         perd quelques unités.
+       days    : journal du jour pas encore envoyé (voir journalEntry),
+         { AAAA-MM-JJ: { clé: { set, inc } } } ; même remarque. */
   let cloud = null;
   let flushTimer = null;
 
@@ -221,6 +288,9 @@
       const prev = vocabSnapshots[id] || { nbCartesVues: 0, nbRetournees: 0, nbEcoutes: 0 };
       if (!vocabSnapshots[id]) addStat('vocabulary_sessions', 1);
       addStat('vocabulary_cards_seen', (data.nbCartesVues || 0) - prev.nbCartesVues);
+      if ((data.nbCartesVues || 0) > prev.nbCartesVues) {
+        journalAdd({ key: 'vocab', set: { k: 'vocab' }, inc: { cards: data.nbCartesVues - prev.nbCartesVues } });
+      }
       addStat('vocabulary_flips', (data.nbRetournees || 0) - prev.nbRetournees);
       addStat('vocabulary_listens', (data.nbEcoutes || 0) - prev.nbEcoutes);
       vocabSnapshots[id] = {
@@ -241,6 +311,9 @@
     const families = Object.keys(batch);
     const stats = cloud.statsPending;
     const statNames = Object.keys(stats);
+    const days = cloud.days;
+    cloud.days = {};
+    Object.keys(days).forEach(function (day) { sendDay(day, days[day]); });
     if (!families.length && !statNames.length) return;
     cloud.pending = {};
     cloud.statsPending = {};
@@ -274,6 +347,21 @@
       // Reste dans le journal : renvoyé au prochain chargement de page.
       console.error('SiteStorage : écriture Firestore refusée ou impossible', error);
     });
+  }
+
+  // Le journal d'un jour : les entrées fusionnées dans le document (merge).
+  function sendDay(day, entries) {
+    const fb = cloud.fb;
+    const out = {};
+    Object.keys(entries).forEach(function (key) {
+      const e = entries[key];
+      const value = Object.assign({}, e.set);
+      Object.keys(e.inc).forEach(function (f) { value[f] = fb.increment(e.inc[f]); });
+      out[key] = value;
+    });
+    fb.setDoc(fb.doc(fb.db, 'users', cloud.uid, 'days', day),
+      { date: day, updatedAt: fb.serverTimestamp(), entries: out }, { merge: true })
+      .catch(function (error) { console.error('SiteStorage : journal du jour non enregistré', error); });
   }
 
   /* Import unique des données d'avant Firebase (legacy-import.js), une fois
@@ -323,7 +411,7 @@
           .then(function (stored) {
             const journalKey = 'cloudPending::' + user.uid + '::' + chapterId;
             cloud = { fb: fb, ref: ref, data: {}, pending: {}, journal: {}, journalKey: journalKey,
-                      statsPending: {} };
+                      statsPending: {}, uid: user.uid, chapterId: chapterId, days: {} };
             DATA_FAMILIES.forEach(function (family) {
               if (stored[family] && typeof stored[family] === 'object') cloud.data[family] = Object.assign({}, stored[family]);
             });
@@ -393,7 +481,10 @@
       record: function (name, data) {
         ready.then(function () {
           if (!cloud) return;
-          try { countEvent(name, data); } catch (e) { return; }
+          try {
+            countEvent(name, data);
+            journalAdd(journalEntry(name, data || {}));
+          } catch (e) { return; }
           // Événement envoyé en quittant la page : ne pas attendre.
           if (document.visibilityState === 'hidden') flush();
         });

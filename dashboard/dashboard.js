@@ -12,8 +12,9 @@
    (users/…) est seulement lu (dashboard-data.js), jamais modifié.
 
    Onglets : « Suivi de la classe » (dashboard-class.js), « Classes et
-   élèves » (ce fichier), « Bilan des activités » (dashboard-activities.js)
-   et « Devoirs » (dashboard-homework.js, envoi : dashboard-mail.js).
+   élèves » (ce fichier), « Journal » (dashboard-journal.js), « Bilan des
+   activités » (dashboard-activities.js) et « Devoirs »
+   (dashboard-homework.js, envoi : dashboard-mail.js).
    Briques d'affichage : dashboard-ui.js. */
 
 import * as fb from '../firebase/firebase-init.js';
@@ -23,6 +24,7 @@ import { renderClassView } from './dashboard-class.js';
 import { renderStudentView } from './dashboard-student.js';
 import { renderActivitiesView } from './dashboard-activities.js';
 import { renderHomeworkView } from './dashboard-homework.js';
+import { renderJournalView } from './dashboard-journal.js';
 
 const SCHOOL_EMAIL = /^[a-z0-9._-]+@cnddinant\.be$/;
 const CLASS_ID = /^[0-9A-Za-z-]{1,12}$/;
@@ -144,7 +146,7 @@ async function start() {
    rafraîchissement reste sur le même onglet ; le lien de l'accueil, sans
    repère, ouvre le Suivi. replaceState : pas d'entrée d'historique par
    onglet. */
-const VIEW_HASH = { manage: 'classes', class: 'suivi', activities: 'bilan', homework: 'devoirs' };
+const VIEW_HASH = { manage: 'classes', class: 'suivi', journal: 'journal', activities: 'bilan', homework: 'devoirs' };
 
 function viewFromHash() {
   const hash = location.hash.slice(1);
@@ -161,9 +163,29 @@ function showView(view) {
     tab.setAttribute('aria-selected', active ? 'true' : 'false');
   });
   if (view === 'manage') renderManage();
+  else if (view === 'journal') renderJournal();
   else if (view === 'activities') renderActivities();
   else if (view === 'homework') renderHomework();
   else renderClass();
+}
+
+/* ===== Onglet « Journal » ===== */
+
+async function renderJournal() {
+  try {
+    await renderJournalView($('#t-view'), {
+      me: state.me,
+      classes: state.classes,
+      students: state.students,
+      teacherName,
+      sortedClassIds,
+      content: loadContent,
+      setStatus
+    });
+  } catch (e) {
+    console.error(e);
+    setStatus('Le journal n’a pas pu être chargé (connexion internet ?). Rechargez la page.', true);
+  }
 }
 
 /* ===== Onglet « Bilan des activités » ===== */

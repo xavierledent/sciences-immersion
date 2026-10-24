@@ -141,6 +141,28 @@ export async function loadWork() {
   return byEmail;
 }
 
+/* Journal (onglet « Journal ») : les journaux du jour de tous les élèves
+   entre deux dates (AAAA-MM-JJ, comprises), users/{uid}/days/{jour}, écrits
+   par storage.js. Requête de groupe sur le champ date : demande l'index
+   « days / date » (portée groupe de collections) de la console Firebase.
+   → [{ email, date, entries }] ; email null si l'élève n'a pas de fiche users. */
+export async function loadJournal(from, to) {
+  const [users, days] = await Promise.all([
+    fb.getDocs(fb.collection(fb.db, 'users')),
+    fb.getDocs(fb.query(fb.collectionGroup(fb.db, 'days'),
+      fb.where('date', '>=', from), fb.where('date', '<=', to)))
+  ]);
+  const emailOf = {};
+  users.forEach(d => { emailOf[d.id] = String(d.data().email || '').toLowerCase() || null; });
+  const out = [];
+  days.forEach(d => {
+    const uid = d.ref.parent.parent && d.ref.parent.parent.id;
+    const data = d.data();
+    out.push({ email: emailOf[uid] || null, date: data.date, entries: data.entries || {} });
+  });
+  return out;
+}
+
 function parseJson(text) {
   try { return JSON.parse(text); } catch (e) { return null; }
 }
