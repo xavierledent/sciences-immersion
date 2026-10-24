@@ -687,6 +687,10 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--color-text);
+  /* Le choix au centre de la case (elle a la largeur du plus long, voir
+     steadySelect dans lab-engine.js) : pas de trou d'un seul côté. */
+  text-align: center;
+  text-align-last: center;
 }
 
 .lab-select:disabled {
@@ -707,7 +711,7 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   .lab-select {
     display: inline-flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 6px;
     padding: 0 10px;
   }
@@ -731,6 +735,7 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   }
 
   .lab-select option {
+    text-align: left;
     padding: 7px 12px;
     border-radius: 8px;
     font-size: 0.84rem;
