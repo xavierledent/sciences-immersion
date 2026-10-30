@@ -18,16 +18,26 @@
    scolaire (date limite à partir du 15 août). Chaque élève voit dans son
    mail le numéro de sa classe : « Science homework 4 · due … ».
 
-   État d'un élève pour un devoir (décisions du 2026-10-20) :
-     fait            tout est fait au plus tard à la date limite (y compris
+   Avancement d'un élève dans un devoir (décisions du 2026-10-30) : le % du
+   travail fait, chaque élément pesant les minutes qu'il demande à peu près
+   (WEIGHT) : exercice 3 min par sous-question, jeu 5 min, QCM 8 min, labo
+   30 min. Un élément commencé compte en partie : exercice au prorata des
+   sous-questions répondues ; labo selon l'étape la plus avancée (Predict
+   25 %, Experiment 50 %, Conclude 25 %, LAB_CREDIT) ; un jeu est terminé ou
+   pas. Les mêmes poids donnent la durée estimée d'un devoir à sa
+   composition.
+
+   État d'un élève pour un devoir, selon ce % (seuils DONE_AT, PARTIAL_AT) :
+     fait            au moins 80 % au plus tard à la date limite (y compris
                      avant que le devoir soit donné) ;
-     fait en retard  tout est fait, une partie après la date limite ;
-     partiellement   plus de la moitié des éléments faits (dates ignorées) ;
-     non fait        la moitié ou moins.
-   « Fait » = mêmes critères que le Suivi (summarizeChapter) : exercice
+     fait en retard  au moins 80 %, mais pas encore 80 % à la date limite ;
+     partiellement   au moins 30 % (dates ignorées) ;
+     non fait        moins de 30 %.
+   « Fini » = mêmes critères que le Suivi (summarizeChapter) : exercice
    répondu, jeu terminé une fois, labo arrivé au Check. Date : famille doneAt
-   (storage.js), écrite au premier « fait » depuis le 2026-10-20 ; sans date,
-   l'élément compte comme fait à temps. */
+   (storage.js), écrite au premier « fait » depuis le 2026-10-20 (exercice :
+   première sous-question répondue) ; sans date, l'élément compte comme fait
+   à temps, de même qu'un labo commencé (son étape n'est pas datée). */
 
 import * as fb from '../firebase/firebase-init.js';
 import { esc, LIGHT, stackBar, cellsBar, legend, TRACK } from './dashboard-ui.js';
@@ -190,43 +200,96 @@ function summaryFor(email, chapter) {
   return summaryCache.get(key);
 }
 
-// { done, at } d'un élément pour un élève ; at = date du premier « fait » (ms) ou null.
+// Minutes estimées par élément ; exercice : par sous-question.
+const WEIGHT = { ex: 3, game: 5, multipleChoice: 8, lab: 30 };
+// Part d'un labo selon l'étape la plus avancée (maxStep) : 2 = Predict fait,
+// 3 = Experiment fait, 4 = Check (Conclude fait).
+const LAB_CREDIT = { 1: 0, 2: 0.25, 3: 0.75, 4: 1 };
+const DONE_AT = 0.8;
+const PARTIAL_AT = 0.3;
+
+// Minutes estimées d'un élément ; chapter.levels / chapter.games : loadContent.
+function itemWeight(track, item) {
+  const chapter = chapterOf(track, item.ch);
+  if (item.k === 'ex') {
+    const ex = chapter && (chapter.levels[item.lv] || []).find(e => String(e.id) === String(item.id));
+    return WEIGHT.ex * (ex ? ex.subs : 1);
+  }
+  if (item.k === 'game') {
+    const g = chapter && chapter.games.find(x => x.id === item.id);
+    return g && g.type === 'multipleChoice' ? WEIGHT.multipleChoice : WEIGHT.game;
+  }
+  return WEIGHT.lab;
+}
+
+const assignmentMinutes = (track, items) => items.reduce((n, item) => n + itemWeight(track, item), 0);
+
+/* { done, credit, at } d'un élément pour un élève : done = fini, credit =
+   part faite (0 à 1), at = date du premier « fait » (ms) ou null. */
 function itemState(track, email, item) {
   const chapter = chapterOf(track, item.ch);
-  if (!chapter) return { done: false, at: null };
+  if (!chapter) return { done: false, credit: 0, at: null };
   const s = summaryFor(email, chapter);
   let done = false;
+  let credit = 0;
   let key = '';
   if (item.k === 'ex') {
     const ex = (s.levels[item.lv] || []).find(e => String(e.id) === String(item.id));
     done = !!(ex && ex.state);
+    credit = ex && ex.subs.length ? ex.subs.filter(x => x.length > 0).length / ex.subs.length : 0;
     key = `ex::${item.lv}::${item.id}`;
   } else if (item.k === 'game') {
     const g = s.games.find(x => x.id === item.id);
     done = !!(g && g.done);
+    credit = done ? 1 : 0;
     key = `game::${item.id}`;
   } else {
     const l = s.labs.find(x => x.id === item.id);
     done = !!(l && l.result && l.result.checks > 0);
+    credit = done ? 1 : (l && l.result ? LAB_CREDIT[l.result.maxStep] || 0 : 0);
     key = `lab::${item.id}`;
   }
   const doc = ((ctx.work[email] || {}).chapters || {})[chapter.id] || {};
   const at = done ? Number((doc.doneAt || {})[key]) || null : null;
-  return { done, at };
+  return { done, credit, at };
 }
 
-// { status, done, total, items, upcoming } ; upcoming = date limite pas encore passée.
+/* { status, done, total, pct, minutes, doneMinutes, items, upcoming } ;
+   pct = % du travail fait (minutes faites / minutes demandées) ; upcoming =
+   pas fait et date limite pas encore passée. */
 function studentState(a, email) {
   const deadline = deadlineOf(a);
-  const items = (a.items || []).map(item => Object.assign({ item }, itemState(a.track, email, item)));
+  const items = (a.items || []).map(item => Object.assign({ item, weight: itemWeight(a.track, item) }, itemState(a.track, email, item)));
   const done = items.filter(i => i.done).length;
   const total = items.length;
+  const minutes = items.reduce((n, i) => n + i.weight, 0);
+  const doneMinutes = items.reduce((n, i) => n + i.weight * i.credit, 0);
+  const onTime = items.reduce((n, i) => n + (i.at && i.at > deadline ? 0 : i.weight * i.credit), 0);
+  const ratio = minutes ? doneMinutes / minutes : 0;
   let status = 'missing';
-  if (total && done === total) status = items.some(i => i.at && i.at > deadline) ? 'late' : 'done';
-  else if (done * 2 > total) status = 'partial';
+  if (minutes && ratio >= DONE_AT) status = onTime / minutes >= DONE_AT ? 'done' : 'late';
+  else if (ratio >= PARTIAL_AT) status = 'partial';
   const finished = status === 'done' || status === 'late';
-  return { status, done, total, items, upcoming: !finished && Date.now() <= deadline };
+  return { status, done, total, pct: Math.round(100 * ratio), minutes, doneMinutes, items,
+    upcoming: !finished && Date.now() <= deadline };
 }
+
+// Case d'un élément dans la barre (largeur selon ses minutes).
+function itemCell(track, i, deadline) {
+  const t = itemTitle(track, i.item);
+  const late = i.done && i.at && i.at > deadline;
+  const when = i.at ? ` le ${new Date(i.at).toLocaleDateString('fr-BE', { day: 'numeric', month: 'short' })}` : '';
+  const state = i.done ? (late ? `fait en retard${when}` : `fait${when}`)
+    : i.credit > 0 ? `commencé (${Math.round(100 * i.credit)} %)` : 'pas encore fait';
+  return {
+    color: i.done ? (late ? STATUS.late.color : STATUS.done.color) : i.credit > 0 ? STATUS.partial.color : TRACK,
+    grow: i.weight / WEIGHT.ex,
+    tip: `<strong>${esc(t.chapter)} · ${esc(t.label)}</strong>${t.title ? '<br>' + esc(t.title) : ''}<br>` +
+      `${state} · ≈ ${i.weight} min`
+  };
+}
+
+const pctNote = st => `${st.pct} % · ${st.done}/${st.total}`;
 
 /* ===== Numéros ===== */
 
@@ -521,20 +584,11 @@ function detailHtml(a, emails) {
   const rows = emails.map(email => {
     const st = studentState(a, email);
     const person = ctx.students[email];
-    const cells = st.items.map(i => {
-      const t = itemTitle(a.track, i.item);
-      const late = i.done && i.at && i.at > deadline;
-      const when = i.at ? ` le ${new Date(i.at).toLocaleDateString('fr-BE', { day: 'numeric', month: 'short' })}` : '';
-      return {
-        color: !i.done ? TRACK : late ? STATUS.late.color : STATUS.done.color,
-        tip: `<strong>${esc(t.chapter)} · ${esc(t.label)}</strong>${t.title ? '<br>' + esc(t.title) : ''}<br>` +
-          (!i.done ? 'pas encore fait' : late ? `fait en retard${when}` : `fait${when}`)
-      };
-    });
+    const cells = st.items.map(i => itemCell(a.track, i, deadline));
     const status = STATUS[st.status];
     return `<tr><td>${esc(displayName(email))}</td><td>${esc(person ? person.classe : 'Non classé·e')}</td>
       <td><span class="d-swatch" style="background:${status.color}"></span>${esc(status.label)}${st.upcoming ? ' <span class="d-cell-note">(date limite pas passée)</span>' : ''}</td>
-      <td class="h-col-cells">${cellsBar(cells, `${st.done} sur ${st.total} éléments faits`)}<span class="d-cell-note">${st.done}/${st.total}</span></td></tr>`;
+      <td class="h-col-cells">${cellsBar(cells, `${st.pct} % du travail fait, ${st.done} sur ${st.total} éléments finis`)}<span class="d-cell-note">${pctNote(st)}</span></td></tr>`;
   }).join('');
   // Regroupé comme dans le mail : les exercices qui se suivent sur une ligne.
   const items = groupedItems(a.track, a.items || []).map(run => {
@@ -564,17 +618,20 @@ function renderSummary(classId) {
     return i < 0 ? classOrder.length : i;
   };
   const rows = emails.map(email => {
-    const c = { received: 0, done: 0, late: 0, partial: 0, missing: 0, upcoming: 0 };
+    const c = { received: 0, done: 0, late: 0, partial: 0, missing: 0, upcoming: 0, minutes: 0, doneMinutes: 0 };
     assignments.forEach(a => {
       if (!a.sentAt || !(a.recipients || []).includes(email)) return;
       c.received++;
       const st = studentState(a, email);
-      if (st.upcoming) c.upcoming++;
-      else c[st.status]++;
+      if (st.upcoming) { c.upcoming++; return; }
+      c[st.status]++;
+      c.minutes += st.minutes;
+      c.doneMinutes += st.doneMinutes;
     });
     const counted = c.done + c.late + c.partial + c.missing;
     c.counted = counted;
     c.rate = counted ? Math.round(100 * c.done / counted) : null;
+    c.completion = c.minutes ? Math.round(100 * c.doneMinutes / c.minutes) : null;
     return { email, c };
   // Par classe (dans l'ordre des menus, sans classe à la fin), puis par
   // ordre alphabétique du nom : on y cherche un élève précis.
@@ -586,14 +643,17 @@ function renderSummary(classId) {
     <h2>Assiduité${classId === ALL ? ' — toutes les classes' : ` — ${esc(classId)}`}</h2>
     <p class="t-help">Tous les devoirs reçus par chaque élève depuis le début. Un devoir pas fini dont la date limite
       n'est pas passée est compté « à venir ». % à temps = devoirs faits à temps parmi ceux dont la date limite est
-      passée (ou déjà faits). Le détail devoir par devoir est dans la fiche de l'élève.</p>
+      passée (ou déjà faits). Travail fait = minutes de travail faites parmi celles demandées dans ces mêmes
+      devoirs (exercice 3 min par sous-question, jeu 5, QCM 8, labo 30). Le détail devoir par devoir est dans la
+      fiche de l'élève.</p>
     ${rows.length ? `<div class="t-scroll"><table class="t-table h-table">
       <thead><tr><th>Élève</th><th>Classe</th><th class="d-num">Reçus</th><th class="d-num">Faits à temps</th>
         <th class="d-num">En retard</th><th class="d-num">Partiels</th><th class="d-num">Non faits</th><th class="d-num">À venir</th>
-        <th class="h-col-bar">À temps</th></tr></thead>
+        <th class="d-num">Travail fait</th><th class="h-col-bar">À temps</th></tr></thead>
       <tbody>${rows.map(({ email, c }) => `<tr><td>${esc(displayName(email))}</td><td>${esc(ctx.students[email].classe || '')}</td>
         <td class="d-num">${num(c.received)}</td><td class="d-num">${num(c.done)}</td><td class="d-num">${num(c.late)}</td>
         <td class="d-num">${num(c.partial)}</td><td class="d-num">${num(c.missing)}</td><td class="d-num">${num(c.upcoming)}</td>
+        <td class="d-num">${c.completion === null ? '<span class="d-zero">—</span>' : `${c.completion} %`}</td>
         <td class="h-col-bar">${c.rate === null ? '<span class="d-zero">—</span>' : `${stackBar(STATUS_ORDER.map(k => ({ value: c[k], color: STATUS[k].color })), c.counted,
           countsText(c), `${c.rate} % à temps`)}<span class="d-cell-note">${c.rate} % à temps</span>`}</td></tr>`).join('')}</tbody>
     </table></div>` : '<p class="d-empty">Aucun élève dans cette classe.</p>'}`;
@@ -899,7 +959,8 @@ function renderSelection() {
     return `<li>${esc(t.chapter)} · ${esc(label)}
       <button type="button" class="h-mini" data-remove="${i}">Retirer</button></li>`;
   }).join('');
-  box.innerHTML = `<h4>Sélection (${draft.items.length} élément${draft.items.length > 1 ? 's' : ''})</h4>
+  const minutes = assignmentMinutes(track, draft.items.map(keyToItem));
+  box.innerHTML = `<h4>Sélection (${draft.items.length} élément${draft.items.length > 1 ? 's' : ''}${minutes ? ` · ≈ ${minutes} min de travail` : ''})</h4>
     ${draft.items.length ? `<ul class="h-items h-selection">${lines}</ul>` : '<p class="t-help">Cochez des exercices, des jeux ou des labos, dans un ou plusieurs chapitres.</p>'}`;
   const warning = root.querySelector('#h-warning') || { };
   const repeated = draft.items.filter(k => given.has(k));
@@ -1047,11 +1108,19 @@ function entriesFor(hw, folder) {
 
 function tally(entries) {
   const c = { done: 0, late: 0, partial: 0, missing: 0, upcoming: 0 };
-  entries.forEach(({ st }) => { if (st.upcoming) c.upcoming++; else c[st.status]++; });
+  let minutes = 0;
+  let doneMinutes = 0;
+  entries.forEach(({ st }) => {
+    if (st.upcoming) { c.upcoming++; return; }
+    c[st.status]++;
+    minutes += st.minutes;
+    doneMinutes += st.doneMinutes;
+  });
   const counted = c.done + c.late + c.partial + c.missing;
+  const completion = minutes ? Math.round(100 * doneMinutes / minutes) : null;
   const text = STATUS_ORDER.filter(k => c[k]).map(k => `${c[k]} ${STATUS[k].label.toLowerCase()}`)
     .concat(c.upcoming ? [`${c.upcoming} à venir`] : []).join(' · ');
-  return { c, counted, rate: counted ? Math.round(100 * c.done / counted) : null, text, received: entries.length };
+  return { c, counted, rate: counted ? Math.round(100 * c.done / counted) : null, completion, text, received: entries.length };
 }
 
 /* Résumé d'une carte : { received, rate, parts, total, tip } ; parts =
@@ -1067,7 +1136,7 @@ export function homeworkSummary(hw, folder) {
   const tip = `<strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong>` +
     STATUS_ORDER.filter(k => t.c[k]).map(k => `<br><span class="d-swatch" style="background:${STATUS[k].color}"></span>${t.c[k]} ${esc(STATUS[k].label.toLowerCase())}`).join('') +
     (t.c.upcoming ? `<br><span class="d-swatch" style="background:${TRACK}"></span>${t.c.upcoming} à venir (date limite pas passée)` : '') +
-    (t.rate === null ? '' : `<br><strong>${t.rate} % à temps</strong>`);
+    (t.rate === null ? '' : `<br><strong>${t.rate} % à temps</strong> · ${t.completion} % du travail fait`);
   return {
     received: t.received,
     rate: t.rate,
@@ -1087,7 +1156,7 @@ export function homeworkOverviewHtml(hw) {
   const t = tally(entries);
   const s = homeworkSummary(hw, null);
   return `<div class="h-head"><h2>Devoirs</h2>
-      <span class="s-hw-rate">${t.rate === null ? '' : `<strong>${t.rate} %</strong> à temps`}</span></div>
+      <span class="s-hw-rate">${t.rate === null ? '' : `<strong>${t.rate} %</strong> à temps · <strong>${t.completion} %</strong> du travail fait`}</span></div>
     <p class="s-hw-summary"><strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong> · ${esc(t.text)}</p>
     <div class="s-hw-bar s-hw-bar-wide">${stackBar(s.parts, s.total, s.tip, `${t.received} devoirs : ${t.text}`)}</div>
     ${legend(STATUS_ORDER.map(k => STATUS[k]).concat([{ label: 'À venir (date limite pas passée)', color: TRACK }]))}
@@ -1101,16 +1170,7 @@ export function homeworkDetailHtml(hw, folder) {
   const t = tally(entries);
   const rows = entries.map(({ a, st }) => {
     const deadline = deadlineOf(a);
-    const cells = st.items.map(i => {
-      const it = itemTitle(a.track, i.item);
-      const late = i.done && i.at && i.at > deadline;
-      const when = i.at ? ` le ${new Date(i.at).toLocaleDateString('fr-BE', { day: 'numeric', month: 'short' })}` : '';
-      return {
-        color: !i.done ? TRACK : late ? STATUS.late.color : STATUS.done.color,
-        tip: `<strong>${esc(it.chapter)} · ${esc(it.label)}</strong>${it.title ? '<br>' + esc(it.title) : ''}<br>` +
-          (!i.done ? 'pas encore fait' : late ? `fait en retard${when}` : `fait${when}`)
-      };
-    });
+    const cells = st.items.map(i => itemCell(a.track, i, deadline));
     const status = STATUS[st.status];
     const content = groupedItems(a.track, a.items || []).map(run => {
       const first = run.items[0];
@@ -1124,10 +1184,10 @@ export function homeworkDetailHtml(hw, folder) {
       <td><strong>${esc(a.title || 'Sans titre')}</strong><span class="d-cell-note">${esc(content)}</span></td>
       <td>${esc(formatDue(a.due))}</td>
       <td><span class="d-swatch" style="background:${status.color}"></span>${esc(status.label)}${st.upcoming ? ' <span class="d-cell-note">date limite pas passée</span>' : ''}</td>
-      <td class="h-col-cells">${cellsBar(cells, `${st.done} sur ${st.total} éléments faits`)}<span class="d-cell-note">${st.done}/${st.total}</span></td>
+      <td class="h-col-cells">${cellsBar(cells, `${st.pct} % du travail fait, ${st.done} sur ${st.total} éléments finis`)}<span class="d-cell-note">${pctNote(st)}</span></td>
     </tr>`;
   }).join('');
-  return `<p class="s-hw-summary"><strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong> · ${esc(t.text)}${t.rate === null ? '' : ` · <strong>${t.rate} % à temps</strong>`}</p>
+  return `<p class="s-hw-summary"><strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong> · ${esc(t.text)}${t.rate === null ? '' : ` · <strong>${t.rate} % à temps</strong> · ${t.completion} % du travail fait`}</p>
     ${t.counted ? `<div class="s-hw-bar">${stackBar(STATUS_ORDER.map(k => ({ value: t.c[k], color: STATUS[k].color })), t.counted, esc(t.text), `${t.rate} % à temps`)}</div>` : ''}
     <div class="t-scroll"><table class="t-table h-table s-hw-table">
       <thead><tr><th class="h-col-num">N°</th><th>Devoir</th><th>Date limite</th><th>État</th><th>Éléments</th></tr></thead>

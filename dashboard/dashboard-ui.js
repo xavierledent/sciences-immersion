@@ -64,9 +64,10 @@ export function stackBar(parts, total, tip, label) {
 }
 
 // Une case par élément (exercice, jeu), dans l'ordre : on voit lequel.
+// c.grow (facultatif) : largeur relative de la case (1 = case normale).
 export function cellsBar(cells, label) {
   return `<div class="d-cells" role="img" aria-label="${esc(label || '')}">${cells.map(c =>
-    `<span style="background:${c.color}" data-tip="${esc(c.tip)}"></span>`).join('')}</div>`;
+    `<span style="background:${c.color}${c.grow ? `;flex-grow:${c.grow};max-width:${14 * c.grow}px` : ''}" data-tip="${esc(c.tip)}"></span>`).join('')}</div>`;
 }
 
 /* Ampoules de l'autoévaluation, en résumé : « ●●● 4 · ●●○ 1 · ●○○ 0 ».
