@@ -48,8 +48,10 @@ function generatePage(pageType, outputFileName, renderFn) {
       const outPath = path.join(ROOT, lang, YEAR_FOLDER[lang], chapter.folder, outputFileName);
 
       if (checkOnly) {
-        const current = fs.existsSync(outPath) ? fs.readFileSync(outPath, 'utf8') : null;
-        if (current !== output) {
+        // Fins de ligne ignorées : git peut les convertir à l'extraction
+        // (CRLF sous Windows, LF ailleurs), le contenu seul compte.
+        const current = fs.existsSync(outPath) ? fs.readFileSync(outPath, 'utf8').replace(/\r\n/g, '\n') : null;
+        if (current !== output.replace(/\r\n/g, '\n')) {
           mismatches++;
           console.log('DIFFERS:', path.relative(ROOT, outPath));
         }

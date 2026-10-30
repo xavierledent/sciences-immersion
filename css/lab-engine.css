@@ -123,6 +123,16 @@
   background: var(--color-surface);
   border: 1px solid rgba(var(--color-current-rgb), 0.25);
   box-shadow: var(--color-shadow);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+/* Même léger soulèvement que les cartes de Practice (practice-engine.css),
+   pour les vrais labos seulement : pas la carte « en développement ». */
+html[data-pointer='fine'] .lab-tile:not(.lab-tile-soon):hover,
+.lab-tile:not(.lab-tile-soon):has(:focus-visible) {
+  transform: translateY(-3px);
+  border-color: rgba(29, 179, 212, 0.3);
+  box-shadow: 0 24px 50px rgba(17, 36, 72, 0.16);
 }
 
 .lab-tile-title {
