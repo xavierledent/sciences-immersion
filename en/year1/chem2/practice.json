@@ -530,7 +530,7 @@
     {
       "id": 12,
       "title": "Plan check",
-      "image": "N3-12_garage_tray.webp",
+      "image": "N3-12_garage_tray-2.webp",
       "en": "A mechanic is cleaning the mess in the picture: plastic pieces, engine oil, water and cleaning salt (dissolved in the water) are all in one tray. He writes this plan: 1) Pick up the plastic pieces by hand. 2) Pour off the oil that floats on the water. 3) Filter the water to get the salt. Which step does not work? Explain why and correct it.",
       "fr": "Un mécanicien nettoie le désordre de l'image : des morceaux de plastique, de l'huile de moteur, de l'eau et du sel de nettoyage (dissous dans l'eau) sont tous dans un même bac. Il écrit ce plan : 1) Retirer les morceaux de plastique à la main. 2) Verser l'huile qui flotte sur l'eau. 3) Filtrer l'eau pour obtenir le sel. Quelle étape ne fonctionne pas ? Explique pourquoi et corrige-la.",
       "corr_en": "Step 3 does not work: the salt is dissolved in the water, so it goes through the filter paper with the water. We must evaporate the water: the salt stays in the dish as a solid.",
