@@ -66,7 +66,27 @@
       "titleSuffix": "Chem 2",
       "hasAssessment": true,
       "h1": { "en": "Chemistry 2 : Mixtures and pure substances", "nl": "Chemie 2 : Mengsels en zuivere stoffen" },
-      "vocabTopic": { "en": "mixtures and pure substances", "nl": "mengsels en zuivere stoffen" }
+      "vocabTopic": { "en": "mixtures and pure substances", "nl": "mengsels en zuivere stoffen" },
+      "labs": {
+        "en": [
+          {
+            "id": "separation",
+            "file": "lab-separation",
+            "title": "The separation challenge",
+            "question": "How can we separate all the components of a mixture, and in which order?",
+            "text": "A jar with a mixture of three or four components. Observe it, plan your separation, then choose the right tools on the teacher’s desk and fill in your separation log."
+          }
+        ],
+        "nl": [
+          {
+            "id": "separation",
+            "file": "lab-separation",
+            "title": "De scheidingsuitdaging",
+            "question": "Hoe kunnen we alle bestanddelen van een mengsel scheiden, en in welke volgorde?",
+            "text": "Een bokaal met een mengsel van drie of vier bestanddelen. Bekijk het, plan je scheiding, kies dan de juiste hulpmiddelen op het bureau van de leerkracht en vul je scheidingslogboek in."
+          }
+        ]
+      }
     },
     {
       "folder": "phys2",
