@@ -195,7 +195,7 @@
       "questions": [
         {
           "question": "Hoeveel fasen heeft dit mengsel?",
-          "image": null,
+          "image": "assets/QCM3_1_oil_water.webp",
           "options": [
             "Twee",
             "Eén",
@@ -207,7 +207,7 @@
         },
         {
           "question": "Welk soort mengsel is dit?",
-          "image": null,
+          "image": "assets/QCM3_2_muddy_water.webp",
           "options": [
             "Heterogeen mengsel",
             "Homogeen mengsel",
@@ -219,7 +219,7 @@
         },
         {
           "question": "Hoe noemen we het heldere mengsel als het zout opgelost is?",
-          "image": null,
+          "image": "assets/QCM3_3_salt_water.webp",
           "options": [
             "Een oplossing",
             "Een zuivere stof",

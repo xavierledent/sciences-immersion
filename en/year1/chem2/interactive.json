@@ -195,7 +195,7 @@
       "questions": [
         {
           "question": "How many phases does this mixture have?",
-          "image": null,
+          "image": "assets/QCM3_1_oil_water.webp",
           "options": [
             "Two",
             "One",
@@ -207,7 +207,7 @@
         },
         {
           "question": "What type of mixture is this?",
-          "image": null,
+          "image": "assets/QCM3_2_muddy_water.webp",
           "options": [
             "Heterogeneous mixture",
             "Homogeneous mixture",
@@ -219,7 +219,7 @@
         },
         {
           "question": "When the salt has dissolved, what do we call the clear mixture?",
-          "image": null,
+          "image": "assets/QCM3_3_salt_water.webp",
           "options": [
             "A solution",
             "A pure substance",
