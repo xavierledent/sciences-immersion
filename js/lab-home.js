@@ -184,48 +184,14 @@
   const sameSet = (a, b) => a.length === b.length && a.every(x => b.includes(x));
 
   /* ===== Dessins ===== */
-  const ICONS = {
-    led: `<path d="M20,4 v6" stroke="#5d6773" stroke-width="2"/><path d="M12,10 h16 l-3,8 h-10 Z" fill="#c9d1da"/>` +
-      `<circle cx="20" cy="25" r="8" fill="#fff6c9" stroke="#e0b93a" stroke-width="1.6"/><rect x="16.5" y="17" width="7" height="3" fill="#aab4be"/>` +
-      `<path d="M8,30 L4,34 M32,30 L36,34 M20,36 v3" stroke="#f0c04a" stroke-width="1.8" stroke-linecap="round"/>`,
-    bulb: `<path d="M6,36 h16" stroke="#5d6773" stroke-width="2.4" stroke-linecap="round"/><path d="M14,36 V22 L24,12" stroke="#5d6773" stroke-width="2.2" fill="none"/>` +
-      `<path d="M21,9 L33,9 L30,16 L24,16 Z" fill="#7d8a97"/><circle cx="27" cy="21" r="6.5" fill="#ffe08a" stroke="#e0a73a" stroke-width="1.4"/>` +
-      `<path d="M25,20 q2,-3 4,0" stroke="#d07a1a" stroke-width="1" fill="none"/>`,
-    fridge: `<rect x="9" y="3" width="22" height="34" rx="2.5" fill="#eef2f6" stroke="#8d97a3" stroke-width="1.6"/><path d="M9,15 h22" stroke="#8d97a3" stroke-width="1.4"/>` +
-      `<path d="M26,7 v5 M26,19 v8" stroke="#5d6773" stroke-width="2" stroke-linecap="round"/>`,
-    hairdryer: `<path d="M6,10 h16 a8,8 0 0 1 0,16 h-16 Z" fill="#d06aa4"/><rect x="2" y="12" width="5" height="12" rx="1.5" fill="#a84f84"/>` +
-      `<path d="M18,24 l3,13 h5 l-2,-13 Z" fill="#a84f84"/><path d="M33,14 q3,4 0,8 M36,12 q4,6 0,12" stroke="#e57373" stroke-width="1.6" fill="none" stroke-linecap="round"/>`,
-    microwave: `<rect x="3" y="9" width="34" height="22" rx="2.5" fill="#dfe4ea" stroke="#7d8a97" stroke-width="1.6"/><rect x="6" y="12" width="21" height="16" rx="1.5" fill="#3d4a57"/>` +
-      `<path d="M10,22 q3,-4 6,0 q3,4 6,0" stroke="#f0c04a" stroke-width="1.4" fill="none"/><circle cx="32" cy="16" r="1.8" fill="#7d8a97"/><rect x="30" y="21" width="4" height="6" rx="1" fill="#7d8a97"/>`,
-    dishwasher: `<rect x="6" y="3" width="28" height="34" rx="2.5" fill="#eef2f6" stroke="#7d8a97" stroke-width="1.6"/><rect x="6" y="3" width="28" height="7" rx="2" fill="#c9d1da"/>` +
-      `<circle cx="11" cy="6.5" r="1.4" fill="#5aa86a"/><path d="M13,16 h14 M13,22 h14" stroke="#aab4be" stroke-width="1.6" stroke-linecap="round"/>` +
-      `<circle cx="17" cy="29" r="2" fill="#7fc6e8"/><circle cx="23" cy="31" r="1.6" fill="#7fc6e8"/>`,
-    tank: `<rect x="10" y="3" width="20" height="34" rx="8" fill="#e8ecf0" stroke="#7d8a97" stroke-width="1.6"/><path d="M14,30 h12" stroke="#7d8a97" stroke-width="1.4"/>` +
-      `<path d="M16,38 v-4 M24,38 v-4" stroke="#d64545" stroke-width="2.2"/><circle cx="20" cy="14" r="3.4" fill="#ffffff" stroke="#7d8a97"/><path d="M20,14 l2,-2" stroke="#d64545" stroke-width="1.2"/>`,
-    battery: `<rect x="5" y="11" width="13" height="24" rx="2" fill="#3d4a57"/><rect x="5" y="11" width="13" height="8" rx="2" fill="#e0a73a"/><rect x="9" y="8" width="5" height="3" fill="#7d8a97"/>` +
-      `<rect x="22" y="11" width="13" height="24" rx="2" fill="#3d4a57"/><rect x="22" y="11" width="13" height="8" rx="2" fill="#e0a73a"/><rect x="26" y="8" width="5" height="3" fill="#7d8a97"/>`,
-    powerbank: `<rect x="8" y="5" width="24" height="31" rx="4" fill="#4a6fd9"/><rect x="12" y="9" width="16" height="6" rx="1.5" fill="#cfe0ff"/>` +
-      `<rect x="13" y="10.5" width="10" height="3" fill="#5aa86a"/><rect x="16" y="33" width="8" height="3" rx="1" fill="#2f4ea8"/>`,
-    wood: `<ellipse cx="11" cy="28" rx="6" ry="6" fill="#c08a5a" stroke="#8a5a30" stroke-width="1.4"/><ellipse cx="25" cy="28" rx="6" ry="6" fill="#c08a5a" stroke="#8a5a30" stroke-width="1.4"/>` +
-      `<ellipse cx="18" cy="17" rx="6" ry="6" fill="#c08a5a" stroke="#8a5a30" stroke-width="1.4"/><circle cx="11" cy="28" r="2.4" fill="none" stroke="#8a5a30"/><circle cx="25" cy="28" r="2.4" fill="none" stroke="#8a5a30"/><circle cx="18" cy="17" r="2.4" fill="none" stroke="#8a5a30"/>`,
-    fruit: `<path d="M4,24 h32 a16,10 0 0 1 -32,0 Z" fill="#d9b382"/><circle cx="14" cy="20" r="6" fill="#d64545"/><circle cx="26" cy="20" r="6" fill="#7cb342"/><circle cx="20" cy="14" r="6" fill="#e05050"/>` +
-      `<path d="M20,8 v-3" stroke="#6e4a26" stroke-width="1.6"/>`,
-    slingshot: `<path d="M20,37 V22 M20,22 L11,8 M20,22 L29,8" stroke="#8a5a30" stroke-width="3.4" stroke-linecap="round" fill="none"/>` +
-      `<path d="M11,8 Q20,26 29,8" stroke="#d64545" stroke-width="1.8" fill="none"/><circle cx="20" cy="18" r="2.6" fill="#7d8a97"/>`,
-    toycar: `<path d="M5,26 v-6 l6,-7 h14 l6,7 h4 v6 Z" fill="#e0a73a" stroke="#a87418" stroke-width="1.4" stroke-linejoin="round"/><rect x="13" y="15" width="6" height="5" fill="#cfe0ff"/><rect x="21" y="15" width="5" height="5" fill="#cfe0ff"/>` +
-      `<circle cx="12" cy="28" r="4" fill="#3d4a57"/><circle cx="28" cy="28" r="4" fill="#3d4a57"/><path d="M20,13 v-6 M17,7 h6" stroke="#7d8a97" stroke-width="2" stroke-linecap="round"/>`
-  };
-  const icon = (id, cls) => `<svg class="hm-icon ${cls || ''}" viewBox="0 0 40 40" aria-hidden="true" focusable="false">${ICONS[id]}</svg>`;
-
-  // La caméra thermique et le compteur électrique (boîtier, écran, bornes).
-  const TOOL_ICONS = {
-    camera: `<rect x="3" y="12" width="26" height="18" rx="3" fill="#3d4a57"/><rect x="7" y="8" width="9" height="5" rx="1.5" fill="#3d4a57"/>` +
-      `<circle cx="16" cy="21" r="6" fill="#ff8a3d"/><circle cx="16" cy="21" r="3" fill="#ffd34d"/><rect x="29" y="16" width="8" height="10" rx="2" fill="#5d6773"/>`,
-    meter: `<rect x="7" y="3" width="26" height="30" rx="3" fill="#e8ecf0" stroke="#5d6773" stroke-width="1.6"/><rect x="10" y="7" width="20" height="9" rx="1.5" fill="#203040"/>` +
-      `<path d="M12.5,11.5 h3 M17.5,11.5 h3 M22.5,11.5 h3" stroke="#7cfc9a" stroke-width="2"/><circle cx="20" cy="24" r="2.6" fill="#e0a73a"/>` +
-      `<path d="M13,37 v-4 M20,37 v-4 M27,37 v-4" stroke="#5d6773" stroke-width="2.2" stroke-linecap="round"/>`
-  };
-  const toolIcon = (t, cls) => `<svg class="hm-icon ${cls || ''}" viewBox="0 0 40 40" aria-hidden="true" focusable="false">${TOOL_ICONS[t]}</svg>`;
+  // Les 13 objets, la caméra thermique et le compteur électrique : images de
+  // planches Gemini (assets/lab-hm-<nom>.png, dans chaque filière, 128 × 128).
+  // Les lampes sont dessinées éteintes : le halo de la lampe allumée vient du
+  // CSS (.hm-obj.is-on). L'afficheur du compteur est vide : ses valeurs
+  // s'écrivent à côté (meterHTML).
+  const iconSrc = id => `assets/lab-hm-${id}.png`;
+  const icon = (id, cls) => `<img class="hm-icon hm-img ${cls || ''}" src="${iconSrc(id)}" alt="" draggable="false">`;
+  const toolIcon = icon;
 
   // La maison, en coupe : toit, deux étages, la cave sous le sol.
   function houseSVG() {
@@ -271,7 +237,7 @@
       defs += `<radialGradient id="hm-glow-${id}"><stop offset="0" stop-color="${heatColor(t)}"/>` +
         `<stop offset="0.55" stop-color="${heatColor((t + run.room) / 2)}"/><stop offset="1" stop-color="${heatColor(run.room)}"/></radialGradient>`;
       body += `<ellipse cx="${cx}" cy="${cy}" rx="${Math.min(70, step / 2 - 4)}" ry="50" fill="url(#hm-glow-${id})"/>` +
-        `<g transform="translate(${cx - 28} ${cy - 28}) scale(1.4)" opacity="0.55" style="mix-blend-mode:luminosity">${ICONS[id]}</g>` +
+        `<image href="${iconSrc(id)}" x="${cx - 28}" y="${cy - 28}" width="56" height="56" opacity="0.55" style="mix-blend-mode:luminosity"/>` +
         `<text x="${cx}" y="${cy - 40}" text-anchor="middle" class="hm-th-max">${t} °C</text>` +
         `<text x="${cx}" y="${cy + 58}" text-anchor="middle" class="hm-th-name">${escapeHtml(objName(id))}</text>`;
     });
@@ -412,7 +378,8 @@
         const [x, y] = ROOMS[r].slots[run.place[id].slot];
         const tag = state.tags[id];
         const shown = s && s.kind === 'clue' && s.id === id;
-        return `<button type="button" class="hm-obj ${shown ? 'is-shown' : ''}" data-obj="${id}" data-lab-look style="${box(x - bx, y - by)}">` +
+        const on = state.sw[id] && state.sw[id].on;
+        return `<button type="button" class="hm-obj ${shown ? 'is-shown' : ''} ${on ? 'is-on' : ''}" data-obj="${id}" data-lab-look style="${box(x - bx, y - by)}">` +
           (tag ? `<span class="hm-badge">${LABELS.badges[tag]}</span>` : '') +
           `${icon(id, 'is-big')}<span class="hm-obj-name">${objName(id)}</span></button>`;
       }).join('');
@@ -509,6 +476,7 @@
     sw.on = !sw.on;
     state.started = true;
     btn.classList.toggle('is-on', sw.on);
+    $(`[data-obj="${id}"]`).classList.toggle('is-on', sw.on);
     btn.setAttribute('aria-pressed', String(sw.on));
     btn.textContent = sw.on ? LABELS.on : LABELS.off;
     if (state.shown && state.shown.kind === 'meter') {

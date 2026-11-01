@@ -59,6 +59,14 @@
   height: 64px;
 }
 
+/* Images des objets (planche Gemini) */
+.hm-img {
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 .hm-hint {
   font-size: 0.8em;
   font-weight: 400;
@@ -353,6 +361,12 @@
 .hm-obj .hm-icon.is-big {
   width: 30px;
   height: 30px;
+}
+
+/* Lampe allumée : un halo jaune autour de la lampe (l'image la montre éteinte) */
+.hm-obj.is-on[data-obj="led"] .hm-icon,
+.hm-obj.is-on[data-obj="bulb"] .hm-icon {
+  filter: drop-shadow(0 0 3px #ffd54a) drop-shadow(0 0 7px rgba(255, 213, 74, 0.8));
 }
 
 .hm-obj-name {
