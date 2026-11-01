@@ -231,7 +231,7 @@
         },
         {
           "question": "Suiker lost op in thee. Wat is de suiker?",
-          "image": null,
+          "image": "assets/QCM3_4_tea_sugar.webp",
           "options": [
             "De opgeloste stof",
             "Het oplosmiddel",
@@ -243,7 +243,7 @@
         },
         {
           "question": "Wat is het oplosmiddel in zeewater?",
-          "image": null,
+          "image": "assets/QCM3_5_sea_waves.webp",
           "options": [
             "Water",
             "Zout",
@@ -255,7 +255,7 @@
         },
         {
           "question": "Bruisend water bevat opgelost koolstofdioxidegas. Wat is de opgeloste stof?",
-          "image": null,
+          "image": "assets/QCM3_6_sparkling_water.webp",
           "options": [
             "Koolstofdioxide",
             "Water",

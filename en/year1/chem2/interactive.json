@@ -231,7 +231,7 @@
         },
         {
           "question": "Sugar dissolves in tea. What is the sugar?",
-          "image": null,
+          "image": "assets/QCM3_4_tea_sugar.webp",
           "options": [
             "The solute",
             "The solvent",
@@ -243,7 +243,7 @@
         },
         {
           "question": "What is the solvent in sea water?",
-          "image": null,
+          "image": "assets/QCM3_5_sea_waves.webp",
           "options": [
             "Water",
             "Salt",
@@ -255,7 +255,7 @@
         },
         {
           "question": "Sparkling water contains dissolved carbon dioxide gas. What is the solute?",
-          "image": null,
+          "image": "assets/QCM3_6_sparkling_water.webp",
           "options": [
             "Carbon dioxide",
             "Water",
