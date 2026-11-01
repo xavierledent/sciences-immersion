@@ -144,8 +144,8 @@
   /* Un outil sur une partie P (target : la pièce visée par la pince).
      → { ok, removed, left, key } ; key nomme ce qu'on observe (légende).
      removed : la partie qu'on retire (ce qu'attire l'aimant, ce qui reste
-     dans le tamis ou sur le papier, la couche du dessus, le liquide qui
-     s'évapore ou que l'on distille). */
+     dans le tamis, sur le papier ou dans l'ampoule à décanter, le liquide
+     qui s'évapore ou que l'on distille). */
   function applyTool(tool, P, target) {
     const fail = key => ({ ok: false, key, removed: [], left: P });
     if (P.length < 2) return fail('single');
@@ -171,10 +171,13 @@
       if (!solids.length) return fail('filterNothing');
       return done(solids, 'filter');
     }
+    // L'ampoule à décanter : des liquides seulement (un solide boucherait
+    // le robinet) ; la couche du bas s'écoule, l'huile reste dans l'ampoule.
     if (tool === 'decant') {
       if (!liquids.length) return fail('decantDry');
+      if (solids.length) return fail('decantSolids');
       if (P.includes('oil') && hasAq(P)) return done(['oil'], 'decant');
-      return fail(solids.length ? 'decantCloudy' : 'decantOne');
+      return fail('decantOne');
     }
     if (tool === 'heat') {
       const gone = liquids.filter(c => COMPS[c].bp && COMPS[c].bp <= 100);
@@ -302,6 +305,8 @@
      reste reste en place, sauf :
        — filtration : tout le mélange est versé ; les solides restent dans
          l'entonnoir (sur le papier), le liquide passe dans un bécher ;
+       — ampoule à décanter : tout est versé dans l'ampoule ; la couche du
+         bas s'écoule dans un bécher, l'huile reste dans l'ampoule ;
        — chauffage : le mélange est versé dans une coupelle sur la plaque
          (sauf s'il y est déjà) ; le liquide part dans l'air.
      Les nouveaux récipients s'ajoutent au bout de la paillasse, dans
@@ -310,6 +315,7 @@
     if (!r.ok) return [];
     if (tool === 'heat') return r.key === 'heatLost' || p.vessel === 'dish' ? [] : [{ vessel: 'dish', comps: r.left }];
     if (tool === 'filter') return [{ vessel: 'beaker', comps: r.left }, { vessel: 'funnel', comps: r.removed }];
+    if (tool === 'decant') return [{ vessel: 'beaker', comps: r.left }, { vessel: 'sepfunnel', comps: r.removed }];
     const liquid = r.removed.some(c => COMPS[c].liquid);
     return [{ vessel: tool === 'distil' ? 'flask' : liquid ? 'beaker' : 'dish', comps: r.removed }];
   }
@@ -329,8 +335,8 @@
     const added = plannedParts(tool, p, r);
     if (tool === 'heat') b.air.push(r.removed);
     if (r.key === 'heatLost') b.lost = true;
-    // Le récipient d'origine : vidé (filtration, versé dans la coupelle, tout évaporé) ou avec ce qui reste.
-    const emptied = tool === 'filter' || r.key === 'heatLost' || (tool === 'heat' && p.vessel !== 'dish');
+    // Le récipient d'origine : vidé (filtration, ampoule à décanter, versé dans la coupelle, tout évaporé) ou avec ce qui reste.
+    const emptied = tool === 'filter' || tool === 'decant' || r.key === 'heatLost' || (tool === 'heat' && p.vessel !== 'dish');
     if (emptied) b.parts = b.parts.filter(x => x !== p);
     else p.comps = r.left;
     b.parts = b.parts.concat(added);
@@ -346,7 +352,11 @@
     magnet: '<path d="M8 25V14a8 8 0 0 1 16 0v11" fill="none" stroke="#d64545" stroke-width="6"/><rect x="5" y="22" width="6" height="5" fill="#c7ced6" stroke="currentColor" stroke-width="1.2"/><rect x="21" y="22" width="6" height="5" fill="#c7ced6" stroke="currentColor" stroke-width="1.2"/>',
     sieve: '<ellipse cx="14" cy="13" rx="11" ry="4" fill="#eef1f4" stroke="currentColor" stroke-width="1.6"/><path d="M3 13q11 14 22 0" fill="#f6f8fa" stroke="currentColor" stroke-width="1.6"/><path d="M8 15.5l12 0M7 18.5l14 0M10 21l8 0M11 13v8M17 13v8" stroke="currentColor" stroke-width=".8"/><path d="M25 12l5-3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
     filter: '<path d="M4 6h24L18.5 18v9h-5v-9z" fill="#f4f7f9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 8.5h16l-7 8.5h-2z" fill="#ffffff" stroke="#b9c3cc" stroke-width="1"/><path d="M16 27.5v2.5" stroke="#5aa9dd" stroke-width="2" stroke-linecap="round"/>',
-    decant: '<path d="M7 9h15v17a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3z" fill="#eef5fa" stroke="currentColor" stroke-width="1.6"/><path d="M7 9q-3-1-4-4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 19h12v7a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2z" fill="#8fd0ee"/><path d="M8.5 15h12v4h-12z" fill="#f3c63b"/>',
+    decant: '<path d="M14 3V7C8 9.5 6 14 8 17.5C9.5 20 13 21.5 15 23V30H17V23C19 21.5 22.5 20 24 17.5C26 14 24 9.5 18 7V3Z" fill="#eef5fa"/>' +
+      '<path d="M7.3 14.4C7.3 15.6 7.5 16.6 8 17.5C9.5 20 13 21.5 15 23H17C19 21.5 22.5 20 24 17.5C24.5 16.6 24.7 15.6 24.7 14.4Z" fill="#8fd0ee"/>' +
+      '<path d="M8 11.8H24C24.4 12.6 24.7 13.5 24.7 14.4H7.3C7.3 13.5 7.6 12.6 8 11.8Z" fill="#f3c63b"/>' +
+      '<path d="M14 3V7C8 9.5 6 14 8 17.5C9.5 20 13 21.5 15 23V30H17V23C19 21.5 22.5 20 24 17.5C26 14 24 9.5 18 7V3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' +
+      '<path d="M11.5 25.5h9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
     heat: '<path d="M8 11h16l-2 7H10z" fill="#ffffff" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="4" y="20" width="24" height="6" rx="2" fill="#5c6671" stroke="currentColor" stroke-width="1.4"/><path d="M8 23h16" stroke="#ef7b45" stroke-width="2" stroke-linecap="round"/><path d="M13 8c-1-1.5 1-2.5 0-4M19 8c-1-1.5 1-2.5 0-4" fill="none" stroke="#9fb3c4" stroke-width="1.5" stroke-linecap="round"/>',
     distil: '<circle cx="9" cy="20" r="6" fill="#eef5fa" stroke="currentColor" stroke-width="1.5"/><path d="M9 14V8l18 7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14 11l12 5" stroke="#8fd0ee" stroke-width="3.5"/><path d="M24 20h6l-1 8h-4z" fill="#eef5fa" stroke="currentColor" stroke-width="1.4"/><path d="M5 22.5h8" stroke="#8fd0ee" stroke-width="3"/>',
     goggles: '<path d="M3 12h26v7a4 4 0 0 1-4 4h-4l-3-3h-4l-3 3H7a4 4 0 0 1-4-4z" fill="#d7eefc" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 14l-1.5-2M29 14l1.5-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
@@ -364,6 +374,18 @@
     funnel: {
       shape: 'M16 40H104L68 88V128H52V88Z', inner: [36, 58, 84, 88],
       under: '<path d="M24 43H96L63 84H57Z" fill="#ffffff" stroke="#c4cdd5" stroke-width="1.2"/>'
+    },
+    /* L'ampoule à décanter sur son support (stand : derrière ; ring :
+       l'anneau, devant), le robinet en bas de la poire (tap(angle) : 0
+       fermé, 90 ouvert). Le liquide s'arrête au robinet (y 114). */
+    sepfunnel: {
+      shape: 'M54 14V26C32 38 22 58 30 76C37 89 50 96 56 102V128H64V102C70 96 83 89 90 76C98 58 88 38 66 26V14',
+      inner: [24, 62, 96, 114],
+      stand: '<g class="sp-stand"><path d="M110 30V130" stroke="#8d97a1" stroke-width="3.2" stroke-linecap="round"/>' +
+        '<rect x="96" y="128" width="24" height="5" rx="1.5" fill="#8d97a1"/><path d="M84 86H110" stroke="#8d97a1" stroke-width="2.4"/></g>',
+      ring: '<g class="sp-stand"><ellipse cx="60" cy="86" rx="24" ry="3" fill="none" stroke="#8d97a1" stroke-width="2.4"/></g>',
+      tap: a => `<g transform="rotate(${a} 60 117)"><rect x="47" y="114.5" width="26" height="5" rx="2" fill="#c7ced6" stroke="#55606b" stroke-width="1.2"/></g>` +
+        '<circle cx="60" cy="117" r="3.4" fill="#e9eef2" stroke="#55606b" stroke-width="1.2"/>'
     }
   };
 
@@ -403,8 +425,9 @@
   /* Le contenu d'une partie dans la zone [x0, y0, x1, y1] : liquides (phase
      aqueuse, huile au-dessus), solides au fond ; un mélange sec forme un
      petit tas. level (animations) : hauteur de la colonne de liquide, de 0
-     à 1 ; l'huile garde son épaisseur au-dessus de l'eau. */
-  function contentsSVG(P, box, seed, small, level) {
+     à 1 ; l'huile garde son épaisseur au-dessus de l'eau (l'eau s'évapore),
+     sauf si all : on verse tout, l'huile part à la fin. */
+  function contentsSVG(P, box, seed, small, level, all) {
     const [x0, y0, x1, y1] = box;
     const r = mulberry32(seed);
     const h = y1 - y0, w = x1 - x0;
@@ -418,7 +441,7 @@
       const full = y1 - (y0 + h * (small ? 0.18 : 0.3));
       const oilH = aq && oil ? h * 0.14 : 0;
       const aqH = aq ? (full - oilH) * lv : 0;
-      const oilCol = aq ? oilH : full * lv;
+      const oilCol = aq ? (all ? oilH * Math.min(1, lv * 5) : oilH) : full * lv;
       const aqTop = y1 - aqH;
       if (oil && oilCol > 0.3) out += `<rect x="${x0}" y="${aqTop - oilCol}" width="${w}" height="${oilCol}" fill="#f3c63b" fill-opacity=".8"/>`;
       if (aq && aqH > 0.3) {
@@ -467,15 +490,21 @@
     return out;
   }
 
-  function vesselSVG(vessel, P, seed, cls, level) {
+  /* opts (animations) : contents (le dessin du contenu, à la place de P),
+     tap (angle du robinet), bare (sans support), size (dessin en unités,
+     posé dans le calque des animations), all (voir contentsSVG). */
+  function vesselSVG(vessel, P, seed, cls, level, opts) {
     const v = VESSELS[vessel];
+    const o = opts || {};
     const clip = `sp-clip-${seed}`;
     const extra = (v.rim ? '<rect x="16" y="14" width="88" height="11" rx="3" fill="#e9eef2" stroke="#7d8a97" stroke-width="1.6"/>' : '') +
-      (v.spout ? '<path d="M24 22Q18 21 15 15" fill="none" stroke="#7d8a97" stroke-width="2"/><path d="M84 60h12M88 80h8M84 100h12" stroke="#a7b3bf" stroke-width="1.2"/>' : '');
-    return `<svg class="sp-vessel ${cls || ''}" viewBox="0 0 120 140" aria-hidden="true" focusable="false">` +
-      `<defs><clipPath id="${clip}"><path d="${v.shape}Z"/></clipPath></defs>` +
+      (v.spout ? '<path d="M24 22Q18 21 15 15" fill="none" stroke="#7d8a97" stroke-width="2"/><path d="M84 60h12M88 80h8M84 100h12" stroke="#a7b3bf" stroke-width="1.2"/>' : '') +
+      (v.tap ? v.tap(o.tap || 0) : '') + (v.ring && !o.bare ? v.ring : '');
+    const inside = o.contents != null ? o.contents : contentsSVG(P, v.inner, seed, vessel === 'dish' || vessel === 'funnel', level, o.all);
+    return `<svg class="sp-vessel ${cls || ''}" viewBox="0 0 120 140"${o.size ? ' width="120" height="140" overflow="visible"' : ''} aria-hidden="true" focusable="false">` +
+      `<defs><clipPath id="${clip}"><path d="${v.shape}Z"/></clipPath></defs>${v.stand && !o.bare ? v.stand : ''}` +
       `<path d="${v.shape}Z" fill="#f4f8fb"/>${v.under || ''}` +
-      `<g clip-path="url(#${clip})">${contentsSVG(P, v.inner, seed, vessel === 'dish' || vessel === 'funnel', level)}</g>` +
+      `<g clip-path="url(#${clip})">${inside}</g>` +
       `<path d="${v.shape}" fill="none" stroke="#7d8a97" stroke-width="2.2" stroke-linejoin="round"/>${extra}</svg>`;
   }
 
@@ -537,14 +566,14 @@
     return { el, v, k, x, y, ox, oy, at: (ux, uy) => [x + ux * k, y + uy * k] };
   }
 
-  const paint = (box, vessel, comps, seed, level) => { box.v.innerHTML = vesselSVG(vessel, comps, seed, '', level); };
+  const paint = (box, vessel, comps, seed, level, opts) => { box.v.innerHTML = vesselSVG(vessel, comps, seed, '', level, opts); };
   // Le niveau d'un liquide qui monte ou descend : redessiné par petits pas.
-  function painter(box, vessel, comps, seed) {
+  function painter(box, vessel, comps, seed, opts) {
     let last = -1;
     return lv => {
       if (Math.abs(lv - last) < 0.04 && lv > 0 && lv < 1) return;
       last = lv;
-      paint(box, vessel, comps, seed, lv);
+      paint(box, vessel, comps, seed, lv, opts);
     };
   }
 
@@ -781,15 +810,67 @@
       g.remove();
     },
 
+    /* L'ampoule à décanter, tenue au-dessus du bécher (son support attend à
+       sa place) : on y verse le mélange, les deux couches se forment, le
+       robinet s'ouvre et la couche du bas s'écoule ; l'huile descend dans
+       la pointe de l'ampoule. Robinet fermé, l'ampoule va sur son support. */
     async decant(c) {
-      const { S, D, r } = c;
-      const d = D[0];
-      const fill = painter(d, c.planned[0].vessel, r.removed, c.seedNew[0]);
-      let swapped = false;
-      await pour(c, S, c.p.vessel, d, [60, 40], '#f0bf2c', 1300, t => {
-        fill(t);
-        if (!swapped && t > 0.5) { swapped = true; paint(S, c.p.vessel, r.left, c.seedLeft); }
+      const { S, D, r, token, fx, P } = c;
+      const [beaker, slot] = D;
+      const [, y0, , y1] = VESSELS.sepfunnel.inner;
+      const oilEnd = y0 + (y1 - y0) * 0.3;   // le haut de l'huile seule (voir contentsSVG)
+      const full = 40, oilH = 12;             // l'ampoule pleine : l'huile sur 12 unités
+      slot.v.classList.add('is-waiting');
+      const g = svgEl('g', { opacity: 0 }, fx);
+      const water = flowColor(r.left);
+      const layers = (oilTop, waterTop, open) =>
+        (waterTop < y1 - 0.3 ? `<rect x="0" y="${waterTop.toFixed(1)}" width="120" height="${(y1 - waterTop).toFixed(1)}" fill="#8fcbef" fill-opacity=".5"/>` +
+          `<path d="M0 ${waterTop.toFixed(1)}h120" stroke="#6fb6e4" stroke-width="1"/>` : '') +
+        (oilTop < waterTop - 0.3 ? `<rect x="0" y="${oilTop.toFixed(1)}" width="120" height="${(waterTop - oilTop).toFixed(1)}" fill="#f3c63b" fill-opacity=".8"/>` : '') +
+        (open ? `<rect x="54" y="${y1}" width="12" height="${128 - y1}" fill="#8fcbef" fill-opacity=".6"/>` : '');
+      const seed = c.seedNew[1] + 1;
+      const draw = (oilTop, waterTop, tap) => {
+        g.innerHTML = vesselSVG('sepfunnel', [], seed, '', null, { contents: layers(oilTop, waterTop, tap > 45), tap, bare: true, size: true });
+      };
+      // La pointe de l'ampoule (y 128) dans le haut du bécher (y 34).
+      const hold = beaker.at(0, 34 - 128);
+      put(g, hold, beaker.k);
+      draw(y1, y1, 0);
+      await play(token, 380, e => g.setAttribute('opacity', e.toFixed(2)));
+      // On verse tout : le niveau monte, l'huile se rassemble au-dessus.
+      const drain = painter(S, c.p.vessel, P, c.seedBefore, { all: true });
+      await pour(c, S, c.p.vessel, beaker, [60, 34 - 128 + 18], flowColor(P), 1500, t => {
+        drain(1 - t);
+        const top = lerp(y1, full, t);
+        draw(top, top + oilH * t, 0);
       });
+      paint(S, c.p.vessel, [], c.seedBefore);
+      S.el.classList.add('is-fading');
+      await play(token, 450, () => {});
+      // Le robinet s'ouvre : la couche du bas s'écoule dans le bécher.
+      await play(token, 260, e => draw(full, full + oilH, 90 * e));
+      const fill = painter(beaker, c.planned[0].vessel, r.left, c.seedNew[0]);
+      const drops = Array.from({ length: 4 }, (x, i) => ({ ph: i / 4, c: svgEl('circle', { r: 1.8 * beaker.k, fill: water, opacity: 0 }, fx) }));
+      await play(token, 2000, (e, t) => {
+        draw(lerp(full, oilEnd, e), lerp(full + oilH, y1, e), 90);
+        fill(Math.max(0, e * 1.05 - 0.05));
+        drops.forEach(dr => {
+          const f = (dr.ph + t * 4) % 1;
+          const [x, y] = beaker.at(60, 36 + f * 60);
+          dr.c.setAttribute('cx', x.toFixed(1));
+          dr.c.setAttribute('cy', y.toFixed(1));
+          dr.c.setAttribute('opacity', t > 0.94 ? 0 : 0.9);
+        });
+      }, ease.inOut);
+      drops.forEach(dr => dr.c.remove());
+      fill(1);
+      // Robinet fermé : l'ampoule et son huile vont sur le support.
+      await play(token, 260, e => draw(oilEnd, y1, 90 * (1 - e)));
+      const onStand = slot.at(0, 0);
+      await play(token, 760, e => put(g, mix(hold, onStand, e), lerp(beaker.k, slot.k, e)));
+      paint(slot, c.planned[1].vessel, r.removed, c.seedNew[1]);
+      slot.v.classList.remove('is-waiting');
+      g.remove();
     },
 
     async filter(c) {
@@ -804,7 +885,7 @@
       const onBeaker = beaker.at(60, 34 - 88);
       put(fun, onBeaker, beaker.k);
       const fill = painter(beaker, c.planned[0].vessel, r.left, c.seedNew[0]);
-      const drain = painter(S, c.p.vessel, P, c.seedBefore);
+      const drain = painter(S, c.p.vessel, P, c.seedBefore, { all: true });
       const drops = Array.from({ length: 4 }, (x, i) => ({ ph: i / 4, c: svgEl('circle', { r: 1.8 * beaker.k, fill: flowColor(r.left) , opacity: 0 }, fx) }));
       await play(token, 380, e => fun.setAttribute('opacity', e.toFixed(2)));
       await pour(c, S, c.p.vessel, beaker, [60, -50], flowColor(P), 1700, t => {
@@ -837,7 +918,7 @@
       if (D.length) {
         H = D[0];
         const fill = painter(H, 'dish', P, c.seedFinal);
-        const drain = painter(S, c.p.vessel, P, c.seedBefore);
+        const drain = painter(S, c.p.vessel, P, c.seedBefore, { all: true });
         await pour(c, S, c.p.vessel, H, [60, 100], flowColor(P), 1200, t => { fill(t); drain(1 - t); }, solidsIn(P));
         paint(S, c.p.vessel, [], c.seedBefore);
         S.el.classList.add('is-fading');
@@ -1215,7 +1296,7 @@
       case 'tweezers': return C.tweezers(removed);
       case 'sieve': return C.sieve(removed, left);
       case 'filter': return C.filter(removed, left);
-      case 'decant': return C.decant(removed);
+      case 'decant': return C.decant(removed, left);
       case 'heat': return r.key === 'heatLost' ? C.heatLost : C.heat(left);
       case 'distil': return C.distil(LABELS.temp(COMPS[r.removed[0]].bp), left);
       default: return '';
@@ -1318,6 +1399,17 @@
     };
   }
 
+  // Les raisons, dans un ordre tiré au sort pour chaque mélange (le même à chaque affichage, après une reprise aussi).
+  function whyOrder() {
+    const r = mulberry32(seedFrom(`${run.seed}-whys`));
+    const a = WHYS.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(r() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
   function conclusionsComplete() {
     return Object.values(conclusionParts()).every(Boolean);
   }
@@ -1338,11 +1430,12 @@
     const show = lab.state.showMissing;
     const miss = key => (show && !parts[key] ? 'lab-is-missing' : '');
     const s = soluteOf();
+    const whys = whyOrder();
     const techRows = logRows().map((r, i) => {
       const t = c.tech[i] || {};
       return `<tr><th scope="row"><span class="sp-num">${i + 1}</span></th>` +
         `<td>${selectHTML(`name-${i}`, t.name, TECH_NAMES, x => LABELS.techniques[x], LABELS.colTechnique, show)}</td>` +
-        `<td>${selectHTML(`why-${i}`, t.why, WHYS, x => LABELS.whys[x], LABELS.colWhy, show)}</td></tr>`;
+        `<td>${selectHTML(`why-${i}`, t.why, whys, x => LABELS.whys[x], LABELS.colWhy, show)}</td></tr>`;
     }).join('');
     const chip = (field, val, label, on) => `<button type="button" class="lab-choice sp-chip ${on ? 'is-selected' : ''}" data-k="${field}" data-val="${val}" aria-pressed="${on}">${label}</button>`;
 

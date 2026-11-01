@@ -431,6 +431,11 @@ html[data-pointer='fine'] .sp-tool:not(.lab-is-locked):hover {
   opacity: 0.55;
 }
 
+.sp-vbox.is-waiting .sp-vessel > :not(.sp-stand) {
+  /* L'ampoule à décanter arrive : son support l'attend déjà. */
+  visibility: hidden;
+}
+
 .sp-part.is-fading {
   opacity: 0.3;
   transition: opacity 0.4s;
@@ -698,6 +703,13 @@ html[data-pointer='fine'] .sp-tool:not(.lab-is-locked):hover {
 
 .sp-tech .sp-select {
   width: 100%;
+  /* Une raison longue passe sur deux lignes, dans la case : toutes les
+     cases ont la hauteur de deux lignes (rien ne bouge au choix). */
+  height: auto;
+  min-height: 42px;
+  padding-block: 4px;
+  line-height: 1.25;
+  white-space: normal;
 }
 
 .sp-concl-line {
