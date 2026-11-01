@@ -5,6 +5,10 @@ avec le skill `creer-labo` (fiche de conception à valider d'abord).
 
 ## Pour tous les chapitres : relier les labos à l'autoévaluation
 
+**Fait le 2026-11-01** (champ `labs`, voir docs/formats-donnees.md) pour
+bio1, chem1 et phys1. Pour un nouveau labo ou une nouvelle autoévaluation :
+cocher ses attendus de savoir-faire et de compétence dans l'éditeur.
+
 Souhait de l'enseignant : les attendus de savoir-faire (S-F) et de
 compétence sont le mieux travaillés dans les labos ; la page Assessment
 (`autoeval.json`) devrait donc renvoyer vers eux, comme elle renvoie déjà

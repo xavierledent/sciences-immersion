@@ -44,6 +44,33 @@
     return groups ? `<p class="autoeval-item-exercises">Exercices liés : ${groups}</p>` : '';
   }
 
+  // Labs linked to an attendu (savoir-faire and compétence only, see
+  // validate-content.js): same chip as an exercise, but titled, on a line of
+  // its own. Titles come from the page (generate-assessment.js, chapters.json),
+  // in the track's language. Only a link: never the student's lab result, so
+  // the student goes back to the lab before rating.
+  const LAB_TITLES = (() => {
+    try { return JSON.parse(document.getElementById('chapter-labs')?.textContent || '{}'); } catch { return {}; }
+  })();
+
+  const knownLabs = labs => (labs || []).filter(id => LAB_TITLES[id]);
+
+  function createAutoEvalLabChips(labs) {
+    return `<span class="autoeval-lab-group">${knownLabs(labs).map(id =>
+      `<a class="autoeval-ex-chip autoeval-lab-chip" href="./laboratory.html?lab=${encodeURIComponent(id)}" target="_blank" rel="noopener">${escapeAutoevalHtml(LAB_TITLES[id])}</a>`
+    ).join('')}</span>`;
+  }
+
+  function escapeAutoevalHtml(text) {
+    return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function createAutoEvalLabLinks(labs) {
+    const n = knownLabs(labs).length;
+    if (!n) return '';
+    return `<p class="autoeval-item-exercises autoeval-item-labs">${n > 1 ? 'Labos liés' : 'Labo lié'} : ${createAutoEvalLabChips(labs)}</p>`;
+  }
+
   const AUTOEVAL_GENERAL_ADVICE = {
     1: "Cette notion n'est pas encore acquise. Relis la partie du cours indiquée ci-dessous, et n'hésite pas à demander de l'aide à ton professeur.",
     2: 'Tu es sur la bonne voie ! Relis rapidement cette notion pour bien la consolider.',
@@ -56,10 +83,23 @@
     3: 'Bravo, cette notion est acquise, mais tu peux toujours refaire les exercices :'
   };
 
+  // Advice for an attendu linked only to labs (one = "ce labo", several = "ces labos").
+  const AUTOEVAL_LAB_ADVICE_PREFIX = {
+    1: what => `Cette notion n'est pas encore acquise : refais ${what} pour progresser :`,
+    2: what => `Tu es sur la bonne voie : refais ${what} pour bien la consolider :`,
+    3: what => `Bravo, cette notion est acquise, mais tu peux toujours refaire ${what} :`
+  };
+
   function buildAutoevalAdviceHtml(item, level) {
     if (!level) return '';
+    const labCount = knownLabs(item.labs).length;
+    const labs = labCount ? createAutoEvalLabChips(item.labs) : '';
     if (item.exercises?.length) {
-      return `<p class="autoeval-advice">${AUTOEVAL_EXERCISE_ADVICE_PREFIX[level]} ${createAutoEvalExerciseGroups(item.exercises)}</p>`;
+      const also = labCount ? `<br>${labCount > 1 ? 'Refais aussi les labos' : 'Refais aussi le labo'} : ${labs}` : '';
+      return `<p class="autoeval-advice">${AUTOEVAL_EXERCISE_ADVICE_PREFIX[level]} ${createAutoEvalExerciseGroups(item.exercises)}${also}</p>`;
+    }
+    if (labCount) {
+      return `<p class="autoeval-advice">${AUTOEVAL_LAB_ADVICE_PREFIX[level](labCount > 1 ? 'ces labos' : 'ce labo')} ${labs}</p>`;
     }
     return `<p class="autoeval-advice">${AUTOEVAL_GENERAL_ADVICE[level]}</p>`;
   }
@@ -68,8 +108,8 @@
     const locationsHtml = item.locations?.length
       ? `<ul class="autoeval-item-locations">${item.locations.map(loc => `<li>${richText(loc)}</li>`).join('')}</ul>`
       : '';
-    const exercisesHtml = rating ? '' : createAutoEvalExerciseLinks(item.exercises);
-    return locationsHtml + exercisesHtml;
+    const linksHtml = rating ? '' : createAutoEvalExerciseLinks(item.exercises) + createAutoEvalLabLinks(item.labs);
+    return locationsHtml + linksHtml;
   }
 
   // Drawn bulb rather than the 💡 emoji: an emoji can only be tinted as a

@@ -182,6 +182,23 @@ html[data-pointer='fine'] .autoeval-ex-chip:hover {
   background: var(--autoeval-accent-dark);
 }
 
+/* Lien vers un labo : même bouton qu'un exercice, mais il porte le titre du
+   labo (plus long) et a sa propre ligne, sous les exercices. */
+.autoeval-item-labs {
+  margin-top: 4px;
+}
+
+.autoeval-lab-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  vertical-align: middle;
+}
+
+.autoeval-lab-chip {
+  padding: 0 10px;
+}
+
 /* Star-rating: clicking bulb N lights 1..N (see resources-engine.js). Real
    <button>s now, but keep the same 💡 glyph as the Level 1/2/3 buttons rather
    than a new icon, so the rating reads as the same symbol students already

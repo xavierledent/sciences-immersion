@@ -260,6 +260,9 @@
     .ae-list { display: flex; flex-direction: column; gap: 10px; }
     .ae-item-idbadge { font-family: 'Cascadia Code','Consolas',monospace; font-size: 0.72rem; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; }
     .ae-vocab-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-secondary); }
+    .ae-labs { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+    .ae-lab-label { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; }
+    .ae-labs-none { font-size: 0.85rem; color: var(--text-secondary); }
     .ae-loc-add-row, .ae-ex-add-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .ae-loc-add-row input { flex: 1; min-width: 160px; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 0.83rem; background: var(--surface); color: var(--text); outline: none; }
     .ae-loc-add-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,92,230,0.1); }
@@ -1435,6 +1438,10 @@ document.querySelectorAll('#panel-explorations .fmt-bar[data-section]').forEach(
 const AE_CATS=[{id:'savoirs',title:'Savoirs'},{id:'savoirFaire',title:'Savoir-faire'},{id:'competence',title:'Compétence'}];
 const AE_PREFIX={savoirs:'s',savoirFaire:'sf',competence:'c'};
 let ae_practiceIndex=null;
+/* Labs of the chapter in the chosen language (tools/chapters.json, labs.<lang>),
+   offered as checkboxes on savoir-faire and compétence attendus only: the labs
+   are designed for them (teacher's choice). Saved as "labs": [ids]. */
+let ae_labs=[];
 const ae_lists={savoirs:document.getElementById('ae-list-savoirs'),savoirFaire:document.getElementById('ae-list-savoirFaire'),competence:document.getElementById('ae-list-competence')};
 const aeAlertBox=document.getElementById('ae-alert-box'),aeBtnSave=document.getElementById('ae-btn-save');
 
@@ -1602,6 +1609,28 @@ function aeFillBrowseSelect(select){
   });
 }
 
+async function aeLoadLabs(){
+  try{
+    const tools=await rootHandle.getDirectoryHandle('tools',{create:false});
+    const file=await (await tools.getFileHandle('chapters.json',{create:false})).getFile();
+    const chapter=(JSON.parse(await file.text()).chapters||[]).find(c=>c.folder===selectedChap);
+    return (chapter&&chapter.labs&&chapter.labs[selectedLang])||[];
+  }catch{return [];}
+}
+
+// One checkbox per lab of the chapter; a linked id that is no longer in
+// chapters.json stays listed (checked) so that saving never drops it silently.
+function aeFillLabs(wrap,linked){
+  const labs=ae_labs.map(l=>({id:l.id,title:l.title}));
+  linked.filter(id=>!labs.some(l=>l.id===id)).forEach(id=>labs.push({id,title:id+' (introuvable dans chapters.json)'}));
+  if(!labs.length){wrap.innerHTML='<span class="ae-labs-none">Aucun labo dans ce chapitre.</span>';return;}
+  labs.forEach(l=>{
+    const label=document.createElement('label');label.className='ae-lab-label';
+    const box=document.createElement('input');box.type='checkbox';box.className='ae-lab';box.value=l.id;box.checked=linked.includes(l.id);
+    label.append(box,document.createTextNode(l.title));wrap.appendChild(label);
+  });
+}
+
 function aeCreateItem(catId,item,collapsed){
   item=item||{};
   const block=document.createElement('div');
@@ -1635,6 +1664,7 @@ function aeCreateItem(catId,item,collapsed){
         '<div class="ae-ex-preview"></div>'+
         '<div class="ae-ex-chips"></div>'+
       '</div>'+
+      (catId!=='savoirs'?'<div class="ex-field"><span class="ex-label">Labos li&eacute;s</span><div class="ae-labs"></div></div>':'')+
       '<details class="ae-advanced"><summary>Avanc&eacute;</summary>'+
         '<div class="ex-field"><span class="ex-label">Identifiant interne</span><input type="text" class="ae-id-input"></div>'+
       '</details>'+
@@ -1650,6 +1680,8 @@ function aeCreateItem(catId,item,collapsed){
   const chipsWrap=block.querySelector('.ae-ex-chips');
   (item.exercises||[]).forEach(ex=>aeAddExerciseChip(chipsWrap,ex.level,ex.id));
   aeFillBrowseSelect(block.querySelector('.ae-ex-browse'));
+  const labsWrap=block.querySelector('.ae-labs');
+  if(labsWrap)aeFillLabs(labsWrap,item.labs||[]);
 
   block.querySelector('.ae-text').addEventListener('input',()=>aeUpdateSummary(block));
   block.querySelector('.btn-delete-block').addEventListener('click',()=>{block.remove();aeRefreshCounts();});
@@ -1703,6 +1735,7 @@ function aePopulate(data){
 async function aeLoad(){
   try{
     ae_practiceIndex=await aeLoadPracticeIndex();
+    ae_labs=await aeLoadLabs();
     let data;
     try{const fh=await aeGetFH(false),file=await fh.getFile();data=JSON.parse(await file.text());}
     catch{data={categories:AE_CATS.map(c=>({id:c.id,title:c.title,items:[]}))};}
@@ -1724,8 +1757,9 @@ function aeCollect(){
       isVocabulary:block.querySelector('.ae-vocab').checked,
       text:block.querySelector('.ae-text').value.trim(),
       locations:Array.from(block.querySelectorAll('.ae-loc-text')).map(s=>s.textContent.trim()).filter(Boolean),
-      exercises:Array.from(block.querySelectorAll('.ae-ex-chip')).map(chip=>({level:chip.dataset.level,id:Number(chip.dataset.id)}))
-    }))
+      exercises:Array.from(block.querySelectorAll('.ae-ex-chip')).map(chip=>({level:chip.dataset.level,id:Number(chip.dataset.id)})),
+      labs:Array.from(block.querySelectorAll('.ae-lab:checked')).map(box=>box.value)
+    })).map(it=>{if(!it.labs.length)delete it.labs;return it;})
   }))};
 }
 
@@ -1759,7 +1793,7 @@ document.querySelectorAll('.ae-btn-add').forEach(btn=>btn.addEventListener('clic
 
 function aeReset(){
   AE_CATS.forEach(cat=>{ae_lists[cat.id].innerHTML='';document.querySelector('.ae-btn-add[data-ae-cat="'+cat.id+'"]').disabled=true;});
-  ae_practiceIndex=null;aeBtnSave.disabled=true;aeRefreshCounts();clearAlertEl(aeAlertBox);
+  ae_practiceIndex=null;ae_labs=[];aeBtnSave.disabled=true;aeRefreshCounts();clearAlertEl(aeAlertBox);
 }
 </script>
 </body>

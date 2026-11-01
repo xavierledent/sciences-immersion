@@ -643,6 +643,10 @@
               "level": "level3",
               "id": 18
             }
+          ],
+          "labs": [
+            "energy",
+            "home"
           ]
         },
         {
@@ -690,6 +694,9 @@
               "level": "level3",
               "id": 19
             }
+          ],
+          "labs": [
+            "grid"
           ]
         }
       ]
@@ -761,6 +768,9 @@
               "level": "level3",
               "id": 20
             }
+          ],
+          "labs": [
+            "grid"
           ]
         }
       ]

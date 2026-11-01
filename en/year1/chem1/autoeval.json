@@ -320,6 +320,9 @@
               "level": "level2",
               "id": 2
             }
+          ],
+          "labs": [
+            "soil"
           ]
         },
         {
@@ -393,6 +396,9 @@
               "level": "level3",
               "id": 10
             }
+          ],
+          "labs": [
+            "metals"
           ]
         },
         {
@@ -467,6 +473,9 @@
               "level": "level3",
               "id": 16
             }
+          ],
+          "labs": [
+            "lifecycle"
           ]
         },
         {
@@ -493,6 +502,9 @@
               "level": "level3",
               "id": 13
             }
+          ],
+          "labs": [
+            "lifecycle"
           ]
         },
         {
@@ -552,6 +564,9 @@
               "level": "level3",
               "id": 18
             }
+          ],
+          "labs": [
+            "lifecycle"
           ]
         }
       ]
@@ -601,6 +616,9 @@
               "level": "level3",
               "id": 20
             }
+          ],
+          "labs": [
+            "lifecycle"
           ]
         }
       ]

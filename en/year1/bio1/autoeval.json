@@ -291,6 +291,9 @@
               "level": "level3",
               "id": 8
             }
+          ],
+          "labs": [
+            "zones"
           ]
         },
         {
@@ -300,7 +303,10 @@
           "locations": [
             "FIELD TRIP - Mission 2 : Identification in situ des interactions (recherche sous les troncs, sur les feuilles)"
           ],
-          "exercises": []
+          "exercises": [],
+          "labs": [
+            "zones"
+          ]
         },
         {
           "id": "sf3",
@@ -340,6 +346,9 @@
               "level": "level3",
               "id": 20
             }
+          ],
+          "labs": [
+            "foodweb"
           ]
         },
         {
@@ -349,7 +358,10 @@
           "locations": [
             "PART 2 : Mission 7 (Construction active du modèle de la forêt belge sur grand format A3 à l'aide de cartes)"
           ],
-          "exercises": []
+          "exercises": [],
+          "labs": [
+            "foodweb"
+          ]
         }
       ]
     },
@@ -369,6 +381,10 @@
               "level": "level3",
               "id": 13
             }
+          ],
+          "labs": [
+            "zones",
+            "foodweb"
           ]
         }
       ]

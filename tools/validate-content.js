@@ -320,7 +320,10 @@ function checkExplorations(file, chapterDir, data) {
   });
 }
 
-function checkAutoeval(file, data, practice) {
+// labIds : les labos du chapitre dans cette langue (chapters.json, labs.<lang>).
+// Les labos ne se relient qu'aux savoir-faire et à la compétence : ils sont
+// conçus pour eux (choix de l'enseignant).
+function checkAutoeval(file, data, practice, labIds) {
   const items = (data.categories || []).flatMap(category => category.items || []);
   // Ratings are stored under the item id.
   duplicates(items.map(item => item.id)).forEach(id =>
@@ -333,7 +336,13 @@ function checkAutoeval(file, data, practice) {
         error(file, `attendu « ${item.id} » : renvoie vers ${link.level} exercice ${link.id}, qui n'existe pas dans practice.json`);
       }
     });
+    (item.labs || []).forEach(id => {
+      if (!labIds.includes(id)) error(file, `attendu « ${item.id} » : renvoie vers le labo « ${id} », absent de chapters.json pour ce chapitre`);
+    });
   });
+  (data.categories || []).filter(category => category.id === 'savoirs').forEach(category =>
+    (category.items || []).filter(item => (item.labs || []).length).forEach(item =>
+      warn(file, `attendu « ${item.id} » (Savoirs) : relié à un labo, réservé aux savoir-faire et à la compétence`)));
 }
 
 /* ---------- Virtual labs ---------- */
@@ -548,6 +557,13 @@ function compareTracks(chapter, content) {
     a.forEach((value, id) => {
       if (b.has(id) && b.get(id) !== value) warn(file('autoeval.json'), `attendu « ${id} » : exercices liés différents en EN et en NL`);
     });
+    const labLinks = data => new Map((data.categories || []).flatMap(c => c.items || [])
+      .map(item => [item.id, (item.labs || []).slice().sort().join(' ')]));
+    const la = labLinks(en.autoeval);
+    const lb = labLinks(nl.autoeval);
+    la.forEach((value, id) => {
+      if (lb.has(id) && lb.get(id) !== value) warn(file('autoeval.json'), `attendu « ${id} » : labos liés différents en EN et en NL`);
+    });
   }
 }
 
@@ -587,7 +603,10 @@ folders.forEach(chapter => {
     if (loaded.vocabulary) checkVocabulary(`${chapterDir}/vocabulary.json`, loaded.vocabulary);
     if (loaded.resources) checkResources(`${chapterDir}/resources.json`, chapterDir, loaded.resources);
     if (loaded.explorations) checkExplorations(`${chapterDir}/explorations.json`, chapterDir, loaded.explorations);
-    if (loaded.autoeval) checkAutoeval(`${chapterDir}/autoeval.json`, loaded.autoeval, loaded.practice);
+    if (loaded.autoeval) {
+      const labs = (chapterConfig.get(chapter).labs || {})[lang] || [];
+      checkAutoeval(`${chapterDir}/autoeval.json`, loaded.autoeval, loaded.practice, labs.map(lab => lab.id));
+    }
     content[lang] = loaded;
   });
   compareTracks(chapter, content);

@@ -191,7 +191,8 @@ fichier n'existe que pour les chapitres dont l'autoévaluation est rédigée
       "isVocabulary": false,
       "text": "Décrire un écosystème comme un ensemble d'êtres vivants…",
       "locations": ["PART 1 : Définitions vidéo, synthèse textuelle"],
-      "exercises": [{ "level": "level1", "id": 2 }]
+      "exercises": [{ "level": "level1", "id": 2 }],
+      "labs": ["zones"]
     }]
   }]
 }
@@ -200,6 +201,13 @@ fichier n'existe que pour les chapitres dont l'autoévaluation est rédigée
 - Trois catégories : `savoirs`, `savoirFaire`, `competence`.
 - `exercises` pointe vers des exercices de `practice.json` par `level` et
   `id` : supprimer ou renuméroter un exercice casse ces liens.
+- `labs` (facultatif) : les `id` des labos du chapitre (`labs` de
+  [tools/chapters.json](../tools/chapters.json)) qui travaillent l'attendu.
+  Savoir-faire et compétence seulement : les labos sont conçus pour eux. La
+  page affiche un lien vers chaque labo (titré par `chapters.json`, écrit dans
+  la page par `generate-assessment.js`), jamais le résultat de l'élève.
+  Mêmes liens en EN et en NL ; vérifié par `validate-content.js`. L'éditeur
+  `Admin/content.html` les propose en cases à cocher.
 
 ## Ce qui sert de clé aux données des élèves
 
