@@ -65,10 +65,10 @@
     },
     {
       "id": 8,
-      "title": "Coffee machine",
+      "title": "Coffee filter",
       "image": "N1-08_coffee_pourover.webp",
-      "en": "A coffee machine has a paper filter, as in the picture. What stays in the paper and what goes down into the pot?",
-      "fr": "Une cafetière possède un filtre en papier, comme sur l'image. Qu'est-ce qui reste dans le papier et qu'est-ce qui descend dans la verseuse ?",
+      "en": "Coffee is made with a paper filter, as in the picture. What stays in the paper and what goes down into the pot?",
+      "fr": "On prépare du café avec un filtre en papier, comme sur l'image. Qu'est-ce qui reste dans le papier et qu'est-ce qui descend dans la verseuse ?",
       "corr_en": "The ground coffee stays in the paper. The liquid coffee goes through into the pot.",
       "corr_fr": "Le café moulu reste dans le papier. Le café liquide passe à travers dans la verseuse."
     },
@@ -512,7 +512,7 @@
     {
       "id": 10,
       "title": "Gold panning",
-      "image": null,
+      "image": "N3-10_gold_panning.webp",
       "en": "A gold prospector fills a pan with river sand, gravel and tiny gold flakes, adds water and gently shakes it. The light sand and gravel are washed over the edge, and the heavy gold flakes stay at the bottom of the pan. Which separation technique does this look like? Explain why it works. Why would a magnet or filter paper not help?",
       "fr": "Un chercheur d'or remplit une batée de sable de rivière, de gravier et de minuscules paillettes d'or, ajoute de l'eau et la secoue doucement. Le sable et le gravier légers sont emportés par-dessus le bord, et les lourdes paillettes d'or restent au fond de la batée. À quelle technique de séparation cela ressemble-t-il ? Explique pourquoi cela fonctionne. Pourquoi un aimant ou un papier filtre n'aiderait-il pas ?",
       "corr_en": "It looks like decantation: the heavy gold sinks and stays at the bottom while the lighter material is poured away with the water. Gold is not magnetic, and filter paper separates a solid from a liquid, not a solid from other solids.",
