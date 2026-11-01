@@ -265,8 +265,8 @@
       "image": "N2-06_cereal_milk.webp",
       "en": "A child pours milk onto cereal, as in the picture. How many phases can you see? Is it a homogeneous or a heterogeneous mixture? Justify.",
       "fr": "Un enfant verse du lait sur des céréales, comme sur l'image. Combien de phases vois-tu ? S'agit-il d'un mélange homogène ou hétérogène ? Justifie.",
-      "corr_en": "There are two phases: the solid cereal flakes and the liquid milk. It is a heterogeneous mixture because we can see the different parts.",
-      "corr_fr": "Il y a deux phases : les flocons de céréales solides et le lait liquide. C'est un mélange hétérogène parce qu'on voit les différentes parties."
+      "corr_en": "There are at least two phases: the solid cereal flakes (and the banana slices) and the liquid milk. It is a heterogeneous mixture because we can see the different parts.",
+      "corr_fr": "Il y a au moins deux phases : les flocons de céréales solides (et les rondelles de banane) et le lait liquide. C'est un mélange hétérogène parce qu'on voit les différentes parties."
     },
     {
       "id": 7,
