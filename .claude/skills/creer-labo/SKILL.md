@@ -58,9 +58,9 @@ déjà présents dans `tools/chapters.json`, pour ne pas refaire le même.
 
 ## 2. Proposer
 
-Pour chaque labo réel, une adaptation virtuelle courte. Sans labo réel
-(chapitre qui n'en prévoit pas, confirmé par l'enseignant) : plusieurs idées
-de labo, chacune ancrée dans une mission ou une notion du cours, de formes
+Pour chaque labo réel pas encore repris, une adaptation virtuelle courte. Une
+fois tous les labos réels repris, ou si le chapitre n'en a pas : le champ est
+libre, plusieurs idées de labo, chacune ancrée dans une mission ou une notion du cours, de formes
 variées (paillasse, terrain, modèle, enquête…) tant qu'elle suit la démarche
 scientifique, présentées de la même façon :
 

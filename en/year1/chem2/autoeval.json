@@ -523,6 +523,9 @@
               "level": "level3",
               "id": 16
             }
+          ],
+          "labs": [
+            "zoom"
           ]
         },
         {
@@ -554,6 +557,9 @@
               "level": "level3",
               "id": 18
             }
+          ],
+          "labs": [
+            "zoom"
           ]
         },
         {
@@ -795,6 +801,9 @@
               "level": "level3",
               "id": 20
             }
+          ],
+          "labs": [
+            "zoom"
           ]
         },
         {
@@ -867,6 +876,9 @@
               "level": "level3",
               "id": 19
             }
+          ],
+          "labs": [
+            "zoom"
           ]
         }
       ]

@@ -75,6 +75,13 @@
             "title": "The separation challenge",
             "question": "How can we separate all the components of a mixture, and in which order?",
             "text": "A jar with a mixture of three or four components. Observe it, plan your separation, then choose the right tools on the teacher’s desk and fill in your separation log."
+          },
+          {
+            "id": "zoom",
+            "file": "lab-zoom",
+            "title": "Zoom in",
+            "question": "What is really inside these two jars, and does a molecular model show reality exactly as it is?",
+            "text": "Two closed jars without labels. An imaginary microscope zooms in so much that you can see the molecules: build your own molecular model, compare it, then classify each jar."
           }
         ],
         "nl": [
@@ -84,6 +91,13 @@
             "title": "De scheidingsuitdaging",
             "question": "Hoe kunnen we alle bestanddelen van een mengsel scheiden, en in welke volgorde?",
             "text": "Een bokaal met een mengsel van drie of vier bestanddelen. Bekijk het, plan je scheiding, kies dan de juiste hulpmiddelen op het bureau van de leerkracht en vul je scheidingslogboek in."
+          },
+          {
+            "id": "zoom",
+            "file": "lab-zoom",
+            "title": "Zoom in",
+            "question": "Wat zit er echt in deze twee bokalen, en toont een molecuulmodel de werkelijkheid precies zoals ze is?",
+            "text": "Twee gesloten bokalen zonder etiket. Een denkbeeldige microscoop zoomt zo ver in dat je de moleculen kunt zien: bouw je eigen molecuulmodel, vergelijk het en deel dan elke bokaal in."
           }
         ]
       }

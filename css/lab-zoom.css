@@ -1,0 +1,651 @@
+/* ===== Labo virtuel « Zoom in » (chem2) =====
+   Ce qui est propre à ce labo : hypothèses, bocaux, microscope, lame à
+   construire, clé des couleurs, modèle de référence, carnet, conclusion,
+   correction. Le cadre commun (modale, étapes, boutons, tableaux, rapport) est
+   dans lab-engine.css. Classes préfixées zm- (zoom).
+   Tout tient dans le corps du labo (1204 × 594 sur le Chromebook à 100 %)
+   sans défilement. */
+
+/* ===== Commun aux étapes ===== */
+.zm-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+  text-align: left;
+}
+
+.zm-questions {
+  margin: 0;
+  padding-left: 1.3em;
+  text-align: left;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.zm-questions li + li {
+  margin-top: 2px;
+}
+
+.zm-num {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-current);
+  color: var(--color-current-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.zm-hint {
+  font-size: 0.8em;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.zm-ok { color: var(--color-emerald); font-weight: 600; }
+.zm-ko { color: var(--color-rose); font-weight: 600; }
+.zm-muted { color: var(--color-muted); }
+
+.zm-predict p,
+.zm-run p,
+.zm-conclude p,
+.zm-check p {
+  text-align: left;
+}
+
+.zm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.zm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 0.84rem;
+}
+
+.zm-chip.is-small {
+  height: 30px;
+  padding: 0 10px;
+  font-size: 0.78rem;
+}
+
+/* Une lame : le rond et ses particules */
+.zm-slide {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.zm-slide.lab-is-locked {
+  opacity: 1;
+  filter: none;
+}
+
+.zm-jar {
+  display: block;
+  flex: 0 0 auto;
+  width: 66px;
+  height: 80px;
+}
+
+/* ===== Étape 1 : hypothèses ===== */
+.zm-predict {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: min(1040px, 100%);
+  margin: 0 auto;
+}
+
+.zm-question-card,
+.zm-hyp-card {
+  padding: 12px 22px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.3);
+  background: #ffffff;
+}
+
+.zm-question-card {
+  background: rgba(var(--color-current-rgb), 0.08);
+  border-color: transparent;
+}
+
+.zm-intro {
+  margin: 8px 0 0;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+}
+
+.zm-hyp-jars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.zm-hyp {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+}
+
+.zm-sentence {
+  margin: 2px 0 6px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.zm-because {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+
+.zm-because span {
+  flex: 0 0 auto;
+}
+
+.zm-because .lab-input {
+  flex: 1;
+  width: auto;
+  height: 36px;
+}
+
+/* ===== Étape 2 : le microscope ===== */
+.zm-run {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 170px 380px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "bench stage side"
+    "notes notes notes";
+  gap: 8px 14px;
+}
+
+.zm-bench { grid-area: bench; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+.zm-stage { grid-area: stage; min-height: 0; display: flex; flex-direction: column; }
+.zm-side { grid-area: side; min-height: 0; }
+.zm-notebook { grid-area: notes; }
+
+.zm-jars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.zm-jar-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 2px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(17, 36, 72, 0.14);
+  background: #ffffff;
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zm-jar-btn .zm-jar {
+  width: 56px;
+  height: 68px;
+}
+
+.zm-jar-btn.is-selected {
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+}
+
+html[data-pointer='fine'] .zm-jar-btn:not(.is-selected):hover,
+.zm-jar-btn:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.5);
+  outline: none;
+}
+
+.zm-scope {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.zm-microscope {
+  display: block;
+  width: 130px;
+  height: 130px;
+}
+
+.zm-caption {
+  min-height: 2.5em;
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  line-height: 1.25;
+  color: var(--color-muted);
+}
+
+.zm-stage .zm-slide {
+  flex: 1 1 auto;
+  min-height: 0;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.zm-stage .zm-slide [data-i] {
+  cursor: grab;
+}
+
+.zm-slide.is-zooming {
+  animation: zm-zoom 0.45s ease-out;
+}
+
+@keyframes zm-zoom {
+  from { transform: scale(0.12); opacity: 0.2; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zm-slide.is-zooming { animation: none; }
+}
+
+.zm-side.is-empty {
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  border-radius: 18px;
+  background: #fbfaf7;
+  color: var(--color-muted);
+}
+
+.zm-reading {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(var(--color-current-rgb), 0.08);
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.zm-key {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.zm-key-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 10px;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.zm-dot {
+  display: block;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid #2b2b2b;
+}
+
+.zm-compare {
+  width: 100%;
+}
+
+.zm-side.is-ref {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.zm-ref-text {
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.zm-ref-text p {
+  margin: 0 0 8px;
+}
+
+.zm-ref-text .zm-reading {
+  font-size: 0.86rem;
+}
+
+.zm-notes {
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.zm-notes caption {
+  padding-bottom: 2px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.zm-notes th,
+.zm-notes td {
+  padding: 2px 8px;
+}
+
+.zm-select {
+  height: 30px;
+  max-width: 100%;
+  margin: 2px;
+  vertical-align: middle;
+  border-style: dashed;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.zm-select.is-filled {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+  color: var(--color-current-darkest);
+}
+
+.zm-select.lab-is-missing {
+  border-color: #d64545;
+}
+
+/* ===== Étape 3 : conclusion ===== */
+.zm-conclude {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.zm-results {
+  min-height: 0;
+}
+
+.zm-recap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.zm-recap-jar {
+  margin: 0;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.zm-recap-jar p {
+  margin: 4px 0 0;
+  text-align: center;
+}
+
+.zm-form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.zm-q {
+  padding: 7px 12px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+  text-align: left;
+}
+
+.zm-q-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 5px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.zm-line {
+  margin: 0 0 4px;
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.zm-concl-line {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 2.6;
+}
+
+.zm-verdicts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+
+.zm-verdict {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zm-verdict-text {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* ===== Étape 4 : correction ===== */
+.zm-check {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.zm-check-left {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.zm-crit-list {
+  display: grid;
+  gap: 6px;
+}
+
+.zm-crit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #ffffff;
+  color: var(--color-text);
+  text-align: left;
+  box-shadow: inset 4px 0 0 var(--zm-crit-accent, transparent);
+}
+
+.zm-crit.is-ok { --zm-crit-accent: var(--color-emerald); background: rgba(12, 163, 127, 0.06); }
+.zm-crit.is-ko { --zm-crit-accent: var(--color-rose); background: rgba(212, 82, 122, 0.07); }
+
+.zm-crit.is-selected {
+  border-color: var(--color-current);
+}
+
+html[data-pointer='fine'] .zm-crit:not(.is-selected):hover,
+.zm-crit:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.5);
+  outline: none;
+}
+
+.zm-crit-text strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.zm-crit-text small {
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.zm-crit-mark {
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.is-ok .zm-crit-mark { color: var(--color-emerald); }
+.is-ko .zm-crit-mark { color: var(--color-rose); }
+
+.zm-reminder {
+  margin-top: auto;
+  padding: 8px 14px;
+  border-left: 3px solid var(--color-current);
+  border-radius: 0 12px 12px 0;
+  background: rgba(var(--color-current-rgb), 0.08);
+}
+
+.zm-reminder .zm-questions {
+  font-size: 0.78rem;
+}
+
+.zm-check-detail {
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #fbfaf7;
+  text-align: left;
+}
+
+.zm-check-detail h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.zm-check-detail p {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.zm-check-detail .zm-q-head {
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.zm-check-detail ol,
+.zm-misslist,
+.zm-plainlist {
+  margin: 0 0 8px;
+  padding-left: 1.3em;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.zm-pairs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.zm-pair {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.zm-pair-slides {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.zm-pair-slides small {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* ===== Écrans plus étroits ===== */
+@media (max-width: 760px) {
+  .zm-run {
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-areas: "bench" "stage" "side" "notes";
+  }
+  .zm-conclude,
+  .zm-check { grid-template-columns: 1fr; height: auto; }
+  .zm-hyp-jars { grid-template-columns: 1fr; }
+  .zm-side.is-ref { grid-template-columns: 1fr; }
+}
+
+/* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */
+.lab-doc .zm-report-slide {
+  display: inline-block;
+  width: 26mm;
+  height: 26mm;
+  vertical-align: middle;
+}
+
+.lab-doc .zm-report-table {
+  width: auto;
+  min-width: 90mm;
+  margin-bottom: 8px;
+}
+
+.lab-doc .zm-report-table caption {
+  padding-bottom: 2px;
+  font-size: 8.5pt;
+  color: #5d728f;
+  text-align: left;
+}
+
+.lab-doc .zm-report-table th {
+  text-align: left;
+}
+
+.lab-doc .zm-report-corr {
+  width: auto;
+  min-width: 70mm;
+}
+
+.lab-doc .zm-report-corr th {
+  text-align: left;
+}

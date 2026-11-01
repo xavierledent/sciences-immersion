@@ -59,7 +59,10 @@ thermique sur une pièce, compteur électrique et son afficheur en W, interrupte
 des appareils, frigo allumé au départ ; trois petites questions) ; `chem2` « The
 separation challenge » (Mission 7 : un seul pot, tiré parmi 16 mélanges de trois
 ou quatre constituants, dont deux homogènes ; observer, planifier l'ordre, outils du bureau du
-professeur, ampoule à décanter, journal de séparation ; la distillation sort rarement) ; `phys1` n'a pas de labo
+professeur, ampoule à décanter, journal de séparation ; la distillation sort rarement) et « Zoom in » (deux bocaux
+sans étiquette, un corps pur et un mélange tirés parmi 6 ; microscope imaginaire,
+l'élève construit le modèle moléculaire puis le compare à un modèle de référence ;
+expérience sur un modèle, partie du cours) ; `phys1` n'a pas de labo
 réel dans le cours. Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans
@@ -176,9 +179,10 @@ scripts chargés.
   langues, vérification). « Labo » au sens large : paillasse, sortie sur le
   terrain virtuelle, expérience sur un modèle…, la forme est libre tant que
   la démarche scientifique est respectée. Dans tous les cas :
-  - un labo virtuel vient d'un labo fait en classe : demander la liste à
-    l'enseignant, ne jamais en inventer un ; seule exception, un chapitre
-    sans labo réel (confirmé par l'enseignant), où l'idée part du cours ;
+  - d'abord les labos faits en classe : demander la liste à l'enseignant et
+    les reprendre, sans en inventer ; une fois qu'ils existent tous en
+    virtuel (ou si le chapitre n'en a pas), le champ est libre : l'idée peut
+    partir du cours ;
   - Conclude répond aux questions de départ (posées à Predict avec
     l'hypothèse), et à elles seules ;
   - aucun texte dans la simulation : tout passe par les fichiers de langue

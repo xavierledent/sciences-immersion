@@ -27,13 +27,12 @@ vers les exercices (`exercises`). Pistes (à concevoir) :
 ## chem2 — Mixtures and pure substances
 
 Labo réel du chapitre : la séparation de mélanges (Mission 7), déjà fait
-(« The separation challenge »). Les idées ci-dessous n'ont pas de labo réel
-en classe : ce seraient des expériences sur un modèle, parties du cours
-(exception à confirmer par l'enseignant au moment de les construire).
+(« The separation challenge »). Le champ est donc libre : les idées
+ci-dessous sont des expériences sur un modèle, parties du cours.
 
 Préférence de l'enseignant : **1, puis 3**.
 
-### 1. « Zoom in » : le microscope des molécules — retenu (priorité)
+### 1. « Zoom in » : le microscope des molécules — construit (2026-11-02)
 
 Partie 2 (Missions 4 à 6, Exercices 4 et 5). Des échantillons inconnus (eau
 pure, air, eau salée, eau + huile, eau gazeuse, eau sucrée…) : observation à
