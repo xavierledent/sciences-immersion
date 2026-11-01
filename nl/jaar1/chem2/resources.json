@@ -2,7 +2,13 @@
   "videos": {
     "title": "Vidéos",
     "basePath": "https://www.youtube.com/embed/",
-    "items": []
+    "items": [
+      {
+        "title": "Zuivere stoffen en mengsels",
+        "youtubeId": "ERdjYxGRv-w",
+        "description": "wat is het verschil tussen een zuivere stof en een mengsel?"
+      }
+    ]
   },
   "fichesOutils": {
     "title": "Fiches outils",

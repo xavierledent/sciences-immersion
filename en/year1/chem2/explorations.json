@@ -23,6 +23,22 @@
   "liensUtiles": {
     "title": "Liens utiles",
     "basePath": "",
-    "items": []
+    "items": [
+      {
+        "title": "Chromatography with felt-tip pens (RSC)",
+        "url": "https://edu.rsc.org/primary-science/kitchen-roll-chromatography/4012057.article",
+        "description": "Une expérience à refaire à la maison : l'encre d'un feutre se sépare en plusieurs couleurs. C'est la chromatographie, la technique qui permet à la police scientifique de comparer des encres."
+      },
+      {
+        "title": "Desalination (USGS)",
+        "url": "https://www.usgs.gov/water-science-school/science/desalination",
+        "description": "Comment transformer l'eau salée en eau potable par distillation ou par osmose inverse, et pourquoi ces procédés coûtent beaucoup d'énergie."
+      },
+      {
+        "title": "Indaver : un centre de tri des emballages PMD",
+        "url": "https://indaver.com/expertise/materials-recovery-from-waste/pmd",
+        "description": "À Willebroek, une chaîne automatique de tri avec aimants, infrarouge et capteurs optiques sépare les emballages en 16 matériaux, prêts pour le recyclage."
+      }
+    ]
   }
 }

@@ -2,7 +2,18 @@
   "videos": {
     "title": "Vidéos",
     "basePath": "https://www.youtube.com/embed/",
-    "items": []
+    "items": [
+      {
+        "title": "Pure substances and mixtures",
+        "youtubeId": "jCVQwr_TWpY",
+        "description": "What is the difference between a pure substance and a mixture?"
+      },
+      {
+        "title": "Separation techniques",
+        "youtubeId": "29Rd-Lly-fw",
+        "description": "Filtration, evaporation and crystallisation explained"
+      }
+    ]
   },
   "fichesOutils": {
     "title": "Fiches outils",

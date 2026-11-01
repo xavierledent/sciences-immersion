@@ -23,6 +23,22 @@
   "liensUtiles": {
     "title": "Liens utiles",
     "basePath": "",
-    "items": []
+    "items": [
+      {
+        "title": "Virtuele rondleiding waterzuivering (Aquafin)",
+        "url": "https://aquafin.be/nl/onderwijs/virtuele-rondleiding-waterzuivering",
+        "description": "Une visite en réalité virtuelle d'une station d'épuration : tu suis l'eau usée depuis la salle de bain jusqu'à son retour dans la nature, avec un petit quiz à la fin (à partir de 13 ans)."
+      },
+      {
+        "title": "Deeper Blue : van afvalwater naar drinkwater (Aalst)",
+        "url": "https://aquafin.be/nl/realisaties/effluenthergebruik-deeper-blue",
+        "description": "À Aalst, l'eau d'une station d'épuration est traitée par membranes, osmose inverse, charbon actif et UV jusqu'à la qualité d'eau potable, puis stockée sous terre."
+      },
+      {
+        "title": "Destilleren van ruwe aardolie (SchoolTV)",
+        "url": "https://schooltv.nl/video-item/destilleren-van-ruwe-aardolie-hoe-worden-uit-aardolie-zoveel-verschillende-stoffen-gehaald",
+        "description": "Une raffinerie, c'est une distillation à très grande échelle : le pétrole brut est séparé en dizaines de produits utiles."
+      }
+    ]
   }
 }

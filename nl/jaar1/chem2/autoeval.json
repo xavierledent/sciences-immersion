@@ -1,0 +1,875 @@
+{
+  "categories": [
+    {
+      "id": "savoirs",
+      "title": "Savoirs",
+      "items": [
+        {
+          "id": "s1",
+          "isVocabulary": false,
+          "text": "Identifier une molécule comme une structure de base qui compose la matière.",
+          "locations": [
+            "PART 2 : Mission 6 (Carnet du Dr Dubois : le modèle scientifique)",
+            "PART 2 : Mission 5 (Dessin de modèles moléculaires)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level1",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 12
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "isVocabulary": false,
+          "text": "Distinguer un mélange d'un corps pur au niveau moléculaire.",
+          "locations": [
+            "PART 2 : Mission 4 (Carnet du Dr Dubois : la molécule)",
+            "PART 2 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 1
+            },
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level1",
+              "id": 3
+            },
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level1",
+              "id": 13
+            },
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 12
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "isVocabulary": false,
+          "text": "Définir un modèle scientifique.",
+          "locations": [
+            "PART 2 : Mission 5 (Dessin des quatre lames)",
+            "PART 2 : Exercise 4 (Lames mystères)",
+            "PART 2 : Exercise 5 (Eau gazeuse)",
+            "PART 2 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 7
+            },
+            {
+              "level": "level1",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 18
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "isVocabulary": false,
+          "text": "Différencier soluté, solvant et solution.",
+          "locations": [
+            "PART 1 : Mission 3 (Carnet du Dr Dubois : la solution)",
+            "PART 1 : Exercise 1 (Exemples de la vie courante)",
+            "PART 1 : Exercise 2 (L'intrus : eau de mer)",
+            "PART 1 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 5
+            },
+            {
+              "level": "level1",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "isVocabulary": false,
+          "text": "Citer des techniques de séparation en lien avec le quotidien et selon les enjeux environnementaux.",
+          "locations": [
+            "PART 3 : Exercise 6 (Situations du quotidien)",
+            "PART 3 : Exercise 7 (Nettoyage du garage : question sur l'environnement)",
+            "PART 3 : Summary (Exemples de la vie réelle)",
+            "PART 4 : French challenge (techniques dans l'industrie belge)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level1",
+              "id": 8
+            },
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level1",
+              "id": 12
+            },
+            {
+              "level": "level1",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 17
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "isVocabulary": false,
+          "text": "Décrire une technique de séparation et préciser à quel type de mélange elle s'applique.",
+          "locations": [
+            "PART 3 : Mission 7 (Carnet du Dr Dubois : les techniques ; tableau des techniques utilisées)",
+            "PART 3 : Extra : Distillation (mélange liquide-liquide)",
+            "PART 3 : Summary (Description et type de mélange)",
+            "PART 4 : French challenge (Diapositive 5 : Focus scientifique)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 8
+            },
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level1",
+              "id": 14
+            },
+            {
+              "level": "level1",
+              "id": 15
+            },
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level1",
+              "id": 19
+            },
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level2",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s7-vocabulaire",
+          "isVocabulary": true,
+          "text": "Utiliser les termes : modèle moléculaire, molécule, solution, soluté, solvant, tamisage, filtration, aimantation, décantation, évaporation.",
+          "locations": [
+            "PART 1 : Mission 3, Exercise 1, Exercise 2, Summary (solution, soluté, solvant)",
+            "PART 2 : Mission 4, Mission 5, Exercise 4, Summary (molécule, modèle moléculaire)",
+            "PART 3 : Mission 7, Exercise 6, Exercise 7, Summary (tamisage, filtration, aimantation…)",
+            "Glossaire"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 1
+            },
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level1",
+              "id": 5
+            },
+            {
+              "level": "level1",
+              "id": 8
+            },
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level1",
+              "id": 11
+            },
+            {
+              "level": "level1",
+              "id": 14
+            },
+            {
+              "level": "level1",
+              "id": 15
+            },
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level1",
+              "id": 19
+            },
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "savoirFaire",
+      "title": "Savoir-faire",
+      "items": [
+        {
+          "id": "sf1",
+          "isVocabulary": false,
+          "text": "S-F 17 : Utiliser des modèles moléculaires pour représenter des corps purs et des mélanges du quotidien et pour distinguer les corps purs des mélanges.",
+          "locations": [
+            "PART 2 : Mission 5 (Eau, air, eau salée, eau et huile)",
+            "PART 2 : Exercise 4 (Lames mystères)",
+            "PART 2 : Exercise 5 (Eau gazeuse)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 16
+            }
+          ]
+        },
+        {
+          "id": "sf2",
+          "isVocabulary": false,
+          "text": "S-F 17 : Modéliser une solution au niveau moléculaire.",
+          "locations": [
+            "PART 2 : Mission 5 (Slide 3 : eau salée)",
+            "PART 2 : Exercise 5 (Eau gazeuse)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 18
+            }
+          ]
+        },
+        {
+          "id": "sf3",
+          "isVocabulary": false,
+          "text": "S-F 22 : Comparer différents mélanges/corps purs selon la nature et les proportions de ses constituants.",
+          "locations": [
+            "PART 1 : Mission 1 (Lecture des graphiques circulaires)",
+            "PART 1 : Exercise 2 (Données des laboratoires)",
+            "PART 1 : Exercise 3 (Classement dichotomique)",
+            "PART 2 : Exercise 4 (Lames mystères)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "sf4",
+          "isVocabulary": false,
+          "text": "S-F 6 et S-F 7 : Choisir et appliquer des techniques de séparation de mélanges pour en séparer les constituants.",
+          "locations": [
+            "PART 3 : Mission 7 (Séparation de 4 mélanges ; Separation log)",
+            "PART 3 : Exercise 6 (Choix de la technique)",
+            "PART 3 : Exercise 7 (Nettoyage du garage : ordre des séparations)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ],
+          "labs": [
+            "separation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "competence",
+      "title": "Compétence",
+      "items": [
+        {
+          "id": "c1",
+          "isVocabulary": false,
+          "text": "Récupérer expérimentalement les constituants d'un mélange donné et expliquer la ou les techniques utilisées.",
+          "locations": [
+            "PART 3 : The laboratory separation challenge (Missions 1 & 2)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ],
+          "labs": [
+            "separation"
+          ]
+        },
+        {
+          "id": "c2",
+          "isVocabulary": false,
+          "text": "Décrire et expliquer la composition d'un mélange au niveau moléculaire.",
+          "locations": [
+            "PART 3 : Mission 7 (Separation log : technique, outil et « Why does it work? »)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level2",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "isVocabulary": false,
+          "text": "COMPÉTENCE TERMINALE (Intégration) : Utiliser des connaissances scientifiques pour justifier des choix en relation avec la séparation de constituants […].",
+          "locations": [
+            "PART 2 : Mission 5 (Dessin des quatre lames)",
+            "PART 2 : Exercise 4 (Lames mystères)",
+            "PART 2 : Exercise 5 (Eau gazeuse : expliquer à Louis)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
