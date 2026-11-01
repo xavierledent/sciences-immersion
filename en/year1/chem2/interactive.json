@@ -485,7 +485,7 @@
     {
       "id": "dnd-2",
       "quizTitle": "Laboratory bench",
-      "backgroundImage": "assets/DnD2_lab_bench.webp",
+      "backgroundImage": "assets/DnD2_lab_bench-2.webp",
       "hideOnSuccess": true,
       "instructions": "Drag each label onto the correct numbered circle.",
       "reservoirItems": [
@@ -498,28 +498,28 @@
       ],
       "dropZones": [
         {
-          "x_pourcent": 8.43,
-          "y_pourcent": 15.29,
+          "x_pourcent": 16.67,
+          "y_pourcent": 44.0,
           "acceptedText": "Magnetic separation"
         },
         {
-          "x_pourcent": 25.83,
-          "y_pourcent": 15.29,
+          "x_pourcent": 50.0,
+          "y_pourcent": 44.0,
           "acceptedText": "Sifting"
         },
         {
-          "x_pourcent": 43.22,
-          "y_pourcent": 15.29,
+          "x_pourcent": 83.33,
+          "y_pourcent": 44.0,
           "acceptedText": "Filtration"
         },
         {
-          "x_pourcent": 60.61,
-          "y_pourcent": 15.29,
+          "x_pourcent": 33.33,
+          "y_pourcent": 94.0,
           "acceptedText": "Evaporation"
         },
         {
-          "x_pourcent": 78.0,
-          "y_pourcent": 15.29,
+          "x_pourcent": 66.67,
+          "y_pourcent": 94.0,
           "acceptedText": "Manual separation"
         }
       ]
