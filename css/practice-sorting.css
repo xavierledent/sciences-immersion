@@ -145,15 +145,19 @@
   overflow-y: auto;
 }
 
+/* Trois colonnes au plus (quatre pour les images), moins quand le bac est
+   étroit : chaque colonne garde au moins 100px (120px pour une image). Avec
+   cinq catégories, trois colonnes figées laissaient des cartes déborder du
+   bac. */
 .sorting-bin-content {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(max(100px, calc((100% - 12px) / 3)), 1fr));
   gap: 6px;
   align-content: start;
 }
 
 .sorting-bin-content.image-cards {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(max(120px, calc((100% - 18px) / 4)), 1fr));
 }
 
 /* Custom Scrollbar inside Bins */
@@ -227,6 +231,10 @@
   font-size: 0.85rem;
   font-weight: 600;
   text-align: center;
+  /* Filet de sécurité : un mot plus long que la carte passe à la ligne au lieu
+     de déborder du bac. */
+  min-width: 0;
+  overflow-wrap: anywhere;
   display: flex;
   align-items: center;
   justify-content: center;
