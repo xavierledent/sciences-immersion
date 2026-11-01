@@ -1,7 +1,1614 @@
 {
-  "multipleChoice": [],
-  "dragAndDrop": [],
-  "fillBlanks": [],
-  "matchPairs": [],
-  "sorting": []
+  "multipleChoice": [
+    {
+      "id": "qcm-1",
+      "quizTitle": "Uitgeademde lucht",
+      "image": "assets/QCM1_exhaled_air-nl.webp",
+      "instructions": "Kijk naar het cirkeldiagram en beantwoord de vragen.",
+      "questions": [
+        {
+          "question": "Welk gas komt het meest voor in uitgeademde lucht?",
+          "options": [
+            "Stikstof",
+            "Zuurstof",
+            "Koolstofdioxide",
+            "Andere gassen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het grootste stuk is <strong>stikstof</strong>, met 78%."
+        },
+        {
+          "question": "Hoeveel procent van de uitgeademde lucht is zuurstof?",
+          "options": [
+            "16%",
+            "21%",
+            "4%",
+            "78%"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het stuk zuurstof is <strong>16%</strong>. Lucht die we inademen bevat 21% zuurstof, dus uitgeademde lucht bevat minder."
+        },
+        {
+          "question": "Is uitgeademde lucht een zuivere stof of een mengsel?",
+          "options": [
+            "Een mengsel",
+            "Een zuivere stof",
+            "Een vaste stof",
+            "Eén molecule"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Ze bevat verschillende gassen, dus het is een <strong>mengsel</strong>."
+        },
+        {
+          "question": "Welk soort grafiek zie je?",
+          "options": [
+            "Cirkeldiagram",
+            "Staafdiagram",
+            "Lijndiagram",
+            "Tabel"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>cirkeldiagram</strong> toont hoe een geheel (100%) verdeeld is over zijn delen."
+        },
+        {
+          "question": "Welk gas vormt 4% van de uitgeademde lucht?",
+          "options": [
+            "Koolstofdioxide",
+            "Zuurstof",
+            "Stikstof",
+            "Andere gassen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het stuk van 4% is <strong>koolstofdioxide</strong>."
+        },
+        {
+          "question": "Als een cirkeldiagram 100% zuurstof toont, wat is het staal dan?",
+          "options": [
+            "Een zuivere stof",
+            "Een homogeen mengsel",
+            "Een heterogeen mengsel",
+            "Een oplossing"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Maar één gas betekent maar één soort molecule: het is een <strong>zuivere stof</strong>."
+        },
+        {
+          "question": "Welke uitspraak over het diagram is een feit?",
+          "options": [
+            "Stikstof is het grootste stuk.",
+            "Het diagram is lelijk.",
+            "Zuurstof is belangrijker dan stikstof.",
+            "Het diagram is waarschijnlijk fout."
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>feit</strong> kun je controleren op het diagram. De andere uitspraken zijn meningen of vermoedens."
+        }
+      ]
+    },
+    {
+      "id": "qcm-2",
+      "quizTitle": "Moleculen en modellen",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Wat is een molecule?",
+          "image": null,
+          "options": [
+            "Het kleinste deeltje van een stof",
+            "Een stuk laboratoriummateriaal",
+            "Een soort mengsel",
+            "Een fase van een mengsel"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>molecule</strong> is de basisstructuur van materie. Ze is veel te klein om te zien, en een druppel water bevat er miljarden."
+        },
+        {
+          "question": "Wat stelt elke cirkel in een molecuulmodel meestal voor?",
+          "image": null,
+          "options": [
+            "Eén molecule",
+            "Eén fase",
+            "Eén druppel water",
+            "Eén liter vloeistof"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Elke cirkel staat voor één <strong>molecule</strong>. Molecuulmodellen tonen moleculen als eenvoudige cirkels."
+        },
+        {
+          "question": "Wat is een wetenschappelijk model?",
+          "image": null,
+          "options": [
+            "Een vereenvoudigde voorstelling van de werkelijkheid",
+            "Een exacte foto van de werkelijkheid",
+            "Een echt voorwerp in een labo",
+            "Een soort experiment"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>wetenschappelijk model</strong> vereenvoudigt de werkelijkheid om te helpen begrijpen wat we niet kunnen zien."
+        },
+        {
+          "question": "Een molecuulmodel toont alleen blauwe cirkels. Wat stelt het voor?",
+          "image": null,
+          "options": [
+            "Een zuivere stof",
+            "Een mengsel van twee gassen",
+            "Een heterogeen mengsel",
+            "Een oplossing"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Eén kleur betekent één soort molecule, dus het toont een <strong>zuivere stof</strong>."
+        },
+        {
+          "question": "Een molecuulmodel toont groene en rode cirkels, goed gemengd. Wat stelt het voor?",
+          "image": null,
+          "options": [
+            "Een homogeen mengsel",
+            "Een zuivere stof",
+            "Een heterogeen mengsel",
+            "Twee fasen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Er zijn twee soorten moleculen, dus het is een mengsel. Ze zijn goed verspreid, dus er is maar één fase: een <strong>homogeen mengsel</strong>."
+        },
+        {
+          "question": "Een molecuulmodel toont een laag oranje cirkels boven een laag blauwe cirkels. Hoeveel fasen toont het?",
+          "image": null,
+          "options": [
+            "Twee",
+            "Eén",
+            "Drie",
+            "Geen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Elke aparte laag is een <strong>fase</strong>, dus dit model toont twee fasen."
+        },
+        {
+          "question": "Welk kenmerk van een molecuulmodel is NIET waar in het echt?",
+          "image": null,
+          "options": [
+            "Moleculen hebben een kleur",
+            "Materie bestaat uit moleculen",
+            "Moleculen zijn heel klein",
+            "Een zuivere stof heeft één soort molecule"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De <strong>kleuren</strong> helpen alleen om de soorten moleculen te onderscheiden. Echte moleculen hebben geen kleur."
+        },
+        {
+          "question": "Waarom gebruiken wetenschappers modellen?",
+          "image": null,
+          "options": [
+            "Om te begrijpen wat we niet kunnen zien",
+            "Om echte experimenten te vervangen",
+            "Om experimenten sneller te maken",
+            "Om de werkelijkheid te veranderen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Modellen helpen ons dingen te <strong>begrijpen en uit te leggen</strong> die te klein zijn om te zien, zoals moleculen."
+        }
+      ]
+    },
+    {
+      "id": "qcm-3",
+      "quizTitle": "Fasen en oplossingen",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Hoeveel fasen heeft dit mengsel?",
+          "image": null,
+          "options": [
+            "Twee",
+            "Eén",
+            "Drie",
+            "Vier"
+          ],
+          "correctAnswer": 0,
+          "explanation": "We zien <strong>twee fasen</strong>: de olie bovenaan en het water eronder."
+        },
+        {
+          "question": "Welk soort mengsel is dit?",
+          "image": null,
+          "options": [
+            "Heterogeen mengsel",
+            "Homogeen mengsel",
+            "Zuivere stof",
+            "Oplossing"
+          ],
+          "correctAnswer": 0,
+          "explanation": "We zien modder en water met het blote oog, dus het is een <strong>heterogeen mengsel</strong>."
+        },
+        {
+          "question": "Hoe noemen we het heldere mengsel als het zout opgelost is?",
+          "image": null,
+          "options": [
+            "Een oplossing",
+            "Een zuivere stof",
+            "Een fase",
+            "Een heterogeen mengsel"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een stof die oplost in een vloeistof vormt een <strong>oplossing</strong>, een homogeen mengsel."
+        },
+        {
+          "question": "Suiker lost op in thee. Wat is de suiker?",
+          "image": null,
+          "options": [
+            "De opgeloste stof",
+            "Het oplosmiddel",
+            "De oplossing",
+            "Een fase"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De stof die oplost, is de <strong>opgeloste stof</strong>."
+        },
+        {
+          "question": "Wat is het oplosmiddel in zeewater?",
+          "image": null,
+          "options": [
+            "Water",
+            "Zout",
+            "Zand",
+            "Zuurstof"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De vloeistof die het zout oplost, is het <strong>oplosmiddel</strong>: hier water."
+        },
+        {
+          "question": "Bruisend water bevat opgelost koolstofdioxidegas. Wat is de opgeloste stof?",
+          "image": null,
+          "options": [
+            "Koolstofdioxide",
+            "Water",
+            "De bubbels",
+            "Lucht"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>opgeloste stof</strong> kan een vaste stof, een vloeistof of een gas zijn. Hier is het een gas: koolstofdioxide."
+        }
+      ]
+    },
+    {
+      "id": "qcm-4",
+      "quizTitle": "Technieken in actie",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Met welke scheidingstechniek haal je de ijzeren nagels uit dit zaagsel?",
+          "image": null,
+          "options": [
+            "Magnetische scheiding",
+            "Zeven",
+            "Filtratie",
+            "Decanteren"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een magneet trekt ijzer aan: dat is <strong>magnetische scheiding</strong>."
+        },
+        {
+          "question": "Welke techniek zie je op deze bouwplaats?",
+          "image": null,
+          "options": [
+            "Zeven",
+            "Filtratie",
+            "Verdamping",
+            "Sorteren met de hand"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Kleine korrels gaan door de gaatjes en grote stenen blijven liggen: dat is <strong>zeven</strong>."
+        },
+        {
+          "question": "Als we koffie maken met een papieren filter, wat houdt de filter tegen?",
+          "image": "assets/N1-08_coffee_pourover.webp",
+          "options": [
+            "De gemalen koffie",
+            "Het hete water",
+            "De vloeibare koffie",
+            "De lucht"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het papier houdt de vaste stukjes tegen en laat de vloeistof door: dat is <strong>filtratie</strong>."
+        },
+        {
+          "question": "Welke techniek gebruikt de ober om het bezinksel in de fles te laten?",
+          "image": null,
+          "options": [
+            "Decanteren",
+            "Filtratie",
+            "Zeven",
+            "Magnetische scheiding"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het zware bezinksel blijft op de bodem terwijl we de heldere vloeistof afgieten: dat is <strong>decanteren</strong>."
+        },
+        {
+          "question": "In een zoutpan blijft zeewater in ondiepe bekkens in de zon staan. Wat blijft er in de bekkens als het water weg is?",
+          "image": null,
+          "options": [
+            "Zout",
+            "Zand",
+            "Olie",
+            "Niets"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het water wordt een gas en verdwijnt (<strong>verdamping</strong>), maar het zout blijft als vaste stof in de bekkens."
+        },
+        {
+          "question": "Welke techniek gebruikt de vrijwilliger om het strand op te ruimen?",
+          "image": null,
+          "options": [
+            "Sorteren met de hand",
+            "Magnetische scheiding",
+            "Zeven",
+            "Distillatie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Ze raapt de grote stukken met de hand op: dat is <strong>sorteren met de hand</strong>."
+        },
+        {
+          "question": "Met welke techniek maak je parfum uit bloemen door ze te verwarmen en de damp af te koelen?",
+          "image": null,
+          "options": [
+            "Distillatie",
+            "Filtratie",
+            "Zeven",
+            "Magnetische scheiding"
+          ],
+          "correctAnswer": 0,
+          "explanation": "We verwarmen de bloemen en koelen de damp af in een condensor: dat is <strong>distillatie</strong>."
+        }
+      ]
+    },
+    {
+      "id": "qcm-5",
+      "quizTitle": "In de fabriek",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "In een waterzuiveringsstation houden metalen roosters met gaten vochtige doekjes en stokken tegen. Welke techniek is dit?",
+          "image": null,
+          "options": [
+            "Zeven",
+            "Filtratie",
+            "Verdamping",
+            "Decanteren"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De roosters hebben gaten: grote stukken blijven achter en kleine gaan erdoor. Dat is <strong>zeven</strong>."
+        },
+        {
+          "question": "In een lange, trage tank van hetzelfde station zakt het zand en drijft het vet. Welke techniek is dit?",
+          "image": null,
+          "options": [
+            "Decanteren",
+            "Zeven",
+            "Magnetische scheiding",
+            "Verdamping"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het zwaardere zand zakt en het lichtere vet drijft: dat is <strong>decanteren</strong>."
+        },
+        {
+          "question": "In een sorteercentrum haalt een reuzenmagneet stalen blikjes van een band. Welke techniek is dit?",
+          "image": null,
+          "options": [
+            "Magnetische scheiding",
+            "Zeven",
+            "Decanteren",
+            "Filtratie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een magneet trekt staal aan, dat ijzer bevat: dat is <strong>magnetische scheiding</strong>."
+        },
+        {
+          "question": "In een suikerfabriek wordt bietensap door een filterdoek gegoten dat de modder tegenhoudt. Welke techniek is dit?",
+          "image": null,
+          "options": [
+            "Filtratie",
+            "Zeven",
+            "Verdamping",
+            "Sorteren met de hand"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het doek houdt de vaste stukjes tegen en laat de vloeistof door: dat is <strong>filtratie</strong>."
+        },
+        {
+          "question": "In een steengroeve gaan gebroken stenen door twee zeven, één met gaten van 10 cm en één met gaten van 5 cm. Welke eigenschap gebruikt deze techniek?",
+          "image": null,
+          "options": [
+            "De grootte van de stukken",
+            "De kleur van de stukken",
+            "Het gewicht van de stukken",
+            "Het magnetisme van de stukken"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een zeef scheidt vaste stoffen van verschillende <strong>grootte</strong>."
+        },
+        {
+          "question": "Na de distillatie van lavendelbloemen drijft er een laagje olie op het water. Hoe vangen we de olie op?",
+          "image": null,
+          "options": [
+            "Decanteren",
+            "Magnetische scheiding",
+            "Zeven",
+            "Filtratie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De olie is lichter dan water en drijft, dus we gieten ze af: dat is <strong>decanteren</strong>."
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "id": "dnd-1",
+      "quizTitle": "Opstelling voor filtratie",
+      "backgroundImage": "assets/DnD1_filtration_setup.webp",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Trechter",
+        "Filterpapier",
+        "Modderig water",
+        "Helder water",
+        "Bekerglas",
+        "Magneet",
+        "Zeef"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 79.5,
+          "y_pourcent": 38.4,
+          "acceptedText": "Trechter"
+        },
+        {
+          "x_pourcent": 59.5,
+          "y_pourcent": 34.0,
+          "acceptedText": "Filterpapier"
+        },
+        {
+          "x_pourcent": 34.55,
+          "y_pourcent": 21.0,
+          "acceptedText": "Modderig water"
+        },
+        {
+          "x_pourcent": 68.48,
+          "y_pourcent": 87.6,
+          "acceptedText": "Helder water"
+        },
+        {
+          "x_pourcent": 81.21,
+          "y_pourcent": 75.2,
+          "acceptedText": "Bekerglas"
+        }
+      ]
+    },
+    {
+      "id": "dnd-2",
+      "quizTitle": "Labotafel",
+      "backgroundImage": "assets/DnD2_lab_bench.webp",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Magnetische scheiding",
+        "Zeven",
+        "Filtratie",
+        "Verdamping",
+        "Sorteren met de hand",
+        "Distillatie"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 8.43,
+          "y_pourcent": 15.29,
+          "acceptedText": "Magnetische scheiding"
+        },
+        {
+          "x_pourcent": 25.83,
+          "y_pourcent": 15.29,
+          "acceptedText": "Zeven"
+        },
+        {
+          "x_pourcent": 43.22,
+          "y_pourcent": 15.29,
+          "acceptedText": "Filtratie"
+        },
+        {
+          "x_pourcent": 60.61,
+          "y_pourcent": 15.29,
+          "acceptedText": "Verdamping"
+        },
+        {
+          "x_pourcent": 78.0,
+          "y_pourcent": 15.29,
+          "acceptedText": "Sorteren met de hand"
+        }
+      ]
+    },
+    {
+      "id": "dnd-3",
+      "quizTitle": "Zwembadfilter",
+      "backgroundImage": "assets/DnD3_pool_filter.webp",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Drijvende bladeren",
+        "Mand",
+        "Zandfilter",
+        "Proper water",
+        "Magneet",
+        "Condensor"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 15.0,
+          "y_pourcent": 28.1,
+          "acceptedText": "Drijvende bladeren"
+        },
+        {
+          "x_pourcent": 41.0,
+          "y_pourcent": 48.57,
+          "acceptedText": "Mand"
+        },
+        {
+          "x_pourcent": 60.5,
+          "y_pourcent": 67.86,
+          "acceptedText": "Zandfilter"
+        },
+        {
+          "x_pourcent": 87.0,
+          "y_pourcent": 69.05,
+          "acceptedText": "Proper water"
+        }
+      ]
+    },
+    {
+      "id": "dnd-4",
+      "quizTitle": "Molecuulmodellen lezen",
+      "backgroundImage": "assets/DnD4_molecular_models.webp",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Zuivere stof",
+        "Homogeen mengsel",
+        "Heterogeen mengsel",
+        "Molecule",
+        "Filtratie"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 9.18,
+          "y_pourcent": 16.97,
+          "acceptedText": "Zuivere stof"
+        },
+        {
+          "x_pourcent": 39.8,
+          "y_pourcent": 16.97,
+          "acceptedText": "Homogeen mengsel"
+        },
+        {
+          "x_pourcent": 70.41,
+          "y_pourcent": 16.97,
+          "acceptedText": "Heterogeen mengsel"
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "id": "fitb-1",
+      "quizTitle": "Zuiver of gemengd?",
+      "text": "Een glas aangelengde sinaasappelsiroop ziet eruit als één vloeistof: we zien de verschillende delen niet, dus er is maar één [blank0]. Het bevat water, suiker en smaakstof, dus het is een [blank1]. Omdat we de delen niet zien, is het een [blank2] mengsel. Een fles gedistilleerd water is anders: ze bevat maar één soort [blank3], dus het is een [blank4]. Als we zand toevoegen aan de siroop, zien we twee fasen en wordt het mengsel [blank5].",
+      "blanks": [
+        {
+          "options": [
+            "fase",
+            "opgeloste stof",
+            "molecule",
+            "filter"
+          ],
+          "correctAnswer": "fase"
+        },
+        {
+          "options": [
+            "mengsel",
+            "zuivere stof",
+            "model",
+            "fase"
+          ],
+          "correctAnswer": "mengsel"
+        },
+        {
+          "options": [
+            "homogeen",
+            "heterogeen",
+            "zuiver",
+            "magnetisch"
+          ],
+          "correctAnswer": "homogeen"
+        },
+        {
+          "options": [
+            "molecule",
+            "fase",
+            "filter",
+            "mengsel"
+          ],
+          "correctAnswer": "molecule"
+        },
+        {
+          "options": [
+            "zuivere stof",
+            "mengsel",
+            "oplossing",
+            "heterogeen mengsel"
+          ],
+          "correctAnswer": "zuivere stof"
+        },
+        {
+          "options": [
+            "heterogeen",
+            "homogeen",
+            "zuiver",
+            "opgelost"
+          ],
+          "correctAnswer": "heterogeen"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "aangelengde sinaasappelsiroop",
+          "translation": "le sirop dilué (boisson)"
+        },
+        {
+          "word": "smaakstof",
+          "translation": "l'arôme"
+        },
+        {
+          "word": "gedistilleerd",
+          "translation": "distillée"
+        }
+      ]
+    },
+    {
+      "id": "fitb-2",
+      "quizTitle": "Suiker in thee",
+      "text": "Zoe roert een lepel suiker in haar hete thee. De suiker [blank0] en al snel zien we hem niet meer. De suiker is [blank1] en het water is [blank2]. Omdat we de suiker niet meer zien, is thee met suiker een [blank3] mengsel dat we een [blank4] noemen.",
+      "blanks": [
+        {
+          "options": [
+            "lost op",
+            "verdampt",
+            "drijft",
+            "smelt"
+          ],
+          "correctAnswer": "lost op"
+        },
+        {
+          "options": [
+            "de opgeloste stof",
+            "het oplosmiddel",
+            "de filter",
+            "de fase"
+          ],
+          "correctAnswer": "de opgeloste stof"
+        },
+        {
+          "options": [
+            "het oplosmiddel",
+            "de opgeloste stof",
+            "het model",
+            "de molecule"
+          ],
+          "correctAnswer": "het oplosmiddel"
+        },
+        {
+          "options": [
+            "homogeen",
+            "heterogeen",
+            "zuiver",
+            "magnetisch"
+          ],
+          "correctAnswer": "homogeen"
+        },
+        {
+          "options": [
+            "oplossing",
+            "molecule",
+            "fase",
+            "filter"
+          ],
+          "correctAnswer": "oplossing"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "lepel",
+          "translation": "une cuillère (pleine)"
+        },
+        {
+          "word": "al snel",
+          "translation": "bientôt"
+        }
+      ]
+    },
+    {
+      "id": "fitb-3",
+      "quizTitle": "In de meelmolen",
+      "text": "In een meelmolen komen tarwekorrels toe met kleine steentjes en stukjes ijzer. Eerst haalt een magneet het ijzer eruit: deze techniek heet [blank0]. Daarna gaan de korrels door een zeef met gaatjes die [blank1] zijn dan de korrels maar kleiner dan de steentjes, dus de steentjes blijven in de zeef. Deze techniek heet [blank2]. Op het einde wordt het meel nog eens gezeefd: het fijne meel gaat [blank3] de gaatjes en de klonters [blank4] in de zeef.",
+      "blanks": [
+        {
+          "options": [
+            "magnetische scheiding",
+            "zeven",
+            "filtratie",
+            "verdamping"
+          ],
+          "correctAnswer": "magnetische scheiding"
+        },
+        {
+          "options": [
+            "groter",
+            "kleiner",
+            "magnetisch",
+            "vloeibaar"
+          ],
+          "correctAnswer": "groter"
+        },
+        {
+          "options": [
+            "zeven",
+            "decanteren",
+            "distillatie",
+            "filtratie"
+          ],
+          "correctAnswer": "zeven"
+        },
+        {
+          "options": [
+            "door",
+            "over",
+            "rond",
+            "in"
+          ],
+          "correctAnswer": "door"
+        },
+        {
+          "options": [
+            "blijven",
+            "lossen op",
+            "verdampen",
+            "drijven"
+          ],
+          "correctAnswer": "blijven"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "tarwe",
+          "translation": "le blé"
+        },
+        {
+          "word": "korrels",
+          "translation": "les grains"
+        },
+        {
+          "word": "steentjes",
+          "translation": "les cailloux"
+        },
+        {
+          "word": "klonters",
+          "translation": "les grumeaux"
+        },
+        {
+          "word": "meelmolen",
+          "translation": "le moulin"
+        }
+      ]
+    },
+    {
+      "id": "fitb-4",
+      "quizTitle": "Feit, oordeel of hypothese?",
+      "text": "Een leerling bekijkt een staal water uit een meer. \"Het water is helder\" is een [blank0] omdat we het kunnen waarnemen. \"Dit water ziet er vreselijk uit\" is een [blank1] omdat het een persoonlijke mening is. \"Er is waarschijnlijk zout in opgelost\" is een [blank2] omdat het nog getest moet worden. Nadat het water van een staal verdampt is, blijven er witte kristallen over: de hypothese wordt [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "feit",
+            "oordeel",
+            "hypothese",
+            "model"
+          ],
+          "correctAnswer": "feit"
+        },
+        {
+          "options": [
+            "oordeel",
+            "feit",
+            "hypothese",
+            "oplossing"
+          ],
+          "correctAnswer": "oordeel"
+        },
+        {
+          "options": [
+            "hypothese",
+            "feit",
+            "oordeel",
+            "fase"
+          ],
+          "correctAnswer": "hypothese"
+        },
+        {
+          "options": [
+            "bevestigd",
+            "verworpen",
+            "niet veranderd"
+          ],
+          "correctAnswer": "bevestigd"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "meer",
+          "translation": "le lac"
+        },
+        {
+          "word": "staal",
+          "translation": "l'échantillon"
+        },
+        {
+          "word": "kristallen",
+          "translation": "les cristaux"
+        },
+        {
+          "word": "blijven over",
+          "translation": "restent"
+        }
+      ]
+    },
+    {
+      "id": "fitb-5",
+      "quizTitle": "Moleculen en modellen",
+      "text": "Een wetenschapper kan de piepkleine deeltjes in een druppel water niet zien, dus tekent ze een [blank0] op papier. In haar tekening staat elke cirkel voor één [blank1]. Ze gebruikt blauwe cirkels voor water. Voor lucht heeft ze [blank2] kleuren nodig, omdat lucht verschillende soorten moleculen bevat. Haar tekening is een [blank3] versie van de werkelijkheid: echte moleculen hebben geen kleur en ze [blank4] voortdurend.",
+      "blanks": [
+        {
+          "options": [
+            "model",
+            "fase",
+            "opgeloste stof",
+            "filter"
+          ],
+          "correctAnswer": "model"
+        },
+        {
+          "options": [
+            "molecule",
+            "fase",
+            "oplosmiddel",
+            "filter"
+          ],
+          "correctAnswer": "molecule"
+        },
+        {
+          "options": [
+            "twee",
+            "één",
+            "vijf",
+            "nul"
+          ],
+          "correctAnswer": "twee"
+        },
+        {
+          "options": [
+            "vereenvoudigde",
+            "exacte",
+            "onzichtbare",
+            "magnetische"
+          ],
+          "correctAnswer": "vereenvoudigde"
+        },
+        {
+          "options": [
+            "bewegen",
+            "staan stil",
+            "drijven",
+            "verdampen"
+          ],
+          "correctAnswer": "bewegen"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "piepklein",
+          "translation": "minuscule"
+        },
+        {
+          "word": "druppel",
+          "translation": "la goutte"
+        },
+        {
+          "word": "staat voor",
+          "translation": "représente"
+        },
+        {
+          "word": "versie",
+          "translation": "la version"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "id": "memory-1",
+      "quizTitle": "Technieken en werktuigen",
+      "instructions": "Verbind elke scheidingstechniek met het werktuig of het materiaal dat ze gebruikt.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Magnetische scheiding"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Magneet"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Zeven"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Zeef"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Filtratie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Filterpapier"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Verdamping"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Verwarmen"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Sorteren met de hand"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Pincet"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Distillatie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Condensor"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-2",
+      "quizTitle": "Wat scheidt het?",
+      "instructions": "Verbind elke techniek met het mengsel dat ze kan scheiden.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Zeven"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Verschillende grootte"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Filtratie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Modder en water"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Decanteren"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Olie en water"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Magnetische scheiding"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "IJzer en hout"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Verdamping"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Zout en water"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Distillatie"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Water en alcohol"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-3",
+      "quizTitle": "Molecuulmodellen lezen",
+      "instructions": "Verbind elk deel van een molecuulmodel met wat het toont.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Eén cirkel"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Eén molecule"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Elke kleur"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Soort molecule"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Alleen blauwe cirkels"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Zuivere stof"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Twee kleuren, gemengd"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Homogeen mengsel"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Twee aparte lagen"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Heterogeen mengsel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-4",
+      "quizTitle": "Fabriek en techniek",
+      "instructions": "Elke plaats gebruikt een scheidingstechniek. Verbind elke stap met de gebruikte techniek.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Zeef in de meelmolen"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Zeven"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Magneet in de zandgroeve"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Magnetische scheiding"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Tank in de oliemolen"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Decanteren"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Zandtank van het zwembad"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Filtratie"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Drinkwatertoestel op een schip"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Distillatie"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Ketel voor ahornsap"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Verdamping"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-5",
+      "quizTitle": "Technieken in beeld",
+      "instructions": "Verbind elke afbeelding met de scheidingstechniek die ze toont.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_1_magnet.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Magnetische scheiding"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_2_sieve.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Zeven"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_3_filter.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Filtratie"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_4_evaporation.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Verdamping"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_5_by_hand.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Sorteren met de hand"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_6_decantation.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Decanteren"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "id": "sorting-1",
+      "quizTitle": "Zuiver of mengsel?",
+      "instructions": "Een labo krijgt veel stalen. Deel elk staal in: is het een zuivere stof of een mengsel?",
+      "categories": [
+        "Zuivere stof",
+        "Mengsel"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Zuivere stof",
+          "type": "text",
+          "content": "💧 Zuiver water"
+        },
+        {
+          "id": 2,
+          "category": "Zuivere stof",
+          "type": "text",
+          "content": "⚗️ Zuurstofgas"
+        },
+        {
+          "id": 3,
+          "category": "Zuivere stof",
+          "type": "text",
+          "content": "🧪 Gedistilleerd water"
+        },
+        {
+          "id": 4,
+          "category": "Zuivere stof",
+          "type": "text",
+          "content": "☁️ Koolstofdioxide"
+        },
+        {
+          "id": 5,
+          "category": "Mengsel",
+          "type": "text",
+          "content": "🌊 Zeewater"
+        },
+        {
+          "id": 6,
+          "category": "Mengsel",
+          "type": "text",
+          "content": "🌬️ Lucht"
+        },
+        {
+          "id": 7,
+          "category": "Mengsel",
+          "type": "text",
+          "content": "🥤 Bruisend water"
+        },
+        {
+          "id": 8,
+          "category": "Mengsel",
+          "type": "text",
+          "content": "🟤 Modderig water"
+        },
+        {
+          "id": 9,
+          "category": "Mengsel",
+          "type": "text",
+          "content": "🛢️ Olie en water"
+        },
+        {
+          "id": 10,
+          "category": "Mengsel",
+          "type": "text",
+          "content": "🧂 Zout water"
+        }
+      ]
+    },
+    {
+      "id": "sorting-2",
+      "quizTitle": "Homogeen of heterogeen?",
+      "instructions": "Al deze stalen zijn mengsels. Vraag je af: zie ik meer dan één fase? Deel elk mengsel in.",
+      "categories": [
+        "Homogeen mengsel",
+        "Heterogeen mengsel"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Homogeen mengsel",
+          "type": "text",
+          "content": "🧂 Zout water"
+        },
+        {
+          "id": 2,
+          "category": "Homogeen mengsel",
+          "type": "text",
+          "content": "🍬 Suikerwater"
+        },
+        {
+          "id": 3,
+          "category": "Homogeen mengsel",
+          "type": "text",
+          "content": "🌬️ Lucht"
+        },
+        {
+          "id": 4,
+          "category": "Homogeen mengsel",
+          "type": "text",
+          "content": "🍋 Azijn en water"
+        },
+        {
+          "id": 5,
+          "category": "Heterogeen mengsel",
+          "type": "text",
+          "content": "🟤 Modderig water"
+        },
+        {
+          "id": 6,
+          "category": "Heterogeen mengsel",
+          "type": "text",
+          "content": "🛢️ Olie en water"
+        },
+        {
+          "id": 7,
+          "category": "Heterogeen mengsel",
+          "type": "text",
+          "content": "🍚 Rijst in water"
+        },
+        {
+          "id": 8,
+          "category": "Heterogeen mengsel",
+          "type": "text",
+          "content": "🪨 Grind en water"
+        }
+      ]
+    },
+    {
+      "id": "sorting-3",
+      "quizTitle": "Welke techniek?",
+      "instructions": "Een technicus moet elk mengsel scheiden. Deel elk mengsel in bij de beste scheidingstechniek.",
+      "categories": [
+        "Zeven",
+        "Filtratie",
+        "Decanteren",
+        "Magnetische scheiding",
+        "Verdamping"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Zeven",
+          "type": "text",
+          "content": "🏖️ Zand en kiezels"
+        },
+        {
+          "id": 2,
+          "category": "Zeven",
+          "type": "text",
+          "content": "🥣 Bloem met klonters"
+        },
+        {
+          "id": 3,
+          "category": "Filtratie",
+          "type": "text",
+          "content": "☕ Koffie en koffiedik"
+        },
+        {
+          "id": 4,
+          "category": "Filtratie",
+          "type": "text",
+          "content": "🧃 Sap en vruchtvlees"
+        },
+        {
+          "id": 5,
+          "category": "Decanteren",
+          "type": "text",
+          "content": "🥗 Olie en azijn"
+        },
+        {
+          "id": 6,
+          "category": "Decanteren",
+          "type": "text",
+          "content": "🍷 Wijn en bezinksel"
+        },
+        {
+          "id": 7,
+          "category": "Magnetische scheiding",
+          "type": "text",
+          "content": "🔩 Nagels in zand"
+        },
+        {
+          "id": 8,
+          "category": "Magnetische scheiding",
+          "type": "text",
+          "content": "🔧 Bouten in zaagsel"
+        },
+        {
+          "id": 9,
+          "category": "Verdamping",
+          "type": "text",
+          "content": "🌊 Zout uit zeewater"
+        },
+        {
+          "id": 10,
+          "category": "Verdamping",
+          "type": "text",
+          "content": "🍁 Siroop uit sap"
+        }
+      ]
+    },
+    {
+      "id": "sorting-4",
+      "quizTitle": "Opgeloste stof of oplosmiddel?",
+      "instructions": "Een labo bestudeert verschillende oplossingen. Lost de stof op (opgeloste stof) of lost ze iets anders op (oplosmiddel)? Deel elk item in.",
+      "categories": [
+        "Opgeloste stof",
+        "Oplosmiddel"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Opgeloste stof",
+          "type": "text",
+          "content": "🫧 Zuurstof in aquarium"
+        },
+        {
+          "id": 2,
+          "category": "Opgeloste stof",
+          "type": "text",
+          "content": "🍬 Suiker in siroop"
+        },
+        {
+          "id": 3,
+          "category": "Opgeloste stof",
+          "type": "text",
+          "content": "🍹 Siroop in limonade"
+        },
+        {
+          "id": 4,
+          "category": "Oplosmiddel",
+          "type": "text",
+          "content": "💧 Water in aquarium"
+        },
+        {
+          "id": 5,
+          "category": "Oplosmiddel",
+          "type": "text",
+          "content": "💧 Water in siroop"
+        },
+        {
+          "id": 6,
+          "category": "Oplosmiddel",
+          "type": "text",
+          "content": "💧 Water in limonade"
+        }
+      ]
+    },
+    {
+      "id": "sorting-5",
+      "quizTitle": "Drie soorten uitspraken",
+      "instructions": "Wetenschappers maken een onderscheid tussen feiten, oordelen en hypothesen. Deel elke uitspraak in.",
+      "categories": [
+        "Feit",
+        "Oordeel",
+        "Hypothese"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Feit",
+          "type": "text",
+          "content": "👀 Twee lagen zichtbaar"
+        },
+        {
+          "id": 2,
+          "category": "Feit",
+          "type": "text",
+          "content": "⚖️ Zand zakt"
+        },
+        {
+          "id": 3,
+          "category": "Feit",
+          "type": "text",
+          "content": "💧 Water is helder"
+        },
+        {
+          "id": 4,
+          "category": "Oordeel",
+          "type": "text",
+          "content": "🤢 Ziet er vies uit"
+        },
+        {
+          "id": 5,
+          "category": "Oordeel",
+          "type": "text",
+          "content": "😴 Zo saai"
+        },
+        {
+          "id": 6,
+          "category": "Oordeel",
+          "type": "text",
+          "content": "😍 Mooie kleur"
+        },
+        {
+          "id": 7,
+          "category": "Hypothese",
+          "type": "text",
+          "content": "🤔 Misschien is het zout"
+        },
+        {
+          "id": 8,
+          "category": "Hypothese",
+          "type": "text",
+          "content": "🧐 Waarschijnlijk olie"
+        },
+        {
+          "id": 9,
+          "category": "Hypothese",
+          "type": "text",
+          "content": "💡 Kan suiker zijn"
+        }
+      ]
+    }
+  ]
 }

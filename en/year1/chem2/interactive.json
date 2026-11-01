@@ -1,7 +1,1614 @@
 {
-  "multipleChoice": [],
-  "dragAndDrop": [],
-  "fillBlanks": [],
-  "matchPairs": [],
-  "sorting": []
+  "multipleChoice": [
+    {
+      "id": "qcm-1",
+      "quizTitle": "Exhaled air",
+      "image": "assets/QCM1_exhaled_air.webp",
+      "instructions": "Look at the pie chart and answer the questions.",
+      "questions": [
+        {
+          "question": "Which gas is the most abundant in exhaled air?",
+          "options": [
+            "Nitrogen",
+            "Oxygen",
+            "Carbon dioxide",
+            "Other gases"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The biggest slice is <strong>nitrogen</strong>, with 78%."
+        },
+        {
+          "question": "What percentage of exhaled air is oxygen?",
+          "options": [
+            "16%",
+            "21%",
+            "4%",
+            "78%"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The oxygen slice is labelled <strong>16%</strong>. Air that we breathe in has 21% oxygen, so exhaled air has less."
+        },
+        {
+          "question": "Is exhaled air a pure substance or a mixture?",
+          "options": [
+            "A mixture",
+            "A pure substance",
+            "A solid",
+            "A single molecule"
+          ],
+          "correctAnswer": 0,
+          "explanation": "It contains several gases, so it is a <strong>mixture</strong>."
+        },
+        {
+          "question": "Which type of graph is shown?",
+          "options": [
+            "Pie chart",
+            "Bar chart",
+            "Line graph",
+            "Table"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>pie chart</strong> shows how a whole (100%) is shared between its parts."
+        },
+        {
+          "question": "Which gas makes up 4% of exhaled air?",
+          "options": [
+            "Carbon dioxide",
+            "Oxygen",
+            "Nitrogen",
+            "Other gases"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The 4% slice is labelled <strong>carbon dioxide</strong>."
+        },
+        {
+          "question": "If a pie chart showed 100% oxygen, what would the sample be?",
+          "options": [
+            "A pure substance",
+            "A homogeneous mixture",
+            "A heterogeneous mixture",
+            "A solution"
+          ],
+          "correctAnswer": 0,
+          "explanation": "One gas only means one type of molecule: it would be a <strong>pure substance</strong>."
+        },
+        {
+          "question": "Which statement about the chart is a fact?",
+          "options": [
+            "Nitrogen is the biggest slice.",
+            "The chart is ugly.",
+            "Oxygen is more important than nitrogen.",
+            "The chart is probably wrong."
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>fact</strong> can be checked on the chart. The other statements are opinions or guesses."
+        }
+      ]
+    },
+    {
+      "id": "qcm-2",
+      "quizTitle": "Molecules and models",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "What is a molecule?",
+          "image": null,
+          "options": [
+            "The smallest piece of a substance",
+            "A piece of laboratory equipment",
+            "A type of mixture",
+            "A phase of a mixture"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>molecule</strong> is the basic structure of matter. It is far too small to see, and a drop of water has billions of them."
+        },
+        {
+          "question": "In a molecular model, what does each circle usually represent?",
+          "image": null,
+          "options": [
+            "One molecule",
+            "One phase",
+            "One drop of water",
+            "One litre of liquid"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Each circle stands for one <strong>molecule</strong>. Molecular models show molecules as simple circles."
+        },
+        {
+          "question": "What is a scientific model?",
+          "image": null,
+          "options": [
+            "A simplified representation of reality",
+            "An exact photograph of reality",
+            "A real object in a laboratory",
+            "A type of experiment"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>scientific model</strong> simplifies reality to help us understand what we cannot see."
+        },
+        {
+          "question": "A molecular model shows only blue circles. What does it represent?",
+          "image": null,
+          "options": [
+            "A pure substance",
+            "A mixture of two gases",
+            "A heterogeneous mixture",
+            "A solution"
+          ],
+          "correctAnswer": 0,
+          "explanation": "One colour means one type of molecule, so it shows a <strong>pure substance</strong>."
+        },
+        {
+          "question": "A molecular model shows green and red circles evenly mixed. What does it represent?",
+          "image": null,
+          "options": [
+            "A homogeneous mixture",
+            "A pure substance",
+            "A heterogeneous mixture",
+            "Two phases"
+          ],
+          "correctAnswer": 0,
+          "explanation": "There are two types of molecules, so it is a mixture. They are evenly spread, so there is only one phase: a <strong>homogeneous mixture</strong>."
+        },
+        {
+          "question": "A molecular model shows a layer of orange circles above a layer of blue circles. How many phases does it show?",
+          "image": null,
+          "options": [
+            "Two",
+            "One",
+            "Three",
+            "None"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Each separate layer is a <strong>phase</strong>, so this model shows two phases."
+        },
+        {
+          "question": "Which feature of a molecular model is NOT true in real life?",
+          "image": null,
+          "options": [
+            "Molecules are coloured",
+            "Matter is made of molecules",
+            "Molecules are very small",
+            "A pure substance has one type of molecule"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Colours</strong> only help us tell the types of molecules apart. Real molecules are not coloured."
+        },
+        {
+          "question": "Why do scientists use models?",
+          "image": null,
+          "options": [
+            "To understand what we cannot see",
+            "To replace real experiments",
+            "To make experiments faster",
+            "To change reality"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Models help us <strong>understand and explain</strong> things that are too small to see, like molecules."
+        }
+      ]
+    },
+    {
+      "id": "qcm-3",
+      "quizTitle": "Phases and solutions",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "How many phases does this mixture have?",
+          "image": null,
+          "options": [
+            "Two",
+            "One",
+            "Three",
+            "Four"
+          ],
+          "correctAnswer": 0,
+          "explanation": "We can see <strong>two phases</strong>: the oil on top and the water below."
+        },
+        {
+          "question": "What type of mixture is this?",
+          "image": null,
+          "options": [
+            "Heterogeneous mixture",
+            "Homogeneous mixture",
+            "Pure substance",
+            "Solution"
+          ],
+          "correctAnswer": 0,
+          "explanation": "We can see mud and water with the naked eye, so it is a <strong>heterogeneous mixture</strong>."
+        },
+        {
+          "question": "When the salt has dissolved, what do we call the clear mixture?",
+          "image": null,
+          "options": [
+            "A solution",
+            "A pure substance",
+            "A phase",
+            "A heterogeneous mixture"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A substance that dissolves in a liquid makes a <strong>solution</strong>, which is a homogeneous mixture."
+        },
+        {
+          "question": "Sugar dissolves in tea. What is the sugar?",
+          "image": null,
+          "options": [
+            "The solute",
+            "The solvent",
+            "The solution",
+            "A phase"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The substance that dissolves is the <strong>solute</strong>."
+        },
+        {
+          "question": "What is the solvent in sea water?",
+          "image": null,
+          "options": [
+            "Water",
+            "Salt",
+            "Sand",
+            "Oxygen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The liquid that dissolves the salt is the <strong>solvent</strong>: here, water."
+        },
+        {
+          "question": "Sparkling water contains dissolved carbon dioxide gas. What is the solute?",
+          "image": null,
+          "options": [
+            "Carbon dioxide",
+            "Water",
+            "The bubbles",
+            "Air"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>solute</strong> can be a solid, a liquid or a gas. Here it is a gas: carbon dioxide."
+        }
+      ]
+    },
+    {
+      "id": "qcm-4",
+      "quizTitle": "Techniques in action",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Which separation technique removes the iron nails from this sawdust?",
+          "image": null,
+          "options": [
+            "Magnetic separation",
+            "Sifting",
+            "Filtration",
+            "Decantation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A magnet attracts iron: this is <strong>magnetic separation</strong>."
+        },
+        {
+          "question": "Which technique is shown at this building site?",
+          "image": null,
+          "options": [
+            "Sifting",
+            "Filtration",
+            "Evaporation",
+            "Manual separation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Small grains go through the holes and big stones stay: this is <strong>sifting</strong>."
+        },
+        {
+          "question": "When we make coffee with a paper filter, what does the filter stop?",
+          "image": "assets/N1-08_coffee_pourover.webp",
+          "options": [
+            "The ground coffee",
+            "The hot water",
+            "The liquid coffee",
+            "The air"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The paper stops the solid pieces and lets the liquid go through: this is <strong>filtration</strong>."
+        },
+        {
+          "question": "Which technique does the waiter use to leave the sediment in the bottle?",
+          "image": null,
+          "options": [
+            "Decantation",
+            "Filtration",
+            "Sifting",
+            "Magnetic separation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The heavy sediment stays at the bottom while we pour off the clear liquid: this is <strong>decantation</strong>."
+        },
+        {
+          "question": "In a salt marsh, sea water is left in shallow basins under the sun. What is left in the basins when the water has gone?",
+          "image": null,
+          "options": [
+            "Salt",
+            "Sand",
+            "Oil",
+            "Nothing"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The water becomes a gas and leaves (<strong>evaporation</strong>), but the salt stays in the basins as a solid."
+        },
+        {
+          "question": "Which technique does the volunteer use to clean the beach?",
+          "image": null,
+          "options": [
+            "Manual separation",
+            "Magnetic separation",
+            "Sifting",
+            "Distillation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "She picks up the big pieces by hand: this is <strong>manual separation</strong>."
+        },
+        {
+          "question": "Which technique makes perfume from flowers by heating them and cooling the vapour?",
+          "image": null,
+          "options": [
+            "Distillation",
+            "Filtration",
+            "Sifting",
+            "Magnetic separation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "We heat the flowers, then cool the vapour in a condenser: this is <strong>distillation</strong>."
+        }
+      ]
+    },
+    {
+      "id": "qcm-5",
+      "quizTitle": "At the factory",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "At a wastewater plant, metal grids with holes stop wet wipes and sticks. Which technique is this?",
+          "image": null,
+          "options": [
+            "Sifting",
+            "Filtration",
+            "Evaporation",
+            "Decantation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The grids have holes: big pieces stay and small pieces go through. This is <strong>sifting</strong>."
+        },
+        {
+          "question": "In a long, slow tank at the same plant, sand sinks and grease floats. Which technique is this?",
+          "image": null,
+          "options": [
+            "Decantation",
+            "Sifting",
+            "Magnetic separation",
+            "Evaporation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Heavier sand sinks and lighter grease floats: this is <strong>decantation</strong>."
+        },
+        {
+          "question": "At a sorting plant, a giant magnet removes steel cans from a belt. Which technique is this?",
+          "image": null,
+          "options": [
+            "Magnetic separation",
+            "Sifting",
+            "Decantation",
+            "Filtration"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A magnet attracts steel, which contains iron: this is <strong>magnetic separation</strong>."
+        },
+        {
+          "question": "In a sugar factory, beet juice is poured through filter cloth that stops the mud. Which technique is this?",
+          "image": null,
+          "options": [
+            "Filtration",
+            "Sifting",
+            "Evaporation",
+            "Manual separation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The cloth stops the solid pieces and lets the liquid go through: this is <strong>filtration</strong>."
+        },
+        {
+          "question": "In a quarry, crushed stones go through two sieves, one with 10 cm holes and one with 5 cm holes. Which property does this technique use?",
+          "image": null,
+          "options": [
+            "The size of the pieces",
+            "The colour of the pieces",
+            "The weight of the pieces",
+            "The magnetism of the pieces"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A sieve separates solids of different <strong>sizes</strong>."
+        },
+        {
+          "question": "After the distillation of lavender flowers, a layer of oil floats on water. How can we collect the oil?",
+          "image": null,
+          "options": [
+            "Decantation",
+            "Magnetic separation",
+            "Sifting",
+            "Filtration"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The oil is lighter than water and floats, so we pour it off: this is <strong>decantation</strong>."
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "id": "dnd-1",
+      "quizTitle": "Filtration set-up",
+      "backgroundImage": "assets/DnD1_filtration_setup.webp",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Funnel",
+        "Filter paper",
+        "Muddy water",
+        "Clear water",
+        "Beaker",
+        "Magnet",
+        "Sieve"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 79.5,
+          "y_pourcent": 38.4,
+          "acceptedText": "Funnel"
+        },
+        {
+          "x_pourcent": 59.5,
+          "y_pourcent": 34.0,
+          "acceptedText": "Filter paper"
+        },
+        {
+          "x_pourcent": 34.55,
+          "y_pourcent": 21.0,
+          "acceptedText": "Muddy water"
+        },
+        {
+          "x_pourcent": 68.48,
+          "y_pourcent": 87.6,
+          "acceptedText": "Clear water"
+        },
+        {
+          "x_pourcent": 81.21,
+          "y_pourcent": 75.2,
+          "acceptedText": "Beaker"
+        }
+      ]
+    },
+    {
+      "id": "dnd-2",
+      "quizTitle": "Laboratory bench",
+      "backgroundImage": "assets/DnD2_lab_bench.webp",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Magnetic separation",
+        "Sifting",
+        "Filtration",
+        "Evaporation",
+        "Manual separation",
+        "Distillation"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 8.43,
+          "y_pourcent": 15.29,
+          "acceptedText": "Magnetic separation"
+        },
+        {
+          "x_pourcent": 25.83,
+          "y_pourcent": 15.29,
+          "acceptedText": "Sifting"
+        },
+        {
+          "x_pourcent": 43.22,
+          "y_pourcent": 15.29,
+          "acceptedText": "Filtration"
+        },
+        {
+          "x_pourcent": 60.61,
+          "y_pourcent": 15.29,
+          "acceptedText": "Evaporation"
+        },
+        {
+          "x_pourcent": 78.0,
+          "y_pourcent": 15.29,
+          "acceptedText": "Manual separation"
+        }
+      ]
+    },
+    {
+      "id": "dnd-3",
+      "quizTitle": "Swimming pool filter",
+      "backgroundImage": "assets/DnD3_pool_filter.webp",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Floating leaves",
+        "Basket",
+        "Sand filter",
+        "Clean water",
+        "Magnet",
+        "Condenser"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 15.0,
+          "y_pourcent": 28.1,
+          "acceptedText": "Floating leaves"
+        },
+        {
+          "x_pourcent": 41.0,
+          "y_pourcent": 48.57,
+          "acceptedText": "Basket"
+        },
+        {
+          "x_pourcent": 60.5,
+          "y_pourcent": 67.86,
+          "acceptedText": "Sand filter"
+        },
+        {
+          "x_pourcent": 87.0,
+          "y_pourcent": 69.05,
+          "acceptedText": "Clean water"
+        }
+      ]
+    },
+    {
+      "id": "dnd-4",
+      "quizTitle": "Reading molecular models",
+      "backgroundImage": "assets/DnD4_molecular_models.webp",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Pure substance",
+        "Homogeneous mixture",
+        "Heterogeneous mixture",
+        "Molecule",
+        "Filtration"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 9.18,
+          "y_pourcent": 16.97,
+          "acceptedText": "Pure substance"
+        },
+        {
+          "x_pourcent": 39.8,
+          "y_pourcent": 16.97,
+          "acceptedText": "Homogeneous mixture"
+        },
+        {
+          "x_pourcent": 70.41,
+          "y_pourcent": 16.97,
+          "acceptedText": "Heterogeneous mixture"
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "id": "fitb-1",
+      "quizTitle": "Pure or mixed?",
+      "text": "A glass of orange squash looks like one liquid: we cannot see its different parts, so it has only one [blank0]. It contains water, sugar and flavouring, so it is a [blank1]. Because we cannot see the parts, it is a [blank2] mixture. A bottle of distilled water is different: it contains only one type of [blank3], so it is a [blank4]. If we add sand to the squash, we see two phases and the mixture becomes [blank5].",
+      "blanks": [
+        {
+          "options": [
+            "phase",
+            "solute",
+            "molecule",
+            "filter"
+          ],
+          "correctAnswer": "phase"
+        },
+        {
+          "options": [
+            "mixture",
+            "pure substance",
+            "model",
+            "phase"
+          ],
+          "correctAnswer": "mixture"
+        },
+        {
+          "options": [
+            "homogeneous",
+            "heterogeneous",
+            "pure",
+            "magnetic"
+          ],
+          "correctAnswer": "homogeneous"
+        },
+        {
+          "options": [
+            "molecule",
+            "phase",
+            "filter",
+            "mixture"
+          ],
+          "correctAnswer": "molecule"
+        },
+        {
+          "options": [
+            "pure substance",
+            "mixture",
+            "solution",
+            "heterogeneous mixture"
+          ],
+          "correctAnswer": "pure substance"
+        },
+        {
+          "options": [
+            "heterogeneous",
+            "homogeneous",
+            "pure",
+            "dissolved"
+          ],
+          "correctAnswer": "heterogeneous"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "squash",
+          "translation": "le sirop dilué (boisson)"
+        },
+        {
+          "word": "flavouring",
+          "translation": "l'arôme"
+        },
+        {
+          "word": "distilled",
+          "translation": "distillée"
+        }
+      ]
+    },
+    {
+      "id": "fitb-2",
+      "quizTitle": "Sugar in tea",
+      "text": "Zoe stirs a spoonful of sugar into her hot tea. The sugar [blank0] and soon we cannot see it. The sugar is the [blank1] and the water is the [blank2]. Because we cannot see the sugar any more, tea with sugar is a [blank3] mixture called a [blank4].",
+      "blanks": [
+        {
+          "options": [
+            "dissolves",
+            "evaporates",
+            "floats",
+            "melts"
+          ],
+          "correctAnswer": "dissolves"
+        },
+        {
+          "options": [
+            "solute",
+            "solvent",
+            "filter",
+            "phase"
+          ],
+          "correctAnswer": "solute"
+        },
+        {
+          "options": [
+            "solvent",
+            "solute",
+            "model",
+            "molecule"
+          ],
+          "correctAnswer": "solvent"
+        },
+        {
+          "options": [
+            "homogeneous",
+            "heterogeneous",
+            "pure",
+            "magnetic"
+          ],
+          "correctAnswer": "homogeneous"
+        },
+        {
+          "options": [
+            "solution",
+            "molecule",
+            "phase",
+            "filter"
+          ],
+          "correctAnswer": "solution"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "spoonful",
+          "translation": "une cuillère (pleine)"
+        },
+        {
+          "word": "soon",
+          "translation": "bientôt"
+        }
+      ]
+    },
+    {
+      "id": "fitb-3",
+      "quizTitle": "At the flour mill",
+      "text": "At a flour mill, wheat grains arrive with small stones and pieces of iron. First, a magnet removes the iron: this technique is called [blank0]. Then the grains go through a sieve whose holes are [blank1] than the grains but smaller than the stones, so the stones stay in the sieve. This technique is called [blank2]. At the end, the flour is sifted again: the fine flour goes [blank3] the holes and the lumps [blank4] in the sieve.",
+      "blanks": [
+        {
+          "options": [
+            "magnetic separation",
+            "sifting",
+            "filtration",
+            "evaporation"
+          ],
+          "correctAnswer": "magnetic separation"
+        },
+        {
+          "options": [
+            "bigger",
+            "smaller",
+            "magnetic",
+            "liquid"
+          ],
+          "correctAnswer": "bigger"
+        },
+        {
+          "options": [
+            "sifting",
+            "decantation",
+            "distillation",
+            "filtration"
+          ],
+          "correctAnswer": "sifting"
+        },
+        {
+          "options": [
+            "through",
+            "over",
+            "around",
+            "into"
+          ],
+          "correctAnswer": "through"
+        },
+        {
+          "options": [
+            "stay",
+            "dissolve",
+            "evaporate",
+            "float"
+          ],
+          "correctAnswer": "stay"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "wheat",
+          "translation": "le blé"
+        },
+        {
+          "word": "grains",
+          "translation": "les grains"
+        },
+        {
+          "word": "stones",
+          "translation": "les cailloux"
+        },
+        {
+          "word": "lumps",
+          "translation": "les grumeaux"
+        },
+        {
+          "word": "mill",
+          "translation": "le moulin"
+        }
+      ]
+    },
+    {
+      "id": "fitb-4",
+      "quizTitle": "Fact, judgement or hypothesis?",
+      "text": "A student looks at a sample of lake water. \"The water is clear\" is a [blank0] because we can observe it. \"This water looks horrible\" is a [blank1] because it is a personal opinion. \"There is probably salt dissolved in it\" is a [blank2] because it must still be tested. After the water of a sample evaporates, white crystals are left: the hypothesis is [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "fact",
+            "judgement",
+            "hypothesis",
+            "model"
+          ],
+          "correctAnswer": "fact"
+        },
+        {
+          "options": [
+            "judgement",
+            "fact",
+            "hypothesis",
+            "solution"
+          ],
+          "correctAnswer": "judgement"
+        },
+        {
+          "options": [
+            "hypothesis",
+            "fact",
+            "judgement",
+            "phase"
+          ],
+          "correctAnswer": "hypothesis"
+        },
+        {
+          "options": [
+            "confirmed",
+            "rejected",
+            "unchanged"
+          ],
+          "correctAnswer": "confirmed"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "lake",
+          "translation": "le lac"
+        },
+        {
+          "word": "sample",
+          "translation": "l'échantillon"
+        },
+        {
+          "word": "crystals",
+          "translation": "les cristaux"
+        },
+        {
+          "word": "left",
+          "translation": "restent, qui reste"
+        }
+      ]
+    },
+    {
+      "id": "fitb-5",
+      "quizTitle": "Molecules and models",
+      "text": "A scientist cannot see the tiny particles in a drop of water, so she draws a [blank0] on paper. In her drawing, each circle stands for one [blank1]. She uses blue circles for water. For air she needs [blank2] colours because air contains different types of molecules. Her drawing is a [blank3] version of reality: real molecules are not coloured and they [blank4] all the time.",
+      "blanks": [
+        {
+          "options": [
+            "model",
+            "phase",
+            "solute",
+            "filter"
+          ],
+          "correctAnswer": "model"
+        },
+        {
+          "options": [
+            "molecule",
+            "phase",
+            "solvent",
+            "filter"
+          ],
+          "correctAnswer": "molecule"
+        },
+        {
+          "options": [
+            "two",
+            "one",
+            "five",
+            "zero"
+          ],
+          "correctAnswer": "two"
+        },
+        {
+          "options": [
+            "simplified",
+            "exact",
+            "invisible",
+            "magnetic"
+          ],
+          "correctAnswer": "simplified"
+        },
+        {
+          "options": [
+            "move",
+            "stay still",
+            "float",
+            "evaporate"
+          ],
+          "correctAnswer": "move"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "tiny",
+          "translation": "minuscule"
+        },
+        {
+          "word": "drop",
+          "translation": "la goutte"
+        },
+        {
+          "word": "stands for",
+          "translation": "représente"
+        },
+        {
+          "word": "version",
+          "translation": "la version"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "id": "memory-1",
+      "quizTitle": "Techniques and tools",
+      "instructions": "Match each separation technique with the tool or equipment it uses.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Magnetic separation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Magnet"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Sifting"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Sieve"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Filtration"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Filter paper"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Evaporation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Heating"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Manual separation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Tweezers"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Distillation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Condenser"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-2",
+      "quizTitle": "What does it separate?",
+      "instructions": "Match each technique with the mixture it can separate.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Sifting"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Different sizes"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Filtration"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Mud and water"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Decantation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Oil and water"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Magnetic separation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Iron and wood"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Evaporation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Salt and water"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Distillation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Water and alcohol"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-3",
+      "quizTitle": "Reading molecular models",
+      "instructions": "Match each part of a molecular model with what it shows.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "One circle"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "One molecule"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Each colour"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Type of molecule"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Blue circles only"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Pure substance"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Two colours, mixed"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Homogeneous mixture"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Two separate layers"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Heterogeneous mixture"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-4",
+      "quizTitle": "Factory and technique",
+      "instructions": "Each place uses a separation technique. Match each step with the technique used.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Flour mill sieve"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Sifting"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Sand quarry magnet"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Magnetic separation"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Olive oil tank"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Decantation"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Pool sand tank"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Filtration"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Ship water maker"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Distillation"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Maple sap boiler"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Evaporation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-5",
+      "quizTitle": "Techniques in pictures",
+      "instructions": "Match each picture with the separation technique it shows.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_1_magnet.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Magnetic separation"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_2_sieve.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Sifting"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_3_filter.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Filtration"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_4_evaporation.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Evaporation"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_5_by_hand.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Manual separation"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "image",
+            "content": "assets/Match5_6_decantation.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Decantation"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "id": "sorting-1",
+      "quizTitle": "Pure or mixture?",
+      "instructions": "A laboratory receives many samples. Sort each sample: is it a pure substance or a mixture?",
+      "categories": [
+        "Pure substance",
+        "Mixture"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Pure substance",
+          "type": "text",
+          "content": "💧 Pure water"
+        },
+        {
+          "id": 2,
+          "category": "Pure substance",
+          "type": "text",
+          "content": "⚗️ Oxygen gas"
+        },
+        {
+          "id": 3,
+          "category": "Pure substance",
+          "type": "text",
+          "content": "🧪 Distilled water"
+        },
+        {
+          "id": 4,
+          "category": "Pure substance",
+          "type": "text",
+          "content": "☁️ Carbon dioxide"
+        },
+        {
+          "id": 5,
+          "category": "Mixture",
+          "type": "text",
+          "content": "🌊 Sea water"
+        },
+        {
+          "id": 6,
+          "category": "Mixture",
+          "type": "text",
+          "content": "🌬️ Air"
+        },
+        {
+          "id": 7,
+          "category": "Mixture",
+          "type": "text",
+          "content": "🥤 Sparkling water"
+        },
+        {
+          "id": 8,
+          "category": "Mixture",
+          "type": "text",
+          "content": "🟤 Muddy water"
+        },
+        {
+          "id": 9,
+          "category": "Mixture",
+          "type": "text",
+          "content": "🛢️ Oil and water"
+        },
+        {
+          "id": 10,
+          "category": "Mixture",
+          "type": "text",
+          "content": "🧂 Salty water"
+        }
+      ]
+    },
+    {
+      "id": "sorting-2",
+      "quizTitle": "Homogeneous or heterogeneous?",
+      "instructions": "All these samples are mixtures. Ask yourself: can I see more than one phase? Sort each mixture.",
+      "categories": [
+        "Homogeneous mixture",
+        "Heterogeneous mixture"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Homogeneous mixture",
+          "type": "text",
+          "content": "🧂 Salty water"
+        },
+        {
+          "id": 2,
+          "category": "Homogeneous mixture",
+          "type": "text",
+          "content": "🍬 Sugar water"
+        },
+        {
+          "id": 3,
+          "category": "Homogeneous mixture",
+          "type": "text",
+          "content": "🌬️ Air"
+        },
+        {
+          "id": 4,
+          "category": "Homogeneous mixture",
+          "type": "text",
+          "content": "🍋 Vinegar and water"
+        },
+        {
+          "id": 5,
+          "category": "Heterogeneous mixture",
+          "type": "text",
+          "content": "🟤 Muddy water"
+        },
+        {
+          "id": 6,
+          "category": "Heterogeneous mixture",
+          "type": "text",
+          "content": "🛢️ Oil and water"
+        },
+        {
+          "id": 7,
+          "category": "Heterogeneous mixture",
+          "type": "text",
+          "content": "🍚 Rice in water"
+        },
+        {
+          "id": 8,
+          "category": "Heterogeneous mixture",
+          "type": "text",
+          "content": "🪨 Gravel and water"
+        }
+      ]
+    },
+    {
+      "id": "sorting-3",
+      "quizTitle": "Which technique?",
+      "instructions": "A technician must separate each mixture. Sort each mixture under the best separation technique.",
+      "categories": [
+        "Sifting",
+        "Filtration",
+        "Decantation",
+        "Magnetic separation",
+        "Evaporation"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Sifting",
+          "type": "text",
+          "content": "🏖️ Sand and pebbles"
+        },
+        {
+          "id": 2,
+          "category": "Sifting",
+          "type": "text",
+          "content": "🥣 Flour with lumps"
+        },
+        {
+          "id": 3,
+          "category": "Filtration",
+          "type": "text",
+          "content": "☕ Coffee and grounds"
+        },
+        {
+          "id": 4,
+          "category": "Filtration",
+          "type": "text",
+          "content": "🧃 Juice and pulp"
+        },
+        {
+          "id": 5,
+          "category": "Decantation",
+          "type": "text",
+          "content": "🥗 Oil and vinegar"
+        },
+        {
+          "id": 6,
+          "category": "Decantation",
+          "type": "text",
+          "content": "🍷 Wine and sediment"
+        },
+        {
+          "id": 7,
+          "category": "Magnetic separation",
+          "type": "text",
+          "content": "🔩 Nails in sand"
+        },
+        {
+          "id": 8,
+          "category": "Magnetic separation",
+          "type": "text",
+          "content": "🔧 Bolts in sawdust"
+        },
+        {
+          "id": 9,
+          "category": "Evaporation",
+          "type": "text",
+          "content": "🌊 Salt from seawater"
+        },
+        {
+          "id": 10,
+          "category": "Evaporation",
+          "type": "text",
+          "content": "🍁 Syrup from sap"
+        }
+      ]
+    },
+    {
+      "id": "sorting-4",
+      "quizTitle": "Solute or solvent?",
+      "instructions": "A laboratory studies different solutions. In each one, does the substance dissolve (solute) or does it do the dissolving (solvent)? Sort each item.",
+      "categories": [
+        "Solute",
+        "Solvent"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Solute",
+          "type": "text",
+          "content": "🫧 Oxygen in aquarium"
+        },
+        {
+          "id": 2,
+          "category": "Solute",
+          "type": "text",
+          "content": "🍬 Sugar in syrup"
+        },
+        {
+          "id": 3,
+          "category": "Solute",
+          "type": "text",
+          "content": "🍹 Syrup in squash"
+        },
+        {
+          "id": 4,
+          "category": "Solvent",
+          "type": "text",
+          "content": "💧 Water in aquarium"
+        },
+        {
+          "id": 5,
+          "category": "Solvent",
+          "type": "text",
+          "content": "💧 Water in syrup"
+        },
+        {
+          "id": 6,
+          "category": "Solvent",
+          "type": "text",
+          "content": "💧 Water in squash"
+        }
+      ]
+    },
+    {
+      "id": "sorting-5",
+      "quizTitle": "Three kinds of statements",
+      "instructions": "Scientists separate facts, judgements and hypotheses. Sort each statement.",
+      "categories": [
+        "Fact",
+        "Judgement",
+        "Hypothesis"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Fact",
+          "type": "text",
+          "content": "👀 Two layers visible"
+        },
+        {
+          "id": 2,
+          "category": "Fact",
+          "type": "text",
+          "content": "⚖️ Sand sinks"
+        },
+        {
+          "id": 3,
+          "category": "Fact",
+          "type": "text",
+          "content": "💧 Water is clear"
+        },
+        {
+          "id": 4,
+          "category": "Judgement",
+          "type": "text",
+          "content": "🤢 Looks disgusting"
+        },
+        {
+          "id": 5,
+          "category": "Judgement",
+          "type": "text",
+          "content": "😴 So boring"
+        },
+        {
+          "id": 6,
+          "category": "Judgement",
+          "type": "text",
+          "content": "😍 Beautiful colour"
+        },
+        {
+          "id": 7,
+          "category": "Hypothesis",
+          "type": "text",
+          "content": "🤔 Maybe it's salt"
+        },
+        {
+          "id": 8,
+          "category": "Hypothesis",
+          "type": "text",
+          "content": "🧐 Probably oil"
+        },
+        {
+          "id": 9,
+          "category": "Hypothesis",
+          "type": "text",
+          "content": "💡 Might be sugar"
+        }
+      ]
+    }
+  ]
 }
