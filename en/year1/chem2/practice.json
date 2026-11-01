@@ -30,7 +30,7 @@
     {
       "id": 4,
       "title": "Name the technique",
-      "image": null,
+      "image": "N1-04_magnet_rice.webp",
       "en": "A magnet is moved over a bowl of rice mixed with steel paper clips, as in the picture. Which technique is this, and what does the magnet pick up?",
       "fr": "Un aimant est passé au-dessus d'un bol de riz mélangé à des trombones en acier, comme sur l'image. De quelle technique s'agit-il, et qu'est-ce que l'aimant attire ?",
       "corr_en": "Magnetic separation. The magnet picks up the steel paper clips, not the rice.",
@@ -66,7 +66,7 @@
     {
       "id": 8,
       "title": "Coffee machine",
-      "image": null,
+      "image": "N1-08_coffee_filter.webp",
       "en": "A coffee machine has a paper filter, as in the picture. What stays in the paper and what goes down into the pot?",
       "fr": "Une cafetière possède un filtre en papier, comme sur l'image. Qu'est-ce qui reste dans le papier et qu'est-ce qui descend dans la verseuse ?",
       "corr_en": "The ground coffee stays in the paper. The liquid coffee goes through into the pot.",
@@ -102,7 +102,7 @@
     {
       "id": 12,
       "title": "Stones in lentils",
-      "image": null,
+      "image": "N1-12_lentils.webp",
       "en": "A cook removes small stones from lentils with her fingers, as in the picture. Which separation technique is this?",
       "fr": "Une cuisinière retire de petits cailloux dans des lentilles avec ses doigts, comme sur l'image. De quelle technique de séparation s'agit-il ?",
       "corr_en": "Manual separation: she picks up the stones by hand.",
