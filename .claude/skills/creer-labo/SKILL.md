@@ -198,6 +198,59 @@ Règles qui font l'harmonie du site :
   labo fixe sa largeur en CSS. Rien à faire, sinon `lab.steadySelects()`
   si le labo change les choix d'une liste déjà affichée.
 
+### Les images (planches Gemini)
+
+Un dessin qui ne bouge pas et ne dépend pas de l'état du labo (objet, outil,
+installation, vignette d'un lieu) rend bien mieux en image Gemini qu'en
+petite icône SVG. Reste en SVG ce qui bouge ou change à l'écran (paysage
+animé, niveau qui monte, fausses couleurs d'une caméra, carré de comptage),
+ainsi que les pictogrammes, les instruments de mesure, les schémas et les
+graphiques. Labos déjà faits ainsi : `lab-hm-*` (maison), `lab-gr-*`
+(réseau), `lab-so-*` (sol), `lab-fw-*`, `lab-lc-*`, `lab-tool-*`.
+
+1. **Repérer** les dessins concernés et leur taille d'affichage (CSS), puis
+   donner la liste à l'enseignant avec une mention par dessin : oui / à
+   tester / pas la peine / impossible (il bouge ou change). Il tranche.
+2. **Le prompt**, en anglais, complet à chaque fois : l'enseignant ouvre une
+   nouvelle conversation Gemini par planche, donc jamais « same style as… ».
+   Il demande :
+   - « Create ONE single image » : une planche, pas des images séparées
+     (même trait et même taille pour tous) ;
+   - le style : « clean flat illustrations for a science website for
+     12-year-old students; simple vector-like drawing, thin dark grey
+     outline, soft muted colours, light shading only, no gradients, no
+     shadows, no background scene; slight three-quarter view, all at a
+     similar visual size » ;
+   - une grille (colonnes × lignes) et la liste numérotée dans l'ordre de
+     lecture, avec un large espace blanc entre les objets ; fond blanc uni ;
+   - « No text, no letters, no numbers, no logos, no labels anywhere » (ni
+     personnage ni panneau dans une scène : Gemini y glisse du texte) ;
+   - des dessins simples s'ils seront vus en petit (« recognisable by its
+     silhouette ») ;
+   - chaque détail qui compte pour la science (élastique tendu, clé de
+     remontage, deux lacs de Coo, sol visible) ;
+   - un état neutre pour ce que le labo fait varier : lampe éteinte (le
+     labo l'allume en CSS), afficheur vide (le labo écrit la valeur à côté).
+3. **Découper** avec [decouper-planche.ps1](decouper-planche.ps1) (fond blanc
+   relié au bord rendu transparent ; `-seeds` pour un blanc enfermé, `-gap`
+   pour des objets proches), puis vérifier sur un fond coloré. Objets :
+   PNG carrés de 128 px (deux fois la plus grande taille affichée). Scène
+   pleine (vignette avec son cadre) : JPEG sur fond blanc, deux fois la
+   hauteur affichée, sans recadrer la scène pour la faire entrer dans un
+   format.
+4. **Intégrer** : `assets/lab-<xx>-<nom>.png` (préfixe du labo), copié dans
+   les deux filières (images sans texte) ;
+   `<img class="… " src="assets/…" alt="" draggable="false">` avec
+   `object-fit: contain` et `pointer-events: none`, ou `<image href>` dans
+   un SVG. Un état allumé / éteint se montre en CSS sur la même image
+   (`filter: grayscale(1) opacity(0.5)` éteint, halo par `drop-shadow` pour
+   une lampe). Si le labo a de la place libre, agrandir l'image, sans
+   jamais déborder de sa case (taille qui suit la place laissée, longs mots
+   NL coupés). Une image déjà en ligne qu'on remplace change de nom (cache du
+   service worker).
+5. **Tracer** : une ligne dans `docs/images-provenance.md` (local, jamais
+   commité), et dans `docs/todo/03-images-gemini-labos.md`.
+
 ### Les textes
 
 Un fichier par langue : `LabEngine.addText('<id>', { labels, glossary, ... })`,
