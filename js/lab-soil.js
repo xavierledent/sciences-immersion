@@ -246,30 +246,10 @@
   }
 
   /* ===== Étape 1 : hypothèse ===== */
-  // Petit dessin de chaque lieu, pour la carte des échantillons.
-  function placeSVG(key) {
-    const sky = '<rect width="120" height="72" fill="#dcecf8"/>';
-    const scenes = {
-      forest: sky + '<rect y="50" width="120" height="22" fill="#4a3424"/>' +
-        [18, 52, 90].map(x => `<rect x="${x - 3}" y="26" width="6" height="26" fill="#6b4a2f"/><circle cx="${x}" cy="22" r="15" fill="#3f8a4a"/><circle cx="${x - 8}" cy="28" r="9" fill="#4f9a55"/><circle cx="${x + 8}" cy="27" r="9" fill="#357a40"/>`).join('') +
-        [8, 30, 44, 70, 104, 112].map((x, i) => `<ellipse cx="${x}" cy="${58 + (i % 3) * 4}" rx="4" ry="1.8" fill="${i % 2 ? '#b0702f' : '#8a5a2b'}"/>`).join(''),
-      garden: sky + '<rect y="40" width="120" height="32" fill="#5b3d2b"/>' +
-        [46, 56, 66].map(y => `<path d="M0 ${y} H120" stroke="#3f2a1d" stroke-width="2"/>`).join('') +
-        [12, 34, 56, 78, 100].map(x => `<path d="M${x} 44 l-4 -8 M${x} 44 l4 -8 M${x} 44 v-10" stroke="#4f9a40" stroke-width="2.4" stroke-linecap="round"/>`).join('') +
-        '<path d="M0 30 H120 M0 38 H120" stroke="#b9875a" stroke-width="2"/>' + [10, 40, 70, 100].map(x => `<rect x="${x}" y="26" width="3" height="16" fill="#a2734a"/>`).join(''),
-      meadow: sky + '<rect y="40" width="120" height="32" fill="#7db35a"/><circle cx="96" cy="26" r="11" fill="#4f9a55"/><rect x="94" y="30" width="4" height="12" fill="#6b4a2f"/>' +
-        Array.from({ length: 22 }, (_, i) => `<path d="M${4 + i * 5.3} 70 q1 -7 ${i % 2 ? 2 : -2} -12" stroke="#5e9a3e" stroke-width="1.5" fill="none"/>`).join('') +
-        [14, 38, 60, 82, 108].map((x, i) => `<circle cx="${x}" cy="${52 + (i % 2) * 8}" r="2.4" fill="${i % 2 ? '#ffffff' : '#f6d046'}"/>`).join(''),
-      sandpit: sky + '<rect y="38" width="120" height="34" fill="#8cc06a"/><rect x="14" y="44" width="92" height="24" rx="3" fill="#e6cf98" stroke="#9c6b3c" stroke-width="4"/>' +
-        '<path d="M72 50 h12 l-2 12 h-8 z" fill="#d94a4a"/><path d="M71 50 h14" stroke="#b33a3a" stroke-width="2"/><path d="M40 62 l10 -14" stroke="#3d7fc4" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="38" cy="63" rx="5" ry="3" fill="#3d7fc4"/>',
-      gravel: sky + '<rect y="38" width="120" height="34" fill="#8cc06a"/><path d="M42 38 H78 L104 72 H16 Z" fill="#b9b0a0"/>' +
-        Array.from({ length: 26 }, (_, i) => `<circle cx="${30 + (i * 37) % 62}" cy="${42 + (i * 11) % 28}" r="${1.3 + (i % 3) * 0.6}" fill="${i % 2 ? '#8a8274' : '#d6cebe'}"/>`).join(''),
-      building: sky + '<rect y="44" width="120" height="28" fill="#9a8c78"/><path d="M86 8 V44 M86 10 H116 M86 16 L104 10 M112 10 v14" stroke="#e7b416" stroke-width="2.5" fill="none"/><rect x="108" y="24" width="8" height="6" fill="#7a6a55"/>' +
-        '<path d="M20 64 l6 -18 l6 18 z" fill="#f08a24"/><path d="M22.5 57 h7" stroke="#ffffff" stroke-width="2.5"/>' +
-        [[50, 60, 6], [62, 66, 4], [72, 58, 5], [40, 68, 3]].map(([x, y, r]) => `<path d="M${x - r} ${y} L${x - r / 3} ${y - r} L${x + r} ${y - r / 2} L${x + r / 2} ${y + r / 2} Z" fill="#7b838a"/>`).join('')
-    };
-    return `<svg class="so-place" viewBox="0 0 120 72" aria-hidden="true" focusable="false">${scenes[key]}</svg>`;
-  }
+  // Vignette de chaque lieu, pour la carte des échantillons : images d'une
+  // planche Gemini (assets/lab-so-<lieu>.jpg, dans chaque filière, 148 px de
+  // haut, cadre dessiné compris).
+  const placeImg = key => `<img class="so-place" src="assets/lab-so-${key}.jpg" alt="" draggable="false">`;
 
   function renderPredict() {
     const missing = lab.state.showMissing && !state.hypothesis;
@@ -278,7 +258,7 @@
       : '<span class="so-blank">……………</span>';
     const choices = ['A', 'B', 'same'].map(c =>
       `<button type="button" class="lab-choice so-choice ${state.hypothesis === c ? 'is-selected' : ''}" data-hyp="${c}" aria-pressed="${state.hypothesis === c}">${LABELS.hypChoices[c]}</button>`).join('');
-    const cards = samples().map(s => `<div class="so-place-card">${placeSVG(s.key)}<span><span class="so-letter">${s.S}</span><strong>${LABELS.sample(s.S)}</strong><small>${gloss(fromText(s.S))}</small></span></div>`).join('');
+    const cards = samples().map(s => `<div class="so-place-card">${placeImg(s.key)}<span><span class="so-letter">${s.S}</span><strong>${LABELS.sample(s.S)}</strong><small>${gloss(fromText(s.S))}</small></span></div>`).join('');
 
     lab.body.innerHTML = `<div class="so-predict">` +
       `<div class="so-question-card">` +

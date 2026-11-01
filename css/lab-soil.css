@@ -109,11 +109,15 @@
   text-align: left;
 }
 
+/* Vignette du lieu (image 4:3 à cadre arrondi dessiné, sur fond blanc) */
 .so-place {
   flex: 0 0 auto;
-  width: 124px;
+  width: 100px;
   height: 74px;
-  border-radius: 10px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .so-place-card > span {
