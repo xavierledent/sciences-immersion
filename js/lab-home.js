@@ -187,7 +187,7 @@
   // Les 13 objets, la caméra thermique et le compteur électrique : images de
   // planches Gemini (assets/lab-hm-<nom>.png, dans chaque filière, 128 × 128).
   // Les lampes sont dessinées éteintes : le halo de la lampe allumée vient du
-  // CSS (.hm-obj.is-on). L'afficheur du compteur est vide : ses valeurs
+  // CSS (.hm-obj.is-on), comme l'image grise d'un appareil éteint. L'afficheur du compteur est vide : ses valeurs
   // s'écrivent à côté (meterHTML).
   const iconSrc = id => `assets/lab-hm-${id}.png`;
   const icon = (id, cls) => `<img class="hm-icon hm-img ${cls || ''}" src="${iconSrc(id)}" alt="" draggable="false">`;
@@ -378,8 +378,8 @@
         const [x, y] = ROOMS[r].slots[run.place[id].slot];
         const tag = state.tags[id];
         const shown = s && s.kind === 'clue' && s.id === id;
-        const on = state.sw[id] && state.sw[id].on;
-        return `<button type="button" class="hm-obj ${shown ? 'is-shown' : ''} ${on ? 'is-on' : ''}" data-obj="${id}" data-lab-look style="${box(x - bx, y - by)}">` +
+        const sw = state.sw[id] ? `is-device ${state.sw[id].on ? 'is-on' : ''}` : '';
+        return `<button type="button" class="hm-obj ${shown ? 'is-shown' : ''} ${sw}" data-obj="${id}" data-lab-look style="${box(x - bx, y - by)}">` +
           (tag ? `<span class="hm-badge">${LABELS.badges[tag]}</span>` : '') +
           `${icon(id, 'is-big')}<span class="hm-obj-name">${objName(id)}</span></button>`;
       }).join('');
