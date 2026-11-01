@@ -257,7 +257,9 @@ LabEngine.addText('separation', {
 
   // La correction : ce que l'élève a fait, ce qui était attendu, pourquoi.
   check: {
-    phasesWhy: (looks, n) => `In de bokaal zie je ${n} verschillende delen: ${looks}. Elk zichtbaar deel is een fase. Met twee of meer fasen is het een heterogeen mengsel.`,
+    phasesWhy: (looks, n) => (n === 1
+      ? `In de bokaal zie je maar één deel: ${looks}. Er is maar één fase: het is een homogeen mengsel. Je ziet de verschillende bestanddelen niet.`
+      : `In de bokaal zie je ${n} verschillende delen: ${looks}. Elk zichtbaar deel is een fase. Met twee of meer fasen is het een heterogeen mengsel.`),
     hiddenWhy: the => `${cap(the)} is opgelost in het water: je ziet ${the} niet meer, maar ${the} is er nog. Het water en ${the} vormen een oplossing, met maar één fase.`,
     tryOk: names => `Het werkt. Eruit gehaald: ${names}.`,
     tryWrong: {

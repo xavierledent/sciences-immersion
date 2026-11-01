@@ -253,7 +253,9 @@ LabEngine.addText('separation', {
 
   // La correction : ce que l'élève a fait, ce qui était attendu, pourquoi.
   check: {
-    phasesWhy: (looks, n) => `In the jar, you can see ${n} different parts: ${looks}. Each visible part is a phase. With two or more phases, it is a heterogeneous mixture.`,
+    phasesWhy: (looks, n) => (n === 1
+      ? `In the jar, you can see only one part: ${looks}. There is only one phase: it is a homogeneous mixture. You cannot see the different components.`
+      : `In the jar, you can see ${n} different parts: ${looks}. Each visible part is a phase. With two or more phases, it is a heterogeneous mixture.`),
     hiddenWhy: the => `${cap(the)} is dissolved in the water: you cannot see it any more, but it is still there. The water and ${the} form a solution, with only one phase.`,
     tryOk: names => `It works. Removed: ${names}.`,
     tryWrong: {

@@ -83,7 +83,9 @@
   };
 
   /* La réserve de mélanges : trois ou quatre constituants. w : poids du
-     tirage (la distillation, en bonus, sort rarement : 1 fois sur 27). */
+     tirage (la distillation, en bonus, sort rarement : 3 fois sur 29).
+     m15 et m16 sont homogènes (une seule phase) : avec ces outils, seule
+     la distillation les sépare. */
   const MIXTURES = {
     m1: { comps: ['sand', 'ironFilings', 'water'], w: 2 },
     m2: { comps: ['sand', 'salt', 'water'], w: 2 },
@@ -98,7 +100,9 @@
     m11: { comps: ['sand', 'ironFilings', 'salt', 'water'], w: 2 },
     m12: { comps: ['pebbles', 'sand', 'oil', 'water'], w: 2 },
     m13: { comps: ['marbles', 'ironFilings', 'sugar', 'water'], w: 2 },
-    m14: { comps: ['nails', 'oil', 'salt', 'water'], w: 2 }
+    m14: { comps: ['nails', 'oil', 'salt', 'water'], w: 2 },
+    m15: { comps: ['salt', 'alcohol', 'water'], w: 1 },
+    m16: { comps: ['sugar', 'alcohol', 'water'], w: 1 }
   };
 
   const BASE_TOOLS = ['tweezers', 'magnet', 'sieve', 'filter', 'decant', 'heat'];
