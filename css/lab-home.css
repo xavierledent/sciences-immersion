@@ -358,9 +358,14 @@
   text-align: center;
 }
 
+/* L'image prend la place laissée par le nom (une, deux ou trois lignes),
+   38 px au plus : jamais de débordement de la case */
 .hm-obj .hm-icon.is-big {
-  width: 30px;
-  height: 30px;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 38px;
+  height: auto;
+  max-height: 38px;
 }
 
 /* Lampe allumée : un halo jaune autour de la lampe (l'image la montre éteinte) */
@@ -369,8 +374,11 @@
   filter: drop-shadow(0 0 3px #ffd54a) drop-shadow(0 0 7px rgba(255, 213, 74, 0.8));
 }
 
+/* Un long mot (« Elektriciteitsmeter ») se coupe au lieu de dépasser */
 .hm-obj-name {
   max-width: 100%;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .hm-obj.lab-is-missing {

@@ -101,18 +101,18 @@
   const TICK_MS = 200;
 
   /* La maison : 760 × 470 px, cinq pièces ; les places des objets (coin
-     haut gauche des boutons de 80 × 78 px) et celle du compteur. */
+     haut gauche des boutons de 80 × 86 px) et celle du compteur. */
   const HOUSE_W = 760, HOUSE_H = 470;
-  const OBJ_W = 80, OBJ_H = 78;
+  const OBJ_W = 80, OBJ_H = 86;
   const ROOMS = {
-    bedroom: { box: [20, 66, 370, 130], slots: [[36, 100], [136, 100], [236, 100]] },
-    bathroom: { box: [390, 66, 350, 130], slots: [[440, 100], [560, 100]] },
-    living: { box: [20, 206, 380, 140], slots: [[36, 244], [136, 244], [236, 244]] },
-    kitchen: { box: [400, 206, 340, 140], slots: [[410, 244], [492, 244], [574, 244], [656, 244]] },
-    cellar: { box: [20, 356, 720, 110], slots: [[36, 382], [136, 382], [236, 382]] }
+    bedroom: { box: [20, 66, 370, 130], slots: [[36, 96], [136, 96], [236, 96]] },
+    bathroom: { box: [390, 66, 350, 130], slots: [[440, 96], [560, 96]] },
+    living: { box: [20, 206, 380, 140], slots: [[36, 240], [136, 240], [236, 240]] },
+    kitchen: { box: [400, 206, 340, 140], slots: [[410, 240], [492, 240], [574, 240], [656, 240]] },
+    cellar: { box: [20, 356, 720, 110], slots: [[36, 378], [136, 378], [236, 378]] }
   };
   const ROOM_KEYS = Object.keys(ROOMS);
-  const METER_AT = [644, 382];
+  const METER_AT = [644, 378];
 
   const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
   const pickOne = arr => arr[Math.floor(Math.random() * arr.length)];
