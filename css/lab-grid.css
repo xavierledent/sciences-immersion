@@ -79,6 +79,14 @@
   height: 38px;
 }
 
+/* Images des installations (planche Gemini) */
+.gr-img {
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 .gr-caption.is-warning {
   background: #fff1f0;
   color: #9f2c2c;
@@ -805,7 +813,6 @@ html[data-pointer='fine'] .gr-hit:hover {
   width: 30px;
   height: 30px;
 }
-
 .gr-switch-name {
   min-width: 0;
   font-size: 0.78rem;

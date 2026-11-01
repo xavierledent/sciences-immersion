@@ -294,22 +294,9 @@
   const listOf = (keys, name) => (keys.length ? LABELS.list(keys.map(name)) : '—');
 
   /* ===== Dessins ===== */
-  const ICONS = {
-    wind: `<path d="M19,38 L20.4,15 L21.6,15 L23,38 Z" fill="#c9d1da"/>` +
-      `<g fill="#ffffff" stroke="#7d8a97" stroke-width="0.9"><path d="M21,15 L19.6,2 L22.6,2.4 Z"/><path d="M21,15 L32.6,20.6 L31,23.2 Z"/><path d="M21,15 L9.8,22.6 L8.6,19.8 Z"/></g>` +
-      `<circle cx="21" cy="15" r="2.2" fill="#5d6773"/>`,
-    solar: `<path d="M20,30 v7" stroke="#7d8a97" stroke-width="2"/><path d="M4,30 L11,12 L36,12 L29,30 Z" fill="#2f5f9e" stroke="#1d3d6b" stroke-width="1.2"/>` +
-      `<path d="M9.4,24 L33.4,24 M11.8,18 L35,18 M17,12 L11.4,30 M23.5,12 L18,30 M30,12 L24.4,30" stroke="#7fa6d8" stroke-width="0.9"/>`,
-    nuclear: `<ellipse cx="16" cy="6.5" rx="7" ry="3.4" fill="#eef2f6"/><path d="M6,37 C10,27 10,18 8.6,10 L23.4,10 C22,18 22,27 26,37 Z" fill="#d9dde2" stroke="#9aa5b1"/>` +
-      `<path d="M27,37 V27 A6,6 0 0 1 39,27 V37 Z" fill="#b9c2cc" stroke="#8d98a5"/>`,
-    gas: `<circle cx="33" cy="5" r="3.2" fill="#c3c9d0"/><circle cx="28.6" cy="2.6" r="2.2" fill="#d6dbe0"/>` +
-      `<rect x="3" y="21" width="25" height="16" rx="1.5" fill="#8d99a6"/><rect x="7" y="25" width="5" height="4" fill="#ffd970"/><rect x="16" y="25" width="5" height="4" fill="#ffd970"/>` +
-      `<rect x="30" y="9" width="6" height="28" fill="#6f7a87"/>`,
-    coo: `<path d="M1,37 L15,11 L26,11 L39,37 Z" fill="#9cc47a"/><rect x="14.5" y="8" width="12" height="4.5" rx="1.5" fill="#4a90d9"/>` +
-      `<path d="M23,12.5 L33,33" stroke="#5d6773" stroke-width="1.8"/><ellipse cx="33" cy="36" rx="6.5" ry="2.2" fill="#4a90d9"/>`
-  };
-
-  const plantIcon = (p, cls) => `<svg class="gr-icon ${cls || ''}" viewBox="0 0 40 40" aria-hidden="true" focusable="false">${ICONS[p]}</svg>`;
+  // Les 5 installations : images d'une planche Gemini (assets/lab-gr-<installation>.png,
+  // dans chaque filière, 128 × 128). Le paysage animé reste en SVG (sceneSVG).
+  const plantIcon = (p, cls) => `<img class="gr-icon gr-img ${cls || ''}" src="assets/lab-gr-${p}.png" alt="" draggable="false">`;
 
   /* --- Le paysage : viewBox 800 × 190, sol à y = 150 ---
      De gauche à droite : le parc éolien, les panneaux solaires, la centrale
