@@ -485,7 +485,7 @@
     {
       "id": "dnd-2",
       "quizTitle": "Labotafel",
-      "backgroundImage": "assets/DnD2_lab_bench-2.webp",
+      "backgroundImage": "assets/DnD2_lab_bench-3.webp",
       "hideOnSuccess": true,
       "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
       "reservoirItems": [
@@ -498,28 +498,28 @@
       ],
       "dropZones": [
         {
-          "x_pourcent": 16.67,
-          "y_pourcent": 44.0,
+          "x_pourcent": 17.87,
+          "y_pourcent": 45.81,
           "acceptedText": "Magnetische scheiding"
         },
         {
-          "x_pourcent": 50.0,
-          "y_pourcent": 44.0,
+          "x_pourcent": 49.8,
+          "y_pourcent": 45.81,
           "acceptedText": "Zeven"
         },
         {
-          "x_pourcent": 83.33,
-          "y_pourcent": 44.0,
+          "x_pourcent": 82.52,
+          "y_pourcent": 45.81,
           "acceptedText": "Filtratie"
         },
         {
-          "x_pourcent": 33.33,
-          "y_pourcent": 94.0,
+          "x_pourcent": 26.46,
+          "y_pourcent": 89.93,
           "acceptedText": "Verdamping"
         },
         {
-          "x_pourcent": 66.67,
-          "y_pourcent": 94.0,
+          "x_pourcent": 63.48,
+          "y_pourcent": 89.93,
           "acceptedText": "Sorteren met de hand"
         }
       ]
