@@ -205,7 +205,15 @@ installation, vignette d'un lieu) rend bien mieux en image Gemini qu'en
 petite icône SVG. Reste en SVG ce qui bouge ou change à l'écran (paysage
 animé, niveau qui monte, fausses couleurs d'une caméra, carré de comptage),
 ainsi que les pictogrammes, les instruments de mesure, les schémas et les
-graphiques. Labos déjà faits ainsi : `lab-hm-*` (maison), `lab-gr-*`
+graphiques. Une image Gemini va bien **quand elle est à part** (icône,
+carte, vignette), pas **quand elle se mêle à une scène dessinée** que
+l'élève manipule (éléments posés sur un sol étalé, paysage sous le carré
+et les instruments, texture dans une barre qui se plie) : elle y fait
+« collé » et casse l'unité. Et un même être ou objet garde le même dessin
+partout où l'élève doit le reconnaître (carré et fiche d'identification ;
+outil dont l'icône du bouton est aussi dessinée dans une animation : si
+l'animation reste en SVG, l'icône aussi). Chercher toutes les fois où un
+dessin apparaît avant de lui donner une mention. Labos déjà faits ainsi : `lab-hm-*` (maison), `lab-gr-*`
 (réseau), `lab-so-*` (sol), `lab-fw-*`, `lab-lc-*`, `lab-tool-*`.
 
 1. **Repérer** les dessins concernés et leur taille d'affichage (CSS), puis
