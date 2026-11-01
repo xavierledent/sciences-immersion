@@ -48,7 +48,7 @@
     {
       "id": 6,
       "title": "Tel de moleculen",
-      "image": null,
+      "image": "N1-06_water_model.webp",
       "en": "Dit is een molecuulmodel van water. Hoeveel moleculen zijn er getekend? Is het een zuivere stof of een mengsel?",
       "fr": "Voici un modèle moléculaire de l'eau. Combien de molécules sont dessinées ? S'agit-il d'un corps pur ou d'un mélange ?",
       "corr_en": "Tien moleculen. Het is een zuivere stof: er is maar één soort molecule.",
@@ -84,7 +84,7 @@
     {
       "id": 10,
       "title": "Schaal op een radiator",
-      "image": null,
+      "image": "N1-10_dish_two_days-nl.webp",
       "en": "Een schaal met zout water staat op een radiator. De afbeeldingen tonen de schaal op dag 1 en op dag 3. Welke techniek heeft plaatsgevonden, en wat is de witte vaste stof?",
       "fr": "Un plat d'eau salée est laissé sur un radiateur. Les images montrent le plat au jour 1 et au jour 3. Quelle technique a eu lieu, et qu'est-ce que le solide blanc ?",
       "corr_en": "Verdamping: het water werd een gas en is verdwenen. De witte vaste stof is het zout.",
@@ -156,7 +156,7 @@
     {
       "id": 18,
       "title": "Opstelling voor distillatie",
-      "image": null,
+      "image": "N1-18_distillation_apparatus-nl.webp",
       "en": "Kijk naar deze opstelling. Welk deel koelt de damp af, en wat wordt de damp in dat deel?",
       "fr": "Observe ce montage. Quelle partie refroidit la vapeur, et que devient la vapeur dans cette partie ?",
       "corr_en": "De condensor koelt de damp af. Daarin wordt de damp weer een vloeistof.",
@@ -174,7 +174,7 @@
     {
       "id": 20,
       "title": "Drie bokalen",
-      "image": null,
+      "image": "N1-20_three_jars-nl.webp",
       "en": "Kijk naar de drie bokalen na het roeren en laten rusten. In welke bokaal zit een homogeen mengsel? Hoeveel fasen zijn er in bokaal 3?",
       "fr": "Observe les trois bocaux après avoir remué et laissé reposer. Quel bocal contient un mélange homogène ? Combien de phases y a-t-il dans le bocal 3 ?",
       "corr_en": "Bokaal 2 is homogeen (één fase). Bokaal 3 heeft drie fasen: rijst, water en olie.",
@@ -228,7 +228,7 @@
     {
       "id": 4,
       "title": "Vier preparaten",
-      "image": null,
+      "image": "N2-04_four_slides-nl.webp",
       "questions": [
         {
           "en": "Gebruik deze kleurensleutel: blauw = watermolecule, paars = zoutdeeltje, oranje = oliemolecule, groen = stikstofmolecule, rood = zuurstofmolecule. Welk preparaat kan lucht voorstellen? Verklaar je antwoord.",
@@ -298,7 +298,7 @@
     {
       "id": 10,
       "title": "Zoute bouillon",
-      "image": null,
+      "image": "N2-10_two_broths-nl.webp",
       "en": "Een kok maakt twee soorten bouillon. De modellen tonen het opgeloste zout in elke bouillon. Welke bouillon is het zoutst? Leg uit met de modellen. Zijn de bouillons homogeen of heterogeen?",
       "fr": "Un cuisinier prépare deux bouillons. Les modèles montrent le sel dissous dans chaque bouillon. Quel bouillon est le plus salé ? Explique avec les modèles. Les bouillons sont-ils homogènes ou hétérogènes ?",
       "corr_en": "Bouillon 2 is zouter: hij heeft 8 zoutdeeltjes voor 12 watermoleculen, tegenover 3 in bouillon 1. Beide zijn homogene mengsels (oplossingen) omdat de deeltjes goed gemengd zijn.",
@@ -316,7 +316,7 @@
     {
       "id": 12,
       "title": "Zoek de fout",
-      "image": null,
+      "image": "N2-12_model_error-nl.webp",
       "en": "Een leerling tekent dit model van zuivere zuurstof en zegt: \"Het toont een zuivere stof.\" Heeft ze gelijk? Leg uit wat er fout is en hoe je de tekening verbetert.",
       "fr": "Une élève dessine ce modèle de dioxygène pur et dit : « Il montre un corps pur. » A-t-elle raison ? Explique ce qui ne va pas et comment corriger le dessin.",
       "corr_en": "Nee. Het model heeft twee soorten moleculen, zuurstof en stikstof, dus het toont een mengsel. Om zuivere zuurstof te tonen, moet ze alleen rode cirkels tekenen.",
@@ -334,7 +334,7 @@
     {
       "id": 14,
       "title": "Staal van het strand",
-      "image": null,
+      "image": "N2-14_beach_sample-nl.webp",
       "questions": [
         {
           "en": "Welk materiaal komt het meest voor? Hoeveel kilogram is dat?",
@@ -386,7 +386,7 @@
     {
       "id": 18,
       "title": "Een sleutel gebruiken",
-      "image": null,
+      "image": "N2-18_key-nl.webp",
       "en": "Gebruik de sleutel om deze stalen in te delen: (a) gedistilleerd water, (b) suikerwater, (c) olie en water, (d) lucht in een gesloten fles.",
       "fr": "Utilise la clé pour classer ces échantillons : (a) l'eau distillée, (b) l'eau sucrée, (c) l'huile et l'eau, (d) l'air dans une bouteille fermée.",
       "corr_en": "(a) Zuivere stof. (b) Homogeen mengsel. (c) Heterogeen mengsel. (d) Homogeen mengsel.",
@@ -424,7 +424,7 @@
     {
       "id": 2,
       "title": "Lucht op Mars",
-      "image": null,
+      "image": "N3-02_mars_pie-nl.webp",
       "en": "Het cirkeldiagram toont de samenstelling van de lucht (atmosfeer) van Mars. Is de lucht van Mars een zuivere stof? Verklaar met het diagram. Als je er een molecuulmodel van tekent, welke soort molecule teken je het meest, en gebruik je verschillende kleuren?",
       "fr": "Le graphique circulaire montre la composition de l'air (atmosphère) de Mars. L'air de Mars est-il un corps pur ? Justifie avec le graphique. Si tu dessinais un modèle moléculaire de cet air, quel type de molécule dessinerais-tu le plus, et utiliserais-tu plusieurs couleurs ?",
       "corr_en": "Nee, het is een mengsel: het bevat verschillende gassen (koolstofdioxide 95 %, stikstof 3 %, andere gassen 2 %). In een model teken ik vooral koolstofdioxidemoleculen, met maar enkele cirkels in andere kleuren, goed gemengd omdat er één fase is.",
@@ -442,7 +442,7 @@
     {
       "id": 4,
       "title": "Bouten en staafjes",
-      "image": null,
+      "image": "N3-04_tray-nl.webp",
       "en": "Een doos bevat ijzeren bouten, koperen staafjes en plastic staafjes. Alle stukken zijn ongeveer 5 cm lang. Een magneet trekt ijzer aan, maar geen koper of plastic. Welke stukken kan de magneet eruit halen? Met welke techniek kun je daarna de koperen staafjes van de plastic staafjes scheiden? Leg uit waarom zeven en filtratie hier niet werken.",
       "fr": "Une boîte contient des boulons en fer, des tiges en cuivre et des tiges en plastique. Toutes les pièces mesurent environ 5 cm. Un aimant attire le fer mais pas le cuivre ni le plastique. Quelles pièces l'aimant peut-il retirer ? Quelle technique pourrait ensuite séparer les tiges en cuivre des tiges en plastique ? Explique pourquoi le tamisage et la filtration ne fonctionneraient pas ici.",
       "corr_en": "De magneet haalt de ijzeren bouten eruit (magnetische scheiding). De koperen en plastic staafjes zijn vaste stoffen van dezelfde grootte, dus een arbeider kan ze met de hand scheiden (sorteren met de hand). Zeven vraagt stukken van verschillende grootte en filtratie vraagt een vloeistof.",
@@ -460,7 +460,7 @@
     {
       "id": 6,
       "title": "Zeven voor grind",
-      "image": null,
+      "image": "N3-06_gravel_table-nl.webp",
       "questions": [
         {
           "en": "Een klant wil alleen stukken kleiner dan 2 cm. Welke stukken gaan door een zeef met gaatjes van 2 cm? Hoeveel kilogram is dat, en hoeveel procent van het totaal?",
@@ -494,7 +494,7 @@
     {
       "id": 8,
       "title": "Zout water verwarmen",
-      "image": null,
+      "image": "N3-08_sea_water_graph-nl.webp",
       "en": "Een leerling verwarmt 100 g zeewater in een schaal en weegt de inhoud van de schaal om de 10 minuten. De grafiek toont het resultaat. Beschrijf de curve en verklaar ze. Wat zit er op het einde in de schaal, en wat is de massa ervan?",
       "fr": "Un élève chauffe 100 g d'eau de mer dans un plat et pèse le contenu du plat toutes les 10 minutes. Le graphique montre le résultat. Décris la courbe et explique-la. Que contient le plat à la fin, et quelle est sa masse ?",
       "corr_en": "De massa daalt en blijft daarna constant op ongeveer 3 g. De daling komt doordat het water verdampt: het wordt een gas en verdwijnt. De 3 g die overblijft, is het zout, dat als vaste stof in de schaal blijft.",
@@ -548,7 +548,7 @@
     {
       "id": 14,
       "title": "Herstel de sleutel",
-      "image": null,
+      "image": "N3-14_key_error-nl.webp",
       "questions": [
         {
           "en": "Deze sleutel moet zuurstofgas, suikerwater, en olie en water indelen, maar er zit één fout in. Zoek de fout en verbeter ze.",
@@ -576,7 +576,7 @@
     {
       "id": 16,
       "title": "Staal met lagen",
-      "image": null,
+      "image": "N3-16_layered_sample-nl.webp",
       "questions": [
         {
           "en": "Hoeveel fasen heeft dit staal? Is het een homogeen of een heterogeen mengsel?",
@@ -610,7 +610,7 @@
     {
       "id": 18,
       "title": "Model van een drankje",
-      "image": null,
+      "image": "N3-18_sugar_models-nl.webp",
       "en": "Twee leerlingen tekenen een model van suikerwater. Welk model toont een oplossing correct? Leg uit. Zeg daarna hoeveel fasen model 1 toont en waarom model 2 geen foto is van echt suikerwater.",
       "fr": "Deux élèves dessinent un modèle de l'eau sucrée. Quel modèle montre correctement une solution ? Explique. Dis ensuite combien de phases montre le modèle 1 et pourquoi le modèle 2 n'est pas une photographie de la vraie eau sucrée.",
       "corr_en": "Model 2 is correct: in een oplossing zijn de suikerdeeltjes goed gemengd met het water, dus er is één fase. Model 1 toont twee aparte zones, dus het heeft twee fasen. Model 2 is maar een model: de cirkels hebben een kleur, maar echte deeltjes niet.",
@@ -628,7 +628,7 @@
     {
       "id": 20,
       "title": "Drie stalen",
-      "image": null,
+      "image": "N3-20_three_samples-nl.webp",
       "questions": [
         {
           "en": "Welk staal is een zuivere stof? Welk staal bevat drie verschillende stoffen?",
