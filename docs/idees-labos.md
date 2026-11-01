@@ -3,6 +3,20 @@
 Pistes discutées avec l'enseignant, pas encore construites. Un labo se crée
 avec le skill `creer-labo` (fiche de conception à valider d'abord).
 
+## Pour tous les chapitres : relier les labos à l'autoévaluation
+
+Souhait de l'enseignant : les attendus de savoir-faire (S-F) et de
+compétence sont le mieux travaillés dans les labos ; la page Assessment
+(`autoeval.json`) devrait donc renvoyer vers eux, comme elle renvoie déjà
+vers les exercices (`exercises`). Pistes (à concevoir) :
+- un champ par attendu, par exemple `labs: ["separation"]`, qui affiche un
+  lien vers le labo (le lien direct `laboratory.html?lab=<id>` existe déjà
+  dans lab-engine.js) ;
+- changement de format d'autoeval.json : à reporter dans l'éditeur
+  `Admin/content.html` et dans docs/formats-donnees.md ;
+- plus tard, éventuellement : montrer à l'élève son résultat au labo
+  (critères réussis, via `summary()`) à côté de l'attendu.
+
 ## chem2 — Mixtures and pure substances
 
 Labo réel du chapitre : la séparation de mélanges (Mission 7), déjà fait
@@ -44,6 +58,22 @@ séparation (mêmes techniques) ; l'intérêt est le contexte réel et le métie
 Avis de l'enseignant : ici le labo apporte quelque chose, et se mettre dans
 la peau d'un travailleur entre dans les visées transversales du programme
 (« découvrir des métiers »).
+
+Pistes pour qu'il ne soit pas une redite du labo de paillasse (à trancher à
+la conception) :
+- l'échelle et le flux continu : des tonnes d'eau ou de déchets qui
+  arrivent, pas un pot ;
+- les compromis du métier : coût, énergie, temps, qualité de ce qui sort ;
+- l'enjeu environnemental : ce qui part dans la rivière, ce qui est
+  recyclé, ce qui finit en décharge (attendu « enjeux environnementaux »,
+  Exercice 7 b) ;
+- une mission concrète du travailleur : « l'eau rejetée doit respecter la
+  norme », « récupérer le maximum de métal » ; l'élève voit les
+  conséquences de ses réglages.
+
+Choix à faire : station d'épuration (colle mieux au chapitre : décantation,
+filtration, eau et solutés) ou centre de tri (parle plus aux élèves, mais
+surtout aimant, tamis, tri manuel).
 
 ### 2. « Mystery beakers » : la clé dichotomique — écarté
 
