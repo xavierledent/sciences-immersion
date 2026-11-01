@@ -8,7 +8,7 @@
    sauf dans les boutons (lab-engine.js) ; [mot] ou [mot|clé] reste utile
    pour une forme dont la clé diffère.
 
-   Mots du cours (Part 3, Mission 7 et le carnet du Dr Dubois) : manual
+   Mots du cours (Part 3, Mission 7) : manual
    separation, magnetic separation, sifting, filtration, decantation,
    evaporation ; distillation (Extra) ; separation log, component, phase,
    homogeneous / heterogeneous mixture, solute, solvent, solution. */
@@ -103,7 +103,7 @@ LabEngine.addText('separation', {
     colRemoved: 'We remove',
     colTool: 'Tool',
     colLeft: 'What is left',
-    techTitle: 'Read Dr Dubois’s notebook. Name the technique of each separation, and say why it works.',
+    techTitle: 'Name the technique of each separation, and say why it works. The techniques sheet can help you.',
     colTechnique: 'Technique',
     colWhy: 'Why does it work?',
     techniques: {
@@ -124,7 +124,7 @@ LabEngine.addText('separation', {
       boils: 'The liquid becomes a gas; the solid stays.',
       bp: 'One liquid boils at a lower temperature.'
     },
-    notebookBtn: 'Dr Dubois’s notebook',
+    notebookBtn: 'Techniques sheet',
     stillAnswers: { yes: 'Yes, it is still in the water', no: 'No, it has disappeared' },
     soluteLine: (solute, solvent) => `The solute is ${solute} and the solvent is ${solvent}.`,
     soluteAria: 'Solute',
@@ -292,7 +292,7 @@ LabEngine.addText('separation', {
     judgedKo: (worked, reason) => `Your judgement is not right. Expected: “${worked}”` + (reason ? `, because “${reason}”` : '') + '.'
   },
 
-  // Le carnet du Dr Dubois (cours, Mission 7 ; la distillation : Extra).
+  // La fiche des techniques (cours, Mission 7 ; la distillation : Extra).
   notebook: {
     intro: 'Now you know how to separate mixtures. Scientists give a name to each technique.',
     items: {

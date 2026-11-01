@@ -103,7 +103,7 @@ LabEngine.addText('separation', {
     colRemoved: 'We halen eruit',
     colTool: 'Hulpmiddel',
     colLeft: 'Wat blijft over',
-    techTitle: 'Lees het schrift van dokter Dubois. Benoem de techniek van elke scheiding en zeg waarom ze werkt.',
+    techTitle: 'Benoem de techniek van elke scheiding en zeg waarom ze werkt. De fiche met de technieken kan je helpen.',
     colTechnique: 'Techniek',
     colWhy: 'Waarom werkt het?',
     techniques: {
@@ -124,7 +124,7 @@ LabEngine.addText('separation', {
       boils: 'De vloeistof wordt een gas; de vaste stof blijft.',
       bp: 'Eén vloeistof kookt bij een lagere temperatuur.'
     },
-    notebookBtn: 'Het schrift van dokter Dubois',
+    notebookBtn: 'Fiche met de technieken',
     stillAnswers: { yes: 'Ja, het zit nog in het water', no: 'Nee, het is verdwenen' },
     soluteLine: (solute, solvent) => `De opgeloste stof is ${solute} en het oplosmiddel is ${solvent}.`,
     soluteAria: 'Opgeloste stof',
@@ -296,7 +296,7 @@ LabEngine.addText('separation', {
     judgedKo: (worked, reason) => `Je oordeel is niet juist. Verwacht: “${worked}”` + (reason ? `, omdat “${reason}”` : '') + '.'
   },
 
-  // Le carnet du Dr Dubois (cours, Mission 7 ; la distillation : Extra).
+  // La fiche des techniques (cours, Mission 7 ; la distillation : Extra).
   notebook: {
     intro: 'Nu weet je hoe je mengsels scheidt. Wetenschappers geven elke techniek een naam.',
     items: {

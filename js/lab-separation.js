@@ -9,7 +9,7 @@
    Le labo réel : la Mission 7 du cours (« Separation challenge ») et son
    journal de séparation (separation log) : observer le mélange, planifier
    l'ordre des séparations, choisir les outils sur le bureau du professeur,
-   remplir le journal, nommer les techniques avec le carnet du Dr Dubois.
+   remplir le journal, nommer les techniques (fiche des techniques).
    Ici, un seul pot par labo ; c'est le mélange qui change d'un labo à
    l'autre (avec l'accord de l'enseignant, pas ses mélanges réels).
 
@@ -36,7 +36,7 @@
                      séparation : pour chaque séparation, ce qu'on retire,
                      l'outil, ce qui reste
      3. Conclude   — nommer chaque technique et dire pourquoi elle marche
-                     (carnet du Dr Dubois) ; s'il y a une solution : le
+                     (fiche des techniques) ; s'il y a une solution : le
                      soluté est-il encore dans l'eau, soluté et solvant ; le
                      plan a-t-il marché, sinon pourquoi
      4. Check      — 5 vérifications : observation, séparation, journal,
@@ -106,7 +106,7 @@
   // Le montage de distillation n'est sur le bureau que si le mélange l'exige.
   const toolsFor = comps => (comps.includes('alcohol') ? BASE_TOOLS.concat('distil') : BASE_TOOLS);
 
-  // La technique de chaque outil, et pourquoi elle marche (carnet du Dr Dubois).
+  // La technique de chaque outil, et pourquoi elle marche (fiche des techniques).
   const TECH = {
     tweezers: { name: 'manual', why: 'big' },
     magnet: { name: 'magnetic', why: 'magnetic' },
@@ -789,7 +789,7 @@
   }
 
   /* ===== Étape 3 : conclusion =====
-     À gauche, le journal (lecture) et le carnet du Dr Dubois ; à droite,
+     À gauche, le journal (lecture) et la fiche des techniques ; à droite,
      les techniques, la réponse à la question, le jugement du plan. */
   function conclusionParts() {
     const c = state.concl;
@@ -836,7 +836,7 @@
       `</section>` +
       `<section class="sp-cform">` +
         `<div class="sp-q ${miss('tech')}"><p class="sp-q-title"><span class="sp-num">1</span><span>${gloss(LABELS.techTitle)}</span></p>` +
-          `<table class="sp-tech"><thead><tr><th></th><th scope="col">${LABELS.colTechnique}</th><th scope="col">${gloss(LABELS.colWhy)}</th></tr></thead><tbody>${techRows}</tbody></table></div>` +
+          `<table class="sp-tech"><colgroup><col class="sp-tech-num"><col class="sp-tech-name"><col></colgroup><thead><tr><th></th><th scope="col">${LABELS.colTechnique}</th><th scope="col">${gloss(LABELS.colWhy)}</th></tr></thead><tbody>${techRows}</tbody></table></div>` +
         (s ? `<div class="sp-q ${miss('answer')}"><p class="sp-q-title"><span class="sp-num">2</span><span>${gloss(LABELS.subQuestion(compThe(s)))}</span></p>` +
           `<div class="sp-chips">${['yes', 'no'].map(v => chip('still', v, LABELS.stillAnswers[v], c.still === v)).join('')}</div>` +
           `<p class="sp-concl-line">${LABELS.soluteLine(
@@ -879,7 +879,7 @@
     renderConclude();
   }
 
-  // Le carnet du Dr Dubois : le nom de chaque technique (cours, Mission 7).
+  // La fiche des techniques : le nom de chaque technique (cours, Mission 7).
   function openNotebook() {
     const items = TECH_NAMES.map(t => `<li><strong>${LABELS.techniques[t]}</strong>: ${gloss(NOTEBOOK.items[t])}</li>`).join('');
     lab.openSheet(`<h3 class="lab-sheet-title">${LABELS.notebookBtn}</h3><p class="lab-sheet-intro">${gloss(NOTEBOOK.intro)}</p>` +
