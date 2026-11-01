@@ -274,7 +274,7 @@
       "questions": [
         {
           "question": "Met welke scheidingstechniek haal je de ijzeren nagels uit dit zaagsel?",
-          "image": null,
+          "image": "assets/QCM4_1_magnet_nails.webp",
           "options": [
             "Magnetische scheiding",
             "Zeven",
@@ -286,7 +286,7 @@
         },
         {
           "question": "Welke techniek zie je op deze bouwplaats?",
-          "image": null,
+          "image": "assets/QCM4_2_sifting_sand.webp",
           "options": [
             "Zeven",
             "Filtratie",
@@ -310,7 +310,7 @@
         },
         {
           "question": "Welke techniek gebruikt de ober om het bezinksel in de fles te laten?",
-          "image": null,
+          "image": "assets/QCM4_4_decanting_wine.webp",
           "options": [
             "Decanteren",
             "Filtratie",

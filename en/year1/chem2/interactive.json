@@ -274,7 +274,7 @@
       "questions": [
         {
           "question": "Which separation technique removes the iron nails from this sawdust?",
-          "image": null,
+          "image": "assets/QCM4_1_magnet_nails.webp",
           "options": [
             "Magnetic separation",
             "Sifting",
@@ -286,7 +286,7 @@
         },
         {
           "question": "Which technique is shown at this building site?",
-          "image": null,
+          "image": "assets/QCM4_2_sifting_sand.webp",
           "options": [
             "Sifting",
             "Filtration",
@@ -310,7 +310,7 @@
         },
         {
           "question": "Which technique does the waiter use to leave the sediment in the bottle?",
-          "image": null,
+          "image": "assets/QCM4_4_decanting_wine.webp",
           "options": [
             "Decantation",
             "Filtration",
