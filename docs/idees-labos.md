@@ -14,8 +14,11 @@ vers les exercices (`exercises`). Pistes (à concevoir) :
   dans lab-engine.js) ;
 - changement de format d'autoeval.json : à reporter dans l'éditeur
   `Admin/content.html` et dans docs/formats-donnees.md ;
-- plus tard, éventuellement : montrer à l'élève son résultat au labo
-  (critères réussis, via `summary()`) à côté de l'attendu.
+- décision de l'enseignant : **ne pas montrer le résultat de l'élève** (ni
+  score ni pastille de couleur), comme déjà pour les exercices. Sinon l'élève
+  reste passif (« c'est vert, je connais ») ; l'autoévaluation se fait parfois
+  un mois plus tard, il doit aller revoir ou refaire le labo, puis seulement
+  s'attribuer ses ampoules. Le lien mène au labo, rien de plus.
 
 ## chem2 — Mixtures and pure substances
 
