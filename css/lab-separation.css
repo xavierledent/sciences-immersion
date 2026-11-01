@@ -351,6 +351,7 @@ html[data-pointer='fine'] .sp-tool:not(.lab-is-locked):hover {
 }
 
 .sp-bench-wrap {
+  position: relative;
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -358,6 +359,8 @@ html[data-pointer='fine'] .sp-tool:not(.lab-is-locked):hover {
 }
 
 .sp-bench {
+  /* Repère des récipients (offsetLeft / offsetTop) et du calque des animations. */
+  position: relative;
   flex: 1;
   min-height: 0;
   display: flex;
@@ -391,18 +394,65 @@ html[data-pointer='fine'] .sp-tool:not(.lab-is-locked):hover {
   color: var(--color-muted);
 }
 
-.sp-part .sp-vessel {
+/* La boîte du dessin : repère des animations (voir boxOf). */
+.sp-vbox {
+  display: block;
   width: 132px;
   height: 154px;
 }
 
+.sp-vbox .sp-vessel {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Cinq récipients, puis six et plus : plus petits, toujours sur une ligne. */
 .sp-bench.is-crowded .sp-part {
   width: 118px;
 }
 
-.sp-bench.is-crowded .sp-part .sp-vessel {
+.sp-bench.is-crowded .sp-vbox {
   width: 106px;
   height: 124px;
+}
+
+.sp-bench.is-tight .sp-part {
+  width: 96px;
+}
+
+.sp-bench.is-tight .sp-vbox {
+  width: 86px;
+  height: 100px;
+}
+
+/* Récipient d'arrivée posé d'avance, et récipient qu'on vient de vider. */
+.sp-part.is-slot .sp-part-name {
+  opacity: 0.55;
+}
+
+.sp-part.is-fading {
+  opacity: 0.3;
+  transition: opacity 0.4s;
+}
+
+/* Le calque des animations, au-dessus des récipients. */
+.sp-fx {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.sp-speed {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 4;
+  height: 34px;
+  font-size: 0.8rem;
 }
 
 .sp-part.is-drop-ready {
@@ -865,4 +915,8 @@ html[data-pointer='fine'] .sp-crit:not(.is-selected):hover,
 
 .lab-doc .sp-report-corr th {
   text-align: left;
+}
+
+.sp-speed[hidden] {
+  display: none;
 }

@@ -45,7 +45,7 @@
 (function () {
   'use strict';
 
-  const { escapeHtml, shuffle, mulberry32, seedFrom } = LabEngine.util;
+  const { escapeHtml, shuffle, mulberry32, seedFrom, lerp, ease, reduceMotion } = LabEngine.util;
 
   // Cadre commun, créé en fin de fichier (LabEngine.create).
   let lab;
@@ -296,10 +296,28 @@
   const logMissing = () => logRows().filter(r => !rowDone(r)).length;
   const runDone = () => separated() && logMissing() === 0;
 
-  /* Appliquer un outil sur un récipient : la partie retirée part dans un
-     nouveau récipient (coupelle pour des solides, bécher pour un liquide,
-     ballon pour la distillation) ou dans l'air ; le reste reste en place
-     (dans la coupelle d'évaporation après chauffage). */
+  /* Appliquer un outil sur un récipient (à la fin de son animation). La
+     partie retirée part dans un nouveau récipient (coupelle pour des
+     solides, bécher pour un liquide, ballon pour la distillation) et le
+     reste reste en place, sauf :
+       — filtration : tout le mélange est versé ; les solides restent dans
+         l'entonnoir (sur le papier), le liquide passe dans un bécher ;
+       — chauffage : le mélange est versé dans une coupelle sur la plaque
+         (sauf s'il y est déjà) ; le liquide part dans l'air.
+     Les nouveaux récipients s'ajoutent au bout de la paillasse, dans
+     l'ordre de newParts (les animations les posent d'avance). */
+  function newParts(tool, p, r) {
+    if (!r.ok) return [];
+    if (tool === 'heat') return r.key === 'heatLost' || p.vessel === 'dish' ? [] : [{ vessel: 'dish', comps: r.left }];
+    if (tool === 'filter') return [{ vessel: 'beaker', comps: r.left }, { vessel: 'funnel', comps: r.removed }];
+    const liquid = r.removed.some(c => COMPS[c].liquid);
+    return [{ vessel: tool === 'distil' ? 'flask' : liquid ? 'beaker' : 'dish', comps: r.removed }];
+  }
+
+  // Les récipients à venir, numérotés comme ils le seront (dessin identique avant et après).
+  function plannedParts(tool, p, r) {
+    return newParts(tool, p, r).map((x, i) => Object.assign({ id: `c${bench().next + i}`, num: bench().next + i }, x));
+  }
   function act(tool, partId, target) {
     const b = bench();
     const p = partById(partId);
@@ -308,21 +326,16 @@
     state.started = true;
     state.actions.push({ s: state.sample, tool, part: partName(p), target: target || null, ok: r.ok && r.key !== 'heatLost', key: r.key, removed: r.removed, left: r.left });
     if (!r.ok) return r;
-    if (tool === 'heat') {
-      b.air.push(r.removed);
-      if (r.key === 'heatLost') {
-        b.lost = true;
-        b.parts = b.parts.filter(x => x !== p);
-        return r;
-      }
-      p.vessel = 'dish';
-    } else {
-      const liquid = r.removed.some(c => COMPS[c].liquid);
-      b.parts.push({ id: `c${b.next}`, num: b.next, vessel: tool === 'distil' ? 'flask' : liquid ? 'beaker' : 'dish', comps: r.removed });
-      b.next++;
-      if (tool === 'filter' && p.vessel === 'dish') p.vessel = 'beaker';
-    }
-    p.comps = r.left;
+    const added = plannedParts(tool, p, r);
+    if (tool === 'heat') b.air.push(r.removed);
+    if (r.key === 'heatLost') b.lost = true;
+    // Le récipient d'origine : vidé (filtration, versé dans la coupelle, tout évaporé) ou avec ce qui reste.
+    const emptied = tool === 'filter' || r.key === 'heatLost' || (tool === 'heat' && p.vessel !== 'dish');
+    if (emptied) b.parts = b.parts.filter(x => x !== p);
+    else p.comps = r.left;
+    b.parts = b.parts.concat(added);
+    b.next += added.length;
+    if (r.key === 'heatLost') return r;
     b.log.push({ tool, removed: r.removed, left: r.left, ans: { removed: [], tool: null, left: [] } });
     return r;
   }
@@ -346,7 +359,12 @@
     jar: { shape: 'M20 24V124a8 8 0 0 0 8 8H92a8 8 0 0 0 8-8V24', inner: [21, 30, 99, 131], rim: true },
     beaker: { shape: 'M24 22V126a6 6 0 0 0 6 6H90a6 6 0 0 0 6-6V22', inner: [25, 44, 95, 131], spout: true },
     dish: { shape: 'M10 100Q12 130 32 131H88Q108 130 110 100', inner: [12, 108, 108, 130] },
-    flask: { shape: 'M50 30V62L22 122a7 7 0 0 0 6 10H92a7 7 0 0 0 6-10L70 62V30', inner: [24, 98, 96, 131] }
+    flask: { shape: 'M50 30V62L22 122a7 7 0 0 0 6 10H92a7 7 0 0 0 6-10L70 62V30', inner: [24, 98, 96, 131] },
+    // Ce qui reste sur le papier filtre : l'entonnoir et son papier plié.
+    funnel: {
+      shape: 'M16 40H104L68 88V128H52V88Z', inner: [36, 58, 84, 88],
+      under: '<path d="M24 43H96L63 84H57Z" fill="#ffffff" stroke="#c4cdd5" stroke-width="1.2"/>'
+    }
   };
 
   // Morceaux dessinés, par constituant. r : tirage (positions, teintes).
@@ -384,8 +402,9 @@
 
   /* Le contenu d'une partie dans la zone [x0, y0, x1, y1] : liquides (phase
      aqueuse, huile au-dessus), solides au fond ; un mélange sec forme un
-     petit tas. */
-  function contentsSVG(P, box, seed, small) {
+     petit tas. level (animations) : hauteur de la colonne de liquide, de 0
+     à 1 ; l'huile garde son épaisseur au-dessus de l'eau. */
+  function contentsSVG(P, box, seed, small, level) {
     const [x0, y0, x1, y1] = box;
     const r = mulberry32(seed);
     const h = y1 - y0, w = x1 - x0;
@@ -395,11 +414,17 @@
     let out = '';
     const scale = small ? 0.55 : 1;
     if (liquids.length) {
-      const top = y0 + h * (small ? 0.18 : 0.3);
+      const lv = level == null ? 1 : Math.max(0, Math.min(1, level));
+      const full = y1 - (y0 + h * (small ? 0.18 : 0.3));
       const oilH = aq && oil ? h * 0.14 : 0;
-      if (oil) out += `<rect x="${x0}" y="${top}" width="${w}" height="${aq ? oilH : y1 - top}" fill="#f3c63b" fill-opacity=".8"/>`;
-      if (aq) out += `<rect x="${x0}" y="${top + oilH}" width="${w}" height="${y1 - top - oilH}" fill="#8fcbef" fill-opacity=".5"/>`;
-      if (aq) out += `<path d="M${x0} ${top + oilH}h${w}" stroke="#6fb6e4" stroke-width="1"/>`;
+      const aqH = aq ? (full - oilH) * lv : 0;
+      const oilCol = aq ? oilH : full * lv;
+      const aqTop = y1 - aqH;
+      if (oil && oilCol > 0.3) out += `<rect x="${x0}" y="${aqTop - oilCol}" width="${w}" height="${oilCol}" fill="#f3c63b" fill-opacity=".8"/>`;
+      if (aq && aqH > 0.3) {
+        out += `<rect x="${x0}" y="${aqTop}" width="${w}" height="${aqH}" fill="#8fcbef" fill-opacity=".5"/>`;
+        out += `<path d="M${x0} ${aqTop}h${w}" stroke="#6fb6e4" stroke-width="1"/>`;
+      }
       // Solides au fond : la poudre en couche, les morceaux par-dessus.
       const powders = solids.filter(c => COMPS[c].size === 'powder');
       const bandH = powders.length ? Math.min(h * 0.22, 7 + 4 * powders.length) * (small ? 0.7 : 1) : 0;
@@ -442,15 +467,15 @@
     return out;
   }
 
-  function vesselSVG(vessel, P, seed, cls) {
+  function vesselSVG(vessel, P, seed, cls, level) {
     const v = VESSELS[vessel];
     const clip = `sp-clip-${seed}`;
     const extra = (v.rim ? '<rect x="16" y="14" width="88" height="11" rx="3" fill="#e9eef2" stroke="#7d8a97" stroke-width="1.6"/>' : '') +
       (v.spout ? '<path d="M24 22Q18 21 15 15" fill="none" stroke="#7d8a97" stroke-width="2"/><path d="M84 60h12M88 80h8M84 100h12" stroke="#a7b3bf" stroke-width="1.2"/>' : '');
     return `<svg class="sp-vessel ${cls || ''}" viewBox="0 0 120 140" aria-hidden="true" focusable="false">` +
       `<defs><clipPath id="${clip}"><path d="${v.shape}Z"/></clipPath></defs>` +
-      `<path d="${v.shape}Z" fill="#f4f8fb"/>` +
-      `<g clip-path="url(#${clip})">${contentsSVG(P, v.inner, seed, vessel === 'dish')}</g>` +
+      `<path d="${v.shape}Z" fill="#f4f8fb"/>${v.under || ''}` +
+      `<g clip-path="url(#${clip})">${contentsSVG(P, v.inner, seed, vessel === 'dish' || vessel === 'funnel', level)}</g>` +
       `<path d="${v.shape}" fill="none" stroke="#7d8a97" stroke-width="2.2" stroke-linejoin="round"/>${extra}</svg>`;
   }
 
@@ -459,6 +484,476 @@
     '<path d="M44 112c-4-5 4-8 0-13M60 116c-4-5 4-8 0-13M76 112c-4-5 4-8 0-13" fill="none" stroke="#b9c6d2" stroke-width="2" stroke-linecap="round"/></svg>';
 
   const partSeed = p => seedFrom(`${run.seed}-${p.id}-${p.comps.join('+')}-${p.vessel}`);
+
+  /* ===== Animations des gestes =====
+     Une petite scène par outil, dessinée dans un calque SVG posé sur la
+     paillasse, en px de mise en page (le zoom du grand écran ne fausse
+     rien). Les récipients d'arrivée sont posés d'avance, vides, à leur
+     place définitive ; l'état du labo ne change qu'à la fin (act). Changer
+     d'étape arrête la scène sans rien appliquer ; « Speed up » accélère ce
+     qui reste. Les dessins des outils sont en unités de récipient (120 ×
+     140), mis à l'échelle de la paillasse. */
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const ABORT = {};
+  let fast = false;
+
+  function svgEl(tag, attrs, parent) {
+    const e = document.createElementNS(SVG_NS, tag);
+    Object.entries(attrs || {}).forEach(([k, v]) => e.setAttribute(k, v));
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // Une durée de la scène ; step(e, t) : e avec easing, t linéaire. Lève ABORT si la scène a changé.
+  function play(token, ms, step, easing) {
+    const fn = easing || ease.inOut;
+    return new Promise((resolve, reject) => {
+      let t = 0;
+      let last = performance.now();
+      function frame(now) {
+        if (!lab.isScene(token)) { reject(ABORT); return; }
+        const speed = fast || reduceMotion ? 6 : 1;
+        t = Math.min(1, t + Math.max(0, now - last) * speed / ms);
+        last = now;
+        step(fn(t), t);
+        if (t < 1) requestAnimationFrame(frame); else resolve();
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  const mix = (a, b, e) => [lerp(a[0], b[0], e), lerp(a[1], b[1], e)];
+  const put = (g, at, k, rot) => g.setAttribute('transform', `translate(${at[0].toFixed(1)} ${at[1].toFixed(1)}) rotate(${(rot || 0).toFixed(1)}) scale(${k.toFixed(3)})`);
+
+  /* La boîte d'un récipient sur la paillasse : position et échelle de son
+     dessin (unités 120 × 140) dans le calque. */
+  function boxOf(el) {
+    const v = el.querySelector('.sp-vbox');
+    const w = v.offsetWidth, h = v.offsetHeight;
+    const k = Math.min(w / 120, h / 140);
+    const ox = (w - 120 * k) / 2, oy = (h - 140 * k) / 2;
+    const x = el.offsetLeft + v.offsetLeft + ox;
+    const y = el.offsetTop + v.offsetTop + oy;
+    return { el, v, k, x, y, ox, oy, at: (ux, uy) => [x + ux * k, y + uy * k] };
+  }
+
+  const paint = (box, vessel, comps, seed, level) => { box.v.innerHTML = vesselSVG(vessel, comps, seed, '', level); };
+  // Le niveau d'un liquide qui monte ou descend : redessiné par petits pas.
+  function painter(box, vessel, comps, seed) {
+    let last = -1;
+    return lv => {
+      if (Math.abs(lv - last) < 0.04 && lv > 0 && lv < 1) return;
+      last = lv;
+      paint(box, vessel, comps, seed, lv);
+    };
+  }
+
+  // Les outils dessinés : l'origine est le point qui touche le mélange.
+  const ART = {
+    magnet: '<path d="M-15 -4V-22a15 15 0 0 1 30 0V-4" fill="none" stroke="#d64545" stroke-width="10"/>' +
+      '<rect x="-21" y="-6" width="12" height="9" fill="#c7ced6" stroke="#55606b" stroke-width="1.4"/><rect x="9" y="-6" width="12" height="9" fill="#c7ced6" stroke="#55606b" stroke-width="1.4"/>',
+    sieve: '<path d="M-30 0Q0 28 30 0" fill="#f6f8fa" stroke="#55606b" stroke-width="2"/>' +
+      '<path d="M-24 6H24M-18 12H18M-10 17H10M-12 0V15M0 0V19M12 0V15" stroke="#9aa6b2" stroke-width=".9"/>' +
+      '<ellipse cx="0" cy="0" rx="30" ry="6" fill="none" stroke="#55606b" stroke-width="2.4"/><path d="M30 -1L54 -11" stroke="#55606b" stroke-width="4.5" stroke-linecap="round"/>',
+    funnel: '<path d="M-44 0H44L8 48V88H-8V48Z" fill="#f4f8fb" fill-opacity=".92" stroke="#7d8a97" stroke-width="2.2" stroke-linejoin="round"/>' +
+      '<path d="M-36 3H36L3 44H-3Z" fill="#ffffff" stroke="#c4cdd5" stroke-width="1.2"/>',
+    tweezers: open => `<path d="M0 -52L${-open} 0M0 -52L${open} 0" fill="none" stroke="#59606a" stroke-width="3" stroke-linecap="round"/><circle cx="0" cy="-52" r="3.2" fill="#59606a"/>`
+  };
+
+  // Des morceaux d'un ou plusieurs constituants dans une zone (unités).
+  function clusterSVG(comps, seed, xr, yr, n) {
+    const r = mulberry32(seed);
+    let out = '';
+    comps.forEach(c => {
+      if (!COMPS[c].solid) return;
+      const count = COMPS[c].size === 'big' ? Math.max(2, Math.round(n / 3)) : n;
+      for (let i = 0; i < count; i++) out += particle(c, lerp(xr[0], xr[1], r()).toFixed(1), lerp(yr[0], yr[1], r()).toFixed(1), r, false);
+    });
+    return out;
+  }
+
+  // Couleur de ce qui coule : l'eau, ou l'huile si elle est seule.
+  const flowColor = comps => (hasAq(comps) ? '#7cc0ea' : comps.includes('oil') ? '#f0bf2c' : '#cbb388');
+
+  // La plaque chauffante sous un récipient : elle rougit, puis refroidit.
+  function plate(fx, box) {
+    const rect = svgEl('rect', { rx: 2.5 * box.k, height: 7 * box.k, width: 112 * box.k, fill: '#5c6671' }, fx);
+    const [x, y] = box.at(4, 132.5);
+    rect.setAttribute('x', x);
+    rect.setAttribute('y', y);
+    const glow = svgEl('rect', { x: x + 6 * box.k, y: y + 2.5 * box.k, rx: 1.2 * box.k, height: 2.2 * box.k, width: 100 * box.k, fill: '#ef7b45', opacity: 0 }, fx);
+    return { set: e => glow.setAttribute('opacity', e.toFixed(2)), remove: () => { rect.remove(); glow.remove(); } };
+  }
+
+  // Des bulles qui montent dans le liquide d'un récipient (zone en unités).
+  function bubbles(fx, box, zone, n) {
+    const r = mulberry32(n * 97 + 13);
+    const list = Array.from({ length: n }, () => ({ x: lerp(zone[0] + 4, zone[2] - 4, r()), ph: r(), sp: 0.7 + r() * 0.6, c: svgEl('circle', { r: (1.2 + r() * 1.4) * box.k, fill: '#ffffff', stroke: '#8fb9d6', 'stroke-width': 0.6 , opacity: 0 }, fx) }));
+    return {
+      set: (t, top) => list.forEach(b => {
+        const f = (b.ph + t * 3 * b.sp) % 1;
+        const [x, y] = box.at(b.x + Math.sin(f * 9) * 1.5, lerp(zone[3] - 2, top, f));
+        b.c.setAttribute('cx', x.toFixed(1));
+        b.c.setAttribute('cy', y.toFixed(1));
+        b.c.setAttribute('opacity', (f < 0.9 ? 0.85 : (1 - f) * 8).toFixed(2));
+      }),
+      remove: () => list.forEach(b => b.c.remove())
+    };
+  }
+
+  // De la vapeur qui monte au-dessus d'un récipient.
+  function steam(fx, box, ux, uy) {
+    const list = [-14, 0, 14].map((dx, i) => ({ dx, ph: i / 3, p: svgEl('path', { fill: 'none', stroke: '#b9c6d2', 'stroke-width': 2.6 * box.k, 'stroke-linecap': 'round' }, fx) }));
+    return {
+      set: t => list.forEach(s => {
+        const f = (s.ph + t * 2.2) % 1;
+        const [x, y] = box.at(ux + s.dx, uy - f * 34);
+        const k = box.k;
+        s.p.setAttribute('d', `M${x} ${y}c${-5 * k} ${-6 * k} ${5 * k} ${-9 * k} 0 ${-15 * k}`);
+        s.p.setAttribute('opacity', (Math.sin(f * Math.PI) * 0.9).toFixed(2));
+      }),
+      remove: () => list.forEach(s => s.p.remove())
+    };
+  }
+
+  /* Pencher un récipient vers un autre (dir : 1 vers la droite, -1 vers
+     la gauche) autour du coin bas ; rend le point du bord d'où coule le
+     mélange. */
+  const RIMS = { jar: [100, 24, 100, 132], beaker: [96, 22, 96, 132], dish: [110, 100, 110, 112], flask: [70, 30, 98, 124] };
+  function tilt(box, vessel, dir, deg) {
+    const [rx, ry, px, py] = RIMS[vessel] || RIMS.jar;
+    const pivX = dir > 0 ? px : 120 - px;
+    box.v.style.transformOrigin = `${box.ox + pivX * box.k}px ${box.oy + py * box.k}px`;
+    box.v.style.transform = `rotate(${(dir * deg).toFixed(1)}deg)`;
+    const a = dir * deg * Math.PI / 180;
+    const rimX = dir > 0 ? rx : 120 - rx;
+    const dx = (rimX - pivX) * box.k, dy = (ry - py) * box.k;
+    const [cx, cy] = box.at(pivX, py);
+    return [cx + dx * Math.cos(a) - dy * Math.sin(a), cy + dx * Math.sin(a) + dy * Math.cos(a)];
+  }
+
+  /* Verser un récipient dans un point (unités du récipient d'arrivée) :
+     pencher, un filet qui coule (ms), redresser. during(t) pendant le
+     filet ; solids : des morceaux qui suivent le filet. */
+  async function pour(c, S, vessel, D, uTo, color, ms, during, solids) {
+    const dir = D.x >= S.x ? 1 : -1;
+    const tok = c.token;
+    await play(tok, 480, e => tilt(S, vessel, dir, 42 * e));
+    const to = D.at(uTo[0], uTo[1]);
+    const stream = svgEl('path', { fill: 'none', stroke: color, 'stroke-width': 4.5 * S.k, 'stroke-linecap': 'round', 'stroke-dasharray': `${12 * S.k} ${5 * S.k}`, opacity: 0.85 }, c.fx);
+    const bits = solids && solids.length ? Array.from({ length: 10 }, (x, i) => ({ ph: i / 10, g: svgEl('g', { opacity: 0 }, c.fx) })) : [];
+    bits.forEach((b, i) => { b.g.innerHTML = particle(solids[i % solids.length], 0, 0, mulberry32(i + 7), false); });
+    await play(tok, ms, (e, t) => {
+      const from = tilt(S, vessel, dir, 42);
+      const ctl = [lerp(from[0], to[0], 0.55), Math.min(from[1], to[1]) - 18 * S.k];
+      stream.setAttribute('d', `M${from[0].toFixed(1)} ${from[1].toFixed(1)}Q${ctl[0].toFixed(1)} ${ctl[1].toFixed(1)} ${to[0].toFixed(1)} ${to[1].toFixed(1)}`);
+      stream.setAttribute('stroke-dashoffset', (-t * 260 * S.k).toFixed(1));
+      bits.forEach(b => {
+        const f = (b.ph + t * 2.5) % 1;
+        const x = (1 - f) * (1 - f) * from[0] + 2 * (1 - f) * f * ctl[0] + f * f * to[0];
+        const y = (1 - f) * (1 - f) * from[1] + 2 * (1 - f) * f * ctl[1] + f * f * to[1];
+        b.g.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${S.k.toFixed(3)})`);
+        b.g.setAttribute('opacity', t > 0.85 ? ((1 - t) * 6).toFixed(2) : 1);
+      });
+      if (during) during(t);
+    }, ease.linear);
+    stream.remove();
+    bits.forEach(b => b.g.remove());
+    await play(tok, 420, e => tilt(S, vessel, dir, 42 * (1 - e)));
+    S.v.style.transform = '';
+  }
+
+  // Un outil qui plonge dans un récipient et en ressort (essai sans résultat).
+  async function dip(c, art, depth, rain) {
+    const { S, token, fx } = c;
+    const g = svgEl('g', {}, fx);
+    g.innerHTML = art;
+    const top = S.at(60, -18), low = S.at(60, depth);
+    await play(token, 520, e => put(g, mix(top, low, e), S.k));
+    await play(token, 380, (e, t) => put(g, [low[0] + Math.sin(t * Math.PI * 4) * 4 * S.k, low[1]], S.k), ease.linear);
+    const drops = rain ? Array.from({ length: 12 }, (x, i) => ({ dx: (i % 6) * 9 - 22, ph: i / 12, c: svgEl('circle', { r: 1.6 * S.k, fill: rain , opacity: 0 }, fx) })) : [];
+    await play(token, 560, (e, t) => {
+      const at = mix(low, top, e);
+      put(g, at, S.k);
+      drops.forEach(d => {
+        const f = (d.ph + t * 2) % 1;
+        d.c.setAttribute('cx', (at[0] + d.dx * S.k).toFixed(1));
+        d.c.setAttribute('cy', (at[1] + (8 + f * 40) * S.k).toFixed(1));
+        d.c.setAttribute('opacity', (1 - f).toFixed(2));
+      });
+    });
+    drops.forEach(d => d.c.remove());
+    await play(token, 260, e => g.setAttribute('opacity', 1 - e));
+    g.remove();
+  }
+
+  // Couleur des morceaux qui passent à travers : la poudre ou l'eau.
+  function rainColor(comps) {
+    if (hasAq(comps)) return '#7cc0ea';
+    const powder = solidsIn(comps).find(x => COMPS[x].size === 'powder');
+    return powder ? (powder === 'ironFilings' ? '#4a4f56' : '#d8b26b') : null;
+  }
+
+  /* --- Une scène par outil (c : le contexte du geste) --- */
+  const SCENES = {
+    async magnet(c) {
+      const { S, D, r, token, fx } = c;
+      const d = D[0];
+      const g = svgEl('g', {}, fx);
+      g.innerHTML = ART.magnet;
+      const load = svgEl('g', {}, g);
+      const topS = S.at(60, -16), low = S.at(60, 84), topD = d.at(60, 30), lowD = d.at(60, 98);
+      await play(token, 620, e => put(g, mix(topS, low, e), S.k));
+      await play(token, 420, (e, t) => put(g, [low[0] + Math.sin(t * Math.PI * 4) * 5 * S.k, low[1]], S.k), ease.linear);
+      load.innerHTML = clusterSVG(r.removed, 31, [-23, -8], [4, 13], 16) + clusterSVG(r.removed, 37, [8, 23], [4, 13], 16);
+      paint(S, c.p.vessel, r.left, c.seedLeft);
+      await play(token, 560, e => put(g, mix(low, topS, e), S.k));
+      await play(token, 620, e => put(g, mix(topS, topD, e), S.k));
+      await play(token, 360, e => put(g, mix(topD, lowD, e), d.k));
+      await play(token, 380, e => { load.setAttribute('transform', `translate(0 ${(e * 16).toFixed(1)})`); load.setAttribute('opacity', (1 - e).toFixed(2)); });
+      paint(d, c.planned[0].vessel, r.removed, c.seedNew[0]);
+      await play(token, 380, e => { put(g, mix(lowD, topD, e), d.k); g.setAttribute('opacity', (1 - e).toFixed(2)); });
+      g.remove();
+    },
+
+    async tweezers(c) {
+      const { S, D, r, token, fx, target } = c;
+      const d = D[0];
+      const g = svgEl('g', {}, fx);
+      const arms = svgEl('g', {}, g);
+      const held = svgEl('g', {}, g);
+      const rr = mulberry32(5);
+      const trips = 3;
+      for (let i = 0; i < trips; i++) {
+        const k = i ? 0.65 : 1;
+        const topS = S.at(60, -24), pick = S.at(42 + rr() * 36, 120), topD = d.at(60, 40), drop = d.at(44 + rr() * 32, 114);
+        arms.innerHTML = ART.tweezers(7);
+        held.innerHTML = '';
+        await play(token, 460 * k, e => put(g, mix(topS, pick, e), S.k));
+        arms.innerHTML = ART.tweezers(2.5);
+        held.innerHTML = particle(target, 0, 2, mulberry32(i + 3), false);
+        if (i === trips - 1) paint(S, c.p.vessel, r.left, c.seedLeft);
+        await play(token, 380 * k, e => put(g, mix(pick, topS, e), S.k));
+        await play(token, 420 * k, e => put(g, mix(topS, topD, e), S.k));
+        await play(token, 280 * k, e => put(g, mix(topD, drop, e), d.k));
+        arms.innerHTML = ART.tweezers(7);
+        held.innerHTML = '';
+        if (i === 0) paint(d, c.planned[0].vessel, r.removed, c.seedNew[0]);
+        await play(token, 240 * k, e => put(g, mix(drop, topD, e), d.k));
+      }
+      await play(token, 260, e => g.setAttribute('opacity', (1 - e).toFixed(2)));
+      g.remove();
+    },
+
+    async sieve(c) {
+      const { S, D, r, token, fx } = c;
+      const d = D[0];
+      const g = svgEl('g', {}, fx);
+      g.innerHTML = ART.sieve;
+      const load = svgEl('g', {}, g);
+      const topS = S.at(60, -14), low = S.at(60, 78), topD = d.at(60, 52), lowD = d.at(60, 92);
+      await play(token, 580, e => put(g, mix(topS, low, e), S.k));
+      await play(token, 420, (e, t) => put(g, [low[0] + Math.sin(t * Math.PI * 6) * 5 * S.k, low[1]], S.k), ease.linear);
+      load.innerHTML = clusterSVG(r.removed, 41, [-20, 20], [3, 13], 10);
+      paint(S, c.p.vessel, r.left, c.seedLeft);
+      const color = rainColor(r.left) || '#d8b26b';
+      const drops = Array.from({ length: 16 }, (x, i) => ({ dx: (i % 8) * 6 - 21, ph: i / 16, c: svgEl('circle', { r: 1.5 * S.k, fill: color , opacity: 0 }, fx) }));
+      await play(token, 760, (e, t) => {
+        const at = mix(low, topS, e);
+        put(g, at, S.k);
+        drops.forEach(dr => {
+          const f = (dr.ph + t * 2.4) % 1;
+          dr.c.setAttribute('cx', (at[0] + dr.dx * S.k).toFixed(1));
+          dr.c.setAttribute('cy', (at[1] + (14 + f * 46) * S.k).toFixed(1));
+          dr.c.setAttribute('opacity', (t < 0.85 ? 1 - f : (1 - t) * 6 * (1 - f)).toFixed(2));
+        });
+      });
+      drops.forEach(dr => dr.c.remove());
+      await play(token, 620, e => put(g, mix(topS, topD, e), S.k));
+      await play(token, 340, e => put(g, mix(topD, lowD, e), d.k));
+      await play(token, 460, e => {
+        put(g, lowD, d.k, -38 * e);
+        load.setAttribute('transform', `translate(${(-e * 8).toFixed(1)} ${(e * 14).toFixed(1)})`);
+        load.setAttribute('opacity', (1 - e).toFixed(2));
+      });
+      paint(d, c.planned[0].vessel, r.removed, c.seedNew[0]);
+      await play(token, 320, e => { put(g, mix(lowD, topD, e), d.k, -38 * (1 - e)); g.setAttribute('opacity', (1 - e).toFixed(2)); });
+      g.remove();
+    },
+
+    async decant(c) {
+      const { S, D, r } = c;
+      const d = D[0];
+      const fill = painter(d, c.planned[0].vessel, r.removed, c.seedNew[0]);
+      let swapped = false;
+      await pour(c, S, c.p.vessel, d, [60, 40], '#f0bf2c', 1300, t => {
+        fill(t);
+        if (!swapped && t > 0.5) { swapped = true; paint(S, c.p.vessel, r.left, c.seedLeft); }
+      });
+    },
+
+    async filter(c) {
+      const { S, D, r, token, fx, P } = c;
+      const [beaker, paper] = D;
+      // L'entonnoir est d'abord posé sur le bécher : sa place finale reste vide.
+      paper.v.style.visibility = 'hidden';
+      const fun = svgEl('g', {}, fx);
+      fun.innerHTML = ART.funnel;
+      const load = svgEl('g', { opacity: 0 }, fun);
+      load.innerHTML = clusterSVG(r.removed, 43, [-14, 14], [30, 44], 8);
+      const onBeaker = beaker.at(60, 34 - 88);
+      put(fun, onBeaker, beaker.k);
+      const fill = painter(beaker, c.planned[0].vessel, r.left, c.seedNew[0]);
+      const drain = painter(S, c.p.vessel, P, c.seedBefore);
+      const drops = Array.from({ length: 4 }, (x, i) => ({ ph: i / 4, c: svgEl('circle', { r: 1.8 * beaker.k, fill: flowColor(r.left) , opacity: 0 }, fx) }));
+      await play(token, 380, e => fun.setAttribute('opacity', e.toFixed(2)));
+      await pour(c, S, c.p.vessel, beaker, [60, -50], flowColor(P), 1700, t => {
+        drain(1 - t);
+        load.setAttribute('opacity', Math.min(1, t * 1.6).toFixed(2));
+        fill(Math.max(0, t * 1.1 - 0.1));
+        drops.forEach(dr => {
+          const f = (dr.ph + t * 4) % 1;
+          const [x, y] = beaker.at(60, 36 + f * 50);
+          dr.c.setAttribute('cx', x.toFixed(1));
+          dr.c.setAttribute('cy', y.toFixed(1));
+          dr.c.setAttribute('opacity', t > 0.92 ? 0 : 0.9);
+        });
+      }, solidsIn(P));
+      drops.forEach(dr => dr.c.remove());
+      paint(S, c.p.vessel, [], c.seedBefore);
+      S.el.classList.add('is-fading');
+      fill(1);
+      // L'entonnoir et ce qui reste sur le papier vont à leur place.
+      const atPaper = paper.at(60, 40);
+      await play(token, 720, e => put(fun, mix(onBeaker, atPaper, e), lerp(beaker.k, paper.k, e)));
+      paint(paper, c.planned[1].vessel, r.removed, c.seedNew[1]);
+      paper.v.style.visibility = '';
+      fun.remove();
+    },
+
+    async heat(c) {
+      const { S, D, r, token, fx, P } = c;
+      let H = S;
+      if (D.length) {
+        H = D[0];
+        const fill = painter(H, 'dish', P, c.seedFinal);
+        const drain = painter(S, c.p.vessel, P, c.seedBefore);
+        await pour(c, S, c.p.vessel, H, [60, 100], flowColor(P), 1200, t => { fill(t); drain(1 - t); }, solidsIn(P));
+        paint(S, c.p.vessel, [], c.seedBefore);
+        S.el.classList.add('is-fading');
+      }
+      const hot = plate(fx, H);
+      await play(token, 520, e => hot.set(e));
+      const boil = bubbles(fx, H, VESSELS.dish.inner, 9);
+      const vapour = steam(fx, H, 60, 104);
+      const evaporate = painter(H, 'dish', P, H === S ? c.seedBefore : c.seedFinal);
+      await play(token, 2300, (e, t) => {
+        evaporate(1 - e);
+        boil.set(t, lerp(112, 128, e));
+        vapour.set(t);
+      }, ease.linear);
+      boil.remove();
+      vapour.remove();
+      paint(H, 'dish', r.key === 'heatLost' ? [] : r.left, c.seedFinal);
+      await play(token, 420, e => hot.set(1 - e));
+      hot.remove();
+    },
+
+    async distil(c) {
+      const { S, D, r, token, fx, P } = c;
+      const d = D[0];
+      const hot = plate(fx, S);
+      await play(token, 420, e => hot.set(e));
+      const [sx, sy] = S.at(60, 22);
+      const [dx, dy] = d.at(60, 28);
+      const k = S.k;
+      const path = `M${sx} ${sy}C${sx} ${sy - 70 * k} ${dx} ${dy - 80 * k} ${dx} ${dy}`;
+      const tube = svgEl('path', { d: path, fill: 'none', stroke: '#9fb0bf', 'stroke-width': 8 * k, 'stroke-linecap': 'round', opacity: 0 }, fx);
+      const inner = svgEl('path', { d: path, fill: 'none', stroke: '#e8f4fb', 'stroke-width': 5 * k, 'stroke-linecap': 'round', opacity: 0 }, fx);
+      await play(token, 320, e => { tube.setAttribute('opacity', e.toFixed(2)); inner.setAttribute('opacity', e.toFixed(2)); });
+      const len = inner.getTotalLength();
+      const vap = Array.from({ length: 7 }, (x, i) => ({ ph: i / 7, c: svgEl('circle', { r: 2 * k, fill: '#ffffff', stroke: '#8fb9d6', 'stroke-width': 0.8 , opacity: 0 }, fx) }));
+      const drops = Array.from({ length: 3 }, (x, i) => ({ ph: i / 3, c: svgEl('circle', { r: 1.8 * k, fill: '#7cc0ea' , opacity: 0 }, fx) }));
+      const v = VESSELS[c.p.vessel] || VESSELS.jar;
+      const boil = bubbles(fx, S, v.inner, 7);
+      const fill = painter(d, 'flask', r.removed, c.seedNew[0]);
+      await play(token, 2300, (e, t) => {
+        boil.set(t, lerp(v.inner[1], v.inner[3], 0.35));
+        vap.forEach(b => {
+          const f = (b.ph + t * 2.2) % 1;
+          const pt = inner.getPointAtLength(f * len);
+          b.c.setAttribute('cx', pt.x.toFixed(1));
+          b.c.setAttribute('cy', pt.y.toFixed(1));
+          b.c.setAttribute('opacity', (Math.sin(f * Math.PI) * 0.9).toFixed(2));
+        });
+        drops.forEach(dr => {
+          const f = (dr.ph + t * 3) % 1;
+          const [x, y] = d.at(60, 30 + f * 70);
+          dr.c.setAttribute('cx', x.toFixed(1));
+          dr.c.setAttribute('cy', y.toFixed(1));
+          dr.c.setAttribute('opacity', t > 0.95 ? 0 : 0.9);
+        });
+        fill(Math.max(0, t * 1.08 - 0.08));
+      }, ease.linear);
+      boil.remove();
+      vap.forEach(b => b.c.remove());
+      drops.forEach(dr => dr.c.remove());
+      fill(1);
+      paint(S, c.p.vessel, r.left, c.seedLeft);
+      await play(token, 380, e => { hot.set(1 - e); tube.setAttribute('opacity', (1 - e).toFixed(2)); inner.setAttribute('opacity', (1 - e).toFixed(2)); });
+      tube.remove();
+      inner.remove();
+      hot.remove();
+    }
+  };
+
+  // Un essai qui ne sépare rien : l'outil essaie, rien ne change.
+  async function failScene(c) {
+    const { tool, r, token, fx, S, P } = c;
+    if (tool === 'magnet') return dip(c, ART.magnet, 84);
+    if (tool === 'tweezers') return dip(c, ART.tweezers(3), 118);
+    if (tool === 'sieve') return dip(c, ART.sieve, 78, r.key === 'sieveAll' ? rainColor(P) : null);
+    if (tool === 'heat' && r.key === 'heatNothing') {
+      const hot = plate(fx, S);
+      await play(token, 500, e => hot.set(e));
+      await play(token, 700, () => {});
+      await play(token, 400, e => hot.set(1 - e));
+      hot.remove();
+      return;
+    }
+    // Les autres : l'outil se montre au-dessus du récipient.
+    S.el.insertAdjacentHTML('beforeend', `<span class="sp-working" aria-hidden="true">${icon(tool, 'is-big')}</span>`);
+    await play(token, 1000, () => {});
+  }
+
+  // Taille des récipients selon leur nombre sur la paillasse (sans passer à la ligne).
+  function sizeBench(box, n) {
+    box.classList.toggle('is-crowded', n === 5);
+    box.classList.toggle('is-tight', n > 5);
+  }
+
+  // Les récipients d'arrivée, vides, avant les vapeurs (à leur place finale).
+  function addSlots(planned) {
+    const box = $('[data-bench]');
+    const firstAir = box.querySelector('.sp-part.is-air');
+    return planned.map(x => {
+      const el = document.createElement('div');
+      el.className = 'sp-part is-slot';
+      el.innerHTML = `<span class="sp-part-name">${partName(x)}</span><span class="sp-vbox">${vesselSVG(x.vessel, [], partSeed(x))}</span>`;
+      box.insertBefore(el, firstAir);
+      return el;
+    });
+  }
+
+  async function animate(c) {
+    const box = $('[data-bench]');
+    const slots = c.r.ok ? addSlots(c.planned) : [];
+    sizeBench(box, box.querySelectorAll('.sp-part').length);
+    const fx = svgEl('svg', { class: 'sp-fx', width: box.clientWidth, height: box.clientHeight, viewBox: `0 0 ${box.clientWidth} ${box.clientHeight}`, 'aria-hidden': 'true' }, box);
+    Object.assign(c, { fx, S: boxOf(c.el), D: slots.map(boxOf) });
+    if (!c.r.ok) await failScene(c);
+    else await SCENES[c.tool](c);
+  }
 
   /* ===== Étapes complètes (progression stricte, voir lab-engine.js) =====
      1 : l'observation et le plan ; 2 : tout séparé, journal rempli ;
@@ -581,6 +1076,7 @@
       `<aside class="sp-desk"><h3 class="lab-panel-title">${LABELS.deskTitle}</h3><div class="sp-tools" data-tools></div></aside>` +
       `<section class="sp-bench-wrap">` +
         `<div class="sp-bench" data-bench></div>` +
+        `<button type="button" class="lab-btn lab-btn-ghost sp-speed" data-speed hidden>${LABELS.speedUp}</button>` +
         `<div class="sp-caption-row"><p class="lab-caption sp-caption" data-caption aria-live="polite"></p>` +
         `<button type="button" class="lab-btn lab-btn-ghost sp-new" data-new>${LABELS.newSample}</button></div>` +
       `</section>` +
@@ -592,6 +1088,7 @@
     setCaption(defaultCaption());
     $('[data-new]').addEventListener('click', askNewSample);
     lab.setLock($('[data-new]'), separated() ? LABELS.lockSeparated : null);
+    $('[data-speed]').addEventListener('click', () => { fast = true; });
     renderRunFooter();
   }
 
@@ -629,10 +1126,10 @@
     if (!box) return;
     const b = bench();
     const parts = b.parts.map(p => `<div class="sp-part" data-part="${p.id}" tabindex="0" role="button" aria-label="${escapeHtml(partName(p))}">` +
-      `<span class="sp-part-name">${partName(p)}</span>${vesselSVG(p.vessel, p.comps, partSeed(p))}</div>`).join('');
-    const air = b.air.map(() => `<div class="sp-part is-air"><span class="sp-part-name">${LABELS.airName}</span>${cloudSVG()}</div>`).join('');
+      `<span class="sp-part-name">${partName(p)}</span><span class="sp-vbox">${vesselSVG(p.vessel, p.comps, partSeed(p))}</span></div>`).join('');
+    const air = b.air.map(() => `<div class="sp-part is-air"><span class="sp-part-name">${LABELS.airName}</span><span class="sp-vbox">${cloudSVG()}</span></div>`).join('');
     box.innerHTML = parts + air;
-    box.classList.toggle('is-crowded', b.parts.length + b.air.length > 4);
+    sizeBench(box, b.parts.length + b.air.length);
   }
 
   function useTool(tool, partId) {
@@ -655,22 +1152,36 @@
     $('[data-cancel]').addEventListener('click', () => setCaption(defaultCaption()));
   }
 
+  /* Un geste : la scène, puis l'état du labo (act), le journal et la
+     légende. Une scène qui plante (bug) n'empêche pas le geste. */
   async function perform(tool, partId, target) {
     const p = partById(partId);
-    if (!p || busy) return;
-    busy = true;
-    const token = lab.newScene();
     const el = $(`[data-part="${partId}"]`);
-    if (el) {
-      el.insertAdjacentHTML('beforeend', `<span class="sp-working ${HOT_TOOLS.includes(tool) ? 'is-hot' : ''}" aria-hidden="true">${icon(tool, 'is-big')}<i></i><i></i><i></i></span>`);
-      el.classList.add('is-working');
-    }
+    if (!p || !el || busy) return;
+    busy = true;
+    fast = false;
+    const token = lab.newScene();
+    const P = p.comps.slice();
+    const r = applyTool(tool, P, target);
+    const planned = plannedParts(tool, p, r);
+    const c = {
+      tool, target, p, P, r, planned, el, token,
+      seedBefore: partSeed(p),
+      seedLeft: partSeed({ id: p.id, comps: r.left, vessel: p.vessel }),
+      seedNew: planned.map(partSeed),
+      seedFinal: planned.length ? partSeed(planned[0]) : partSeed({ id: p.id, comps: r.left, vessel: 'dish' })
+    };
     setCaption(CAPTIONS.working[tool]);
-    const before = p.comps.slice();
-    const ok = await lab.wait(token, HOT_TOOLS.includes(tool) ? 1700 : 900);
+    showSpeed(true);
+    try {
+      await animate(c);
+    } catch (e) {
+      if (e === ABORT) { busy = false; return; }
+      console.error(e);
+    }
     busy = false;
-    if (!ok) return;
-    const r = act(tool, partId, target);
+    showSpeed(false);
+    act(tool, partId, target);
     renderBench();
     renderLog();
     if (separated()) {
@@ -678,11 +1189,16 @@
       renderTools();
       lab.setLock($('[data-new]'), LABELS.lockSeparated);
     }
-    const text = resultCaption(tool, r, before, target);
+    const text = resultCaption(tool, r, P, target);
     const end = separated() ? ` ${CAPTIONS.allDone}` : deadEnd() ? ` ${CAPTIONS.deadEnd}` : '';
     setCaption(text + end, !r.ok || (!separated() && deadEnd()));
     updateRunFooter();
     lab.save();
+  }
+
+  function showSpeed(on) {
+    const b = $('[data-speed]');
+    if (b) b.hidden = !on;
   }
 
   // Ce qu'on voit après le geste : décrit, jamais interprété.
@@ -720,6 +1236,7 @@
   }
 
   async function askNewSample() {
+    if (busy) return;
     if (!state.started) { setCaption(CAPTIONS.notStarted); return; }
     const yes = await lab.confirm({ title: LABELS.newSampleTitle, text: LABELS.newSampleText, confirm: LABELS.newSampleYes, cancel: lab.L.cancel });
     if (!yes) return;
