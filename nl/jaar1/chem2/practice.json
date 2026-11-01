@@ -1,5 +1,654 @@
 {
-  "level1": [],
-  "level2": [],
-  "level3": []
+  "level1": [
+    {
+      "id": 1,
+      "title": "Zuivere stof",
+      "image": null,
+      "en": "Wat is een zuivere stof? Leg uit in je eigen woorden.",
+      "fr": "Avec tes propres mots, qu'est-ce qu'un corps pur ?",
+      "corr_en": "Een zuivere stof bevat maar één soort deeltjes, bijvoorbeeld zuiver water.",
+      "corr_fr": "Un corps pur ne contient qu'un seul type de particules, par exemple l'eau pure."
+    },
+    {
+      "id": 2,
+      "title": "Tel de fasen",
+      "image": "N1-02_three_phases.webp",
+      "en": "Kijk naar het glas. Hoeveel fasen zie je? Benoem ze.",
+      "fr": "Observe le verre. Combien de phases vois-tu ? Nomme-les.",
+      "corr_en": "Drie fasen: olie bovenaan, water in het midden en steentjes op de bodem.",
+      "corr_fr": "Trois phases : l'huile au-dessus, l'eau au milieu et les cailloux au fond."
+    },
+    {
+      "id": 3,
+      "title": "Homogeen mengsel",
+      "image": null,
+      "en": "Juist of fout? Een homogeen mengsel heeft twee of meer fasen. Is het fout? Verbeter dan de zin.",
+      "fr": "Vrai ou faux ? Un mélange homogène possède deux phases ou plus. Si c'est faux, corrige la phrase.",
+      "corr_en": "Fout. Een homogeen mengsel heeft maar één fase: we zien de verschillende delen niet.",
+      "corr_fr": "Faux. Un mélange homogène n'a qu'une seule phase : on ne voit pas ses différentes parties."
+    },
+    {
+      "id": 4,
+      "title": "Benoem de techniek",
+      "image": "N1-04_magnet_rice.webp",
+      "en": "Iemand beweegt een magneet boven een kom rijst met stalen paperclips erin, zoals op de afbeelding. Welke techniek is dit, en wat trekt de magneet aan?",
+      "fr": "Un aimant est passé au-dessus d'un bol de riz mélangé à des trombones en acier, comme sur l'image. De quelle technique s'agit-il, et qu'est-ce que l'aimant attire ?",
+      "corr_en": "Magnetische scheiding. De magneet trekt de stalen paperclips aan, niet de rijst.",
+      "corr_fr": "La séparation magnétique. L'aimant attire les trombones en acier, pas le riz."
+    },
+    {
+      "id": 5,
+      "title": "Wat is een opgeloste stof?",
+      "image": null,
+      "en": "Wat is de opgeloste stof in een oplossing?",
+      "fr": "Dans une solution, qu'est-ce que le soluté ?",
+      "corr_en": "De opgeloste stof is de stof die oplost in de vloeistof.",
+      "corr_fr": "Le soluté est la substance qui se dissout dans le liquide."
+    },
+    {
+      "id": 6,
+      "title": "Tel de moleculen",
+      "image": null,
+      "en": "Dit is een molecuulmodel van water. Hoeveel moleculen zijn er getekend? Is het een zuivere stof of een mengsel?",
+      "fr": "Voici un modèle moléculaire de l'eau. Combien de molécules sont dessinées ? S'agit-il d'un corps pur ou d'un mélange ?",
+      "corr_en": "Tien moleculen. Het is een zuivere stof: er is maar één soort molecule.",
+      "corr_fr": "Dix molécules. C'est un corps pur : il n'y a qu'un seul type de molécule."
+    },
+    {
+      "id": 7,
+      "title": "Moleculen zien",
+      "image": null,
+      "en": "Juist of fout? Met een microscoop van school kunnen we moleculen zien. Is het fout? Verbeter dan de zin.",
+      "fr": "Vrai ou faux ? On peut voir les molécules avec un microscope d'école. Si c'est faux, corrige la phrase.",
+      "corr_en": "Fout. Moleculen zijn te klein om te zien, daarom gebruiken wetenschappers modellen om ze voor te stellen.",
+      "corr_fr": "Faux. Les molécules sont trop petites pour être vues, donc les scientifiques utilisent des modèles pour les représenter."
+    },
+    {
+      "id": 8,
+      "title": "Koffiefilter",
+      "image": "N1-08_coffee_pourover.webp",
+      "en": "Je maakt koffie met een papieren filter, zoals op de afbeelding. Wat blijft er in het papier en wat loopt er naar beneden in de kan?",
+      "fr": "On prépare du café avec un filtre en papier, comme sur l'image. Qu'est-ce qui reste dans le papier et qu'est-ce qui descend dans la verseuse ?",
+      "corr_en": "De gemalen koffie blijft in het papier. De vloeibare koffie gaat erdoor, naar de kan.",
+      "corr_fr": "Le café moulu reste dans le papier. Le café liquide passe à travers dans la verseuse."
+    },
+    {
+      "id": 9,
+      "title": "Wetenschappelijk model",
+      "image": null,
+      "en": "Juist of fout? Een wetenschappelijk model is een exacte kopie van de werkelijkheid. Is het fout? Verbeter dan de zin.",
+      "fr": "Vrai ou faux ? Un modèle scientifique est une copie exacte de la réalité. Si c'est faux, corrige la phrase.",
+      "corr_en": "Fout. Een wetenschappelijk model is een vereenvoudigde voorstelling van de werkelijkheid.",
+      "corr_fr": "Faux. Un modèle scientifique est une représentation simplifiée de la réalité."
+    },
+    {
+      "id": 10,
+      "title": "Schaal op een radiator",
+      "image": null,
+      "en": "Een schaal met zout water staat op een radiator. De afbeeldingen tonen de schaal op dag 1 en op dag 3. Welke techniek heeft plaatsgevonden, en wat is de witte vaste stof?",
+      "fr": "Un plat d'eau salée est laissé sur un radiateur. Les images montrent le plat au jour 1 et au jour 3. Quelle technique a eu lieu, et qu'est-ce que le solide blanc ?",
+      "corr_en": "Verdamping: het water werd een gas en is verdwenen. De witte vaste stof is het zout.",
+      "corr_fr": "L'évaporation : l'eau est devenue un gaz et s'en est allée. Le solide blanc est le sel."
+    },
+    {
+      "id": 11,
+      "title": "Opgeloste stof en oplosmiddel",
+      "image": null,
+      "en": "Een bakker lost suiker op in lauw water om een siroop voor een taart te maken. Benoem de opgeloste stof en het oplosmiddel.",
+      "fr": "Un pâtissier dissout du sucre dans de l'eau tiède pour faire un sirop pour un gâteau. Nomme le soluté et le solvant.",
+      "corr_en": "De opgeloste stof is de suiker en het oplosmiddel is het water.",
+      "corr_fr": "Le soluté est le sucre et le solvant est l'eau."
+    },
+    {
+      "id": 12,
+      "title": "Steentjes in linzen",
+      "image": "N1-12_lentils.webp",
+      "en": "Een kok haalt met haar vingers kleine steentjes uit linzen, zoals op de afbeelding. Welke scheidingstechniek is dit?",
+      "fr": "Une cuisinière retire de petits cailloux dans des lentilles avec ses doigts, comme sur l'image. De quelle technique de séparation s'agit-il ?",
+      "corr_en": "Sorteren met de hand: ze haalt de steentjes er met de hand uit.",
+      "corr_fr": "La séparation manuelle : elle retire les cailloux à la main."
+    },
+    {
+      "id": 13,
+      "title": "Is lucht zuiver?",
+      "image": null,
+      "en": "Juist of fout? Lucht is een zuivere stof. Is het fout? Verbeter dan de zin.",
+      "fr": "Vrai ou faux ? L'air est un corps pur. Si c'est faux, corrige la phrase.",
+      "corr_en": "Fout. Lucht is een mengsel van verschillende gassen, vooral stikstof en zuurstof.",
+      "corr_fr": "Faux. L'air est un mélange de plusieurs gaz, surtout de l'azote et de l'oxygène."
+    },
+    {
+      "id": 14,
+      "title": "Bloem zeven",
+      "image": "N1-14_sifting_flour.webp",
+      "en": "Welke scheidingstechniek zie je hier, en hoe heet het werktuig?",
+      "fr": "Quelle technique de séparation est représentée ici, et comment s'appelle l'outil ?",
+      "corr_en": "Zeven, met een zeef: de kleine stukjes gaan door de gaatjes en de grote blijven liggen.",
+      "corr_fr": "Le tamisage, avec un tamis : les petits morceaux passent par les trous et les gros restent."
+    },
+    {
+      "id": 15,
+      "title": "Beschrijf het decanteren",
+      "image": null,
+      "en": "Modderig water blijft rustig staan in een emmer. Waar gaat de modder naartoe? Hoe heet de techniek als we daarna het heldere water afgieten?",
+      "fr": "De l'eau boueuse est laissée au repos dans un seau. Où va la boue ? Comment s'appelle la technique quand on verse ensuite l'eau claire ?",
+      "corr_en": "De modder zakt naar de bodem. De techniek heet decanteren.",
+      "corr_fr": "La boue coule au fond. La technique s'appelle la décantation."
+    },
+    {
+      "id": 16,
+      "title": "Hoeveel soorten?",
+      "image": "N1-16_two_types.webp",
+      "en": "Kijk naar dit molecuulmodel. Hoeveel moleculen van elke soort zie je? Is het een zuivere stof of een mengsel?",
+      "fr": "Observe ce modèle moléculaire. Combien de molécules de chaque type vois-tu ? S'agit-il d'un corps pur ou d'un mélange ?",
+      "corr_en": "7 paarse en 5 groene moleculen. Het is een mengsel: er zijn twee soorten.",
+      "corr_fr": "7 molécules violettes et 5 vertes. C'est un mélange : il y a deux types."
+    },
+    {
+      "id": 17,
+      "title": "Gaatjes van de zeef",
+      "image": null,
+      "en": "Wat doen de gaatjes van de zeef bij het zeven?",
+      "fr": "Dans le tamisage, que font les trous du tamis ?",
+      "corr_en": "Ze laten de kleine stukjes door en houden de grote stukjes tegen.",
+      "corr_fr": "Ils laissent passer les petits morceaux et arrêtent les gros morceaux."
+    },
+    {
+      "id": 18,
+      "title": "Opstelling voor distillatie",
+      "image": null,
+      "en": "Kijk naar deze opstelling. Welk deel koelt de damp af, en wat wordt de damp in dat deel?",
+      "fr": "Observe ce montage. Quelle partie refroidit la vapeur, et que devient la vapeur dans cette partie ?",
+      "corr_en": "De condensor koelt de damp af. Daarin wordt de damp weer een vloeistof.",
+      "corr_fr": "Le réfrigérant (condenseur) la refroidit. La vapeur y redevient un liquide."
+    },
+    {
+      "id": 19,
+      "title": "Wat is verdamping?",
+      "image": null,
+      "en": "Wat gebeurt er bij verdamping met de vloeistof en wat met de vaste stof?",
+      "fr": "Dans l'évaporation, que devient le liquide et que devient le solide ?",
+      "corr_en": "De vloeistof wordt een gas en verdwijnt, de vaste stof blijft achter.",
+      "corr_fr": "Le liquide devient un gaz et s'en va, et le solide reste."
+    },
+    {
+      "id": 20,
+      "title": "Drie bokalen",
+      "image": null,
+      "en": "Kijk naar de drie bokalen na het roeren en laten rusten. In welke bokaal zit een homogeen mengsel? Hoeveel fasen zijn er in bokaal 3?",
+      "fr": "Observe les trois bocaux après avoir remué et laissé reposer. Quel bocal contient un mélange homogène ? Combien de phases y a-t-il dans le bocal 3 ?",
+      "corr_en": "Bokaal 2 is homogeen (één fase). Bokaal 3 heeft drie fasen: rijst, water en olie.",
+      "corr_fr": "Le bocal 2 est homogène (une phase). Le bocal 3 a trois phases : le riz, l'eau et l'huile."
+    }
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Waarom een mengsel?",
+      "image": null,
+      "en": "Zout water ziet eruit als één heldere vloeistof. Leg uit waarom het een mengsel is en geen zuivere stof.",
+      "fr": "L'eau salée ressemble à un seul liquide limpide. Explique pourquoi c'est un mélange et non un corps pur.",
+      "corr_en": "Zout water bevat twee stoffen, water en zout, dus twee soorten deeltjes. We zien het zout niet omdat het opgelost is in het water.",
+      "corr_fr": "L'eau salée contient deux substances, l'eau et le sel, donc deux types de particules. On ne voit pas le sel parce qu'il est dissous dans l'eau."
+    },
+    {
+      "id": 2,
+      "title": "Recipiënten met gas",
+      "image": null,
+      "questions": [
+        {
+          "en": "Welk gas komt het meest voor in recipiënt A? Hoeveel procent van recipiënt A is geen zuurstof?",
+          "fr": "Quel gaz est le plus abondant dans le récipient A ? Quel pourcentage du récipient A n'est pas de l'oxygène ?",
+          "corr_en": "Stikstof komt het meest voor (78 %). 79 % van recipiënt A is geen zuurstof (78 % stikstof + 1 % andere gassen).",
+          "corr_fr": "L'azote est le gaz le plus abondant (78 %). 79 % du récipient A n'est pas de l'oxygène (78 % d'azote + 1 % d'autres gaz)."
+        },
+        {
+          "en": "Hoeveel kleuren heb je nodig om een molecuulmodel van recipiënt A te tekenen? En van recipiënt B? Leg uit.",
+          "fr": "Combien de couleurs te faudrait-il pour dessiner un modèle moléculaire du récipient A ? Et du récipient B ? Explique.",
+          "corr_en": "Minstens drie voor recipiënt A, omdat het verschillende soorten moleculen bevat. Maar één voor recipiënt B: het heeft maar één soort molecule.",
+          "corr_fr": "Au moins trois pour le récipient A, parce qu'il contient plusieurs types de molécules. Une seule pour le récipient B : il n'a qu'un seul type de molécule."
+        },
+        {
+          "en": "Een zak wordt gevuld met 200 L van het gas van recipiënt A. Hoeveel liter zuurstof zit er in de zak?",
+          "fr": "Un sac est rempli avec 200 L du gaz du récipient A. Combien de litres d'oxygène y a-t-il dans le sac ?",
+          "corr_en": "Er is 21 % zuurstof, dus 21 % van 200 L is 42 L zuurstof (200 × 21 ÷ 100).",
+          "corr_fr": "Il y a 21 % d'oxygène, donc 21 % de 200 L font 42 L d'oxygène (200 × 21 ÷ 100)."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Roeren en kijken",
+      "image": null,
+      "en": "Een leerling roert telkens één lepel van een stof in een glas water: suiker, rijst en citroensap. Voorspel voor elke stof of je een oplossing of een heterogeen mengsel krijgt, en leg uit.",
+      "fr": "Un élève remue une cuillère de chaque substance dans un verre d'eau : du sucre, du riz et du jus de citron. Pour chacune, prédis si l'on obtient une solution ou un mélange hétérogène, et explique.",
+      "corr_en": "Suiker en citroensap mengen volledig met het water, dus elk geeft een oplossing (één fase). Rijst lost niet op: de korrels blijven zichtbaar, dus het is een heterogeen mengsel.",
+      "corr_fr": "Le sucre et le jus de citron se mélangent complètement à l'eau, donc chacun donne une solution (une phase). Le riz ne se dissout pas : les grains restent visibles, donc c'est un mélange hétérogène."
+    },
+    {
+      "id": 4,
+      "title": "Vier preparaten",
+      "image": null,
+      "questions": [
+        {
+          "en": "Gebruik deze kleurensleutel: blauw = watermolecule, paars = zoutdeeltje, oranje = oliemolecule, groen = stikstofmolecule, rood = zuurstofmolecule. Welk preparaat kan lucht voorstellen? Verklaar je antwoord.",
+          "fr": "Utilise cette clé de couleurs : bleu = molécule d'eau, violet = particule de sel, orange = molécule d'huile, vert = molécule d'azote, rouge = molécule d'oxygène. Quelle lame pourrait montrer de l'air ? Justifie ta réponse.",
+          "corr_en": "Preparaat D. Het toont twee soorten moleculen, stikstof en zuurstof, door elkaar gemengd: dat zit er in lucht.",
+          "corr_fr": "La lame D. Elle montre deux types de molécules, l'azote et l'oxygène, mélangées : c'est ce que contient l'air."
+        },
+        {
+          "en": "Preparaat B en C bevatten allebei water en een andere stof. Welk toont een oplossing? Leg uit met het aantal fasen.",
+          "fr": "Les lames B et C contiennent toutes les deux de l'eau et une autre substance. Laquelle montre une solution ? Explique avec le nombre de phases.",
+          "corr_en": "Preparaat B: water en zout zijn goed gemengd, dus er is één fase. In preparaat C vormen olie en water twee lagen: twee fasen.",
+          "corr_fr": "La lame B : l'eau et le sel sont bien mélangés, donc une seule phase. Dans la lame C, l'huile et l'eau forment deux couches : deux phases."
+        },
+        {
+          "en": "Met welke scheidingstechniek kun je de twee stoffen van preparaat C scheiden? Leg uit waarom het werkt.",
+          "fr": "Quelle technique de séparation pourrais-tu utiliser pour séparer les deux substances de la lame C ? Explique pourquoi cela fonctionne.",
+          "corr_en": "Decanteren. De olie vormt een aparte laag boven het water, dus we kunnen de bovenste laag afgieten.",
+          "corr_fr": "La décantation. L'huile forme une couche séparée au-dessus de l'eau, donc on peut verser la couche du dessus."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Olie bovenaan",
+      "image": null,
+      "en": "Een kan bevat water en zonnebloemolie. Leg uit hoe je ze scheidt door te decanteren en waarom het werkt.",
+      "fr": "Un pichet contient de l'eau et de l'huile de tournesol. Explique comment les séparer par décantation et pourquoi cela fonctionne.",
+      "corr_en": "De olie is lichter, dus ze drijft op het water. We gieten de bovenste laag (de olie) voorzichtig af en het water blijft in de kan.",
+      "corr_fr": "L'huile est plus légère, donc elle flotte au-dessus de l'eau. On verse doucement la couche du dessus (l'huile) et l'eau reste dans le pichet."
+    },
+    {
+      "id": 6,
+      "title": "Ontbijtgranen en melk",
+      "image": "N2-06_cereal_milk.webp",
+      "en": "Een kind giet melk op ontbijtgranen, zoals op de afbeelding. Hoeveel fasen zie je? Is het een homogeen of een heterogeen mengsel? Verklaar.",
+      "fr": "Un enfant verse du lait sur des céréales, comme sur l'image. Combien de phases vois-tu ? S'agit-il d'un mélange homogène ou hétérogène ? Justifie.",
+      "corr_en": "Er zijn minstens twee fasen: de vaste graanvlokken (en de schijfjes banaan) en de vloeibare melk. Het is een heterogeen mengsel omdat we de verschillende delen zien.",
+      "corr_fr": "Il y a au moins deux phases : les flocons de céréales solides (et les rondelles de banane) et le lait liquide. C'est un mélange hétérogène parce qu'on voit les différentes parties."
+    },
+    {
+      "id": 7,
+      "title": "IJzervijlsel in zand",
+      "image": null,
+      "en": "Een leerkracht morst ijzervijlsel in een bak zand. Een leerling wil een zeef gebruiken, een andere een magneet. Welk werktuig werkt? Leg uit waarom het andere niet werkt.",
+      "fr": "Un professeur renverse de la limaille de fer dans un bac de sable. Un élève veut utiliser un tamis et un autre un aimant. Quel outil fonctionne ? Explique pourquoi l'autre ne fonctionne pas.",
+      "corr_en": "De magneet werkt: hij trekt het ijzer aan, maar niet het zand. Een zeef lukt niet, want het vijlsel en de zandkorrels zijn allebei heel klein en gaan door dezelfde gaatjes.",
+      "corr_fr": "L'aimant fonctionne : il attire le fer mais pas le sable. Un tamis échoue parce que la limaille et les grains de sable sont minuscules et passent par les mêmes trous."
+    },
+    {
+      "id": 8,
+      "title": "Aarde zeven",
+      "image": "N2-08_sifting_compost.webp",
+      "en": "Een tuinier giet compost in een zeef, zoals op de afbeelding. Wat blijft er in de zeef en wat gaat erdoor? Leg uit waarom zeven werkt.",
+      "fr": "Un jardinier verse du compost dans un tamis, comme sur l'image. Qu'est-ce qui reste dans le tamis et qu'est-ce qui passe ? Explique pourquoi le tamisage fonctionne.",
+      "corr_en": "De grote stukken (steentjes, takjes) blijven in de zeef en de kleine stukjes (fijne aarde) gaan door de gaatjes. Zeven werkt omdat de stukjes een verschillende grootte hebben.",
+      "corr_fr": "Les gros morceaux (cailloux, brindilles) restent dans le tamis et les petits morceaux (terre fine) passent par les trous. Le tamisage fonctionne parce que les morceaux ont des tailles différentes."
+    },
+    {
+      "id": 9,
+      "title": "Feit of mening?",
+      "image": null,
+      "en": "Drie leerlingen kijken naar een glas zout water. Sam zegt: \"We zien het zout niet meer.\" Lea zegt: \"Zout water is vies.\" Tom zegt: \"Het zout is er waarschijnlijk nog, in heel kleine stukjes.\" Welke uitspraak is een feit, welke een oordeel en welke een hypothese?",
+      "fr": "Trois élèves regardent un verre d'eau salée. Sam dit : « On ne voit plus le sel. » Léa dit : « L'eau salée est dégoûtante. » Tom dit : « Le sel est probablement toujours là, en très petits morceaux. » Quelle affirmation est un fait, laquelle est un jugement et laquelle est une hypothèse ?",
+      "corr_en": "De uitspraak van Sam is een feit: we kunnen het waarnemen. De uitspraak van Lea is een oordeel: het is een persoonlijke mening. De uitspraak van Tom is een hypothese: het is een mogelijke verklaring die we moeten testen.",
+      "corr_fr": "L'affirmation de Sam est un fait : on peut l'observer. Celle de Léa est un jugement : c'est une opinion personnelle. Celle de Tom est une hypothèse : c'est une explication possible qu'il faut tester."
+    },
+    {
+      "id": 10,
+      "title": "Zoute bouillon",
+      "image": null,
+      "en": "Een kok maakt twee soorten bouillon. De modellen tonen het opgeloste zout in elke bouillon. Welke bouillon is het zoutst? Leg uit met de modellen. Zijn de bouillons homogeen of heterogeen?",
+      "fr": "Un cuisinier prépare deux bouillons. Les modèles montrent le sel dissous dans chaque bouillon. Quel bouillon est le plus salé ? Explique avec les modèles. Les bouillons sont-ils homogènes ou hétérogènes ?",
+      "corr_en": "Bouillon 2 is zouter: hij heeft 8 zoutdeeltjes voor 12 watermoleculen, tegenover 3 in bouillon 1. Beide zijn homogene mengsels (oplossingen) omdat de deeltjes goed gemengd zijn.",
+      "corr_fr": "Le bouillon 2 est plus salé : il a 8 particules de sel pour 12 molécules d'eau, contre 3 dans le bouillon 1. Les deux sont des mélanges homogènes (solutions) parce que les particules sont bien mélangées."
+    },
+    {
+      "id": 11,
+      "title": "Modder filtreren",
+      "image": null,
+      "en": "Modderig water wordt door filterpapier in een bekerglas gegoten. Wat vind je op het papier en wat in het bekerglas? Leg uit.",
+      "fr": "De l'eau boueuse est versée à travers un papier filtre dans un bécher. Que trouve-t-on sur le papier et dans le bécher ? Explique.",
+      "corr_en": "De modder blijft op het papier en er zit helder water in het bekerglas. Het filterpapier houdt de vaste stukjes tegen en laat de vloeistof door.",
+      "corr_fr": "La boue reste sur le papier et de l'eau claire se trouve dans le bécher. Le papier filtre arrête les morceaux solides et laisse passer le liquide."
+    },
+    {
+      "id": 12,
+      "title": "Zoek de fout",
+      "image": null,
+      "en": "Een leerling tekent dit model van zuivere zuurstof en zegt: \"Het toont een zuivere stof.\" Heeft ze gelijk? Leg uit wat er fout is en hoe je de tekening verbetert.",
+      "fr": "Une élève dessine ce modèle de dioxygène pur et dit : « Il montre un corps pur. » A-t-elle raison ? Explique ce qui ne va pas et comment corriger le dessin.",
+      "corr_en": "Nee. Het model heeft twee soorten moleculen, zuurstof en stikstof, dus het toont een mengsel. Om zuivere zuurstof te tonen, moet ze alleen rode cirkels tekenen.",
+      "corr_fr": "Non. Le modèle a deux types de molécules, l'oxygène et l'azote, donc il montre un mélange. Pour montrer de l'oxygène pur, elle doit dessiner uniquement des cercles rouges."
+    },
+    {
+      "id": 13,
+      "title": "Schaal in de zon",
+      "image": null,
+      "en": "Een schaal met zeewater staat enkele dagen in de zon. Wat zie je op het einde? Leg uit wat er met het water en met het zout gebeurt.",
+      "fr": "Un plat d'eau de mer reste au soleil pendant plusieurs jours. Que voit-on à la fin ? Explique ce que deviennent l'eau et le sel.",
+      "corr_en": "Er blijven witte zoutkristallen in de schaal. Het water is verdampt: het werd een gas en is verdwenen, maar het zout blijft omdat het een vaste stof is.",
+      "corr_fr": "Il reste des cristaux de sel blancs dans le plat. L'eau s'est évaporée : elle est devenue un gaz et s'est en allée, mais le sel reste parce que c'est un solide."
+    },
+    {
+      "id": 14,
+      "title": "Staal van het strand",
+      "image": null,
+      "questions": [
+        {
+          "en": "Welk materiaal komt het meest voor? Hoeveel kilogram is dat?",
+          "fr": "Quel matériau est le plus abondant ? Combien de kilogrammes y en a-t-il ?",
+          "corr_en": "Zand komt het meest voor: 6,5 kg.",
+          "corr_fr": "Le sable est le plus abondant : 6,5 kg."
+        },
+        {
+          "en": "Een zeef heeft gaatjes die groter zijn dan de zandkorrels maar kleiner dan de schelpen en de kiezels. Hoeveel kilogram blijft er in de zeef?",
+          "fr": "Un tamis a des trous plus grands que les grains de sable mais plus petits que les coquillages et les cailloux. Combien de kilogrammes restent dans le tamis ?",
+          "corr_en": "De schelpen en de kiezels blijven in de zeef: 2,5 + 1 = 3,5 kg.",
+          "corr_fr": "Les coquillages et les cailloux restent dans le tamis : 2,5 + 1 = 3,5 kg."
+        },
+        {
+          "en": "Met welke techniek kun je daarna de schelpen van de kiezels scheiden? Leg uit.",
+          "fr": "Quelle technique pourrait ensuite séparer les coquillages des cailloux ? Explique.",
+          "corr_en": "Sorteren met de hand: de stukken zijn ongeveer even groot, dus we kunnen ze met de hand sorteren.",
+          "corr_fr": "La séparation manuelle : les morceaux ont une taille semblable, donc on peut les trier à la main."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Stappen van een distillatie",
+      "image": null,
+      "en": "Deze zinnen beschrijven een distillatie, maar ze staan door elkaar. A) De damp koelt af in de condensor en wordt weer vloeibaar. B) We verwarmen het mengsel van twee vloeistoffen. C) Druppels vloeistof vallen in een tweede kolf. D) De vloeistof met het laagste kookpunt wordt eerst een gas. Zet ze in de juiste volgorde en leg uit waarom deze techniek twee vloeistoffen kan scheiden die volledig mengen.",
+      "fr": "Ces phrases décrivent une distillation, mais elles sont dans le désordre. A) La vapeur se refroidit dans le condenseur et redevient liquide. B) On chauffe le mélange de deux liquides. C) Des gouttes de liquide tombent dans un second flacon. D) Le liquide dont la température d'ébullition est la plus basse devient gaz en premier. Remets-les dans le bon ordre et explique pourquoi cette technique peut séparer deux liquides qui se mélangent complètement.",
+      "corr_en": "Volgorde: B, D, A, C. Een filter kan gemengde vloeistoffen niet scheiden, maar distillatie gebruikt hun verschillende kookpunten: één vloeistof wordt eerst een gas en wordt apart opgevangen.",
+      "corr_fr": "Ordre : B, D, A, C. Un filtre ne peut pas séparer des liquides mélangés, mais la distillation utilise leurs températures d'ébullition différentes : un liquide devient gaz en premier et est recueilli séparément."
+    },
+    {
+      "id": 16,
+      "title": "Rooster in de rivier",
+      "image": "N2-16_river_grid.webp",
+      "en": "Een metalen rooster dwars over een rivier houdt takken en plastic flessen tegen die op het water drijven, maar niet de modder. Welke techniek is dit? Leg uit waarom de modder niet wordt tegengehouden en waarom het belangrijk is het afval te verwijderen.",
+      "fr": "Une grille métallique placée en travers d'une rivière arrête les branches et les bouteilles en plastique qui flottent, mais pas la boue. De quelle technique s'agit-il ? Explique pourquoi la boue n'est pas arrêtée et pourquoi il est important de retirer les déchets.",
+      "corr_en": "Zeven: de grote stukken blijven achter het rooster. De modder bestaat uit heel kleine deeltjes die door de openingen gaan. Het afval verwijderen houdt de rivier proper voor dieren en planten.",
+      "corr_fr": "Le tamisage : les gros morceaux restent derrière la grille. La boue, faite de minuscules particules, passe par les trous. Retirer les déchets garde la rivière propre pour les animaux et les plantes."
+    },
+    {
+      "id": 17,
+      "title": "Filtratie of decanteren",
+      "image": null,
+      "en": "Vergelijk decanteren en filtratie: zeg voor elke techniek hoe ze werkt en welk soort mengsel ze scheidt.",
+      "fr": "Compare la décantation et la filtration : pour chaque technique, explique comment elle fonctionne et quel type de mélange elle sépare.",
+      "corr_en": "Filtratie scheidt een vaste stof van een vloeistof: het filterpapier houdt de vaste stof tegen. Decanteren scheidt lagen met een verschillend gewicht, zoals olie die op water drijft: we gieten de bovenste laag af.",
+      "corr_fr": "La filtration sépare un solide d'un liquide : le papier filtre arrête le solide. La décantation sépare des couches de poids différents, comme l'huile qui flotte sur l'eau : on verse la couche du dessus."
+    },
+    {
+      "id": 18,
+      "title": "Een sleutel gebruiken",
+      "image": null,
+      "en": "Gebruik de sleutel om deze stalen in te delen: (a) gedistilleerd water, (b) suikerwater, (c) olie en water, (d) lucht in een gesloten fles.",
+      "fr": "Utilise la clé pour classer ces échantillons : (a) l'eau distillée, (b) l'eau sucrée, (c) l'huile et l'eau, (d) l'air dans une bouteille fermée.",
+      "corr_en": "(a) Zuivere stof. (b) Homogeen mengsel. (c) Heterogeen mengsel. (d) Homogeen mengsel.",
+      "corr_fr": "(a) Corps pur. (b) Mélange homogène. (c) Mélange hétérogène. (d) Mélange homogène."
+    },
+    {
+      "id": 19,
+      "title": "Het experiment van Ben",
+      "image": null,
+      "en": "Ben denkt dat een magneet alle metalen aantrekt. Hij test een magneet met een ijzeren nagel, een aluminium blikje en een koperen muntstuk. Alleen de nagel blijft aan de magneet hangen. Schrijf zijn hypothese en zijn besluit.",
+      "fr": "Ben pense qu'un aimant attire tous les métaux. Il teste un aimant avec un clou en fer, une canette en aluminium et une pièce en cuivre. Seul le clou colle à l'aimant. Écris son hypothèse et sa conclusion.",
+      "corr_en": "Hypothese: een magneet trekt alle metalen aan. Besluit: de hypothese wordt verworpen, want de magneet trok alleen de ijzeren nagel aan, niet het aluminium en niet het koper.",
+      "corr_fr": "Hypothèse : un aimant attire tous les métaux. Conclusion : l'hypothèse est rejetée, parce que l'aimant a attiré uniquement le clou en fer et pas l'aluminium ni le cuivre."
+    },
+    {
+      "id": 20,
+      "title": "Scheidingsplan",
+      "image": "N2-20_beaker.webp",
+      "en": "Een bekerglas bevat ijzeren nagels, zand en water. Maak een scheidingsplan: schrijf de stappen in volgorde met telkens de gebruikte techniek, en zeg wat er op het einde overblijft.",
+      "fr": "Un bécher contient des clous en fer, du sable et de l'eau. Planifie la séparation : écris les étapes dans l'ordre avec la technique utilisée à chaque fois, et dis ce qui reste à la fin.",
+      "corr_en": "1) Magnetische scheiding: een magneet haalt de ijzeren nagels eruit. 2) Filtratie: het filterpapier houdt het zand tegen. Op het einde blijft alleen water over.",
+      "corr_fr": "1) Séparation magnétique : un aimant retire les clous en fer. 2) Filtration : le papier filtre arrête le sable. À la fin, il ne reste que de l'eau."
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "Olijfoliemolen",
+      "image": null,
+      "en": "In een olijfoliemolen worden olijven geplet en geperst. De vloeistof die eruit komt, bevat olie, water en kleine stukjes schil. Er worden drie stappen gebruikt, door elkaar: A) de vloeistof laten rusten in een tank en de olie die bovenop drijft afgieten; B) de bladeren met de hand uit de olijven halen voor het pletten; C) de geperste vloeistof door een doek gieten die de stukjes schil tegenhoudt. Benoem de techniek van elke stap, zet de stappen in de juiste volgorde en leg uit waarom de bladeren eerst verwijderd worden.",
+      "fr": "Dans une huilerie, les olives sont écrasées et pressées. Le liquide qui sort contient de l'huile, de l'eau et de petits morceaux de peau. Trois étapes sont utilisées, dans le désordre : A) laisser le liquide reposer dans une cuve et verser l'huile qui flotte ; B) retirer les feuilles des olives à la main avant l'écrasement ; C) verser le liquide pressé à travers un tissu qui arrête les morceaux de peau. Nomme la technique de chaque étape, remets les étapes dans le bon ordre et explique pourquoi les feuilles sont retirées en premier.",
+      "corr_en": "B sorteren met de hand (bladeren met de hand eruit gehaald), C filtratie (de doek houdt de schil tegen), A decanteren (olie is lichter dan water en drijft, dus we gieten ze af). De bladeren komen eerst omdat het grote stukken zijn die anders geplet en met de rest gemengd zouden worden.",
+      "corr_fr": "B séparation manuelle (feuilles retirées à la main), C filtration (le tissu arrête la peau), A décantation (l'huile est plus légère que l'eau et flotte, donc on la verse). Les feuilles viennent en premier parce que ce sont de gros morceaux qui seraient écrasés et mélangés au reste."
+    },
+    {
+      "id": 2,
+      "title": "Lucht op Mars",
+      "image": null,
+      "en": "Het cirkeldiagram toont de samenstelling van de lucht (atmosfeer) van Mars. Is de lucht van Mars een zuivere stof? Verklaar met het diagram. Als je er een molecuulmodel van tekent, welke soort molecule teken je het meest, en gebruik je verschillende kleuren?",
+      "fr": "Le graphique circulaire montre la composition de l'air (atmosphère) de Mars. L'air de Mars est-il un corps pur ? Justifie avec le graphique. Si tu dessinais un modèle moléculaire de cet air, quel type de molécule dessinerais-tu le plus, et utiliserais-tu plusieurs couleurs ?",
+      "corr_en": "Nee, het is een mengsel: het bevat verschillende gassen (koolstofdioxide 95 %, stikstof 3 %, andere gassen 2 %). In een model teken ik vooral koolstofdioxidemoleculen, met maar enkele cirkels in andere kleuren, goed gemengd omdat er één fase is.",
+      "corr_fr": "Non, c'est un mélange : il contient plusieurs gaz (dioxyde de carbone 95 %, azote 3 %, autres gaz 2 %). Dans un modèle, je dessinerais surtout des molécules de dioxyde de carbone, avec seulement quelques cercles d'autres couleurs, bien mélangés parce qu'il y a une seule phase."
+    },
+    {
+      "id": 3,
+      "title": "Koffiedik en suiker",
+      "image": null,
+      "en": "Een leerling roert koffiedik in een glas water en suiker in een ander glas. Ze giet elk glas door filterpapier. Leg uit wat ze telkens vindt. Gebruik de woorden fase, deeltjes en oplossing.",
+      "fr": "Une élève remue du marc de café dans un verre d'eau et du sucre dans un autre verre. Elle verse chaque verre à travers un papier filtre. Explique, en utilisant les mots phase, particules et solution, ce qu'elle trouve dans chaque cas.",
+      "corr_en": "Koffiedik en water vormen een heterogeen mengsel met twee fasen: de grote vaste stukjes blijven op het papier. Suiker en water vormen een oplossing met één fase: de suikerdeeltjes zijn opgelost en gaan samen met het water door het papier.",
+      "corr_fr": "Le marc de café et l'eau forment un mélange hétérogène à deux phases : les gros morceaux solides restent sur le papier. Le sucre et l'eau forment une solution à une seule phase : les particules de sucre sont dissoutes et passent à travers le papier avec l'eau."
+    },
+    {
+      "id": 4,
+      "title": "Bouten en staafjes",
+      "image": null,
+      "en": "Een doos bevat ijzeren bouten, koperen staafjes en plastic staafjes. Alle stukken zijn ongeveer 5 cm lang. Een magneet trekt ijzer aan, maar geen koper of plastic. Welke stukken kan de magneet eruit halen? Met welke techniek kun je daarna de koperen staafjes van de plastic staafjes scheiden? Leg uit waarom zeven en filtratie hier niet werken.",
+      "fr": "Une boîte contient des boulons en fer, des tiges en cuivre et des tiges en plastique. Toutes les pièces mesurent environ 5 cm. Un aimant attire le fer mais pas le cuivre ni le plastique. Quelles pièces l'aimant peut-il retirer ? Quelle technique pourrait ensuite séparer les tiges en cuivre des tiges en plastique ? Explique pourquoi le tamisage et la filtration ne fonctionneraient pas ici.",
+      "corr_en": "De magneet haalt de ijzeren bouten eruit (magnetische scheiding). De koperen en plastic staafjes zijn vaste stoffen van dezelfde grootte, dus een arbeider kan ze met de hand scheiden (sorteren met de hand). Zeven vraagt stukken van verschillende grootte en filtratie vraagt een vloeistof.",
+      "corr_fr": "L'aimant retire les boulons en fer (séparation magnétique). Les tiges en cuivre et en plastique sont des solides de même taille, donc un ouvrier peut les séparer à la main (séparation manuelle). Le tamisage demande des pièces de tailles différentes et la filtration demande un liquide."
+    },
+    {
+      "id": 5,
+      "title": "Mysterieuze glazen",
+      "image": null,
+      "en": "Twee glazen bevatten heldere, kleurloze vloeistoffen: het ene is zuiver water en het andere zout water. Bedenk een eenvoudig experiment om te weten welk glas welk is. Schrijf je hypothese, wat je doet en wat je verwacht waar te nemen bij elk glas.",
+      "fr": "Deux verres contiennent des liquides limpides et incolores : l'un est de l'eau pure et l'autre de l'eau salée. Conçois une expérience simple pour savoir lequel est lequel. Écris ton hypothèse, ce que tu fais et ce que tu t'attends à observer pour chaque verre.",
+      "corr_en": "Hypothese: glas A bevat zout water. Ik doe dezelfde kleine hoeveelheid van elke vloeistof in een schaaltje en verwarm beide tot het water verdampt. Het schaaltje met witte kristallen bevatte zout water (het zout blijft achter); het schaaltje dat leeg blijft, bevatte zuiver water.",
+      "corr_fr": "Hypothèse : le verre A contient de l'eau salée. Je mets la même petite quantité de chaque liquide dans un plat et je chauffe les deux jusqu'à ce que l'eau s'évapore. Le plat où il reste des cristaux blancs contenait de l'eau salée (le sel reste) ; le plat qui reste vide contenait de l'eau pure."
+    },
+    {
+      "id": 6,
+      "title": "Zeven voor grind",
+      "image": null,
+      "questions": [
+        {
+          "en": "Een klant wil alleen stukken kleiner dan 2 cm. Welke stukken gaan door een zeef met gaatjes van 2 cm? Hoeveel kilogram is dat, en hoeveel procent van het totaal?",
+          "fr": "Un client ne veut que des morceaux de moins de 2 cm. Quels morceaux passent à travers un tamis à trous de 2 cm ? Combien de kilogrammes cela fait-il, et quel pourcentage du total ?",
+          "corr_en": "De stukken tussen 1 en 2 cm en de stukken kleiner dan 1 cm gaan erdoor: 120 + 50 = 170 kg, dat is 85 % van de 200 kg.",
+          "corr_fr": "Les morceaux de 1 à 2 cm et ceux de moins de 1 cm passent : 120 + 50 = 170 kg, soit 85 % des 200 kg."
+        },
+        {
+          "en": "Twee zeven liggen in de verkeerde volgorde op elkaar: de zeef met gaatjes van 1 cm ligt bovenaan en de zeef met gaatjes van 2 cm onderaan. Waarom is de onderste zeef nutteloos?",
+          "fr": "Deux tamis sont empilés dans le mauvais ordre : le tamis à trous de 1 cm est en haut et le tamis à trous de 2 cm est en bas. Pourquoi le tamis du bas est-il inutile ?",
+          "corr_en": "De bovenste zeef houdt al alle stukken groter dan 1 cm tegen. Alleen stukken kleiner dan 1 cm komen bij de onderste zeef, en die gaan allemaal door de gaatjes van 2 cm: ze houdt niets tegen.",
+          "corr_fr": "Le tamis du haut garde déjà tous les morceaux de plus de 1 cm. Seuls les morceaux de moins de 1 cm atteignent le tamis du bas, et ils passent tous par ses trous de 2 cm : il n'arrête rien."
+        },
+        {
+          "en": "Welke techniek wordt hier gebruikt, en waarom werkt ze voor dit mengsel?",
+          "fr": "Quelle technique est utilisée ici, et pourquoi fonctionne-t-elle pour ce mélange ?",
+          "corr_en": "Zeven. Het werkt omdat de bestanddelen vaste stoffen van verschillende grootte zijn: de gaatjes houden de grote stukken tegen en laten de kleine door.",
+          "corr_fr": "Le tamisage. Il fonctionne parce que les constituants sont des solides de tailles différentes : les trous arrêtent les gros morceaux et laissent passer les petits."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Zwembadfilter",
+      "image": null,
+      "en": "Een zwembad heeft een pomp die het water eerst door een mand stuurt die bladeren en insecten tegenhoudt, en daarna door een tank met fijn zand die het kleine vuil tegenhoudt. Een leerling zegt: \"Daarna is het water een zuivere stof.\" Benoem de twee technieken. Heeft de leerling gelijk? Leg uit.",
+      "fr": "Une piscine possède une pompe qui envoie l'eau d'abord à travers un panier qui arrête les feuilles et les insectes, puis à travers un réservoir de sable fin qui arrête les petites saletés. Un élève dit : « Après cela, l'eau est un corps pur. » Nomme les deux techniques. L'élève a-t-il raison ? Explique.",
+      "corr_en": "De mand werkt zoals zeven (de grote stukken blijven achter) en de zandtank is filtratie (ze houdt het kleine vaste vuil tegen). De leerling heeft ongelijk: opgeloste stoffen, zoals chloor, gaan door de filter, dus het water is nog altijd een mengsel.",
+      "corr_fr": "Le panier fonctionne comme un tamisage (les gros morceaux restent) et le réservoir de sable est une filtration (il arrête les petites saletés solides). L'élève a tort : les substances dissoutes, comme le chlore, traversent le filtre, donc l'eau est toujours un mélange."
+    },
+    {
+      "id": 8,
+      "title": "Zout water verwarmen",
+      "image": null,
+      "en": "Een leerling verwarmt 100 g zeewater in een schaal en weegt de inhoud van de schaal om de 10 minuten. De grafiek toont het resultaat. Beschrijf de curve en verklaar ze. Wat zit er op het einde in de schaal, en wat is de massa ervan?",
+      "fr": "Un élève chauffe 100 g d'eau de mer dans un plat et pèse le contenu du plat toutes les 10 minutes. Le graphique montre le résultat. Décris la courbe et explique-la. Que contient le plat à la fin, et quelle est sa masse ?",
+      "corr_en": "De massa daalt en blijft daarna constant op ongeveer 3 g. De daling komt doordat het water verdampt: het wordt een gas en verdwijnt. De 3 g die overblijft, is het zout, dat als vaste stof in de schaal blijft.",
+      "corr_fr": "La masse diminue, puis reste constante à environ 3 g. La diminution correspond à l'eau qui s'évapore : elle devient un gaz et s'en va. Les 3 g restants sont le sel, qui reste dans le plat sous forme de solide."
+    },
+    {
+      "id": 9,
+      "title": "Drinkwater",
+      "image": null,
+      "en": "Zeelui op een boot hebben alleen zeewater. Ze verwarmen het in een kookpot en koelen de damp af in een buis om vloeistofdruppels op te vangen. Welke techniek gebruiken ze? Wat zit er in de opgevangen vloeistof en wat blijft er in de kookpot? Leg uit waarom filtratie dit niet kan.",
+      "fr": "Des marins sur un bateau n'ont que de l'eau de mer. Ils la chauffent dans une marmite et refroidissent la vapeur dans un tube pour recueillir des gouttes de liquide. Quelle technique utilisent-ils ? Que contient le liquide recueilli et que reste-t-il dans la marmite ? Explique pourquoi la filtration ne pourrait pas faire le travail.",
+      "corr_en": "Ze gebruiken distillatie: het water verdampt en de damp wordt afgekoeld tot hij weer vloeibaar is. De opgevangen vloeistof is alleen water (één soort molecule), dus een zuivere stof. Het zout blijft in de kookpot. Filtratie lukt niet omdat het zout opgelost is in heel kleine deeltjes die door de filter gaan.",
+      "corr_fr": "Ils utilisent la distillation : l'eau s'évapore et la vapeur est refroidie pour redevenir liquide. Le liquide recueilli ne contient que de l'eau (un seul type de molécule), c'est donc un corps pur. Le sel reste dans la marmite. La filtration échoue parce que le sel est dissous en minuscules particules qui traversent le filtre."
+    },
+    {
+      "id": 10,
+      "title": "Goud wassen",
+      "image": "N3-10_gold_panning.webp",
+      "en": "Een goudzoeker vult een goudpan met rivierzand, grind en piepkleine goudschilfers, voegt water toe en schudt zachtjes. Het lichte zand en grind spoelen over de rand, en de zware goudschilfers blijven op de bodem van de pan. Op welke scheidingstechniek lijkt dit? Leg uit waarom het werkt. Waarom helpen een magneet of filterpapier niet?",
+      "fr": "Un chercheur d'or remplit une batée de sable de rivière, de gravier et de minuscules paillettes d'or, ajoute de l'eau et la secoue doucement. Le sable et le gravier légers sont emportés par-dessus le bord, et les lourdes paillettes d'or restent au fond de la batée. À quelle technique de séparation cela ressemble-t-il ? Explique pourquoi cela fonctionne. Pourquoi un aimant ou un papier filtre n'aiderait-il pas ?",
+      "corr_en": "Het lijkt op decanteren: het zware goud zakt en blijft op de bodem, terwijl het lichtere materiaal met het water wordt weggegoten. Goud is niet magnetisch, en filterpapier scheidt een vaste stof van een vloeistof, niet een vaste stof van andere vaste stoffen.",
+      "corr_fr": "Cela ressemble à la décantation : l'or lourd coule et reste au fond pendant que la matière plus légère est évacuée avec l'eau. L'or n'est pas magnétique, et le papier filtre sépare un solide d'un liquide, pas un solide d'autres solides."
+    },
+    {
+      "id": 11,
+      "title": "Na het filtreren",
+      "image": null,
+      "en": "Een molecuulmodel van een mengsel bevat 12 blauwe cirkels (water), 4 paarse cirkels (opgelost zout) en 3 grote bruine cirkels (zandkorrels). Het mengsel wordt door filterpapier gegoten. Beschrijf het model van de vloeistof die erdoor gaat en wat er op het papier blijft. Is de vloeistof een zuivere stof?",
+      "fr": "Un modèle moléculaire d'un mélange contient 12 cercles bleus (eau), 4 cercles violets (sel dissous) et 3 gros cercles bruns (grains de sable). Le mélange est versé à travers un papier filtre. Décris le modèle du liquide qui passe et ce qui reste sur le papier. Le liquide est-il un corps pur ?",
+      "corr_en": "De vloeistof heeft alleen blauwe en paarse cirkels, goed gemengd: het is een oplossing met één fase. De 3 grote bruine cirkels (zand) blijven op het papier. De vloeistof is geen zuivere stof, want ze bevat nog twee soorten deeltjes, water en zout.",
+      "corr_fr": "Le liquide n'a que des cercles bleus et violets, bien mélangés : c'est une solution à une seule phase. Les 3 gros cercles bruns (sable) restent sur le papier. Le liquide n'est pas un corps pur parce qu'il contient encore deux types de particules, l'eau et le sel."
+    },
+    {
+      "id": 12,
+      "title": "Plan nakijken",
+      "image": "N3-12_garage_tray-2.webp",
+      "en": "Een mecanicien ruimt de rommel op de afbeelding op: stukjes plastic, motorolie, water en schoonmaakzout (opgelost in het water) zitten allemaal in één bak. Hij schrijft dit plan: 1) De stukjes plastic met de hand eruit halen. 2) De olie die op het water drijft afgieten. 3) Het water filtreren om het zout te krijgen. Welke stap werkt niet? Leg uit waarom en verbeter hem.",
+      "fr": "Un mécanicien nettoie le désordre de l'image : des morceaux de plastique, de l'huile de moteur, de l'eau et du sel de nettoyage (dissous dans l'eau) sont tous dans un même bac. Il écrit ce plan : 1) Retirer les morceaux de plastique à la main. 2) Verser l'huile qui flotte sur l'eau. 3) Filtrer l'eau pour obtenir le sel. Quelle étape ne fonctionne pas ? Explique pourquoi et corrige-la.",
+      "corr_en": "Stap 3 werkt niet: het zout is opgelost in het water, dus het gaat samen met het water door het filterpapier. We moeten het water laten verdampen: het zout blijft als vaste stof in de schaal.",
+      "corr_fr": "L'étape 3 ne fonctionne pas : le sel est dissous dans l'eau, donc il traverse le papier filtre avec l'eau. Il faut évaporer l'eau : le sel reste dans le plat sous forme de solide."
+    },
+    {
+      "id": 13,
+      "title": "Uitspraken over een plas",
+      "image": null,
+      "en": "Drie leerlingen kijken naar een plas op een parking. Een dun gekleurd laagje drijft op het water. Emma zegt: \"Er zijn twee fasen.\" Noah zegt: \"Deze plas is walgelijk.\" Lina zegt: \"Het laagje is waarschijnlijk olie van een auto.\" Deel elke uitspraak in als feit, oordeel of hypothese, en leg uit hoe je dat weet.",
+      "fr": "Trois élèves regardent une flaque sur un parking. Une fine couche colorée flotte sur l'eau. Emma dit : « Il y a deux phases. » Noah dit : « Cette flaque est dégoûtante. » Lina dit : « La couche est probablement de l'huile de voiture. » Classe chaque affirmation comme un fait, un jugement ou une hypothèse, et explique comment tu le sais.",
+      "corr_en": "De uitspraak van Emma is een feit: we zien twee fasen. De uitspraak van Noah is een oordeel: het is een persoonlijke mening. De uitspraak van Lina is een hypothese: het is een mogelijke verklaring die niet bewezen is. Alleen feiten kun je rechtstreeks waarnemen; een hypothese moet je testen.",
+      "corr_fr": "L'affirmation d'Emma est un fait : on voit deux phases. Celle de Noah est un jugement : c'est une opinion personnelle. Celle de Lina est une hypothèse : c'est une explication possible, non prouvée. Seuls les faits s'observent directement ; une hypothèse doit être testée."
+    },
+    {
+      "id": 14,
+      "title": "Herstel de sleutel",
+      "image": null,
+      "questions": [
+        {
+          "en": "Deze sleutel moet zuurstofgas, suikerwater, en olie en water indelen, maar er zit één fout in. Zoek de fout en verbeter ze.",
+          "fr": "Cette clé devrait classer le dioxygène (gaz), l'eau sucrée, et l'huile et l'eau, mais elle contient une erreur. Trouve-la et corrige-la.",
+          "corr_en": "De twee antwoorden van de tweede vraag zijn omgewisseld. Eén soort molecule betekent een zuivere stof, dus \"Ja\" moet naar zuurstofgas leiden en \"Nee\" naar suikerwater.",
+          "corr_fr": "Les deux réponses de la deuxième question sont inversées. Un seul type de molécule signifie un corps pur, donc « Oui » doit mener au dioxygène et « Non » doit mener à l'eau sucrée."
+        },
+        {
+          "en": "Gebruik de verbeterde sleutel om zuiver stikstofgas en een glas aangelengde sinaasappelsiroop in te delen. Schrijf voor elk de weg die je volgt.",
+          "fr": "Utilise la clé corrigée pour classer de l'azote pur (gaz) et un verre de sirop d'orange dilué. Écris le chemin suivi pour chacun.",
+          "corr_en": "Stikstof: één fase (Nee), één soort molecule (Ja): zuivere stof. Sinaasappelsiroop: één fase (Nee), verschillende soorten moleculen (Nee): homogeen mengsel, zoals suikerwater.",
+          "corr_fr": "Azote : une phase (Non), un seul type de molécule (Oui) : corps pur. Sirop d'orange : une phase (Non), plusieurs types de molécules (Non) : mélange homogène, comme l'eau sucrée."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Ahornsiroop",
+      "image": null,
+      "en": "Ahornsap is vooral water met een beetje opgeloste suiker. Om ahornsiroop te maken, kookt een producent het sap urenlang. Benoem de opgeloste stof en het oplosmiddel, benoem de techniek en leg uit waarom de vloeistof zoeter wordt. Waarom zou filtratie niet werken?",
+      "fr": "La sève d'érable est surtout de l'eau avec un peu de sucre dissous. Pour fabriquer du sirop d'érable, un producteur fait bouillir la sève pendant des heures. Nomme le soluté et le solvant, nomme la technique et explique pourquoi le liquide devient plus sucré. Pourquoi la filtration ne fonctionnerait-elle pas ?",
+      "corr_en": "Opgeloste stof: suiker; oplosmiddel: water. De techniek is verdamping: het water wordt een gas en verdwijnt, maar de suiker blijft, dus er is minder water en de vloeistof smaakt zoeter. Filtratie lukt niet omdat de suiker opgelost is in heel kleine deeltjes die door de filter gaan.",
+      "corr_fr": "Soluté : le sucre ; solvant : l'eau. La technique est l'évaporation : l'eau devient un gaz et s'en va, mais le sucre reste, donc il y a moins d'eau et le liquide est plus sucré. La filtration échouerait parce que le sucre est dissous en minuscules particules qui traversent le filtre."
+    },
+    {
+      "id": 16,
+      "title": "Staal met lagen",
+      "image": null,
+      "questions": [
+        {
+          "en": "Hoeveel fasen heeft dit staal? Is het een homogeen of een heterogeen mengsel?",
+          "fr": "Combien de phases cet échantillon a-t-il ? S'agit-il d'un mélange homogène ou hétérogène ?",
+          "corr_en": "Twee fasen: olie bovenaan en zout water eronder. Het is een heterogeen mengsel.",
+          "corr_fr": "Deux phases : l'huile au-dessus et l'eau salée en dessous. C'est un mélange hétérogène."
+        },
+        {
+          "en": "Welke laag is een oplossing? Benoem de opgeloste stof en het oplosmiddel.",
+          "fr": "Quelle couche est une solution ? Nomme son soluté et son solvant.",
+          "corr_en": "De onderste laag is een oplossing: de opgeloste stof is het zout en het oplosmiddel is het water.",
+          "corr_fr": "La couche du bas est une solution : le soluté est le sel et le solvant est l'eau."
+        },
+        {
+          "en": "Met welke technieken, in welke volgorde, krijg je eerst de olie en daarna het zout? Leg uit.",
+          "fr": "Quelles techniques, dans quel ordre, permettent d'obtenir l'huile puis le sel ? Explique.",
+          "corr_en": "Eerst decanteren: de olie is lichter en drijft, dus we gieten de bovenste laag af. Daarna verdamping van het zoute water: het water wordt een gas en het zout blijft.",
+          "corr_fr": "D'abord la décantation : l'huile est plus légère et flotte, donc on verse la couche du dessus. Ensuite l'évaporation de l'eau salée : l'eau devient un gaz et le sel reste."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "Olievlek",
+      "image": null,
+      "en": "Na een scheepsongeval drijft er aardolie op de zee. Arbeiders plaatsen drijvende versperringen en halen de olie van het oppervlak. Op welke scheidingstechniek lijkt dit, en waarom werkt het? Waarom kan dezelfde methode het zout niet uit het zeewater halen?",
+      "fr": "Après un accident de bateau, du pétrole flotte sur la mer. Des ouvriers placent des barrages flottants et récupèrent le pétrole à la surface. À quelle technique de séparation cela ressemble-t-il, et pourquoi fonctionne-t-elle ? Pourquoi la même méthode ne pourrait-elle pas retirer le sel de l'eau de mer ?",
+      "corr_en": "Het lijkt op decanteren: olie is lichter dan water, dus ze drijft en kan uit de bovenste laag gehaald worden. Zout kan zo niet verwijderd worden omdat het opgelost is in het water (één fase, geen laag). Daarvoor is verdamping nodig.",
+      "corr_fr": "Cela ressemble à la décantation : le pétrole est plus léger que l'eau, donc il flotte et peut être retiré de la couche du dessus. Le sel ne peut pas être retiré ainsi parce qu'il est dissous dans l'eau (une seule phase, pas de couche). Il faudrait l'évaporation."
+    },
+    {
+      "id": 18,
+      "title": "Model van een drankje",
+      "image": null,
+      "en": "Twee leerlingen tekenen een model van suikerwater. Welk model toont een oplossing correct? Leg uit. Zeg daarna hoeveel fasen model 1 toont en waarom model 2 geen foto is van echt suikerwater.",
+      "fr": "Deux élèves dessinent un modèle de l'eau sucrée. Quel modèle montre correctement une solution ? Explique. Dis ensuite combien de phases montre le modèle 1 et pourquoi le modèle 2 n'est pas une photographie de la vraie eau sucrée.",
+      "corr_en": "Model 2 is correct: in een oplossing zijn de suikerdeeltjes goed gemengd met het water, dus er is één fase. Model 1 toont twee aparte zones, dus het heeft twee fasen. Model 2 is maar een model: de cirkels hebben een kleur, maar echte deeltjes niet.",
+      "corr_fr": "Le modèle 2 est correct : dans une solution, les particules de sucre sont bien mélangées à l'eau, donc il y a une seule phase. Le modèle 1 montre deux zones séparées, donc il a deux phases. Le modèle 2 n'est qu'un modèle : les cercles sont colorés, mais les vraies particules ne le sont pas."
+    },
+    {
+      "id": 19,
+      "title": "Labo-verslag",
+      "image": null,
+      "en": "Een leerling heeft een droog mengsel van ijzervijlsel, zand en zout. Eerst beweegt ze een magneet erboven: een zwart poeder blijft aan de magneet hangen. Ze doet de rest in water en roert, en giet alles door filterpapier: het zand blijft op het papier en de vloeistof eronder is helder. Ze verwarmt de heldere vloeistof in een schaaltje tot het droog is: er blijven witte kristallen over. Schrijf de waarnemingen, de interpretatie en het besluit van haar labo-verslag.",
+      "fr": "Une élève a un mélange sec de limaille de fer, de sable et de sel. D'abord, elle passe un aimant au-dessus : une poudre noire colle à l'aimant. Elle met le reste dans de l'eau et remue, puis verse le tout à travers un papier filtre : le sable reste sur le papier et le liquide en dessous est limpide. Elle chauffe le liquide limpide dans un plat jusqu'à ce qu'il soit sec : il reste des cristaux blancs. Écris les observations, l'interprétation et la conclusion de son rapport de laboratoire.",
+      "corr_en": "Waarnemingen: een zwart poeder blijft aan de magneet hangen; zand blijft op het papier; de vloeistof is helder; na het verwarmen blijven witte kristallen over. Interpretatie: de magneet trekt het ijzer aan; het papier houdt het zand tegen; de kristallen zijn het opgeloste zout. Besluit: het mengsel bevatte ijzer, zand en zout, gescheiden door magnetische scheiding, filtratie en verdamping.",
+      "corr_fr": "Observations : une poudre noire colle à l'aimant ; le sable reste sur le papier ; le liquide est limpide ; des cristaux blancs restent après le chauffage. Interprétation : l'aimant attire le fer ; le papier arrête le sable ; les cristaux sont le sel dissous. Conclusion : le mélange contenait du fer, du sable et du sel, séparés par séparation magnétique, filtration et évaporation."
+    },
+    {
+      "id": 20,
+      "title": "Drie stalen",
+      "image": null,
+      "questions": [
+        {
+          "en": "Welk staal is een zuivere stof? Welk staal bevat drie verschillende stoffen?",
+          "fr": "Quel échantillon est un corps pur ? Quel échantillon contient trois substances différentes ?",
+          "corr_en": "Staal 1 is een zuivere stof (alleen water). Staal 3 bevat drie stoffen: water, vloeistof X en zout.",
+          "corr_fr": "L'échantillon 1 est un corps pur (seulement de l'eau). L'échantillon 3 contient trois substances : l'eau, le liquide X et le sel."
+        },
+        {
+          "en": "Water kookt bij 100 °C en vloeistof X bij 65 °C. Staal 2 wordt langzaam verwarmd. Welke vloeistof wordt eerst opgevangen, en waarom?",
+          "fr": "L'eau bout à 100 °C et le liquide X bout à 65 °C. L'échantillon 2 est chauffé lentement. Quel liquide est recueilli en premier, et pourquoi ?",
+          "corr_en": "Vloeistof X wordt eerst opgevangen: ze heeft het laagste kookpunt, dus ze wordt eerst een gas en haar damp wordt afgekoeld in de condensor.",
+          "corr_fr": "Le liquide X est recueilli en premier : il a la température d'ébullition la plus basse, donc il devient gaz en premier et sa vapeur est refroidie dans le condenseur."
+        },
+        {
+          "en": "Staal 3 wordt verwarmd tot beide vloeistoffen verdampt zijn. Wat blijft er in de kolf?",
+          "fr": "L'échantillon 3 est chauffé jusqu'à ce que les deux liquides se soient évaporés. Que reste-t-il dans le ballon ?",
+          "corr_en": "Het zout blijft in de kolf, want een vaste stof blijft achter als de vloeistoffen gassen worden.",
+          "corr_fr": "Il reste le sel dans le ballon, parce qu'un solide reste quand les liquides deviennent des gaz."
+        }
+      ]
+    }
+  ]
 }
