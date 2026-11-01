@@ -322,7 +322,7 @@
         },
         {
           "question": "In a salt marsh, sea water is left in shallow basins under the sun. What is left in the basins when the water has gone?",
-          "image": null,
+          "image": "assets/QCM4_5_salt_pans.webp",
           "options": [
             "Salt",
             "Sand",
@@ -334,7 +334,7 @@
         },
         {
           "question": "Which technique does the volunteer use to clean the beach?",
-          "image": null,
+          "image": "assets/QCM4_6_beach_cleanup.webp",
           "options": [
             "Manual separation",
             "Magnetic separation",
@@ -346,7 +346,7 @@
         },
         {
           "question": "Which technique makes perfume from flowers by heating them and cooling the vapour?",
-          "image": null,
+          "image": "assets/QCM4_7_flower_still.webp",
           "options": [
             "Distillation",
             "Filtration",

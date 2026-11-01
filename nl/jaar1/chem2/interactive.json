@@ -322,7 +322,7 @@
         },
         {
           "question": "In een zoutpan blijft zeewater in ondiepe bekkens in de zon staan. Wat blijft er in de bekkens als het water weg is?",
-          "image": null,
+          "image": "assets/QCM4_5_salt_pans.webp",
           "options": [
             "Zout",
             "Zand",
@@ -334,7 +334,7 @@
         },
         {
           "question": "Welke techniek gebruikt de vrijwilliger om het strand op te ruimen?",
-          "image": null,
+          "image": "assets/QCM4_6_beach_cleanup.webp",
           "options": [
             "Sorteren met de hand",
             "Magnetische scheiding",
@@ -346,7 +346,7 @@
         },
         {
           "question": "Met welke techniek maak je parfum uit bloemen door ze te verwarmen en de damp af te koelen?",
-          "image": null,
+          "image": "assets/QCM4_7_flower_still.webp",
           "options": [
             "Distillatie",
             "Filtratie",
