@@ -247,9 +247,9 @@
 
   /* ===== Étape 1 : hypothèse ===== */
   // Vignette de chaque lieu, pour la carte des échantillons : images d'une
-  // planche Gemini (assets/lab-so-<lieu>.jpg, dans chaque filière, 148 px de
-  // haut, cadre dessiné compris).
-  const placeImg = key => `<img class="so-place" src="assets/lab-so-${key}.jpg" alt="" draggable="false">`;
+  // planche Gemini (assets/lab-so-<lieu>-240.jpg, dans chaque filière, 240 px
+  // de haut, cadre dessiné compris).
+  const placeImg = key => `<img class="so-place" src="assets/lab-so-${key}-240.jpg" alt="" draggable="false">`;
 
   function renderPredict() {
     const missing = lab.state.showMissing && !state.hypothesis;
