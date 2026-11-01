@@ -120,7 +120,7 @@
     {
       "id": 14,
       "title": "Sifting flour",
-      "image": null,
+      "image": "N1-14_sifting_flour.webp",
       "en": "Which separation technique is shown here, and what is the tool called?",
       "fr": "Quelle technique de séparation est représentée ici, et comment s'appelle l'outil ?",
       "corr_en": "Sifting, with a sieve: small pieces go through the holes and big pieces stay.",
@@ -262,7 +262,7 @@
     {
       "id": 6,
       "title": "Cereal and milk",
-      "image": null,
+      "image": "N2-06_cereal_milk.webp",
       "en": "A child pours milk onto cereal, as in the picture. How many phases can you see? Is it a homogeneous or a heterogeneous mixture? Justify.",
       "fr": "Un enfant verse du lait sur des céréales, comme sur l'image. Combien de phases vois-tu ? S'agit-il d'un mélange homogène ou hétérogène ? Justifie.",
       "corr_en": "There are two phases: the solid cereal flakes and the liquid milk. It is a heterogeneous mixture because we can see the different parts.",
@@ -280,7 +280,7 @@
     {
       "id": 8,
       "title": "Sifting soil",
-      "image": null,
+      "image": "N2-08_sifting_compost.webp",
       "en": "A gardener pours compost through a sieve, as in the picture. What stays in the sieve and what goes through? Explain why sifting works.",
       "fr": "Un jardinier verse du compost dans un tamis, comme sur l'image. Qu'est-ce qui reste dans le tamis et qu'est-ce qui passe ? Explique pourquoi le tamisage fonctionne.",
       "corr_en": "The big pieces (stones, twigs) stay in the sieve and the small pieces (fine soil) go through the holes. Sifting works because the pieces have different sizes.",
