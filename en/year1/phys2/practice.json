@@ -1,5 +1,662 @@
 {
-  "level1": [],
-  "level2": [],
-  "level3": []
+  "level1": [
+    {
+      "id": 1,
+      "title": "Compressing a liquid",
+      "image": null,
+      "en": "True or false: you can easily press a liquid into a smaller volume with a syringe. If it is false, correct the sentence.",
+      "fr": "Vrai ou faux : on peut facilement comprimer un liquide dans un plus petit volume avec une seringue. Si c'est faux, corrige la phrase.",
+      "corr_en": "False. A gas can be pressed into a smaller volume, but a liquid cannot.",
+      "corr_fr": "Faux. On peut comprimer un gaz dans un plus petit volume, mais pas un liquide."
+    },
+    {
+      "id": 2,
+      "title": "Name the states",
+      "image": "states-key-juice-balloon.webp",
+      "en": "Look at pictures A, B and C. What is the state of matter of each one?",
+      "fr": "Observe les images A, B et C. Quel est l'état de la matière de chacune ?",
+      "corr_en": "A is a solid (the key), B is a liquid (the juice) and C is a gas (the gas inside the balloon).",
+      "corr_fr": "A est un solide (la clé), B est un liquide (le jus) et C est un gaz (le gaz à l'intérieur du ballon)."
+    },
+    {
+      "id": 3,
+      "title": "Particles of a solid",
+      "image": null,
+      "en": "Describe the particles of a solid in one sentence.",
+      "fr": "Décris les particules d'un solide en une phrase.",
+      "corr_en": "In a solid, the particles are close together, in order, and have strong links.",
+      "corr_fr": "Dans un solide, les particules sont proches les unes des autres, ordonnées, et ont des liaisons fortes."
+    },
+    {
+      "id": 4,
+      "title": "Spot the gas",
+      "image": "particles-x-y-z.webp",
+      "en": "Which diagram (X, Y or Z) shows a gas? Give one reason.",
+      "fr": "Quel schéma (X, Y ou Z) représente un gaz ? Donne une raison.",
+      "corr_en": "Diagram X: the particles are very far apart and in no order.",
+      "corr_fr": "Schéma X : les particules sont très éloignées les unes des autres et sans ordre."
+    },
+    {
+      "id": 5,
+      "title": "Unit and instrument",
+      "image": null,
+      "en": "What is the usual unit of temperature and which instrument measures it?",
+      "fr": "Quelle est l'unité usuelle de la température et quel instrument la mesure ?",
+      "corr_en": "The unit is the degree Celsius (°C) and the instrument is the thermometer.",
+      "corr_fr": "L'unité est le degré Celsius (°C) et l'instrument est le thermomètre."
+    },
+    {
+      "id": 6,
+      "title": "Read the thermometer",
+      "image": "thermometer-reading.webp",
+      "en": "What temperature does the thermometer show? Write the unit.",
+      "fr": "Quelle température le thermomètre indique-t-il ? Écris l'unité.",
+      "corr_en": "The thermometer shows 26 °C.",
+      "corr_fr": "Le thermomètre indique 26 °C."
+    },
+    {
+      "id": 7,
+      "title": "Melting point of ice",
+      "image": null,
+      "en": "At which temperature does ice melt under normal conditions? How do we call this temperature?",
+      "fr": "À quelle température la glace fond-elle dans les conditions normales ? Comment appelle-t-on cette température ?",
+      "corr_en": "Ice melts at 0 °C. This temperature is called the melting point of water.",
+      "corr_fr": "La glace fond à 0 °C. Cette température s'appelle le point de fusion de l'eau."
+    },
+    {
+      "id": 8,
+      "title": "Faster particles",
+      "image": "faster-particles-beakers.webp",
+      "en": "In which beaker (1 or 2) do the particles move faster? Explain why.",
+      "fr": "Dans quel bécher (1 ou 2) les particules bougent-elles le plus vite ? Explique pourquoi.",
+      "corr_en": "In beaker 2: its temperature is higher, so the particles move faster.",
+      "corr_fr": "Dans le bécher 2 : sa température est plus élevée, donc les particules bougent plus vite."
+    },
+    {
+      "id": 9,
+      "title": "What is heat?",
+      "image": null,
+      "en": "What is heat?",
+      "fr": "Qu'est-ce que la chaleur ?",
+      "corr_en": "Heat is thermal energy that goes from a hot object to a cold object.",
+      "corr_fr": "La chaleur est de l'énergie thermique qui passe d'un objet chaud à un objet froid."
+    },
+    {
+      "id": 10,
+      "title": "Hot-water bottle",
+      "image": "hot-water-bottle-bed.webp",
+      "en": "A hot-water bottle (50 °C) is put in a cold bed (12 °C). Which one gives heat to the other?",
+      "fr": "Une bouillotte (50 °C) est placée dans un lit froid (12 °C). Lequel donne de la chaleur à l'autre ?",
+      "corr_en": "The hot-water bottle gives heat to the bed, because heat goes from hot to cold.",
+      "corr_fr": "La bouillotte donne de la chaleur au lit, car la chaleur va du chaud vers le froid."
+    },
+    {
+      "id": 11,
+      "title": "Measuring heat?",
+      "image": null,
+      "en": "True or false: a thermometer measures the heat of an object. If it is false, correct the sentence.",
+      "fr": "Vrai ou faux : un thermomètre mesure la chaleur d'un objet. Si c'est faux, corrige la phrase.",
+      "corr_en": "False. A thermometer measures the temperature of an object, not its heat.",
+      "corr_fr": "Faux. Un thermomètre mesure la température d'un objet, pas sa chaleur."
+    },
+    {
+      "id": 12,
+      "title": "Which change?",
+      "image": "ice-cube-melting.webp",
+      "en": "Name the change of state shown in the picture.",
+      "fr": "Nomme le changement d'état montré sur l'image.",
+      "corr_en": "Melting: the ice changes from a solid to a liquid.",
+      "corr_fr": "La fusion : la glace passe de l'état solide à l'état liquide."
+    },
+    {
+      "id": 13,
+      "title": "The plateau",
+      "image": null,
+      "en": "What happens to the temperature of a pure substance during a change of state? What is the flat part of the graph called?",
+      "fr": "Que devient la température d'une substance pure pendant un changement d'état ? Comment appelle-t-on la partie plate du graphique ?",
+      "corr_en": "The temperature stays constant. The flat part of the graph is called a plateau.",
+      "corr_fr": "La température reste constante. La partie plate du graphique s'appelle un palier (plateau)."
+    },
+    {
+      "id": 14,
+      "title": "Boiling water",
+      "image": "boiling-water-pot.webp",
+      "en": "This water is boiling. What is its temperature under normal conditions?",
+      "fr": "Cette eau bout. Quelle est sa température dans les conditions normales ?",
+      "corr_en": "Its temperature is 100 °C, the boiling point of water.",
+      "corr_fr": "Sa température est de 100 °C, le point d'ébullition de l'eau."
+    },
+    {
+      "id": 15,
+      "title": "Mass of melted ice",
+      "image": null,
+      "en": "True or false: when an ice cube melts, its mass decreases. If it is false, correct the sentence.",
+      "fr": "Vrai ou faux : quand un glaçon fond, sa masse diminue. Si c'est faux, corrige la phrase.",
+      "corr_en": "False. The mass stays the same when the ice melts.",
+      "corr_fr": "Faux. La masse reste la même quand la glace fond."
+    },
+    {
+      "id": 16,
+      "title": "Hot bridge",
+      "image": "bridge-expansion-joint.webp",
+      "en": "A steel bridge is heated by the sun and becomes very slightly bigger. What is the name of this phenomenon?",
+      "fr": "Un pont en acier est chauffé par le soleil et devient très légèrement plus grand. Comment s'appelle ce phénomène ?",
+      "corr_en": "Thermal expansion: the volume of a heated substance increases.",
+      "corr_fr": "La dilatation thermique : le volume d'une substance chauffée augmente."
+    },
+    {
+      "id": 17,
+      "title": "Thermal contraction",
+      "image": null,
+      "en": "What is thermal contraction?",
+      "fr": "Qu'est-ce que la contraction thermique ?",
+      "corr_en": "It is the decrease of the volume of a substance when it is cooled.",
+      "corr_fr": "C'est la diminution du volume d'une substance quand on la refroidit."
+    },
+    {
+      "id": 18,
+      "title": "Freezing water",
+      "image": "ice-tray-bulging.webp",
+      "en": "When water freezes, does its volume increase or decrease?",
+      "fr": "Quand l'eau gèle, son volume augmente-t-il ou diminue-t-il ?",
+      "corr_en": "Its volume increases. Water is special, because most substances shrink when they freeze.",
+      "corr_fr": "Son volume augmente. L'eau est particulière, car la plupart des substances se contractent quand elles gèlent."
+    },
+    {
+      "id": 19,
+      "title": "Two kinds of ice",
+      "image": null,
+      "en": "What do we call the floating ice on the Arctic Ocean, and what do we call the thick layer of ice on land in Greenland and Antarctica?",
+      "fr": "Comment appelle-t-on la glace flottante de l'océan Arctique, et comment appelle-t-on la grande couche de glace sur la terre ferme au Groenland et en Antarctique ?",
+      "corr_en": "The floating ice is sea ice, and the ice on land is an ice sheet.",
+      "corr_fr": "La glace flottante est la banquise (sea ice), et la glace sur la terre ferme est une calotte glaciaire (ice sheet)."
+    },
+    {
+      "id": 20,
+      "title": "States of water",
+      "image": "water-three-states.webp",
+      "en": "What is the state of water in each picture?",
+      "fr": "Quel est l'état de l'eau sur chaque image ?",
+      "corr_en": "Picture 1: solid (ice). Picture 2: liquid. Picture 3: gas (water vapour).",
+      "corr_fr": "Image 1 : solide (glace). Image 2 : liquide. Image 3 : gaz (vapeur d'eau)."
+    }
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Water and air",
+      "image": null,
+      "en": "A closed bottle contains a little water and air. Use the particle model to explain why the water stays at the bottom while the air fills the whole bottle.",
+      "fr": "Une bouteille fermée contient un peu d'eau et de l'air. Utilise le modèle particulaire pour expliquer pourquoi l'eau reste au fond alors que l'air remplit toute la bouteille.",
+      "corr_en": "Water particles are close together with links, so the water stays at the bottom. Air particles are far apart with almost no links, so they fill the whole bottle.",
+      "corr_fr": "Les particules d'eau sont proches et liées : l'eau reste au fond. Les particules d'air sont éloignées avec presque aucune liaison : elles remplissent toute la bouteille."
+    },
+    {
+      "id": 2,
+      "title": "Pressing the syringe",
+      "image": "syringe-pressed-air.webp",
+      "en": "A syringe full of air is closed at the tip and the plunger is pushed. Describe what happens to the volume of the air and to the distance between the particles, and explain why this is possible.",
+      "fr": "Une seringue remplie d'air est bouchée au bout et on enfonce le piston. Décris ce qui arrive au volume de l'air et à la distance entre les particules, et explique pourquoi c'est possible.",
+      "corr_en": "The volume decreases and the particles come closer together. This is possible because the particles of a gas are very far apart, with a lot of empty space between them.",
+      "corr_fr": "Le volume diminue et les particules se rapprochent. C'est possible car les particules d'un gaz sont très éloignées les unes des autres, avec beaucoup de vide entre elles."
+    },
+    {
+      "id": 3,
+      "title": "Hot water, cold water",
+      "image": null,
+      "en": "Compare the particles of water at 25 °C and of water at 90 °C. What is different and what is the same?",
+      "fr": "Compare les particules de l'eau à 25 °C et de l'eau à 90 °C. Qu'est-ce qui est différent et qu'est-ce qui est pareil ?",
+      "corr_en": "At 90 °C the particles move faster than at 25 °C. In both cases the water is liquid, so the particles stay close together.",
+      "corr_fr": "À 90 °C, les particules bougent plus vite qu'à 25 °C. Dans les deux cas l'eau est liquide, donc les particules restent proches les unes des autres."
+    },
+    {
+      "id": 4,
+      "title": "Stove and window",
+      "image": "stove-air-window-flow.webp",
+      "questions": [
+        {
+          "en": "Look at the diagram: the arrows show how thermal energy moves in a room in winter. Which object receives heat from the stove, and which object receives heat from the air in the room?",
+          "fr": "Observe le schéma : les flèches montrent comment l'énergie thermique se déplace dans une pièce en hiver. Quel objet reçoit de la chaleur du poêle, et quel objet reçoit de la chaleur de l'air de la pièce ?",
+          "corr_en": "The air in the room receives heat from the stove, and the window glass receives heat from the air.",
+          "corr_fr": "L'air de la pièce reçoit de la chaleur du poêle, et la vitre reçoit de la chaleur de l'air."
+        },
+        {
+          "en": "Using the temperatures, explain why heat goes from the air to the window and not the other way round.",
+          "fr": "En utilisant les températures, explique pourquoi la chaleur va de l'air vers la vitre et pas dans l'autre sens.",
+          "corr_en": "The air (19 °C) is hotter than the window (4 °C), and heat always goes from a hotter object to a colder object.",
+          "corr_fr": "L'air (19 °C) est plus chaud que la vitre (4 °C), et la chaleur va toujours d'un objet plus chaud vers un objet plus froid."
+        },
+        {
+          "en": "You touch the window and it feels cold. Does the window give \"cold\" to your hand? Explain.",
+          "fr": "Tu touches la vitre et elle te paraît froide. La vitre donne-t-elle du « froid » à ta main ? Explique.",
+          "corr_en": "No. Your hand is warmer than the window, so your hand gives heat to the window. Losing heat makes the window feel cold.",
+          "corr_fr": "Non. Ta main est plus chaude que la vitre, donc ta main donne de la chaleur à la vitre. C'est cette perte de chaleur qui donne la sensation de froid."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Heat or temperature?",
+      "image": null,
+      "en": "Sam says: \"The heat of this coffee is 70 °C.\" Explain what is wrong with this sentence and rewrite it correctly.",
+      "fr": "Sam dit : « La chaleur de ce café est de 70 °C. » Explique ce qui ne va pas dans cette phrase et réécris-la correctement.",
+      "corr_en": "70 °C is a temperature, not heat. Correct sentence: \"The temperature of this coffee is 70 °C.\" Heat is thermal energy that goes from a hot object to a cold one.",
+      "corr_fr": "70 °C est une température, pas de la chaleur. Phrase correcte : « La température de ce café est de 70 °C. » La chaleur est de l'énergie thermique qui passe d'un objet chaud à un objet froid."
+    },
+    {
+      "id": 6,
+      "title": "Cooling curve",
+      "image": "cooling-curve-x.webp",
+      "questions": [
+        {
+          "en": "The graph shows the temperature of a pure substance X during an experiment. Is the substance heated or cooled? How do you know?",
+          "fr": "Le graphique montre la température d'une substance pure X pendant une expérience. La substance est-elle chauffée ou refroidie ? Comment le sais-tu ?",
+          "corr_en": "It is cooled, because its temperature goes down as time passes.",
+          "corr_fr": "Elle est refroidie, car sa température diminue au fil du temps."
+        },
+        {
+          "en": "At which temperature does the substance freeze?",
+          "fr": "À quelle température la substance se solidifie-t-elle ?",
+          "corr_en": "At 60 °C, the temperature of the plateau.",
+          "corr_fr": "À 60 °C, la température du palier."
+        },
+        {
+          "en": "What is the state of the substance at minute 2, at minute 5 and at minute 9?",
+          "fr": "Quel est l'état de la substance à la minute 2, à la minute 5 et à la minute 9 ?",
+          "corr_en": "Minute 2: liquid. Minute 5: liquid and solid together, because it is freezing. Minute 9: solid.",
+          "corr_fr": "Minute 2 : liquide. Minute 5 : liquide et solide ensemble, car elle se solidifie. Minute 9 : solide."
+        },
+        {
+          "en": "Why is the line flat between minutes 3 and 6?",
+          "fr": "Pourquoi la ligne est-elle plate entre les minutes 3 et 6 ?",
+          "corr_en": "The substance is changing state: it loses thermal energy while new links form between the particles, so the temperature stays constant.",
+          "corr_fr": "La substance change d'état : elle perd de l'énergie thermique pendant que de nouvelles liaisons se forment entre les particules, donc la température reste constante."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Frost on glass",
+      "image": null,
+      "en": "On a very cold night, frost forms on a car window: water vapour from the air turns directly into ice crystals. Name this change of state, name the reverse change, and say for each one if the substance receives or loses thermal energy.",
+      "fr": "Par une nuit très froide, du givre se forme sur la vitre d'une voiture : la vapeur d'eau de l'air devient directement des cristaux de glace. Nomme ce changement d'état, nomme le changement inverse et indique pour chacun si la substance reçoit ou perd de l'énergie thermique.",
+      "corr_en": "Deposition: the water loses thermal energy. The reverse change is sublimation: the substance receives thermal energy.",
+      "corr_fr": "La sublimation inverse : l'eau perd de l'énergie thermique. Le changement inverse est la sublimation : la substance reçoit de l'énergie thermique."
+    },
+    {
+      "id": 8,
+      "title": "Warming a bottle",
+      "image": "baby-bottle-hot-water.webp",
+      "en": "A baby's milk bottle (5 °C) is put in a bowl of hot water (60 °C). Explain what happens to the temperature of the milk and of the water, and why.",
+      "fr": "Un biberon de lait (5 °C) est placé dans un bol d'eau chaude (60 °C). Explique ce qui arrive à la température du lait et de l'eau, et pourquoi.",
+      "corr_en": "The hot water gives heat to the milk, so the milk's temperature increases and the water's temperature decreases, because heat goes from the hotter object to the colder one.",
+      "corr_fr": "L'eau chaude donne de la chaleur au lait : la température du lait augmente et celle de l'eau diminue, car la chaleur va de l'objet le plus chaud vers le plus froid."
+    },
+    {
+      "id": 9,
+      "title": "Which graph?",
+      "image": null,
+      "en": "Pupils measure the temperature of heating water every minute for 20 minutes. Which graph is the best to show the results: a pie chart, a bar chart or a line graph? Justify.",
+      "fr": "Des élèves mesurent la température d'une eau qu'on chauffe, chaque minute pendant 20 minutes. Quel graphique est le plus adapté pour présenter les résultats : un graphique circulaire, un histogramme ou une courbe ? Justifie.",
+      "corr_en": "A line graph, because it shows how the temperature changes with time and lets us see where it increases or stays flat.",
+      "corr_fr": "Une courbe, car elle montre comment la température évolue avec le temps et permet de voir où elle augmente ou reste constante."
+    },
+    {
+      "id": 10,
+      "title": "Dry ice",
+      "image": "dry-ice-fog.webp",
+      "en": "Dry ice (solid carbon dioxide) turns directly into a gas at room temperature. Name this change of state and say if the substance receives or loses thermal energy.",
+      "fr": "La glace sèche (dioxyde de carbone solide) se transforme directement en gaz à température ambiante. Nomme ce changement d'état et dis si la substance reçoit ou perd de l'énergie thermique.",
+      "corr_en": "It is sublimation (solid to gas). The dry ice receives thermal energy from the warmer air around it.",
+      "corr_fr": "C'est la sublimation (de solide à gaz). La glace sèche reçoit de l'énergie thermique de l'air plus chaud qui l'entoure."
+    },
+    {
+      "id": 11,
+      "title": "Where does energy go?",
+      "image": null,
+      "en": "A heat source keeps giving thermal energy to melting ice, but the temperature stays at 0 °C. Where does the thermal energy go?",
+      "fr": "Une source de chaleur donne sans arrêt de l'énergie thermique à de la glace qui fond, mais la température reste à 0 °C. Où va l'énergie thermique ?",
+      "corr_en": "It is used to break the links between the particles of the ice, so the ice becomes liquid water instead of the particles moving faster.",
+      "corr_fr": "Elle sert à casser les liaisons entre les particules de la glace : la glace devient de l'eau liquide au lieu que les particules aillent plus vite."
+    },
+    {
+      "id": 12,
+      "title": "Boiling or evaporation?",
+      "image": "boiling-vs-evaporation.webp",
+      "en": "Both a boiling pot (1) and a drying puddle (2) are examples of vaporization. Give two differences between boiling and evaporation.",
+      "fr": "Une casserole qui bout (1) et une flaque qui sèche (2) sont deux exemples de vaporisation. Donne deux différences entre l'ébullition et l'évaporation.",
+      "corr_en": "Boiling is fast, with bubbles, and happens at the boiling point. Evaporation is slow, happens at the surface and at any temperature.",
+      "corr_fr": "L'ébullition est rapide, avec des bulles, et se produit au point d'ébullition. L'évaporation est lente, se produit à la surface et à n'importe quelle température."
+    },
+    {
+      "id": 13,
+      "title": "Melted ice mass",
+      "image": null,
+      "en": "A 50 g ice cube melts completely. What is the mass of the water obtained? Use the particles to explain.",
+      "fr": "Un glaçon de 50 g fond complètement. Quelle est la masse de l'eau obtenue ? Utilise les particules pour expliquer.",
+      "corr_en": "It is 50 g. The number of particles stays the same: no particle is created or lost, they only move differently.",
+      "corr_fr": "Elle est de 50 g. Le nombre de particules reste le même : aucune particule n'est créée ou perdue, elles bougent seulement différemment."
+    },
+    {
+      "id": 14,
+      "title": "Stuck jar lid",
+      "image": "jar-lid-hot-water.webp",
+      "en": "A metal lid is stuck on a glass jar. A cook runs the lid under hot water and it opens easily. Use the particle model to explain why.",
+      "fr": "Le couvercle en métal d'un bocal en verre est coincé. Un cuisinier fait couler de l'eau chaude sur le couvercle et il s'ouvre facilement. Utilise le modèle particulaire pour expliquer pourquoi.",
+      "corr_en": "The particles of the metal lid move faster and take more space, so the volume of the lid increases and the lid becomes looser.",
+      "corr_fr": "Les particules du couvercle en métal bougent plus vite et prennent plus de place : le volume du couvercle augmente et le couvercle se desserre."
+    },
+    {
+      "id": 15,
+      "title": "Fact, hypothesis, judgement",
+      "image": null,
+      "en": "Read the three sentences. 1) The ice of Greenland lost mass between 2002 and 2020. 2) If the ice sheets keep melting, some coastal cities might be flooded. 3) It is a disaster that glaciers melt. Which sentence is a fact, which one is a hypothesis and which one is a judgement?",
+      "fr": "Lis les trois phrases. 1) La glace du Groenland a perdu de la masse entre 2002 et 2020. 2) Si les calottes glaciaires continuent de fondre, certaines villes côtières pourraient être inondées. 3) C'est un désastre que les glaciers fondent. Quelle phrase est un fait, laquelle est une hypothèse et laquelle est un jugement ?",
+      "corr_en": "Sentence 1 is a fact (it can be measured). Sentence 2 is a hypothesis (it may happen). Sentence 3 is a judgement (it is an opinion).",
+      "corr_fr": "La phrase 1 est un fait (on peut le mesurer). La phrase 2 est une hypothèse (cela pourrait arriver). La phrase 3 est un jugement (c'est une opinion)."
+    },
+    {
+      "id": 16,
+      "title": "Bottle in the freezer",
+      "image": "bottle-dented-freezer.webp",
+      "en": "Pupils close an empty plastic bottle and put it in the freezer. After one hour the bottle is dented. Match each sentence with: research question, hypothesis, observation. A) \"The bottle is dented.\" B) \"Does air take less space when it is cooled?\" C) \"The air will contract when cooled, because its particles move slower.\"",
+      "fr": "Des élèves ferment une bouteille en plastique vide et la mettent au congélateur. Après une heure, la bouteille est déformée. Associe chaque phrase à : question de recherche, hypothèse, observation. A) « La bouteille est déformée. » B) « L'air prend-il moins de place quand on le refroidit ? » C) « L'air va se contracter quand on le refroidit, car ses particules bougent plus lentement. »",
+      "corr_en": "A is the observation, B is the research question and C is the hypothesis.",
+      "corr_fr": "A est l'observation, B est la question de recherche et C est l'hypothèse."
+    },
+    {
+      "id": 17,
+      "title": "Water and ice",
+      "image": null,
+      "en": "Compare the volume of 100 g of liquid water and the volume of 100 g of ice. Which one is bigger? Explain with the particles.",
+      "fr": "Compare le volume de 100 g d'eau liquide et le volume de 100 g de glace. Lequel est le plus grand ? Explique avec les particules.",
+      "corr_en": "The ice has the bigger volume. In ice the particles are arranged in order with empty spaces between them, so they take more space.",
+      "corr_fr": "La glace a le plus grand volume. Dans la glace, les particules sont rangées en ordre avec des espaces vides entre elles : elles prennent plus de place."
+    },
+    {
+      "id": 18,
+      "title": "Full glass of ice",
+      "image": "full-glass-ice.webp",
+      "en": "A glass is filled to the brim with water and three ice cubes float in it. All the ice melts. Does the glass overflow? Explain.",
+      "fr": "Un verre est rempli à ras bord d'eau et trois glaçons y flottent. Toute la glace fond. Le verre déborde-t-il ? Explique.",
+      "corr_en": "No. Floating ice already pushes aside as much water as it becomes when it melts, so the level does not change.",
+      "corr_fr": "Non. La glace flottante déplace déjà autant d'eau qu'elle en devient en fondant, donc le niveau ne change pas."
+    },
+    {
+      "id": 19,
+      "title": "Two reasons",
+      "image": null,
+      "en": "The sea level rises because of global warming. Give the two reasons and explain each in one sentence.",
+      "fr": "Le niveau de la mer monte à cause du réchauffement climatique. Donne les deux raisons et explique chacune en une phrase.",
+      "corr_en": "Ice on land melts and adds new water to the sea. Warmer sea water expands: the same water takes more space.",
+      "corr_fr": "La glace sur la terre ferme fond et ajoute de l'eau nouvelle à la mer. L'eau de mer plus chaude se dilate : la même eau prend plus de place."
+    },
+    {
+      "id": 20,
+      "title": "Heating table",
+      "image": "heating-table-y.webp",
+      "questions": [
+        {
+          "en": "A pure solid substance Y is heated and melts during the experiment. The table shows its temperature every minute. Between which minutes does the temperature stay constant?",
+          "fr": "Une substance solide pure Y est chauffée et fond pendant l'expérience. Le tableau donne sa température chaque minute. Entre quelles minutes la température reste-t-elle constante ?",
+          "corr_en": "Between minute 3 and minute 6.",
+          "corr_fr": "Entre la minute 3 et la minute 6."
+        },
+        {
+          "en": "What is the melting point of substance Y?",
+          "fr": "Quel est le point de fusion de la substance Y ?",
+          "corr_en": "60 °C, the temperature of the plateau.",
+          "corr_fr": "60 °C, la température du palier."
+        },
+        {
+          "en": "What is the state of substance Y at minute 2, at minute 5 and at minute 8?",
+          "fr": "Quel est l'état de la substance Y à la minute 2, à la minute 5 et à la minute 8 ?",
+          "corr_en": "Minute 2: solid. Minute 5: solid and liquid together, because it is melting. Minute 8: liquid.",
+          "corr_fr": "Minute 2 : solide. Minute 5 : solide et liquide ensemble, car elle fond. Minute 8 : liquide."
+        },
+        {
+          "en": "The heat source gives energy all the time. Why does the temperature not increase between minutes 3 and 6?",
+          "fr": "La source de chaleur donne de l'énergie en continu. Pourquoi la température n'augmente-t-elle pas entre les minutes 3 et 6 ?",
+          "corr_en": "The substance is melting: the energy breaks the links between the particles instead of making them move faster.",
+          "corr_fr": "La substance fond : l'énergie casse les liaisons entre les particules au lieu de les faire bouger plus vite."
+        }
+      ]
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "Candle wax drops",
+      "image": null,
+      "en": "Near the flame of a candle, solid wax turns into liquid wax. Later, some drops fall on a cold table and become hard again. Name both changes of state, say if the wax receives or loses thermal energy each time, and explain with the particles what happens to the links.",
+      "fr": "Près de la flamme d'une bougie, la cire solide devient de la cire liquide. Plus tard, des gouttes tombent sur une table froide et durcissent à nouveau. Nomme les deux changements d'état, dis si la cire reçoit ou perd de l'énergie thermique à chaque fois, et explique avec les particules ce qui arrive aux liaisons.",
+      "corr_en": "Near the flame it is melting: the wax receives thermal energy, which breaks the links so the particles slide past each other. On the cold table it is freezing: the wax loses thermal energy and new links form, so the particles stay in order.",
+      "corr_fr": "Près de la flamme, c'est la fusion : la cire reçoit de l'énergie thermique, qui casse les liaisons et permet aux particules de glisser les unes sur les autres. Sur la table froide, c'est la solidification : la cire perd de l'énergie thermique et de nouvelles liaisons se forment, donc les particules restent en ordre."
+    },
+    {
+      "id": 2,
+      "title": "Mercury heating curve",
+      "image": "mercury-heating-curve.webp",
+      "questions": [
+        {
+          "en": "The graph shows the heating of mercury, a metal that is liquid at room temperature. What are the melting point and the boiling point of mercury?",
+          "fr": "Le graphique montre le chauffage du mercure, un métal liquide à température ambiante. Quels sont le point de fusion et le point d'ébullition du mercure ?",
+          "corr_en": "The melting point is −39 °C and the boiling point is 357 °C, the two temperatures of the plateaus.",
+          "corr_fr": "Le point de fusion est de −39 °C et le point d'ébullition est de 357 °C : ce sont les températures des deux paliers."
+        },
+        {
+          "en": "What is the state of mercury at −50 °C, at 20 °C and at 400 °C? Justify.",
+          "fr": "Quel est l'état du mercure à −50 °C, à 20 °C et à 400 °C ? Justifie.",
+          "corr_en": "At −50 °C it is solid (below −39 °C). At 20 °C it is liquid (between the two plateaus). At 400 °C it is gas (above 357 °C).",
+          "corr_fr": "À −50 °C il est solide (en dessous de −39 °C). À 20 °C il est liquide (entre les deux paliers). À 400 °C il est gazeux (au-dessus de 357 °C)."
+        },
+        {
+          "en": "A scientist wants to measure the air temperature at a polar station, where it can reach −50 °C. Can she use a mercury thermometer? Explain.",
+          "fr": "Une scientifique veut mesurer la température de l'air dans une station polaire, où elle peut atteindre −50 °C. Peut-elle utiliser un thermomètre à mercure ? Explique.",
+          "corr_en": "No. At −50 °C mercury is below its melting point (−39 °C), so it is solid and cannot move up or down in the tube.",
+          "corr_fr": "Non. À −50 °C le mercure est en dessous de son point de fusion (−39 °C) : il est solide et ne peut pas monter ou descendre dans le tube."
+        },
+        {
+          "en": "Explain with the particles why the temperature stays at 357 °C for two minutes although mercury keeps receiving thermal energy.",
+          "fr": "Explique avec les particules pourquoi la température reste à 357 °C pendant deux minutes alors que le mercure continue de recevoir de l'énergie thermique.",
+          "corr_en": "Mercury is boiling: the thermal energy breaks the links between the particles, which move far apart as a gas, instead of making them move faster. So the temperature stays constant.",
+          "corr_fr": "Le mercure bout : l'énergie thermique casse les liaisons entre les particules, qui s'éloignent sous forme de gaz, au lieu de les faire bouger plus vite. Donc la température reste constante."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Design an experiment",
+      "image": null,
+      "en": "A student thinks that the volume of the air in a closed syringe changes when it is put in hot water. Write a hypothesis, then describe a simple experiment: what you change, what you observe and what result you expect.",
+      "fr": "Un élève pense que le volume de l'air dans une seringue fermée change quand on la plonge dans de l'eau chaude. Écris une hypothèse, puis décris une expérience simple : ce que tu changes, ce que tu observes et le résultat que tu attends.",
+      "corr_en": "Hypothesis: the volume of the air increases when it is heated. Experiment: read the volume of the closed syringe in cold water, then put it in hot water and read it again. Only the temperature changes. Expected result: the volume is bigger in hot water.",
+      "corr_fr": "Hypothèse : le volume de l'air augmente quand on le chauffe. Expérience : lire le volume de la seringue fermée dans de l'eau froide, puis la mettre dans de l'eau chaude et relire le volume. Seule la température change. Résultat attendu : le volume est plus grand dans l'eau chaude."
+    },
+    {
+      "id": 4,
+      "title": "Balloon in winter",
+      "image": "balloon-door-winter.webp",
+      "en": "Mia takes a balloon outside on a winter day. Predict what happens to the balloon and explain it with the particles. Does the number of particles or the mass of the air change?",
+      "fr": "Mia emmène un ballon dehors par une journée d'hiver. Prédis ce qui arrive au ballon et explique-le avec les particules. Le nombre de particules ou la masse de l'air change-t-il ?",
+      "corr_en": "The balloon gets smaller (thermal contraction): the cooled air particles move slower and take less space, so the volume decreases. The number of particles and the mass of the air stay the same.",
+      "corr_fr": "Le ballon rétrécit (contraction thermique) : les particules d'air refroidies bougent moins vite et prennent moins de place, donc le volume diminue. Le nombre de particules et la masse de l'air restent les mêmes."
+    },
+    {
+      "id": 5,
+      "title": "Ice on an ankle",
+      "image": null,
+      "en": "A bag of crushed ice at 0 °C is put on a sprained ankle at 35 °C. Which way does the heat go? While the ice melts, what happens to its temperature? How does the mass of the water obtained compare with the mass of the ice?",
+      "fr": "Un sac de glace pilée à 0 °C est posé sur une cheville foulée à 35 °C. Dans quel sens la chaleur va-t-elle ? Pendant que la glace fond, que devient sa température ? Comment la masse de l'eau obtenue se compare-t-elle à celle de la glace ?",
+      "corr_en": "The ankle gives heat to the ice, because heat goes from hot to cold. While the ice melts, its temperature stays at 0 °C, because the energy breaks links. The mass of the water is equal to the mass of the ice.",
+      "corr_fr": "La cheville donne de la chaleur à la glace, car la chaleur va du chaud vers le froid. Pendant la fonte, la température reste à 0 °C, car l'énergie casse des liaisons. La masse de l'eau est égale à celle de la glace."
+    },
+    {
+      "id": 6,
+      "title": "Two mystery substances",
+      "image": "heating-curves-p-q.webp",
+      "questions": [
+        {
+          "en": "The graph shows the heating of two pure substances, P and Q. Which one is liquid at 20 °C? Justify with the graph.",
+          "fr": "Le graphique montre le chauffage de deux substances pures, P et Q. Laquelle est liquide à 20 °C ? Justifie avec le graphique.",
+          "corr_en": "Substance Q: 20 °C is between its melting point (−10 °C) and its boiling point (80 °C). P is still solid at 20 °C, because its melting point is 40 °C.",
+          "corr_fr": "La substance Q : 20 °C est entre son point de fusion (−10 °C) et son point d'ébullition (80 °C). P est encore solide à 20 °C, car son point de fusion est de 40 °C."
+        },
+        {
+          "en": "What is the state of P and of Q at 100 °C?",
+          "fr": "Quel est l'état de P et de Q à 100 °C ?",
+          "corr_en": "P is liquid (between 40 °C and 120 °C). Q is gas (above 80 °C).",
+          "corr_fr": "P est liquide (entre 40 °C et 120 °C). Q est gazeuse (au-dessus de 80 °C)."
+        },
+        {
+          "en": "At minute 8 both substances are boiling. Which one is hotter? Explain what the thermal energy does at this moment.",
+          "fr": "À la minute 8, les deux substances bouillent. Laquelle est la plus chaude ? Explique ce que fait l'énergie thermique à ce moment.",
+          "corr_en": "Substance P is hotter (120 °C against 80 °C). While a substance boils, the thermal energy breaks the links between its particles, so its temperature stays constant.",
+          "corr_fr": "La substance P est la plus chaude (120 °C contre 80 °C). Pendant l'ébullition, l'énergie thermique casse les liaisons entre les particules, donc la température reste constante."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Keep the cold out?",
+      "image": null,
+      "en": "In winter, Tom says: \"Close the window to keep the cold out!\" Explain why this sentence is not scientifically correct and rewrite it with the words heat or thermal energy.",
+      "fr": "En hiver, Tom dit : « Ferme la fenêtre pour empêcher le froid d'entrer ! » Explique pourquoi cette phrase n'est pas scientifiquement correcte et réécris-la avec les mots chaleur ou énergie thermique.",
+      "corr_en": "The cold does not enter the house. Heat, a transfer of thermal energy, goes from the warm room to the cold outside. Better sentence: \"Close the window to keep the heat in.\"",
+      "corr_fr": "Le froid n'entre pas dans la maison. La chaleur, un transfert d'énergie thermique, va de la pièce chaude vers le froid du dehors. Meilleure phrase : « Ferme la fenêtre pour garder la chaleur à l'intérieur. »"
+    },
+    {
+      "id": 8,
+      "title": "Causes of sea rise",
+      "image": "sea-level-causes-pie.webp",
+      "questions": [
+        {
+          "en": "The pie chart shows the approximate causes of sea-level rise. Which cause is the biggest? Which physical phenomenon does it correspond to?",
+          "fr": "Le graphique circulaire montre les causes approximatives de la montée du niveau de la mer. Quelle cause est la plus importante ? À quel phénomène physique correspond-elle ?",
+          "corr_en": "Thermal expansion of warming sea water (50 %): warmer water takes more space.",
+          "corr_fr": "La dilatation thermique de l'eau de mer qui se réchauffe (50 %) : une eau plus chaude prend plus de place."
+        },
+        {
+          "en": "Which cause adds new water to the sea, and what share does it represent?",
+          "fr": "Quelle cause ajoute de l'eau nouvelle à la mer, et quelle part représente-t-elle ?",
+          "corr_en": "The melting of land ice (glaciers and ice sheets), about 42 %.",
+          "corr_fr": "La fonte de la glace terrestre (glaciers et calottes glaciaires), environ 42 %."
+        },
+        {
+          "en": "A journalist writes: \"The melting of Arctic sea ice is the main cause of sea-level rise.\" Use the graph and what you know about floating ice to explain why this is wrong.",
+          "fr": "Un journaliste écrit : « La fonte de la banquise arctique est la principale cause de la montée du niveau de la mer. » Utilise le graphique et ce que tu sais de la glace flottante pour expliquer pourquoi c'est faux.",
+          "corr_en": "Floating sea ice already pushes aside as much water as it becomes when it melts, so it does not raise the sea level. The graph shows that thermal expansion and land ice are the main causes.",
+          "corr_fr": "La banquise flottante déplace déjà autant d'eau qu'elle en devient en fondant, donc elle ne fait pas monter le niveau de la mer. Le graphique montre que la dilatation thermique et la glace terrestre sont les causes principales."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Disappearing perfume",
+      "image": null,
+      "en": "Camille leaves a bottle of perfume open. After a few days, the level of the liquid has gone down and the whole room smells of perfume. Name the change of state and explain why the matter is not lost.",
+      "fr": "Camille laisse un flacon de parfum ouvert. Après quelques jours, le niveau du liquide a baissé et toute la pièce sent le parfum. Nomme le changement d'état et explique pourquoi la matière n'est pas perdue.",
+      "corr_en": "The perfume evaporates (vaporization): it receives thermal energy from the room and becomes a gas. Its particles are not destroyed, they spread in the air of the room, so the mass is conserved.",
+      "corr_fr": "Le parfum s'évapore (vaporisation) : il reçoit de l'énergie thermique de la pièce et devient un gaz. Ses particules ne sont pas détruites, elles se répandent dans l'air de la pièce, donc la masse est conservée."
+    },
+    {
+      "id": 10,
+      "title": "Sagging power cables",
+      "image": "power-line-sag.webp",
+      "en": "Power cables hang lower between the pylons in summer than in winter. Explain why using the particles, and say what happens to the mass of the cable.",
+      "fr": "Les câbles électriques pendent plus bas entre les pylônes en été qu'en hiver. Explique pourquoi avec les particules et dis ce qui arrive à la masse du câble.",
+      "corr_en": "In summer the metal is heated: its particles move faster and take more space, so the cable expands, becomes longer and hangs lower. The number of particles and the mass of the cable do not change.",
+      "corr_fr": "En été, le métal est chauffé : ses particules bougent plus vite et prennent plus de place, donc le câble se dilate, s'allonge et pend plus bas. Le nombre de particules et la masse du câble ne changent pas."
+    },
+    {
+      "id": 11,
+      "title": "From ice to steam",
+      "image": null,
+      "en": "A block of ice at −30 °C receives thermal energy until it becomes water vapour. Describe how the temperature changes, and explain what the thermal energy does to the particles in each stage.",
+      "fr": "Un bloc de glace à −30 °C reçoit de l'énergie thermique jusqu'à devenir de la vapeur d'eau. Décris comment la température change et explique ce que fait l'énergie thermique aux particules à chaque étape.",
+      "corr_en": "From −30 °C to 0 °C the temperature rises: the particles move faster. At 0 °C it stays constant (melting): the energy breaks links. Then it rises to 100 °C. At 100 °C it stays constant again (boiling): links are broken. Then the vapour gets hotter.",
+      "corr_fr": "De −30 °C à 0 °C la température monte : les particules bougent plus vite. À 0 °C elle reste constante (fusion) : l'énergie casse des liaisons. Puis elle monte jusqu'à 100 °C. À 100 °C elle reste à nouveau constante (ébullition) : des liaisons sont cassées. Ensuite la vapeur devient plus chaude."
+    },
+    {
+      "id": 12,
+      "title": "Vanishing mothballs",
+      "image": "mothballs.webp",
+      "en": "Mothballs (solid) put in a wardrobe get smaller and finally disappear, without any liquid forming. Name the change of state and explain what happens to the particles and to the mass.",
+      "fr": "Des boules antimites (solides) placées dans une armoire rétrécissent puis disparaissent, sans qu'aucun liquide ne se forme. Nomme le changement d'état et explique ce qui arrive aux particules et à la masse.",
+      "corr_en": "It is sublimation: the solid receives thermal energy from the air, the links break and the particles leave directly as a gas. They spread in the air and are not destroyed, so the mass is conserved.",
+      "corr_fr": "C'est la sublimation : le solide reçoit de l'énergie thermique de l'air, les liaisons se cassent et les particules partent directement sous forme de gaz. Elles se répandent dans l'air et ne sont pas détruites, donc la masse est conservée."
+    },
+    {
+      "id": 13,
+      "title": "Misplaced sentence",
+      "image": null,
+      "en": "A student writes the \"Observations\" of a lab report on melting ice: 1) The temperature stayed at 0 °C for 6 minutes. 2) The ice slowly became water. 3) The energy broke the links between the particles. One sentence does not belong in \"Observations\". Which one? Explain where it belongs.",
+      "fr": "Un élève écrit les « Observations » d'un rapport de labo sur la fonte de la glace : 1) La température est restée à 0 °C pendant 6 minutes. 2) La glace est lentement devenue de l'eau. 3) L'énergie a cassé les liaisons entre les particules. Une phrase n'a pas sa place dans les « Observations ». Laquelle ? Explique où elle doit aller.",
+      "corr_en": "Sentence 3. We cannot see particles or links: it is an explanation, so it belongs in the interpretation. Observations only contain what we measure or see, like sentences 1 and 2.",
+      "corr_fr": "La phrase 3. On ne peut pas voir les particules ni les liaisons : c'est une explication, elle va donc dans l'interprétation. Les observations contiennent seulement ce qu'on mesure ou ce qu'on voit, comme les phrases 1 et 2."
+    },
+    {
+      "id": 14,
+      "title": "Dented ping-pong ball",
+      "image": "pingpong-dent-hot-water.webp",
+      "en": "A dented ping-pong ball is put in hot water and its dent pops out. Explain why, using the air inside the ball, the particles and the volume.",
+      "fr": "Une balle de ping-pong cabossée est plongée dans de l'eau chaude et sa bosse ressort. Explique pourquoi, en utilisant l'air à l'intérieur de la balle, les particules et le volume.",
+      "corr_en": "The air inside is heated: its particles move faster and take more space, so the volume of the air increases and pushes the dent out. The number of particles in the ball does not change.",
+      "corr_fr": "L'air à l'intérieur est chauffé : ses particules bougent plus vite et prennent plus de place, donc le volume de l'air augmente et repousse la bosse. Le nombre de particules dans la balle ne change pas."
+    },
+    {
+      "id": 15,
+      "title": "Bigger particles?",
+      "image": null,
+      "en": "Noah says: \"When a metal ball is heated, its particles become bigger, and that is why the ball expands.\" Evaluate this statement and correct it if necessary.",
+      "fr": "Noah dit : « Quand une boule de métal est chauffée, ses particules deviennent plus grosses, et c'est pour ça que la boule se dilate. » Évalue cette affirmation et corrige-la si nécessaire.",
+      "corr_en": "It is not correct. The particles do not become bigger: they move faster and take more space between them, so the volume increases, while the number of particles and the mass stay the same.",
+      "corr_fr": "Ce n'est pas correct. Les particules ne deviennent pas plus grosses : elles bougent plus vite et prennent plus de place entre elles, donc le volume augmente, alors que le nombre de particules et la masse restent les mêmes."
+    },
+    {
+      "id": 16,
+      "title": "Burst water pipe",
+      "image": "burst-pipe-ice.webp",
+      "en": "In winter, a water pipe that is completely full splits when the water freezes. Explain why, using the volume, the particles and the mass.",
+      "fr": "En hiver, un tuyau d'eau complètement plein éclate quand l'eau gèle. Explique pourquoi, en utilisant le volume, les particules et la masse.",
+      "corr_en": "When water freezes, its particles take a regular arrangement with empty spaces, so the volume increases. The ice has no room in the full pipe and splits it. The mass and the number of particles do not change.",
+      "corr_fr": "Quand l'eau gèle, ses particules prennent un arrangement régulier avec des espaces vides, donc le volume augmente. La glace n'a pas de place dans le tuyau plein et le fait éclater. La masse et le nombre de particules ne changent pas."
+    },
+    {
+      "id": 17,
+      "title": "Choosing a thermometer",
+      "image": null,
+      "en": "A scientist needs a liquid for a thermometer. Water melts at 0 °C and boils at 100 °C. Mercury melts at −39 °C and boils at 357 °C. Ethanol melts at −114 °C and boils at 78 °C. Which liquid is the best to measure −60 °C in Antarctica? Which one is the best for an oven at 150 °C? Justify with the states.",
+      "fr": "Un scientifique cherche un liquide pour un thermomètre. L'eau fond à 0 °C et bout à 100 °C. Le mercure fond à −39 °C et bout à 357 °C. L'éthanol fond à −114 °C et bout à 78 °C. Quel liquide est le meilleur pour mesurer −60 °C en Antarctique ? Lequel est le meilleur pour un four à 150 °C ? Justifie avec les états.",
+      "corr_en": "Ethanol for −60 °C: it is liquid between −114 °C and 78 °C, while water and mercury would be solid. Mercury for 150 °C: it is liquid up to 357 °C, while water and ethanol would be gases.",
+      "corr_fr": "L'éthanol pour −60 °C : il est liquide entre −114 °C et 78 °C, alors que l'eau et le mercure seraient solides. Le mercure pour 150 °C : il est liquide jusqu'à 357 °C, alors que l'eau et l'éthanol seraient gazeux."
+    },
+    {
+      "id": 18,
+      "title": "Dichotomous key",
+      "image": "states-key-blank.webp",
+      "en": "Complete the key: write one question in each \"Question\" box so that it separates a solid, a liquid and a gas. Use only the shape and the volume of the substance.",
+      "fr": "Complète la clé : écris une question dans chaque case « Question » pour séparer un solide, un liquide et un gaz. Utilise uniquement la forme et le volume de la substance.",
+      "corr_en": "Question 1: does the substance keep its own shape? Yes: solid. No: go to question 2. Question 2: does it keep a fixed volume when it is pressed? Yes: liquid. No: gas.",
+      "corr_fr": "Question 1 : la substance garde-t-elle sa propre forme ? Oui : solide. Non : va à la question 2. Question 2 : garde-t-elle un volume fixe quand on la comprime ? Oui : liquide. Non : gaz."
+    },
+    {
+      "id": 19,
+      "title": "Boiling the eggs",
+      "image": null,
+      "en": "Maria cooks eggs in boiling water. She thinks: \"If I turn the flame up, the water will become hotter than 100 °C and the eggs will cook faster.\" Is she right? Explain what the extra energy does.",
+      "fr": "Maria fait cuire des œufs dans de l'eau qui bout. Elle pense : « Si j'augmente la flamme, l'eau deviendra plus chaude que 100 °C et les œufs cuiront plus vite. » A-t-elle raison ? Explique ce que fait l'énergie en plus.",
+      "corr_en": "She is wrong. Boiling water stays at 100 °C, because during a change of state the temperature stays constant. The extra thermal energy only makes the water vaporise faster: more links are broken each second.",
+      "corr_fr": "Elle a tort. L'eau qui bout reste à 100 °C, car pendant un changement d'état la température reste constante. L'énergie thermique en plus fait seulement vaporiser l'eau plus vite : plus de liaisons sont cassées chaque seconde."
+    },
+    {
+      "id": 20,
+      "title": "Lake and glacier",
+      "image": "lake-ice-glacier.webp",
+      "en": "In spring all the ice melts, in picture A (ice floating on the lake) and in picture B (a glacier on the slope above the lake). In which picture does the water level of the lake rise? Compare both cases and explain with the mass and the particles.",
+      "fr": "Au printemps toute la glace fond, sur l'image A (glace flottant sur le lac) et sur l'image B (un glacier sur la pente au-dessus du lac). Sur quelle image le niveau du lac monte-t-il ? Compare les deux cas et explique avec la masse et les particules.",
+      "corr_en": "In picture A the level does not change: floating ice already pushes aside as much water as it becomes. In picture B the level rises, because the melted glacier is new water flowing into the lake. In both cases the mass and the number of particles are conserved.",
+      "corr_fr": "Sur l'image A le niveau ne change pas : la glace flottante déplace déjà autant d'eau qu'elle en devient. Sur l'image B le niveau monte, car le glacier fondu est de l'eau nouvelle qui coule dans le lac. Dans les deux cas la masse et le nombre de particules sont conservés."
+    }
+  ]
 }

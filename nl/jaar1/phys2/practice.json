@@ -1,5 +1,662 @@
 {
-  "level1": [],
-  "level2": [],
-  "level3": []
+  "level1": [
+    {
+      "id": 1,
+      "title": "Een vloeistof samendrukken",
+      "image": null,
+      "en": "Waar of niet waar: met een injectiespuit kun je een vloeistof gemakkelijk samendrukken tot een kleiner volume. Verbeter de zin als hij niet waar is.",
+      "fr": "Vrai ou faux : on peut facilement comprimer un liquide dans un plus petit volume avec une seringue. Si c'est faux, corrige la phrase.",
+      "corr_en": "Niet waar. Een gas kun je samendrukken tot een kleiner volume, een vloeistof niet.",
+      "corr_fr": "Faux. On peut comprimer un gaz dans un plus petit volume, mais pas un liquide."
+    },
+    {
+      "id": 2,
+      "title": "Benoem de toestanden",
+      "image": "states-key-juice-balloon.webp",
+      "en": "Kijk naar de afbeeldingen A, B en C. In welke toestand is de materie op elke afbeelding?",
+      "fr": "Observe les images A, B et C. Quel est l'état de la matière de chacune ?",
+      "corr_en": "A is vast (de sleutel), B is vloeibaar (het sap) en C is een gas (het gas in de ballon).",
+      "corr_fr": "A est un solide (la clé), B est un liquide (le jus) et C est un gaz (le gaz à l'intérieur du ballon)."
+    },
+    {
+      "id": 3,
+      "title": "Deeltjes van een vaste stof",
+      "image": null,
+      "en": "Beschrijf de deeltjes van een vaste stof in één zin.",
+      "fr": "Décris les particules d'un solide en une phrase.",
+      "corr_en": "In een vaste stof zitten de deeltjes dicht opeengepakt, geordend en sterk gebonden.",
+      "corr_fr": "Dans un solide, les particules sont proches les unes des autres, ordonnées, et ont des liaisons fortes."
+    },
+    {
+      "id": 4,
+      "title": "Vind het gas",
+      "image": "particles-x-y-z.webp",
+      "en": "Welk schema (X, Y of Z) stelt een gas voor? Geef één reden.",
+      "fr": "Quel schéma (X, Y ou Z) représente un gaz ? Donne une raison.",
+      "corr_en": "Schema X: de deeltjes zitten ver uit elkaar en zijn wanordelijk.",
+      "corr_fr": "Schéma X : les particules sont très éloignées les unes des autres et sans ordre."
+    },
+    {
+      "id": 5,
+      "title": "Eenheid en meetinstrument",
+      "image": null,
+      "en": "Wat is de gebruikelijke eenheid van temperatuur en met welk instrument meet je ze?",
+      "fr": "Quelle est l'unité usuelle de la température et quel instrument la mesure ?",
+      "corr_en": "De eenheid is de graad Celsius (°C) en het instrument is de thermometer.",
+      "corr_fr": "L'unité est le degré Celsius (°C) et l'instrument est le thermomètre."
+    },
+    {
+      "id": 6,
+      "title": "Lees de thermometer af",
+      "image": "thermometer-reading.webp",
+      "en": "Welke temperatuur geeft de thermometer aan? Schrijf de eenheid erbij.",
+      "fr": "Quelle température le thermomètre indique-t-il ? Écris l'unité.",
+      "corr_en": "De thermometer geeft 26 °C aan.",
+      "corr_fr": "Le thermomètre indique 26 °C."
+    },
+    {
+      "id": 7,
+      "title": "Smeltpunt van ijs",
+      "image": null,
+      "en": "Bij welke temperatuur smelt ijs in normale omstandigheden? Hoe noem je die temperatuur?",
+      "fr": "À quelle température la glace fond-elle dans les conditions normales ? Comment appelle-t-on cette température ?",
+      "corr_en": "IJs smelt bij 0 °C. Die temperatuur noem je het smeltpunt van water.",
+      "corr_fr": "La glace fond à 0 °C. Cette température s'appelle le point de fusion de l'eau."
+    },
+    {
+      "id": 8,
+      "title": "Snellere deeltjes",
+      "image": "faster-particles-beakers.webp",
+      "en": "In welk bekerglas (1 of 2) bewegen de deeltjes sneller? Leg uit waarom.",
+      "fr": "Dans quel bécher (1 ou 2) les particules bougent-elles le plus vite ? Explique pourquoi.",
+      "corr_en": "In bekerglas 2: de temperatuur is er hoger, dus de deeltjes bewegen sneller.",
+      "corr_fr": "Dans le bécher 2 : sa température est plus élevée, donc les particules bougent plus vite."
+    },
+    {
+      "id": 9,
+      "title": "Wat is warmte?",
+      "image": null,
+      "en": "Wat is warmte?",
+      "fr": "Qu'est-ce que la chaleur ?",
+      "corr_en": "Warmte is thermische energie die van een warm voorwerp naar een koud voorwerp gaat.",
+      "corr_fr": "La chaleur est de l'énergie thermique qui passe d'un objet chaud à un objet froid."
+    },
+    {
+      "id": 10,
+      "title": "Warmwaterkruik",
+      "image": "hot-water-bottle-bed.webp",
+      "en": "Een warmwaterkruik (50 °C) ligt in een koud bed (12 °C). Welke van de twee geeft warmte aan de andere?",
+      "fr": "Une bouillotte (50 °C) est placée dans un lit froid (12 °C). Lequel donne de la chaleur à l'autre ?",
+      "corr_en": "De kruik geeft warmte aan het bed, want warmte gaat van warm naar koud.",
+      "corr_fr": "La bouillotte donne de la chaleur au lit, car la chaleur va du chaud vers le froid."
+    },
+    {
+      "id": 11,
+      "title": "Warmte meten?",
+      "image": null,
+      "en": "Waar of niet waar: een thermometer meet de warmte van een voorwerp. Verbeter de zin als hij niet waar is.",
+      "fr": "Vrai ou faux : un thermomètre mesure la chaleur d'un objet. Si c'est faux, corrige la phrase.",
+      "corr_en": "Niet waar. Een thermometer meet de temperatuur van een voorwerp, niet de warmte.",
+      "corr_fr": "Faux. Un thermomètre mesure la température d'un objet, pas sa chaleur."
+    },
+    {
+      "id": 12,
+      "title": "Welke verandering?",
+      "image": "ice-cube-melting.webp",
+      "en": "Benoem de toestandsverandering op de afbeelding.",
+      "fr": "Nomme le changement d'état montré sur l'image.",
+      "corr_en": "Smelten: het ijs gaat van vast naar vloeibaar.",
+      "corr_fr": "La fusion : la glace passe de l'état solide à l'état liquide."
+    },
+    {
+      "id": 13,
+      "title": "Het plateau",
+      "image": null,
+      "en": "Wat gebeurt er met de temperatuur van een zuivere stof tijdens een toestandsverandering? Hoe noem je het vlakke deel van de grafiek?",
+      "fr": "Que devient la température d'une substance pure pendant un changement d'état ? Comment appelle-t-on la partie plate du graphique ?",
+      "corr_en": "De temperatuur blijft constant. Het vlakke deel van de grafiek noem je een temperatuurplateau.",
+      "corr_fr": "La température reste constante. La partie plate du graphique s'appelle un palier (plateau)."
+    },
+    {
+      "id": 14,
+      "title": "Kokend water",
+      "image": "boiling-water-pot.webp",
+      "en": "Dit water kookt. Wat is de temperatuur in normale omstandigheden?",
+      "fr": "Cette eau bout. Quelle est sa température dans les conditions normales ?",
+      "corr_en": "De temperatuur is 100 °C, het kookpunt van water.",
+      "corr_fr": "Sa température est de 100 °C, le point d'ébullition de l'eau."
+    },
+    {
+      "id": 15,
+      "title": "Massa van gesmolten ijs",
+      "image": null,
+      "en": "Waar of niet waar: als een ijsblokje smelt, neemt zijn massa af. Verbeter de zin als hij niet waar is.",
+      "fr": "Vrai ou faux : quand un glaçon fond, sa masse diminue. Si c'est faux, corrige la phrase.",
+      "corr_en": "Niet waar. De massa blijft gelijk als het ijs smelt.",
+      "corr_fr": "Faux. La masse reste la même quand la glace fond."
+    },
+    {
+      "id": 16,
+      "title": "Warme brug",
+      "image": "bridge-expansion-joint.webp",
+      "en": "Een stalen brug wordt door de zon opgewarmd en wordt heel lichtjes groter. Hoe heet dit verschijnsel?",
+      "fr": "Un pont en acier est chauffé par le soleil et devient très légèrement plus grand. Comment s'appelle ce phénomène ?",
+      "corr_en": "Thermische uitzetting: het volume van een stof die opgewarmd wordt, neemt toe.",
+      "corr_fr": "La dilatation thermique : le volume d'une substance chauffée augmente."
+    },
+    {
+      "id": 17,
+      "title": "Thermische inkrimping",
+      "image": null,
+      "en": "Wat is thermische inkrimping?",
+      "fr": "Qu'est-ce que la contraction thermique ?",
+      "corr_en": "Het is de afname van het volume van een stof wanneer ze afkoelt.",
+      "corr_fr": "C'est la diminution du volume d'une substance quand on la refroidit."
+    },
+    {
+      "id": 18,
+      "title": "Bevriezend water",
+      "image": "ice-tray-bulging.webp",
+      "en": "Als water bevriest, neemt het volume dan toe of af?",
+      "fr": "Quand l'eau gèle, son volume augmente-t-il ou diminue-t-il ?",
+      "corr_en": "Het volume neemt toe. Water is bijzonder, want de meeste stoffen krimpen in als ze stollen.",
+      "corr_fr": "Son volume augmente. L'eau est particulière, car la plupart des substances se contractent quand elles gèlent."
+    },
+    {
+      "id": 19,
+      "title": "Twee soorten ijs",
+      "image": null,
+      "en": "Hoe noem je het drijvende ijs op de Noordelijke IJszee, en hoe noem je de dikke ijslaag op het land in Groenland en Antarctica?",
+      "fr": "Comment appelle-t-on la glace flottante de l'océan Arctique, et comment appelle-t-on la grande couche de glace sur la terre ferme au Groenland et en Antarctique ?",
+      "corr_en": "Het drijvende ijs is zee-ijs, en het ijs op het land is een ijskap.",
+      "corr_fr": "La glace flottante est la banquise (sea ice), et la glace sur la terre ferme est une calotte glaciaire (ice sheet)."
+    },
+    {
+      "id": 20,
+      "title": "Toestanden van water",
+      "image": "water-three-states.webp",
+      "en": "In welke toestand is het water op elke afbeelding?",
+      "fr": "Quel est l'état de l'eau sur chaque image ?",
+      "corr_en": "Afbeelding 1: vast (ijs). Afbeelding 2: vloeibaar. Afbeelding 3: gas (waterdamp).",
+      "corr_fr": "Image 1 : solide (glace). Image 2 : liquide. Image 3 : gaz (vapeur d'eau)."
+    }
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Water en lucht",
+      "image": null,
+      "en": "Een gesloten fles bevat een beetje water en lucht. Leg met het deeltjesmodel uit waarom het water onderaan blijft, terwijl de lucht de hele fles vult.",
+      "fr": "Une bouteille fermée contient un peu d'eau et de l'air. Utilise le modèle particulaire pour expliquer pourquoi l'eau reste au fond alors que l'air remplit toute la bouteille.",
+      "corr_en": "De waterdeeltjes zitten dicht bij elkaar en zijn gebonden, dus het water blijft onderaan. De luchtdeeltjes zitten ver uit elkaar en zijn bijna niet gebonden, dus ze vullen de hele fles.",
+      "corr_fr": "Les particules d'eau sont proches et liées : l'eau reste au fond. Les particules d'air sont éloignées avec presque aucune liaison : elles remplissent toute la bouteille."
+    },
+    {
+      "id": 2,
+      "title": "De zuiger indrukken",
+      "image": "syringe-pressed-air.webp",
+      "en": "Een injectiespuit vol lucht is aan de punt afgesloten en je duwt de zuiger in. Beschrijf wat er gebeurt met het volume van de lucht en met de afstand tussen de deeltjes, en leg uit waarom dat kan.",
+      "fr": "Une seringue remplie d'air est bouchée au bout et on enfonce le piston. Décris ce qui arrive au volume de l'air et à la distance entre les particules, et explique pourquoi c'est possible.",
+      "corr_en": "Het volume neemt af en de deeltjes komen dichter bij elkaar. Dat kan omdat de deeltjes van een gas ver uit elkaar zitten, met veel lege ruimte ertussen.",
+      "corr_fr": "Le volume diminue et les particules se rapprochent. C'est possible car les particules d'un gaz sont très éloignées les unes des autres, avec beaucoup de vide entre elles."
+    },
+    {
+      "id": 3,
+      "title": "Warm water, koud water",
+      "image": null,
+      "en": "Vergelijk de deeltjes van water van 25 °C en van water van 90 °C. Wat is verschillend en wat is hetzelfde?",
+      "fr": "Compare les particules de l'eau à 25 °C et de l'eau à 90 °C. Qu'est-ce qui est différent et qu'est-ce qui est pareil ?",
+      "corr_en": "Bij 90 °C bewegen de deeltjes sneller dan bij 25 °C. In beide gevallen is het water vloeibaar, dus de deeltjes blijven dicht bij elkaar.",
+      "corr_fr": "À 90 °C, les particules bougent plus vite qu'à 25 °C. Dans les deux cas l'eau est liquide, donc les particules restent proches les unes des autres."
+    },
+    {
+      "id": 4,
+      "title": "Kachel en raam",
+      "image": "stove-air-window-flow-nl.webp",
+      "questions": [
+        {
+          "en": "Kijk naar het schema: de pijlen tonen hoe thermische energie zich in de winter verplaatst in een kamer. Welk voorwerp krijgt warmte van de kachel, en welk voorwerp krijgt warmte van de lucht in de kamer?",
+          "fr": "Observe le schéma : les flèches montrent comment l'énergie thermique se déplace dans une pièce en hiver. Quel objet reçoit de la chaleur du poêle, et quel objet reçoit de la chaleur de l'air de la pièce ?",
+          "corr_en": "De lucht in de kamer krijgt warmte van de kachel, en de ruit krijgt warmte van de lucht.",
+          "corr_fr": "L'air de la pièce reçoit de la chaleur du poêle, et la vitre reçoit de la chaleur de l'air."
+        },
+        {
+          "en": "Leg met de temperaturen uit waarom warmte van de lucht naar de ruit gaat en niet omgekeerd.",
+          "fr": "En utilisant les températures, explique pourquoi la chaleur va de l'air vers la vitre et pas dans l'autre sens.",
+          "corr_en": "De lucht (19 °C) is warmer dan de ruit (4 °C), en warmte gaat altijd van een warmer voorwerp naar een kouder voorwerp.",
+          "corr_fr": "L'air (19 °C) est plus chaud que la vitre (4 °C), et la chaleur va toujours d'un objet plus chaud vers un objet plus froid."
+        },
+        {
+          "en": "Je raakt de ruit aan en ze voelt koud aan. Geeft de ruit \"koude\" aan je hand? Leg uit.",
+          "fr": "Tu touches la vitre et elle te paraît froide. La vitre donne-t-elle du « froid » à ta main ? Explique.",
+          "corr_en": "Nee. Je hand is warmer dan de ruit, dus je hand geeft warmte aan de ruit. Door dat warmteverlies voelt de ruit koud aan.",
+          "corr_fr": "Non. Ta main est plus chaude que la vitre, donc ta main donne de la chaleur à la vitre. C'est cette perte de chaleur qui donne la sensation de froid."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Warmte of temperatuur?",
+      "image": null,
+      "en": "Sam zegt: \"De warmte van deze koffie is 70 °C.\" Leg uit wat er fout is aan deze zin en schrijf hem correct.",
+      "fr": "Sam dit : « La chaleur de ce café est de 70 °C. » Explique ce qui ne va pas dans cette phrase et réécris-la correctement.",
+      "corr_en": "70 °C is een temperatuur, geen warmte. Correcte zin: \"De temperatuur van deze koffie is 70 °C.\" Warmte is thermische energie die van een warm voorwerp naar een koud voorwerp gaat.",
+      "corr_fr": "70 °C est une température, pas de la chaleur. Phrase correcte : « La température de ce café est de 70 °C. » La chaleur est de l'énergie thermique qui passe d'un objet chaud à un objet froid."
+    },
+    {
+      "id": 6,
+      "title": "Afkoelingskromme",
+      "image": "cooling-curve-x-nl.webp",
+      "questions": [
+        {
+          "en": "De grafiek toont de temperatuur van een zuivere stof X tijdens een experiment. Wordt de stof opgewarmd of afgekoeld? Hoe weet je dat?",
+          "fr": "Le graphique montre la température d'une substance pure X pendant une expérience. La substance est-elle chauffée ou refroidie ? Comment le sais-tu ?",
+          "corr_en": "Ze wordt afgekoeld, want de temperatuur daalt naarmate de tijd verstrijkt.",
+          "corr_fr": "Elle est refroidie, car sa température diminue au fil du temps."
+        },
+        {
+          "en": "Bij welke temperatuur stolt de stof?",
+          "fr": "À quelle température la substance se solidifie-t-elle ?",
+          "corr_en": "Bij 60 °C, de temperatuur van het plateau.",
+          "corr_fr": "À 60 °C, la température du palier."
+        },
+        {
+          "en": "In welke toestand is de stof op minuut 2, op minuut 5 en op minuut 9?",
+          "fr": "Quel est l'état de la substance à la minute 2, à la minute 5 et à la minute 9 ?",
+          "corr_en": "Minuut 2: vloeibaar. Minuut 5: vloeibaar en vast samen, want ze stolt. Minuut 9: vast.",
+          "corr_fr": "Minute 2 : liquide. Minute 5 : liquide et solide ensemble, car elle se solidifie. Minute 9 : solide."
+        },
+        {
+          "en": "Waarom is de lijn vlak tussen minuut 3 en minuut 6?",
+          "fr": "Pourquoi la ligne est-elle plate entre les minutes 3 et 6 ?",
+          "corr_en": "De stof verandert van toestand: ze verliest thermische energie terwijl er nieuwe bindingen ontstaan tussen de deeltjes, dus de temperatuur blijft constant.",
+          "corr_fr": "La substance change d'état : elle perd de l'énergie thermique pendant que de nouvelles liaisons se forment entre les particules, donc la température reste constante."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Rijp op de ruit",
+      "image": null,
+      "en": "Tijdens een heel koude nacht vormt zich rijp op de ruit van een auto: waterdamp uit de lucht wordt rechtstreeks ijskristallen. Benoem deze toestandsverandering, benoem de omgekeerde verandering, en zeg voor elk of de stof thermische energie krijgt of verliest.",
+      "fr": "Par une nuit très froide, du givre se forme sur la vitre d'une voiture : la vapeur d'eau de l'air devient directement des cristaux de glace. Nomme ce changement d'état, nomme le changement inverse et indique pour chacun si la substance reçoit ou perd de l'énergie thermique.",
+      "corr_en": "Depositie: het water verliest thermische energie. De omgekeerde verandering is sublimatie: de stof krijgt thermische energie.",
+      "corr_fr": "La sublimation inverse : l'eau perd de l'énergie thermique. Le changement inverse est la sublimation : la substance reçoit de l'énergie thermique."
+    },
+    {
+      "id": 8,
+      "title": "Een zuigfles opwarmen",
+      "image": "baby-bottle-hot-water.webp",
+      "en": "Een zuigfles met melk (5 °C) staat in een kom warm water (60 °C). Leg uit wat er gebeurt met de temperatuur van de melk en van het water, en waarom.",
+      "fr": "Un biberon de lait (5 °C) est placé dans un bol d'eau chaude (60 °C). Explique ce qui arrive à la température du lait et de l'eau, et pourquoi.",
+      "corr_en": "Het warme water geeft warmte aan de melk, dus de temperatuur van de melk stijgt en die van het water daalt, want warmte gaat van het warmere voorwerp naar het koudere.",
+      "corr_fr": "L'eau chaude donne de la chaleur au lait : la température du lait augmente et celle de l'eau diminue, car la chaleur va de l'objet le plus chaud vers le plus froid."
+    },
+    {
+      "id": 9,
+      "title": "Welke grafiek?",
+      "image": null,
+      "en": "Leerlingen meten 20 minuten lang elke minuut de temperatuur van water dat opgewarmd wordt. Welke grafiek is het best om de resultaten te tonen: een cirkeldiagram, een staafdiagram of een lijngrafiek? Verantwoord.",
+      "fr": "Des élèves mesurent la température d'une eau qu'on chauffe, chaque minute pendant 20 minutes. Quel graphique est le plus adapté pour présenter les résultats : un graphique circulaire, un histogramme ou une courbe ? Justifie.",
+      "corr_en": "Een lijngrafiek, want die toont hoe de temperatuur verandert met de tijd en laat zien waar ze stijgt of constant blijft.",
+      "corr_fr": "Une courbe, car elle montre comment la température évolue avec le temps et permet de voir où elle augmente ou reste constante."
+    },
+    {
+      "id": 10,
+      "title": "Droogijs",
+      "image": "dry-ice-fog.webp",
+      "en": "Droogijs (vaste koolstofdioxide) wordt bij kamertemperatuur rechtstreeks een gas. Benoem deze toestandsverandering en zeg of de stof thermische energie krijgt of verliest.",
+      "fr": "La glace sèche (dioxyde de carbone solide) se transforme directement en gaz à température ambiante. Nomme ce changement d'état et dis si la substance reçoit ou perd de l'énergie thermique.",
+      "corr_en": "Het is sublimatie (van vast naar gas). Het droogijs krijgt thermische energie van de warmere lucht eromheen.",
+      "corr_fr": "C'est la sublimation (de solide à gaz). La glace sèche reçoit de l'énergie thermique de l'air plus chaud qui l'entoure."
+    },
+    {
+      "id": 11,
+      "title": "Waar gaat de energie heen?",
+      "image": null,
+      "en": "Een warmtebron geeft voortdurend thermische energie aan smeltend ijs, maar de temperatuur blijft 0 °C. Waar gaat de thermische energie heen?",
+      "fr": "Une source de chaleur donne sans arrêt de l'énergie thermique à de la glace qui fond, mais la température reste à 0 °C. Où va l'énergie thermique ?",
+      "corr_en": "Ze wordt gebruikt om de bindingen tussen de ijsdeeltjes te breken, zodat het ijs vloeibaar water wordt, in plaats van de deeltjes sneller te laten bewegen.",
+      "corr_fr": "Elle sert à casser les liaisons entre les particules de la glace : la glace devient de l'eau liquide au lieu que les particules aillent plus vite."
+    },
+    {
+      "id": 12,
+      "title": "Koken of verdampen?",
+      "image": "boiling-vs-evaporation.webp",
+      "en": "Een kokende pot (1) en een plas die opdroogt (2) zijn allebei voorbeelden van verdamping (van vloeibaar naar gas). Geef twee verschillen tussen koken en verdampen aan het oppervlak.",
+      "fr": "Une casserole qui bout (1) et une flaque qui sèche (2) sont deux exemples de vaporisation. Donne deux différences entre l'ébullition et l'évaporation.",
+      "corr_en": "Koken gaat snel, met bellen, en gebeurt bij het kookpunt. Verdampen aan het oppervlak gaat traag, gebeurt alleen aan het oppervlak en bij elke temperatuur.",
+      "corr_fr": "L'ébullition est rapide, avec des bulles, et se produit au point d'ébullition. L'évaporation est lente, se produit à la surface et à n'importe quelle température."
+    },
+    {
+      "id": 13,
+      "title": "Gesmolten ijsblokje",
+      "image": null,
+      "en": "Een ijsblokje van 50 g smelt volledig. Wat is de massa van het water dat je krijgt? Leg uit met de deeltjes.",
+      "fr": "Un glaçon de 50 g fond complètement. Quelle est la masse de l'eau obtenue ? Utilise les particules pour expliquer.",
+      "corr_en": "50 g. Het aantal deeltjes blijft hetzelfde: er wordt geen enkel deeltje gemaakt of verloren, ze bewegen alleen anders.",
+      "corr_fr": "Elle est de 50 g. Le nombre de particules reste le même : aucune particule n'est créée ou perdue, elles bougent seulement différemment."
+    },
+    {
+      "id": 14,
+      "title": "Vastzittend deksel",
+      "image": "jar-lid-hot-water.webp",
+      "en": "Het metalen deksel van een glazen bokaal zit vast. Een kok laat warm water over het deksel lopen en het gaat gemakkelijk open. Leg met het deeltjesmodel uit waarom.",
+      "fr": "Le couvercle en métal d'un bocal en verre est coincé. Un cuisinier fait couler de l'eau chaude sur le couvercle et il s'ouvre facilement. Utilise le modèle particulaire pour expliquer pourquoi.",
+      "corr_en": "De deeltjes van het metalen deksel bewegen sneller en nemen meer plaats in, dus het volume van het deksel neemt toe en het deksel zit losser.",
+      "corr_fr": "Les particules du couvercle en métal bougent plus vite et prennent plus de place : le volume du couvercle augmente et le couvercle se desserre."
+    },
+    {
+      "id": 15,
+      "title": "Feit, hypothese, oordeel",
+      "image": null,
+      "en": "Lees de drie zinnen. 1) Het ijs van Groenland verloor massa tussen 2002 en 2020. 2) Als de ijskappen blijven smelten, kunnen sommige kuststeden overstromen. 3) Het is een ramp dat gletsjers smelten. Welke zin is een feit, welke is een hypothese en welke is een oordeel?",
+      "fr": "Lis les trois phrases. 1) La glace du Groenland a perdu de la masse entre 2002 et 2020. 2) Si les calottes glaciaires continuent de fondre, certaines villes côtières pourraient être inondées. 3) C'est un désastre que les glaciers fondent. Quelle phrase est un fait, laquelle est une hypothèse et laquelle est un jugement ?",
+      "corr_en": "Zin 1 is een feit (je kunt het meten). Zin 2 is een hypothese (het kan gebeuren). Zin 3 is een oordeel (het is een mening).",
+      "corr_fr": "La phrase 1 est un fait (on peut le mesurer). La phrase 2 est une hypothèse (cela pourrait arriver). La phrase 3 est un jugement (c'est une opinion)."
+    },
+    {
+      "id": 16,
+      "title": "Fles in de diepvriezer",
+      "image": "bottle-dented-freezer.webp",
+      "en": "Leerlingen sluiten een lege plastic fles en leggen ze in de diepvriezer. Na een uur is de fles ingedeukt. Koppel elke zin aan: onderzoeksvraag, hypothese, waarneming. A) \"De fles is ingedeukt.\" B) \"Neemt lucht minder plaats in als ze afkoelt?\" C) \"De lucht zal inkrimpen als ze afkoelt, omdat haar deeltjes trager bewegen.\"",
+      "fr": "Des élèves ferment une bouteille en plastique vide et la mettent au congélateur. Après une heure, la bouteille est déformée. Associe chaque phrase à : question de recherche, hypothèse, observation. A) « La bouteille est déformée. » B) « L'air prend-il moins de place quand on le refroidit ? » C) « L'air va se contracter quand on le refroidit, car ses particules bougent plus lentement. »",
+      "corr_en": "A is de waarneming, B is de onderzoeksvraag en C is de hypothese.",
+      "corr_fr": "A est l'observation, B est la question de recherche et C est l'hypothèse."
+    },
+    {
+      "id": 17,
+      "title": "Water en ijs",
+      "image": null,
+      "en": "Vergelijk het volume van 100 g vloeibaar water en het volume van 100 g ijs. Welk volume is het grootst? Leg uit met de deeltjes.",
+      "fr": "Compare le volume de 100 g d'eau liquide et le volume de 100 g de glace. Lequel est le plus grand ? Explique avec les particules.",
+      "corr_en": "Het ijs heeft het grootste volume. In ijs zijn de deeltjes regelmatig geschikt, met lege ruimtes ertussen, dus ze nemen meer plaats in.",
+      "corr_fr": "La glace a le plus grand volume. Dans la glace, les particules sont rangées en ordre avec des espaces vides entre elles : elles prennent plus de place."
+    },
+    {
+      "id": 18,
+      "title": "Vol glas met ijs",
+      "image": "full-glass-ice.webp",
+      "en": "Een glas is tot de rand gevuld met water en er drijven drie ijsblokjes in. Al het ijs smelt. Loopt het glas over? Leg uit.",
+      "fr": "Un verre est rempli à ras bord d'eau et trois glaçons y flottent. Toute la glace fond. Le verre déborde-t-il ? Explique.",
+      "corr_en": "Nee. Drijvend ijs verplaatst al evenveel water als het water dat het wordt als het smelt, dus het niveau verandert niet.",
+      "corr_fr": "Non. La glace flottante déplace déjà autant d'eau qu'elle en devient en fondant, donc le niveau ne change pas."
+    },
+    {
+      "id": 19,
+      "title": "Twee redenen",
+      "image": null,
+      "en": "De zeespiegel stijgt door de klimaatopwarming. Geef de twee redenen en leg elke reden uit in één zin.",
+      "fr": "Le niveau de la mer monte à cause du réchauffement climatique. Donne les deux raisons et explique chacune en une phrase.",
+      "corr_en": "IJs op het land smelt en voegt nieuw water toe aan de zee. Warmer zeewater zet uit: hetzelfde water neemt meer plaats in.",
+      "corr_fr": "La glace sur la terre ferme fond et ajoute de l'eau nouvelle à la mer. L'eau de mer plus chaude se dilate : la même eau prend plus de place."
+    },
+    {
+      "id": 20,
+      "title": "Opwarmingstabel",
+      "image": "heating-table-y-nl.webp",
+      "questions": [
+        {
+          "en": "Een vaste zuivere stof Y wordt opgewarmd en smelt tijdens het experiment. De tabel geeft elke minuut de temperatuur. Tussen welke minuten blijft de temperatuur constant?",
+          "fr": "Une substance solide pure Y est chauffée et fond pendant l'expérience. Le tableau donne sa température chaque minute. Entre quelles minutes la température reste-t-elle constante ?",
+          "corr_en": "Tussen minuut 3 en minuut 6.",
+          "corr_fr": "Entre la minute 3 et la minute 6."
+        },
+        {
+          "en": "Wat is het smeltpunt van stof Y?",
+          "fr": "Quel est le point de fusion de la substance Y ?",
+          "corr_en": "60 °C, de temperatuur van het plateau.",
+          "corr_fr": "60 °C, la température du palier."
+        },
+        {
+          "en": "In welke toestand is stof Y op minuut 2, op minuut 5 en op minuut 8?",
+          "fr": "Quel est l'état de la substance Y à la minute 2, à la minute 5 et à la minute 8 ?",
+          "corr_en": "Minuut 2: vast. Minuut 5: vast en vloeibaar samen, want ze smelt. Minuut 8: vloeibaar.",
+          "corr_fr": "Minute 2 : solide. Minute 5 : solide et liquide ensemble, car elle fond. Minute 8 : liquide."
+        },
+        {
+          "en": "De warmtebron geeft voortdurend energie. Waarom stijgt de temperatuur niet tussen minuut 3 en minuut 6?",
+          "fr": "La source de chaleur donne de l'énergie en continu. Pourquoi la température n'augmente-t-elle pas entre les minutes 3 et 6 ?",
+          "corr_en": "De stof smelt: de energie breekt de bindingen tussen de deeltjes in plaats van ze sneller te laten bewegen.",
+          "corr_fr": "La substance fond : l'énergie casse les liaisons entre les particules au lieu de les faire bouger plus vite."
+        }
+      ]
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "Druppels kaarsvet",
+      "image": null,
+      "en": "Dicht bij de vlam van een kaars wordt vast kaarsvet vloeibaar. Later vallen er druppels op een koude tafel en worden ze weer hard. Benoem beide toestandsveranderingen, zeg of het kaarsvet telkens thermische energie krijgt of verliest, en leg met de deeltjes uit wat er met de bindingen gebeurt.",
+      "fr": "Près de la flamme d'une bougie, la cire solide devient de la cire liquide. Plus tard, des gouttes tombent sur une table froide et durcissent à nouveau. Nomme les deux changements d'état, dis si la cire reçoit ou perd de l'énergie thermique à chaque fois, et explique avec les particules ce qui arrive aux liaisons.",
+      "corr_en": "Bij de vlam is het smelten: het kaarsvet krijgt thermische energie, die de bindingen breekt, zodat de deeltjes langs elkaar glijden. Op de koude tafel is het stollen: het kaarsvet verliest thermische energie en er ontstaan nieuwe bindingen, dus de deeltjes blijven geordend.",
+      "corr_fr": "Près de la flamme, c'est la fusion : la cire reçoit de l'énergie thermique, qui casse les liaisons et permet aux particules de glisser les unes sur les autres. Sur la table froide, c'est la solidification : la cire perd de l'énergie thermique et de nouvelles liaisons se forment, donc les particules restent en ordre."
+    },
+    {
+      "id": 2,
+      "title": "Opwarmingskromme van kwik",
+      "image": "mercury-heating-curve-nl.webp",
+      "questions": [
+        {
+          "en": "De grafiek toont de opwarming van kwik, een metaal dat vloeibaar is bij kamertemperatuur. Wat zijn het smeltpunt en het kookpunt van kwik?",
+          "fr": "Le graphique montre le chauffage du mercure, un métal liquide à température ambiante. Quels sont le point de fusion et le point d'ébullition du mercure ?",
+          "corr_en": "Het smeltpunt is −39 °C en het kookpunt is 357 °C: dat zijn de temperaturen van de twee plateaus.",
+          "corr_fr": "Le point de fusion est de −39 °C et le point d'ébullition est de 357 °C : ce sont les températures des deux paliers."
+        },
+        {
+          "en": "In welke toestand is kwik bij −50 °C, bij 20 °C en bij 400 °C? Verantwoord.",
+          "fr": "Quel est l'état du mercure à −50 °C, à 20 °C et à 400 °C ? Justifie.",
+          "corr_en": "Bij −50 °C is het vast (onder −39 °C). Bij 20 °C is het vloeibaar (tussen de twee plateaus). Bij 400 °C is het een gas (boven 357 °C).",
+          "corr_fr": "À −50 °C il est solide (en dessous de −39 °C). À 20 °C il est liquide (entre les deux paliers). À 400 °C il est gazeux (au-dessus de 357 °C)."
+        },
+        {
+          "en": "Een wetenschapster wil de luchttemperatuur meten in een poolstation, waar het −50 °C kan worden. Kan ze een kwikthermometer gebruiken? Leg uit.",
+          "fr": "Une scientifique veut mesurer la température de l'air dans une station polaire, où elle peut atteindre −50 °C. Peut-elle utiliser un thermomètre à mercure ? Explique.",
+          "corr_en": "Nee. Bij −50 °C zit kwik onder zijn smeltpunt (−39 °C): het is vast en kan niet stijgen of dalen in het buisje.",
+          "corr_fr": "Non. À −50 °C le mercure est en dessous de son point de fusion (−39 °C) : il est solide et ne peut pas monter ou descendre dans le tube."
+        },
+        {
+          "en": "Leg met de deeltjes uit waarom de temperatuur twee minuten lang 357 °C blijft, hoewel het kwik thermische energie blijft krijgen.",
+          "fr": "Explique avec les particules pourquoi la température reste à 357 °C pendant deux minutes alors que le mercure continue de recevoir de l'énergie thermique.",
+          "corr_en": "Het kwik kookt: de thermische energie breekt de bindingen tussen de deeltjes, die als gas ver uit elkaar gaan, in plaats van ze sneller te laten bewegen. Dus de temperatuur blijft constant.",
+          "corr_fr": "Le mercure bout : l'énergie thermique casse les liaisons entre les particules, qui s'éloignent sous forme de gaz, au lieu de les faire bouger plus vite. Donc la température reste constante."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Ontwerp een experiment",
+      "image": null,
+      "en": "Een leerling denkt dat het volume van de lucht in een gesloten injectiespuit verandert als je ze in warm water legt. Schrijf een hypothese en beschrijf dan een eenvoudig experiment: wat je verandert, wat je waarneemt en welk resultaat je verwacht.",
+      "fr": "Un élève pense que le volume de l'air dans une seringue fermée change quand on la plonge dans de l'eau chaude. Écris une hypothèse, puis décris une expérience simple : ce que tu changes, ce que tu observes et le résultat que tu attends.",
+      "corr_en": "Hypothese: het volume van de lucht neemt toe als ze opgewarmd wordt. Experiment: lees het volume van de gesloten injectiespuit af in koud water, leg ze daarna in warm water en lees het volume opnieuw af. Alleen de temperatuur verandert. Verwacht resultaat: het volume is groter in warm water.",
+      "corr_fr": "Hypothèse : le volume de l'air augmente quand on le chauffe. Expérience : lire le volume de la seringue fermée dans de l'eau froide, puis la mettre dans de l'eau chaude et relire le volume. Seule la température change. Résultat attendu : le volume est plus grand dans l'eau chaude."
+    },
+    {
+      "id": 4,
+      "title": "Ballon in de winter",
+      "image": "balloon-door-winter.webp",
+      "en": "Mia neemt een ballon mee naar buiten op een winterdag. Voorspel wat er met de ballon gebeurt en leg het uit met de deeltjes. Verandert het aantal deeltjes of de massa van de lucht?",
+      "fr": "Mia emmène un ballon dehors par une journée d'hiver. Prédis ce qui arrive au ballon et explique-le avec les particules. Le nombre de particules ou la masse de l'air change-t-il ?",
+      "corr_en": "De ballon wordt kleiner (thermische inkrimping): de afgekoelde luchtdeeltjes bewegen trager en nemen minder plaats in, dus het volume neemt af. Het aantal deeltjes en de massa van de lucht blijven gelijk.",
+      "corr_fr": "Le ballon rétrécit (contraction thermique) : les particules d'air refroidies bougent moins vite et prennent moins de place, donc le volume diminue. Le nombre de particules et la masse de l'air restent les mêmes."
+    },
+    {
+      "id": 5,
+      "title": "IJs op een enkel",
+      "image": null,
+      "en": "Een zak gemalen ijs van 0 °C ligt op een verstuikte enkel van 35 °C. In welke richting gaat de warmte? Wat gebeurt er met de temperatuur van het ijs terwijl het smelt? Hoe verhoudt de massa van het water zich tot de massa van het ijs?",
+      "fr": "Un sac de glace pilée à 0 °C est posé sur une cheville foulée à 35 °C. Dans quel sens la chaleur va-t-elle ? Pendant que la glace fond, que devient sa température ? Comment la masse de l'eau obtenue se compare-t-elle à celle de la glace ?",
+      "corr_en": "De enkel geeft warmte aan het ijs, want warmte gaat van warm naar koud. Terwijl het ijs smelt, blijft de temperatuur 0 °C, want de energie breekt bindingen. De massa van het water is gelijk aan de massa van het ijs.",
+      "corr_fr": "La cheville donne de la chaleur à la glace, car la chaleur va du chaud vers le froid. Pendant la fonte, la température reste à 0 °C, car l'énergie casse des liaisons. La masse de l'eau est égale à celle de la glace."
+    },
+    {
+      "id": 6,
+      "title": "Twee onbekende stoffen",
+      "image": "heating-curves-p-q-nl.webp",
+      "questions": [
+        {
+          "en": "De grafiek toont de opwarming van twee zuivere stoffen, P en Q. Welke stof is vloeibaar bij 20 °C? Verantwoord met de grafiek.",
+          "fr": "Le graphique montre le chauffage de deux substances pures, P et Q. Laquelle est liquide à 20 °C ? Justifie avec le graphique.",
+          "corr_en": "Stof Q: 20 °C ligt tussen haar smeltpunt (−10 °C) en haar kookpunt (80 °C). P is bij 20 °C nog vast, want haar smeltpunt is 40 °C.",
+          "corr_fr": "La substance Q : 20 °C est entre son point de fusion (−10 °C) et son point d'ébullition (80 °C). P est encore solide à 20 °C, car son point de fusion est de 40 °C."
+        },
+        {
+          "en": "In welke toestand zijn P en Q bij 100 °C?",
+          "fr": "Quel est l'état de P et de Q à 100 °C ?",
+          "corr_en": "P is vloeibaar (tussen 40 °C en 120 °C). Q is een gas (boven 80 °C).",
+          "corr_fr": "P est liquide (entre 40 °C et 120 °C). Q est gazeuse (au-dessus de 80 °C)."
+        },
+        {
+          "en": "Op minuut 8 koken beide stoffen. Welke is het warmst? Leg uit wat de thermische energie op dat moment doet.",
+          "fr": "À la minute 8, les deux substances bouillent. Laquelle est la plus chaude ? Explique ce que fait l'énergie thermique à ce moment.",
+          "corr_en": "Stof P is het warmst (120 °C tegenover 80 °C). Terwijl een stof kookt, breekt de thermische energie de bindingen tussen de deeltjes, dus de temperatuur blijft constant.",
+          "corr_fr": "La substance P est la plus chaude (120 °C contre 80 °C). Pendant l'ébullition, l'énergie thermique casse les liaisons entre les particules, donc la température reste constante."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "De koude buitenhouden?",
+      "image": null,
+      "en": "In de winter zegt Tom: \"Doe het raam dicht om de koude buiten te houden!\" Leg uit waarom deze zin wetenschappelijk niet correct is en schrijf hem opnieuw met de woorden warmte of thermische energie.",
+      "fr": "En hiver, Tom dit : « Ferme la fenêtre pour empêcher le froid d'entrer ! » Explique pourquoi cette phrase n'est pas scientifiquement correcte et réécris-la avec les mots chaleur ou énergie thermique.",
+      "corr_en": "De koude komt het huis niet binnen. Warmte, een overdracht van thermische energie, gaat van de warme kamer naar de koude buitenlucht. Betere zin: \"Doe het raam dicht om de warmte binnen te houden.\"",
+      "corr_fr": "Le froid n'entre pas dans la maison. La chaleur, un transfert d'énergie thermique, va de la pièce chaude vers le froid du dehors. Meilleure phrase : « Ferme la fenêtre pour garder la chaleur à l'intérieur. »"
+    },
+    {
+      "id": 8,
+      "title": "Oorzaken van de zeespiegelstijging",
+      "image": "sea-level-causes-pie-nl.webp",
+      "questions": [
+        {
+          "en": "Het cirkeldiagram toont de geschatte oorzaken van de zeespiegelstijging. Welke oorzaak is de grootste? Met welk natuurkundig verschijnsel komt ze overeen?",
+          "fr": "Le graphique circulaire montre les causes approximatives de la montée du niveau de la mer. Quelle cause est la plus importante ? À quel phénomène physique correspond-elle ?",
+          "corr_en": "Thermische uitzetting van opwarmend zeewater (50 %): warmer water neemt meer plaats in.",
+          "corr_fr": "La dilatation thermique de l'eau de mer qui se réchauffe (50 %) : une eau plus chaude prend plus de place."
+        },
+        {
+          "en": "Welke oorzaak voegt nieuw water toe aan de zee, en hoe groot is haar aandeel?",
+          "fr": "Quelle cause ajoute de l'eau nouvelle à la mer, et quelle part représente-t-elle ?",
+          "corr_en": "Het smelten van landijs (gletsjers en ijskappen), ongeveer 42 %.",
+          "corr_fr": "La fonte de la glace terrestre (glaciers et calottes glaciaires), environ 42 %."
+        },
+        {
+          "en": "Een journalist schrijft: \"Het smelten van het zee-ijs van de Noordpool is de belangrijkste oorzaak van de zeespiegelstijging.\" Gebruik de grafiek en wat je weet over drijvend ijs om uit te leggen waarom dat fout is.",
+          "fr": "Un journaliste écrit : « La fonte de la banquise arctique est la principale cause de la montée du niveau de la mer. » Utilise le graphique et ce que tu sais de la glace flottante pour expliquer pourquoi c'est faux.",
+          "corr_en": "Drijvend zee-ijs verplaatst al evenveel water als het water dat het wordt als het smelt, dus het doet de zeespiegel niet stijgen. De grafiek toont dat thermische uitzetting en landijs de belangrijkste oorzaken zijn.",
+          "corr_fr": "La banquise flottante déplace déjà autant d'eau qu'elle en devient en fondant, donc elle ne fait pas monter le niveau de la mer. Le graphique montre que la dilatation thermique et la glace terrestre sont les causes principales."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Verdwenen parfum",
+      "image": null,
+      "en": "Camille laat een flesje parfum open staan. Na enkele dagen is het niveau van de vloeistof gedaald en ruikt de hele kamer naar parfum. Benoem de toestandsverandering en leg uit waarom de materie niet verloren is.",
+      "fr": "Camille laisse un flacon de parfum ouvert. Après quelques jours, le niveau du liquide a baissé et toute la pièce sent le parfum. Nomme le changement d'état et explique pourquoi la matière n'est pas perdue.",
+      "corr_en": "Het parfum verdampt (verdamping): het krijgt thermische energie van de kamer en wordt een gas. De deeltjes worden niet vernietigd, ze verspreiden zich in de lucht van de kamer, dus de massa blijft behouden.",
+      "corr_fr": "Le parfum s'évapore (vaporisation) : il reçoit de l'énergie thermique de la pièce et devient un gaz. Ses particules ne sont pas détruites, elles se répandent dans l'air de la pièce, donc la masse est conservée."
+    },
+    {
+      "id": 10,
+      "title": "Doorhangende kabels",
+      "image": "power-line-sag.webp",
+      "en": "Hoogspanningskabels hangen in de zomer lager tussen de pylonen dan in de winter. Leg uit waarom met de deeltjes, en zeg wat er met de massa van de kabel gebeurt.",
+      "fr": "Les câbles électriques pendent plus bas entre les pylônes en été qu'en hiver. Explique pourquoi avec les particules et dis ce qui arrive à la masse du câble.",
+      "corr_en": "In de zomer wordt het metaal opgewarmd: de deeltjes bewegen sneller en nemen meer plaats in, dus de kabel zet uit, wordt langer en hangt lager. Het aantal deeltjes en de massa van de kabel veranderen niet.",
+      "corr_fr": "En été, le métal est chauffé : ses particules bougent plus vite et prennent plus de place, donc le câble se dilate, s'allonge et pend plus bas. Le nombre de particules et la masse du câble ne changent pas."
+    },
+    {
+      "id": 11,
+      "title": "Van ijs tot stoom",
+      "image": null,
+      "en": "Een blok ijs van −30 °C krijgt thermische energie tot het waterdamp wordt. Beschrijf hoe de temperatuur verandert en leg uit wat de thermische energie in elke fase met de deeltjes doet.",
+      "fr": "Un bloc de glace à −30 °C reçoit de l'énergie thermique jusqu'à devenir de la vapeur d'eau. Décris comment la température change et explique ce que fait l'énergie thermique aux particules à chaque étape.",
+      "corr_en": "Van −30 °C tot 0 °C stijgt de temperatuur: de deeltjes bewegen sneller. Bij 0 °C blijft ze constant (smelten): de energie breekt bindingen. Dan stijgt ze tot 100 °C. Bij 100 °C blijft ze opnieuw constant (koken): er worden bindingen gebroken. Daarna wordt de damp warmer.",
+      "corr_fr": "De −30 °C à 0 °C la température monte : les particules bougent plus vite. À 0 °C elle reste constante (fusion) : l'énergie casse des liaisons. Puis elle monte jusqu'à 100 °C. À 100 °C elle reste à nouveau constante (ébullition) : des liaisons sont cassées. Ensuite la vapeur devient plus chaude."
+    },
+    {
+      "id": 12,
+      "title": "Verdwijnende mottenballen",
+      "image": "mothballs.webp",
+      "en": "Mottenballen (vast) in een kast worden kleiner en verdwijnen uiteindelijk, zonder dat er vloeistof ontstaat. Benoem de toestandsverandering en leg uit wat er met de deeltjes en met de massa gebeurt.",
+      "fr": "Des boules antimites (solides) placées dans une armoire rétrécissent puis disparaissent, sans qu'aucun liquide ne se forme. Nomme le changement d'état et explique ce qui arrive aux particules et à la masse.",
+      "corr_en": "Het is sublimatie: de vaste stof krijgt thermische energie van de lucht, de bindingen breken en de deeltjes gaan rechtstreeks als gas weg. Ze verspreiden zich in de lucht en worden niet vernietigd, dus de massa blijft behouden.",
+      "corr_fr": "C'est la sublimation : le solide reçoit de l'énergie thermique de l'air, les liaisons se cassent et les particules partent directement sous forme de gaz. Elles se répandent dans l'air et ne sont pas détruites, donc la masse est conservée."
+    },
+    {
+      "id": 13,
+      "title": "Een zin op de verkeerde plaats",
+      "image": null,
+      "en": "Een leerling schrijft de \"Waarnemingen\" van een labverslag over smeltend ijs: 1) De temperatuur bleef 6 minuten lang 0 °C. 2) Het ijs werd langzaam water. 3) De energie brak de bindingen tussen de deeltjes. Eén zin hoort niet bij de \"Waarnemingen\". Welke? Leg uit waar ze hoort.",
+      "fr": "Un élève écrit les « Observations » d'un rapport de labo sur la fonte de la glace : 1) La température est restée à 0 °C pendant 6 minutes. 2) La glace est lentement devenue de l'eau. 3) L'énergie a cassé les liaisons entre les particules. Une phrase n'a pas sa place dans les « Observations ». Laquelle ? Explique où elle doit aller.",
+      "corr_en": "Zin 3. Deeltjes en bindingen kun je niet zien: het is een verklaring, dus ze hoort bij de interpretatie. Waarnemingen bevatten alleen wat je meet of ziet, zoals zin 1 en zin 2.",
+      "corr_fr": "La phrase 3. On ne peut pas voir les particules ni les liaisons : c'est une explication, elle va donc dans l'interprétation. Les observations contiennent seulement ce qu'on mesure ou ce qu'on voit, comme les phrases 1 et 2."
+    },
+    {
+      "id": 14,
+      "title": "Ingedeukt pingpongballetje",
+      "image": "pingpong-dent-hot-water.webp",
+      "en": "Een ingedeukt pingpongballetje wordt in warm water gelegd en de deuk springt eruit. Leg uit waarom, met de lucht in het balletje, de deeltjes en het volume.",
+      "fr": "Une balle de ping-pong cabossée est plongée dans de l'eau chaude et sa bosse ressort. Explique pourquoi, en utilisant l'air à l'intérieur de la balle, les particules et le volume.",
+      "corr_en": "De lucht binnenin wordt opgewarmd: de deeltjes bewegen sneller en nemen meer plaats in, dus het volume van de lucht neemt toe en duwt de deuk eruit. Het aantal deeltjes in het balletje verandert niet.",
+      "corr_fr": "L'air à l'intérieur est chauffé : ses particules bougent plus vite et prennent plus de place, donc le volume de l'air augmente et repousse la bosse. Le nombre de particules dans la balle ne change pas."
+    },
+    {
+      "id": 15,
+      "title": "Grotere deeltjes?",
+      "image": null,
+      "en": "Noah zegt: \"Als een metalen bol wordt opgewarmd, worden zijn deeltjes groter, en daarom zet de bol uit.\" Beoordeel deze uitspraak en verbeter ze als het nodig is.",
+      "fr": "Noah dit : « Quand une boule de métal est chauffée, ses particules deviennent plus grosses, et c'est pour ça que la boule se dilate. » Évalue cette affirmation et corrige-la si nécessaire.",
+      "corr_en": "Dat klopt niet. De deeltjes worden niet groter: ze bewegen sneller en nemen meer plaats tussen elkaar in, dus het volume neemt toe, terwijl het aantal deeltjes en de massa gelijk blijven.",
+      "corr_fr": "Ce n'est pas correct. Les particules ne deviennent pas plus grosses : elles bougent plus vite et prennent plus de place entre elles, donc le volume augmente, alors que le nombre de particules et la masse restent les mêmes."
+    },
+    {
+      "id": 16,
+      "title": "Gesprongen waterleiding",
+      "image": "burst-pipe-ice.webp",
+      "en": "In de winter barst een waterleiding die helemaal vol zit, wanneer het water bevriest. Leg uit waarom, met het volume, de deeltjes en de massa.",
+      "fr": "En hiver, un tuyau d'eau complètement plein éclate quand l'eau gèle. Explique pourquoi, en utilisant le volume, les particules et la masse.",
+      "corr_en": "Als water bevriest, krijgen de deeltjes een regelmatige schikking met lege ruimtes, dus het volume neemt toe. Het ijs heeft geen plaats in de volle leiding en doet ze barsten. De massa en het aantal deeltjes veranderen niet.",
+      "corr_fr": "Quand l'eau gèle, ses particules prennent un arrangement régulier avec des espaces vides, donc le volume augmente. La glace n'a pas de place dans le tuyau plein et le fait éclater. La masse et le nombre de particules ne changent pas."
+    },
+    {
+      "id": 17,
+      "title": "Een thermometer kiezen",
+      "image": null,
+      "en": "Een wetenschapper zoekt een vloeistof voor een thermometer. Water smelt bij 0 °C en kookt bij 100 °C. Kwik smelt bij −39 °C en kookt bij 357 °C. Ethanol smelt bij −114 °C en kookt bij 78 °C. Welke vloeistof is het best om −60 °C te meten op Antarctica? Welke is het best voor een oven van 150 °C? Verantwoord met de toestanden.",
+      "fr": "Un scientifique cherche un liquide pour un thermomètre. L'eau fond à 0 °C et bout à 100 °C. Le mercure fond à −39 °C et bout à 357 °C. L'éthanol fond à −114 °C et bout à 78 °C. Quel liquide est le meilleur pour mesurer −60 °C en Antarctique ? Lequel est le meilleur pour un four à 150 °C ? Justifie avec les états.",
+      "corr_en": "Ethanol voor −60 °C: het is vloeibaar tussen −114 °C en 78 °C, terwijl water en kwik vast zouden zijn. Kwik voor 150 °C: het is vloeibaar tot 357 °C, terwijl water en ethanol gassen zouden zijn.",
+      "corr_fr": "L'éthanol pour −60 °C : il est liquide entre −114 °C et 78 °C, alors que l'eau et le mercure seraient solides. Le mercure pour 150 °C : il est liquide jusqu'à 357 °C, alors que l'eau et l'éthanol seraient gazeux."
+    },
+    {
+      "id": 18,
+      "title": "Determineersleutel",
+      "image": "states-key-blank-nl.webp",
+      "en": "Vul de sleutel aan: schrijf een vraag in elk vak \"Vraag\", zodat de sleutel een vaste stof, een vloeistof en een gas van elkaar scheidt. Gebruik alleen de vorm en het volume van de stof.",
+      "fr": "Complète la clé : écris une question dans chaque case « Question » pour séparer un solide, un liquide et un gaz. Utilise uniquement la forme et le volume de la substance.",
+      "corr_en": "Vraag 1: behoudt de stof haar eigen vorm? Ja: vaste stof. Nee: ga naar vraag 2. Vraag 2: behoudt ze een vast volume als je ze samendrukt? Ja: vloeistof. Nee: gas.",
+      "corr_fr": "Question 1 : la substance garde-t-elle sa propre forme ? Oui : solide. Non : va à la question 2. Question 2 : garde-t-elle un volume fixe quand on la comprime ? Oui : liquide. Non : gaz."
+    },
+    {
+      "id": 19,
+      "title": "Eieren koken",
+      "image": null,
+      "en": "Maria kookt eieren in kokend water. Ze denkt: \"Als ik het vuur hoger zet, wordt het water warmer dan 100 °C en zijn de eieren sneller gaar.\" Heeft ze gelijk? Leg uit wat de extra energie doet.",
+      "fr": "Maria fait cuire des œufs dans de l'eau qui bout. Elle pense : « Si j'augmente la flamme, l'eau deviendra plus chaude que 100 °C et les œufs cuiront plus vite. » A-t-elle raison ? Explique ce que fait l'énergie en plus.",
+      "corr_en": "Ze heeft geen gelijk. Kokend water blijft 100 °C, want tijdens een toestandsverandering blijft de temperatuur constant. De extra thermische energie laat het water alleen sneller verdampen: er worden elke seconde meer bindingen gebroken.",
+      "corr_fr": "Elle a tort. L'eau qui bout reste à 100 °C, car pendant un changement d'état la température reste constante. L'énergie thermique en plus fait seulement vaporiser l'eau plus vite : plus de liaisons sont cassées chaque seconde."
+    },
+    {
+      "id": 20,
+      "title": "Meer en gletsjer",
+      "image": "lake-ice-glacier.webp",
+      "en": "In de lente smelt al het ijs, op afbeelding A (ijs dat op het meer drijft) en op afbeelding B (een gletsjer op de helling boven het meer). Op welke afbeelding stijgt het waterpeil van het meer? Vergelijk beide gevallen en leg uit met de massa en de deeltjes.",
+      "fr": "Au printemps toute la glace fond, sur l'image A (glace flottant sur le lac) et sur l'image B (un glacier sur la pente au-dessus du lac). Sur quelle image le niveau du lac monte-t-il ? Compare les deux cas et explique avec la masse et les particules.",
+      "corr_en": "Op afbeelding A verandert het peil niet: drijvend ijs verplaatst al evenveel water als het water dat het wordt. Op afbeelding B stijgt het peil, want de gesmolten gletsjer is nieuw water dat in het meer stroomt. In beide gevallen blijven de massa en het aantal deeltjes behouden.",
+      "corr_fr": "Sur l'image A le niveau ne change pas : la glace flottante déplace déjà autant d'eau qu'elle en devient. Sur l'image B le niveau monte, car le glacier fondu est de l'eau nouvelle qui coule dans le lac. Dans les deux cas la masse et le nombre de particules sont conservés."
+    }
+  ]
 }
