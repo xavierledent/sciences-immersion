@@ -279,7 +279,9 @@ LabEngine.addText('separation', {
       (again ? `, and you took ${again} new ${again === 1 ? 'sample' : 'samples'}` : '') + '.',
     oneWay: 'One order that works:',
     noLog: 'Your separation log is empty.',
-    logHint: 'What we remove is what the tool takes out: what sticks to the magnet, what stays in the sieve, on the filter paper or in the separating funnel, or the liquid that boils away. What is left is the rest of the mixture.',
+    logHint: 'What we remove is what the tool takes out: what sticks to the magnet, what stays in the sieve or on the filter paper, or the liquid that boils away. What is left is the rest of the mixture. With the separating funnel, both ways are right: we remove the bottom layer (it flows out) or the top layer (it stays in the funnel).',
+    // Ampoule à décanter : l'inverse est accepté aussi.
+    eitherWay: '(or the other way round)',
     answerOk: 'Correct.',
     answerWrong: 'Not quite.',
     stillRight: the => `${cap(the)} is still in the water: it is dissolved. The solute is ${the} and the solvent is the water.`,

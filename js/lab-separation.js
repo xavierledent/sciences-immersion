@@ -225,7 +225,8 @@
           if (r.left.length) nextParts.push(r.left);
           const rest = search(nextParts, nextAir, steps - 1, pool, fixed ? fixed.slice(1) : null, lastOk);
           if (!rest) continue;
-          if (!rest.length && lastOk && !lastOk(r.left)) continue;
+          // Ampoule à décanter : chaque couche peut être « ce qui reste ».
+          if (!rest.length && lastOk && !lastOk(r.left) && !(tool === 'decant' && lastOk(r.removed))) continue;
           return [{ tool, target, removed: r.removed, left: r.left }].concat(rest);
         }
       }
@@ -1529,8 +1530,10 @@
     const tries = state.actions;
     const failed = tries.filter(a => !a.ok);
     const separate = separated() && !failed.length && state.sample === 1;
+    // Ampoule à décanter : retirer la couche du bas ou celle du haut, les deux se disent.
+    const swapped = r => r.tool === 'decant' && sameSet(r.ans.removed, r.left) && sameSet(r.ans.left, r.removed);
     const rowMiss = logRows().map(r => ({
-      removed: !sameSet(r.ans.removed, r.removed), tool: r.ans.tool !== r.tool, left: !sameSet(r.ans.left, r.left)
+      removed: !swapped(r) && !sameSet(r.ans.removed, r.removed), tool: r.ans.tool !== r.tool, left: !swapped(r) && !sameSet(r.ans.left, r.left)
     }));
     const log = rowMiss.every(m => !m.removed && !m.tool && !m.left);
     const techMiss = logRows().map((r, i) => ({
@@ -1549,6 +1552,8 @@
   function yourVsRight(label, yours, right, ok) {
     return `<tr class="${ok ? 'is-ok' : 'is-ko'}"><th scope="row">${label}</th><td>${yours}</td><td>${ok ? '✓' : right}</td></tr>`;
   }
+  // La bonne réponse d'une case du journal (ampoule : l'inverse aussi).
+  const rightPart = (r, comps) => namesText(comps) + (r.tool === 'decant' ? ` ${CHECK.eitherWay}` : '');
   const tableHead = () => `<thead><tr><th></th><th scope="col">${LABELS.yours}</th><th scope="col">${LABELS.expected}</th></tr></thead>`;
 
   function criterionDetail(key, ev) {
@@ -1580,9 +1585,9 @@
       return logRows().map((r, i) => {
         const m = ev.rowMiss[i];
         return `<p class="sp-q-head"><span class="sp-num">${i + 1}</span> ${LABELS.separationN(i + 1)}</p><table class="lab-table sp-facts">${tableHead()}<tbody>` +
-          yourVsRight(LABELS.colRemoved, namesText(r.ans.removed), namesText(r.removed), !m.removed) +
+          yourVsRight(LABELS.colRemoved, namesText(r.ans.removed), rightPart(r, r.removed), !m.removed) +
           yourVsRight(LABELS.colTool, r.ans.tool ? LABELS.tools[r.ans.tool] : '—', LABELS.tools[r.tool], !m.tool) +
-          yourVsRight(LABELS.colLeft, namesText(r.ans.left), namesText(r.left), !m.left) + `</tbody></table>`;
+          yourVsRight(LABELS.colLeft, namesText(r.ans.left), rightPart(r, r.left), !m.left) + `</tbody></table>`;
       }).join('') + `<p class="sp-muted">${gloss(CHECK.logHint)}</p>`;
     }
     if (key === 'techniques') {
@@ -1670,9 +1675,9 @@
       logRows().map((r, i) => {
         const m = ev.rowMiss[i];
         return `<tr><th>${i + 1}</th>` +
-          `<td>${word(namesText(r.ans.removed), !m.removed, `${LABELS.separationN(i + 1)}: ${R.rightIs} ${namesText(r.removed)}.`, true)}</td>` +
+          `<td>${word(namesText(r.ans.removed), !m.removed, `${LABELS.separationN(i + 1)}: ${R.rightIs} ${rightPart(r, r.removed)}.`, true)}</td>` +
           `<td>${word(r.ans.tool ? LABELS.tools[r.ans.tool] : '—', !m.tool, `${LABELS.separationN(i + 1)}: ${R.rightIs} ${LABELS.tools[r.tool].toLowerCase()}.`, true)}</td>` +
-          `<td>${word(namesText(r.ans.left), !m.left, `${LABELS.separationN(i + 1)}: ${R.rightIs} ${namesText(r.left)}.`, true)}</td></tr>`;
+          `<td>${word(namesText(r.ans.left), !m.left, `${LABELS.separationN(i + 1)}: ${R.rightIs} ${rightPart(r, r.left)}.`, true)}</td></tr>`;
       }).join('') + `</table>`;
 
     const interp = `<ul>${logRows().map((r, i) => {

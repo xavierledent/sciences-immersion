@@ -283,7 +283,9 @@ LabEngine.addText('separation', {
       (again ? `, en je hebt ${again} ${again === 1 ? 'nieuw staal' : 'nieuwe stalen'} genomen` : '') + '.',
     oneWay: 'Een volgorde die werkt:',
     noLog: 'Je scheidingslogboek is leeg.',
-    logHint: 'Wat we eruit halen, is wat het hulpmiddel wegneemt: wat aan de magneet blijft hangen, wat in de zeef, op het filterpapier of in de scheitrechter blijft, of de vloeistof die wegkookt. Wat overblijft, is de rest van het mengsel.',
+    logHint: 'Wat we eruit halen, is wat het hulpmiddel wegneemt: wat aan de magneet blijft hangen, wat in de zeef of op het filterpapier blijft, of de vloeistof die wegkookt. Wat overblijft, is de rest van het mengsel. Bij de scheitrechter zijn beide manieren juist: we halen de onderste laag eruit (ze loopt weg) of de bovenste laag (ze blijft in de scheitrechter).',
+    // Ampoule à décanter : l'inverse est accepté aussi.
+    eitherWay: '(of omgekeerd)',
     answerOk: 'Juist.',
     answerWrong: 'Niet helemaal.',
     stillRight: the => `${cap(the)} zit nog in het water: ${the} is opgelost. De opgeloste stof is ${the} en het oplosmiddel is het water.`,
