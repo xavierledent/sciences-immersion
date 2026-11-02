@@ -1,7 +1,1539 @@
 {
-  "multipleChoice": [],
-  "dragAndDrop": [],
-  "fillBlanks": [],
-  "matchPairs": [],
-  "sorting": []
+  "multipleChoice": [
+    {
+      "id": "qcm-1",
+      "quizTitle": "Toestanden en deeltjes",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Welke toestand heeft een vaste vorm en een vast volume?",
+          "image": null,
+          "options": [
+            "Vaste stof",
+            "Vloeistof",
+            "Gas"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>vaste stof</strong> behoudt haar eigen vorm en volume, omdat sterke bindingen de deeltjes op hun plaats houden."
+        },
+        {
+          "question": "Wat gebeurt er als je de zuiger induwt van een injectiespuit vol lucht?",
+          "image": null,
+          "options": [
+            "Het volume van de lucht neemt af",
+            "Het volume van de lucht blijft gelijk",
+            "De lucht wordt een vloeistof",
+            "De deeltjes verdwijnen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>gas</strong> kun je samendrukken omdat de deeltjes heel ver uit elkaar zitten, dus ze kunnen dichter bij elkaar komen."
+        },
+        {
+          "question": "Waarom is het heel moeilijk om een vloeistof samen te drukken?",
+          "image": null,
+          "options": [
+            "De deeltjes zitten al dicht bij elkaar",
+            "De deeltjes zitten ver uit elkaar",
+            "De deeltjes hebben geen bindingen",
+            "De deeltjes zitten in een regelmatige schikking"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In een vloeistof zitten de deeltjes al <strong>dicht bij elkaar</strong>, dus er is bijna geen lege ruimte meer."
+        },
+        {
+          "question": "Welke zin beschrijft de deeltjes van een vloeistof?",
+          "image": null,
+          "options": [
+            "Ze zitten dicht bij elkaar en glijden langs elkaar",
+            "Ze zitten ver uit elkaar en zijn wanordelijk",
+            "Ze zitten dicht bij elkaar in een regelmatige schikking",
+            "Ze bewegen helemaal niet"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In een <strong>vloeistof</strong> zijn de bindingen zwak: de deeltjes blijven dicht bij elkaar maar kunnen langs elkaar glijden."
+        },
+        {
+          "question": "Wat is een wetenschappelijk model?",
+          "image": null,
+          "options": [
+            "Een vereenvoudigde voorstelling van wat we niet kunnen zien",
+            "Een foto van de werkelijkheid",
+            "Een exacte kopie van een voorwerp",
+            "Een gok zonder bewijs"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>wetenschappelijk model</strong> is een vereenvoudigde voorstelling van de werkelijkheid, zoals het deeltjesmodel van materie."
+        },
+        {
+          "question": "In welke toestand zitten de deeltjes heel ver uit elkaar, met bijna geen bindingen?",
+          "image": null,
+          "options": [
+            "Gas",
+            "Vloeistof",
+            "Vaste stof"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In een <strong>gas</strong> zitten de deeltjes heel ver uit elkaar en bewegen ze in alle richtingen."
+        },
+        {
+          "question": "Welke stof neemt de vorm van het recipiënt aan, maar behoudt hetzelfde volume?",
+          "image": null,
+          "options": [
+            "Water",
+            "Een steen",
+            "Lucht",
+            "Een houten stoel"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>vloeistof</strong> neemt de vorm van het recipiënt aan maar behoudt haar volume. Lucht neemt ook de vorm aan, maar haar volume kan veranderen."
+        }
+      ]
+    },
+    {
+      "id": "qcm-2",
+      "quizTitle": "Temperatuur en warmte",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Wat is de gebruikelijke eenheid van temperatuur?",
+          "image": null,
+          "options": [
+            "De graad Celsius (°C)",
+            "De gram (g)",
+            "De liter (L)",
+            "De minuut (min)"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Temperatuur</strong> meet je in graden Celsius (°C)."
+        },
+        {
+          "question": "Met welk instrument meet je temperatuur?",
+          "image": null,
+          "options": [
+            "Een thermometer",
+            "Een balans",
+            "Een injectiespuit",
+            "Een chronometer"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>thermometer</strong> meet temperatuur. Een balans meet massa."
+        },
+        {
+          "question": "Bij welke temperaturen smelt en kookt water in normale omstandigheden?",
+          "image": null,
+          "options": [
+            "0 °C en 100 °C",
+            "100 °C en 0 °C",
+            "10 °C en 90 °C",
+            "0 °C en 50 °C"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Water smelt bij <strong>0 °C</strong> en kookt bij <strong>100 °C</strong>: dat zijn de twee vaste punten van de schaal van Celsius."
+        },
+        {
+          "question": "Wat gebeurt er met de deeltjes van een stof als de temperatuur stijgt?",
+          "image": null,
+          "options": [
+            "Ze bewegen sneller",
+            "Ze bewegen trager",
+            "Ze worden groter",
+            "Ze verdwijnen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een hogere temperatuur betekent meer <strong>beweging</strong>: de deeltjes bewegen sneller."
+        },
+        {
+          "question": "Wat is warmte?",
+          "image": null,
+          "options": [
+            "Thermische energie die van een warm voorwerp naar een koud voorwerp gaat",
+            "De temperatuur van een voorwerp",
+            "Koude die van een ijsblokje naar een drankje gaat",
+            "De snelheid van één deeltje"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Warmte</strong> is thermische energie die van een warm voorwerp naar een koud voorwerp gaat. Het is niet hetzelfde als temperatuur."
+        },
+        {
+          "question": "Je houdt een ijsblokje (0 °C) in je hand (35 °C). Wat gebeurt er?",
+          "image": null,
+          "options": [
+            "Je hand geeft warmte aan het ijs",
+            "Het ijs geeft koude aan je hand",
+            "Het ijs geeft warmte aan je hand",
+            "Er gaat geen energie over"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Warmte gaat altijd van het <strong>warmere</strong> voorwerp (je hand) naar het koudere (het ijs). Er gaat geen \"koude\" over."
+        },
+        {
+          "question": "Welke zin is correct?",
+          "image": null,
+          "options": [
+            "De temperatuur van deze thee is 70 °C",
+            "De warmte van deze thee is 70 °C",
+            "Temperatuur meet je met een balans",
+            "Warmte gaat van een koud voorwerp naar een warm voorwerp"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Temperatuur</strong> meet je in °C met een thermometer. Warmte is een overdracht van thermische energie."
+        }
+      ]
+    },
+    {
+      "id": "qcm-3",
+      "quizTitle": "Een opwarmingskromme lezen",
+      "instructions": "",
+      "image": "assets/qcm3-heating-curve-nl.webp",
+      "questions": [
+        {
+          "question": "Wat is de temperatuur van de stof bij het begin van het experiment?",
+          "options": [
+            "20 °C",
+            "0 °C",
+            "40 °C",
+            "60 °C"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Op minuut 0 begint de kromme bij <strong>20 °C</strong>."
+        },
+        {
+          "question": "Tussen welke minuten smelt de stof?",
+          "options": [
+            "Tussen minuut 2 en 5",
+            "Tussen minuut 0 en 2",
+            "Tussen minuut 5 en 8",
+            "Tussen minuut 8 en 10"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het eerste <strong>plateau</strong> (60 °C) duurt van minuut 2 tot minuut 5: dat is het smelten."
+        },
+        {
+          "question": "In welke toestand is de stof op minuut 1?",
+          "options": [
+            "Vast",
+            "Vloeibaar",
+            "Gas",
+            "Vast en vloeibaar samen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Op minuut 1 ligt de temperatuur (40 °C) onder het smeltpunt (60 °C), dus de stof is <strong>vast</strong>."
+        },
+        {
+          "question": "In welke toestand is de stof op minuut 4?",
+          "options": [
+            "Vast en vloeibaar samen",
+            "Alleen vast",
+            "Alleen vloeibaar",
+            "Alleen gas"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Tijdens het <strong>plateau</strong> van het smelten wordt de vaste stof vloeibaar, dus beide toestanden zijn aanwezig."
+        },
+        {
+          "question": "Wat gebeurt er met de temperatuur tussen minuut 5 en 8?",
+          "options": [
+            "Ze stijgt van 60 °C tot 120 °C",
+            "Ze blijft 60 °C",
+            "Ze daalt van 120 °C tot 60 °C",
+            "Ze blijft 120 °C"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Zodra alle vaste stof gesmolten is, blijft de <strong>vloeistof</strong> thermische energie krijgen en stijgt haar temperatuur."
+        },
+        {
+          "question": "Wat is het kookpunt van de stof?",
+          "options": [
+            "120 °C",
+            "60 °C",
+            "160 °C",
+            "100 °C"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het <strong>kookpunt</strong> is de temperatuur van het tweede plateau: 120 °C."
+        },
+        {
+          "question": "Hoeveel minuten duurt het koken?",
+          "options": [
+            "2 minuten",
+            "3 minuten",
+            "4 minuten",
+            "8 minuten"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het <strong>plateau</strong> van het koken duurt van minuut 8 tot minuut 10, dus 2 minuten."
+        },
+        {
+          "question": "In welke toestand is de stof op minuut 12?",
+          "options": [
+            "Gas",
+            "Vloeibaar",
+            "Vast",
+            "Vloeibaar en gas samen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Op minuut 12 ligt de temperatuur (160 °C) boven het kookpunt (120 °C), dus de stof is een <strong>gas</strong>."
+        }
+      ]
+    },
+    {
+      "id": "qcm-4",
+      "quizTitle": "Uitzetting, water en zeespiegel",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Wat gebeurt er met het volume van een stof die opgewarmd wordt en in dezelfde toestand blijft?",
+          "image": null,
+          "options": [
+            "Het neemt toe",
+            "Het neemt af",
+            "Het blijft gelijk",
+            "Het verdwijnt"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Dat is <strong>thermische uitzetting</strong>: het volume van een opgewarmde stof neemt toe."
+        },
+        {
+          "question": "Waarom neemt het volume van een opgewarmde stof toe?",
+          "image": null,
+          "options": [
+            "De deeltjes bewegen sneller en nemen meer plaats in",
+            "Er worden meer deeltjes gemaakt",
+            "De deeltjes worden groter",
+            "De massa neemt toe"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De deeltjes bewegen <strong>sneller</strong> en hebben meer plaats nodig, maar hun aantal verandert niet."
+        },
+        {
+          "question": "Een metalen bol wordt opgewarmd. Wat gebeurt er met zijn massa?",
+          "image": null,
+          "options": [
+            "Ze blijft gelijk",
+            "Ze neemt toe",
+            "Ze neemt af"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het aantal deeltjes verandert niet, dus de <strong>massa</strong> blijft gelijk."
+        },
+        {
+          "question": "Wat gebeurt er met het volume van water als het bevriest?",
+          "image": null,
+          "options": [
+            "Het neemt toe",
+            "Het neemt af",
+            "Het blijft gelijk"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Water is bijzonder</strong>: zijn volume neemt toe als het bevriest, terwijl de meeste stoffen inkrimpen."
+        },
+        {
+          "question": "Drijvende ijsblokjes smelten volledig in een vol glas water. Wat gebeurt er met het waterniveau?",
+          "image": null,
+          "options": [
+            "Het blijft gelijk",
+            "Het stijgt en het glas loopt over",
+            "Het daalt"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Drijvend ijs verplaatst al evenveel water als het water dat het wordt als het smelt, dus het <strong>niveau</strong> verandert niet."
+        },
+        {
+          "question": "Welk ijs doet de zeespiegel stijgen als het smelt?",
+          "image": null,
+          "options": [
+            "De ijskap op het land (Groenland)",
+            "Het zee-ijs van de Noordelijke IJszee",
+            "Een ijsberg die in zee drijft",
+            "Al het drijvende ijs"
+          ],
+          "correctAnswer": 0,
+          "explanation": "IJs op het land voegt <strong>nieuw water</strong> toe aan de zee, terwijl drijvend ijs al in het water zit."
+        },
+        {
+          "question": "Warm zeewater neemt meer plaats in dan koud zeewater. Hoe heet dit verschijnsel?",
+          "image": null,
+          "options": [
+            "Thermische uitzetting",
+            "Thermische inkrimping",
+            "Smelten",
+            "Condensatie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Thermische uitzetting</strong> is de tweede reden waarom de zeespiegel stijgt."
+        }
+      ]
+    },
+    {
+      "id": "qcm-5",
+      "quizTitle": "Fysica in het dagelijks leven",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Een glazen fles vol limonade barst in de diepvriezer. Waarom?",
+          "image": null,
+          "options": [
+            "De vloeistof neemt meer plaats in als ze bevriest",
+            "De vloeistof neemt minder plaats in als ze bevriest",
+            "De massa van de vloeistof neemt toe",
+            "Het glas wordt opgewarmd door de diepvriezer"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Net als water <strong>zet de vloeistof uit</strong> als ze bevriest, dus er is geen plaats in de fles voor het ijs."
+        },
+        {
+          "question": "Een metalen brug is in de zomer iets langer dan in de winter. Wat verklaart dat?",
+          "image": null,
+          "options": [
+            "Thermische uitzetting",
+            "Smelten",
+            "Condensatie",
+            "Thermische inkrimping"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In de zomer wordt het metaal opgewarmd: de deeltjes bewegen sneller en nemen meer plaats in, dus de brug <strong>zet uit</strong>."
+        },
+        {
+          "question": "'s Morgens vormt zich dauw op een spinnenweb. Welke toestandsverandering is dat?",
+          "image": null,
+          "options": [
+            "Condensatie",
+            "Verdamping",
+            "Smelten",
+            "Sublimatie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Waterdamp in de lucht koelt af en wordt vloeibare druppeltjes: dat is <strong>condensatie</strong> (van gas naar vloeibaar)."
+        },
+        {
+          "question": "Op een koude, zonnige dag verdwijnt sneeuw langzaam zonder dat er water verschijnt. Welke toestandsverandering is dat?",
+          "image": null,
+          "options": [
+            "Sublimatie",
+            "Smelten",
+            "Condensatie",
+            "Stollen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De sneeuw gaat rechtstreeks van vast naar gas: dat is <strong>sublimatie</strong>."
+        },
+        {
+          "question": "De lucht in een heteluchtballon wordt opgewarmd door een brander. Wat gebeurt er met het volume van die lucht?",
+          "image": null,
+          "options": [
+            "Het neemt toe",
+            "Het neemt af",
+            "Het blijft gelijk"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een opgewarmd gas <strong>zet uit</strong>: de deeltjes bewegen sneller en nemen meer plaats in."
+        },
+        {
+          "question": "Een pot soep op tafel koelt af. Waar gaat de thermische energie naartoe?",
+          "image": null,
+          "options": [
+            "Naar de koudere lucht rond de pot",
+            "Nergens, ze verdwijnt",
+            "Er komt koude in de soep",
+            "Naar de warmere vlam"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Warmte</strong> gaat van de warmere soep naar de koudere lucht. Energie verdwijnt niet."
+        },
+        {
+          "question": "Een juwelier smelt een staaf goud. Wat gebeurt er met de temperatuur van het goud tijdens het smelten?",
+          "image": null,
+          "options": [
+            "Ze blijft constant",
+            "Ze blijft stijgen",
+            "Ze daalt",
+            "Ze verdubbelt"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Tijdens een <strong>toestandsverandering</strong> van een zuivere stof blijft de temperatuur constant: de energie breekt bindingen."
+        },
+        {
+          "question": "Een natte straat droogt op na de regen. Waar gaat het water naartoe?",
+          "image": null,
+          "options": [
+            "Als waterdamp de lucht in",
+            "Nergens, het verdwijnt",
+            "Alleen de grond in",
+            "Het wordt ijs"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het water <strong>verdampt</strong> en verspreidt zich als damp in de lucht. De massa blijft behouden, ze gaat niet verloren."
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "id": "fitb-1",
+      "quizTitle": "Toestanden van materie",
+      "text": "In het deeltjesmodel bestaat materie uit heel kleine [blank0]. In een [blank1] zitten de deeltjes dicht bij elkaar, geordend, en zijn ze sterk gebonden. In een [blank2] zitten de deeltjes dicht bij elkaar, maar ze glijden langs elkaar. In een [blank3] zitten de deeltjes heel ver uit elkaar, dus je kunt het [blank4] met een injectiespuit.",
+      "blanks": [
+        {
+          "options": [
+            "deeltjes",
+            "bakstenen",
+            "druppels"
+          ],
+          "correctAnswer": "deeltjes"
+        },
+        {
+          "options": [
+            "vaste stof",
+            "vloeistof",
+            "gas"
+          ],
+          "correctAnswer": "vaste stof"
+        },
+        {
+          "options": [
+            "vloeistof",
+            "vaste stof",
+            "gas"
+          ],
+          "correctAnswer": "vloeistof"
+        },
+        {
+          "options": [
+            "gas",
+            "vloeistof",
+            "vaste stof"
+          ],
+          "correctAnswer": "gas"
+        },
+        {
+          "options": [
+            "samendrukken",
+            "uitrekken",
+            "bevriezen"
+          ],
+          "correctAnswer": "samendrukken"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "langs elkaar glijden",
+          "translation": "glisser l'une sur l'autre"
+        },
+        {
+          "word": "injectiespuit",
+          "translation": "la seringue"
+        },
+        {
+          "word": "ver uit elkaar",
+          "translation": "éloignées"
+        }
+      ]
+    },
+    {
+      "id": "fitb-2",
+      "quizTitle": "Warme chocolademelk, koude tas",
+      "text": "Anna giet warme chocolademelk (80 °C) in een koude tas (20 °C). De [blank0] geeft [blank1] aan de andere. Warmte is thermische energie die van een [blank2] voorwerp naar een [blank3] voorwerp gaat. De tas wordt [blank4] en de temperatuur van de chocolademelk [blank5]. Anna kan de temperatuur controleren met een [blank6].",
+      "blanks": [
+        {
+          "options": [
+            "chocolademelk",
+            "tas",
+            "tafel"
+          ],
+          "correctAnswer": "chocolademelk"
+        },
+        {
+          "options": [
+            "warmte",
+            "koude",
+            "massa"
+          ],
+          "correctAnswer": "warmte"
+        },
+        {
+          "options": [
+            "warm",
+            "koud",
+            "zwaar"
+          ],
+          "correctAnswer": "warm"
+        },
+        {
+          "options": [
+            "koud",
+            "warm",
+            "licht"
+          ],
+          "correctAnswer": "koud"
+        },
+        {
+          "options": [
+            "warmer",
+            "kouder",
+            "zwaarder"
+          ],
+          "correctAnswer": "warmer"
+        },
+        {
+          "options": [
+            "daalt",
+            "stijgt",
+            "blijft gelijk"
+          ],
+          "correctAnswer": "daalt"
+        },
+        {
+          "options": [
+            "thermometer",
+            "balans",
+            "chronometer"
+          ],
+          "correctAnswer": "thermometer"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "gieten",
+          "translation": "verser"
+        },
+        {
+          "word": "tas",
+          "translation": "la tasse"
+        },
+        {
+          "word": "controleren",
+          "translation": "vérifier"
+        },
+        {
+          "word": "zwaar",
+          "translation": "lourd"
+        }
+      ]
+    },
+    {
+      "id": "fitb-3",
+      "quizTitle": "Van ijs tot stoom",
+      "text": "Leo neemt een blok ijs van −10 °C en warmt het op in een pan. Het ijs krijgt [blank0] en zijn temperatuur stijgt tot [blank1]. Dan smelt het ijs en blijft de temperatuur [blank2], omdat de energie de [blank3] tussen de deeltjes breekt. Op het einde kookt het water en gaat de damp de lucht in, maar de massa gaat niet verloren: ze blijft [blank4].",
+      "blanks": [
+        {
+          "options": [
+            "thermische energie",
+            "koude",
+            "massa"
+          ],
+          "correctAnswer": "thermische energie"
+        },
+        {
+          "options": [
+            "0 °C",
+            "10 °C",
+            "100 °C"
+          ],
+          "correctAnswer": "0 °C"
+        },
+        {
+          "options": [
+            "constant",
+            "hoger",
+            "lager"
+          ],
+          "correctAnswer": "constant"
+        },
+        {
+          "options": [
+            "bindingen",
+            "thermometers",
+            "massa's"
+          ],
+          "correctAnswer": "bindingen"
+        },
+        {
+          "options": [
+            "behouden",
+            "gemaakt",
+            "vernietigd"
+          ],
+          "correctAnswer": "behouden"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "blok",
+          "translation": "le bloc"
+        },
+        {
+          "word": "pan",
+          "translation": "la casserole"
+        },
+        {
+          "word": "stijgen",
+          "translation": "monter"
+        }
+      ]
+    },
+    {
+      "id": "fitb-4",
+      "quizTitle": "De ijzeren toren",
+      "text": "De ijzeren toren in het stadscentrum is op een warme zomerdag [blank0] dan op een koude winterdag. In de zomer wordt het metaal opgewarmd: de deeltjes bewegen [blank1] en nemen [blank2] plaats in. Dat is thermische [blank3]. Het aantal deeltjes en de [blank4] van de toren veranderen niet.",
+      "blanks": [
+        {
+          "options": [
+            "hoger",
+            "lager",
+            "lichter"
+          ],
+          "correctAnswer": "hoger"
+        },
+        {
+          "options": [
+            "sneller",
+            "trager",
+            "dichter"
+          ],
+          "correctAnswer": "sneller"
+        },
+        {
+          "options": [
+            "meer",
+            "minder",
+            "evenveel"
+          ],
+          "correctAnswer": "meer"
+        },
+        {
+          "options": [
+            "uitzetting",
+            "inkrimping",
+            "smelten"
+          ],
+          "correctAnswer": "uitzetting"
+        },
+        {
+          "options": [
+            "massa",
+            "volume",
+            "hoogte"
+          ],
+          "correctAnswer": "massa"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "toren",
+          "translation": "la tour"
+        },
+        {
+          "word": "ijzer",
+          "translation": "le fer"
+        },
+        {
+          "word": "stadscentrum",
+          "translation": "le centre-ville"
+        }
+      ]
+    },
+    {
+      "id": "fitb-5",
+      "quizTitle": "Feit, oordeel of hypothese?",
+      "text": "Een wetenschapper schrijft: \"De gletsjer verloor vorig jaar 20 meter ijs.\" Deze zin is een [blank0], omdat je het kunt meten. \"Als het klimaat blijft opwarmen, kan de gletsjer verdwijnen.\" is een [blank1], omdat het nog niet gebeurd is. \"Het verlies van deze gletsjer is een tragedie.\" is een [blank2], omdat het een mening is.",
+      "blanks": [
+        {
+          "options": [
+            "feit",
+            "oordeel",
+            "hypothese"
+          ],
+          "correctAnswer": "feit"
+        },
+        {
+          "options": [
+            "hypothese",
+            "feit",
+            "oordeel"
+          ],
+          "correctAnswer": "hypothese"
+        },
+        {
+          "options": [
+            "oordeel",
+            "feit",
+            "hypothese"
+          ],
+          "correctAnswer": "oordeel"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "kan",
+          "translation": "pourrait"
+        },
+        {
+          "word": "verliezen",
+          "translation": "perdre"
+        },
+        {
+          "word": "mening",
+          "translation": "l'opinion"
+        },
+        {
+          "word": "verdwijnen",
+          "translation": "disparaître"
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "id": "dnd-1",
+      "quizTitle": "Drie toestanden, drie modellen",
+      "backgroundImage": "assets/dnd1-three-states.webp",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Vaste stof",
+        "Gas",
+        "Vloeistof",
+        "Plateau",
+        "Warmte"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 4.89,
+          "y_pourcent": 16.21,
+          "acceptedText": "Vaste stof"
+        },
+        {
+          "x_pourcent": 36,
+          "y_pourcent": 16.21,
+          "acceptedText": "Gas"
+        },
+        {
+          "x_pourcent": 67.11,
+          "y_pourcent": 16.21,
+          "acceptedText": "Vloeistof"
+        }
+      ]
+    },
+    {
+      "id": "dnd-2",
+      "quizTitle": "De zes toestandsveranderingen",
+      "backgroundImage": "assets/dnd2-changes-of-state.webp",
+      "hideOnSuccess": true,
+      "instructions": "Rode pijlen: de stof krijgt warmte. Blauwe pijlen: de stof verliest warmte. Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Smelten",
+        "Stollen",
+        "Verdamping",
+        "Condensatie",
+        "Sublimatie",
+        "Depositie",
+        "Inkrimping"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 61.11,
+          "y_pourcent": 81.22,
+          "acceptedText": "Smelten"
+        },
+        {
+          "x_pourcent": 38.89,
+          "y_pourcent": 75.06,
+          "acceptedText": "Stollen"
+        },
+        {
+          "x_pourcent": 63.28,
+          "y_pourcent": 38.46,
+          "acceptedText": "Verdamping"
+        },
+        {
+          "x_pourcent": 68.22,
+          "y_pourcent": 59.62,
+          "acceptedText": "Condensatie"
+        },
+        {
+          "x_pourcent": 36.78,
+          "y_pourcent": 38.46,
+          "acceptedText": "Sublimatie"
+        },
+        {
+          "x_pourcent": 31.78,
+          "y_pourcent": 59.62,
+          "acceptedText": "Depositie"
+        }
+      ]
+    },
+    {
+      "id": "dnd-3",
+      "quizTitle": "Opwarmingskromme van water",
+      "backgroundImage": "assets/dnd3-heating-curve-water.webp",
+      "hideOnSuccess": true,
+      "instructions": "Deze kromme toont wat er gebeurt als ijs opgewarmd wordt tot het waterdamp wordt. Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Vaste stof",
+        "Smelten",
+        "Vloeistof",
+        "Koken",
+        "Gas",
+        "Stollen"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 14.17,
+          "y_pourcent": 75,
+          "acceptedText": "Vaste stof"
+        },
+        {
+          "x_pourcent": 33.33,
+          "y_pourcent": 60.31,
+          "acceptedText": "Smelten"
+        },
+        {
+          "x_pourcent": 47.02,
+          "y_pourcent": 49.08,
+          "acceptedText": "Vloeistof"
+        },
+        {
+          "x_pourcent": 65.48,
+          "y_pourcent": 29.69,
+          "acceptedText": "Koken"
+        },
+        {
+          "x_pourcent": 88.99,
+          "y_pourcent": 29.08,
+          "acceptedText": "Gas"
+        }
+      ]
+    },
+    {
+      "id": "dnd-4",
+      "quizTitle": "Toestandsveranderingen in de bergen",
+      "backgroundImage": "assets/dnd4-mountain-changes.webp",
+      "hideOnSuccess": true,
+      "instructions": "Welke toestandsverandering gebeurt er? Sleep elk label naar de juiste genummerde cirkel.",
+      "reservoirItems": [
+        "Smelten",
+        "Stollen",
+        "Condensatie",
+        "Verdamping",
+        "Depositie",
+        "Sublimatie",
+        "Uitzetting"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 14.9,
+          "y_pourcent": 51.43,
+          "acceptedText": "Smelten"
+        },
+        {
+          "x_pourcent": 34.16,
+          "y_pourcent": 62.5,
+          "acceptedText": "Stollen"
+        },
+        {
+          "x_pourcent": 50.15,
+          "y_pourcent": 42.97,
+          "acceptedText": "Condensatie"
+        },
+        {
+          "x_pourcent": 69.77,
+          "y_pourcent": 64.45,
+          "acceptedText": "Verdamping"
+        },
+        {
+          "x_pourcent": 89.03,
+          "y_pourcent": 83.33,
+          "acceptedText": "Depositie"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "id": "memory-1",
+      "quizTitle": "De zes toestandsveranderingen",
+      "instructions": "Koppel elke toestandsverandering aan haar naam.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Van vast naar vloeibaar"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Smelten"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Van vloeibaar naar vast"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Stollen"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Van vloeibaar naar gas"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Verdamping"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Van gas naar vloeibaar"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Condensatie"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Van vast naar gas"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Sublimatie"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Van gas naar vast"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Depositie"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-2",
+      "quizTitle": "Kernwoorden en waarden",
+      "instructions": "Koppel elk woord aan zijn betekenis of zijn waarde.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Temperatuur"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Beweging van deeltjes"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Thermometer"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Meet temperatuur"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Warmte"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Van warm naar koud"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Plateau"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Vlak deel"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Smeltpunt"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "0 °C (water)"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Kookpunt"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "100 °C (water)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-3",
+      "quizTitle": "Toestandsveranderingen rondom ons",
+      "instructions": "Koppel elke afbeelding aan de naam van de toestandsverandering die ze toont.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-evaporation.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Verdamping"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-condensation.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Condensatie"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-melting.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Smelten"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-deposition.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Depositie"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-freezing.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Stollen"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-4",
+      "quizTitle": "Oorzaak en gevolg",
+      "instructions": "Koppel elke oorzaak aan haar gevolg.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Zee-ijs smelt"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Niveau blijft gelijk"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Landijs smelt"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Niveau stijgt"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Warm zeewater"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Thermische uitzetting"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Water bevriest"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Volume neemt toe"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Metaal afgekoeld"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Thermische inkrimping"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "IJs smelt"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Massa behouden"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "id": "sorting-1",
+      "quizTitle": "Toestanden in het dagelijks leven",
+      "instructions": "In welke toestand is elk voorwerp bij kamertemperatuur (20 °C)? Sorteer ze in de juiste categorie.",
+      "categories": [
+        "Vaste stof",
+        "Vloeistof",
+        "Gas"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Vaste stof",
+          "type": "text",
+          "content": "IJzeren spijker"
+        },
+        {
+          "id": 2,
+          "category": "Vaste stof",
+          "type": "text",
+          "content": "Houten tafel"
+        },
+        {
+          "id": 3,
+          "category": "Vaste stof",
+          "type": "text",
+          "content": "Gouden ring"
+        },
+        {
+          "id": 4,
+          "category": "Vloeistof",
+          "type": "text",
+          "content": "Sinaasappelsap"
+        },
+        {
+          "id": 5,
+          "category": "Vloeistof",
+          "type": "text",
+          "content": "Olijfolie"
+        },
+        {
+          "id": 6,
+          "category": "Vloeistof",
+          "type": "text",
+          "content": "Vloeibare zeep"
+        },
+        {
+          "id": 7,
+          "category": "Gas",
+          "type": "text",
+          "content": "Helium"
+        },
+        {
+          "id": 8,
+          "category": "Gas",
+          "type": "text",
+          "content": "Zuurstof"
+        },
+        {
+          "id": 9,
+          "category": "Gas",
+          "type": "text",
+          "content": "Waterdamp"
+        }
+      ]
+    },
+    {
+      "id": "sorting-2",
+      "quizTitle": "Energie erin of eruit?",
+      "instructions": "Gebruik één criterium: krijgt de stof thermische energie of verliest ze thermische energie tijdens de verandering? Sorteer elke situatie in de juiste categorie.",
+      "categories": [
+        "Krijgt thermische energie",
+        "Verliest thermische energie"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Krijgt thermische energie",
+          "type": "text",
+          "content": "Smeltende chocolade"
+        },
+        {
+          "id": 2,
+          "category": "Krijgt thermische energie",
+          "type": "text",
+          "content": "Kokende soep"
+        },
+        {
+          "id": 3,
+          "category": "Krijgt thermische energie",
+          "type": "text",
+          "content": "Opdrogende plas"
+        },
+        {
+          "id": 4,
+          "category": "Krijgt thermische energie",
+          "type": "text",
+          "content": "Verdwijnende mottenballen"
+        },
+        {
+          "id": 5,
+          "category": "Verliest thermische energie",
+          "type": "text",
+          "content": "Stollende lava"
+        },
+        {
+          "id": 6,
+          "category": "Verliest thermische energie",
+          "type": "text",
+          "content": "Bevriezende plas"
+        },
+        {
+          "id": 7,
+          "category": "Verliest thermische energie",
+          "type": "text",
+          "content": "Beslagen spiegel"
+        },
+        {
+          "id": 8,
+          "category": "Verliest thermische energie",
+          "type": "text",
+          "content": "IJsblokjes maken"
+        }
+      ]
+    },
+    {
+      "id": "sorting-3",
+      "quizTitle": "Warmte of temperatuur?",
+      "instructions": "Gaat elk item over warmte of over temperatuur? Sorteer ze in de juiste categorie.",
+      "categories": [
+        "Warmte",
+        "Temperatuur"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Warmte",
+          "type": "text",
+          "content": "Van warm naar koud"
+        },
+        {
+          "id": 2,
+          "category": "Warmte",
+          "type": "text",
+          "content": "Energieoverdracht"
+        },
+        {
+          "id": 3,
+          "category": "Warmte",
+          "type": "text",
+          "content": "Gaat tussen voorwerpen"
+        },
+        {
+          "id": 4,
+          "category": "Warmte",
+          "type": "text",
+          "content": "Warmt het ijs op"
+        },
+        {
+          "id": 5,
+          "category": "Temperatuur",
+          "type": "text",
+          "content": "Gemeten in °C"
+        },
+        {
+          "id": 6,
+          "category": "Temperatuur",
+          "type": "text",
+          "content": "Waarde op de thermometer"
+        },
+        {
+          "id": 7,
+          "category": "Temperatuur",
+          "type": "text",
+          "content": "Beweging van deeltjes"
+        },
+        {
+          "id": 8,
+          "category": "Temperatuur",
+          "type": "text",
+          "content": "Thee van 70 °C"
+        }
+      ]
+    },
+    {
+      "id": "sorting-4",
+      "quizTitle": "Volume of toestand?",
+      "instructions": "Verandert in elke situatie het volume van een stof, of verandert de stof van toestand? Sorteer elke situatie in de juiste categorie.",
+      "categories": [
+        "Thermische uitzetting",
+        "Thermische inkrimping",
+        "Toestandsverandering"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Thermische uitzetting",
+          "type": "text",
+          "content": "Doorhangende kabels"
+        },
+        {
+          "id": 2,
+          "category": "Thermische uitzetting",
+          "type": "text",
+          "content": "Heteluchtballon"
+        },
+        {
+          "id": 3,
+          "category": "Thermische uitzetting",
+          "type": "text",
+          "content": "Overlopende brandstoftank"
+        },
+        {
+          "id": 4,
+          "category": "Thermische inkrimping",
+          "type": "text",
+          "content": "Ingedeukte koude fles"
+        },
+        {
+          "id": 5,
+          "category": "Thermische inkrimping",
+          "type": "text",
+          "content": "Afkoelende thermometervloeistof"
+        },
+        {
+          "id": 6,
+          "category": "Thermische inkrimping",
+          "type": "text",
+          "content": "Afkoelende metalen staaf"
+        },
+        {
+          "id": 7,
+          "category": "Toestandsverandering",
+          "type": "text",
+          "content": "Smeltende kaars"
+        },
+        {
+          "id": 8,
+          "category": "Toestandsverandering",
+          "type": "text",
+          "content": "Kokende waterkoker"
+        },
+        {
+          "id": 9,
+          "category": "Toestandsverandering",
+          "type": "text",
+          "content": "Bevroren meer"
+        }
+      ]
+    },
+    {
+      "id": "sorting-5",
+      "quizTitle": "Wat doet de zeespiegel stijgen?",
+      "instructions": "De zeespiegel in Oostende stijgt elk jaar een beetje. Welke van deze doen de zeespiegel stijgen als ze veranderen, en welke hebben geen effect? Sorteer ze.",
+      "categories": [
+        "Doet de zeespiegel stijgen",
+        "Geen effect"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Doet de zeespiegel stijgen",
+          "type": "text",
+          "content": "IJskap van Groenland"
+        },
+        {
+          "id": 2,
+          "category": "Doet de zeespiegel stijgen",
+          "type": "text",
+          "content": "IJskap van Antarctica"
+        },
+        {
+          "id": 3,
+          "category": "Doet de zeespiegel stijgen",
+          "type": "text",
+          "content": "Berggletsjer"
+        },
+        {
+          "id": 4,
+          "category": "Doet de zeespiegel stijgen",
+          "type": "text",
+          "content": "Opwarmend zeewater"
+        },
+        {
+          "id": 5,
+          "category": "Geen effect",
+          "type": "text",
+          "content": "Zee-ijs van de Noordpool"
+        },
+        {
+          "id": 6,
+          "category": "Geen effect",
+          "type": "text",
+          "content": "Drijvende ijsberg"
+        },
+        {
+          "id": 7,
+          "category": "Geen effect",
+          "type": "text",
+          "content": "IJsschots"
+        }
+      ]
+    }
+  ]
 }

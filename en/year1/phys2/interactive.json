@@ -1,7 +1,1539 @@
 {
-  "multipleChoice": [],
-  "dragAndDrop": [],
-  "fillBlanks": [],
-  "matchPairs": [],
-  "sorting": []
+  "multipleChoice": [
+    {
+      "id": "qcm-1",
+      "quizTitle": "States of matter and particles",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "Which state of matter has a fixed shape and a fixed volume?",
+          "image": null,
+          "options": [
+            "Solid",
+            "Liquid",
+            "Gas"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>solid</strong> keeps its own shape and volume, because strong links hold its particles in place."
+        },
+        {
+          "question": "What happens when you push the plunger of a syringe full of air?",
+          "image": null,
+          "options": [
+            "The volume of the air decreases",
+            "The volume of the air stays the same",
+            "The air turns into a liquid",
+            "The particles disappear"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>gas</strong> can be compressed because its particles are very far apart, so they can come closer."
+        },
+        {
+          "question": "Why is it very difficult to compress a liquid?",
+          "image": null,
+          "options": [
+            "Its particles are already close together",
+            "Its particles are far apart",
+            "Its particles have no links",
+            "Its particles are in a regular order"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In a liquid the particles are already <strong>close together</strong>, so there is almost no empty space left."
+        },
+        {
+          "question": "Which sentence describes the particles of a liquid?",
+          "image": null,
+          "options": [
+            "They are close together and slide past each other",
+            "They are far apart and in no order",
+            "They are close together and in a regular order",
+            "They do not move at all"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In a <strong>liquid</strong> the links are weak: the particles stay close but can slide past each other."
+        },
+        {
+          "question": "What is a scientific model?",
+          "image": null,
+          "options": [
+            "A simplified picture that shows what we cannot see",
+            "A photo of reality",
+            "An exact copy of an object",
+            "A guess without any evidence"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>scientific model</strong> is a simplified picture of reality, like the particle model used for matter."
+        },
+        {
+          "question": "In which state are the particles very far apart, with almost no links?",
+          "image": null,
+          "options": [
+            "Gas",
+            "Liquid",
+            "Solid"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In a <strong>gas</strong> the particles are very far apart and move in all directions."
+        },
+        {
+          "question": "Which substance takes the shape of its container but keeps the same volume?",
+          "image": null,
+          "options": [
+            "Water",
+            "A stone",
+            "Air",
+            "A wooden chair"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>liquid</strong> takes the shape of its container but keeps its volume. Air also takes the shape, but its volume can change."
+        }
+      ]
+    },
+    {
+      "id": "qcm-2",
+      "quizTitle": "Temperature and heat",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "What is the usual unit of temperature?",
+          "image": null,
+          "options": [
+            "The degree Celsius (°C)",
+            "The gram (g)",
+            "The litre (L)",
+            "The minute (min)"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Temperature</strong> is measured in degrees Celsius (°C)."
+        },
+        {
+          "question": "Which instrument measures temperature?",
+          "image": null,
+          "options": [
+            "A thermometer",
+            "A balance",
+            "A syringe",
+            "A timer"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>thermometer</strong> measures temperature. A balance measures mass."
+        },
+        {
+          "question": "Under normal conditions, at which temperatures does water melt and boil?",
+          "image": null,
+          "options": [
+            "0 °C and 100 °C",
+            "100 °C and 0 °C",
+            "10 °C and 90 °C",
+            "0 °C and 50 °C"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Water melts at <strong>0 °C</strong> and boils at <strong>100 °C</strong>: these are the two fixed points of the Celsius scale."
+        },
+        {
+          "question": "What happens to the particles of a substance when its temperature goes up?",
+          "image": null,
+          "options": [
+            "They move faster",
+            "They move slower",
+            "They become bigger",
+            "They disappear"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A higher temperature means more <strong>agitation</strong>: the particles move faster."
+        },
+        {
+          "question": "What is heat?",
+          "image": null,
+          "options": [
+            "Thermal energy that goes from a hot object to a cold object",
+            "The temperature of an object",
+            "Cold going from an ice cube to a drink",
+            "The speed of one single particle"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Heat</strong> is thermal energy that goes from a hot object to a cold object. It is not the same as temperature."
+        },
+        {
+          "question": "You hold an ice cube (0 °C) in your hand (35 °C). What happens?",
+          "image": null,
+          "options": [
+            "Your hand gives heat to the ice",
+            "The ice gives cold to your hand",
+            "The ice gives heat to your hand",
+            "No energy moves"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Heat always goes from the <strong>hotter</strong> object (your hand) to the colder one (the ice). There is no transfer of \"cold\"."
+        },
+        {
+          "question": "Which sentence is correct?",
+          "image": null,
+          "options": [
+            "The temperature of this tea is 70 °C",
+            "The heat of this tea is 70 °C",
+            "Temperature is measured with a balance",
+            "Heat goes from a cold object to a hot object"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Temperature</strong> is measured in °C with a thermometer. Heat is a transfer of thermal energy."
+        }
+      ]
+    },
+    {
+      "id": "qcm-3",
+      "quizTitle": "Reading a heating curve",
+      "instructions": "",
+      "image": "assets/qcm3-heating-curve.webp",
+      "questions": [
+        {
+          "question": "What is the temperature of the substance at the start of the experiment?",
+          "options": [
+            "20 °C",
+            "0 °C",
+            "40 °C",
+            "60 °C"
+          ],
+          "correctAnswer": 0,
+          "explanation": "At minute 0 the curve starts at <strong>20 °C</strong>."
+        },
+        {
+          "question": "Between which minutes is the substance melting?",
+          "options": [
+            "Between minutes 2 and 5",
+            "Between minutes 0 and 2",
+            "Between minutes 5 and 8",
+            "Between minutes 8 and 10"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The first <strong>plateau</strong> (60 °C) lasts from minute 2 to minute 5: this is the melting."
+        },
+        {
+          "question": "What is the state of the substance at minute 1?",
+          "options": [
+            "Solid",
+            "Liquid",
+            "Gas",
+            "Solid and liquid together"
+          ],
+          "correctAnswer": 0,
+          "explanation": "At minute 1 the temperature (40 °C) is below the melting point (60 °C), so the substance is <strong>solid</strong>."
+        },
+        {
+          "question": "What is the state of the substance at minute 4?",
+          "options": [
+            "Solid and liquid together",
+            "Only solid",
+            "Only liquid",
+            "Only gas"
+          ],
+          "correctAnswer": 0,
+          "explanation": "On the melting <strong>plateau</strong>, the solid is turning into liquid, so both states are present."
+        },
+        {
+          "question": "What happens to the temperature between minutes 5 and 8?",
+          "options": [
+            "It increases from 60 °C to 120 °C",
+            "It stays at 60 °C",
+            "It decreases from 120 °C to 60 °C",
+            "It stays at 120 °C"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Once all the solid has melted, the <strong>liquid</strong> keeps receiving thermal energy and its temperature goes up."
+        },
+        {
+          "question": "What is the boiling point of the substance?",
+          "options": [
+            "120 °C",
+            "60 °C",
+            "160 °C",
+            "100 °C"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The <strong>boiling point</strong> is the temperature of the second plateau: 120 °C."
+        },
+        {
+          "question": "How many minutes does the boiling last?",
+          "options": [
+            "2 minutes",
+            "3 minutes",
+            "4 minutes",
+            "8 minutes"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The boiling <strong>plateau</strong> lasts from minute 8 to minute 10, which is 2 minutes."
+        },
+        {
+          "question": "What is the state of the substance at minute 12?",
+          "options": [
+            "Gas",
+            "Liquid",
+            "Solid",
+            "Liquid and gas together"
+          ],
+          "correctAnswer": 0,
+          "explanation": "At minute 12 the temperature (160 °C) is above the boiling point (120 °C), so the substance is a <strong>gas</strong>."
+        }
+      ]
+    },
+    {
+      "id": "qcm-4",
+      "quizTitle": "Expansion, water and sea level",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "What happens to the volume of a substance that is heated and stays in the same state?",
+          "image": null,
+          "options": [
+            "It increases",
+            "It decreases",
+            "It stays the same",
+            "It disappears"
+          ],
+          "correctAnswer": 0,
+          "explanation": "This is <strong>thermal expansion</strong>: the volume of a heated substance increases."
+        },
+        {
+          "question": "Why does the volume of a heated substance increase?",
+          "image": null,
+          "options": [
+            "The particles move faster and take more space",
+            "More particles are created",
+            "The particles become bigger",
+            "The mass increases"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The particles move <strong>faster</strong> and need more space, but their number does not change."
+        },
+        {
+          "question": "A metal ball is heated. What happens to its mass?",
+          "image": null,
+          "options": [
+            "It stays the same",
+            "It increases",
+            "It decreases"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The number of particles does not change, so the <strong>mass</strong> stays the same."
+        },
+        {
+          "question": "What happens to the volume of water when it freezes?",
+          "image": null,
+          "options": [
+            "It increases",
+            "It decreases",
+            "It stays the same"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Water is special</strong>: its volume increases when it freezes, while most substances shrink."
+        },
+        {
+          "question": "Floating ice cubes melt completely in a full glass of water. What happens to the water level?",
+          "image": null,
+          "options": [
+            "It stays the same",
+            "It goes up and the glass overflows",
+            "It goes down"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Floating ice already pushes aside as much water as it becomes when it melts, so the <strong>level</strong> does not change."
+        },
+        {
+          "question": "Which ice makes the sea level rise when it melts?",
+          "image": null,
+          "options": [
+            "The ice sheet on land (Greenland)",
+            "The sea ice of the Arctic Ocean",
+            "An iceberg floating in the sea",
+            "All floating ice"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Ice on land adds <strong>new water</strong> to the sea, while floating ice is already in the water."
+        },
+        {
+          "question": "Warm sea water takes more space than cold sea water. What is this phenomenon called?",
+          "image": null,
+          "options": [
+            "Thermal expansion",
+            "Thermal contraction",
+            "Melting",
+            "Condensation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Thermal expansion</strong> is the second reason why the sea level rises."
+        }
+      ]
+    },
+    {
+      "id": "qcm-5",
+      "quizTitle": "Everyday physics",
+      "instructions": "",
+      "questions": [
+        {
+          "question": "A glass bottle full of lemonade cracks in the freezer. Why?",
+          "image": null,
+          "options": [
+            "The liquid takes more space when it freezes",
+            "The liquid takes less space when it freezes",
+            "The mass of the liquid increases",
+            "The glass is heated by the freezer"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Like water, the <strong>liquid expands</strong> when it freezes, so the bottle has no room for the ice."
+        },
+        {
+          "question": "A metal bridge is slightly longer in summer than in winter. What explains this?",
+          "image": null,
+          "options": [
+            "Thermal expansion",
+            "Melting",
+            "Condensation",
+            "Thermal contraction"
+          ],
+          "correctAnswer": 0,
+          "explanation": "In summer the metal is heated: its particles move faster and take more space, so the bridge <strong>expands</strong>."
+        },
+        {
+          "question": "Morning dew forms on a spider web. Which change of state is it?",
+          "image": null,
+          "options": [
+            "Condensation",
+            "Evaporation",
+            "Melting",
+            "Sublimation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Water vapour in the air cools down and becomes liquid droplets: this is <strong>condensation</strong> (gas to liquid)."
+        },
+        {
+          "question": "On a cold sunny day, snow slowly disappears without any water appearing. Which change of state is it?",
+          "image": null,
+          "options": [
+            "Sublimation",
+            "Melting",
+            "Condensation",
+            "Freezing"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The snow goes directly from solid to gas: this is <strong>sublimation</strong>."
+        },
+        {
+          "question": "The air in a hot-air balloon is heated by a burner. What happens to the volume taken by this air?",
+          "image": null,
+          "options": [
+            "It increases",
+            "It decreases",
+            "It stays the same"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A heated gas <strong>expands</strong>: its particles move faster and take more space."
+        },
+        {
+          "question": "A pot of soup left on the table gets cooler. Where does its thermal energy go?",
+          "image": null,
+          "options": [
+            "To the colder air around the pot",
+            "Nowhere, it disappears",
+            "Cold enters the soup",
+            "To the hotter flame"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Heat</strong> goes from the hotter soup to the colder air. Energy does not disappear."
+        },
+        {
+          "question": "A jeweller melts a gold bar. What happens to the temperature of the gold during the melting?",
+          "image": null,
+          "options": [
+            "It stays constant",
+            "It keeps rising",
+            "It goes down",
+            "It doubles"
+          ],
+          "correctAnswer": 0,
+          "explanation": "During a <strong>change of state</strong> of a pure substance, the temperature stays constant: the energy breaks links."
+        },
+        {
+          "question": "A wet street dries after the rain. Where does the water go?",
+          "image": null,
+          "options": [
+            "Into the air as water vapour",
+            "Nowhere, it disappears",
+            "Into the ground only",
+            "It is turned into ice"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The water <strong>evaporates</strong> and spreads in the air as vapour. Its mass is conserved, it is not lost."
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "id": "fitb-1",
+      "quizTitle": "States of matter",
+      "text": "In the particle model, matter is made of very small [blank0]. In a [blank1], the particles are close together, in order, and have strong links. In a [blank2], the particles are close together but they slide past each other. In a [blank3], the particles are very far apart, so we can [blank4] it with a syringe.",
+      "blanks": [
+        {
+          "options": [
+            "particles",
+            "bricks",
+            "drops"
+          ],
+          "correctAnswer": "particles"
+        },
+        {
+          "options": [
+            "solid",
+            "liquid",
+            "gas"
+          ],
+          "correctAnswer": "solid"
+        },
+        {
+          "options": [
+            "liquid",
+            "solid",
+            "gas"
+          ],
+          "correctAnswer": "liquid"
+        },
+        {
+          "options": [
+            "gas",
+            "liquid",
+            "solid"
+          ],
+          "correctAnswer": "gas"
+        },
+        {
+          "options": [
+            "compress",
+            "stretch",
+            "freeze"
+          ],
+          "correctAnswer": "compress"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "to slide past",
+          "translation": "glisser l'une sur l'autre"
+        },
+        {
+          "word": "syringe",
+          "translation": "la seringue"
+        },
+        {
+          "word": "far apart",
+          "translation": "éloignées"
+        }
+      ]
+    },
+    {
+      "id": "fitb-2",
+      "quizTitle": "Hot chocolate and cold cup",
+      "text": "Anna pours hot chocolate (80 °C) into a cold cup (20 °C). The [blank0] gives [blank1] to the other one. Heat is thermal energy that goes from a [blank2] object to a [blank3] object. The cup gets [blank4] and the temperature of the chocolate [blank5]. Anna can check the temperature with a [blank6].",
+      "blanks": [
+        {
+          "options": [
+            "chocolate",
+            "cup",
+            "table"
+          ],
+          "correctAnswer": "chocolate"
+        },
+        {
+          "options": [
+            "heat",
+            "cold",
+            "mass"
+          ],
+          "correctAnswer": "heat"
+        },
+        {
+          "options": [
+            "hot",
+            "cold",
+            "heavy"
+          ],
+          "correctAnswer": "hot"
+        },
+        {
+          "options": [
+            "cold",
+            "hot",
+            "light"
+          ],
+          "correctAnswer": "cold"
+        },
+        {
+          "options": [
+            "warmer",
+            "colder",
+            "heavier"
+          ],
+          "correctAnswer": "warmer"
+        },
+        {
+          "options": [
+            "decreases",
+            "increases",
+            "stays the same"
+          ],
+          "correctAnswer": "decreases"
+        },
+        {
+          "options": [
+            "thermometer",
+            "balance",
+            "timer"
+          ],
+          "correctAnswer": "thermometer"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "to pour",
+          "translation": "verser"
+        },
+        {
+          "word": "cup",
+          "translation": "la tasse"
+        },
+        {
+          "word": "to check",
+          "translation": "vérifier"
+        },
+        {
+          "word": "heavy",
+          "translation": "lourd"
+        }
+      ]
+    },
+    {
+      "id": "fitb-3",
+      "quizTitle": "From ice to steam",
+      "text": "Leo takes a block of ice at −10 °C and heats it in a pan. The ice receives [blank0] and its temperature goes up to [blank1]. Then the ice melts and the temperature stays [blank2], because the energy breaks the [blank3] between the particles. At the end, the water boils and the vapour goes into the air, but the mass is not lost: it is [blank4].",
+      "blanks": [
+        {
+          "options": [
+            "thermal energy",
+            "cold",
+            "mass"
+          ],
+          "correctAnswer": "thermal energy"
+        },
+        {
+          "options": [
+            "0 °C",
+            "10 °C",
+            "100 °C"
+          ],
+          "correctAnswer": "0 °C"
+        },
+        {
+          "options": [
+            "constant",
+            "higher",
+            "lower"
+          ],
+          "correctAnswer": "constant"
+        },
+        {
+          "options": [
+            "links",
+            "thermometers",
+            "masses"
+          ],
+          "correctAnswer": "links"
+        },
+        {
+          "options": [
+            "conserved",
+            "created",
+            "destroyed"
+          ],
+          "correctAnswer": "conserved"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "block",
+          "translation": "le bloc"
+        },
+        {
+          "word": "pan",
+          "translation": "la casserole"
+        },
+        {
+          "word": "to go up",
+          "translation": "monter"
+        }
+      ]
+    },
+    {
+      "id": "fitb-4",
+      "quizTitle": "The iron tower",
+      "text": "The iron tower in the city centre is [blank0] on a hot summer day than on a cold winter day. In summer the metal is heated: its particles move [blank1] and take [blank2] space. This is thermal [blank3]. The number of particles and the [blank4] of the tower do not change.",
+      "blanks": [
+        {
+          "options": [
+            "taller",
+            "shorter",
+            "lighter"
+          ],
+          "correctAnswer": "taller"
+        },
+        {
+          "options": [
+            "faster",
+            "slower",
+            "closer"
+          ],
+          "correctAnswer": "faster"
+        },
+        {
+          "options": [
+            "more",
+            "less",
+            "the same"
+          ],
+          "correctAnswer": "more"
+        },
+        {
+          "options": [
+            "expansion",
+            "contraction",
+            "melting"
+          ],
+          "correctAnswer": "expansion"
+        },
+        {
+          "options": [
+            "mass",
+            "volume",
+            "height"
+          ],
+          "correctAnswer": "mass"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "tower",
+          "translation": "la tour"
+        },
+        {
+          "word": "iron",
+          "translation": "le fer"
+        },
+        {
+          "word": "city centre",
+          "translation": "le centre-ville"
+        }
+      ]
+    },
+    {
+      "id": "fitb-5",
+      "quizTitle": "Fact, judgement or hypothesis?",
+      "text": "A scientist writes: \"The glacier lost 20 metres of ice last year.\" This sentence is a [blank0], because we can measure it. \"If the climate keeps getting warmer, the glacier might disappear.\" is a [blank1], because it has not happened yet. \"The loss of this glacier is a tragedy.\" is a [blank2], because it is an opinion.",
+      "blanks": [
+        {
+          "options": [
+            "fact",
+            "judgement",
+            "hypothesis"
+          ],
+          "correctAnswer": "fact"
+        },
+        {
+          "options": [
+            "hypothesis",
+            "fact",
+            "judgement"
+          ],
+          "correctAnswer": "hypothesis"
+        },
+        {
+          "options": [
+            "judgement",
+            "fact",
+            "hypothesis"
+          ],
+          "correctAnswer": "judgement"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "might",
+          "translation": "pourrait"
+        },
+        {
+          "word": "to lose",
+          "translation": "perdre"
+        },
+        {
+          "word": "opinion",
+          "translation": "l'opinion"
+        },
+        {
+          "word": "to disappear",
+          "translation": "disparaître"
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "id": "dnd-1",
+      "quizTitle": "Three states, three models",
+      "backgroundImage": "assets/dnd1-three-states.webp",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Solid",
+        "Gas",
+        "Liquid",
+        "Plateau",
+        "Heat"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 4.89,
+          "y_pourcent": 16.21,
+          "acceptedText": "Solid"
+        },
+        {
+          "x_pourcent": 36,
+          "y_pourcent": 16.21,
+          "acceptedText": "Gas"
+        },
+        {
+          "x_pourcent": 67.11,
+          "y_pourcent": 16.21,
+          "acceptedText": "Liquid"
+        }
+      ]
+    },
+    {
+      "id": "dnd-2",
+      "quizTitle": "The six changes of state",
+      "backgroundImage": "assets/dnd2-changes-of-state.webp",
+      "hideOnSuccess": true,
+      "instructions": "Red arrows: the substance receives heat. Blue arrows: the substance loses heat. Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Melting",
+        "Freezing",
+        "Vaporization",
+        "Condensation",
+        "Sublimation",
+        "Deposition",
+        "Contraction"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 61.11,
+          "y_pourcent": 81.22,
+          "acceptedText": "Melting"
+        },
+        {
+          "x_pourcent": 38.89,
+          "y_pourcent": 75.06,
+          "acceptedText": "Freezing"
+        },
+        {
+          "x_pourcent": 63.28,
+          "y_pourcent": 38.46,
+          "acceptedText": "Vaporization"
+        },
+        {
+          "x_pourcent": 68.22,
+          "y_pourcent": 59.62,
+          "acceptedText": "Condensation"
+        },
+        {
+          "x_pourcent": 36.78,
+          "y_pourcent": 38.46,
+          "acceptedText": "Sublimation"
+        },
+        {
+          "x_pourcent": 31.78,
+          "y_pourcent": 59.62,
+          "acceptedText": "Deposition"
+        }
+      ]
+    },
+    {
+      "id": "dnd-3",
+      "quizTitle": "Heating curve of water",
+      "backgroundImage": "assets/dnd3-heating-curve-water.webp",
+      "hideOnSuccess": true,
+      "instructions": "This curve shows what happens when ice is heated until it becomes water vapour. Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Solid",
+        "Melting",
+        "Liquid",
+        "Boiling",
+        "Gas",
+        "Freezing"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 14.17,
+          "y_pourcent": 75,
+          "acceptedText": "Solid"
+        },
+        {
+          "x_pourcent": 33.33,
+          "y_pourcent": 60.31,
+          "acceptedText": "Melting"
+        },
+        {
+          "x_pourcent": 47.02,
+          "y_pourcent": 49.08,
+          "acceptedText": "Liquid"
+        },
+        {
+          "x_pourcent": 65.48,
+          "y_pourcent": 29.69,
+          "acceptedText": "Boiling"
+        },
+        {
+          "x_pourcent": 88.99,
+          "y_pourcent": 29.08,
+          "acceptedText": "Gas"
+        }
+      ]
+    },
+    {
+      "id": "dnd-4",
+      "quizTitle": "Changes of state in the mountains",
+      "backgroundImage": "assets/dnd4-mountain-changes.webp",
+      "hideOnSuccess": true,
+      "instructions": "Which change of state is happening? Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "Melting",
+        "Freezing",
+        "Condensation",
+        "Evaporation",
+        "Deposition",
+        "Sublimation",
+        "Expansion"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 14.9,
+          "y_pourcent": 51.43,
+          "acceptedText": "Melting"
+        },
+        {
+          "x_pourcent": 34.16,
+          "y_pourcent": 62.5,
+          "acceptedText": "Freezing"
+        },
+        {
+          "x_pourcent": 50.15,
+          "y_pourcent": 42.97,
+          "acceptedText": "Condensation"
+        },
+        {
+          "x_pourcent": 69.77,
+          "y_pourcent": 64.45,
+          "acceptedText": "Evaporation"
+        },
+        {
+          "x_pourcent": 89.03,
+          "y_pourcent": 83.33,
+          "acceptedText": "Deposition"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "id": "memory-1",
+      "quizTitle": "The six changes of state",
+      "instructions": "Match each change of state with its name.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Solid to liquid"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Melting"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Liquid to solid"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Freezing"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Liquid to gas"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Vaporization"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Gas to liquid"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Condensation"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Solid to gas"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Sublimation"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Gas to solid"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Deposition"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-2",
+      "quizTitle": "Key words and values",
+      "instructions": "Match each word with its meaning or its value.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Temperature"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Particle agitation"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Thermometer"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Measures temperature"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Heat"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Hot to cold"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Plateau"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Flat part"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Melting point"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "0 °C (water)"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Boiling point"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "100 °C (water)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-3",
+      "quizTitle": "Changes of state around us",
+      "instructions": "Match each picture with the name of the change of state it shows.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-evaporation.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Evaporation"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-condensation.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Condensation"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-melting.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Melting"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-deposition.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Deposition"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/memory3-freezing.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Freezing"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-4",
+      "quizTitle": "Cause and consequence",
+      "instructions": "Match each cause with its consequence.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Sea ice melts"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Level unchanged"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Land ice melts"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Level rises"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Warm seawater"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Thermal expansion"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Water freezes"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Volume increases"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Metal cooled"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Thermal contraction"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Ice melts"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Mass conserved"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "id": "sorting-1",
+      "quizTitle": "States in daily life",
+      "instructions": "At room temperature (20 °C), which state of matter is each item? Sort them into the right category.",
+      "categories": [
+        "Solid",
+        "Liquid",
+        "Gas"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Solid",
+          "type": "text",
+          "content": "Iron nail"
+        },
+        {
+          "id": 2,
+          "category": "Solid",
+          "type": "text",
+          "content": "Wooden table"
+        },
+        {
+          "id": 3,
+          "category": "Solid",
+          "type": "text",
+          "content": "Gold ring"
+        },
+        {
+          "id": 4,
+          "category": "Liquid",
+          "type": "text",
+          "content": "Orange juice"
+        },
+        {
+          "id": 5,
+          "category": "Liquid",
+          "type": "text",
+          "content": "Olive oil"
+        },
+        {
+          "id": 6,
+          "category": "Liquid",
+          "type": "text",
+          "content": "Liquid soap"
+        },
+        {
+          "id": 7,
+          "category": "Gas",
+          "type": "text",
+          "content": "Helium"
+        },
+        {
+          "id": 8,
+          "category": "Gas",
+          "type": "text",
+          "content": "Oxygen"
+        },
+        {
+          "id": 9,
+          "category": "Gas",
+          "type": "text",
+          "content": "Water vapour"
+        }
+      ]
+    },
+    {
+      "id": "sorting-2",
+      "quizTitle": "Energy in or out?",
+      "instructions": "Use one criterion: does the substance receive thermal energy or lose it during the change? Sort each situation into the right category.",
+      "categories": [
+        "Receives thermal energy",
+        "Loses thermal energy"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Receives thermal energy",
+          "type": "text",
+          "content": "Melting chocolate"
+        },
+        {
+          "id": 2,
+          "category": "Receives thermal energy",
+          "type": "text",
+          "content": "Boiling soup"
+        },
+        {
+          "id": 3,
+          "category": "Receives thermal energy",
+          "type": "text",
+          "content": "Drying puddle"
+        },
+        {
+          "id": 4,
+          "category": "Receives thermal energy",
+          "type": "text",
+          "content": "Vanishing mothballs"
+        },
+        {
+          "id": 5,
+          "category": "Loses thermal energy",
+          "type": "text",
+          "content": "Solidifying lava"
+        },
+        {
+          "id": 6,
+          "category": "Loses thermal energy",
+          "type": "text",
+          "content": "Freezing puddle"
+        },
+        {
+          "id": 7,
+          "category": "Loses thermal energy",
+          "type": "text",
+          "content": "Fogged mirror"
+        },
+        {
+          "id": 8,
+          "category": "Loses thermal energy",
+          "type": "text",
+          "content": "Making ice cubes"
+        }
+      ]
+    },
+    {
+      "id": "sorting-3",
+      "quizTitle": "Heat or temperature?",
+      "instructions": "Is each item about heat or about temperature? Sort them into the right category.",
+      "categories": [
+        "Heat",
+        "Temperature"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Heat",
+          "type": "text",
+          "content": "Hot to cold"
+        },
+        {
+          "id": 2,
+          "category": "Heat",
+          "type": "text",
+          "content": "Energy transfer"
+        },
+        {
+          "id": 3,
+          "category": "Heat",
+          "type": "text",
+          "content": "Moves between objects"
+        },
+        {
+          "id": 4,
+          "category": "Heat",
+          "type": "text",
+          "content": "Warms the ice"
+        },
+        {
+          "id": 5,
+          "category": "Temperature",
+          "type": "text",
+          "content": "Measured in °C"
+        },
+        {
+          "id": 6,
+          "category": "Temperature",
+          "type": "text",
+          "content": "Thermometer reading"
+        },
+        {
+          "id": 7,
+          "category": "Temperature",
+          "type": "text",
+          "content": "Particle agitation"
+        },
+        {
+          "id": 8,
+          "category": "Temperature",
+          "type": "text",
+          "content": "70 °C tea"
+        }
+      ]
+    },
+    {
+      "id": "sorting-4",
+      "quizTitle": "Volume or state change?",
+      "instructions": "In each situation, does the volume of a substance change, or does the substance change state? Sort each situation into the right category.",
+      "categories": [
+        "Thermal expansion",
+        "Thermal contraction",
+        "Change of state"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Thermal expansion",
+          "type": "text",
+          "content": "Sagging power cables"
+        },
+        {
+          "id": 2,
+          "category": "Thermal expansion",
+          "type": "text",
+          "content": "Hot-air balloon"
+        },
+        {
+          "id": 3,
+          "category": "Thermal expansion",
+          "type": "text",
+          "content": "Overflowing fuel tank"
+        },
+        {
+          "id": 4,
+          "category": "Thermal contraction",
+          "type": "text",
+          "content": "Squashed cold bottle"
+        },
+        {
+          "id": 5,
+          "category": "Thermal contraction",
+          "type": "text",
+          "content": "Cooling thermometer liquid"
+        },
+        {
+          "id": 6,
+          "category": "Thermal contraction",
+          "type": "text",
+          "content": "Metal bar cooling"
+        },
+        {
+          "id": 7,
+          "category": "Change of state",
+          "type": "text",
+          "content": "Melting candle"
+        },
+        {
+          "id": 8,
+          "category": "Change of state",
+          "type": "text",
+          "content": "Boiling kettle"
+        },
+        {
+          "id": 9,
+          "category": "Change of state",
+          "type": "text",
+          "content": "Frozen lake"
+        }
+      ]
+    },
+    {
+      "id": "sorting-5",
+      "quizTitle": "What raises the sea level?",
+      "instructions": "The sea level at Ostend is rising a little every year. Which of these raise the sea level when they change, and which have no effect? Sort them.",
+      "categories": [
+        "Raises sea level",
+        "No effect"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Raises sea level",
+          "type": "text",
+          "content": "Greenland ice sheet"
+        },
+        {
+          "id": 2,
+          "category": "Raises sea level",
+          "type": "text",
+          "content": "Antarctic ice sheet"
+        },
+        {
+          "id": 3,
+          "category": "Raises sea level",
+          "type": "text",
+          "content": "Mountain glacier"
+        },
+        {
+          "id": 4,
+          "category": "Raises sea level",
+          "type": "text",
+          "content": "Warming seawater"
+        },
+        {
+          "id": 5,
+          "category": "No effect",
+          "type": "text",
+          "content": "Arctic sea ice"
+        },
+        {
+          "id": 6,
+          "category": "No effect",
+          "type": "text",
+          "content": "Floating iceberg"
+        },
+        {
+          "id": 7,
+          "category": "No effect",
+          "type": "text",
+          "content": "Sea ice floe"
+        }
+      ]
+    }
+  ]
 }
