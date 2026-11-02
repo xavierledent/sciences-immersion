@@ -49,6 +49,15 @@ aucun labo et porte le plus d'attendus.
 Avis de l'enseignant : « travailler les modèles moléculaires et le
 microscopique, c'est super ».
 
+Refait le 2026-11-02 après un premier essai en ligne : avec des bocaux
+mystère, l'élève ne pouvait que deviner (corps pur ou mélange homogène :
+rien de factuel), la question sur le modèle avait toujours la même réponse
+et Conclude reprenait l'exercice du cours (expliquer à un camarade).
+Version 2 : l'élève fait lui-même deux préparations (il sait ce qu'il
+verse), d'autres molécules que le cours (sucre, hélium, sable), solvant et
+soluté dans le carnet, une règle en Conclude. À garder : dessiner soi-même
+les modèles moléculaires.
+
 ### 3. La station d'épuration ou le centre de tri — retenu
 
 Partie 3, vie courante (Exercice 7 b, French challenge). Expérience sur un

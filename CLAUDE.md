@@ -59,10 +59,12 @@ thermique sur une pièce, compteur électrique et son afficheur en W, interrupte
 des appareils, frigo allumé au départ ; trois petites questions) ; `chem2` « The
 separation challenge » (Mission 7 : un seul pot, tiré parmi 16 mélanges de trois
 ou quatre constituants, dont deux homogènes ; observer, planifier l'ordre, outils du bureau du
-professeur, ampoule à décanter, journal de séparation ; la distillation sort rarement) et « Zoom in » (deux bocaux
-sans étiquette, un corps pur et un mélange tirés parmi 6 ; microscope imaginaire,
-l'élève construit le modèle moléculaire puis le compare à un modèle de référence ;
-expérience sur un modèle, partie du cours) ; `phys1` n'a pas de labo
+professeur, ampoule à décanter, journal de séparation ; la distillation sort rarement) et « Zoom in » (l'élève fait deux
+préparations tirées parmi 12, de résultats différents : corps pur, mélange
+homogène ou hétérogène ; verser, mélanger, œil nu, microscope imaginaire ;
+il construit le modèle moléculaire puis le compare à un modèle de référence ;
+carnet avec solvant et soluté ; corps pur = même substance sous deux formes,
+lue comme deux formes par le microscope ; expérience sur un modèle) ; `phys1` n'a pas de labo
 réel dans le cours. Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans

@@ -80,8 +80,8 @@
             "id": "zoom",
             "file": "lab-zoom",
             "title": "Zoom in",
-            "question": "What is really inside these two jars, and does a molecular model show reality exactly as it is?",
-            "text": "Two closed jars without labels. An imaginary microscope zooms in so much that you can see the molecules: build your own molecular model, compare it, then classify each jar."
+            "question": "What do we get when we mix substances?",
+            "text": "Make two preparations with bottles of pure substances, look at them with the naked eye, then zoom in with an imaginary microscope: build your own molecular model, compare it, then classify what you made."
           }
         ],
         "nl": [
@@ -96,8 +96,8 @@
             "id": "zoom",
             "file": "lab-zoom",
             "title": "Zoom in",
-            "question": "Wat zit er echt in deze twee bokalen, en toont een molecuulmodel de werkelijkheid precies zoals ze is?",
-            "text": "Twee gesloten bokalen zonder etiket. Een denkbeeldige microscoop zoomt zo ver in dat je de moleculen kunt zien: bouw je eigen molecuulmodel, vergelijk het en deel dan elke bokaal in."
+            "question": "Wat krijgen we als we stoffen mengen?",
+            "text": "Maak twee bereidingen met flessen zuivere stoffen, bekijk ze met het blote oog en zoom dan in met een denkbeeldige microscoop: bouw je eigen molecuulmodel, vergelijk het en deel dan in wat je gemaakt hebt."
           }
         ]
       }
