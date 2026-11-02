@@ -20,9 +20,10 @@
 
    Avancement d'un élève dans un devoir (décisions du 2026-10-30) : le % du
    travail fait, chaque élément pesant les minutes qu'il demande à peu près
-   (WEIGHT) : exercice 3 min par sous-question, jeu 5 min, QCM 8 min, labo
-   30 min. Un élément commencé compte en partie : exercice au prorata des
-   sous-questions répondues ; labo selon l'étape la plus avancée (Predict
+   (WEIGHT) : exercice 3 min pour la première sous-question et 1 min pour
+   chacune des suivantes (décision du 2026-11-02), jeu 5 min, QCM 8 min, labo
+   30 min. Un élément commencé compte en partie : exercice selon les minutes
+   des sous-questions répondues ; labo selon l'étape la plus avancée (Predict
    25 %, Experiment 50 %, Conclude 25 %, LAB_CREDIT) ; un jeu est terminé ou
    pas. Les mêmes poids donnent la durée estimée d'un devoir à sa
    composition.
@@ -33,8 +34,8 @@
      fait en retard  au moins 80 %, mais pas encore 80 % à la date limite ;
      partiellement   au moins 30 % (dates ignorées) ;
      non fait        moins de 30 %.
-   « Fini » = mêmes critères que le Suivi (summarizeChapter) : exercice
-   répondu, jeu terminé une fois, labo arrivé au Check. Date : famille doneAt
+   « Fini » : exercice dont toutes les sous-questions sont répondues (le Suivi,
+   lui, compte un exercice dès sa première réponse), jeu terminé une fois, labo arrivé au Check. Date : famille doneAt
    (storage.js), écrite au premier « fait » depuis le 2026-10-20 (exercice :
    première sous-question répondue) ; sans date, l'élément compte comme fait
    à temps, de même qu'un labo commencé (son étape n'est pas datée). */
@@ -200,8 +201,11 @@ function summaryFor(email, chapter) {
   return summaryCache.get(key);
 }
 
-// Minutes estimées par élément ; exercice : par sous-question.
-const WEIGHT = { ex: 3, game: 5, multipleChoice: 8, lab: 30 };
+// Minutes estimées par élément ; exercice : la première sous-question (ex),
+// chacune des suivantes (exNext) : la situation est déjà analysée.
+const WEIGHT = { ex: 3, exNext: 1, game: 5, multipleChoice: 8, lab: 30 };
+// Minutes de n sous-questions d'un exercice (0 si aucune).
+const exMinutes = n => n > 0 ? WEIGHT.ex + WEIGHT.exNext * (n - 1) : 0;
 // Part d'un labo selon l'étape la plus avancée (maxStep) : 2 = Predict fait,
 // 3 = Experiment fait, 4 = Check (Conclude fait).
 const LAB_CREDIT = { 1: 0, 2: 0.25, 3: 0.75, 4: 1 };
@@ -213,7 +217,7 @@ function itemWeight(track, item) {
   const chapter = chapterOf(track, item.ch);
   if (item.k === 'ex') {
     const ex = chapter && (chapter.levels[item.lv] || []).find(e => String(e.id) === String(item.id));
-    return WEIGHT.ex * (ex ? ex.subs : 1);
+    return exMinutes(ex ? ex.subs : 1);
   }
   if (item.k === 'game') {
     const g = chapter && chapter.games.find(x => x.id === item.id);
@@ -235,8 +239,11 @@ function itemState(track, email, item) {
   let key = '';
   if (item.k === 'ex') {
     const ex = (s.levels[item.lv] || []).find(e => String(e.id) === String(item.id));
-    done = !!(ex && ex.state);
-    credit = ex && ex.subs.length ? ex.subs.filter(x => x.length > 0).length / ex.subs.length : 0;
+    // Fini quand toutes les sous-questions sont répondues : le nombre
+    // d'éléments finis concorde ainsi avec le % du travail fait.
+    const answered = ex ? ex.subs.filter(x => x.length > 0).length : 0;
+    done = !!ex && ex.subs.length > 0 && answered === ex.subs.length;
+    credit = ex && ex.subs.length ? exMinutes(answered) / exMinutes(ex.subs.length) : 0;
     key = `ex::${item.lv}::${item.id}`;
   } else if (item.k === 'game') {
     const g = s.games.find(x => x.id === item.id);
@@ -644,7 +651,7 @@ function renderSummary(classId) {
     <p class="t-help">Tous les devoirs reçus par chaque élève depuis le début. Un devoir pas fini dont la date limite
       n'est pas passée est compté « à venir ». % à temps = devoirs faits à temps parmi ceux dont la date limite est
       passée (ou déjà faits). Travail fait = minutes de travail faites parmi celles demandées dans ces mêmes
-      devoirs (exercice 3 min par sous-question, jeu 5, QCM 8, labo 30). Le détail devoir par devoir est dans la
+      devoirs (exercice 3 min pour la première sous-question et 1 min pour les suivantes, jeu 5, QCM 8, labo 30). Le détail devoir par devoir est dans la
       fiche de l'élève.</p>
     ${rows.length ? `<div class="t-scroll"><table class="t-table h-table">
       <thead><tr><th>Élève</th><th>Classe</th><th class="d-num">Reçus</th><th class="d-num">Faits à temps</th>
