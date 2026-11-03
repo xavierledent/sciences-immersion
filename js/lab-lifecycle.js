@@ -51,7 +51,7 @@
 
    Tirés au sort : l'objet (boîte à tartines, smartphone, casserole,
    bouteilles de jus, T-shirts), sa quantité, l'ordre des six cartes du
-   voyage, le compteur du graphique en colonnes.
+   voyage, les compteurs des deux graphiques (un TAKING, un GIVING BACK).
 
    Images (planche Gemini, dossier assets/ du chapitre) : les cinq objets et
    les étapes du cycle ; l'étape « use » montre l'objet lui-même.
@@ -63,12 +63,14 @@
      2. Experiment — a) le voyage : poser chaque carte (lettre en main) sur
                      son étape du cycle de vie ; b) les trois façons : le
                      modèle tourne, les quatre jauges se remplissent ;
-                     l'élève lit et note les totaux ; c) le graphique en
-                     colonnes d'un compteur (FO4)
+                     l'élève lit et note les totaux ; c) deux graphiques
+                     en colonnes (FO4), côte à côte : un compteur TAKING et
+                     un compteur GIVING BACK, pour voir qu'ils suivent la
+                     même tendance (chacun son axe et son unité)
      3. Conclude   — le classement, la justification (l'étape évitée),
                      l'étape la plus gourmande (lue sur la barre d'énergie
                      de « jeter »), le jugement des deux hypothèses
-     4. Check      — 6 vérifications : voyage, carnet, graphique, question 1,
+     4. Check      — 6 vérifications : voyage, carnet, graphiques, question 1,
                      question 2, hypothèses ; rapport (FO3) */
 
 (function () {
@@ -94,6 +96,7 @@
   const WAYS = ['throw', 'recycle', 'reuse'];
   const COUNTERS = ['raw', 'energy', 'co2', 'waste'];
   const TAKING = ['raw', 'energy'];
+  const GIVING = ['co2', 'waste'];
   const STEP_COLORS = {
     extraction: '#9a6b4f', manufacturing: '#7e62b8', distribution: '#4a90d9',
     use: '#2a9d8f', disposal: '#8d97a3', recycling: '#5aa86a'
@@ -219,7 +222,7 @@
     const qty = pickOne(OBJECTS[obj].qty);
     const ways = {};
     WAYS.forEach(w => { ways[w] = segmentsOf(obj, w, qty); });
-    return { obj, qty, ways, chart: pickOne(COUNTERS) };
+    return { obj, qty, ways, charts: [pickOne(TAKING), pickOne(GIVING)] };
   }
 
   let run;      // tirage : l'objet, sa quantité, les compteurs des trois façons
@@ -227,8 +230,9 @@
 
   function reset() {
     run = draw();
-    const notes = {}, chart = {}, ran = {};
-    WAYS.forEach(w => { notes[w] = { raw: null, energy: null, co2: null, waste: null }; chart[w] = null; ran[w] = false; });
+    const notes = {}, charts = {}, ran = {};
+    WAYS.forEach(w => { notes[w] = { raw: null, energy: null, co2: null, waste: null }; ran[w] = false; });
+    run.charts.forEach(c => { charts[c] = {}; WAYS.forEach(w => { charts[c][w] = null; }); });
     state = {
       hyp: [null, null, null],          // classement : la meilleure façon d'abord
       hypStep: null,                    // question 2 : l'étape qui consomme le plus d'énergie
@@ -239,7 +243,7 @@
       way: 'throw',                     // façon affichée
       ran,
       notes,
-      chart,
+      charts,                           // compteur → façon → hauteur de la colonne
       concl: { rank: [null, null, null], avoid: null, step: null, verdict: [null, null] },
       selected: 'journey'
     };
@@ -258,7 +262,7 @@
   const notesFilled = () => WAYS.reduce((n, w) => n + COUNTERS.filter(c => state.notes[w][c] != null).length, 0);
   const NOTES_TOTAL = WAYS.length * COUNTERS.length;
   const notesDone = () => notesFilled() === NOTES_TOTAL;
-  const chartDone = () => WAYS.every(w => state.chart[w] != null);
+  const chartDone = () => run.charts.every(c => WAYS.every(w => state.charts[c][w] != null));
   const wayName = w => LABELS.ways[w].name;
   const wayLower = w => LABELS.ways[w].lower;     // dans une phrase
   const num = x => LABELS.num(r2(x));
@@ -426,12 +430,12 @@
   /* --- Le graphique en colonnes (FO4) ---
      Un compteur (tiré au sort), une colonne par façon. L'élève touche la
      hauteur de chaque colonne : elle s'arrête sur une ligne du quadrillage. */
-  const C = { W: 560, H: 380, L: 70, R: 20, T: 44, B: 62 };
-  const colX = i => C.L + 40 + i * 150;
-  const COL_W = 100;
+  const C = { W: 400, H: 380, L: 62, R: 14, T: 44, B: 52 };
+  const colX = i => C.L + 22 + i * 104;
+  const COL_W = 80;
 
-  function chartSVG(values, o) {
-    const c = run.chart;
+  // Le graphique d'un compteur ; o.bad : les façons dont la colonne est fausse.
+  function chartSVG(c, values, o) {
     const [g, max, every] = scaleOf(c);
     const cy = val => C.T + (1 - val / max) * (C.H - C.T - C.B);
     let out = `<rect x="0" y="0" width="${C.W}" height="${C.H}" fill="#ffffff"/>` +
@@ -451,12 +455,16 @@
         `<text x="${x + COL_W / 2}" y="${(cy(val) - 6).toFixed(1)}" text-anchor="middle" class="lc-c-val">${num(val)}</text>`;
       out += `<text x="${x + COL_W / 2}" y="${cy(0) + 20}" text-anchor="middle" class="lc-c-way">${escapeHtml(wayName(w))}</text>`;
       if (o.live) {
-        out += `<rect class="lc-c-hit ${val == null ? 'is-empty' : ''}" data-col="${w}" x="${x - 10}" y="${C.T - 6}" width="${COL_W + 20}" height="${cy(0) - C.T + 12}" rx="8" ` +
+        out += `<rect class="lc-c-hit ${val == null ? 'is-empty' : ''}" data-counter="${c}" data-col="${w}" x="${x - 10}" y="${C.T - 6}" width="${COL_W + 20}" height="${cy(0) - C.T + 12}" rx="8" ` +
           `fill="transparent" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${val == null ? 0 : val}" aria-label="${escapeHtml(LABELS.columnAria(wayName(w)))}"/>`;
       }
     });
     return `<svg class="lab-svg lc-chart" viewBox="0 0 ${C.W} ${C.H}" role="img" aria-label="${escapeHtml(LABELS.chartTitle(LABELS.counters[c].name, LABELS.objects[run.obj].many(run.qty)))}">${out}</svg>`;
   }
+
+  // Les deux graphiques côte à côte ; o.bad : les colonnes fausses [{ c, w }].
+  const chartsSVG = o => `<div class="lc-charts">${run.charts.map(c => chartSVG(c, state.charts[c],
+    { live: o.live, bad: o.bad ? o.bad.filter(m => m.c === c).map(m => m.w) : null })).join('')}</div>`;
 
   /* --- L'énergie de « jeter », étape par étape (conclusion, correction) :
      la barre du compteur et sa légende, sans nombres --- */
@@ -809,29 +817,30 @@
 
   /* --- c) Le graphique en colonnes --- */
   function graphHTML() {
-    return `<div class="lab-scene-wrap lc-chart-wrap">${chartSVG(state.chart, { live: true })}</div>` +
+    return `<div class="lab-scene-wrap lc-chart-wrap">${chartsSVG({ live: true })}</div>` +
       `<div class="lc-controls"><p class="lab-caption lc-caption" data-caption aria-live="polite"></p></div>`;
   }
 
   function graphSideHTML() {
-    const c = run.chart;
+    const on = k => (run.charts.includes(k) ? 'is-chart' : '');
     return `<h3 class="lab-panel-title">${LABELS.graphTitle}</h3>` +
-      `<p class="lc-side-hint">${gloss(LABELS.graphHint(LABELS.counters[c].name))}</p>` +
-      `<table class="lab-table lc-recap"><thead><tr><th scope="col"></th>${COUNTERS.map(k => `<th scope="col" class="${k === c ? 'is-chart' : ''}">${LABELS.counters[k].name}<small>${LABELS.counters[k].unit}</small></th>`).join('')}</tr></thead><tbody>` +
+      `<p class="lc-side-hint">${gloss(LABELS.graphHint(...run.charts.map(k => LABELS.counters[k].name)))}</p>` +
+      `<table class="lab-table lc-recap"><thead><tr><th scope="col"></th>${COUNTERS.map(k => `<th scope="col" class="${on(k)}">${LABELS.counters[k].name}<small>${LABELS.counters[k].unit}</small></th>`).join('')}</tr></thead><tbody>` +
       WAYS.map(w => `<tr><th scope="row"><span class="lc-nb-way">${wayIcon(w)}<span>${wayName(w)}</span></span></th>` +
-        COUNTERS.map(k => `<td class="${k === c ? 'is-chart' : ''}">${state.notes[w][k] == null ? '—' : num(state.notes[w][k])}</td>`).join('') + `</tr>`).join('') +
+        COUNTERS.map(k => `<td class="${on(k)}">${state.notes[w][k] == null ? '—' : num(state.notes[w][k])}</td>`).join('') + `</tr>`).join('') +
       `</tbody></table>`;
   }
 
   function bindGraph() {
-    const [g, max] = scaleOf(run.chart);
     $$('[data-col]').forEach(hit => {
+      const c = hit.dataset.counter;
       const w = hit.dataset.col;
+      const [g, max] = scaleOf(c);
       const set = val => {
-        state.chart[w] = Math.max(0, Math.min(max, r2(Math.round(val / g) * g)));
+        state.charts[c][w] = Math.max(0, Math.min(max, r2(Math.round(val / g) * g)));
         if (lab.state.showMissing && stepComplete(2)) lab.state.showMissing = false;
         renderExperiment();
-        const again = $(`[data-col="${w}"]`);
+        const again = $(`[data-counter="${c}"][data-col="${w}"]`);
         if (again) again.focus({ preventScroll: true });
         lab.save();
       };
@@ -848,7 +857,7 @@
       hit.addEventListener('keydown', e => {
         if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
         e.preventDefault();
-        set((state.chart[w] || 0) + (e.key === 'ArrowUp' ? g : -g));
+        set((state.charts[c][w] || 0) + (e.key === 'ArrowUp' ? g : -g));
       });
     });
   }
@@ -924,7 +933,7 @@
 
   function bindZoom() {
     const b = $('[data-zoom]');
-    if (b) b.addEventListener('click', () => lab.openSheet(`<div class="lc-zoom-view">${chartSVG(state.chart, {})}</div>`, LABELS.graphTitle));
+    if (b) b.addEventListener('click', () => lab.openSheet(`<div class="lc-zoom-view">${chartsSVG({})}</div>`, LABELS.graphTitle));
   }
 
   function renderConclude() {
@@ -947,7 +956,7 @@
         `<h3 class="lab-panel-title">${LABELS.resultsTitle}</h3>` +
         `<p class="lc-results-object">${objectIcon()}<span>${gloss(LABELS.objects[run.obj].scenario(run.qty))}</span></p>` +
         recapTableHTML() + energyBarHTML() +
-        `<button type="button" class="lc-zoom" data-zoom data-lab-look aria-label="${escapeHtml(LABELS.zoom)}">${chartSVG(state.chart, {})}</button>` +
+        `<button type="button" class="lc-zoom" data-zoom data-lab-look aria-label="${escapeHtml(LABELS.zoom)}">${chartsSVG({})}</button>` +
       `</section>` +
       `<section class="lc-form">` +
         `<div class="lc-q ${miss('rank') || miss('avoid')}"><p class="lc-q-title"><span class="lc-qnum">1</span>${gloss(LABELS.question)}</p>` +
@@ -997,8 +1006,14 @@
       if (val == null || Math.abs(val - truthOf(w, k)) > scaleOf(k)[0] + 1e-9) noteMiss.push({ w, c: k });
     }));
     // Une colonne juste : la valeur notée dans le carnet (même fausse), à une demi-ligne près.
-    const g = scaleOf(run.chart)[0];
-    const graphMiss = WAYS.filter(w => state.chart[w] == null || Math.abs(state.chart[w] - chartWant(w)) > g / 2 + 1e-9);
+    const graphMiss = [];
+    run.charts.forEach(k => {
+      const g = scaleOf(k)[0];
+      WAYS.forEach(w => {
+        const val = state.charts[k][w];
+        if (val == null || Math.abs(val - chartWant(k, w)) > g / 2 + 1e-9) graphMiss.push({ c: k, w });
+      });
+    });
     const rankOk = sameRank(c.rank, RIGHT_RANK);
     const avoidOk = c.avoid === 'make';
     const big = bigStep();
@@ -1021,8 +1036,9 @@
   }
 
   // La hauteur attendue d'une colonne : la valeur du carnet (même fausse), sinon celle du modèle.
-  const chartWant = w => (state.notes[w][run.chart] != null ? state.notes[w][run.chart] : truthOf(w, run.chart));
-  const graphMissText = w => CHECK.graphWrong(wayName(w), state.chart[w] == null ? CHECK.nothing : num(state.chart[w]), num(chartWant(w)));
+  const chartWant = (c, w) => (state.notes[w][c] != null ? state.notes[w][c] : truthOf(w, c));
+  const graphMissText = m => CHECK.graphWrong(LABELS.counters[m.c].name, wayName(m.w),
+    state.charts[m.c][m.w] == null ? CHECK.nothing : num(state.charts[m.c][m.w]), num(chartWant(m.c, m.w)));
 
   const rankText = rank => LABELS.list(rank.map(w => (w ? wayLower(w) : '—')));
   const rightAnswer = () => `${LABELS.conclRankText(rankText(RIGHT_RANK))} ${LABELS.conclWhy(wayLower('reuse'), LABELS.avoid.make)}`;
@@ -1064,8 +1080,8 @@
         `<p class="lc-q-head">${LABELS.factsTitle}</p>${factsHTML()}<p class="lc-muted">${gloss(CHECK.readHow)}</p>`;
     }
     if (key === 'graph') {
-      return (ev.graph ? `<p class="lc-ok">${CHECK.graphOk}</p>` : `<ul class="lc-misslist">${ev.graphMiss.map(w => `<li class="lc-ko">${gloss(graphMissText(w))}</li>`).join('')}</ul>`) +
-        `<div class="lc-check-chart">${chartSVG(state.chart, { bad: ev.graphMiss })}</div><p class="lc-muted">${gloss(CHECK.graphHow)}</p>`;
+      return (ev.graph ? `<p class="lc-ok">${CHECK.graphOk}</p>` : `<ul class="lc-misslist">${ev.graphMiss.map(m => `<li class="lc-ko">${gloss(graphMissText(m))}</li>`).join('')}</ul>`) +
+        `<div class="lc-check-chart">${chartsSVG({ bad: ev.graphMiss })}</div><p class="lc-muted">${gloss(CHECK.graphHow)}</p>`;
     }
     if (key === 'answer') {
       return (ev.answer ? `<p class="lc-ok">${CHECK.answerOk} ${gloss(rightAnswer())}</p>` : `<p class="lc-ko">${CHECK.answerWrong} <strong>${gloss(rightAnswer())}</strong></p>`) +
@@ -1141,9 +1157,9 @@
         return `<td>${m ? mark(text, plainText(noteMissText(m)), { box: true }) : text}</td>`;
       }).join('')}</tr>`).join('') + `</table>`;
 
-    const chartNote = ev.graphMiss.map(w => plainText(graphMissText(w))).join(' ');
+    const chartNote = ev.graphMiss.map(m => plainText(graphMissText(m))).join(' ');
     const chartTitle = `<p class="lc-report-graph-title">${ev.graph ? R.chartCaption : mark(R.chartCaption, `${chartNote} ${plainText(CHECK.graphHow)}`)}</p>`;
-    const chart = `<div class="lc-report-graph">${chartTitle}${chartSVG(state.chart, {})}</div>`;
+    const chart = `<div class="lc-report-graph">${chartTitle}${chartsSVG({})}</div>`;
 
     // Interprétation : les totaux de l'élève, façon par façon.
     const interp = `<ul>${WAYS.map(w => `<li>${R.wayLine(wayName(w), ...COUNTERS.map(k => (state.notes[w][k] == null ? '—' : num(state.notes[w][k]))))}</li>`).join('')}</ul>`;
@@ -1169,7 +1185,7 @@
         `<p>1. ${LABELS.question}</p><p>2. ${LABELS.question2}</p><p>${plainText(o.scenario(run.qty))}</p>`,
         hyp,
         `<p>${R.materials(plainText(o.many(run.qty)), o.period)}</p>`,
-        `<ol>${R.procedure(LABELS.counters[run.chart].name).map(s => `<li>${s}</li>`).join('')}</ol>`,
+        `<ol>${R.procedure(...run.charts.map(k => LABELS.counters[k].name)).map(s => `<li>${s}</li>`).join('')}</ol>`,
         `<div class="lc-report-results">${journey}${notes}</div>${chart}`,
         interp,
         conclusion
@@ -1190,13 +1206,14 @@
     isStarted: () => !!(state.hyp.some(Boolean) || placedCount()),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 2,
+    version: 3,
     save: () => ({ run, state }),
     // Ce qui ne vaut que pendant que le modèle tourne repart à zéro.
     load(data) {
       const r = data.run, s = data.state;
-      if (!r || !OBJECTS[r.obj] || !r.ways || !WAYS.every(w => r.ways[w] && r.ways[w].totals && r.ways[w].segs) || !COUNTERS.includes(r.chart) ||
-        !s || !Array.isArray(s.hyp) || !Array.isArray(s.order) || s.order.length !== STEPS.length || !s.journey || !s.notes || !s.chart || !s.ran ||
+      if (!r || !OBJECTS[r.obj] || !r.ways || !WAYS.every(w => r.ways[w] && r.ways[w].totals && r.ways[w].segs) ||
+        !Array.isArray(r.charts) || r.charts.length !== 2 || !r.charts.every(c => COUNTERS.includes(c)) ||
+        !s || !Array.isArray(s.hyp) || !Array.isArray(s.order) || s.order.length !== STEPS.length || !s.journey || !s.notes || !s.charts || !r.charts.every(c => s.charts[c]) || !s.ran ||
         !s.concl || !Array.isArray(s.concl.rank) || !Array.isArray(s.concl.verdict) || !('hypStep' in s)) throw new Error('labProgress');
       run = r;
       state = s;
@@ -1213,7 +1230,7 @@
         criteria,
         labels: LABELS.criteria, // noms des critères, pour le tableau de bord
         details: {
-          object: run.obj, quantity: run.qty, chart: run.chart,
+          object: run.obj, quantity: run.qty, charts: run.charts.join('+'),
           journeyRight: STEPS.length - ev.journeyMiss.length, notesRight: ev.notesGood, notes: NOTES_TOTAL,
           hypothesis: state.hyp.map(w => w || '-').join('-'), hypothesisStep: state.hypStep || '-'
         }

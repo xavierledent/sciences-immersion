@@ -159,8 +159,8 @@ LabEngine.addText('lifecycle', {
       }
     },
 
-    tabs: { journey: 'De reis', ways: 'Drie manieren', graph: 'De grafiek' },
-    toView: { ways: 'Verder: drie manieren', graph: 'Verder: de grafiek' },
+    tabs: { journey: 'De reis', ways: 'Drie manieren', graph: 'De grafieken' },
+    toView: { ways: 'Verder: drie manieren', graph: 'Verder: de grafieken' },
     toConclude: 'Verder: besluiten',
 
     // Onglet 1 : le voyage
@@ -191,18 +191,18 @@ LabEngine.addText('lifecycle', {
     lockRunFirst: way => `Laat eerst „${way}” lopen.`,
 
     // Onglet 3 : le graphique
-    graphTitle: 'Jouw staafdiagram',
-    graphHint: counter => `Teken de staven van „${counter}”: één staaf per manier, zo hoog als het getal in je schrift.`,
+    graphTitle: 'Jouw staafdiagrammen',
+    graphHint: (a, b) => `Teken de staven van „${a}” en van „${b}”: één staaf per manier, zo hoog als het getal in je schrift.`,
     chartTitle: (counter, many) => `${counter} voor ${many}`,
     columnAria: way => `Staaf: ${way}`,
     captionChart: 'Raak elke staaf aan op de juiste hoogte: de getallen van je schrift.',
-    captionChartDone: 'Je grafiek is klaar. Verder: besluiten!',
-    lockChart: 'Teken de drie staven van je grafiek.',
+    captionChartDone: 'Je grafieken zijn klaar. Verder: besluiten!',
+    lockChart: 'Teken de zes staven van je twee grafieken.',
     runInfo: (p, pt, n, nt) => `Kaarten: ${p} / ${pt} · Schrift: ${n} / ${nt}`,
 
     // Étape 3
     resultsTitle: 'Jouw resultaten',
-    zoom: 'De grafiek groot tonen',
+    zoom: 'De grafieken groot tonen',
     energyBar: way => `Energie · ${way}: de kleuren van de stappen`,
     conclRank: 'Van de beste tot de slechtste voor de planeet:',
     conclRankText: list => `Van de beste tot de slechtste voor de planeet zijn de manieren: ${list}.`,
@@ -230,17 +230,17 @@ LabEngine.addText('lifecycle', {
       title: 'Laboratoriumverslag — Van de aarde en terug',
       because: 'Omdat',
       materials: (many, period) => `Een model van de levenscyclus van ${many} ${period}, met vier tellers: grondstoffen, energie, CO₂ en afval.`,
-      procedure: counter => [
+      procedure: (a, b) => [
         'Leg elke kaart op haar stap van de levenscyclus.',
         'Laat het model lopen voor elke manier: weggooien, recycleren, hergebruiken. Lees de vier tellers af en noteer de totalen in het schrift.',
-        `Teken een staafdiagram van „${counter}” voor de drie manieren.`,
+        `Teken twee staafdiagrammen, „${a}” en „${b}”, voor de drie manieren.`,
         'Kijk naar de kleuren van de energieteller voor „weggooien”: zoek de grootste stap.'
       ],
       journeyCaption: 'De reis van het voorwerp',
       stepHead: 'Stap',
       eventHead: 'Kaart',
       notesCaption: period => `Schrift: totalen ${period}`,
-      chartCaption: 'Staafdiagram',
+      chartCaption: 'Staafdiagrammen',
       wayLine: (way, raw, energy, co2, waste) => `${way}: ${raw} kg grondstoffen, ${energy} eenheden energie, ${co2} kg CO₂ en ${waste} kg afval.`,
       verdict: (n, word) => `Dus mijn hypothese ${n} is ${word}.`,
       score: (n, total) => `Score: ${n} / ${total} controles geslaagd.`
@@ -312,7 +312,7 @@ LabEngine.addText('lifecycle', {
     notesAllGood: 'Jouw schrift komt overeen met de tellers. Goed afgelezen!',
     readHow: 'Een teller aflezen: zoek waar de gekleurde balk stopt, en lees dan het getal op de schaal eronder. Eén lijn van de schaal meer of minder wordt aanvaard.',
     graphOk: 'Jouw staven tonen de getallen van je schrift. Goed getekend!',
-    graphWrong: (way, said, want) => `${way}: jouw staaf toont ${said}, maar in je schrift staat ${want}.`,
+    graphWrong: (counter, way, said, want) => `${counter}, ${way}: jouw staaf toont ${said}, maar in je schrift staat ${want}.`,
     graphHow: 'Een staafdiagram (FO4): één staaf per manier, zo hoog als haar getal; de titel, de as en de eenheid zeggen wat er gemeten wordt.',
     answerOk: 'Juist!',
     answerWrong: 'Niet helemaal. Het juiste antwoord:',

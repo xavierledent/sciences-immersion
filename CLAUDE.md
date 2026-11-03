@@ -41,7 +41,7 @@ Labos virtuels (en anglais et en néerlandais) : `chem1` « Metal detectives »,
 « Under our feet » (composition du sol) et « From the Earth and back » (cycle
 de vie d'un objet : boîte à tartines en alu, smartphone, casserole en inox,
 bouteilles en verre ou T-shirts ; jeter, recycler, réutiliser le même objet ;
-quatre compteurs TAKING / GIVING BACK, graphique en colonnes ; question 2 :
+quatre compteurs TAKING / GIVING BACK, deux graphiques en colonnes côte à côte, un compteur de chaque côté ; question 2 :
 l'étape qui consomme le plus d'énergie ; expérience sur un modèle, partie du cours), `bio1` « The vanishing leaves » et
 « Inside two ecosystems » (sortie de terrain : facteurs abiotiques, carré
 de comptage, histogramme FO5b ; nommer une espèce fait ressortir ses

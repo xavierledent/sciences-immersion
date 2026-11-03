@@ -160,8 +160,8 @@ LabEngine.addText('lifecycle', {
       }
     },
 
-    tabs: { journey: 'The journey', ways: 'Three ways', graph: 'The graph' },
-    toView: { ways: 'Next: three ways', graph: 'Next: the graph' },
+    tabs: { journey: 'The journey', ways: 'Three ways', graph: 'The graphs' },
+    toView: { ways: 'Next: three ways', graph: 'Next: the graphs' },
     toConclude: 'Next: conclude',
 
     // Onglet 1 : le voyage
@@ -192,18 +192,18 @@ LabEngine.addText('lifecycle', {
     lockRunFirst: way => `Run “${way}” first.`,
 
     // Onglet 3 : le graphique
-    graphTitle: 'Your column graph',
-    graphHint: counter => `Draw the columns of “${counter}”: one column per way, as high as the number in your notebook.`,
+    graphTitle: 'Your column graphs',
+    graphHint: (a, b) => `Draw the columns of “${a}” and of “${b}”: one column per way, as high as the number in your notebook.`,
     chartTitle: (counter, many) => `${counter} for ${many}`,
     columnAria: way => `Column: ${way}`,
     captionChart: 'Touch each column at the right height: the numbers of your notebook.',
-    captionChartDone: 'Your graph is ready. Next: conclude!',
-    lockChart: 'Draw the three columns of your graph.',
+    captionChartDone: 'Your graphs are ready. Next: conclude!',
+    lockChart: 'Draw the six columns of your two graphs.',
     runInfo: (p, pt, n, nt) => `Cards: ${p} / ${pt} · Notebook: ${n} / ${nt}`,
 
     // Étape 3
     resultsTitle: 'Your results',
-    zoom: 'Show the graph big',
+    zoom: 'Show the graphs big',
     energyBar: way => `Energy · ${way}: the colours of the steps`,
     conclRank: 'From the best to the worst for the planet:',
     conclRankText: list => `From the best to the worst for the planet, the ways are: ${list}.`,
@@ -231,17 +231,17 @@ LabEngine.addText('lifecycle', {
       title: 'Laboratory report — From the Earth and back',
       because: 'Because',
       materials: (many, period) => `A model of the lifecycle of ${many} ${period}, with four counters: raw materials, energy, CO₂ and waste.`,
-      procedure: counter => [
+      procedure: (a, b) => [
         'Put each event card on its step of the lifecycle.',
         'Run the model for each way: throw away, recycle, reuse. Read the four counters and write the totals in the notebook.',
-        `Draw a column graph of “${counter}” for the three ways.`,
+        `Draw two column graphs, “${a}” and “${b}”, for the three ways.`,
         'Look at the colours of the energy counter for “throw away”: find the biggest step.'
       ],
       journeyCaption: 'The journey of the object',
       stepHead: 'Step',
       eventHead: 'Card',
       notesCaption: period => `Notebook: totals ${period}`,
-      chartCaption: 'Column graph',
+      chartCaption: 'Column graphs',
       wayLine: (way, raw, energy, co2, waste) => `${way}: ${raw} kg of raw materials, ${energy} units of energy, ${co2} kg of CO₂ and ${waste} kg of waste.`,
       verdict: (n, word) => `So my hypothesis ${n} is ${word}.`,
       score: (n, total) => `Score: ${n} / ${total} checks passed.`
@@ -312,7 +312,7 @@ LabEngine.addText('lifecycle', {
     notesAllGood: 'Your notebook matches the counters. Well read!',
     readHow: 'To read a counter: find where the coloured bar stops, then read the number on the scale below. One line of the scale more or less is accepted.',
     graphOk: 'Your columns show the numbers of your notebook. Well drawn!',
-    graphWrong: (way, said, want) => `${way}: your column shows ${said}, but your notebook says ${want}.`,
+    graphWrong: (counter, way, said, want) => `${counter}, ${way}: your column shows ${said}, but your notebook says ${want}.`,
     graphHow: 'A column graph (FO4): one column per way, as high as its number; the title, the axis and the unit say what is measured.',
     answerOk: 'Correct!',
     answerWrong: 'Not quite. The correct answer:',

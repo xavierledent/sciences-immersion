@@ -768,13 +768,22 @@ html[data-pointer='fine'] :is(.lc-tab, .lc-pill):not(.is-on):not(.lab-is-locked)
   background: #fff1f0;
 }
 
-/* --- c) Le graphique en colonnes --- */
+/* --- c) Les deux graphiques en colonnes, côte à côte --- */
 .lc-chart-wrap {
   flex: 1 1 auto;
-  display: grid;
-  place-items: center;
+  min-height: 0;
+  display: flex;
   padding: 8px;
   background: #ffffff;
+}
+
+.lc-charts {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .lc-chart {
@@ -885,6 +894,10 @@ html[data-pointer='fine'] :is(.lc-tab, .lc-pill):not(.is-on):not(.lab-is-locked)
   max-height: 230px;
 }
 
+.lc-zoom .lc-charts {
+  gap: 4px;
+}
+
 /* L'énergie de « jeter », étape par étape : barre et légende */
 .lc-ebar {
   padding: 6px 10px;
@@ -944,7 +957,7 @@ html[data-pointer='fine'] .lc-zoom:hover {
 }
 
 .lab-sheet-card:has(.lc-zoom-view) {
-  width: min(820px, 100%);
+  width: min(1000px, 100%);
 }
 
 .lc-zoom-view {
@@ -1191,7 +1204,7 @@ html[data-pointer='fine'] .lc-crit:not(.is-selected):hover,
 }
 
 .lc-check-chart {
-  max-width: 420px;
+  max-width: 640px;
   margin-bottom: 8px;
 }
 
@@ -1259,10 +1272,14 @@ html[data-pointer='fine'] .lc-crit:not(.is-selected):hover,
   text-decoration: underline;
 }
 
+.lab-doc .lc-charts {
+  max-width: 170mm;
+  gap: 6mm;
+}
+
 .lab-doc .lc-chart {
   display: block;
   width: 100%;
-  max-width: 120mm;
   height: auto;
 }
 
