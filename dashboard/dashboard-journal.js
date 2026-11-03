@@ -20,7 +20,7 @@
    bord (choix non retenu). Le journal commence à sa mise en ligne (START). */
 
 import { esc } from './dashboard-ui.js';
-import { loadJournalDay, countJournal } from './dashboard-data.js';
+import { loadJournalDay, countJournal, loadStudentJournal } from './dashboard-data.js';
 
 const ALL = '__all__';
 const RECENT = 7;
@@ -70,7 +70,8 @@ function datesBetween(from, to) {
 const recentFrom = () => shiftDay(today(), -(RECENT - 1));
 const olderDates = () => datesBetween(START, shiftDay(recentFrom(), -1));
 
-/* ctx : { me, classes, students, teacherName, sortedClassIds, content(track), setStatus } */
+/* ctx : { me, classes, students, teacherName, sortedClassIds, content(track), setStatus,
+   openStudent(adresse) : la fiche de l'élève, dans l'onglet Suivi } */
 export async function renderJournalView(root, ctx) {
   ctx.setStatus('Chargement du journal…');
   if (!view.counts) view.counts = await countJournal(olderDates());
@@ -151,6 +152,7 @@ function draw(root, ctx, content) {
     if (view.openDays.has(date)) view.openDays.delete(date); else view.openDays.add(date);
     draw(root, ctx, content);
   }));
+  root.querySelectorAll('[data-sheet]').forEach(btn => btn.addEventListener('click', () => ctx.openStudent(btn.dataset.sheet)));
   root.querySelectorAll('[data-open]').forEach(btn => btn.addEventListener('click', () => {
     const key = btn.dataset.open;
     if (view.open.has(key)) view.open.delete(key); else view.open.add(key);
@@ -247,19 +249,30 @@ function studentHTML(date, s, content) {
   const open = view.open.has(key);
   const p = s.person;
   const name = p ? `${p.nom} ${p.prenom}`.trim() : (s.email || 'Élève inconnu');
-  const chapters = [...new Set(s.entries.map(e => folderOf(e.c)))].join(', ');
   return `<li class="j-student${open ? ' is-open' : ''}">
     <button type="button" class="j-student-row" data-open="${esc(key)}" aria-expanded="${open}">
       <span class="j-caret" aria-hidden="true">${open ? '▾' : '▸'}</span>
       <span class="j-time">${clock(s.last)}</span>
       <span class="j-name">${esc(name)}${p && p.classe ? ` <span class="t-muted">(${esc(p.classe)})</span>` : ''}</span>
-      <span class="j-summary">${esc(chapters)} · ${plural(s.entries.length, 'activité', 'activités')}</span>
+      <span class="j-summary">${esc(summaryOf(s.entries))}</span>
     </button>
-    ${open ? `<ul class="j-entries">${s.entries.map(e => `<li>
+    ${open && p ? `<div class="j-sheet"><button type="button" class="t-btn" data-sheet="${esc(s.email)}">Fiche de l’élève</button></div>` : ''}
+    ${open ? entriesHTML(s.entries, content) : ''}
+  </li>`;
+}
+
+// « bio1, chem1 · 12 activités »
+function summaryOf(entries) {
+  const chapters = [...new Set(entries.map(e => folderOf(e.c)))].join(', ');
+  return `${chapters} · ${plural(entries.length, 'activité', 'activités')}`;
+}
+
+// Les activités d'un jour (triées), une ligne chacune.
+function entriesHTML(entries, content) {
+  return `<ul class="j-entries">${entries.map(e => `<li>
       <span class="j-time">${clock(e.t)}</span>
       <span class="j-chapter">${esc(folderOf(e.c))}</span>
-      <span>${esc(entryText(e, content))}</span></li>`).join('')}</ul>` : ''}
-  </li>`;
+      <span>${esc(entryText(e, content))}</span></li>`).join('')}</ul>`;
 }
 
 // Le chapitre d'une entrée dans le contenu de sa filière (titres des exercices, labos).
@@ -311,4 +324,84 @@ function entryText(e, content) {
     default:
       return 'Activité';
   }
+}
+
+/* ===== Journal d'un élève (onglet « Journal » de la fiche élève) =====
+   Les jours où il est venu, du plus récent au plus ancien, chacun replié sur
+   ses chapitres et son nombre d'activités ; au départ, seul le plus récent
+   est déplié. Lu par blocs de 4 semaines (une lecture par jour,
+   loadStudentJournal) : les 4 dernières à l'ouverture, « 4 semaines de plus »
+   pour remonter, jusqu'à START. Gardé pour la durée de la page. */
+
+const STUDENT_BLOCK = 28;
+// uid → { from, days: [{ date, entries }] (du plus récent au plus ancien), open: Set }
+const studentJournals = {};
+
+/* ctx : { uid, content(track), setStatus } ; uid null : élève jamais connecté. */
+export async function renderStudentJournal(root, ctx) {
+  if (!ctx.uid) {
+    root.innerHTML = '<p class="t-muted">Pas de journal : cet élève ne s’est pas encore connecté au site.</p>';
+    return;
+  }
+  let sj = studentJournals[ctx.uid];
+  if (!sj) {
+    root.innerHTML = '<p class="t-muted">Chargement du journal…</p>';
+    const from = shiftDay(today(), -(STUDENT_BLOCK - 1));
+    const days = await loadStudentJournal(ctx.uid, datesBetween(from, today()).reverse());
+    sj = studentJournals[ctx.uid] = { from, days, open: new Set() };
+    const latest = sj.days.find(d => sortedEntries(d).length);
+    if (latest) sj.open.add(latest.date);
+  } else {
+    // Aujourd'hui relu à chaque affichage.
+    const [fresh] = await loadStudentJournal(ctx.uid, [today()]);
+    sj.days = sj.days.filter(d => d.date !== today());
+    if (fresh) sj.days.unshift(fresh);
+  }
+  const [en, nl] = await Promise.all([ctx.content('en'), ctx.content('nl')]);
+  drawStudentJournal(root, ctx, sj, { en, nl });
+}
+
+const sortedEntries = day => Object.values(day.entries || {}).filter(e => e && e.t).sort((a, b) => b.t - a.t);
+
+function drawStudentJournal(root, ctx, sj, content) {
+  const days = sj.days.map(d => ({ date: d.date, entries: sortedEntries(d) })).filter(d => d.entries.length);
+  const more = sj.from > START;
+  root.innerHTML = `
+    ${days.length ? `<div class="j-days">${days.map(day => {
+      const open = sj.open.has(day.date);
+      return `<section class="j-day${open ? ' is-open' : ''}">
+        <h3 class="j-day-title"><button type="button" class="j-day-row" data-sday="${day.date}" aria-expanded="${open}">
+          <span class="j-caret" aria-hidden="true">${open ? '▾' : '▸'}</span>
+          <span>${esc(dayTitle(day.date))}</span>
+          <span class="d-subtitle">${esc(summaryOf(day.entries))}</span>
+        </button></h3>
+        ${open ? entriesHTML(day.entries, content) : ''}
+      </section>`;
+    }).join('')}</div>` : `<p class="t-muted j-empty">Pas venu sur le site depuis le ${esc(dayTitle(sj.from).toLowerCase())}.</p>`}
+    <div class="j-more">
+      ${more ? '<button type="button" class="t-btn" id="sj-more">4 semaines de plus</button>' : ''}
+      <span class="t-muted">Journal depuis le ${esc(dayTitle(more ? sj.from : START).toLowerCase())}${more ? '' : ', date de sa mise en ligne'}.</span>
+    </div>`;
+
+  root.querySelectorAll('[data-sday]').forEach(btn => btn.addEventListener('click', () => {
+    const date = btn.dataset.sday;
+    if (sj.open.has(date)) sj.open.delete(date); else sj.open.add(date);
+    drawStudentJournal(root, ctx, sj, content);
+  }));
+  const moreBtn = root.querySelector('#sj-more');
+  if (moreBtn) moreBtn.addEventListener('click', async () => {
+    moreBtn.disabled = true;
+    const to = shiftDay(sj.from, -1);
+    const from = shiftDay(sj.from, -STUDENT_BLOCK);
+    ctx.setStatus('Chargement du journal…');
+    try {
+      sj.days = sj.days.concat(await loadStudentJournal(ctx.uid, datesBetween(from, to).reverse()));
+      sj.from = from < START ? START : from;
+      ctx.setStatus('');
+    } catch (err) {
+      console.error(err);
+      ctx.setStatus('Le journal n’a pas pu être chargé (connexion internet ?).', true);
+    }
+    drawStudentJournal(root, ctx, sj, content);
+  });
 }

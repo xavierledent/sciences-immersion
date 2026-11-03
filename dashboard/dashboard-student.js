@@ -6,7 +6,8 @@
    un clic déplie l'énoncé et la réponse entière), jeux, labos (rapport
    corrigé du dernier Check), autoévaluation attendu par attendu,
    vocabulaire et liens ouverts, devoirs reçus (dashboard-homework.js : une carte
-   pleine largeur dans « Tous les chapitres », une carte par chapitre). */
+   pleine largeur dans « Tous les chapitres », une carte par chapitre). Dernier
+   onglet, « Journal » : ses jours de venue, tous chapitres (dashboard-journal.js). */
 
 import {
   esc, LIGHT, BULBS, ACTIVITY_SECTIONS, stackBar, cellsBar, legend, bulbCounts,
@@ -15,11 +16,13 @@ import {
 import { LEVELS, summarizeChapter, activityBySection, studentTotals } from './dashboard-data.js';
 import { labStatus } from './dashboard-class.js';
 import { studentHomework, homeworkSummary, homeworkDetailHtml, homeworkOverviewHtml } from './dashboard-homework.js';
+import { renderStudentJournal } from './dashboard-journal.js';
 
 const LEVEL_LABEL = { level1: 'Level 1', level2: 'Level 2', level3: 'Level 3' };
 const LIGHT_SHORT = { 3: 'Vert', 2: 'Orange', 1: 'Rouge', answered: 'Sans feu', none: 'Pas fait' };
 const PREVIEW_CHARS = 110;
 const ALL_TAB = '__all__';
+const JOURNAL_TAB = '__journal__';
 
 // Texte des JSON du site : seules <strong>, <em>, <u> et <br> sont gardées.
 function rich(text) {
@@ -40,7 +43,7 @@ function clip(text, n) {
 /* ctx : {
      email, person, className, classLabel, track, connected,
      work, students, content(track), teacherName, prefs, savePrefs(),
-     order (adresses dans l'ordre du tableau), onBack(), onOpen(adresse)
+     order (adresses dans l'ordre du tableau), onBack(), onOpen(adresse), setStatus
    } */
 // keepScroll : changement d'onglet ou de carte, on reste où l'on est.
 export async function renderStudentView(root, ctx, keepScroll) {
@@ -58,9 +61,10 @@ export async function renderStudentView(root, ctx, keepScroll) {
   });
   const totals = studentTotals(work);
 
-  // Onglet ouvert : ALL_TAB (« Tous les chapitres ») ou un chapitre.
+  // Onglet ouvert : ALL_TAB (« Tous les chapitres »), un chapitre ou JOURNAL_TAB.
   let chapterId = ctx.prefs.studentChapterId;
-  if (chapterId !== ALL_TAB && !chapters.some(c => c.id === chapterId)) chapterId = ALL_TAB;
+  if (chapterId !== ALL_TAB && chapterId !== JOURNAL_TAB && !chapters.some(c => c.id === chapterId)) chapterId = ALL_TAB;
+  const journal = chapterId === JOURNAL_TAB;
   const chapter = chapters.find(c => c.id === chapterId) || null;
   const scope = chapter ? [chapter] : chapters;
 
@@ -109,11 +113,12 @@ export async function renderStudentView(root, ctx, keepScroll) {
       ce qui est affiché vient de l’historique du Google Sheet. Le texte des réponses arrivera à sa prochaine connexion.</p>` : ''}
 
     <nav class="t-tabs s-tabs" role="tablist">
-      <button type="button" role="tab" class="t-tab${chapter ? '' : ' is-active'}" aria-selected="${!chapter}" data-chapter="${ALL_TAB}">Tous les chapitres</button>
+      <button type="button" role="tab" class="t-tab${chapterId === ALL_TAB ? ' is-active' : ''}" aria-selected="${chapterId === ALL_TAB}" data-chapter="${ALL_TAB}">Tous les chapitres</button>
       ${chapters.map(c => `<button type="button" role="tab" class="t-tab${c.id === chapterId ? ' is-active' : ''}"
-        aria-selected="${c.id === chapterId}" data-chapter="${esc(c.id)}">${esc(c.short)}</button>`).join('')}</nav>
+        aria-selected="${c.id === chapterId}" data-chapter="${esc(c.id)}">${esc(c.short)}</button>`).join('')}
+      <button type="button" role="tab" class="t-tab${journal ? ' is-active' : ''}" aria-selected="${journal}" data-chapter="${JOURNAL_TAB}">Journal</button></nav>
 
-    <div class="s-scope">
+    ${journal ? '<section class="t-section s-journal" id="s-journal"></section>' : `<div class="s-scope">
       <div class="d-kpis">
         <div class="d-kpi${watched ? ' is-alert' : ''}" data-tip="${esc(fullDate(last))}">
           <span class="d-kpi-label">${watched ? WARN_ICON : ''}Dernière activité${where}</span>
@@ -129,7 +134,7 @@ export async function renderStudentView(root, ctx, keepScroll) {
     </div>
 
     ${chapter ? '' : `<section class="t-section s-homework">${homeworkOverviewHtml(hw)}</section>`}
-    ${hasWork ? exportSection(chapters, chapter) : ''}`;
+    ${hasWork ? exportSection(chapters, chapter) : ''}`}`;
 
   root.querySelector('#s-back').addEventListener('click', ctx.onBack);
   if (prev) root.querySelector('#s-prev').addEventListener('click', () => ctx.onOpen(prev));
@@ -144,6 +149,14 @@ export async function renderStudentView(root, ctx, keepScroll) {
   if (exportBtn) exportBtn.addEventListener('click', () =>
     exportAnswers(root.querySelector('#s-export-scope').value, chapters, summaries, ctx));
   if (!keepScroll) window.scrollTo(0, 0);
+  if (journal) {
+    try {
+      await renderStudentJournal(root.querySelector('#s-journal'), { uid: work.uid, content: ctx.content, setStatus: ctx.setStatus });
+    } catch (e) {
+      console.error(e);
+      root.querySelector('#s-journal').innerHTML = '<p class="t-help is-error">Le journal n’a pas pu être lu (connexion internet ?). Rechargez la page.</p>';
+    }
+  }
 }
 
 /* ===== Haut de fiche ===== */

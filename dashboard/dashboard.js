@@ -37,8 +37,9 @@ const state = {
   classes: {},     // id → { teacher, track }
   students: {},    // adresse → { prenom, nom, classe }
   importPreview: null,
-  view: 'class',   // onglet affiché
+  view: 'journal', // onglet affiché
   student: null,   // fiche élève ouverte (adresse), dans l'onglet Suivi
+  studentFrom: null, // 'journal' : fiche ouverte depuis le Journal, qui y ramène
   order: [],       // adresses dans l'ordre du tableau (Précédent / Suivant)
   work: null,      // travail des élèves (loadWork), chargé au premier affichage du suivi
   loadedAt: null
@@ -144,7 +145,7 @@ async function start() {
 
 /* Onglet affiché, noté dans l'adresse (dashboard.html#devoirs) : un
    rafraîchissement reste sur le même onglet ; le lien de l'accueil, sans
-   repère, ouvre le Suivi. replaceState : pas d'entrée d'historique par
+   repère, ouvre le Journal. replaceState : pas d'entrée d'historique par
    onglet. */
 const VIEW_HASH = { manage: 'classes', class: 'suivi', journal: 'journal', activities: 'bilan', homework: 'devoirs' };
 
@@ -153,20 +154,26 @@ function viewFromHash() {
   return Object.keys(VIEW_HASH).find(view => VIEW_HASH[view] === hash) || null;
 }
 
-function showView(view) {
+// Onglet marqué actif et noté dans l'adresse, sans rien afficher.
+function markView(view) {
   state.view = view;
   try { history.replaceState(null, '', '#' + VIEW_HASH[view]); } catch (e) { /* adresse inchangée */ }
-  state.student = null;
   $('#t-tabs').querySelectorAll('[data-view]').forEach(tab => {
     const active = tab.dataset.view === view;
     tab.classList.toggle('is-active', active);
     tab.setAttribute('aria-selected', active ? 'true' : 'false');
   });
-  if (view === 'manage') renderManage();
-  else if (view === 'journal') renderJournal();
-  else if (view === 'activities') renderActivities();
-  else if (view === 'homework') renderHomework();
-  else renderClass();
+}
+
+function showView(view) {
+  markView(view);
+  state.student = null;
+  state.studentFrom = null;
+  if (view === 'manage') return renderManage();
+  if (view === 'journal') return renderJournal();
+  if (view === 'activities') return renderActivities();
+  if (view === 'homework') return renderHomework();
+  return renderClass();
 }
 
 /* ===== Onglet « Journal » ===== */
@@ -180,7 +187,8 @@ async function renderJournal() {
       teacherName,
       sortedClassIds,
       content: loadContent,
-      setStatus
+      setStatus,
+      openStudent: openStudentFromJournal
     });
   } catch (e) {
     console.error(e);
@@ -239,7 +247,32 @@ function renderHomework() {
 /* ===== Fiche élève =====
    Pleine page dans l'onglet « Suivi de la classe ». Le bouton Précédent du
    navigateur ramène au tableau (history.pushState), comme le bouton
-   « ← Classe ». */
+   « ← Classe ». Ouverte depuis le Journal (studentFrom), elle y ramène, à
+   la même hauteur de page, sans élève précédent / suivant. */
+
+async function openStudentFromJournal(email) {
+  state.journalScroll = window.scrollY;
+  markView('class');
+  state.studentFrom = 'journal';
+  state.order = [];
+  try {
+    if (!state.work) {
+      setStatus('Chargement du travail des élèves…');
+      await reloadWork();
+      setStatus('');
+    }
+  } catch (e) {
+    console.error(e);
+    setStatus('La fiche n’a pas pu être chargée (connexion internet ?).', true);
+    return;
+  }
+  openStudent(email);
+}
+
+async function backToJournal() {
+  await showView('journal');
+  window.scrollTo(0, state.journalScroll || 0);
+}
 
 function openStudent(email, replace) {
   state.student = email;
@@ -251,13 +284,16 @@ function openStudent(email, replace) {
 
 function closeStudent() {
   if (history.state && history.state.student) history.back();
+  else if (state.studentFrom === 'journal') backToJournal();
   else { state.student = null; renderClass(); }
 }
 
 window.addEventListener('popstate', e => {
   if (state.view !== 'class') return;
   state.student = (e.state && e.state.student) || null;
-  if (state.student) renderStudent(); else renderClass();
+  if (state.student) renderStudent();
+  else if (state.studentFrom === 'journal') backToJournal();
+  else renderClass();
 });
 
 function trackOf(email) {
@@ -276,7 +312,7 @@ async function renderStudent() {
       email,
       person,
       className: cls ? `${person.classe} · ${teacherName(cls.teacher)}` : 'Non classé·e',
-      classLabel: cls ? `Classe ${person.classe}` : 'Non classés',
+      classLabel: state.studentFrom === 'journal' ? 'Journal' : cls ? `Classe ${person.classe}` : 'Non classés',
       track: trackOf(email),
       connected: !!(state.work[email] && state.work[email].uid),
       work: state.work,
@@ -287,7 +323,8 @@ async function renderStudent() {
       savePrefs,
       order: state.order || [],
       onBack: closeStudent,
-      onOpen: other => openStudent(other, true)
+      onOpen: other => openStudent(other, true),
+      setStatus
     });
   } catch (e) {
     console.error(e);

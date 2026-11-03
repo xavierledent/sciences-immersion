@@ -170,6 +170,17 @@ export async function loadJournalDay(date) {
   return out;
 }
 
+/* Le journal d'un élève (fiche élève) : son document de chaque jour, une
+   lecture par jour. → [{ date, entries }], seulement les jours où il est venu. */
+export async function loadStudentJournal(uid, dates) {
+  const snaps = await Promise.all(dates.map(date => fb.getDoc(fb.doc(fb.db, 'journal', date, 'students', uid))));
+  const out = [];
+  snaps.forEach((snap, i) => {
+    if (snap.exists()) out.push({ date: dates[i], entries: snap.data().entries || {} });
+  });
+  return out;
+}
+
 /* Nombre d'élèves venus chaque jour (toutes classes), compté par le serveur
    sans lire les documents : une lecture par jour. → { AAAA-MM-JJ: n } */
 export async function countJournal(dates) {

@@ -2315,3 +2315,16 @@
   margin: 14px 0 0;
   font-size: 0.85rem;
 }
+
+.j-sheet {
+  padding: 0 12px 6px 38px;
+}
+
+/* Fiche élève, onglet Journal : « 4 semaines de plus ». */
+.j-more {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
