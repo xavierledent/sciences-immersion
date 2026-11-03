@@ -2128,96 +2128,81 @@
 
 /* ===== Journal (dashboard-journal.js) ===== */
 
-.j-top {
-  margin-bottom: 14px;
-}
-
-.j-strip-title {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.85rem;
-}
-
-/* Une colonne par semaine : jours de la semaine en lignes. */
-.j-strip {
-  display: inline-grid;
-  grid-template-rows: auto repeat(7, 26px);
-  grid-template-columns: 18px;
-  grid-auto-columns: 46px;
-  grid-auto-flow: column;
-  gap: 3px;
-}
-
-.j-wd,
-.j-week {
-  color: var(--color-muted);
-  font-size: 0.75rem;
-  align-self: center;
-}
-
-.j-week {
-  text-align: center;
-  white-space: nowrap;
-}
-
-.j-cell {
-  border: 1px solid var(--t-border);
-  border-radius: 6px;
-  background: rgba(var(--color-slate-rgb), calc(0.03 + var(--j-level, 0) * 0.42));
-  color: var(--color-text);
-  font: inherit;
-  font-size: 0.8rem;
-  font-variant-numeric: tabular-nums;
-  padding: 0;
-  cursor: pointer;
-}
-
-.j-cell:hover,
-.j-cell:focus-visible {
-  border-color: rgba(var(--color-slate-rgb), 0.6);
-  outline: none;
-}
-
-.j-cell.is-current {
-  border: 2px solid var(--color-slate);
-  font-weight: 700;
-}
-
-.j-cell.is-off {
-  border-style: dashed;
-  background: none;
-  cursor: default;
-}
-
-.j-nav {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.j-arrow {
-  padding: 4px 12px;
-  font-size: 1.1rem;
-  line-height: 1;
+.j-day {
+  margin-bottom: 18px;
+  scroll-margin-top: 12px;
 }
 
 .j-day-title {
-  margin: 0 6px;
+  margin: 0 0 6px;
   font-size: 1.05rem;
 }
 
-.j-pick {
-  margin-left: auto;
-  color: var(--color-muted);
-  font-size: 0.9rem;
+/* Jour choisi par « Aller au ». */
+.j-day.is-picked .j-day-title {
+  color: var(--color-slate);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
-.j-pick input {
-  margin-left: 4px;
-  font: inherit;
+.j-section {
+  margin: 26px 0 8px;
+  font-size: 1.05rem;
+}
+
+.j-weeks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.j-week {
+  border: 1px solid var(--t-border);
+  border-radius: var(--t-radius);
+  background: var(--color-surface);
+  margin-bottom: 4px;
+}
+
+.j-week-row {
+  display: grid;
+  grid-template-columns: 16px minmax(180px, 240px) 1fr;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: none;
   color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.j-week-row:hover,
+.j-week-row:focus-visible {
+  background: rgba(var(--color-slate-rgb), 0.06);
+  border-radius: var(--t-radius);
+  outline: none;
+}
+
+.j-wcounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-variant-numeric: tabular-nums;
+}
+
+.j-wcount {
+  min-width: 46px;
+}
+
+.j-week-days {
+  padding: 6px 12px 2px;
+}
+
+.j-week > .j-empty {
+  margin: 0;
+  padding: 0 12px 10px 38px;
 }
 
 .j-students,
@@ -2294,4 +2279,9 @@
 
 .j-empty {
   margin: 8px 0 0;
+}
+
+.j-start {
+  margin: 14px 0 0;
+  font-size: 0.85rem;
 }

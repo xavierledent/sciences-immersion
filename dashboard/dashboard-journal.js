@@ -1,33 +1,36 @@
 /* ===== Tableau de bord : « Journal » =====
-   Un retour rapide de l'activité sur le site, un jour à la fois : les élèves
-   venus ce jour-là (le plus récemment actif en haut) ; un clic sur un élève
-   déroule ses activités, les plus récentes en haut. Au-dessus, une bande des
-   6 dernières semaines donne le nombre d'élèves venus chaque jour ; un clic
-   sur une case ouvre ce jour. Flèches, « Aujourd'hui » et choix d'une date
-   pour le reste. Pas de durée : le site ne voit que des gestes, pas le temps
-   passé à réfléchir (décision de l'enseignant).
+   Un retour rapide de l'activité sur le site, jour par jour. Les 7 derniers
+   jours sont dépliés, du plus récent au plus ancien : sous chaque jour, les
+   élèves venus (le plus récemment actif en haut) ; un clic sur un élève
+   déroule ses activités de ce jour-là, les plus récentes en haut. En dessous,
+   les semaines précédentes, repliées : une ligne par semaine avec le nombre
+   d'élèves venus chaque jour ; un clic la déplie en jours. « Aller au » ouvre
+   la semaine d'une date et y amène. Pas de durée : le site ne voit que des
+   gestes, pas le temps passé à réfléchir (décision de l'enseignant).
 
    Données : les journaux du jour écrits par storage.js
    (journal/{AAAA-MM-JJ}/students/{uid}, champ entries). Un jour n'est lu
    (loadJournalDay, dashboard-data.js) qu'au moment où il s'affiche, puis
    gardé pour la durée de la page, sauf aujourd'hui, relu à chaque affichage.
-   La bande ne lit pas les documents : countJournal les fait compter par le
-   serveur (une lecture par jour), toutes classes confondues. Un seul filtre,
-   la classe, « Toutes les classes » à chaque ouverture du tableau de bord
-   (choix non retenu). Le journal commence à sa mise en ligne (START). */
+   Les semaines repliées ne lisent pas les documents : countJournal les fait
+   compter par le serveur (une lecture par jour), toutes classes confondues ;
+   une fois la semaine ouverte, ses nombres suivent la classe choisie. Un seul
+   filtre, la classe, « Toutes les classes » à chaque ouverture du tableau de
+   bord (choix non retenu). Le journal commence à sa mise en ligne (START). */
 
 import { esc } from './dashboard-ui.js';
 import { loadJournalDay, countJournal } from './dashboard-data.js';
 
 const ALL = '__all__';
-const WEEKS = 6;
+const RECENT = 7;
 const START = '2026-10-24';
-const WEEKDAYS = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+const DAY_ABBR = ['lu', 'ma', 'me', 'je', 've', 'sa', 'di'];
 const STEP_NAMES = { 1: 'Predict', 2: 'Experiment', 3: 'Conclude', 4: 'Check' };
 
 /* Pour la durée de la page : rien n'est retenu d'une connexion à l'autre.
-   counts : { jour: élèves venus } ; days : { jour: [{ email, entries }] }. */
-const view = { scope: ALL, date: null, counts: null, days: {}, open: new Set() };
+   counts : { jour: élèves venus } (jours repliés) ; days : { jour: [{ email, entries }] } ;
+   weeks : lundis des semaines dépliées ; picked : jour choisi par « Aller au ». */
+const view = { scope: ALL, counts: null, days: {}, weeks: new Set(), open: new Set(), picked: null };
 
 const pad = n => String(n).padStart(2, '0');
 const dayId = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -40,12 +43,13 @@ function shiftDay(id, days) {
   const d = toDate(id);
   return dayId(new Date(d.getFullYear(), d.getMonth(), d.getDate() + days));
 }
-const mondayOf = id => shiftDay(id, -((toDate(id).getDay() + 6) % 7));
+const weekday = id => (toDate(id).getDay() + 6) % 7;
+const mondayOf = id => shiftDay(id, -weekday(id));
 function dayTitle(id) {
   const text = toDate(id).toLocaleDateString('fr-BE', { weekday: 'long', day: 'numeric', month: 'long' });
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
-const shortDate = id => toDate(id).toLocaleDateString('fr-BE', { day: 'numeric', month: 'short' });
+const longDate = id => toDate(id).toLocaleDateString('fr-BE', { day: 'numeric', month: 'long' });
 const clock = t => {
   const d = new Date(t);
   return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
@@ -55,62 +59,51 @@ const plural = (n, one, many) => `${n} ${n > 1 ? many : one}`;
 const folderOf = chapterId => String(chapterId || '').split('_').pop();
 const trackOfChapter = chapterId => (String(chapterId || '').startsWith('nl_') ? 'nl' : 'en');
 
-// Premier lundi de la bande, puis les jours comptés (depuis START, jusqu'à aujourd'hui).
-const stripFirst = () => mondayOf(shiftDay(today(), -7 * (WEEKS - 1)));
-function stripDates() {
+// Les jours de from à to compris, jamais avant START.
+function datesBetween(from, to) {
   const out = [];
-  for (let d = stripFirst(), t = today(); d <= t; d = shiftDay(d, 1)) if (d >= START) out.push(d);
+  for (let d = from < START ? START : from; d <= to; d = shiftDay(d, 1)) out.push(d);
   return out;
 }
+const recentFrom = () => shiftDay(today(), -(RECENT - 1));
+const olderDates = () => datesBetween(START, shiftDay(recentFrom(), -1));
 
 /* ctx : { me, classes, students, teacherName, sortedClassIds, content(track), setStatus } */
 export async function renderJournalView(root, ctx) {
-  if (!view.counts) {
-    ctx.setStatus('Chargement du journal…');
-    const counts = await countJournal(stripDates());
-    const t = today();
-    view.date = counts[t] ? t : (Object.keys(counts).filter(d => counts[d]).sort().pop() || t);
-    view.counts = counts;
-  }
-  await loadDay(view.date, ctx);
+  ctx.setStatus('Chargement du journal…');
+  if (!view.counts) view.counts = await countJournal(olderDates());
+  await Promise.all(datesBetween(recentFrom(), today()).map(loadDay));
   ctx.setStatus('');
   const [en, nl] = await Promise.all([ctx.content('en'), ctx.content('nl')]);
   draw(root, ctx, { en, nl });
 }
 
-async function loadDay(date, ctx) {
+async function loadDay(date) {
   if (view.days[date] && date !== today()) return;
-  ctx.setStatus('Chargement du journal…');
   view.days[date] = await loadJournalDay(date);
   view.counts[date] = view.days[date].length;
 }
 
-/* Le jour d'activité le plus proche dans une direction (-1 : avant, 1 : après),
-   d'après les jours comptés ; hors de la bande, le jour d'à côté. null : rien. */
-function neighbour(dir) {
-  const known = Object.keys(view.counts)
-    .filter(d => view.counts[d] && (dir < 0 ? d < view.date : d > view.date)).sort();
-  const hit = dir < 0 ? known.pop() : known[0];
-  if (hit) return hit;
-  const first = stripDates()[0] || today();
-  if (dir < 0) {
-    const d = shiftDay(view.date < first ? view.date : first, -1);
-    return d >= START ? d : null;
-  }
-  return view.date < first ? shiftDay(view.date, 1) : null;
-}
+// Les jours repliés d'une semaine (par son lundi), du lundi au dimanche.
+const weekDates = monday => olderDates().filter(d => mondayOf(d) === monday);
+const loadWeek = monday => Promise.all(weekDates(monday).filter(d => view.counts[d] !== 0).map(loadDay));
 
 function draw(root, ctx, content) {
   const classOptions = `<option value="${ALL}"${view.scope === ALL ? ' selected' : ''}>Toutes les classes</option>` +
     ctx.sortedClassIds().map(id => `<option value="${esc(id)}"${id === view.scope ? ' selected' : ''}>${esc(id)} — ${esc(ctx.teacherName(ctx.classes[id].teacher))}</option>`).join('');
 
-  const t = today();
-  const prev = neighbour(-1);
-  const next = neighbour(1);
-  const students = studentsOfDay(ctx);
-  const body = students.length
-    ? `<ul class="j-students">${students.map(s => studentHTML(view.date, s, content)).join('')}</ul>`
-    : `<p class="t-muted j-empty">Aucune activité enregistrée ce jour-là${view.scope === ALL ? '' : ' pour cette classe'}.</p>`;
+  const recent = datesBetween(recentFrom(), today()).reverse()
+    .map(date => ({ date, students: studentsOf(date, ctx) }))
+    .filter(day => day.students.length);
+  const body = recent.length
+    ? recent.map(day => dayHTML(day, ctx, content)).join('')
+    : `<p class="t-muted j-empty">Aucune activité enregistrée ces ${RECENT} derniers jours.</p>`;
+
+  const mondays = [...new Set(olderDates().map(mondayOf))].reverse();
+  const weeks = mondays.length
+    ? `<h3 class="j-section">Semaines précédentes</h3>
+       <ul class="j-weeks">${mondays.map(m => weekHTML(m, ctx, content)).join('')}</ul>`
+    : '';
 
   root.innerHTML = `
     <div class="d-head">
@@ -118,37 +111,35 @@ function draw(root, ctx, content) {
         <span class="d-subtitle">l’activité sur le site, jour par jour</span></h2>
       <div class="d-filters">
         <label>Classe <select id="j-scope">${classOptions}</select></label>
+        <label>Aller au <input type="date" id="j-date" min="${START}" max="${today()}" value="${view.picked || ''}"></label>
       </div>
     </div>
-    ${stripHTML()}
-    <div class="j-nav">
-      <button type="button" class="t-btn j-arrow" data-day="${prev || ''}" aria-label="Jour d’activité précédent"${prev ? '' : ' disabled'}>‹</button>
-      <h3 class="j-day-title">${esc(dayTitle(view.date))}
-        <span class="d-subtitle">${plural(students.length, 'élève', 'élèves')}</span></h3>
-      <button type="button" class="t-btn j-arrow" data-day="${next || ''}" aria-label="Jour d’activité suivant"${next ? '' : ' disabled'}>›</button>
-      <button type="button" class="t-btn" data-day="${t}"${view.date === t ? ' disabled' : ''}>Aujourd’hui</button>
-      <label class="j-pick">Aller au <input type="date" id="j-date" min="${START}" max="${t}" value="${view.date}"></label>
-    </div>
-    ${body}`;
+    <div class="j-days">${body}</div>
+    ${weeks}
+    <p class="t-muted j-start">Journal depuis le ${esc(dayTitle(START).toLowerCase())}, date de sa mise en ligne.</p>`;
 
-  const go = async date => {
-    if (!date || date < START || date > today()) return;
-    try {
-      await loadDay(date, ctx);
-      view.date = date;
-      ctx.setStatus('');
-    } catch (err) {
-      console.error(err);
-      ctx.setStatus('Ce jour n’a pas pu être chargé (connexion internet ?).', true);
-    }
-    draw(root, ctx, content);
-  };
   root.querySelector('#j-scope').addEventListener('change', e => {
     view.scope = e.target.value;
     draw(root, ctx, content);
   });
-  root.querySelectorAll('[data-day]').forEach(btn => btn.addEventListener('click', () => go(btn.dataset.day)));
-  root.querySelector('#j-date').addEventListener('change', e => go(e.target.value));
+  root.querySelector('#j-date').addEventListener('change', e => goTo(e.target.value, root, ctx, content));
+  root.querySelectorAll('[data-week]').forEach(btn => btn.addEventListener('click', async () => {
+    const monday = btn.dataset.week;
+    if (view.weeks.has(monday)) {
+      view.weeks.delete(monday);
+    } else {
+      ctx.setStatus('Chargement de la semaine…');
+      try {
+        await loadWeek(monday);
+        view.weeks.add(monday);
+        ctx.setStatus('');
+      } catch (err) {
+        console.error(err);
+        ctx.setStatus('Cette semaine n’a pas pu être chargée (connexion internet ?).', true);
+      }
+    }
+    draw(root, ctx, content);
+  }));
   root.querySelectorAll('[data-open]').forEach(btn => btn.addEventListener('click', () => {
     const key = btn.dataset.open;
     if (view.open.has(key)) view.open.delete(key); else view.open.add(key);
@@ -156,39 +147,82 @@ function draw(root, ctx, content) {
   }));
 }
 
-/* La bande : une colonne par semaine (du lundi au dimanche), une case par
-   jour avec le nombre d'élèves venus, plus foncée quand ils sont nombreux. */
-function stripHTML() {
-  const t = today();
-  const max = Math.max(1, ...Object.values(view.counts));
-  let cells = `<span></span>${WEEKDAYS.map(d => `<span class="j-wd">${d}</span>`).join('')}`;
-  for (let w = 0, monday = stripFirst(); w < WEEKS; w++, monday = shiftDay(monday, 7)) {
-    cells += `<span class="j-week">${esc(shortDate(monday))}</span>`;
-    for (let i = 0; i < 7; i++) {
-      const date = shiftDay(monday, i);
-      if (date < START || date > t) { cells += '<span class="j-cell is-off"></span>'; continue; }
-      const n = view.counts[date] || 0;
-      cells += `<button type="button" class="j-cell${date === view.date ? ' is-current' : ''}" data-day="${date}"
-        style="--j-level:${(n / max).toFixed(2)}" title="${esc(dayTitle(date))} : ${plural(n, 'élève', 'élèves')}">${n || ''}</button>`;
+// « Aller au » : déplie la semaine de la date s'il le faut, puis y amène.
+async function goTo(date, root, ctx, content) {
+  if (!date || date < START || date > today()) return;
+  view.picked = date;
+  ctx.setStatus('');
+  if (date < recentFrom()) {
+    const monday = mondayOf(date);
+    ctx.setStatus('Chargement de la semaine…');
+    try {
+      await loadWeek(monday);
+      view.weeks.add(monday);
+      ctx.setStatus('');
+    } catch (err) {
+      console.error(err);
+      ctx.setStatus('Cette semaine n’a pas pu être chargée (connexion internet ?).', true);
+      return;
     }
   }
-  return `<div class="j-top">
-    <span class="t-muted j-strip-title">Élèves venus par jour, toutes classes</span>
-    <div class="j-strip">${cells}</div>
-  </div>`;
+  draw(root, ctx, content);
+  const el = root.querySelector(`#j-day-${date}`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  else ctx.setStatus(`Aucune activité le ${dayTitle(date).toLowerCase()}${view.scope === ALL ? '' : ' pour cette classe'}.`);
 }
 
-/* Les élèves du jour affiché, [{ email, person, entries: [entrée triée], last }],
+/* Les élèves d'un jour, [{ email, person, entries: [entrée triée], last }],
    le plus récemment actif en haut ; seulement la classe choisie. */
-function studentsOfDay(ctx) {
+function studentsOf(date, ctx) {
   const out = [];
-  (view.days[view.date] || []).forEach(doc => {
+  (view.days[date] || []).forEach(doc => {
     const person = (doc.email && ctx.students[doc.email]) || null;
     if (view.scope !== ALL && (!person || person.classe !== view.scope)) return;
     const entries = Object.values(doc.entries || {}).filter(e => e && e.t).sort((a, b) => b.t - a.t);
     if (entries.length) out.push({ email: doc.email, person, entries, last: entries[0].t });
   });
   return out.sort((a, b) => b.last - a.last);
+}
+
+// Élèves venus un jour : comptés dans les documents une fois lus (classe choisie), sinon par le serveur.
+const dayCount = (date, ctx) => (view.days[date] ? studentsOf(date, ctx).length : view.counts[date] || 0);
+
+/* Une semaine repliée : les jours de classe toujours, le week-end seulement
+   si quelqu'un est venu ; dépliée, ses jours d'activité comme ceux du haut. */
+function weekHTML(monday, ctx, content) {
+  const open = view.weeks.has(monday);
+  const dates = weekDates(monday);
+  const counts = dates
+    .filter(d => weekday(d) < 5 || dayCount(d, ctx))
+    .map(d => {
+      const n = dayCount(d, ctx);
+      return `<span class="j-wcount"><span class="t-muted">${DAY_ABBR[weekday(d)]}</span> ${n || '–'}</span>`;
+    }).join('');
+  let days = '';
+  if (open) {
+    const active = dates.slice().reverse()
+      .map(date => ({ date, students: studentsOf(date, ctx) }))
+      .filter(day => day.students.length);
+    days = active.length
+      ? `<div class="j-week-days">${active.map(day => dayHTML(day, ctx, content)).join('')}</div>`
+      : `<p class="t-muted j-empty">Aucune activité cette semaine${view.scope === ALL ? '' : ' pour cette classe'}.</p>`;
+  }
+  return `<li class="j-week${open ? ' is-open' : ''}">
+    <button type="button" class="j-week-row" data-week="${monday}" aria-expanded="${open}">
+      <span class="j-caret" aria-hidden="true">${open ? '▾' : '▸'}</span>
+      <span class="j-name">Semaine du ${esc(longDate(monday))}</span>
+      <span class="j-wcounts">${counts}</span>
+    </button>
+    ${days}
+  </li>`;
+}
+
+function dayHTML(day, ctx, content) {
+  return `<section class="j-day${day.date === view.picked ? ' is-picked' : ''}" id="j-day-${day.date}">
+    <h3 class="j-day-title">${esc(dayTitle(day.date))}
+      <span class="d-subtitle">${plural(day.students.length, 'élève', 'élèves')}</span></h3>
+    <ul class="j-students">${day.students.map(s => studentHTML(day.date, s, content)).join('')}</ul>
+  </section>`;
 }
 
 function studentHTML(date, s, content) {
