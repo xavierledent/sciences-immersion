@@ -2129,13 +2129,43 @@
 /* ===== Journal (dashboard-journal.js) ===== */
 
 .j-day {
-  margin-bottom: 18px;
+  margin-bottom: 2px;
   scroll-margin-top: 12px;
 }
 
+.j-day.is-open {
+  margin-bottom: 14px;
+}
+
 .j-day-title {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   font-size: 1.05rem;
+}
+
+.j-day-row {
+  display: grid;
+  grid-template-columns: 16px minmax(180px, 240px) 1fr;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 12px;
+  border: none;
+  border-radius: var(--t-radius);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.j-day-row:hover,
+.j-day-row:focus-visible {
+  background: rgba(var(--color-slate-rgb), 0.06);
+  outline: none;
+}
+
+.j-day-row .d-subtitle {
+  margin-left: 0;
 }
 
 /* Jour choisi par « Aller au ». */

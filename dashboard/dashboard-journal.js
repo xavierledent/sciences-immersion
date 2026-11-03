@@ -1,7 +1,8 @@
 /* ===== Tableau de bord : « Journal » =====
    Un retour rapide de l'activité sur le site, jour par jour. Les 7 derniers
    jours sont dépliés, du plus récent au plus ancien : sous chaque jour, les
-   élèves venus (le plus récemment actif en haut) ; un clic sur un élève
+   élèves venus (le plus récemment actif en haut). Chaque jour se replie sur
+   son nombre d'élèves ; seul le plus récent est déplié au départ. Un clic sur un élève
    déroule ses activités de ce jour-là, les plus récentes en haut. En dessous,
    les semaines précédentes, repliées : une ligne par semaine avec le nombre
    d'élèves venus chaque jour ; un clic la déplie en jours. « Aller au » ouvre
@@ -29,8 +30,9 @@ const STEP_NAMES = { 1: 'Predict', 2: 'Experiment', 3: 'Conclude', 4: 'Check' };
 
 /* Pour la durée de la page : rien n'est retenu d'une connexion à l'autre.
    counts : { jour: élèves venus } (jours repliés) ; days : { jour: [{ email, entries }] } ;
-   weeks : lundis des semaines dépliées ; picked : jour choisi par « Aller au ». */
-const view = { scope: ALL, counts: null, days: {}, weeks: new Set(), open: new Set(), picked: null };
+   weeks : lundis des semaines dépliées ; openDays : jours dépliés (au départ,
+   le jour d'activité le plus récent) ; picked : jour choisi par « Aller au ». */
+const view = { scope: ALL, counts: null, days: {}, weeks: new Set(), openDays: null, open: new Set(), picked: null };
 
 const pad = n => String(n).padStart(2, '0');
 const dayId = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -73,6 +75,10 @@ export async function renderJournalView(root, ctx) {
   ctx.setStatus('Chargement du journal…');
   if (!view.counts) view.counts = await countJournal(olderDates());
   await Promise.all(datesBetween(recentFrom(), today()).map(loadDay));
+  if (!view.openDays) {
+    const latest = datesBetween(recentFrom(), today()).reverse().find(d => studentsOf(d, ctx).length);
+    view.openDays = new Set(latest ? [latest] : []);
+  }
   ctx.setStatus('');
   const [en, nl] = await Promise.all([ctx.content('en'), ctx.content('nl')]);
   draw(root, ctx, { en, nl });
@@ -140,6 +146,11 @@ function draw(root, ctx, content) {
     }
     draw(root, ctx, content);
   }));
+  root.querySelectorAll('[data-day]').forEach(btn => btn.addEventListener('click', () => {
+    const date = btn.dataset.day;
+    if (view.openDays.has(date)) view.openDays.delete(date); else view.openDays.add(date);
+    draw(root, ctx, content);
+  }));
   root.querySelectorAll('[data-open]').forEach(btn => btn.addEventListener('click', () => {
     const key = btn.dataset.open;
     if (view.open.has(key)) view.open.delete(key); else view.open.add(key);
@@ -151,6 +162,7 @@ function draw(root, ctx, content) {
 async function goTo(date, root, ctx, content) {
   if (!date || date < START || date > today()) return;
   view.picked = date;
+  view.openDays.add(date);
   ctx.setStatus('');
   if (date < recentFrom()) {
     const monday = mondayOf(date);
@@ -217,11 +229,16 @@ function weekHTML(monday, ctx, content) {
   </li>`;
 }
 
+// Un jour : replié, son nombre d'élèves ; déplié, ses élèves.
 function dayHTML(day, ctx, content) {
-  return `<section class="j-day${day.date === view.picked ? ' is-picked' : ''}" id="j-day-${day.date}">
-    <h3 class="j-day-title">${esc(dayTitle(day.date))}
-      <span class="d-subtitle">${plural(day.students.length, 'élève', 'élèves')}</span></h3>
-    <ul class="j-students">${day.students.map(s => studentHTML(day.date, s, content)).join('')}</ul>
+  const open = view.openDays.has(day.date);
+  return `<section class="j-day${open ? ' is-open' : ''}${day.date === view.picked ? ' is-picked' : ''}" id="j-day-${day.date}">
+    <h3 class="j-day-title"><button type="button" class="j-day-row" data-day="${day.date}" aria-expanded="${open}">
+      <span class="j-caret" aria-hidden="true">${open ? '▾' : '▸'}</span>
+      <span>${esc(dayTitle(day.date))}</span>
+      <span class="d-subtitle">${plural(day.students.length, 'élève', 'élèves')}</span>
+    </button></h3>
+    ${open ? `<ul class="j-students">${day.students.map(s => studentHTML(day.date, s, content)).join('')}</ul>` : ''}
   </section>`;
 }
 
