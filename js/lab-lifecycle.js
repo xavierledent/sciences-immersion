@@ -936,7 +936,7 @@
     const avoidSel = `<select class="lab-select lc-select ${c.avoid ? 'is-filled' : ''} ${show && !c.avoid ? 'lab-is-missing' : ''}" data-avoid aria-label="${escapeHtml(LABELS.avoidAria)}">` +
       `<option value="" disabled ${c.avoid ? '' : 'selected'}>${LABELS.choose}</option>` +
       AVOID.map(k => `<option value="${k}" ${c.avoid === k ? 'selected' : ''}>${escapeHtml(LABELS.avoid[k])}</option>`).join('') + `</select>`;
-    const stepSel = `<select class="lab-select lc-select ${c.step ? 'is-filled' : ''} ${show && !c.step ? 'lab-is-missing' : ''}" data-step aria-label="${escapeHtml(LABELS.stepAria)}">` +
+    const stepSel = `<select class="lab-select lc-select ${c.step ? 'is-filled' : ''} ${show && !c.step ? 'lab-is-missing' : ''}" data-concl-step aria-label="${escapeHtml(LABELS.stepAria)}">` +
       `<option value="" disabled ${c.step ? '' : 'selected'}>${LABELS.choose}</option>` +
       BIG_STEPS.map(s => `<option value="${s}" ${c.step === s ? 'selected' : ''}>${escapeHtml(stepIn(s))}</option>`).join('') + `</select>`;
     const verdictRow = i => `<div class="lc-verdict-row ${show && !c.verdict[i] ? 'lab-is-missing' : ''}"><span class="lc-q-text">${LABELS.verdictLine(i + 1)}</span>` +
@@ -964,7 +964,7 @@
       afterConcl();
     }));
     $('[data-avoid]').addEventListener('change', e => { c.avoid = e.target.value || null; afterConcl(); });
-    $('[data-step]').addEventListener('change', e => { c.step = e.target.value || null; afterConcl(); });
+    $('[data-concl-step]').addEventListener('change', e => { c.step = e.target.value || null; afterConcl(); });
     $$('[data-verdict]').forEach(btn => btn.addEventListener('click', () => { c.verdict[Number(btn.dataset.verdict)] = btn.dataset.val; afterConcl(); }));
 
     lab.setFooter(`<button type="button" class="lab-btn lab-btn-ghost" data-back>← ${LABELS.backToLab}</button>` +
