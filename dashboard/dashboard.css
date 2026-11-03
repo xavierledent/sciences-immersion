@@ -2128,13 +2128,96 @@
 
 /* ===== Journal (dashboard-journal.js) ===== */
 
-.j-day {
-  margin-bottom: 18px;
+.j-top {
+  margin-bottom: 14px;
+}
+
+.j-strip-title {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+
+/* Une colonne par semaine : jours de la semaine en lignes. */
+.j-strip {
+  display: inline-grid;
+  grid-template-rows: auto repeat(7, 26px);
+  grid-template-columns: 18px;
+  grid-auto-columns: 46px;
+  grid-auto-flow: column;
+  gap: 3px;
+}
+
+.j-wd,
+.j-week {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  align-self: center;
+}
+
+.j-week {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.j-cell {
+  border: 1px solid var(--t-border);
+  border-radius: 6px;
+  background: rgba(var(--color-slate-rgb), calc(0.03 + var(--j-level, 0) * 0.42));
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  padding: 0;
+  cursor: pointer;
+}
+
+.j-cell:hover,
+.j-cell:focus-visible {
+  border-color: rgba(var(--color-slate-rgb), 0.6);
+  outline: none;
+}
+
+.j-cell.is-current {
+  border: 2px solid var(--color-slate);
+  font-weight: 700;
+}
+
+.j-cell.is-off {
+  border-style: dashed;
+  background: none;
+  cursor: default;
+}
+
+.j-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.j-arrow {
+  padding: 4px 12px;
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
 .j-day-title {
-  margin: 0 0 6px;
+  margin: 0 6px;
   font-size: 1.05rem;
+}
+
+.j-pick {
+  margin-left: auto;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.j-pick input {
+  margin-left: 4px;
+  font: inherit;
+  color: var(--color-text);
 }
 
 .j-students,
@@ -2207,14 +2290,6 @@
 .j-chapter {
   color: var(--color-muted);
   font-weight: 600;
-}
-
-.j-more {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 12px;
 }
 
 .j-empty {
