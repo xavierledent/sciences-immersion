@@ -16,6 +16,15 @@ LabEngine.addText('foodweb', {
   labels: {
     title: 'Trek aan één draad',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Opdracht: ontdek wat er gebeurt als één soort verdwijnt',
+    briefTask: 'In een Belgisch bos eten levende wezens elkaar op: samen vormen ze een voedselweb. Jouw taak: bouw het model van het bos, laat dan een ziekte toeslaan en volg het bos 10 jaar lang.',
+    briefSteps: [
+      '<strong>Kies</strong> hoe de grafieken van enkele soorten volgens jou zullen veranderen, in het voedselweb en in één enkele voedselketen.',
+      '<strong>Leg</strong> elke kaart op haar niveau en <strong>teken</strong> de pijlen van het voedselweb. <strong>Start</strong> de ziekte, in het web en dan in één enkele keten, en <strong>lees</strong> de grafieken <strong>af</strong> in je schrift.',
+      '<strong>Beantwoord</strong> vraag a en b met je grafieken, en <strong>zeg</strong> of je hypotheses juist waren.'
+    ],
+
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',
 

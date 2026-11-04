@@ -1330,22 +1330,3 @@ html[data-pointer='fine'] .dr-crit:not(.is-selected):hover,
   width: 24px;
   height: 29px;
 }
-
-.dr-brief-checks {
-  margin: 0 0 2px;
-  font-weight: 600;
-}
-
-/* Critères de la correction, sur une ligne qui se replie (place comptée). */
-.lab-brief-stepart ul.dr-brief-crit {
-  padding: 0;
-  list-style: none;
-}
-
-.dr-brief-crit li {
-  display: inline;
-}
-
-.dr-brief-crit li + li::before {
-  content: ' · ';
-}

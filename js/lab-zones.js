@@ -2302,6 +2302,15 @@
 
   lab = LabEngine.create({
     id: 'zones',
+    // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
+    briefing: () => ({
+      heading: LABELS.briefTitle,
+      intro: gloss(LABELS.briefTask),
+      questionTitle: LABELS.yourQuestion,
+      questions: [LABELS.question, LABELS.question2].map(gloss),
+      steps: LABELS.briefSteps.map(text => ({ text: gloss(text) })),
+      checks: Object.values(LABELS.criteria)
+    }),
     title: LABELS.title,
     glossary: GLOSSARY,
     reset,

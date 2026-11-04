@@ -22,6 +22,15 @@ LabEngine.addText('separation', {
   labels: {
     title: 'The separation challenge',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Mission: separate every component of a mixture',
+    briefTask: 'On your bench: a jar with a mixture. Your job: observe it, plan the order of your separations, and use the tools of the desk to separate every component.',
+    briefSteps: [
+      '<strong>Observe</strong> the jar: its phases and the state of each component. Then <strong>plan</strong> your separations in order, and <strong>say</strong> what will be left at the end.',
+      '<strong>Use</strong> the tools of the desk on the containers. For each separation, <strong>write</strong> in your separation log what you take out, with which tool, and what is left.',
+      '<strong>Name</strong> each technique and <strong>say</strong> why it works, then <strong>say</strong> if your plan worked.'
+    ],
+
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',
     temp: v => `${v} °C`,

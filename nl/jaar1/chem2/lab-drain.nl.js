@@ -38,10 +38,8 @@ LabEngine.addText('drain', {
     briefSteps: [
       'Bekijk de vier dingen van vandaag. <strong>Zet</strong> elk ding waar het volgens jou terechtkomt, en <strong>kies</strong> de verbetering die volgens jou de rivier het best beschermt.',
       '<strong>Open</strong> de klep en bekijk de dag in het station. <strong>Neem stalen</strong> met de staalbeker, <strong>vul</strong> je logboek <strong>in</strong> en <strong>test</strong> daarna enkele verbeteringen.',
-      '<strong>Beantwoord</strong> de twee vragen met wat je in het station gezien hebt, en <strong>zeg</strong> of je hypotheses juist waren.',
-      '<strong>Controleer</strong> je werk: je krijgt je verbeterde labverslag. <strong>Zoek</strong> daarin je fouten.'
+      '<strong>Beantwoord</strong> de twee vragen met wat je in het station gezien hebt, en <strong>zeg</strong> of je hypotheses juist waren.'
     ],
-    briefChecks: 'De verbetering kijkt naar:',
     volume: v => `Water dat vandaag aankomt: ${v} m³`,
     today: (weather, v) => `${weather}. Water dat vandaag aankomt: ${v} m³.`,
 

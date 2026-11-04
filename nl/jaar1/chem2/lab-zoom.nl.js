@@ -19,6 +19,15 @@ LabEngine.addText('zoom', {
   labels: {
     title: 'Zoom in',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Opdracht: zoom in op wat je mengt',
+    briefTask: 'Jouw taak: ontdek wat je telkens krijgt: een zuivere stof, een homogeen mengsel of een heterogeen mengsel.',
+    briefSteps: [
+      '<strong>Zeg</strong> voor elke bereiding wat je denkt te krijgen.',
+      'Voor elke bereiding: <strong>giet</strong>, <strong>meng</strong>, en <strong>kijk</strong> met het blote oog. <strong>Zoom in</strong>, <strong>bouw</strong> het model van de deeltjes en <strong>vergelijk</strong> het met het referentiemodel. <strong>Vul</strong> je schrift <strong>in</strong>.',
+      '<strong>Antwoord</strong> voor elke bereiding, <strong>zeg</strong> of je gelijk had, en <strong>zoek</strong> de regel: wat doen de deeltjes?'
+    ],
+
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',
     // « 8 watermoleculen » (many : le nom au singulier ou au pluriel, selon n)

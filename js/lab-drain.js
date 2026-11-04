@@ -1249,8 +1249,8 @@
   const isObj = o => !!o && typeof o === 'object' && !Array.isArray(o);
 
   /* Page d'accueil (mission, voir lab-engine.js) : le plan de la station,
-     les quatre choses du jour (déjà visibles à Predict), le gobelet, et ce
-     que regarde la correction (les critères du Check). */
+     vide et sans la météo du jour, le gobelet, et ce que regarde la
+     correction (les critères du Check). Rien du tirage. */
   function briefing() {
     return {
       heading: LABELS.briefTitle,
@@ -1260,11 +1260,9 @@
       art: `<div class="dr-plan dr-brief-plan">${planSVG({ water: 0, dep: 0, stormOn: false, plain: true })}${zonesHTML()}</div>`,
       steps: LABELS.briefSteps.map((text, i) => ({
         text: gloss(text),
-        art: i === 0 ? ''
-          : i === 1 ? `<span class="dr-brief-item">${cupSVG()}<span>${LABELS.cupBtn}</span></span>`
-            : i === 3 ? `<div><p class="dr-brief-checks">${LABELS.briefChecks}</p><ul class="dr-brief-crit">${CRITERIA.map(k => `<li>${LABELS.criteria[k]}</li>`).join('')}</ul></div>`
-              : ''
-      }))
+        art: i === 1 ? `<span class="dr-brief-item">${cupSVG()}<span>${LABELS.cupBtn}</span></span>` : ''
+      })),
+      checks: CRITERIA.map(k => LABELS.criteria[k])
     };
   }
 

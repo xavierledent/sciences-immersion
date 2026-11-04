@@ -19,6 +19,15 @@ LabEngine.addText('home', {
   labels: {
     title: 'Energiespeurders in huis',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Opdracht: spoor de energie op in een huis',
+    briefTask: 'Jouw taak: zoek waar energie opgeslagen is, waar ze naartoe gaat, en welk toestel elke seconde de meeste energie omzet.',
+    briefSteps: [
+      '<strong>Geef</strong> je drie hypotheses.',
+      'Drie opdrachten, in de volgorde die jij wilt: <strong>geef</strong> de voorwerpen die energie opslaan een etiket, <strong>film</strong> de kamers met de warmtecamera, <strong>lees</strong> de elektriciteitsmeter <strong>af</strong> terwijl je de toestellen aan- en uitzet. <strong>Schrijf</strong> wat je vindt in je schrift.',
+      '<strong>Beantwoord</strong> de drie vragen met je schrift, en <strong>zeg</strong> of je hypotheses juist waren.'
+    ],
+
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',
     // Nombre décimal (index du compteur) : virgule en néerlandais

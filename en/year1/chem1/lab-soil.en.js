@@ -12,6 +12,15 @@
 LabEngine.addText('soil', {
   labels: {
     title: 'Under our feet',
+
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Mission: look closely at two soils',
+    briefTask: 'Two soil samples come from two different places. Your job: spread them out, look at them with the magnifying glass, and sort everything you find.',
+    briefSteps: [
+      '<strong>Choose</strong> the sample you think has the most living things and the most organic matter.',
+      '<strong>Put on</strong> the gloves. <strong>Spread</strong> each sample with the spatula, <strong>look</strong> at it with the magnifying glass and <strong>sort</strong> what you find into the cups. <strong>Test</strong> if it is wet or dry.',
+      '<strong>Answer</strong> the question with what you found in the cups, and <strong>say</strong> if your hypothesis was right.'
+    ],
     question: 'What is a [soil sample] made of, and does its composition change [depending on] the location?',
     yourQuestion: 'Your question',
     yourSamples: 'Your two samples',

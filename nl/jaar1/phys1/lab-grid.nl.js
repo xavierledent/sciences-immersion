@@ -19,6 +19,16 @@ LabEngine.addText('grid', {
   labels: {
     title: 'Hou de lichten aan',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Opdracht: hou de lichten van België een hele dag aan',
+    briefTask: 'Jouw taak: zoek welke centrales de lichten een hele dag aan houden, zonder stroompanne.',
+    briefSteps: [
+      '<strong>Geef</strong> je twee hypotheses.',
+      '<strong>Vul</strong> de identiteitskaart van elke installatie <strong>in</strong>. <strong>Laat</strong> in de controlekamer de dag <strong>lopen</strong> met wind en zon, <strong>kies</strong> dan andere centrales en <strong>laat</strong> dezelfde dag opnieuw <strong>lopen</strong>, tot er geen stroompanne meer is. <strong>Schrijf</strong> wat je ziet in je schrift.',
+      '<strong>Beantwoord</strong> de twee vragen met je testen, en <strong>zeg</strong> of je hypotheses juist waren.'
+    ],
+    briefQuestion: 'En welke installaties helpen als wind en zon niet genoeg zijn?',
+
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',
 

@@ -1217,6 +1217,15 @@
 
   lab = LabEngine.create({
     id: 'decomposition',
+    // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
+    briefing: () => ({
+      heading: LABELS.briefTitle,
+      intro: gloss(LABELS.briefTask),
+      questionTitle: LABELS.yourQuestion,
+      questions: [LABELS.briefQuestion].map(gloss),
+      steps: LABELS.briefSteps.map(text => ({ text: gloss(text) })),
+      checks: Object.values(LABELS.criteria)
+    }),
     title: LABELS.title,
     glossary: GLOSSARY,
     reset,

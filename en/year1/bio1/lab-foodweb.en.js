@@ -15,6 +15,15 @@ LabEngine.addText('foodweb', {
   labels: {
     title: 'Pull one thread',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Mission: see what happens when one species disappears',
+    briefTask: 'In a Belgian forest, living things eat each other: together, they make a food web. Your job: build the model of the forest, then let a disease strike and follow the forest for 10 years.',
+    briefSteps: [
+      '<strong>Choose</strong> how you think the graphs of some species will change, in the food web and in a single food chain.',
+      '<strong>Place</strong> each card on its level and <strong>draw</strong> the arrows of the food web. <strong>Start</strong> the disease, in the web and then in a single chain, and <strong>read</strong> the graphs in your notebook.',
+      '<strong>Answer</strong> questions a and b with your graphs, and <strong>say</strong> if your hypotheses were right.'
+    ],
+
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',
 

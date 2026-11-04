@@ -16,6 +16,15 @@ LabEngine.addText('home', {
   labels: {
     title: 'Energy detectives at home',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Mission: track down the energy in a house',
+    briefTask: 'Your job: find where energy is stored, where it goes, and which device transforms the most energy every second.',
+    briefSteps: [
+      '<strong>Give</strong> your three hypotheses.',
+      'Three missions, in the order you want: <strong>label</strong> the objects that store energy, <strong>film</strong> the rooms with the thermal camera, <strong>read</strong> the electricity meter while you switch the devices on and off. <strong>Write</strong> what you find in your notebook.',
+      '<strong>Answer</strong> the three questions with your notebook, and <strong>say</strong> if your hypotheses were right.'
+    ],
+
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',
     // Nombre décimal (index du compteur) : point en anglais

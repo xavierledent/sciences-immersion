@@ -39,10 +39,8 @@ LabEngine.addText('drain', {
     briefSteps: [
       'Look at the four things of today. <strong>Place</strong> each one where you think it will end up, and <strong>choose</strong> the improvement you think protects the river best.',
       '<strong>Open</strong> the valve and watch the day at the station. <strong>Take samples</strong> with the cup, <strong>fill in</strong> your operator log, then <strong>test</strong> some improvements.',
-      '<strong>Answer</strong> the two questions with what you saw at the station, and <strong>say</strong> if your hypotheses were right.',
-      '<strong>Check</strong> your work: you get your corrected lab report. <strong>Look for</strong> your mistakes in it.'
+      '<strong>Answer</strong> the two questions with what you saw at the station, and <strong>say</strong> if your hypotheses were right.'
     ],
-    briefChecks: 'The correction looks at:',
     volume: v => `Water arriving today: ${v} m³`,
     today: (weather, v) => `${weather}. Water arriving today: ${v} m³.`,
 

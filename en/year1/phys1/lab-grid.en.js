@@ -17,6 +17,16 @@ LabEngine.addText('grid', {
   labels: {
     title: 'Keep the lights on',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Mission: keep Belgium’s lights on for a whole day',
+    briefTask: 'Your job: find which power plants keep the lights on for a whole day, without a blackout.',
+    briefSteps: [
+      '<strong>Give</strong> your two hypotheses.',
+      '<strong>Fill in</strong> the identity card of each installation. In the control room, <strong>run</strong> the day with wind and sun, then <strong>choose</strong> other power plants and <strong>run</strong> the same day again, until there is no blackout. <strong>Write</strong> what you see in your notebook.',
+      '<strong>Answer</strong> the two questions with your tests, and <strong>say</strong> if your hypotheses were right.'
+    ],
+    briefQuestion: 'And which installations help when wind and sun are not enough?',
+
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',
 

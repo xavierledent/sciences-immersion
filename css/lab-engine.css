@@ -1014,6 +1014,42 @@ tspan.lab-gloss:focus-visible {
   padding-left: 1.1em;
 }
 
+/* Les questions du labo (plusieurs : liste numérotée). */
+.lab-brief-q,
+.lab-brief-qs {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.lab-brief-qs {
+  padding-left: 1.3em;
+}
+
+.lab-brief-qs li + li {
+  margin-top: 3px;
+}
+
+/* Ce que regarde la correction, sur une ligne qui se replie (place comptée). */
+.lab-brief-checks {
+  margin: 0 0 2px;
+  font-weight: 600;
+}
+
+.lab-brief-stepart ul.lab-brief-crit {
+  padding: 0;
+  list-style: none;
+}
+
+.lab-brief-crit li {
+  display: inline;
+}
+
+.lab-brief-crit li + li::before {
+  content: ' · ';
+}
+
 /* Objet en main, liste déroulante : un mot et sa traduction par ligne. */
 .lab-gloss-tip.is-pairs {
   display: grid;

@@ -17,6 +17,15 @@ LabEngine.addText('lifecycle', {
   labels: {
     title: 'From the Earth and back',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Mission: follow an object from the Earth and back',
+    briefTask: 'Every object has a life: it starts in the Earth and ends somewhere. Your job: follow one object through its lifecycle, in three ways: throw it away, recycle it, reuse it.',
+    briefSteps: [
+      '<strong>Rank</strong> the three ways from the best to the worst for the planet, and <strong>choose</strong> the step you think uses the most energy.',
+      '<strong>Place</strong> each card on its step of the lifecycle. <strong>Run</strong> the model for the three ways, <strong>write</strong> the totals of the counters in your notebook and <strong>draw</strong> the two graphs.',
+      '<strong>Answer</strong> the two questions with your counters and your graphs, and <strong>say</strong> if your hypotheses were right.'
+    ],
+
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',
     // Nombres décimaux : point en anglais.

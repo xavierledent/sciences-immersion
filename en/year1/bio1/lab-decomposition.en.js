@@ -15,6 +15,16 @@ LabEngine.addText('decomposition', {
   labels: {
     title: 'The vanishing leaves',
 
+    // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
+    briefTitle: 'Mission: find out what makes dead leaves disappear',
+    briefTask: 'In the forest, dead leaves slowly disappear: they decompose. Your job: prepare jars to test one factor, let the weeks go by, and weigh the leaves.',
+    briefSteps: [
+      '<strong>Complete</strong> the sentence of your hypothesis.',
+      '<strong>Prepare</strong> your jars and <strong>set</strong> their factors. <strong>Let</strong> the weeks <strong>go by</strong>, then <strong>weigh</strong> the bag of leaves of each jar and <strong>write</strong> the mass in the table.',
+      '<strong>Choose</strong> the jars to compare, <strong>answer</strong> the question, and <strong>say</strong> if your hypothesis was right.'
+    ],
+    briefQuestion: 'What changes the speed of decomposition of dead leaves? You test one factor.',
+
     // Masse au dixième, avec le séparateur décimal de la langue.
     num: v => v.toFixed(1),
     // « a, b and c »

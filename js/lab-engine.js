@@ -99,6 +99,8 @@
       briefStart: 'Start',
       briefBack: 'Back to the lab',
       briefAgain: 'You can read this page again at any time: “Mission” button, at the top.',
+      briefCheck: '<strong>Check</strong> your work: you get your corrected lab report. <strong>Look for</strong> your mistakes in it.',
+      briefChecks: 'The correction looks at:',
       report: {
         name: 'Name', className: 'Class', date: 'Date',
         sections: ['Question', 'Hypothesis', 'Materials', 'Procedure', 'Observations & results', 'Interpretation', 'Conclusion'],
@@ -139,6 +141,8 @@
       briefStart: 'Starten',
       briefBack: 'Terug naar het labo',
       briefAgain: 'Je kunt deze pagina altijd opnieuw lezen: knop “Opdracht”, bovenaan.',
+      briefCheck: '<strong>Controleer</strong> je werk: je krijgt je verbeterde labverslag. <strong>Zoek</strong> daarin je fouten.',
+      briefChecks: 'De verbetering kijkt naar:',
       report: {
         name: 'Naam', className: 'Klas', date: 'Datum',
         sections: ['Onderzoeksvraag', 'Hypothese', 'Materiaal', 'Werkwijze', 'Waarnemingen en resultaten', 'Interpretatie', 'Besluit'],
@@ -1331,15 +1335,26 @@
        que regarde la correction. Montrée quand le labo n'est pas commencé
        (première ouverture, nouveau tirage) ; la pastille « Mission » de
        l'en-tête la rouvre à tout moment, sans rien changer au travail.
-       def.briefing() → { heading, title, intro, questionTitle, question,
-       art, steps: [{ text, art }] × 4 } : HTML des textes du labo ; heading
-       (titre de la page), title (petit titre au-dessus de intro) et art
-       (dessin du labo) facultatifs. Toujours la même page, rien du tirage
+       def.briefing() → { heading, title, intro, questionTitle, question
+       ou questions, art, steps: [{ text, art }] × 3, checks } : HTML des
+       textes du labo ; heading (titre de la page), title (petit titre
+       au-dessus de intro) et art (dessin du labo) facultatifs ; question :
+       HTML tout fait, ou questions : une phrase par question (une liste
+       numérotée s'il y en a plusieurs). La 4e étape (Check) est la même
+       partout : le moteur l'écrit, avec checks (les noms des critères de
+       la correction). Toujours la même page, rien du tirage
        (les choses, la météo…) : la surprise vient après. Le moteur fait la
        mise en page. */
     function showBriefing() {
       if (!def.briefing) return;
       const b = def.briefing();
+      const checks = b.checks && b.checks.length
+        ? `<div><p class="lab-brief-checks">${L.briefChecks}</p><ul class="lab-brief-crit">${b.checks.map(c => `<li>${c}</li>`).join('')}</ul></div>`
+        : '';
+      const steps = b.steps.slice(0, 3).concat({ text: L.briefCheck, art: checks });
+      const questionsHTML = qs => (qs.length > 1
+        ? `<ol class="lab-brief-qs">${qs.map(q => `<li>${q}</li>`).join('')}</ol>`
+        : `<p class="lab-brief-q">${qs[0] || ''}</p>`);
       sceneToken++;
       releaseHeld();
       hideGloss();
@@ -1352,10 +1367,10 @@
         `<div class="lab-brief-top">` +
           (b.heading ? `<h3 class="lab-brief-heading">${b.heading}</h3>` : '') +
           `<div>${b.title ? `<p class="lab-brief-kicker">${b.title}</p>` : ''}<p class="lab-brief-intro">${b.intro}</p></div>` +
-          `<div><p class="lab-brief-kicker">${b.questionTitle}</p>${b.question}</div>` +
+          `<div><p class="lab-brief-kicker">${b.questionTitle}</p>${b.question || questionsHTML(b.questions || [])}</div>` +
         `</div>` +
         (b.art ? `<div class="lab-brief-art">${b.art}</div>` : '') +
-        `<ol class="lab-brief-steps">${b.steps.map((s, i) => `<li class="lab-brief-step">` +
+        `<ol class="lab-brief-steps">${steps.map((s, i) => `<li class="lab-brief-step">` +
           `<span class="lab-brief-num">${i + 1}</span><div class="lab-brief-step-body">` +
           `<p class="lab-brief-name">${L.steps[i]}</p><p class="lab-brief-text">${s.text}</p>` +
           (s.art ? `<div class="lab-brief-stepart">${s.art}</div>` : '') + `</div></li>`).join('')}</ol>` +
