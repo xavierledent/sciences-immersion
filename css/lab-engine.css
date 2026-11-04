@@ -260,15 +260,6 @@ html[data-pointer='fine'] .lab-unlock:hover,
   color: var(--color-current);
 }
 
-.lab-brief-btn {
-  padding: 0 12px;
-}
-
-.lab-brief-btn[aria-pressed='true'] {
-  border-color: var(--color-current);
-  color: var(--color-current-darker);
-}
-
 .lab-unlock.is-on,
 html[data-pointer='fine'] .lab-unlock.is-on:hover,
 .lab-unlock.is-on:focus-visible {
@@ -417,6 +408,11 @@ html[data-pointer='fine'] .lab-btn-danger:hover,
 .lab-step.is-current .lab-step-num {
   background: #ffffff;
   color: var(--color-current-darker);
+}
+
+/* La page d'accueil (Mission) : une pastille comme les étapes, sans numéro. */
+.lab-step.lab-step-brief {
+  padding: 0 14px;
 }
 
 .lab-step.is-done {
@@ -1294,6 +1290,8 @@ html.lab-carrying * {
 @media (max-width: 980px) {
   .lab-stepper .lab-step-label { display: none; }
   .lab-step { padding-right: 5px; }
+  .lab-stepper .lab-step-brief .lab-step-label { display: inline; }
+  .lab-step.lab-step-brief { padding: 0 10px; }
   .lab-restart span { display: none; }
   .lab-restart { padding: 0 9px; }
 }

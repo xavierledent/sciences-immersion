@@ -326,7 +326,6 @@
           `<button type="button" class="modal-fullscreen" data-lab-fullscreen aria-label="${L.fullscreen}">⛶</button>` +
           `<h2 id="lab-title-${def.id}" class="lab-title">${def.title}</h2>` +
           `<div class="lab-header-tools">` +
-          `<button type="button" class="lab-restart lab-brief-btn" data-lab-brief aria-pressed="false" hidden><span>${L.briefBtn}</span></button>` +
           `<ol class="lab-stepper"></ol>` +
           `<button type="button" class="lab-restart lab-unlock" data-lab-unlock aria-pressed="false" title="${TEACHER.unlockTitle}" hidden>${UNLOCK_SVG}<span>${TEACHER.unlock}</span></button>` +
           `<button type="button" class="lab-restart" data-lab-restart title="${L.restart}" aria-label="${L.restart}">${RESTART_SVG}<span>${L.restartShort}</span></button></div>` +
@@ -1320,15 +1319,14 @@
        Avant Predict, sans être une étape : la situation, la question, ce que
        l'élève fera à chaque étape (des gestes, jamais des résultats) et ce
        que regarde la correction. Montrée quand le labo n'est pas commencé
-       (première ouverture, nouveau tirage) ; le bouton « Mission » de
+       (première ouverture, nouveau tirage) ; la pastille « Mission » de
        l'en-tête la rouvre à tout moment, sans rien changer au travail.
        def.briefing() → { heading, title, intro, questionTitle, question,
        art, steps: [{ text, art }] × 4 } : HTML des textes du labo ; heading
        (titre de la page), title (petit titre au-dessus de intro) et art
-       (dessin du labo) facultatifs. Le moteur fait la mise en page. */
-    const briefBtn = card.querySelector('[data-lab-brief]');
-    if (def.briefing) briefBtn.hidden = false;
-
+       (dessin du labo) facultatifs. Toujours la même page, rien du tirage
+       (les choses, la météo…) : la surprise vient après. Le moteur fait la
+       mise en page. */
     function showBriefing() {
       if (!def.briefing) return;
       const b = def.briefing();
@@ -1339,7 +1337,7 @@
       closeSheet();
       closeReport();
       card.classList.add('lab-is-briefing');
-      briefBtn.setAttribute('aria-pressed', 'true');
+      renderStepper();
       bodyEl.innerHTML = `<div class="lab-brief">` +
         `<div class="lab-brief-top">` +
           (b.heading ? `<h3 class="lab-brief-heading">${b.heading}</h3>` : '') +
@@ -1359,15 +1357,9 @@
       fitToScreen();
     }
 
-    briefBtn.addEventListener('click', () => {
-      if (card.classList.contains('lab-is-briefing')) render();
-      else showBriefing();
-    });
-
     /* ===== Étapes ===== */
     function render() {
       card.classList.remove('lab-is-briefing');
-      briefBtn.setAttribute('aria-pressed', 'false');
       sceneToken++;
       releaseHeld();
       hideGloss();
@@ -1410,12 +1402,19 @@
     /* Barre d'étapes : l'étape en cours est un repère (inerte) ; les autres
        s'ouvrent si elles sont accessibles, sinon portent un cadenas qui dit
        pourquoi, comme partout. Check (4), une fois Conclude complet, fait la
-       même chose que « Check my conclusions ». */
+       même chose que « Check my conclusions ». Avant les étapes, sans
+       numéro, la page d'accueil (Mission) si le labo en a une : affichée,
+       c'est elle le repère, et l'étape en cours se rouvre d'un toucher. */
     function renderStepper() {
       const st = lab.state;
-      stepperEl.innerHTML = L.steps.map((label, i) => {
+      const briefing = card.classList.contains('lab-is-briefing');
+      const brief = def.briefing
+        ? `<li><button type="button" class="lab-step lab-step-brief ${briefing ? 'is-current' : ''}" data-lab-brief ${briefing ? 'disabled aria-current="page"' : ''}>` +
+          `<span class="lab-step-label">${L.briefBtn}</span></button></li>`
+        : '';
+      stepperEl.innerHTML = brief + L.steps.map((label, i) => {
         const n = i + 1;
-        const current = n === st.step;
+        const current = n === st.step && !briefing;
         const locked = !current && !canReach(n);
         const cls = current ? 'is-current' : (n < st.step || (st.checked && n < 4) ? 'is-done' : '');
         return `<li><button type="button" class="lab-step ${cls}" data-step="${n}" ${current ? 'disabled aria-current="step"' : ''}>` +
@@ -1428,10 +1427,13 @@
           setLock(b, stepLockReason(n), { icon: false, key: `step-${n}`, missing: blockingStep(n) === st.step });
         }
         b.addEventListener('click', () => {
-          if (n === 4 && !st.checked) lab.finish();
+          if (briefing && n === st.step) render();
+          else if (n === 4 && !st.checked) lab.finish();
           else lab.goToStep(n);
         });
       });
+      const briefBtn = stepperEl.querySelector('[data-lab-brief]');
+      if (briefBtn) briefBtn.addEventListener('click', showBriefing);
     }
 
     /* ===== Glisser-déposer (souris et doigt) =====

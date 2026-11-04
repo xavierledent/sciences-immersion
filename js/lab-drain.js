@@ -295,7 +295,8 @@
      rivière ; en bas, le déversoir d'orage. o = { up, rakes, clogged,
      water, dep } ; water : jusqu'où l'eau est arrivée (0 : station vide,
      1 : jusqu'à la rivière) ; dep : ce qui s'est déposé dans les postes (0
-     à 1, au fil de la journée). Station vide avant la journée : rien ne
+     à 1, au fil de la journée) ; plain : sans la météo du jour (page
+     d'accueil). Station vide avant la journée : rien ne
      montre d'avance ce que chaque poste retient. */
   function planSVG(o) {
     const up = o.up || null;
@@ -313,7 +314,7 @@
     out.push(`<g class="dr-town">` +
       [[8, 70, 30], [42, 60, 34], [80, 74, 26]].map(([x, y, w]) => `<path d="M${x} ${y + 12} L${x + w / 2} ${y} L${x + w} ${y + 12} V${y + 42} H${x} Z" fill="#f3efe6" stroke="${LINE}" stroke-width="2" stroke-linejoin="round"/>` +
         `<rect x="${x + w / 2 - 4}" y="${y + 26}" width="8" height="16" fill="#c9d3de"/>`).join('') + `</g>`);
-    if (wet()) out.push(`<g class="dr-rain">${[[14, 34], [34, 40], [56, 30], [76, 38], [96, 32]].map(([x, y]) => `<path d="M${x} ${y} l-4 10" stroke="#4a90d9" stroke-width="2" stroke-linecap="round"/>`).join('')}</g>`);
+    if (wet() && !o.plain) out.push(`<g class="dr-rain">${[[14, 34], [34, 40], [56, 30], [76, 38], [96, 32]].map(([x, y]) => `<path d="M${x} ${y} l-4 10" stroke="#4a90d9" stroke-width="2" stroke-linecap="round"/>`).join('')}</g>`);
     if (up === 'campaign') {
       out.push(`<g class="dr-poster"><rect x="66" y="40" width="34" height="26" rx="3" fill="#ffffff" stroke="${LINE}" stroke-width="2"/>` +
         `<path d="M72 48 H94 M72 54 H90 M72 60 H86" stroke="${LINE}" stroke-width="2" stroke-linecap="round"/></g>`);
@@ -1189,10 +1190,10 @@
       intro: `${gloss(LABELS.intro)} ${gloss(LABELS.briefTask)}`,
       questionTitle: LABELS.yourQuestion,
       question: questionsHTML(),
-      art: `<div class="dr-plan dr-brief-plan">${planSVG({ water: 0, dep: 0 })}${zonesHTML()}</div>`,
+      art: `<div class="dr-plan dr-brief-plan">${planSVG({ water: 0, dep: 0, plain: true })}${zonesHTML()}</div>`,
       steps: LABELS.briefSteps.map((text, i) => ({
         text: gloss(text),
-        art: i === 0 ? ids().map(id => `<span class="dr-brief-item">${itemSVG(id)}<span>${shortOf(id)}</span></span>`).join('')
+        art: i === 0 ? ''
           : i === 1 ? `<span class="dr-brief-item">${cupSVG()}<span>${LABELS.cupBtn}</span></span>`
             : i === 3 ? `<div><p class="dr-brief-checks">${LABELS.briefChecks}</p><ul class="dr-brief-crit">${CRITERIA.map(k => `<li>${LABELS.criteria[k]}</li>`).join('')}</ul></div>`
               : ''
