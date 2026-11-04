@@ -34,11 +34,11 @@ LabEngine.addText('drain', {
 
     // Page d'accueil (mission) : des gestes, jamais des résultats.
     briefTitle: 'Opdracht: volg het water, bescherm de rivier',
-    briefTask: 'Vandaag spoelt het stadje vier dingen door het putje. Jouw taak: volg ze door het station, en zoek hoe je de rivier het best beschermt.',
+    briefTask: 'Jij bestuurt het waterzuiveringsstation van een stadje. Volg vier dingen door het putje!',
     briefSteps: [
-      'Bekijk de vier dingen van vandaag. <strong>Zet</strong> elk ding waar het volgens jou terechtkomt, en <strong>kies</strong> de verbetering die volgens jou de rivier het best beschermt.',
-      '<strong>Open</strong> de klep en bekijk de dag in het station. <strong>Neem stalen</strong> met de staalbeker, <strong>vul</strong> je logboek <strong>in</strong> en <strong>test</strong> daarna enkele verbeteringen.',
-      '<strong>Beantwoord</strong> de twee vragen met wat je in het station gezien hebt, en <strong>zeg</strong> of je hypotheses juist waren.'
+      '<strong>Zet</strong> de vier dingen. <strong>Kies</strong> een verbetering.',
+      '<strong>Open</strong> de klep. <strong>Neem</strong> stalen. <strong>Test</strong> verbeteringen.',
+      '<strong>Beantwoord</strong> de twee vragen. Had je gelijk?'
     ],
     volume: v => `Water dat vandaag aankomt: ${v} m³`,
     today: (weather, v) => `${weather}. Water dat vandaag aankomt: ${v} m³.`,

@@ -21,11 +21,11 @@ LabEngine.addText('grid', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: hou de lichten van België een hele dag aan',
-    briefTask: 'Jouw taak: zoek welke centrales de lichten een hele dag aan houden, zonder stroompanne.',
+    briefTask: 'Jij zit in de controlekamer van de Belgische elektriciteit. Vermijd een stroompanne!',
     briefSteps: [
       '<strong>Geef</strong> je twee hypotheses.',
-      '<strong>Vul</strong> de identiteitskaart van elke installatie <strong>in</strong>. <strong>Laat</strong> in de controlekamer de dag <strong>lopen</strong> met wind en zon, <strong>kies</strong> dan andere centrales en <strong>laat</strong> dezelfde dag opnieuw <strong>lopen</strong>, tot er geen stroompanne meer is. <strong>Schrijf</strong> wat je ziet in je schrift.',
-      '<strong>Beantwoord</strong> de twee vragen met je testen, en <strong>zeg</strong> of je hypotheses juist waren.'
+      '<strong>Kies</strong> centrales. <strong>Laat</strong> de dag <strong>lopen</strong>. <strong>Probeer</strong> opnieuw.',
+      '<strong>Beantwoord</strong> de twee vragen. Had je gelijk?'
     ],
     briefQuestion: 'En welke installaties helpen als wind en zon niet genoeg zijn?',
 

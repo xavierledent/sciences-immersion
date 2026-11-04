@@ -1365,7 +1365,7 @@
       intro: gloss(LABELS.briefTask),
       questionTitle: LABELS.yourQuestion,
       questions: [LABELS.questions.main, LABELS.questions.a, LABELS.questions.b].map(gloss),
-      steps: LABELS.briefSteps.map(text => ({ text: gloss(text) })),
+      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), pics: [['rise', 'same', 'fall', 'gone'].map(t => ({ html: trendIcon(t), label: LABELS.trendShort[t] })), ['oak', 'rabbit', 'fox'].map(sp => ({ html: `<img src="${iconSrc(sp)}" alt="" draggable="false">`, label: LABELS.species[sp].name })), null][i] })),
       checks: Object.values(LABELS.criteria)
     }),
     title: LABELS.title,

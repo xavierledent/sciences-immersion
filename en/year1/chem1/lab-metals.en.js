@@ -13,11 +13,11 @@ LabEngine.addText('metals', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Mission: find the metals',
-    briefTask: 'On your bench: five samples of the same shape. Some are metals, some are not. Your job: test them like a scientist, and find out which ones are metals.',
+    briefTask: 'Five samples. Some are metals, some are not. Find which ones!',
     briefSteps: [
-      'Look carefully at each sample. <strong>Say</strong> if you think it is a metal, before any test.',
-      '<strong>Test</strong> each sample with the tools of the bench, and <strong>write</strong> what you observe in the notebook.',
-      '<strong>Say</strong> for each sample if it is a metal, and <strong>find</strong> which metal with the reference sheet.'
+      '<strong>Guess</strong>: metal or not?',
+      '<strong>Test</strong> each sample. <strong>Note</strong> what you see.',
+      '<strong>Decide</strong>: metal or not? Which metal?'
     ],
     yourQuestion: 'Your question',
     briefQuestion: 'Which samples are metals, and which metal is each one?',

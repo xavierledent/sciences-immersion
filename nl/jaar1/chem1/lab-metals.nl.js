@@ -15,11 +15,11 @@ LabEngine.addText('metals', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: vind de metalen',
-    briefTask: 'Op je labotafel: vijf stalen met dezelfde vorm. Sommige zijn metalen, andere niet. Jouw taak: test ze zoals een wetenschapper, en ontdek welke metalen zijn.',
+    briefTask: 'Vijf stalen. Sommige zijn metalen, andere niet. Zoek welke!',
     briefSteps: [
-      'Bekijk elk staal aandachtig. <strong>Zeg</strong> of je denkt dat het een metaal is, nog vóór de testen.',
-      '<strong>Test</strong> elk staal met de hulpmiddelen van de labotafel, en <strong>schrijf</strong> wat je waarneemt in het schrift.',
-      '<strong>Zeg</strong> voor elk staal of het een metaal is, en <strong>zoek</strong> welk metaal met de referentiefiche.'
+      '<strong>Raad</strong>: metaal of niet?',
+      '<strong>Test</strong> elk staal. <strong>Noteer</strong> wat je ziet.',
+      '<strong>Beslis</strong>: metaal of niet? Welk metaal?'
     ],
     yourQuestion: 'Jouw onderzoeksvraag',
     briefQuestion: 'Welke stalen zijn metalen, en welk metaal is elk staal?',

@@ -22,13 +22,13 @@ LabEngine.addText('decomposition', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: ontdek wat dode bladeren doet verdwijnen',
-    briefTask: 'In het bos verdwijnen dode bladeren langzaam: ze worden afgebroken. Jouw taak: maak bokalen klaar om één factor te testen, laat de weken voorbijgaan, en weeg de bladeren.',
+    briefTask: 'In het bos verdwijnen dode bladeren langzaam.',
     briefSteps: [
-      '<strong>Vul</strong> de zin van je hypothese <strong>aan</strong>.',
-      '<strong>Maak</strong> je bokalen <strong>klaar</strong> en <strong>stel</strong> hun factoren <strong>in</strong>. <strong>Laat</strong> de weken <strong>voorbijgaan</strong>, <strong>weeg</strong> dan het zakje bladeren van elke bokaal en <strong>schrijf</strong> de massa in de tabel.',
-      '<strong>Kies</strong> de bokalen die je vergelijkt, <strong>beantwoord</strong> de vraag, en <strong>zeg</strong> of je hypothese juist was.'
+      '<strong>Vul</strong> je hypothese <strong>aan</strong>.',
+      '<strong>Maak</strong> bokalen <strong>klaar</strong>. <strong>Wacht</strong>. <strong>Weeg</strong> de bladeren.',
+      '<strong>Vergelijk</strong> de bokalen. <strong>Antwoord</strong>. Had je gelijk?'
     ],
-    briefQuestion: 'Wat verandert de snelheid van de afbraak van dode bladeren? Je test één factor.',
+    briefQuestion: 'Wat verandert de snelheid van de afbraak? Je test één factor.',
 
     // Masse au dixième, avec le séparateur décimal de la langue.
     num: v => v.toFixed(1).replace('.', ','),

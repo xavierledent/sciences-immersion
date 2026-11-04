@@ -19,11 +19,11 @@ LabEngine.addText('lifecycle', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Mission: follow an object from the Earth and back',
-    briefTask: 'Every object has a life: it starts in the Earth and ends somewhere. Your job: follow one object through its lifecycle, in three ways: throw it away, recycle it, reuse it.',
+    briefTask: 'Follow one object, from the Earth and back.',
     briefSteps: [
-      '<strong>Rank</strong> the three ways from the best to the worst for the planet, and <strong>choose</strong> the step you think uses the most energy.',
-      '<strong>Place</strong> each card on its step of the lifecycle. <strong>Run</strong> the model for the three ways, <strong>write</strong> the totals of the counters in your notebook and <strong>draw</strong> the two graphs.',
-      '<strong>Answer</strong> the two questions with your counters and your graphs, and <strong>say</strong> if your hypotheses were right.'
+      '<strong>Rank</strong> the three ways. <strong>Choose</strong> a step.',
+      '<strong>Place</strong> the cards. <strong>Run</strong> the model. <strong>Draw</strong> the graphs.',
+      '<strong>Answer</strong> the two questions. Were you right?'
     ],
 
     // « a, b and c »

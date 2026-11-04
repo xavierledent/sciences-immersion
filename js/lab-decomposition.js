@@ -1223,7 +1223,7 @@
       intro: gloss(LABELS.briefTask),
       questionTitle: LABELS.yourQuestion,
       questions: [LABELS.briefQuestion].map(gloss),
-      steps: LABELS.briefSteps.map(text => ({ text: gloss(text) })),
+      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), pics: [null, [{ html: jarSVG(DEFAULT_JAR, START_MASS, 0) }], null][i] })),
       checks: Object.values(LABELS.criteria)
     }),
     title: LABELS.title,

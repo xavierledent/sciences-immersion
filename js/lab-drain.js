@@ -1254,7 +1254,7 @@
   function briefing() {
     return {
       heading: LABELS.briefTitle,
-      intro: `${gloss(LABELS.intro)} ${gloss(LABELS.briefTask)}`,
+      intro: gloss(LABELS.briefTask),
       questionTitle: LABELS.yourQuestion,
       question: questionsHTML(),
       art: `<div class="dr-plan dr-brief-plan">${planSVG({ water: 0, dep: 0, stormOn: false, plain: true })}${zonesHTML()}</div>`,

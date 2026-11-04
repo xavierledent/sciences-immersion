@@ -19,11 +19,11 @@ LabEngine.addText('lifecycle', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: volg een voorwerp van de aarde en terug',
-    briefTask: 'Elk voorwerp heeft een leven: het begint in de aarde en eindigt ergens. Jouw taak: volg één voorwerp door zijn levenscyclus, op drie manieren: weggooien, recycleren, hergebruiken.',
+    briefTask: 'Volg één voorwerp, van de aarde en terug.',
     briefSteps: [
-      '<strong>Rangschik</strong> de drie manieren van de beste tot de slechtste voor de planeet, en <strong>kies</strong> de stap die volgens jou de meeste energie verbruikt.',
-      '<strong>Leg</strong> elke kaart op haar stap van de levenscyclus. <strong>Laat</strong> het model <strong>lopen</strong> voor de drie manieren, <strong>schrijf</strong> de totalen van de tellers in je schrift en <strong>teken</strong> de twee grafieken.',
-      '<strong>Beantwoord</strong> de twee vragen met je tellers en je grafieken, en <strong>zeg</strong> of je hypotheses juist waren.'
+      '<strong>Rangschik</strong> de drie manieren. <strong>Kies</strong> een stap.',
+      '<strong>Leg</strong> de kaarten. <strong>Laat</strong> het model <strong>lopen</strong>. <strong>Teken</strong> de grafieken.',
+      '<strong>Beantwoord</strong> de twee vragen. Had je gelijk?'
     ],
 
     // « a, b en c »

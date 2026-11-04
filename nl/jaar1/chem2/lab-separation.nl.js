@@ -24,11 +24,11 @@ LabEngine.addText('separation', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: scheid alle bestanddelen van een mengsel',
-    briefTask: 'Op je labotafel: een bokaal met een mengsel. Jouw taak: neem het waar, plan de volgorde van je scheidingen, en gebruik de hulpmiddelen van het bureau van de leerkracht om alle bestanddelen te scheiden.',
+    briefTask: 'Eén bokaal, één mengsel. Scheid alles!',
     briefSteps: [
-      '<strong>Neem</strong> de bokaal <strong>waar</strong>: zijn fasen en de toestand van elk bestanddeel. <strong>Plan</strong> dan je scheidingen in volgorde, en <strong>zeg</strong> wat er op het einde overblijft.',
-      '<strong>Gebruik</strong> de hulpmiddelen van het bureau op de recipiënten. <strong>Schrijf</strong> voor elke scheiding in je scheidingslogboek wat je eruit haalt, met welk hulpmiddel, en wat er overblijft.',
-      '<strong>Benoem</strong> elke techniek en <strong>zeg</strong> waarom ze werkt, en <strong>zeg</strong> dan of je plan gewerkt heeft.'
+      '<strong>Neem</strong> de bokaal <strong>waar</strong>. <strong>Plan</strong> je scheidingen.',
+      '<strong>Gebruik</strong> de hulpmiddelen. <strong>Vul</strong> je scheidingslogboek <strong>in</strong>.',
+      '<strong>Benoem</strong> elke techniek. Werkte je plan?'
     ],
 
     // « a, b en c »

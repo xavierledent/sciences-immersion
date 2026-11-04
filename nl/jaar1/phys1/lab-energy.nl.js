@@ -20,11 +20,11 @@ LabEngine.addText('energy', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: volg de energie van de slinger tot het licht',
-    briefTask: 'Op de testbank: een dynamo met een slinger, en twee lampen. Jouw taak: geef elke lamp evenveel energie, meet waar de energie naartoe gaat, en teken het.',
+    briefTask: 'Een dynamo met een slinger laat twee lampen branden. Waar gaat de energie naartoe?',
     briefSteps: [
-      '<strong>Vul</strong> de twee zinnen van je hypotheses <strong>aan</strong>.',
-      '<strong>Draai</strong> een lamp <strong>in</strong> en <strong>draai</strong> aan de slinger. <strong>Meet</strong> elk genummerd punt met het juiste meetinstrument en <strong>schrijf</strong> de waarden in de tabel. Hetzelfde met de andere lamp, en <strong>vul</strong> dan het energiestroomdiagram <strong>in</strong>.',
-      '<strong>Beantwoord</strong> de twee vragen met je tabel, <strong>tel</strong> de energie <strong>op</strong>, en <strong>zeg</strong> of je hypotheses juist waren.'
+      '<strong>Vul</strong> je twee hypotheses <strong>aan</strong>.',
+      '<strong>Draai</strong> aan de slinger. <strong>Meet</strong>. <strong>Teken</strong> de energiestroom.',
+      '<strong>Beantwoord</strong> de vragen. Had je gelijk?'
     ],
     briefQuestion: 'Beide lampen krijgen evenveel energie: wat doet elke lamp ermee?',
 

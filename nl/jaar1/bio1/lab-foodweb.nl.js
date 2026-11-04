@@ -18,11 +18,11 @@ LabEngine.addText('foodweb', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: ontdek wat er gebeurt als één soort verdwijnt',
-    briefTask: 'In een Belgisch bos eten levende wezens elkaar op: samen vormen ze een voedselweb. Jouw taak: bouw het model van het bos, laat dan een ziekte toeslaan en volg het bos 10 jaar lang.',
+    briefTask: 'Een ziekte doodt één soort van een Belgisch bos. Wat gebeurt er dan?',
     briefSteps: [
-      '<strong>Kies</strong> hoe de grafieken van enkele soorten volgens jou zullen veranderen, in het voedselweb en in één enkele voedselketen.',
-      '<strong>Leg</strong> elke kaart op haar niveau en <strong>teken</strong> de pijlen van het voedselweb. <strong>Start</strong> de ziekte, in het web en dan in één enkele keten, en <strong>lees</strong> de grafieken <strong>af</strong> in je schrift.',
-      '<strong>Beantwoord</strong> vraag a en b met je grafieken, en <strong>zeg</strong> of je hypotheses juist waren.'
+      '<strong>Raad</strong> hoe de grafieken zullen veranderen.',
+      '<strong>Bouw</strong> het voedselweb. <strong>Start</strong> de ziekte. <strong>Lees</strong> de grafieken <strong>af</strong>.',
+      '<strong>Beantwoord</strong> vraag a en b. Had je gelijk?'
     ],
 
     // « a, b en c »

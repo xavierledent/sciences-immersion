@@ -19,11 +19,11 @@ LabEngine.addText('zones', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: vergelijk twee zones dicht bij elkaar',
-    briefTask: 'Een uitstap: twee zones die maar 50 m uit elkaar liggen. Jouw taak: meet hun abiotische factoren, tel hun levende wezens, en zoek hoe levende wezens op elkaar inwerken.',
+    briefTask: 'Twee zones, maar 50 m uit elkaar.',
     briefSteps: [
-      '<strong>Kies</strong> de zone die volgens jou de warmste, de lichtste en de vochtigste is, en waar je volgens jou de meeste mossen en varens vindt.',
-      '<strong>Meet</strong> elke zone met de thermometer, de luxmeter en de hygrometer, en <strong>voel</strong> aan de bodem. <strong>Benoem</strong> en <strong>tel</strong> de levende wezens van het telkader, <strong>noteer</strong> hun interacties en <strong>teken</strong> dan het histogram.',
-      '<strong>Beantwoord</strong> de vragen met je metingen en je tellingen, en <strong>zeg</strong> of je hypothese juist was.'
+      '<strong>Raad</strong>: welke zone is warmer, lichter, vochtiger?',
+      '<strong>Meet</strong>. <strong>Tel</strong> de levende wezens. <strong>Teken</strong> het histogram.',
+      '<strong>Beantwoord</strong> de vragen. Had je gelijk?'
     ],
     question: 'Hebben abiotische factoren (temperatuur, licht, vochtigheid) een invloed op biotische factoren (de levende wezens)?',
     question2: 'En hebben levende wezens ook een invloed op elkaar?',

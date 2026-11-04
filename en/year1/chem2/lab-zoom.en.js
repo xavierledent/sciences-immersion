@@ -19,11 +19,11 @@ LabEngine.addText('zoom', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Mission: zoom in on what you mix',
-    briefTask: 'Your job: find out what you get each time: a pure substance, a homogeneous mixture or a heterogeneous mixture.',
+    briefTask: 'Mix pure substances. Then zoom in on the particles!',
     briefSteps: [
-      '<strong>Say</strong> for each preparation what you think you will get.',
-      'For each preparation: <strong>pour</strong>, <strong>mix</strong>, and <strong>look</strong> with the naked eye. <strong>Zoom in</strong>, <strong>build</strong> the model of the particles and <strong>compare</strong> it with the reference model. <strong>Fill in</strong> your notebook.',
-      '<strong>Answer</strong> for each preparation, <strong>say</strong> if you were right, and <strong>find</strong> the rule: what do the particles do?'
+      '<strong>Guess</strong>: pure substance or mixture?',
+      '<strong>Pour</strong>, <strong>mix</strong>, <strong>zoom in</strong>. <strong>Build</strong> the model.',
+      '<strong>Answer</strong>. <strong>Find</strong> the rule.'
     ],
 
     // « a, b and c »

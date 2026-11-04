@@ -19,11 +19,11 @@ LabEngine.addText('energy', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Mission: follow the energy from the crank to the light',
-    briefTask: 'On the test bench: a dynamo with a crank, and two lamps. Your job: give each lamp the same energy, measure where the energy goes, and draw it.',
+    briefTask: 'A dynamo with a crank lights two lamps. Where does the energy go?',
     briefSteps: [
-      '<strong>Complete</strong> the two sentences of your hypotheses.',
-      '<strong>Screw in</strong> a lamp and <strong>turn</strong> the crank. <strong>Measure</strong> each numbered point with the right instrument and <strong>write</strong> the values in the table. The same with the other lamp, then <strong>fill in</strong> the energy flow diagram.',
-      '<strong>Answer</strong> the two questions with your table, <strong>add up</strong> the energy, and <strong>say</strong> if your hypotheses were right.'
+      '<strong>Complete</strong> your two hypotheses.',
+      '<strong>Turn</strong> the crank. <strong>Measure</strong>. <strong>Draw</strong> the energy flow.',
+      '<strong>Answer</strong> the questions. Were you right?'
     ],
     briefQuestion: 'Both lamps receive the same energy: what does each lamp do with it?',
 

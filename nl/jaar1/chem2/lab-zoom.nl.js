@@ -21,11 +21,11 @@ LabEngine.addText('zoom', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: zoom in op wat je mengt',
-    briefTask: 'Jouw taak: ontdek wat je telkens krijgt: een zuivere stof, een homogeen mengsel of een heterogeen mengsel.',
+    briefTask: 'Meng zuivere stoffen. Zoom dan in op de deeltjes!',
     briefSteps: [
-      '<strong>Zeg</strong> voor elke bereiding wat je denkt te krijgen.',
-      'Voor elke bereiding: <strong>giet</strong>, <strong>meng</strong>, en <strong>kijk</strong> met het blote oog. <strong>Zoom in</strong>, <strong>bouw</strong> het model van de deeltjes en <strong>vergelijk</strong> het met het referentiemodel. <strong>Vul</strong> je schrift <strong>in</strong>.',
-      '<strong>Antwoord</strong> voor elke bereiding, <strong>zeg</strong> of je gelijk had, en <strong>zoek</strong> de regel: wat doen de deeltjes?'
+      '<strong>Raad</strong>: zuivere stof of mengsel?',
+      '<strong>Giet</strong>, <strong>meng</strong>, <strong>zoom in</strong>. <strong>Bouw</strong> het model.',
+      '<strong>Antwoord</strong>. <strong>Zoek</strong> de regel.'
     ],
 
     // « a, b en c »

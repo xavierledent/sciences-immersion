@@ -19,11 +19,11 @@ LabEngine.addText('zones', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Mission: compare two zones close to each other',
-    briefTask: 'A field trip: two zones only 50 m apart. Your job: measure their abiotic factors, count their living things, and look for how living things interact.',
+    briefTask: 'Two zones, only 50 m apart.',
     briefSteps: [
-      '<strong>Choose</strong> the zone you think is the warmest, the lightest and the most humid, and where you think you will find the most mosses and ferns.',
-      '<strong>Measure</strong> each zone with the thermometer, the luxmeter and the hygrometer, and <strong>feel</strong> the soil. <strong>Name</strong> and <strong>count</strong> the living things of the counting square, <strong>note</strong> their interactions, then <strong>draw</strong> the histogram.',
-      '<strong>Answer</strong> the questions with your measurements and your counts, and <strong>say</strong> if your hypothesis was right.'
+      '<strong>Guess</strong>: which zone is warmer, lighter, wetter?',
+      '<strong>Measure</strong>. <strong>Count</strong> the living things. <strong>Draw</strong> the histogram.',
+      '<strong>Answer</strong> the questions. Were you right?'
     ],
     question: 'Do abiotic factors (temperature, light, humidity) have an influence on biotic factors (the living things)?',
     question2: 'And do living things also have an influence on each other?',

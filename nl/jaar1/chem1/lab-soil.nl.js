@@ -15,11 +15,11 @@ LabEngine.addText('soil', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Opdracht: bekijk twee bodems van dichtbij',
-    briefTask: 'Twee bodemstalen komen van twee verschillende plaatsen. Jouw taak: spreid ze uit, bekijk ze met de loep, en sorteer alles wat je vindt.',
+    briefTask: 'Twee bodemstalen, van twee plaatsen. Wat zit erin?',
     briefSteps: [
-      '<strong>Kies</strong> het staal waarin volgens jou de meeste levende wezens en het meeste organisch materiaal zitten.',
-      '<strong>Trek</strong> de handschoenen <strong>aan</strong>. <strong>Spreid</strong> elk staal uit met de spatel, <strong>bekijk</strong> het met de loep en <strong>sorteer</strong> wat je vindt in de schaaltjes. <strong>Test</strong> of het nat of droog is.',
-      '<strong>Beantwoord</strong> de vraag met wat je in de schaaltjes gevonden hebt, en <strong>zeg</strong> of je hypothese juist was.'
+      '<strong>Raad</strong>: welk staal heeft het meeste leven?',
+      '<strong>Spreid</strong> uit, <strong>bekijk</strong> en <strong>sorteer</strong> wat je vindt.',
+      '<strong>Beantwoord</strong> de vraag. Had je gelijk?'
     ],
     question: 'Waaruit bestaat een [bodemstaal], en verandert de samenstelling [afhankelijk van] de plaats?',
     yourQuestion: 'Jouw onderzoeksvraag',

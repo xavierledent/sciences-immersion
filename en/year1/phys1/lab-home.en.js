@@ -18,12 +18,13 @@ LabEngine.addText('home', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Mission: track down the energy in a house',
-    briefTask: 'Your job: find where energy is stored, where it goes, and which device transforms the most energy every second.',
+    briefTask: 'You are an energy detective in a house.',
     briefSteps: [
       '<strong>Give</strong> your three hypotheses.',
-      'Three missions, in the order you want: <strong>label</strong> the objects that store energy, <strong>film</strong> the rooms with the thermal camera, <strong>read</strong> the electricity meter while you switch the devices on and off. <strong>Write</strong> what you find in your notebook.',
-      '<strong>Answer</strong> the three questions with your notebook, and <strong>say</strong> if your hypotheses were right.'
+      '<strong>Label</strong> objects. <strong>Film</strong> the rooms. <strong>Read</strong> the meter.',
+      '<strong>Answer</strong> the three questions. Were you right?'
     ],
+    briefTools: { camera: 'Thermal camera', meter: 'Electricity meter' },
 
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',

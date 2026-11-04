@@ -896,10 +896,10 @@
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,
-      intro: gloss(`${LABELS.intro} ${LABELS.briefTask}`),
+      intro: gloss(LABELS.briefTask),
       questionTitle: LABELS.yourQuestions,
       questions: [LABELS.questions[1], LABELS.questions[2], LABELS.questions[3]].map(gloss),
-      steps: LABELS.briefSteps.map(text => ({ text: gloss(text) })),
+      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), pics: [null, ['camera', 'meter'].map(k => ({ html: `<img src="${iconSrc(k)}" alt="" draggable="false">`, label: LABELS.briefTools[k] })), null][i] })),
       checks: Object.values(LABELS.criteria)
     }),
     title: LABELS.title,

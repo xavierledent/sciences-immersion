@@ -99,7 +99,7 @@
       briefStart: 'Start',
       briefBack: 'Back to the lab',
       briefAgain: 'You can read this page again at any time: “Mission” button, at the top.',
-      briefCheck: '<strong>Check</strong> your work: you get your corrected lab report. <strong>Look for</strong> your mistakes in it.',
+      briefCheck: '<strong>Check</strong>: read your corrected report. <strong>Find</strong> your mistakes.',
       briefChecks: 'The correction looks at:',
       report: {
         name: 'Name', className: 'Class', date: 'Date',
@@ -141,7 +141,7 @@
       briefStart: 'Starten',
       briefBack: 'Terug naar het labo',
       briefAgain: 'Je kunt deze pagina altijd opnieuw lezen: knop “Opdracht”, bovenaan.',
-      briefCheck: '<strong>Controleer</strong> je werk: je krijgt je verbeterde labverslag. <strong>Zoek</strong> daarin je fouten.',
+      briefCheck: '<strong>Controleer</strong>: lees je verbeterde verslag. <strong>Zoek</strong> je fouten.',
       briefChecks: 'De verbetering kijkt naar:',
       report: {
         name: 'Naam', className: 'Klas', date: 'Datum',
@@ -1342,7 +1342,9 @@
        HTML tout fait, ou questions : une phrase par question (une liste
        numérotée s'il y en a plusieurs). La 4e étape (Check) est la même
        partout : le moteur l'écrit, avec checks (les noms des critères de
-       la correction). Toujours la même page, rien du tirage
+       la correction). pics : les dessins du labo qui illustrent une étape
+       ([{ html, label }] : outils, objets ; jamais un résultat). Phrases
+       courtes : l'élève ne lit pas un long texte. Toujours la même page, rien du tirage
        (les choses, la météo…) : la surprise vient après. Le moteur fait la
        mise en page. */
     function showBriefing() {
@@ -1373,6 +1375,8 @@
         `<ol class="lab-brief-steps">${steps.map((s, i) => `<li class="lab-brief-step">` +
           `<span class="lab-brief-num">${i + 1}</span><div class="lab-brief-step-body">` +
           `<p class="lab-brief-name">${L.steps[i]}</p><p class="lab-brief-text">${s.text}</p>` +
+          (s.pics && s.pics.length ? `<div class="lab-brief-pics">${s.pics.map(p => `<span class="lab-brief-pic">${p.html}` +
+            (p.label ? `<span>${p.label}</span>` : '') + `</span>`).join('')}</div>` : '') +
           (s.art ? `<div class="lab-brief-stepart">${s.art}</div>` : '') + `</div></li>`).join('')}</ol>` +
       `</div>`;
       const label = def.isStarted() || lab.state.checked ? L.briefBack : L.briefStart;

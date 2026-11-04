@@ -15,11 +15,11 @@ LabEngine.addText('soil', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Mission: look closely at two soils',
-    briefTask: 'Two soil samples come from two different places. Your job: spread them out, look at them with the magnifying glass, and sort everything you find.',
+    briefTask: 'Two soil samples, from two places. What is inside?',
     briefSteps: [
-      '<strong>Choose</strong> the sample you think has the most living things and the most organic matter.',
-      '<strong>Put on</strong> the gloves. <strong>Spread</strong> each sample with the spatula, <strong>look</strong> at it with the magnifying glass and <strong>sort</strong> what you find into the cups. <strong>Test</strong> if it is wet or dry.',
-      '<strong>Answer</strong> the question with what you found in the cups, and <strong>say</strong> if your hypothesis was right.'
+      '<strong>Guess</strong>: which sample has the most life?',
+      '<strong>Spread</strong>, <strong>look</strong> and <strong>sort</strong> what you find.',
+      '<strong>Answer</strong> the question. Were you right?'
     ],
     question: 'What is a [soil sample] made of, and does its composition change [depending on] the location?',
     yourQuestion: 'Your question',

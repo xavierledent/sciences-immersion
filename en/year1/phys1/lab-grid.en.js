@@ -19,11 +19,11 @@ LabEngine.addText('grid', {
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
     briefTitle: 'Mission: keep Belgium’s lights on for a whole day',
-    briefTask: 'Your job: find which power plants keep the lights on for a whole day, without a blackout.',
+    briefTask: 'You are in the control room of Belgian electricity. Avoid a blackout!',
     briefSteps: [
       '<strong>Give</strong> your two hypotheses.',
-      '<strong>Fill in</strong> the identity card of each installation. In the control room, <strong>run</strong> the day with wind and sun, then <strong>choose</strong> other power plants and <strong>run</strong> the same day again, until there is no blackout. <strong>Write</strong> what you see in your notebook.',
-      '<strong>Answer</strong> the two questions with your tests, and <strong>say</strong> if your hypotheses were right.'
+      '<strong>Choose</strong> power plants. <strong>Run</strong> the day. <strong>Try</strong> again.',
+      '<strong>Answer</strong> the two questions. Were you right?'
     ],
     briefQuestion: 'And which installations help when wind and sun are not enough?',
 
