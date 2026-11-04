@@ -92,6 +92,11 @@ Pour le labo choisi, une fiche d'une page, dans la conversation (ou un
 document si l'enseignant veut la faire relire) :
 
 1. Titre, question(s), attendus visés.
+   **Page Mission** (accueil du labo, avant Predict, sans être une étape) :
+   son titre propre au labo (la mission, sans dévoiler la réponse :
+   « Mission: follow the water, protect the river »), la situation, la
+   question, un geste par étape (des verbes en gras, jamais un résultat), ce
+   que regarde la correction, un dessin du labo s'il ne dévoile rien.
 2. **Predict** : l'hypothèse, sans texte libre obligatoire, sous une forme
    choisie pour ce labo : phrase à compléter, mais aussi classer, placer sur
    un dessin, esquisser l'allure d'une courbe, parier sur un ordre ou un
@@ -138,7 +143,7 @@ Structure commune (voir les en-têtes de `js/lab-engine.js` et des labos) :
 - `LabEngine.create(def)` en fin de fichier, avec `id`, `title`, `glossary`,
   `reset`, `stepComplete(n)`, `lockReason(n)`, `isStarted`,
   `render: { 1, 2, 3, 4 }`, `report(mark)`, `version`, `save`, `load`,
-  `summary`.
+  `summary`, `briefing`.
 - Outils du cadre (`lab.*`) : `gloss`, `setLock`, `makeDraggable`,
   `setFooter`, `footerInfo`, `goToStep`, `finish`, `openSheet`, `confirm`,
   `fillSpace`, `checkFooter`, `newScene` / `tween` / `wait` (animations
@@ -146,6 +151,17 @@ Structure commune (voir les en-têtes de `js/lab-engine.js` et des labos) :
 
 Règles qui font l'harmonie du site :
 
+- **Page Mission** : `briefing()` rend `{ heading, intro, questionTitle,
+  question, art, steps: [{ text, art }] × 4 }` (voir showBriefing dans
+  lab-engine.js, modèle : `lab-drain.js`). Le moteur la montre à la première
+  ouverture et après Restart ; la pastille « Mission », avant Predict, la
+  rouvre. Toujours la même page : rien du tirage (ni les choses du jour, ni
+  la météo, ni le mélange) ; la surprise vient à Predict. Textes :
+  `briefTitle`, `briefTask`, `briefSteps` (4), `briefChecks`.
+- **Rien ne dévoile la réponse avant l'expérience** : un dessin montré à
+  Predict ou sur la page Mission ne contient pas ce que l'élève doit
+  trouver (station vide dans « Down the drain » : les dépôts n'apparaissent
+  qu'au fil de la journée).
 - **Verrous** : tout ce qui n'est pas encore accessible passe par
   `lab.setLock(el, raison, { missing, key })`, jamais `disabled`, jamais un
   blocage caché dans la simulation (le bouton « Verrous » des enseignants ne
@@ -269,6 +285,13 @@ lexique (`glossary`), propre à chaque langue.
   minuscules) est souligné d'office partout où il apparaît, dessins SVG
   compris, sauf dans les boutons, onglets et zones à toucher (on ne teste
   pas la mémoire de l'élève, et toucher le mot déclencherait l'action).
+  Exceptions, gérées par le moteur : objet à prendre en main (`hold: true`,
+  bulle au-dessus de lui tant qu'il est en main), bouton de choix
+  (`lab-choice`, ou `lab-gloss-btn` sur un autre bouton : bulle au survol,
+  au toucher la première fois, puis en retouchant le choix déjà fait),
+  liste déroulante (`lab-select` : bulle à côté de la liste ouverte la
+  première fois, de nouveau après l'avoir refermée sans choisir ; fermée,
+  rien). Une bulle à chaque geste gênerait.
   `[mot]` ou `[groupe|clé]` pour une forme dont la clé diffère. Pas les mots
   transparents avec le français ; l'expression entière quand le mot à mot
   serait faux. Un mot du lexique qui a aussi un sens courant (« bij ») va

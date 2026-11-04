@@ -218,11 +218,12 @@ scripts chargés.
     au-dessus de l'objet tant qu'il est en main ou glissé (elle ne suit
     pas le fantôme) ; de même un bouton de choix (`lab-choice`, ou tout
     bouton marqué `lab-gloss-btn`) : sa bulle au-dessus de lui, au survol,
-    et au toucher la première fois seulement ; une liste déroulante
-    (`lab-select`) ouverte montre à côté la traduction des mots du lexique
-    de ses choix, la première fois qu'on ouvre une liste de ces choix-là
-    (ensuite rien ; fermée, ni soulignement ni bulle) ; une bulle à chaque
-    geste gênerait ; le moteur s'en charge ;
+    au toucher la première fois, puis en retouchant le choix déjà fait ;
+    une liste déroulante (`lab-select`) ouverte montre à côté la traduction
+    des mots du lexique de ses choix, la première fois qu'on ouvre une
+    liste de ces choix-là, puis de nouveau après l'avoir refermée sans
+    choisir (fermée, ni soulignement ni bulle) ; une bulle à chaque geste
+    gênerait ; le moteur s'en charge ;
     `[mot]` / `[groupe|clé]` pour une forme dont la clé diffère ; pas les
     mots transparents avec le français, l'expression entière quand le mot à
     mot serait faux (`[the wax melts]` → « la cire fond ») ; un mot qui a

@@ -875,9 +875,11 @@
        bulle gênerait. Bouton de choix touché du doigt (ou au clavier) : sa
        bulle reste au-dessus de lui jusqu'au geste suivant, la première fois
        seulement pour ce bouton (même texte). Placée au moment du clic, avant
-       que le labo ne redessine le bouton (phase de capture). À la souris, le
-       survol la montre toujours, comme pour un mot souligné. Pas sur un
-       bouton verrouillé : sa bulle de verrou passe d'abord. */
+       que le labo ne redessine le bouton (phase de capture). Pour la revoir :
+       toucher de nouveau le choix déjà fait (le geste ne change rien au
+       travail). À la souris, le survol la montre toujours, comme pour un mot
+       souligné. Pas sur un bouton verrouillé : sa bulle de verrou passe
+       d'abord. */
     const seenTips = new Set();
     let tapTip = null;
     let lastPointer = 'mouse';
@@ -900,7 +902,8 @@
       const btn = e.target.closest && e.target.closest(GLOSS_BTN);
       if (!btn || lastPointer === 'mouse' || btn.classList.contains('lab-is-locked')) return;
       const key = `btn:${btn.textContent.trim()}`;
-      if (seenTips.has(key)) return;
+      const again = btn.classList.contains('is-selected') || btn.getAttribute('aria-pressed') === 'true';
+      if (seenTips.has(key) && !again) return;
       tapTip = tapTipFor(btn);
       if (!tapTip) return;
       seenTips.add(key);
@@ -913,13 +916,16 @@
     /* Listes déroulantes : rien ne se souligne dans les choix (le navigateur
        les dessine en texte brut). La première fois qu'on ouvre une liste de
        ces choix-là (mêmes textes), la traduction des mots du lexique de ses
-       choix s'affiche à côté ; ensuite, plus de bulle. Liste fermée : ni
+       choix s'affiche à côté ; ensuite, plus de bulle. Pour la revoir :
+       ouvrir la liste et la refermer sans rien choisir (l'élève hésite) ; à
+       l'ouverture suivante, la bulle revient. Liste fermée : ni
        soulignement ni bulle. */
     const optionTexts = sel => Array.from(sel.options).filter(o => o.value !== '').map(o => o.textContent);
+    const listKey = sel => `list:${optionTexts(sel).join('|')}`;
     let selectTip = null;   // { sel, fn } : bulle de la liste ouverte
-    function pinSelect(sel) {
+    let openList = null;    // { sel, key, changed } : la liste ouverte
+    function pinSelect(sel, key) {
       const texts = optionTexts(sel);
-      const key = `list:${texts.join('|')}`;
       if (selectTip) unpinTip(selectTip.fn);
       selectTip = null;
       if (seenTips.has(key)) return;
@@ -933,25 +939,41 @@
     function unpinSelect(sel) {
       if (selectTip && selectTip.sel === sel) { unpinTip(selectTip.fn); selectTip = null; }
     }
+    // Refermée sans choix : la bulle reviendra à la prochaine ouverture.
+    function closeList() {
+      if (!openList) return;
+      if (!openList.changed) seenTips.delete(openList.key);
+      unpinSelect(openList.sel);
+      openList = null;
+    }
+    function openListFor(sel) {
+      closeList();
+      openList = { sel, key: listKey(sel), changed: false };
+      pinSelect(sel, openList.key);
+    }
     const selectOf = e => e.target.closest && e.target.closest('select.lab-select');
     card.addEventListener('pointerdown', e => {
       const sel = selectOf(e);
+      if (openList && openList.sel !== sel) closeList();   // touché ailleurs : la liste s'est refermée
       if (!sel || sel.disabled) return;
-      if (selectTip && selectTip.sel === sel) unpinSelect(sel);   // la liste se referme
-      else pinSelect(sel);
+      if (!openList) openListFor(sel);
+      else if (!e.target.closest('option')) closeList();   // la liste se referme
     });
     card.addEventListener('keydown', e => {
       const sel = selectOf(e);
       if (!sel || !['ArrowDown', 'ArrowUp', ' ', 'Enter', 'F4'].includes(e.key)) return;
-      pinSelect(sel);
+      if (!openList || openList.sel !== sel) openListFor(sel);
     });
     card.addEventListener('change', e => {
       const sel = selectOf(e);
-      if (sel) unpinSelect(sel);
+      if (!sel) return;
+      if (openList && openList.sel === sel) { openList.changed = true; closeList(); }
+      else unpinSelect(sel);
     });
     card.addEventListener('focusout', e => {
       const sel = selectOf(e);
-      if (sel) unpinSelect(sel);
+      if (sel && openList && openList.sel === sel) closeList();
+      else if (sel) unpinSelect(sel);
     });
 
     /* Soulignement d'office (voir autoRe) : à chaque changement du labo, le
