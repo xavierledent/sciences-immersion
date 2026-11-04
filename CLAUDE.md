@@ -216,7 +216,9 @@ scripts chargés.
     un objet à prendre en main (`hold: true`), souligné quand même : le
     prendre montre la traduction de ses mots du lexique dans une bulle,
     au-dessus de l'objet tant qu'il est en main ou glissé (elle ne suit
-    pas le fantôme) ; une liste déroulante
+    pas le fantôme) ; de même un bouton de choix (`lab-choice`, ou tout
+    bouton marqué `lab-gloss-btn`) : sa bulle au-dessus de lui, au survol
+    ou quand on le touche ; une liste déroulante
     (`lab-select`) ouverte montre à côté la traduction des mots du lexique
     de ses choix, fermée elle est soulignée si son choix en contient un ;
     le moteur s'en charge ;

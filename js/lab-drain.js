@@ -292,12 +292,19 @@
 
   /* Le plan de la station, de gauche à droite : la ville, la grille (et sa
      benne), le dessableur-déshuileur, le bassin à bactéries, le décanteur, la
-     rivière ; en bas, le déversoir d'orage. o = { up, rakes, clogged }. */
+     rivière ; en bas, le déversoir d'orage. o = { up, rakes, clogged,
+     water, dep } ; water : jusqu'où l'eau est arrivée (0 : station vide,
+     1 : jusqu'à la rivière) ; dep : ce qui s'est déposé dans les postes (0
+     à 1, au fil de la journée). Station vide avant la journée : rien ne
+     montre d'avance ce que chaque poste retient. */
   function planSVG(o) {
     const up = o.up || null;
+    const water = o.water ?? 1;
     const has = id => ids().includes(id);
-    const flow = (d, cls) => `<path d="${d}" fill="none" stroke="${PIPE}" stroke-width="12" stroke-linecap="round"/>` +
-      `<path d="${d}" fill="none" class="dr-flow ${cls || ''}" stroke-width="5" stroke-linecap="round"/>`;
+    // Ce qui n'apparaît qu'une fois l'eau arrivée (at : seuil de water).
+    const wetAt = at => `data-at="${at}" class="dr-wet ${water >= at ? 'is-wet' : ''}"`;
+    const flow = (d, cls, at) => `<path d="${d}" fill="none" stroke="${PIPE}" stroke-width="12" stroke-linecap="round"/>` +
+      `<path d="${d}" fill="none" class="dr-flow ${cls || ''} dr-wet ${water >= at ? 'is-wet' : ''}" data-at="${at}" stroke-width="5" stroke-linecap="round"/>`;
     const evap = up === 'evaporation';
     const storm = run.weather === 'storm';
     const out = [];
@@ -313,15 +320,15 @@
     }
 
     // Les conduites (eau brute → plus claire)
-    out.push(flow('M60 116 V124 H118', 'is-raw'));
-    out.push(flow('M290 108 H312', 'is-raw dr-after-grid'));
-    out.push(flow('M500 108 H522', 'is-raw dr-after-grid'));
-    out.push(flow('M710 108 H732', 'dr-after-grid'));
-    out.push(flow(up === 'sandFilter' || evap ? 'M940 104 H952' : 'M940 104 H1000', 'is-clean dr-after-grid'));
-    if (up === 'sandFilter') out.push(flow('M990 104 H1004', 'is-clean dr-after-grid'));
+    out.push(flow('M60 116 V124 H118', 'is-raw', 0.01));
+    out.push(flow('M290 108 H312', 'is-raw dr-after-grid', 0.2));
+    out.push(flow('M500 108 H522', 'is-raw dr-after-grid', 0.42));
+    out.push(flow('M710 108 H732', 'dr-after-grid', 0.62));
+    out.push(flow(up === 'sandFilter' || evap ? 'M940 104 H952' : 'M940 104 H1000', 'is-clean dr-after-grid', 0.85));
+    if (up === 'sandFilter') out.push(flow('M990 104 H1004', 'is-clean dr-after-grid', 0.85));
     // Le déversoir d'orage : sous la station, de l'entrée à la rivière
     out.push(`<path d="M100 124 V182 H1040 V150" fill="none" stroke="${PIPE}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>` +
-      `<path d="M100 124 V182 H1040 V150" fill="none" class="dr-flow is-raw dr-flow-storm ${storm && up !== 'stormTank' ? 'is-on' : ''}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`);
+      `<path d="M100 124 V182 H1040 V150" fill="none" class="dr-flow is-raw dr-flow-storm ${storm && up !== 'stormTank' ? 'is-on' : ''} dr-wet ${water >= 0.05 ? 'is-wet' : ''}" data-at="0.05" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`);
     if (up === 'stormTank') {
       out.push(`<g class="dr-stormtank"><rect x="140" y="164" width="120" height="36" rx="4" fill="#e7edf3" stroke="${LINE}" stroke-width="2"/>` +
         `<rect x="143" y="${storm ? 176 : 194}" width="114" height="${storm ? 21 : 3}" fill="${RAW}" opacity="0.6"/></g>`);
@@ -330,34 +337,34 @@
     // La grille et sa benne
     const bars = up === 'fineGrid' ? 9 : 5;
     out.push(`<g class="dr-grid-post"><rect x="118" y="78" width="172" height="62" rx="4" fill="#ffffff" stroke="${LINE}" stroke-width="2.5"/>` +
-      `<rect x="120" y="92" width="168" height="46" fill="${RAW}" opacity="0.55" class="dr-water-before"/>` +
+      `<g ${wetAt(0.06)}><rect x="120" y="92" width="168" height="46" fill="${RAW}" opacity="0.55" class="dr-water-before"/></g>` +
       Array.from({ length: bars }, (_, k) => {
         const x = 196 + k * (24 / (bars - 1));
         return `<path d="M${x} 70 L${x + 10} 140" stroke="#4a5d75" stroke-width="${up === 'fineGrid' ? 1.6 : 2.4}"/>`;
       }).join('') +
       `<path class="dr-pile" d="M176 138 Q180 112 194 106 Q204 112 206 138 Z" fill="#8a7b5c" stroke="${LINE}" stroke-width="1.5"/>` +
       `<path d="M226 64 L234 40 H284 L292 64 Z" fill="#c8d0da" stroke="${LINE}" stroke-width="2" stroke-linejoin="round"/>` +
-      (o.rakes ? `<path d="M234 ${42 + Math.max(0, 14 - o.rakes * 3)} Q259 ${30 - Math.min(o.rakes, 5) * 2} 284 ${42 + Math.max(0, 14 - o.rakes * 3)} Z" fill="#8a7b5c"/>` : '') + `</g>`);
+      (o.rakes ? (k => `<path d="M234 ${42 + Math.max(0, 14 - k * 3)} Q259 ${30 - Math.min(k, 5) * 2} 284 ${42 + Math.max(0, 14 - k * 3)} Z" fill="#8a7b5c"/>`)(Math.min(o.rakes, 2) * 2.5) : '') + `</g>`);
 
     // Le dessableur-déshuileur
     out.push(`<g class="dr-grit-post"><rect x="312" y="78" width="188" height="66" rx="4" fill="#ffffff" stroke="${LINE}" stroke-width="2.5"/>` +
-      `<rect x="314" y="88" width="184" height="54" fill="${RAW}" opacity="0.45"/>` +
-      (has('oil') ? `<rect x="314" y="88" width="184" height="8" fill="#f4d774"/>` : '') +
-      (has('sand') || has('litter') ? `<path d="M314 142 V132 Q360 126 406 132 T498 132 V142 Z" fill="#d9b77a"/>` : '') +
+      `<g ${wetAt(0.25)}><rect x="314" y="88" width="184" height="54" fill="${RAW}" opacity="0.45"/></g>` +
+      (has('oil') ? `<rect x="314" y="88" width="184" height="8" fill="#f4d774" class="dr-dep is-film"/>` : '') +
+      (has('sand') || has('litter') ? `<path d="M314 142 V132 Q360 126 406 132 T498 132 V142 Z" fill="#d9b77a" class="dr-dep"/>` : '') +
       `<path d="M330 84 H482" stroke="#4a5d75" stroke-width="3" stroke-linecap="round"/></g>`);
 
     // Le bassin à bactéries
     out.push(`<g class="dr-bio-post"><rect x="522" y="72" width="188" height="72" rx="4" fill="#ffffff" stroke="${LINE}" stroke-width="2.5"/>` +
-      `<rect x="524" y="84" width="184" height="58" fill="#a7a37a" opacity="0.5"/>` +
+      `<g ${wetAt(0.47)}><rect x="524" y="84" width="184" height="58" fill="#a7a37a" opacity="0.5"/>` +
       [[548, 134], [580, 126], [612, 138], [644, 128], [676, 136], [566, 112], [628, 116], [690, 114]].map(([x, y], k) =>
         `<circle class="dr-bubble" style="animation-delay:${(k * 0.21).toFixed(2)}s" cx="${x}" cy="${y}" r="3.2" fill="#ffffff" stroke="#8ea0b4" stroke-width="1"/>`).join('') +
-      [[540, 100], [600, 96], [660, 104], [700, 92], [570, 92]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.8" fill="#6b6440"/>`).join('') + `</g>`);
+      [[540, 100], [600, 96], [660, 104], [700, 92], [570, 92]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.8" fill="#6b6440"/>`).join('') + `</g></g>`);
 
     // Le décanteur (un deuxième derrière s'il est agrandi)
     const tank = (dx, dy, faint) => `<path d="M${732 + dx} ${76 + dy} H${940 + dx} V${118 + dy} L${872 + dx} ${150 + dy} H${800 + dx} L${732 + dx} ${118 + dy} Z" fill="#ffffff" stroke="${LINE}" stroke-width="${faint ? 1.6 : 2.5}" stroke-linejoin="round" ${faint ? 'opacity="0.6"' : ''}/>`;
     out.push(`<g class="dr-settle-post">${up === 'longTank' ? tank(12, -12, true) : ''}${tank(0, 0, false)}` +
-      `<path d="M736 90 H936 V117 L871 148 H801 L736 117 Z" fill="${CLEAN}" opacity="0.5"/>` +
-      `<path d="M790 140 L801 148 H871 L882 140 Q836 128 790 140 Z" fill="#7a6040"/>` +
+      `<g ${wetAt(0.67)}><path d="M736 90 H936 V117 L871 148 H801 L736 117 Z" fill="${CLEAN}" opacity="0.5"/></g>` +
+      `<path d="M790 140 L801 148 H871 L882 140 Q836 128 790 140 Z" fill="#7a6040" class="dr-dep"/>` +
       `<path d="M746 84 H926" stroke="#4a5d75" stroke-width="3" stroke-linecap="round"/></g>`);
 
     // Le filtre à sable, le bassin d'évaporation
@@ -377,7 +384,22 @@
       (evap ? '' : [[1080, 126], [1150, 112]].map(([x, y]) => `<path d="M${x} ${y} q12 -8 24 0 q-12 8 -24 0 Z M${x + 24} ${y} l8 -6 v12 Z" fill="#5d7f9e"/>`).join('')) + `</g>`);
 
     const cls = ['dr-plan-svg', o.flowing ? 'is-flowing' : '', o.clogged ? 'is-clogged' : ''].join(' ');
-    return `<svg class="${cls}" viewBox="0 0 1200 210" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">${out.join('')}</svg>`;
+    return `<svg class="${cls}" style="--dep:${(o.dep ?? 1).toFixed(3)}" viewBox="0 0 1200 210" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">${out.join('')}</svg>`;
+  }
+
+  /* La journée remplit la station : l'eau avance de poste en poste pendant
+     le début de la journée (FRONT), les dépôts grandissent jusqu'au soir.
+     Les essais d'améliorations rejouent une journée finie. */
+  const FRONT = 0.2;
+  function stationFill() {
+    const d = state.day;
+    if (state.view === 'tests' || d.done) return { water: 1, dep: 1 };
+    return { water: Math.min(1, d.t / FRONT) + (dayRunning ? 0.01 : 0), dep: d.t };
+  }
+  function setStationFill(svg) {
+    const { water, dep } = stationFill();
+    svg.style.setProperty('--dep', dep.toFixed(3));
+    svg.querySelectorAll('[data-at]').forEach(el => el.classList.toggle('is-wet', water >= Number(el.dataset.at)));
   }
 
   // Le gobelet de prélèvement (viewBox 40 × 48) ; fill : teinte de l'eau.
@@ -462,7 +484,7 @@
       `<div class="dr-question-card"><div><p class="dr-kicker">${LABELS.yourQuestion}</p>${questionsHTML()}</div>` +
         `<div class="dr-today"><p class="dr-kicker">${LABELS.todayTitle}</p><p class="dr-today-line">${todayLine()}</p>` +
         `<p class="dr-intro">${gloss(LABELS.intro)}</p></div></div>` +
-      `<div class="dr-plan">${planSVG({})}${zonesHTML()}</div>` +
+      `<div class="dr-plan">${planSVG({ water: 0, dep: 0 })}${zonesHTML()}</div>` +
       `<div class="dr-drops">${PLACES.map(p => `<div class="dr-drop ${show && tray.length ? 'lab-is-missing' : ''}" data-drop="${p}" style="${zoneStyle(p)}">` +
         ids().filter(id => h.place[id] === p).map(tokenHTML).join('') + `</div>`).join('')}</div>` +
       `<div class="dr-predict-bottom">` +
@@ -522,9 +544,11 @@
   /* ===== Étape 2 : la station =====
      En haut, le plan. En bas, deux vues : la journée (à gauche la journée et
      le gobelet, au milieu le prélèvement, à droite le journal) ou les
-     améliorations (à gauche les essais, à droite le tableau des résultats). */
+     améliorations (un tableau : une ligne par amélioration, son bouton Test
+     puis ses résultats). */
   const DAY_SECONDS = 16;
-  const clogTimes = () => (ids().includes('wipes') ? [0.16, 0.34, 0.52, 0.7, 0.86] : [0.24, 0.55, 0.82]);
+  // Deux bouchons avec les lingettes, un seul sans : la différence suffit.
+  const clogTimes = () => (ids().includes('wipes') ? [0.32, 0.66] : [0.5]);
   const isClogged = () => !state.day.done && state.day.t >= (clogTimes()[state.day.rakes] ?? 2);
   const clockText = t => {
     const minutes = Math.round(t * 24 * 60);
@@ -557,8 +581,9 @@
       `<ul class="dr-daylist">${run.items.map(({ id, amt }) => `<li>${itemSVG(id)}<span>${gloss(nameOf(id))}<small>${LABELS.amounts[amt]}</small></span></li>`).join('')}</ul>` +
       `<div class="dr-clockrow"><span class="dr-clock" aria-live="off">${clockText(d.done ? 1 : d.t)}</span>` +
         `<span class="dr-daybar"><span class="dr-dayfill" style="width:${((d.done ? 1 : d.t) * 100).toFixed(1)}%"></span></span></div>` +
+      // Un seul bouton à la fois : la vanne, puis la racle pendant la journée.
       (d.done ? `<p class="dr-daydone">${LABELS.dayDone}</p>`
-        : (dayRunning ? '' : valve) + `<button type="button" class="lab-btn dr-act dr-rake ${isClogged() ? 'is-urgent' : ''}" data-rake>${LABELS.rakeBtn}</button>`) +
+        : dayRunning ? `<button type="button" class="lab-btn dr-act dr-rake ${isClogged() ? 'is-urgent' : ''}" data-rake>${LABELS.rakeBtn}</button>` : valve) +
       `<button type="button" class="dr-cup" data-cup>${cupSVG(null)}<span>${LABELS.cupBtn}</span></button>` +
       `</section>`;
   }
@@ -611,34 +636,48 @@
     const rowsData = [null].concat(state.tests);
     const max = Math.max(1, ...rowsData.map(u => pollutionOf(u)));
     const shown = state.shown;
+    /* Une ligne par amélioration, toujours à la même place (la station
+       d'aujourd'hui, puis les six) : le tableau ne grandit pas avec les
+       essais. Pas encore testée : son bouton Test à la place des résultats ;
+       testée : ses résultats, et son prix à payer sous la description. */
     const row = u => {
+      const tested = !u || state.tests.includes(u);
+      const name = u ? LABELS.upgrades[u].name : LABELS.baseRow;
+      const head = tested
+        ? `<button type="button" class="dr-showbtn lab-gloss-btn ${shown === u ? 'is-selected' : ''}" data-show-test="${u || 'base'}" data-lab-look aria-pressed="${shown === u}">${name}</button>`
+        : `<strong class="dr-upname">${gloss(name)}</strong>`;
+      const note = !u ? (run.weather === 'storm' ? LABELS.baseStormNote : '') : tested ? LABELS.upgrades[u].note : '';
+      const text = `${u ? ` <span class="dr-what">${gloss(LABELS.upgrades[u].what)}</span>` : ''}${note ? ` <span class="dr-note">${gloss(note)}</span>` : ''}`;
+      if (!tested) {
+        return `<tr class="is-untested"><th scope="row">${head}${text}</th>` +
+          `<td><button type="button" class="lab-btn lab-btn-primary dr-testbtn" data-test="${u}">${LABELS.testBtn}</button></td><td></td></tr>`;
+      }
       const p = pollutionOf(u);
       const over = u && UP[u].cost > run.budget;
       const levels = ids().filter(id => riverLevel(id, u) !== 'none')
         .map(id => `<span class="dr-lvl is-${riverLevel(id, u)}">${LABELS.items[id].short}: ${LABELS.levels[riverLevel(id, u)]}</span>`).join('');
       return `<tr class="${u === justTested ? 'is-new' : ''} ${shown === u ? 'is-shown' : ''}">` +
-        `<th scope="row"><button type="button" class="dr-showbtn ${shown === u ? 'is-selected' : ''}" data-show-test="${u || 'base'}" data-lab-look aria-pressed="${shown === u}">${u ? LABELS.upgrades[u].name : LABELS.baseRow}</button>` +
-          `<span class="dr-note">${u ? gloss(LABELS.upgrades[u].note) : (run.weather === 'storm' ? gloss(LABELS.baseStormNote) : '')}</span></th>` +
+        `<th scope="row">${head}${text}</th>` +
         `<td><span class="dr-bar"><span style="width:${(p / max * 100).toFixed(1)}%"></span></span><strong class="dr-pnum">${p}</strong>` +
           `<span class="dr-lvls">${levels || `<span class="dr-lvl">${LABELS.riverClean}</span>`}</span></td>` +
-        `<td class="${over ? 'dr-over' : ''}">${u ? LABELS.money(UP[u].cost) : '—'}${over ? `<small>${LABELS.overBudget}</small>` : ''}</td>` +
-        `<td>${u ? LABELS.energy(LABELS.num(UP[u].energy)) : '—'}</td></tr>`;
+        `<td class="dr-costcell">${u ? `<strong class="${over ? 'dr-over' : ''}">${LABELS.money(UP[u].cost)}</strong>` +
+          (over ? `<small class="dr-over">${LABELS.overBudget}</small>` : '') +
+          `<small>${LABELS.energy(LABELS.num(UP[u].energy))}</small>` : '—'}</td></tr>`;
     };
-    const cards = UPGRADES.map(u => `<div class="dr-upcard ${state.tests.includes(u) ? 'is-tested' : ''}"><div class="dr-upcard-text"><strong>${LABELS.upgrades[u].name}</strong>` +
-      `<small>${gloss(LABELS.upgrades[u].what)}</small></div>` +
-      `<button type="button" class="lab-btn ${state.tests.includes(u) ? 'lab-btn-ghost' : 'lab-btn-primary'} dr-testbtn" data-test="${u}">${state.tests.includes(u) ? LABELS.testedBtn : LABELS.testBtn}</button></div>`).join('');
-    return `<section class="dr-ups"><p class="dr-kicker">${LABELS.upsTitle}</p><p class="dr-hint">${gloss(LABELS.budgetLine(LABELS.money(run.budget)))}</p>` +
-      `<div class="dr-upcards">${cards}</div><p class="dr-loghint">${gloss(LABELS.pollutionHint)}</p></section>` +
-      `<section class="dr-results"><table class="lab-table dr-restable"><caption>${LABELS.resultsCaption}</caption>` +
-      `<thead><tr><th scope="col">${LABELS.upHead}</th><th scope="col">${LABELS.pollutionHead}</th><th scope="col">${LABELS.costHead}</th><th scope="col">${LABELS.energyHead}</th></tr></thead>` +
-      `<tbody>${rowsData.map(row).join('')}</tbody></table></section>`;
+    return `<section class="dr-tests"><div class="dr-tests-head"><p class="dr-hint">${gloss(LABELS.budgetLine(LABELS.money(run.budget)))}</p>` +
+      `<p class="dr-loghint">${gloss(LABELS.pollutionHint)}</p></div>` +
+      `<table class="lab-table dr-restable"><caption class="visually-hidden">${LABELS.upsTitle}</caption>` +
+      `<colgroup><col class="dr-col-up"><col class="dr-col-poll"><col class="dr-col-cost"></colgroup>` +
+      `<thead><tr><th scope="col">${LABELS.upHead}</th><th scope="col">${LABELS.pollutionHead}</th>` +
+      `<th scope="col">${LABELS.costHead}<small>${LABELS.energyHead}</small></th></tr></thead>` +
+      `<tbody>${[null].concat(UPGRADES).map(row).join('')}</tbody></table></section>`;
   }
 
   function renderExperiment() {
     const tests = state.view === 'tests';
     const d = state.day;
     lab.body.innerHTML = `<div class="dr-run ${tests ? 'is-tests' : ''}">` +
-      `<div class="dr-plan">${planSVG({ up: tests ? state.shown : null, rakes: d.rakes, flowing: dayRunning || !!justTested, clogged: isClogged() })}${zonesHTML()}</div>` +
+      `<div class="dr-plan">${planSVG(Object.assign({ up: tests ? state.shown : null, rakes: d.rakes, flowing: dayRunning || !!justTested, clogged: isClogged() }, stationFill()))}${zonesHTML()}</div>` +
       `<div class="dr-viewbar"><div class="dr-views">` +
         ['station', 'tests'].map(v => `<button type="button" class="dr-view ${state.view === v ? 'is-selected' : ''}" data-view="${v}" data-lab-look aria-pressed="${state.view === v}">${LABELS.views[v]}</button>`).join('') +
       `</div><p class="dr-caption lab-caption" aria-live="polite">${gloss(captionFor())}</p></div>` +
@@ -669,7 +708,7 @@
     });
     const rake = $('[data-rake]');
     if (rake) {
-      lab.setLock(rake, d.t === 0 && !dayRunning ? LABELS.lockRakeStart : isClogged() ? null : LABELS.lockRake, { icon: false });
+      lab.setLock(rake, isClogged() ? null : LABELS.lockRake, { icon: false });
       rake.addEventListener('click', () => {
         d.rakes++;
         renderExperiment();
@@ -742,7 +781,6 @@
   function bindTests() {
     $$('[data-test]').forEach(btn => {
       const u = btn.dataset.test;
-      if (state.tests.includes(u)) lab.setLock(btn, LABELS.lockTested, { icon: false });
       btn.addEventListener('click', () => {
         state.tests.push(u);
         state.shown = u;
@@ -786,6 +824,8 @@
       if (clock) clock.textContent = clockText(d.t);
       const fill = $('.dr-dayfill');
       if (fill) fill.style.width = `${(d.t * 100).toFixed(1)}%`;
+      const plan = $('.dr-plan-svg');
+      if (plan) setStationFill(plan);
       if (isClogged() !== clogged) {
         clogged = isClogged();
         const svg = $('.dr-plan-svg');
@@ -851,7 +891,8 @@
     const miss = ok => (show && !ok ? 'lab-is-missing' : '');
     const verdict = (key, opts, rowLabel) => `<div class="dr-verdict"><span class="dr-verdict-text">${rowLabel}</span>` +
       opts.map(x => `<button type="button" class="lab-choice dr-chip is-small ${c[key] === x ? 'is-selected' : ''}" data-v="${key}" data-val="${x}" aria-pressed="${c[key] === x}">${LABELS.verdicts[x]}</button>`).join('') + `</div>`;
-    const placeRow = id => `<p class="dr-concl-line">${LABELS.placeAnswer(gloss(nameOf(id)),
+    // L'icône et le nom court : les listes de toutes les lignes s'alignent (alignNames).
+    const placeRow = id => `<p class="dr-concl-line">${LABELS.placeAnswer(`<span class="dr-cname">${itemSVG(id)}<span>${gloss(shortOf(id))}</span></span>`,
       selectHTML(`data-cplace="${id}"`, c.place[id], PLACES, x => LABELS.placesIn[x], LABELS.placeHead, show),
       selectHTML(`data-creason="${id}"`, c.reason[id], REASONS, x => LABELS.reasons[x], LABELS.reasonAria, show))}</p>`;
 
@@ -887,6 +928,7 @@
     bindSel('select[data-cprice]', (el, v) => { c.price = v; });
     bindSel('select[data-cnone]', (el, v) => { c.noneWhy = v; });
     $$('[data-v]').forEach(btn => btn.addEventListener('click', () => { c[btn.dataset.v] = btn.dataset.val; afterConcl(); }));
+    alignNames();
 
     lab.setFooter(`<button type="button" class="lab-btn lab-btn-ghost" data-back>← ${LABELS.backToLab}</button>` +
       lab.footerInfo('') +
@@ -898,6 +940,19 @@
     if (info && show && !ready) { info.textContent = lab.L.missingConclusions; info.classList.add('is-warning'); }
     lab.setLock($('[data-check]'), ready ? null : lab.L.missingConclusions, { missing: true, key: 'check' });
     lab.renderStepper();
+  }
+
+  /* Question 1 : les noms ont la largeur du plus long (en em : le zoom du
+     grand écran ne fausse rien), les listes tombent l'une sous l'autre. */
+  function alignNames() {
+    const names = $$('.dr-cname');
+    if (!names.length || !names[0].offsetParent) return;
+    names.forEach(n => { n.style.minWidth = ''; });
+    const widest = Math.max(...names.map(n => n.offsetWidth));
+    names[0].style.width = '10em';
+    const em = names[0].offsetWidth / 10;
+    names[0].style.width = '';
+    if (em > 0) names.forEach(n => { n.style.minWidth = `${(widest / em + 0.05).toFixed(2)}em`; });
   }
 
   function afterConcl() {
@@ -1130,11 +1185,11 @@
      que regarde la correction (les critères du Check). */
   function briefing() {
     return {
-      title: LABELS.briefTitle,
+      heading: LABELS.briefTitle,
       intro: `${gloss(LABELS.intro)} ${gloss(LABELS.briefTask)}`,
       questionTitle: LABELS.yourQuestion,
       question: questionsHTML(),
-      art: `<div class="dr-plan dr-brief-plan">${planSVG({})}${zonesHTML()}</div>`,
+      art: `<div class="dr-plan dr-brief-plan">${planSVG({ water: 0, dep: 0 })}${zonesHTML()}</div>`,
       steps: LABELS.briefSteps.map((text, i) => ({
         text: gloss(text),
         art: i === 0 ? ids().map(id => `<span class="dr-brief-item">${itemSVG(id)}<span>${shortOf(id)}</span></span>`).join('')

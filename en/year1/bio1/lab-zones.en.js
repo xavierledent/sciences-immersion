@@ -36,7 +36,7 @@ LabEngine.addText('zones', {
       warmer: 'the warmer zone is',
       brighter: 'the brighter zone is',
       humid: 'the more humid zone is',
-      moss: 'more [mosses] and [ferns] in',
+      moss: 'more mosses and [ferns] in',
       bloom: 'more [wildflowers] and [flying insects] in',
       influence: 'abiotic factors have an influence on living things:',
       each: 'living things have an influence on each other:'
@@ -89,7 +89,7 @@ LabEngine.addText('zones', {
     // La loupe et la fiche des interactions (dans le carré)
     tasksTitle: 'In each counting square:',
     tasks: ['Identify every species and count it.', 'Note every interaction you find between living things.'],
-    interHere: 'Look! One of them [interacts] with another living thing.',
+    interHere: 'Look! One of them interacts with another living thing.',
     lookCloser: 'Look closer',
     notedHere: 'You have noted the interaction of this living thing.',
     openNoted: 'See my interaction',
@@ -141,13 +141,13 @@ LabEngine.addText('zones', {
         hygro: Z => `The [hygrometer] measures the humidity of the air in zone ${Z}. Write the value in your data sheet.`
       },
       felt: Z => `Now note in your data sheet if the soil of zone ${Z} is dry, moist or wet.`,
-      quadrat: 'Tap a [living thing] to find out what it is. Then count all the [circled] ones and write the number in your count sheet. Some living things also [interact]: when one lights up, look closer.',
+      quadrat: 'Tap a [living thing] to find out what it is. Then count all the [circled] ones and write the number in your count sheet. Some living things also interact: when one lights up, look closer.',
       identify: 'Which name is right? Look closely at the living thing.',
       wrongName: 'Not this one: read the hint and look again.',
       selected: name => `[${name.charAt(0).toUpperCase() + name.slice(1)}|${name}]: count all the [circled] ones and write the number in your count sheet.`,
       quadratOpen: Z => `Zone ${Z}: tap the [counting square] to open it again.`,
-      interHere: 'Look! One of them [interacts] with another living thing. Tap “Look closer”.',
-      found: 'Two living things [interact] here! Note this interaction in your sheet.',
+      interHere: 'Look! One of them interacts with another living thing. Tap “Look closer”.',
+      found: 'Two living things interact here! Note this interaction in your sheet.',
       foundNoted: 'This interaction is in your sheet: +, − or 0 for each living thing, then the relation.',
       noted: 'Noted! Now give +, − or 0 to each living thing, and choose the relation.',
       fieldDone: 'Your data sheet and your count sheet are complete. Now build your histogram.',
@@ -186,7 +186,7 @@ LabEngine.addText('zones', {
       warmer: 'Warmer',
       brighter: 'Brighter',
       humid: 'More humid',
-      moss: 'More [mosses] and [ferns]',
+      moss: 'More mosses and [ferns]',
       bloom: 'More [wildflowers] and [flying insects]',
       influence: 'Abiotic factors have an influence on living things:',
       each: 'Living things have an influence on each other:'
@@ -339,10 +339,10 @@ LabEngine.addText('zones', {
     brighter: 'Under the trees, the leaves stop most of the sunlight: much less light reaches the ground.',
     warmer: 'Where less sunlight reaches the ground, the air and the soil warm up less: it is cooler.',
     humid: 'Where it is cool and shady, less water evaporates: the air and the soil stay humid. Near a pond, the water that evaporates makes the air very humid.',
-    moss: '[Mosses] and [ferns] need a lot of water: mosses have no roots and [dry out] quickly, and ferns need water to reproduce. They live where it is humid, often in the shade.',
+    moss: 'Mosses and [ferns] need a lot of water: mosses have no roots and [dry out] quickly, and ferns need water to reproduce. They live where it is humid, often in the shade.',
     bloom: '[Wildflowers] need a lot of light to grow and to flower. Bees and butterflies [feed on] their nectar, and they like warmth.',
-    influence: 'Your two zones are only 50 m apart, but their abiotic factors (temperature, light, humidity) are very different, and so are their living things: each species lives where the conditions [suit it]. [Mosses] and [ferns] need humidity above all: without water, they [dry out]. So abiotic factors have an influence on biotic factors.',
-    each: 'In the counting squares, you found living things that [interact]: one eats another, one lives on another and harms it, two help each other, two share the same light and water… So living things have an influence on each other: they are biotic factors.'
+    influence: 'Your two zones are only 50 m apart, but their abiotic factors (temperature, light, humidity) are very different, and so are their living things: each species lives where the conditions [suit it]. Mosses and [ferns] need humidity above all: without water, they [dry out]. So abiotic factors have an influence on biotic factors.',
+    each: 'In the counting squares, you found living things that interact: one eats another, one lives on another and harms it, two help each other, two share the same light and water… So living things have an influence on each other: they are biotic factors.'
   },
 
   // said, real : valeurs déjà écrites avec leur unité (said vaut null si rien

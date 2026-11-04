@@ -65,13 +65,13 @@ LabEngine.addText('soil', {
     // thing : l'élément avec son article défini (items.<type>.the).
     caption: {
       start: 'Trek eerst je [handschoenen] aan: je gaat echte aarde aanraken.',
-      gloves: 'Je [handschoenen] zijn aan. Neem nu de [spatel] om elk staal in zijn [bak] [uit te spreiden].',
+      gloves: 'Je [handschoenen] zijn aan. Neem nu de spatel om elk staal in zijn [bak] [uit te spreiden].',
       glovesOn: 'Je [handschoenen] zijn aan.',
-      spatula: 'Tik op een [bak] (of sleep de [spatel] erop) om het staal [uit te spreiden].',
+      spatula: 'Tik op een [bak] (of sleep de spatel erop) om het staal [uit te spreiden].',
       magnifier: 'Tik op een [bak] (of sleep de [loep] erop) om heel kleine dingen te zoeken.',
       touch: 'Tik op een [bak] (of sleep de hand erop) om te voelen of de aarde nat of droog is.',
       noTool: 'Tik op iets in een [bak] om het [van dichtbij te bekijken].',
-      heap: S => `Dit is nog een [hoop]. Je moet staal ${S} eerst [uitspreiden] met de [spatel].`,
+      heap: S => `Dit is nog een [hoop]. Je moet staal ${S} eerst [uitspreiden] met de spatel.`,
       spread: S => `Staal ${S} is [uitgespreid]. Bekijk het nu [van dichtbij] met de [loep].`,
       already: S => `Staal ${S} is al [uitgespreid].`,
       scanning: S => `De [loep] gaat over staal ${S}…`,

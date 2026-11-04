@@ -325,8 +325,9 @@
         `<div class="lab-header">` +
           `<button type="button" class="modal-fullscreen" data-lab-fullscreen aria-label="${L.fullscreen}">⛶</button>` +
           `<h2 id="lab-title-${def.id}" class="lab-title">${def.title}</h2>` +
-          `<div class="lab-header-tools"><ol class="lab-stepper"></ol>` +
+          `<div class="lab-header-tools">` +
           `<button type="button" class="lab-restart lab-brief-btn" data-lab-brief aria-pressed="false" hidden><span>${L.briefBtn}</span></button>` +
+          `<ol class="lab-stepper"></ol>` +
           `<button type="button" class="lab-restart lab-unlock" data-lab-unlock aria-pressed="false" title="${TEACHER.unlockTitle}" hidden>${UNLOCK_SVG}<span>${TEACHER.unlock}</span></button>` +
           `<button type="button" class="lab-restart" data-lab-restart title="${L.restart}" aria-label="${L.restart}">${RESTART_SVG}<span>${L.restartShort}</span></button></div>` +
           `<button type="button" class="modal-close" data-lab-close aria-label="${L.close}">×</button>` +
@@ -858,7 +859,7 @@
       if (!word) return;
       // Mot d'un objet à prendre en main : la bulle de l'objet, à la place
       // où elle sera quand il sera en main (elle ne saute pas au clic).
-      const obj = word.classList.contains('lab-gloss-hold') && word.closest('.lab-holdable');
+      const obj = word.classList.contains('lab-gloss-hold') && word.closest(`.lab-holdable, ${GLOSS_BTN}`);
       const objTip = obj && holdTipFor(obj);
       if (objTip) objTip();
       else showGloss(word);
@@ -870,6 +871,35 @@
     card.addEventListener('focusin', e => {
       if (e.target.classList.contains('lab-gloss')) showGloss(e.target);
     });
+
+    /* Bouton de choix touché du doigt (ou au clavier) : sa bulle reste
+       au-dessus de lui jusqu'au geste suivant. Placée au moment du clic,
+       avant que le labo ne redessine le bouton (phase de capture). À la
+       souris, le survol suffit. Pas sur un bouton verrouillé : sa bulle de
+       verrou passe d'abord. */
+    let tapTip = null;
+    let lastPointer = 'mouse';
+    function tapTipFor(btn) {
+      const pairs = glossPairs([btn.textContent]);
+      if (!pairs.length) return null;
+      const r = btn.getBoundingClientRect();
+      const at = { getBoundingClientRect: () => r };
+      return () => showPairs(pairs, at);
+    }
+    card.addEventListener('pointerdown', e => {
+      lastPointer = e.pointerType || 'mouse';
+      if (tapTip) { unpinTip(tapTip); tapTip = null; }
+    }, true);
+    card.addEventListener('keydown', () => {
+      lastPointer = 'key';
+      if (tapTip) { unpinTip(tapTip); tapTip = null; }
+    }, true);
+    card.addEventListener('click', e => {
+      const btn = e.target.closest && e.target.closest(GLOSS_BTN);
+      if (!btn || lastPointer === 'mouse' || btn.classList.contains('lab-is-locked')) return;
+      tapTip = tapTipFor(btn);
+      if (tapTip) pinTip(tapTip);
+    }, true);
     card.addEventListener('focusout', e => {
       if (e.target.classList.contains('lab-gloss')) restoreTip();
     });
@@ -947,6 +977,11 @@
     const NO_GLOSS = 'button, [role="button"], [role="tab"], a, input, textarea, select, option, label, ' +
       'title, desc, style, script, .lab-header, .lab-reportview, .lab-gloss-tip, .lab-lock-tip, [data-no-gloss]';
     const NO_AUTO = `${NO_GLOSS}, .lab-gloss`;
+    /* Bouton de choix (lab-choice : une hypothèse, une option) ou bouton
+       marqué lab-gloss-btn : souligné quand même, comme un objet à prendre
+       en main ; sa bulle (traduction de ses mots du lexique) au-dessus du
+       bouton, au survol ou quand on le touche (voir tapTipFor). */
+    const GLOSS_BTN = '.lab-choice, .lab-gloss-btn';
 
     // hold : dans un objet à prendre en main (voir glossHoldable).
     function glossTextNode(node, hold) {
@@ -986,7 +1021,12 @@
         if (w.classList.contains('lab-gloss-hold')) return;
         if (w.parentElement && w.parentElement.closest(NO_GLOSS)) w.replaceWith(document.createTextNode(w.textContent));
       });
-      if (!autoRe || root.closest(NO_AUTO)) return;
+      if (!autoRe) return;
+      const btns = [...root.querySelectorAll(GLOSS_BTN)];
+      const host = root.closest(GLOSS_BTN);
+      if (host) btns.push(host);
+      btns.forEach(glossHoldable);
+      if (root.closest(NO_AUTO)) return;
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
         acceptNode: n => (n.parentElement && !n.parentElement.closest(NO_AUTO) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT)
       });
@@ -1282,9 +1322,10 @@
        que regarde la correction. Montrée quand le labo n'est pas commencé
        (première ouverture, nouveau tirage) ; le bouton « Mission » de
        l'en-tête la rouvre à tout moment, sans rien changer au travail.
-       def.briefing() → { title, intro, questionTitle, question, art,
-       steps: [{ text, art }] × 4 } : HTML des textes du labo ; art (dessin
-       du labo) facultatif. Le moteur fait la mise en page. */
+       def.briefing() → { heading, title, intro, questionTitle, question,
+       art, steps: [{ text, art }] × 4 } : HTML des textes du labo ; heading
+       (titre de la page), title (petit titre au-dessus de intro) et art
+       (dessin du labo) facultatifs. Le moteur fait la mise en page. */
     const briefBtn = card.querySelector('[data-lab-brief]');
     if (def.briefing) briefBtn.hidden = false;
 
@@ -1301,7 +1342,8 @@
       briefBtn.setAttribute('aria-pressed', 'true');
       bodyEl.innerHTML = `<div class="lab-brief">` +
         `<div class="lab-brief-top">` +
-          `<div><p class="lab-brief-kicker">${b.title}</p><p class="lab-brief-intro">${b.intro}</p></div>` +
+          (b.heading ? `<h3 class="lab-brief-heading">${b.heading}</h3>` : '') +
+          `<div>${b.title ? `<p class="lab-brief-kicker">${b.title}</p>` : ''}<p class="lab-brief-intro">${b.intro}</p></div>` +
           `<div><p class="lab-brief-kicker">${b.questionTitle}</p>${b.question}</div>` +
         `</div>` +
         (b.art ? `<div class="lab-brief-art">${b.art}</div>` : '') +

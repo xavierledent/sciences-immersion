@@ -33,7 +33,7 @@ LabEngine.addText('drain', {
     weather: { dry: 'Droge dag', rain: 'Regenachtige dag', storm: 'Onweer' },
 
     // Page d'accueil (mission) : des gestes, jamais des résultats.
-    briefTitle: 'Je opdracht',
+    briefTitle: 'Opdracht: volg het water, bescherm de rivier',
     briefTask: 'Vandaag spoelt het stadje vier dingen door het putje. Jouw taak: volg ze door het station, en zoek hoe je de rivier het best beschermt.',
     briefSteps: [
       'Bekijk de vier dingen van vandaag. <strong>Zet</strong> elk ding waar het volgens jou terechtkomt, en <strong>kies</strong> de verbetering die volgens jou de rivier het best beschermt.',
@@ -130,7 +130,6 @@ LabEngine.addText('drain', {
     upsTitle: 'Verbeteringen om te testen',
     budgetLine: budget => `Budget van het stadje: ${budget} per jaar, voor één verbetering.`,
     testBtn: 'Testen',
-    testedBtn: 'Getest',
     resultsCaption: 'Resultaten van de tests',
     upHead: 'Verbetering',
     pollutionHead: 'Vervuiling die de rivier bereikt',
@@ -143,8 +142,6 @@ LabEngine.addText('drain', {
     baseStormNote: 'Een deel van het water ging via de overstort.',
 
     lockTests: 'Vul eerst je logboek van de operator in, met de resultaten van het labo.',
-    lockTested: 'Al getest: bekijk de rij in de tabel.',
-    lockRakeStart: 'Open eerst de klep.',
     lockRake: 'Het rooster is niet verstopt: nu valt er niets te harken.',
     lockCupDay: 'Laat eerst de dag voorbijgaan: open de klep.',
     lockSampleFirst: place => `Neem hier eerst een staal: ${place}.`,
@@ -234,6 +231,8 @@ LabEngine.addText('drain', {
   },
 
   glossary: {
+    terechtkomt: 'finit', terechtkomen: 'finissent', terecht: 'finit (komt … terecht)', olie: 'huile', zand: 'sable',
+    'per jaar': 'par an', beschermt: 'protège', beschermen: 'protéger', 'niet verplicht': 'facultatif',
     waterzuiveringsstation: 'station d’épuration', 'door het putje': 'à l’égout', putje: 'égout', gootstenen: 'éviers', 
     rooster: 'grille', staven: 'barreaux', 'zand- en vetvanger': 'dessableur-déshuileur', vet: 'graisse',
     bacteriëntank: 'bassin à bactéries', bezinktank: 'décanteur', slib: 'boues', rivierwater: 'eau de la rivière',

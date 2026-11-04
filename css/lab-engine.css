@@ -923,6 +923,16 @@ tspan.lab-gloss:focus-visible {
   text-align: left;
 }
 
+/* Le titre de la page, sur toute la largeur du bandeau. */
+.lab-brief-heading {
+  grid-column: 1 / -1;
+  margin: 0 0 -10px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--color-current-darkest);
+}
+
 .lab-brief-kicker {
   margin: 0 0 4px;
   font-size: 0.72rem;

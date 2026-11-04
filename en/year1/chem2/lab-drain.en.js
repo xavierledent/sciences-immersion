@@ -34,7 +34,7 @@ LabEngine.addText('drain', {
     weather: { dry: 'Dry day', rain: 'Rainy day', storm: 'Storm' },
 
     // Page d'accueil (mission) : des gestes, jamais des résultats.
-    briefTitle: 'Your mission',
+    briefTitle: 'Mission: follow the water, protect the river',
     briefTask: 'Today, the town sends four things down the drain. Your job: follow them through the station, and find the best way to protect the river.',
     briefSteps: [
       'Look at the four things of today. <strong>Place</strong> each one where you think it will end up, and <strong>choose</strong> the improvement you think protects the river best.',
@@ -131,7 +131,6 @@ LabEngine.addText('drain', {
     upsTitle: 'Improvements to test',
     budgetLine: budget => `Budget of the town: ${budget} per year, for one improvement.`,
     testBtn: 'Test',
-    testedBtn: 'Tested',
     resultsCaption: 'Results of the tests',
     upHead: 'Improvement',
     pollutionHead: 'Pollution reaching the river',
@@ -144,8 +143,6 @@ LabEngine.addText('drain', {
     baseStormNote: 'Part of the water went over the storm overflow.',
 
     lockTests: 'Complete your operator log first, with the laboratory results.',
-    lockTested: 'Already tested: look at its row in the table.',
-    lockRakeStart: 'Open the valve first.',
     lockRake: 'The grid is not blocked: nothing to rake now.',
     lockCupDay: 'Let the day go by first: open the valve.',
     lockSampleFirst: place => `Take a sample here first: ${place}.`,
@@ -235,6 +232,7 @@ LabEngine.addText('drain', {
   },
 
   glossary: {
+    'end up': 'finir', 'ends up': 'finit', wipes: 'lingettes', oil: 'huile', sand: 'sable', 'per year': 'par an',
     'wastewater treatment plant': 'station d’épuration', drain: 'égout', sinks: 'éviers', 
     grid: 'grille', bars: 'barreaux', 'sand and grease tank': 'dessableur-déshuileur', grease: 'graisse',
     'bacteria tank': 'bassin à bactéries', 'settling tank': 'décanteur', sludge: 'boues', 

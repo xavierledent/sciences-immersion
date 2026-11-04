@@ -237,7 +237,39 @@
   50% { opacity: 1; transform: translateY(-4px); }
 }
 
+/* La station se remplit : l'eau n'apparaît dans une conduite ou un poste
+   qu'une fois arrivée (data-at, lab-drain.js), les dépôts grandissent au fil
+   de la journée (--dep sur le dessin). Avant la journée : station vide. */
+.dr-wet {
+  transition: opacity 0.5s ease, transform 0.8s ease;
+}
+
+.dr-wet:not(.is-wet) {
+  opacity: 0;
+}
+
+g.dr-wet {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+g.dr-wet:not(.is-wet) {
+  transform: scaleY(0);
+}
+
+.dr-dep {
+  transform: scaleY(var(--dep, 1));
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.dr-dep.is-film {
+  transform: none;
+  opacity: var(--dep, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .dr-wet { transition: none; }
   .is-flowing .dr-flow,
   .is-flowing .dr-bubble,
   .dr-vapour { animation: none; }
@@ -422,7 +454,7 @@ html[data-pointer='fine'] .dr-token:not(.lab-is-locked):hover,
 }
 
 .dr-run.is-tests .dr-plan {
-  width: 857px;
+  width: 740px;
 }
 
 .dr-viewbar {
@@ -485,7 +517,7 @@ html[data-pointer='fine'] .dr-showbtn:not(.is-selected):hover,
 }
 
 .is-tests .dr-lower {
-  grid-template-columns: 410px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 /* La journée */
@@ -517,10 +549,14 @@ html[data-pointer='fine'] .dr-showbtn:not(.is-selected):hover,
   line-height: 1.15;
 }
 
+/* La quantité sur la ligne du nom : la colonne garde la place du gobelet. */
 .dr-daylist small {
-  display: block;
   font-weight: 500;
   color: var(--color-muted);
+}
+
+.dr-daylist small::before {
+  content: ' · ';
 }
 
 .dr-clockrow {
@@ -788,87 +824,74 @@ html[data-pointer='fine'] .dr-cup:not(.lab-is-locked):hover,
   border-color: #d64545;
 }
 
-/* Les améliorations */
-.dr-ups {
+/* Les améliorations : un seul tableau, une ligne par amélioration (la
+   station d'aujourd'hui, puis les six), toujours à la même place. Pas
+   encore testée : le bouton Test dans la colonne des résultats. */
+.dr-tests {
   min-height: 0;
   display: flex;
   flex-direction: column;
-}
-
-.dr-upcards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-}
-
-.dr-upcard {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   gap: 4px;
-  min-height: 0;
-  padding: 6px 8px;
-  border-radius: 12px;
-  border: 1.5px solid rgba(17, 36, 72, 0.1);
-  background: #ffffff;
 }
 
-.dr-upcard.is-tested {
-  background: #fbfaf7;
+.dr-tests-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 16px;
 }
 
-.dr-upcard-text strong {
-  display: block;
-  font-size: 0.8rem;
-  line-height: 1.2;
-}
-
-.dr-upcard-text small {
-  display: block;
-  font-size: 0.68rem;
-  line-height: 1.25;
-  color: var(--color-muted);
-}
-
-.dr-testbtn {
-  min-height: 28px;
-  height: 28px;
-  padding: 0 10px;
-  font-size: 0.76rem;
-  align-self: flex-start;
-}
-
-.dr-results {
-  min-height: 0;
+.dr-tests-head p {
+  margin: 0;
 }
 
 .dr-restable {
   width: 100%;
+  table-layout: fixed;
   font-size: 0.74rem;
 }
 
-.dr-restable caption {
-  padding-bottom: 2px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-align: left;
-}
+.dr-col-up { width: 52%; }
+.dr-col-poll { width: 34%; }
+.dr-col-cost { width: 14%; }
 
 .dr-restable th,
 .dr-restable td {
-  padding: 3px 6px;
+  padding: 3px 8px;
   text-align: left;
   vertical-align: middle;
 }
 
 .dr-restable thead th {
   font-size: 0.7rem;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
-.dr-restable td small {
+.dr-restable thead small,
+.dr-costcell small {
   display: block;
   font-size: 0.66rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.dr-restable tbody th {
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.dr-costcell strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.dr-costcell small.dr-over {
+  color: var(--color-rose);
+  font-weight: 700;
+}
+
+.dr-restable tr.is-untested {
+  background: #fbfaf7;
 }
 
 .dr-restable tr.is-new {
@@ -882,11 +905,32 @@ html[data-pointer='fine'] .dr-cup:not(.lab-is-locked):hover,
 
 .dr-showbtn {
   height: auto;
-  min-height: 28px;
-  padding: 2px 8px;
-  font-size: 0.74rem;
+  min-height: 24px;
+  padding: 1px 8px;
+  font-size: 0.76rem;
   line-height: 1.2;
   text-align: left;
+}
+
+.dr-upname {
+  font-size: 0.76rem;
+}
+
+.dr-what,
+.dr-note {
+  font-size: 0.72rem;
+}
+
+.dr-note {
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.dr-testbtn {
+  min-height: 28px;
+  height: 28px;
+  padding: 0 14px;
+  font-size: 0.76rem;
 }
 
 .dr-bar {
@@ -923,15 +967,6 @@ html[data-pointer='fine'] .dr-cup:not(.lab-is-locked):hover,
 
 .dr-lvl.is-lot { color: var(--color-rose); font-weight: 700; }
 .dr-lvl.is-some { color: #a5691f; font-weight: 600; }
-
-.dr-note {
-  display: block;
-  margin-top: 1px;
-  font-weight: 400;
-  font-size: 0.66rem;
-  line-height: 1.25;
-  color: var(--color-muted);
-}
 
 /* ===== Étape 3 : conclusion ===== */
 .dr-conclude {
@@ -1019,6 +1054,23 @@ html[data-pointer='fine'] .dr-cup:not(.lab-is-locked):hover,
   margin: 0;
   font-size: 0.8rem;
   line-height: 2.5;
+}
+
+/* Question 1 : le nom de la chose, calé à droite contre sa liste ; tous
+   les noms ont la même largeur (alignNames) : les listes s'alignent. */
+.dr-cname {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  vertical-align: middle;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.dr-cname .dr-item-svg {
+  width: 22px;
+  height: 22px;
 }
 
 .dr-verdict {

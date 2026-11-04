@@ -97,7 +97,7 @@ LabEngine.addText('energy', {
     captionBadValue: 'Write the number shown by the instrument: a whole number, for example 37.',
     captionNoLamp: 'Screw a lamp into the [socket] first.',
     wrongTool: {
-      meter: 'The [energy meter] measures the energy that goes through a turning [axle] or through [wires]. Try another point.',
+      meter: 'The [energy meter] measures the energy that goes through a turning axle or through [wires]. Try another point.',
       lightmeter: 'The [light meter] measures the light given by the lamp: hold it in front of the lamp.',
       camera: 'The thermal camera measures the heat that an object gives to the air when it [gets warm].'
     },
@@ -222,7 +222,7 @@ LabEngine.addText('energy', {
     endNames: { dynamo: 'the thermal energy of the dynamo', light: 'the light energy', lamp: 'the thermal energy of the lamp' },
     endsOk: list => `At the end, the energy is made of ${list}. Correct.`,
     endsWires: 'The electrical energy is not there at the end: it is only on its way from the dynamo to the lamp, and the lamp transforms it into light energy and thermal energy. If you count it too, you count the same energy twice.',
-    endsCrank: 'The energy given by your hand to the [axle] of the crank is the energy at the start, not at the end.',
+    endsCrank: 'The energy given by your hand to the axle of the crank is the energy at the start, not at the end.',
     endsMissing: list => `You forgot ${list}. This energy is also there at the end, even if we cannot use it.`,
     totalOk: (lamp, expr, sum) => `${lamp}: ${expr} = ${sum} units. Correct calculation.`,
     totalWrong: (lamp, said, expr, sum) => `${lamp}: you wrote ${said}, but ${expr} = ${sum} units.`,
