@@ -163,20 +163,20 @@ LabEngine.addText('home', {
 
   glossary: {
     'energy storage': 'stockage d’énergie', store: 'stockent', stored: 'stocké(e)', storage: 'stockage', stores: 'stocke',
-    'thermal camera': 'caméra thermique', 'electricity meter': 'compteur électrique', display: 'afficheur (écran)', power: 'puissance',
-    'working devices': 'appareils qui fonctionnent', devices: 'appareils', device: 'appareil', dissipate: 'dissipent',
+    'electricity meter': 'compteur électrique', display: 'afficheur (écran)', power: 'puissance',
+    'working devices': 'appareils qui fonctionnent', devices: 'appareils', device: 'appareil', 
     'every second': 'chaque seconde', wasted: 'gaspillée (perdue)', spreads: 'se répand', warmer: 'plus chaud(s)', colder: 'plus froid(s)',
-    'switched on': 'allumé(e)', 'switched off': 'éteint(e)', 'switch it on': 'allume-le', switch: 'allume ou éteins', 'film': 'filme', films: 'filme',
+    'switched on': 'allumé(e)', 'switched off': 'éteint(e)', 'switch it on': 'allume-le', switch: 'allume ou éteins', 
     label: 'étiquette', labels: 'étiquettes', bulb: 'ampoule', 'traditional bulb': 'ampoule classique (à incandescence)',
     'ceiling lamp': 'plafonnier', 'desk lamp': 'lampe de bureau', refrigerator: 'frigo (réfrigérateur)', 'hair dryer': 'sèche-cheveux', blows: 'souffle',
-    'microwave oven': 'four à micro-ondes', microwave: 'micro-ondes', dishwasher: 'lave-vaisselle', dishes: 'vaisselle', dirty: 'sale',
+    'microwave oven': 'four à micro-ondes', dishwasher: 'lave-vaisselle', dishes: 'vaisselle', dirty: 'sale',
     'hot water tank': 'ballon d’eau chaude (boiler)', tap: 'robinet', batteries: 'piles', drawer: 'tiroir', torch: 'lampe de poche',
     'power bank': 'batterie externe', charge: 'charger', charged: 'chargé(e)', 'wood logs': 'bûches', stove: 'poêle', burn: 'brûler',
     apples: 'pommes', bowl: 'bol', slingshot: 'lance-pierre', 'elastic band': 'élastique', stretched: 'tendu', 'wind-up': 'à remonter',
     key: 'clé', 'let it go': 'lâche-le', 'drives on its own': 'roule tout seul', cellar: 'cave', bedroom: 'chambre',
-    bathroom: 'salle de bain', 'living room': 'salon', kitchen: 'cuisine', 'investigate': 'enquête sur', detective: 'détective',
-    soup: 'soupe', 'all day long': 'toute la journée', heats: 'chauffe', heated: 'a chauffé', 'at night': 'la nuit', 'last night': 'la nuit dernière',
-    'whole house': 'toute la maison', alone: 'seul', insulated: 'isolé', escapes: 's’échappe', notebook: 'cahier'
+    bathroom: 'salle de bain', 'living room': 'salon', kitchen: 'cuisine', 'investigate': 'enquête sur', 
+    'all day long': 'toute la journée', heats: 'chauffe', heated: 'a chauffé', 'at night': 'la nuit', 'last night': 'la nuit dernière',
+    'whole house': 'toute la maison', alone: 'seul', escapes: 's’échappe', notebook: 'cahier'
   },
 
   // Étape Check : pourquoi.

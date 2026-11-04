@@ -224,8 +224,8 @@ LabEngine.addText('foodweb', {
 
   glossary: {
     'food web': 'réseau trophique', 'food chain': 'chaîne alimentaire', single: 'seul(e)',
-    'is eaten by': 'est mangé par', eats: 'mange', hunts: 'chasse', hunted: 'chassé(e)s', predators: 'prédateurs',
-    disease: 'maladie', species: 'espèce(s)', 'living thing': 'être vivant', 'living things': 'êtres vivants',
+    'is eaten by': 'est mangé par', eats: 'mange', hunts: 'chasse', hunted: 'chassé(e)s', 
+    disease: 'maladie', 'living thing': 'être vivant', 'living things': 'êtres vivants',
     food: 'nourriture', 'food sources': 'sources de nourriture', leaves: 'feuilles',
     'oak tree': 'chêne', oak: 'chêne', 'oak trees': 'chênes', acorns: 'glands', grass: 'herbe',
     bramble: 'ronce', brambles: 'ronces', blackberries: 'mûres', 'beech tree': 'hêtre', 'beech trees': 'hêtres', beech: 'hêtre',

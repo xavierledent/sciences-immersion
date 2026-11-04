@@ -176,16 +176,16 @@ LabEngine.addText('separation', {
   glossary: {
     mixture: 'le mélange', component: 'le constituant', components: 'les constituants',
     jar: 'le pot', label: 'l’étiquette', container: 'le récipient', 'teacher’s desk': 'le bureau du professeur',
-    sand: 'le sable', 'iron filings': 'la limaille de fer', salt: 'le sel', sugar: 'le sucre', flour: 'la farine',
+    sand: 'le sable', 'iron filings': 'la limaille de fer', salt: 'le sel', flour: 'la farine',
     pebbles: 'les cailloux', nails: 'les clous', 'paper clips': 'les trombones', marbles: 'les billes', oil: 'l’huile',
     tweezers: 'la pince à épiler', magnet: 'l’aimant', sieve: 'le tamis', funnel: 'l’entonnoir',
     'separating funnel': 'l’ampoule à décanter', tap: 'le robinet', 'bottom layer': 'la couche du dessous',
-    'filter paper': 'le papier filtre', beaker: 'le bécher', 'hot plate': 'la plaque chauffante', dish: 'la coupelle',
+    beaker: 'le bécher', 'hot plate': 'la plaque chauffante', dish: 'la coupelle',
     'safety goggles': 'les lunettes de protection', goggles: 'les lunettes', flask: 'le ballon', condenser: 'le réfrigérant',
     'separation log': 'le journal de séparation', 'what is left': 'ce qui reste',
     dissolved: 'dissous', floats: 'flotte', 'top layer': 'la couche du dessus', layer: 'la couche',
     'pour off': 'verser', pour: 'verser', boils: 'bout', 'boils away': 's’évapore en bouillant', clear: 'limpide', cloudy: 'trouble',
-    holes: 'les trous', 'pick out': 'retirer', 'one by one': 'un par un', attracts: 'attire', 'sticks to': 'colle à',
+    holes: 'les trous', 'pick out': 'retirer', 'one by one': 'un par un', 'sticks to': 'colle à',
     heat: 'chauffer', heated: 'chauffé', empty: 'vide', still: 'toujours', 'drips into': 'goutte dans'
   },
 

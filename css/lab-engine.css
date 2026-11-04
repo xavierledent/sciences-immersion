@@ -891,8 +891,10 @@ tspan.lab-gloss:focus-visible {
 }
 
 /* Objet en main, liste déroulante : un mot et sa traduction par ligne. */
-.lab-gloss-tip.is-pairs span {
-  display: block;
+.lab-gloss-tip.is-pairs {
+  display: grid;
+  grid-template-columns: repeat(var(--gloss-cols, 1), auto);
+  column-gap: 16px;
 }
 
 .lab-gloss-tip.is-pairs b {

@@ -253,7 +253,7 @@ LabEngine.addText('zones', {
     vlinder: 'papillon', bij: 'abeille', sprinkhaan: 'sauterelle', mier: 'fourmi', pissebed: 'cloporte', slak: 'escargot',
     libel: 'libellule', kikker: 'grenouille',
     'voeden zich met': 'se nourrissent de', uitdrogen: 'se dessécher', 'drogen ze uit': 'elles se dessèchent', gunstig: 'favorables',
-    loep: 'loupe', interactie: 'interaction', 'op elkaar': 'les uns sur les autres', 'levende wezen': 'être vivant',
+    loep: 'loupe', 'op elkaar': 'les uns sur les autres', 'levende wezen': 'être vivant',
     bladluizen: 'pucerons', spin: 'araignée', vlieg: 'mouche', roestschimmel: 'rouille (un champignon parasite)', duizendpoot: 'mille-pattes',
     boom: 'arbre', stam: 'tronc', wortels: 'racines', plantensap: 'sève', web: 'toile', spinsel: 'soie (de l’araignée)', kleverige: 'collante', kaken: 'mâchoires',
     stuifmeel: 'pollen', voordeel: 'avantage', nadeel: 'désavantage', 'geen invloed': 'aucune influence'

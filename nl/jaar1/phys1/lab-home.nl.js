@@ -170,7 +170,7 @@ LabEngine.addText('home', {
     vermogen: 'puissance', toestellen: 'appareils', toestel: 'appareil', afgeven: 'cèdent', omzet: 'transforme', omzetten: 'transforment',
     'elke seconde': 'chaque seconde', verloren: 'perdue (gaspillée)', verspreidt: 'se répand', warmer: 'plus chaud(s)', kouder: 'plus froid(s)',
     'even warm als': 'aussi chaud(s) que', 'staat aan': 'est allumé(e)', 'staat uit': 'est éteint', 'zet ze aan': 'allume-la', 'zet hem aan': 'allume-le',
-    'aan en uit': 'allume et éteins', 'aan of uit': 'allume ou éteins', film: 'filme', filmt: 'filme', etiket: 'étiquette', etiketten: 'étiquettes',
+    'aan en uit': 'allume et éteins', 'aan of uit': 'allume ou éteins', etiket: 'étiquette', etiketten: 'étiquettes',
     ledlamp: 'ampoule LED', gloeilamp: 'ampoule classique (à incandescence)', plafondlamp: 'plafonnier', bureaulamp: 'lampe de bureau',
     koelkast: 'frigo', haardroger: 'sèche-cheveux', blaast: 'souffle', microgolfoven: 'four à micro-ondes', vaatwasser: 'lave-vaisselle',
     vaat: 'vaisselle', vuile: 'sale', warmwaterboiler: 'ballon d’eau chaude (boiler)', kraan: 'robinet', batterijen: 'piles', lade: 'tiroir',
@@ -178,9 +178,9 @@ LabEngine.addText('home', {
     branden: 'brûler', appels: 'pommes', schaal: 'coupe (plat)', katapult: 'lance-pierre', elastiek: 'élastique', uitgerekt: 'tendu',
     opwindautootje: 'petite voiture à remonter', speelgoedauto: 'petite voiture (jouet)', sleutel: 'clé', 'laat los': 'lâche', vanzelf: 'tout seul',
     kelder: 'cave', slaapkamer: 'chambre', badkamer: 'salle de bain', woonkamer: 'salon', keuken: 'cuisine', onderzoek: 'enquête sur',
-    energiespeurder: 'détective de l’énergie', soep: 'soupe', 'de hele dag': 'toute la journée', opgewarmd: 'chauffé', 'warmt op': 'réchauffe',
+    energiespeurder: 'détective de l’énergie', 'de hele dag': 'toute la journée', opgewarmd: 'chauffé', 'warmt op': 'réchauffe',
     '’s nachts': 'pendant la nuit', vannacht: 'la nuit dernière', schrift: 'cahier', 'hele huis': 'toute la maison', alleen: 'seul',
-    geïsoleerd: 'isolé', ontsnapt: 's’échappe', oppervlak: 'surface', opdrachten: 'missions'
+    ontsnapt: 's’échappe', oppervlak: 'surface', opdrachten: 'missions'
   },
 
   // Étape Check : pourquoi.

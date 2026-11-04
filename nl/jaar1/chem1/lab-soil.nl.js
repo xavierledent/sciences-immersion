@@ -141,7 +141,7 @@ LabEngine.addText('soil', {
 
   glossary: {
     bodemstaal: 'échantillon de sol', 'afhankelijk van': 'selon',
-    bak: 'bac', bakken: 'bacs', handschoenen: 'gants', loep: 'loupe', spatel: 'spatule',
+    bak: 'bac', bakken: 'bacs', handschoenen: 'gants', loep: 'loupe', 
     'uit te spreiden': 'étaler', uitspreiden: 'étaler', uitgespreid: 'étalé', hoop: 'tas', schaaltje: 'coupelle', schaaltjes: 'coupelles',
     'levende wezens': 'êtres vivants', 'van dichtbij te bekijken': 'observer de près', 'van dichtbij': 'de près',
     'krult het zich op': "s'enroule", engerling: 'larve (ver blanc)', scheutje: 'pousse', buigen: 'se plient',

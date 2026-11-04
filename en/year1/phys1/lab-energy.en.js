@@ -180,7 +180,7 @@ LabEngine.addText('energy', {
   },
 
   glossary: {
-    crank: 'manivelle', axle: 'axe', socket: 'douille', wires: 'fils électriques',
+    crank: 'manivelle', socket: 'douille', wires: 'fils électriques',
     'energy meter': 'compteur d’énergie', 'light meter': 'luxmètre (il mesure la lumière)',
     'gets warm': 'chauffe', waste: 'gaspiller (perdre)', wastes: 'gaspille (perd)', wasted: 'gaspillée (perdue)',
     'add them up': 'additionne-les', 'test bench': 'banc d’essai', bench: 'banc d’essai', 'energy flow diagram': 'diagramme de flux d’énergie',

@@ -175,14 +175,14 @@ LabEngine.addText('separation', {
 
   glossary: {
     mengsel: 'le mélange', bestanddeel: 'le constituant', bestanddelen: 'les constituants',
-    bokaal: 'le pot', etiket: 'l’étiquette', recipiënt: 'le récipient', recipiënten: 'les récipients',
+    bokaal: 'le pot', etiket: 'l’étiquette', 
     'bureau van de leerkracht': 'le bureau du professeur',
     zand: 'le sable', ijzervijlsel: 'la limaille de fer', zout: 'le sel', suiker: 'le sucre', bloem: 'la farine',
     kiezels: 'les cailloux', nagels: 'les clous', paperclips: 'les trombones', knikkers: 'les billes', olie: 'l’huile',
     korrels: 'les grains', zaadjes: 'les graines', bolletjes: 'les petites boules',
     pincet: 'la pince à épiler', magneet: 'l’aimant', zeef: 'le tamis', trechter: 'l’entonnoir',
     scheitrechter: 'l’ampoule à décanter', kraantje: 'le robinet', 'onderste laag': 'la couche du dessous',
-    filterpapier: 'le papier filtre', bekerglas: 'le bécher', kookplaat: 'la plaque chauffante', schaaltje: 'la coupelle',
+    bekerglas: 'le bécher', kookplaat: 'la plaque chauffante', schaaltje: 'la coupelle',
     veiligheidsbril: 'les lunettes de protection', kolf: 'le ballon', damp: 'la vapeur',
     scheidingslogboek: 'le journal de séparation', 'wat er overblijft': 'ce qui reste', 'blijft er over': 'reste',
     opgelost: 'dissous', 'opgeloste stof': 'le soluté', oplosmiddel: 'le solvant',

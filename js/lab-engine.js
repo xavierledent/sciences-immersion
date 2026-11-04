@@ -815,9 +815,19 @@
       return pairs;
     }
 
-    function showPairs(pairs, el, side) {
-      glossTip.classList.add('is-pairs');
-      glossTip.innerHTML = pairs.map(p => `<span><b>${escapeHtml(p.word)}</b> = ${escapeHtml(p.fr)}</span>`).join('');
+    /* Comme pour un mot souligné, la traduction seule : le mot est sous les
+       yeux de l'élève (objet en main, choix affiché). withWords : liste
+       ouverte, où il faut savoir quel choix chaque traduction concerne
+       (« grid = grille ») ; beaucoup de mots : deux ou trois colonnes, pour
+       que la bulle reste petite. */
+    function showPairs(pairs, el, side, withWords) {
+      glossTip.classList.toggle('is-pairs', !!withWords);
+      if (withWords) {
+        glossTip.style.setProperty('--gloss-cols', pairs.length > 8 ? 3 : pairs.length > 4 ? 2 : 1);
+        glossTip.innerHTML = pairs.map(p => `<span><b>${escapeHtml(p.word)}</b> = ${escapeHtml(p.fr)}</span>`).join('');
+      } else {
+        glossTip.textContent = pairs.map(p => p.fr).join(' · ');
+      }
       placeTip(el, side);
     }
 
@@ -859,12 +869,12 @@
       sel.classList.toggle('lab-select-glossed', glossPairs(chosenText(sel)).length > 0);
     }
     let selectTip = null;   // { sel, fn } : bulle de la liste ouverte ou survolée
-    function pinSelect(sel, texts) {
+    function pinSelect(sel, texts, withWords) {
       const pairs = glossPairs(texts);
       if (selectTip) unpinTip(selectTip.fn);
       selectTip = null;
       if (!pairs.length) return;
-      const fn = () => showPairs(pairs, sel, true);
+      const fn = () => showPairs(pairs, sel, true, withWords);
       selectTip = { sel, fn };
       pinTip(fn);
     }
@@ -877,13 +887,13 @@
       const sel = selectOf(e);
       if (!sel || sel.disabled) return;
       selectOpen = sel;
-      pinSelect(sel, optionTexts(sel));
+      pinSelect(sel, optionTexts(sel), true);
     });
     card.addEventListener('keydown', e => {
       const sel = selectOf(e);
       if (!sel || !['ArrowDown', 'ArrowUp', ' ', 'Enter', 'F4'].includes(e.key)) return;
       selectOpen = sel;
-      pinSelect(sel, optionTexts(sel));
+      pinSelect(sel, optionTexts(sel), true);
     });
     card.addEventListener('change', e => {
       const sel = selectOf(e);
@@ -1360,14 +1370,17 @@
       ghostEl.innerHTML = opts.ghost();
       ghostEl.classList.add('is-carried');
       if (ev && ev.pointerType === 'mouse') showCarried(ev);
-      // Traduction des mots du lexique de l'objet (non soulignés : c'est
-      // une zone à toucher), tant qu'il est en main. Rien en le glissant.
-      const pairs = glossPairs([el.textContent]);
-      if (pairs.length) {
-        held.tip = () => { if (el.isConnected) showPairs(pairs, el); };
-        pinTip(held.tip);
-      }
+      held.tip = holdTipFor(el);
+      if (held.tip) pinTip(held.tip);
       if (opts.onHold) opts.onHold(true);
+    }
+
+    /* Traduction des mots du lexique d'un objet à prendre en main, au-dessus
+       de l'objet lui-même (pas du fantôme : elle ne le suit pas), tant qu'il
+       est en main ou glissé. null s'il n'y en a pas. */
+    function holdTipFor(el) {
+      const pairs = glossPairs([el.textContent]);
+      return pairs.length ? () => { if (el.isConnected) showPairs(pairs, el); } : null;
     }
 
     // À la souris, l'objet en main remplace le curseur.
@@ -1434,6 +1447,7 @@
         if (e.button !== 0 || el.disabled) return;
         const startX = e.clientX, startY = e.clientY;
         let dragging = false;
+        let dragTip = null;
         el.setPointerCapture(e.pointerId);
 
         const targets = () => targetsOf(opts);
@@ -1442,6 +1456,7 @@
           if (!dragging && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 8) {
             dragging = true;
             releaseHeld();
+            if (opts.hold) { dragTip = holdTipFor(el); if (dragTip) pinTip(dragTip); }
             placeGhost(ev.clientX, ev.clientY);
             ghostEl.innerHTML = opts.ghost();
             ghostEl.classList.add('is-visible');
@@ -1461,6 +1476,7 @@
           el.removeEventListener('pointerup', up);
           el.removeEventListener('pointercancel', up);
           targets().forEach(t => t.classList.remove('is-drop-target', 'is-drop-ready'));
+          if (dragTip) unpinTip(dragTip);
           if (dragging) {
             ghostEl.classList.remove('is-visible');
             el.classList.remove('is-dragging');

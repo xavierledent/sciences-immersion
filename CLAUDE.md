@@ -215,7 +215,8 @@ scripts chargés.
     bouton, un onglet ou une zone à toucher (le moteur l'y retire), sauf
     un objet à prendre en main (`hold: true`), souligné quand même : le
     prendre montre la traduction de ses mots du lexique dans une bulle,
-    tant qu'il est en main (rien en le glissant) ; une liste déroulante
+    au-dessus de l'objet tant qu'il est en main ou glissé (elle ne suit
+    pas le fantôme) ; une liste déroulante
     (`lab-select`) ouverte montre à côté la traduction des mots du lexique
     de ses choix, fermée elle est soulignée si son choix en contient un ;
     le moteur s'en charge ;

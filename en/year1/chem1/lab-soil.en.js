@@ -141,14 +141,14 @@ LabEngine.addText('soil', {
 
   glossary: {
     'soil sample': 'échantillon de sol', 'depending on': 'selon',
-    tray: 'bac', trays: 'bacs', gloves: 'gants', 'magnifying glass': 'loupe', spatula: 'spatule',
+    tray: 'bac', trays: 'bacs', gloves: 'gants', 'magnifying glass': 'loupe', 
     spread: 'étaler', 'spread out': 'étalé', heap: 'tas', bowl: 'coupelle', bowls: 'coupelles',
     'living things': 'êtres vivants', 'look closely': 'observer de près',
     'curls up': "s'enroule", grub: 'larve (ver blanc)', shoot: 'pousse', bend: 'se plient',
     crumbles: "s'effrite", bark: 'écorce', acorn: 'gland', brittle: 'cassantes', shine: 'brillent',
     'sticks together': "s'agglomère", 'runs between your fingers': 'file entre tes doigts', crumbs: 'miettes',
     earthworm: 'ver de terre', woodlouse: 'cloporte', springtail: 'collembole', twig: 'brindille',
-    pebble: 'caillou', gravel: 'gravier', ridges: 'stries', crumpled: 'froissé', 'fine roots': 'fines racines',
+    pebble: 'caillou', ridges: 'stries', crumpled: 'froissé', 'fine roots': 'fines racines',
     'sweet wrapper': 'emballage de bonbon', 'bottle cap': 'bouchon', 'beetle larva': 'larve de coléoptère',
     beetle: 'coléoptère (scarabée)', 'school forest': "bois de l'école", 'vegetable garden': 'potager',
     meadow: 'prairie', playground: 'cour de récréation', sandpit: 'bac à sable', 'gravel path': 'allée de gravier',
