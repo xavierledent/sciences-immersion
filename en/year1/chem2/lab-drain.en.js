@@ -96,8 +96,16 @@ LabEngine.addText('drain', {
     cupBtn: 'Sampling cup',
     dayDone: 'The day is over.',
     captionValve: 'Open the valve: the water of the town comes in. A whole day goes by in a few seconds.',
-    captionDay: 'The water flows through the station. Keep an eye on the grid!',
-    captionStorm: 'So much rain! The station cannot take all the water: part of it goes over the storm overflow, straight to the river.',
+    // La journée, heure par heure (moments : voir PHASES dans lab-drain.js)
+    captionPhases: {
+      night: 'Night: the town is asleep, very little water arrives. Keep an eye on the grid!',
+      morning: 'Morning: the town wakes up. Showers, toilets, breakfast: much more water!',
+      daytime: 'Daytime: a steady flow of water from the town.',
+      evening: 'Evening: cooking, washing up, washing machines. More water again!',
+      late: 'Late evening: the town goes to bed, less and less water.'
+    },
+    captionArrive: name => `${name}: down the drain! It is on its way to the station.`,
+    captionStorm: 'The storm breaks! The station cannot take all the water: part of it goes over the storm overflow, straight to the river.',
     captionClogged: 'The grid is blocked: the water rises in front of it. Rake the grid!',
     captionPaused: 'The day is paused: continue the day.',
     captionSample: 'The day is over. Take the sampling cup, then touch a post or the river: take a sample in each place.',
@@ -232,6 +240,8 @@ LabEngine.addText('drain', {
   },
 
   glossary: {
+    asleep: 'endormie', 'wakes up': 'se réveille', breakfast: 'petit-déjeuner', steady: 'régulier', cooking: 'cuisiner',
+    'washing up': 'faire la vaisselle', 'goes to bed': 'va se coucher', 'on its way': 'en route', 'the storm breaks': 'l’orage éclate',
     'end up': 'finir', 'ends up': 'finit', wipes: 'lingettes', oil: 'huile', sand: 'sable', 'per year': 'par an',
     'wastewater treatment plant': 'station d’épuration', drain: 'égout', sinks: 'éviers', 
     grid: 'grille', bars: 'barreaux', 'sand and grease tank': 'dessableur-déshuileur', grease: 'graisse',

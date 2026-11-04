@@ -162,7 +162,11 @@
   let dayRunning = false;
   let justTested = null;
   let stepperDone = null;
+  let arrivedShown = new Set();   // arrivées déjà montrées (id@t)
+  let lastArrival = null;         // la dernière : { id, t }
   function transient() {
+    arrivedShown = new Set();
+    lastArrival = null;
     dayRunning = false;
     justTested = null;
     stepperDone = null;
@@ -294,9 +298,10 @@
      benne), le dessableur-déshuileur, le bassin à bactéries, le décanteur, la
      rivière ; en bas, le déversoir d'orage. o = { up, rakes, clogged,
      water, dep } ; water : jusqu'où l'eau est arrivée (0 : station vide,
-     1 : jusqu'à la rivière) ; dep : ce qui s'est déposé dans les postes (0
-     à 1, au fil de la journée) ; plain : sans la météo du jour (page
-     d'accueil). Station vide avant la journée : rien ne
+     1 : jusqu'à la rivière) ; dep : l'heure de la journée pour les dépôts (0
+     à 1, voir depOf) ; stormOn : l'orage a éclaté (STORM_AT) ; flowDur :
+     vitesse de l'eau dans les conduites (s) ; plain : sans la météo du
+     jour (page d'accueil). Station vide avant la journée : rien ne
      montre d'avance ce que chaque poste retient. */
   function planSVG(o) {
     const up = o.up || null;
@@ -307,7 +312,9 @@
     const flow = (d, cls, at) => `<path d="${d}" fill="none" stroke="${PIPE}" stroke-width="12" stroke-linecap="round"/>` +
       `<path d="${d}" fill="none" class="dr-flow ${cls || ''} dr-wet ${water >= at ? 'is-wet' : ''}" data-at="${at}" stroke-width="5" stroke-linecap="round"/>`;
     const evap = up === 'evaporation';
-    const storm = run.weather === 'storm';
+    const storm = run.weather === 'storm' && (o.stormOn ?? true);
+    const dep = o.dep ?? 1;
+    const depAttr = key => `data-dep="${key}" style="--d:${depOf(key, dep).toFixed(3)}"`;
     const out = [];
 
     // La ville, la pluie
@@ -350,8 +357,8 @@
     // Le dessableur-déshuileur
     out.push(`<g class="dr-grit-post"><rect x="312" y="78" width="188" height="66" rx="4" fill="#ffffff" stroke="${LINE}" stroke-width="2.5"/>` +
       `<g ${wetAt(0.25)}><rect x="314" y="88" width="184" height="54" fill="${RAW}" opacity="0.45"/></g>` +
-      (has('oil') ? `<rect x="314" y="88" width="184" height="8" fill="#f4d774" class="dr-dep is-film"/>` : '') +
-      (has('sand') || has('litter') ? `<path d="M314 142 V132 Q360 126 406 132 T498 132 V142 Z" fill="#d9b77a" class="dr-dep"/>` : '') +
+      (has('oil') ? `<rect x="314" y="88" width="184" height="8" fill="#f4d774" class="dr-dep is-film" ${depAttr('oil')}/>` : '') +
+      (has('sand') || has('litter') ? `<path d="M314 142 V132 Q360 126 406 132 T498 132 V142 Z" fill="#d9b77a" class="dr-dep" ${depAttr('grit')}/>` : '') +
       `<path d="M330 84 H482" stroke="#4a5d75" stroke-width="3" stroke-linecap="round"/></g>`);
 
     // Le bassin à bactéries
@@ -365,7 +372,7 @@
     const tank = (dx, dy, faint) => `<path d="M${732 + dx} ${76 + dy} H${940 + dx} V${118 + dy} L${872 + dx} ${150 + dy} H${800 + dx} L${732 + dx} ${118 + dy} Z" fill="#ffffff" stroke="${LINE}" stroke-width="${faint ? 1.6 : 2.5}" stroke-linejoin="round" ${faint ? 'opacity="0.6"' : ''}/>`;
     out.push(`<g class="dr-settle-post">${up === 'longTank' ? tank(12, -12, true) : ''}${tank(0, 0, false)}` +
       `<g ${wetAt(0.67)}><path d="M736 90 H936 V117 L871 148 H801 L736 117 Z" fill="${CLEAN}" opacity="0.5"/></g>` +
-      `<path d="M790 140 L801 148 H871 L882 140 Q836 128 790 140 Z" fill="#7a6040" class="dr-dep"/>` +
+      `<path d="M790 140 L801 148 H871 L882 140 Q836 128 790 140 Z" fill="#7a6040" class="dr-dep" ${depAttr('settle')}/>` +
       `<path d="M746 84 H926" stroke="#4a5d75" stroke-width="3" stroke-linecap="round"/></g>`);
 
     // Le filtre à sable, le bassin d'évaporation
@@ -385,22 +392,62 @@
       (evap ? '' : [[1080, 126], [1150, 112]].map(([x, y]) => `<path d="M${x} ${y} q12 -8 24 0 q-12 8 -24 0 Z M${x + 24} ${y} l8 -6 v12 Z" fill="#5d7f9e"/>`).join('')) + `</g>`);
 
     const cls = ['dr-plan-svg', o.flowing ? 'is-flowing' : '', o.clogged ? 'is-clogged' : ''].join(' ');
-    return `<svg class="${cls}" style="--dep:${(o.dep ?? 1).toFixed(3)}" viewBox="0 0 1200 210" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">${out.join('')}</svg>`;
+    return `<svg class="${cls}" style="--flow-dur:${o.flowDur || 0.7}s" viewBox="0 0 1200 210" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">${out.join('')}</svg>`;
   }
 
-  /* La journée remplit la station : l'eau avance de poste en poste pendant
-     le début de la journée (FRONT), les dépôts grandissent jusqu'au soir.
-     Les essais d'améliorations rejouent une journée finie. */
+  /* La journée de la ville (t : 0 à 1 = 0 h à 24 h). L'eau avance de poste
+     en poste pendant le début de la nuit (FRONT). Le débit suit les heures
+     (peu la nuit, un pic le matin et un le soir) ; un jour d'orage, l'orage
+     éclate à STORM_AT. Chaque chose part dans l'égout à des heures logiques
+     (ARRIVE) : on la voit sortir de la ville, jamais où elle finit ; un
+     peu après, le dépôt du poste qui la retient grandit d'un palier. Les
+     essais d'améliorations rejouent une journée finie. */
   const FRONT = 0.2;
+  const STORM_AT = 14 / 24;
+  const ARRIVE = {
+    wipes: [8, 19.5], buds: [7.5, 21.5], sand: [18], litter: [9.5], oil: [20], coffee: [7, 14],
+    fibres: [10.5, 19], glitter: [16], lemonade: [12, 17], milk: [8.5], salt: [12.5, 19], medicine: [10]
+  };
+  const arrivals = () => run.items.flatMap(({ id }) => ARRIVE[id].map(h => ({ id, t: h / 24 }))).sort((a, b) => a.t - b.t);
+  // Les dépôts du plan : les choses qui les font, le temps d'arriver au poste.
+  const DEP_ITEMS = { grit: ['sand', 'litter'], oil: ['oil'], settle: ['coffee', 'fibres', 'glitter'] };
+  const DEP_DELAY = { grit: 0.02, oil: 0.02, settle: 0.05 };
+  function depOf(key, t) {
+    const times = arrivals().filter(a => DEP_ITEMS[key].includes(a.id)).map(a => a.t + DEP_DELAY[key]);
+    const frac = times.length ? times.filter(x => x <= t).length / times.length : 0;
+    if (key !== 'settle') return frac;
+    // Le décanteur a toujours un peu de boues (la ville), plus avec les fines particules.
+    return times.length ? 0.3 * t + 0.7 * frac : 0.6 * t;
+  }
+  // [jusqu'à quelle heure, moment, durée d'un pas de l'eau dans les conduites (s)]
+  const PHASES = [[6, 'night', 1.6], [9, 'morning', 0.45], [17, 'daytime', 0.8], [21, 'evening', 0.5], [24, 'late', 1.2]];
+  const phaseOf = t => PHASES.find(([h]) => t * 24 < h) || PHASES[PHASES.length - 1];
+  const stormOn = t => run.weather === 'storm' && t >= STORM_AT;
+  const flowDur = t => (stormOn(t) ? 0.35 : +(phaseOf(t)[2] * (wet() ? 0.8 : 1)).toFixed(2));
+
   function stationFill() {
     const d = state.day;
-    if (state.view === 'tests' || d.done) return { water: 1, dep: 1 };
-    return { water: Math.min(1, d.t / FRONT) + (dayRunning ? 0.01 : 0), dep: d.t };
+    if (state.view === 'tests' || d.done) return { water: 1, dep: 1, stormOn: true, flowDur: 0.7 };
+    return { water: Math.min(1, d.t / FRONT) + (dayRunning ? 0.01 : 0), dep: d.t, stormOn: stormOn(d.t), flowDur: flowDur(d.t) };
   }
   function setStationFill(svg) {
-    const { water, dep } = stationFill();
-    svg.style.setProperty('--dep', dep.toFixed(3));
-    svg.querySelectorAll('[data-at]').forEach(el => el.classList.toggle('is-wet', water >= Number(el.dataset.at)));
+    const fill = stationFill();
+    const dur = `${fill.flowDur}s`;
+    if (svg.style.getPropertyValue('--flow-dur') !== dur) svg.style.setProperty('--flow-dur', dur);
+    svg.querySelectorAll('[data-dep]').forEach(el => el.style.setProperty('--d', depOf(el.dataset.dep, fill.dep).toFixed(3)));
+    svg.querySelectorAll('[data-at]').forEach(el => el.classList.toggle('is-wet', fill.water >= Number(el.dataset.at)));
+  }
+
+  // Une chose sort de la ville et part dans l'égout (le temps d'un coup d'œil).
+  function showArrival(id) {
+    const box = $('.dr-arrivals');
+    if (!box) return;
+    const el = document.createElement('div');
+    el.className = 'dr-arrive';
+    el.setAttribute('data-no-gloss', '');
+    el.innerHTML = `${itemSVG(id)}<span>${shortOf(id)}</span>`;
+    box.appendChild(el);
+    setTimeout(() => el.remove(), 2400);
   }
 
   // Le gobelet de prélèvement (viewBox 40 × 48) ; fill : teinte de l'eau.
@@ -485,7 +532,7 @@
       `<div class="dr-question-card"><div><p class="dr-kicker">${LABELS.yourQuestion}</p>${questionsHTML()}</div>` +
         `<div class="dr-today"><p class="dr-kicker">${LABELS.todayTitle}</p><p class="dr-today-line">${todayLine()}</p>` +
         `<p class="dr-intro">${gloss(LABELS.intro)}</p></div></div>` +
-      `<div class="dr-plan">${planSVG({ water: 0, dep: 0 })}${zonesHTML()}</div>` +
+      `<div class="dr-plan">${planSVG({ water: 0, dep: 0, stormOn: false })}${zonesHTML()}</div>` +
       `<div class="dr-drops">${PLACES.map(p => `<div class="dr-drop ${show && tray.length ? 'lab-is-missing' : ''}" data-drop="${p}" style="${zoneStyle(p)}">` +
         ids().filter(id => h.place[id] === p).map(tokenHTML).join('') + `</div>`).join('')}</div>` +
       `<div class="dr-predict-bottom">` +
@@ -547,9 +594,9 @@
      le gobelet, au milieu le prélèvement, à droite le journal) ou les
      améliorations (un tableau : une ligne par amélioration, son bouton Test
      puis ses résultats). */
-  const DAY_SECONDS = 16;
-  // Deux bouchons avec les lingettes, un seul sans : la différence suffit.
-  const clogTimes = () => (ids().includes('wipes') ? [0.32, 0.66] : [0.5]);
+  const DAY_SECONDS = 25;
+  // Un bouchon peu après chaque arrivée de lingettes (deux), un seul sans.
+  const clogTimes = () => (ids().includes('wipes') ? ARRIVE.wipes.map(h => h / 24 + 0.03) : [0.5]);
   const isClogged = () => !state.day.done && state.day.t >= (clogTimes()[state.day.rakes] ?? 2);
   const clockText = t => {
     const minutes = Math.round(t * 24 * 60);
@@ -566,7 +613,8 @@
       if (d.t === 0 && !dayRunning) return LABELS.captionValve;
       if (isClogged()) return LABELS.captionClogged;
       if (!dayRunning) return LABELS.captionPaused;
-      return run.weather === 'storm' ? LABELS.captionStorm : LABELS.captionDay;
+      if (lastArrival && d.t - lastArrival.t < 0.05) return LABELS.captionArrive(nameOf(lastArrival.id));
+      return stormOn(d.t) ? LABELS.captionStorm : LABELS.captionPhases[phaseOf(d.t)[1]];
     }
     if (!sampledAll()) return LABELS.captionSample;
     if (!state.analysed) return LABELS.captionAnalyse;
@@ -678,7 +726,7 @@
     const tests = state.view === 'tests';
     const d = state.day;
     lab.body.innerHTML = `<div class="dr-run ${tests ? 'is-tests' : ''}">` +
-      `<div class="dr-plan">${planSVG(Object.assign({ up: tests ? state.shown : null, rakes: d.rakes, flowing: dayRunning || !!justTested, clogged: isClogged() }, stationFill()))}${zonesHTML()}</div>` +
+      `<div class="dr-plan">${planSVG(Object.assign({ up: tests ? state.shown : null, rakes: d.rakes, flowing: dayRunning || !!justTested, clogged: isClogged() }, stationFill()))}${zonesHTML()}<div class="dr-arrivals" aria-hidden="true"></div></div>` +
       `<div class="dr-viewbar"><div class="dr-views">` +
         ['station', 'tests'].map(v => `<button type="button" class="dr-view ${state.view === v ? 'is-selected' : ''}" data-view="${v}" data-lab-look aria-pressed="${state.view === v}">${LABELS.views[v]}</button>`).join('') +
       `</div><p class="dr-caption lab-caption" aria-live="polite">${gloss(captionFor())}</p></div>` +
@@ -801,11 +849,16 @@
 
   /* La journée en accéléré : l'horloge avance, sauf quand la grille est
      bouchée (l'opérateur la racle). Seuls l'horloge, la barre, la légende et
-     le plan changent pendant l'animation. */
+     le plan changent pendant l'animation ; l'orage qui éclate redessine
+     tout (déversoir, rivière). Une journée reprise ne remontre pas les
+     arrivées déjà passées. */
   function startDayLoop() {
     const token = lab.newScene();
     let last = performance.now();
     let clogged = isClogged();
+    const stormWas = stormOn(state.day.t);
+    let caption = captionFor();
+    arrivals().forEach(a => { if (a.t < state.day.t) arrivedShown.add(`${a.id}@${a.t}`); });
     const seconds = reduceMotion ? DAY_SECONDS / 4 : DAY_SECONDS;
     const frame = now => {
       if (!lab.isScene(token) || !dayRunning) return;
@@ -825,19 +878,33 @@
       if (clock) clock.textContent = clockText(d.t);
       const fill = $('.dr-dayfill');
       if (fill) fill.style.width = `${(d.t * 100).toFixed(1)}%`;
+      if (stormOn(d.t) !== stormWas) {
+        renderExperiment();
+        return;
+      }
+      arrivals().forEach(a => {
+        const key = `${a.id}@${a.t}`;
+        if (a.t > d.t || arrivedShown.has(key)) return;
+        arrivedShown.add(key);
+        lastArrival = a;
+        showArrival(a.id);
+      });
       const plan = $('.dr-plan-svg');
       if (plan) setStationFill(plan);
       if (isClogged() !== clogged) {
         clogged = isClogged();
-        const svg = $('.dr-plan-svg');
-        if (svg) svg.classList.toggle('is-clogged', clogged);
+        if (plan) plan.classList.toggle('is-clogged', clogged);
         const rake = $('[data-rake]');
         if (rake) {
           rake.classList.toggle('is-urgent', clogged);
           lab.setLock(rake, clogged ? null : LABELS.lockRake, { icon: false });
         }
+      }
+      const nextCaption = captionFor();
+      if (nextCaption !== caption) {
+        caption = nextCaption;
         const c = $('.dr-caption');
-        if (c) c.innerHTML = gloss(captionFor());
+        if (c) c.innerHTML = gloss(caption);
       }
       requestAnimationFrame(frame);
     };
@@ -1190,7 +1257,7 @@
       intro: `${gloss(LABELS.intro)} ${gloss(LABELS.briefTask)}`,
       questionTitle: LABELS.yourQuestion,
       question: questionsHTML(),
-      art: `<div class="dr-plan dr-brief-plan">${planSVG({ water: 0, dep: 0, plain: true })}${zonesHTML()}</div>`,
+      art: `<div class="dr-plan dr-brief-plan">${planSVG({ water: 0, dep: 0, stormOn: false, plain: true })}${zonesHTML()}</div>`,
       steps: LABELS.briefSteps.map((text, i) => ({
         text: gloss(text),
         art: i === 0 ? ''

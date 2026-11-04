@@ -547,7 +547,7 @@
         if (n.matches('select.lab-select')) added.add(n);
         n.querySelectorAll('select.lab-select').forEach(s => added.add(s));
       }));
-      added.forEach(sel => { steadySelect(sel); markSelect(sel); });
+      added.forEach(steadySelect);
     }).observe(bodyEl, { childList: true, subtree: true });
 
     lab.state = freshFrameState();
@@ -871,11 +871,14 @@
       if (e.target.classList.contains('lab-gloss')) showGloss(e.target);
     });
 
-    /* Bouton de choix touché du doigt (ou au clavier) : sa bulle reste
-       au-dessus de lui jusqu'au geste suivant. Placée au moment du clic,
-       avant que le labo ne redessine le bouton (phase de capture). À la
-       souris, le survol suffit. Pas sur un bouton verrouillé : sa bulle de
-       verrou passe d'abord. */
+    /* Une traduction la première fois, puis plus rien : à chaque geste, une
+       bulle gênerait. Bouton de choix touché du doigt (ou au clavier) : sa
+       bulle reste au-dessus de lui jusqu'au geste suivant, la première fois
+       seulement pour ce bouton (même texte). Placée au moment du clic, avant
+       que le labo ne redessine le bouton (phase de capture). À la souris, le
+       survol la montre toujours, comme pour un mot souligné. Pas sur un
+       bouton verrouillé : sa bulle de verrou passe d'abord. */
+    const seenTips = new Set();
     let tapTip = null;
     let lastPointer = 'mouse';
     function tapTipFor(btn) {
@@ -896,30 +899,34 @@
     card.addEventListener('click', e => {
       const btn = e.target.closest && e.target.closest(GLOSS_BTN);
       if (!btn || lastPointer === 'mouse' || btn.classList.contains('lab-is-locked')) return;
+      const key = `btn:${btn.textContent.trim()}`;
+      if (seenTips.has(key)) return;
       tapTip = tapTipFor(btn);
-      if (tapTip) pinTip(tapTip);
+      if (!tapTip) return;
+      seenTips.add(key);
+      pinTip(tapTip);
     }, true);
     card.addEventListener('focusout', e => {
       if (e.target.classList.contains('lab-gloss')) restoreTip();
     });
 
     /* Listes déroulantes : rien ne se souligne dans les choix (le navigateur
-       les dessine en texte brut). Ouvrir la liste montre, à côté, la
-       traduction des mots du lexique de ses choix ; la liste fermée est
-       soulignée quand le choix affiché en contient un, et sa traduction
-       s'affiche au survol ou au focus. */
+       les dessine en texte brut). La première fois qu'on ouvre une liste de
+       ces choix-là (mêmes textes), la traduction des mots du lexique de ses
+       choix s'affiche à côté ; ensuite, plus de bulle. Liste fermée : ni
+       soulignement ni bulle. */
     const optionTexts = sel => Array.from(sel.options).filter(o => o.value !== '').map(o => o.textContent);
-    const chosenText = sel => (sel.value !== '' && sel.selectedIndex >= 0 ? [sel.options[sel.selectedIndex].textContent] : []);
-    function markSelect(sel) {
-      sel.classList.toggle('lab-select-glossed', glossPairs(chosenText(sel)).length > 0);
-    }
-    let selectTip = null;   // { sel, fn } : bulle de la liste ouverte ou survolée
-    function pinSelect(sel, texts, withWords) {
-      const pairs = glossPairs(texts);
+    let selectTip = null;   // { sel, fn } : bulle de la liste ouverte
+    function pinSelect(sel) {
+      const texts = optionTexts(sel);
+      const key = `list:${texts.join('|')}`;
       if (selectTip) unpinTip(selectTip.fn);
       selectTip = null;
+      if (seenTips.has(key)) return;
+      const pairs = glossPairs(texts);
       if (!pairs.length) return;
-      const fn = () => showPairs(pairs, sel, true, withWords);
+      seenTips.add(key);
+      const fn = () => showPairs(pairs, sel, true, true);
       selectTip = { sel, fn };
       pinTip(fn);
     }
@@ -927,43 +934,24 @@
       if (selectTip && selectTip.sel === sel) { unpinTip(selectTip.fn); selectTip = null; }
     }
     const selectOf = e => e.target.closest && e.target.closest('select.lab-select');
-    let selectOpen = null;
     card.addEventListener('pointerdown', e => {
       const sel = selectOf(e);
       if (!sel || sel.disabled) return;
-      selectOpen = sel;
-      pinSelect(sel, optionTexts(sel), true);
+      if (selectTip && selectTip.sel === sel) unpinSelect(sel);   // la liste se referme
+      else pinSelect(sel);
     });
     card.addEventListener('keydown', e => {
       const sel = selectOf(e);
       if (!sel || !['ArrowDown', 'ArrowUp', ' ', 'Enter', 'F4'].includes(e.key)) return;
-      selectOpen = sel;
-      pinSelect(sel, optionTexts(sel), true);
+      pinSelect(sel);
     });
     card.addEventListener('change', e => {
       const sel = selectOf(e);
-      if (!sel) return;
-      selectOpen = null;
-      markSelect(sel);
-      unpinSelect(sel);
-    });
-    card.addEventListener('focusin', e => {
-      const sel = selectOf(e);
-      if (sel && selectOpen !== sel) pinSelect(sel, chosenText(sel));
+      if (sel) unpinSelect(sel);
     });
     card.addEventListener('focusout', e => {
       const sel = selectOf(e);
-      if (!sel) return;
-      if (selectOpen === sel) selectOpen = null;
-      unpinSelect(sel);
-    });
-    card.addEventListener('mouseover', e => {
-      const sel = selectOf(e);
-      if (sel && selectOpen !== sel && !(selectTip && selectTip.sel === sel) && !sel.contains(e.relatedTarget)) pinSelect(sel, chosenText(sel));
-    });
-    card.addEventListener('mouseout', e => {
-      const sel = selectOf(e);
-      if (sel && selectOpen !== sel && document.activeElement !== sel && !sel.contains(e.relatedTarget)) unpinSelect(sel);
+      if (sel) unpinSelect(sel);
     });
 
     /* Soulignement d'office (voir autoRe) : à chaque changement du labo, le

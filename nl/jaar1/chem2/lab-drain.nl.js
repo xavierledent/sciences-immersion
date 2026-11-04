@@ -95,8 +95,16 @@ LabEngine.addText('drain', {
     cupBtn: 'Staalbeker',
     dayDone: 'De dag is voorbij.',
     captionValve: 'Open de klep: het water van het stadje komt binnen. Een hele dag gaat voorbij in een paar seconden.',
-    captionDay: 'Het water stroomt door het station. Houd het rooster in het oog!',
-    captionStorm: 'Zoveel regen! Het station kan niet al het water aan: een deel gaat via de overstort rechtstreeks naar de rivier.',
+    // La journée, heure par heure (moments : voir PHASES dans lab-drain.js)
+    captionPhases: {
+      night: 'Nacht: het stadje slaapt, er komt heel weinig water aan. Houd het rooster in het oog!',
+      morning: 'Ochtend: het stadje wordt wakker. Douchen, toiletten, ontbijt: veel meer water!',
+      daytime: 'Overdag: een gelijkmatige stroom water uit het stadje.',
+      evening: 'Avond: koken, afwassen, wasmachines. Weer meer water!',
+      late: 'Late avond: het stadje gaat slapen, er komt steeds minder water.'
+    },
+    captionArrive: name => `${name}: door het putje! Het is onderweg naar het station.`,
+    captionStorm: 'Het onweer barst los! Het station kan niet al het water aan: een deel gaat via de overstort rechtstreeks naar de rivier.',
     captionClogged: 'Het rooster is verstopt: het water stijgt ervoor. Hark het rooster!',
     captionPaused: 'De dag staat stil: zet de dag verder.',
     captionSample: 'De dag is voorbij. Neem de staalbeker en raak dan een onderdeel of de rivier aan: neem op elke plaats een staal.',
@@ -231,6 +239,8 @@ LabEngine.addText('drain', {
   },
 
   glossary: {
+    slaapt: 'dort', 'wordt wakker': 'se réveille', ontbijt: 'petit-déjeuner', gelijkmatige: 'régulier', koken: 'cuisiner',
+    afwassen: 'faire la vaisselle', 'gaat slapen': 'va dormir', onderweg: 'en route', 'barst los': 'éclate', 'steeds minder': 'de moins en moins',
     terechtkomt: 'finit', terechtkomen: 'finissent', terecht: 'finit (komt … terecht)', olie: 'huile', zand: 'sable',
     'per jaar': 'par an', beschermt: 'protège', beschermen: 'protéger', 'niet verplicht': 'facultatif',
     waterzuiveringsstation: 'station d’épuration', 'door het putje': 'à l’égout', putje: 'égout', gootstenen: 'éviers', 

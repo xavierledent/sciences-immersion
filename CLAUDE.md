@@ -217,11 +217,12 @@ scripts chargés.
     prendre montre la traduction de ses mots du lexique dans une bulle,
     au-dessus de l'objet tant qu'il est en main ou glissé (elle ne suit
     pas le fantôme) ; de même un bouton de choix (`lab-choice`, ou tout
-    bouton marqué `lab-gloss-btn`) : sa bulle au-dessus de lui, au survol
-    ou quand on le touche ; une liste déroulante
+    bouton marqué `lab-gloss-btn`) : sa bulle au-dessus de lui, au survol,
+    et au toucher la première fois seulement ; une liste déroulante
     (`lab-select`) ouverte montre à côté la traduction des mots du lexique
-    de ses choix, fermée elle est soulignée si son choix en contient un ;
-    le moteur s'en charge ;
+    de ses choix, la première fois qu'on ouvre une liste de ces choix-là
+    (ensuite rien ; fermée, ni soulignement ni bulle) ; une bulle à chaque
+    geste gênerait ; le moteur s'en charge ;
     `[mot]` / `[groupe|clé]` pour une forme dont la clé diffère ; pas les
     mots transparents avec le français, l'expression entière quand le mot à
     mot serait faux (`[the wax melts]` → « la cire fond ») ; un mot qui a

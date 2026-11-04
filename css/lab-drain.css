@@ -179,8 +179,9 @@
 .dr-flow-storm { opacity: 0.25; }
 .dr-flow-storm.is-on { opacity: 1; }
 
+/* La vitesse de l'eau suit l'heure de la journée (--flow-dur, lab-drain.js). */
 .is-flowing .dr-flow {
-  animation: dr-flow 0.7s linear infinite;
+  animation: dr-flow var(--flow-dur, 0.7s) linear infinite;
 }
 
 .is-flowing .dr-flow-storm:not(.is-on) {
@@ -239,7 +240,7 @@
 
 /* La station se remplit : l'eau n'apparaît dans une conduite ou un poste
    qu'une fois arrivée (data-at, lab-drain.js), les dépôts grandissent au fil
-   de la journée (--dep sur le dessin). Avant la journée : station vide. */
+   de la journée (--d sur chaque dépôt). Avant la journée : station vide. */
 .dr-wet {
   transition: opacity 0.5s ease, transform 0.8s ease;
 }
@@ -257,19 +258,60 @@ g.dr-wet:not(.is-wet) {
   transform: scaleY(0);
 }
 
+/* Un dépôt grandit d'un palier après chaque arrivée (--d : 0 à 1, depOf). */
 .dr-dep {
-  transform: scaleY(var(--dep, 1));
+  transform: scaleY(var(--d, 1));
   transform-box: fill-box;
   transform-origin: 50% 100%;
+  transition: transform 1.2s ease, opacity 1.2s ease;
 }
 
 .dr-dep.is-film {
   transform: none;
-  opacity: var(--dep, 1);
+  opacity: var(--d, 1);
+}
+
+/* Une chose sort de la ville et descend dans l'égout. */
+.dr-arrivals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.dr-arrive {
+  position: absolute;
+  left: 0.6%;
+  top: 2%;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px 2px 3px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.5);
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(17, 36, 72, 0.15);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  animation: dr-arrive 2.4s ease-in forwards;
+}
+
+.dr-arrive .dr-item-svg {
+  width: 22px;
+  height: 22px;
+}
+
+@keyframes dr-arrive {
+  0% { opacity: 0; transform: translateY(-6px); }
+  12% { opacity: 1; transform: translateY(0); }
+  65% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(70px) scale(0.5); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .dr-wet { transition: none; }
+  .dr-dep { transition: none; }
+  .dr-arrive { animation: none; }
   .is-flowing .dr-flow,
   .is-flowing .dr-bubble,
   .dr-vapour { animation: none; }

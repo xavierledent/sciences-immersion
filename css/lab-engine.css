@@ -1025,13 +1025,6 @@ tspan.lab-gloss:focus-visible {
   font-weight: 700;
 }
 
-/* Liste fermée dont le choix affiché contient un mot du lexique. */
-.lab-select.lab-select-glossed {
-  text-decoration: underline dotted var(--color-current);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-}
-
 /* ===== Scène animée et légende ===== */
 .lab-scene-wrap {
   position: relative;
