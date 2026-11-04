@@ -845,7 +845,13 @@
 
     card.addEventListener('mouseover', e => {
       const word = e.target.closest('.lab-gloss');
-      if (word) showGloss(word);
+      if (!word) return;
+      // Mot d'un objet à prendre en main : la bulle de l'objet, à la place
+      // où elle sera quand il sera en main (elle ne saute pas au clic).
+      const obj = word.classList.contains('lab-gloss-hold') && word.closest('.lab-holdable');
+      const objTip = obj && holdTipFor(obj);
+      if (objTip) objTip();
+      else showGloss(word);
     });
     card.addEventListener('mouseout', e => {
       const word = e.target.closest('.lab-gloss');
@@ -1436,7 +1442,7 @@
     }, true);
 
     function makeDraggable(el, opts) {
-      if (opts.hold) glossHoldable(el);
+      if (opts.hold) { el.classList.add('lab-holdable'); glossHoldable(el); }
       const tap = ev => {
         if (!opts.hold) { opts.onTap(); return; }
         if (held && held.el === el) releaseHeld();
