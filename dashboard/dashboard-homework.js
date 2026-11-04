@@ -22,7 +22,7 @@
    travail fait, chaque élément pesant les minutes qu'il demande à peu près
    (WEIGHT) : exercice 3 min pour la première sous-question et 1 min pour
    chacune des suivantes (décision du 2026-11-02), jeu 5 min, QCM 8 min, labo
-   30 min. Un élément commencé compte en partie : exercice selon les minutes
+   20 min (décision du 2026-11-04). Un élément commencé compte en partie : exercice selon les minutes
    des sous-questions répondues ; labo selon l'étape la plus avancée (Predict
    25 %, Experiment 50 %, Conclude 25 %, LAB_CREDIT) ; un jeu est terminé ou
    pas. Les mêmes poids donnent la durée estimée d'un devoir à sa
@@ -203,7 +203,7 @@ function summaryFor(email, chapter) {
 
 // Minutes estimées par élément ; exercice : la première sous-question (ex),
 // chacune des suivantes (exNext) : la situation est déjà analysée.
-const WEIGHT = { ex: 3, exNext: 1, game: 5, multipleChoice: 8, lab: 30 };
+const WEIGHT = { ex: 3, exNext: 1, game: 5, multipleChoice: 8, lab: 20 };
 // Minutes de n sous-questions d'un exercice (0 si aucune).
 const exMinutes = n => n > 0 ? WEIGHT.ex + WEIGHT.exNext * (n - 1) : 0;
 // Part d'un labo selon l'étape la plus avancée (maxStep) : 2 = Predict fait,
@@ -651,7 +651,7 @@ function renderSummary(classId) {
     <p class="t-help">Tous les devoirs reçus par chaque élève depuis le début. Un devoir pas fini dont la date limite
       n'est pas passée est compté « à venir ». % à temps = devoirs faits à temps parmi ceux dont la date limite est
       passée (ou déjà faits). Travail fait = minutes de travail faites parmi celles demandées dans ces mêmes
-      devoirs (exercice 3 min pour la première sous-question et 1 min pour les suivantes, jeu 5, QCM 8, labo 30). Le détail devoir par devoir est dans la
+      devoirs (exercice 3 min pour la première sous-question et 1 min pour les suivantes, jeu 5, QCM 8, labo 20). Le détail devoir par devoir est dans la
       fiche de l'élève.</p>
     ${rows.length ? `<div class="t-scroll"><table class="t-table h-table">
       <thead><tr><th>Élève</th><th>Classe</th><th class="d-num">Reçus</th><th class="d-num">Faits à temps</th>
