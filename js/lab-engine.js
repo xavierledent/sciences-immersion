@@ -95,6 +95,10 @@
       resumeDoneText: 'Your correction and your lab report are still here.',
       resumeYes: 'Continue',
       resumeNo: 'Start again',
+      briefBtn: 'Mission',
+      briefStart: 'Start',
+      briefBack: 'Back to the lab',
+      briefAgain: 'You can read this page again at any time: “Mission” button, at the top.',
       report: {
         name: 'Name', className: 'Class', date: 'Date',
         sections: ['Question', 'Hypothesis', 'Materials', 'Procedure', 'Observations & results', 'Interpretation', 'Conclusion'],
@@ -131,6 +135,10 @@
       resumeDoneText: 'Je verbetering en je labverslag zijn er nog.',
       resumeYes: 'Doorgaan',
       resumeNo: 'Opnieuw beginnen',
+      briefBtn: 'Opdracht',
+      briefStart: 'Starten',
+      briefBack: 'Terug naar het labo',
+      briefAgain: 'Je kunt deze pagina altijd opnieuw lezen: knop “Opdracht”, bovenaan.',
       report: {
         name: 'Naam', className: 'Klas', date: 'Datum',
         sections: ['Onderzoeksvraag', 'Hypothese', 'Materiaal', 'Werkwijze', 'Waarnemingen en resultaten', 'Interpretatie', 'Besluit'],
@@ -318,6 +326,7 @@
           `<button type="button" class="modal-fullscreen" data-lab-fullscreen aria-label="${L.fullscreen}">⛶</button>` +
           `<h2 id="lab-title-${def.id}" class="lab-title">${def.title}</h2>` +
           `<div class="lab-header-tools"><ol class="lab-stepper"></ol>` +
+          `<button type="button" class="lab-restart lab-brief-btn" data-lab-brief aria-pressed="false" hidden><span>${L.briefBtn}</span></button>` +
           `<button type="button" class="lab-restart lab-unlock" data-lab-unlock aria-pressed="false" title="${TEACHER.unlockTitle}" hidden>${UNLOCK_SVG}<span>${TEACHER.unlock}</span></button>` +
           `<button type="button" class="lab-restart" data-lab-restart title="${L.restart}" aria-label="${L.restart}">${RESTART_SVG}<span>${L.restartShort}</span></button></div>` +
           `<button type="button" class="modal-close" data-lab-close aria-label="${L.close}">×</button>` +
@@ -620,6 +629,7 @@
       def.reset();
       if (activeSince) activeSince = Date.now();
       render();
+      showBriefing(); // nouveau tirage : nouvelle mission
     }
 
     /* ===== Reprise et suivi =====
@@ -1176,6 +1186,7 @@
       render();
       fitToScreen();
       if (resumed) resumed = await askResume();
+      else if (!def.isStarted() && !lab.state.checked) showBriefing();
       track('lab_opened', { resumed, step: lab.state.step });
       saveResult(lab.state.step, null); // « commencé » pour le tableau de bord
     }
@@ -1265,8 +1276,56 @@
       fitTimer = setTimeout(fitToScreen, 120);
     });
 
+    /* ===== Page d'accueil du labo (mission) =====
+       Avant Predict, sans être une étape : la situation, la question, ce que
+       l'élève fera à chaque étape (des gestes, jamais des résultats) et ce
+       que regarde la correction. Montrée quand le labo n'est pas commencé
+       (première ouverture, nouveau tirage) ; le bouton « Mission » de
+       l'en-tête la rouvre à tout moment, sans rien changer au travail.
+       def.briefing() → { title, intro, questionTitle, question, art,
+       steps: [{ text, art }] × 4 } : HTML des textes du labo ; art (dessin
+       du labo) facultatif. Le moteur fait la mise en page. */
+    const briefBtn = card.querySelector('[data-lab-brief]');
+    if (def.briefing) briefBtn.hidden = false;
+
+    function showBriefing() {
+      if (!def.briefing) return;
+      const b = def.briefing();
+      sceneToken++;
+      releaseHeld();
+      hideGloss();
+      hideLockTip();
+      closeSheet();
+      closeReport();
+      card.classList.add('lab-is-briefing');
+      briefBtn.setAttribute('aria-pressed', 'true');
+      bodyEl.innerHTML = `<div class="lab-brief">` +
+        `<div class="lab-brief-top">` +
+          `<div><p class="lab-brief-kicker">${b.title}</p><p class="lab-brief-intro">${b.intro}</p></div>` +
+          `<div><p class="lab-brief-kicker">${b.questionTitle}</p>${b.question}</div>` +
+        `</div>` +
+        (b.art ? `<div class="lab-brief-art">${b.art}</div>` : '') +
+        `<ol class="lab-brief-steps">${b.steps.map((s, i) => `<li class="lab-brief-step">` +
+          `<span class="lab-brief-num">${i + 1}</span><div class="lab-brief-step-body">` +
+          `<p class="lab-brief-name">${L.steps[i]}</p><p class="lab-brief-text">${s.text}</p>` +
+          (s.art ? `<div class="lab-brief-stepart">${s.art}</div>` : '') + `</div></li>`).join('')}</ol>` +
+      `</div>`;
+      const label = def.isStarted() || lab.state.checked ? L.briefBack : L.briefStart;
+      footerEl.innerHTML = lab.footerInfo(L.briefAgain) +
+        `<div class="lab-footer-actions"><button type="button" class="lab-btn lab-btn-primary" data-lab-brief-go>${label} →</button></div>`;
+      footerEl.querySelector('[data-lab-brief-go]').addEventListener('click', () => render());
+      fitToScreen();
+    }
+
+    briefBtn.addEventListener('click', () => {
+      if (card.classList.contains('lab-is-briefing')) render();
+      else showBriefing();
+    });
+
     /* ===== Étapes ===== */
     function render() {
+      card.classList.remove('lab-is-briefing');
+      briefBtn.setAttribute('aria-pressed', 'false');
       sceneToken++;
       releaseHeld();
       hideGloss();

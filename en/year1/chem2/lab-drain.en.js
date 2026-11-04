@@ -32,6 +32,17 @@ LabEngine.addText('drain', {
     todayTitle: 'Today in the town',
     intro: 'You are an operator at the wastewater treatment plant of a small Belgian town. Everything that goes down the sinks and the toilets of the town arrives here.',
     weather: { dry: 'Dry day', rain: 'Rainy day', storm: 'Storm' },
+
+    // Page d'accueil (mission) : des gestes, jamais des résultats.
+    briefTitle: 'Your mission',
+    briefTask: 'Today, the town sends four things down the drain. Your job: follow them through the station, and find the best way to protect the river.',
+    briefSteps: [
+      'Look at the four things of today. <strong>Place</strong> each one where you think it will end up, and <strong>choose</strong> the improvement you think protects the river best.',
+      '<strong>Open</strong> the valve and watch the day at the station. <strong>Take samples</strong> with the cup, <strong>fill in</strong> your operator log, then <strong>test</strong> some improvements.',
+      '<strong>Answer</strong> the two questions with what you saw at the station, and <strong>say</strong> if your hypotheses were right.',
+      '<strong>Check</strong> your work: you get your corrected lab report. <strong>Look for</strong> your mistakes in it.'
+    ],
+    briefChecks: 'The correction looks at:',
     volume: v => `Water arriving today: ${v} m³`,
     today: (weather, v) => `${weather}. Water arriving today: ${v} m³.`,
 

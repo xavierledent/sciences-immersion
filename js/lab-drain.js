@@ -1125,6 +1125,26 @@
 
   const isObj = o => !!o && typeof o === 'object' && !Array.isArray(o);
 
+  /* Page d'accueil (mission, voir lab-engine.js) : le plan de la station,
+     les quatre choses du jour (déjà visibles à Predict), le gobelet, et ce
+     que regarde la correction (les critères du Check). */
+  function briefing() {
+    return {
+      title: LABELS.briefTitle,
+      intro: `${gloss(LABELS.intro)} ${gloss(LABELS.briefTask)}`,
+      questionTitle: LABELS.yourQuestion,
+      question: questionsHTML(),
+      art: `<div class="dr-plan dr-brief-plan">${planSVG({})}${zonesHTML()}</div>`,
+      steps: LABELS.briefSteps.map((text, i) => ({
+        text: gloss(text),
+        art: i === 0 ? ids().map(id => `<span class="dr-brief-item">${itemSVG(id)}<span>${shortOf(id)}</span></span>`).join('')
+          : i === 1 ? `<span class="dr-brief-item">${cupSVG()}<span>${LABELS.cupBtn}</span></span>`
+            : i === 3 ? `<div><p class="dr-brief-checks">${LABELS.briefChecks}</p><ul class="dr-brief-crit">${CRITERIA.map(k => `<li>${LABELS.criteria[k]}</li>`).join('')}</ul></div>`
+              : ''
+      }))
+    };
+  }
+
   lab = LabEngine.create({
     id: 'drain',
     title: LABELS.title,
@@ -1134,6 +1154,7 @@
     lockReason,
     isStarted: () => !!(state.hyp.choice || Object.keys(state.hyp.place).length || state.started),
     render: { 1: renderPredict, 2: renderExperiment, 3: renderConclude, 4: renderCheck },
+    briefing,
     report: buildReport,
     version: 1,
     save: () => ({ run, state }),

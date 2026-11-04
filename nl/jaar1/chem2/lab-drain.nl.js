@@ -31,6 +31,17 @@ LabEngine.addText('drain', {
     todayTitle: 'Vandaag in het stadje',
     intro: 'Je bent operator in het waterzuiveringsstation van een klein Belgisch stadje. Alles wat in de gootstenen en de toiletten van het stadje verdwijnt, komt hier aan.',
     weather: { dry: 'Droge dag', rain: 'Regenachtige dag', storm: 'Onweer' },
+
+    // Page d'accueil (mission) : des gestes, jamais des résultats.
+    briefTitle: 'Je opdracht',
+    briefTask: 'Vandaag spoelt het stadje vier dingen door het putje. Jouw taak: volg ze door het station, en zoek hoe je de rivier het best beschermt.',
+    briefSteps: [
+      'Bekijk de vier dingen van vandaag. <strong>Zet</strong> elk ding waar het volgens jou terechtkomt, en <strong>kies</strong> de verbetering die volgens jou de rivier het best beschermt.',
+      '<strong>Open</strong> de klep en bekijk de dag in het station. <strong>Neem stalen</strong> met de staalbeker, <strong>vul</strong> je logboek <strong>in</strong> en <strong>test</strong> daarna enkele verbeteringen.',
+      '<strong>Beantwoord</strong> de twee vragen met wat je in het station gezien hebt, en <strong>zeg</strong> of je hypotheses juist waren.',
+      '<strong>Controleer</strong> je werk: je krijgt je verbeterde labverslag. <strong>Zoek</strong> daarin je fouten.'
+    ],
+    briefChecks: 'De verbetering kijkt naar:',
     volume: v => `Water dat vandaag aankomt: ${v} m³`,
     today: (weather, v) => `${weather}. Water dat vandaag aankomt: ${v} m³.`,
 

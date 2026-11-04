@@ -1214,3 +1214,44 @@ html[data-pointer='fine'] .dr-crit:not(.is-selected):hover,
 .lab-doc .dr-report-corr th {
   text-align: left;
 }
+
+/* ===== Page d'accueil (mission) ===== */
+.dr-brief-plan {
+  width: 780px;
+}
+
+.dr-brief-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+
+.dr-brief-item .dr-item-svg {
+  width: 26px;
+  height: 26px;
+}
+
+.dr-brief-item .dr-cup-svg {
+  width: 24px;
+  height: 29px;
+}
+
+.dr-brief-checks {
+  margin: 0 0 2px;
+  font-weight: 600;
+}
+
+/* Critères de la correction, sur une ligne qui se replie (place comptée). */
+.lab-brief-stepart ul.dr-brief-crit {
+  padding: 0;
+  list-style: none;
+}
+
+.dr-brief-crit li {
+  display: inline;
+}
+
+.dr-brief-crit li + li::before {
+  content: ' · ';
+}
