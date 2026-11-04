@@ -21,6 +21,12 @@ LabEngine.addText('metals', {
       '<strong>Test</strong> elk staal. <strong>Noteer</strong> wat je ziet.',
       '<strong>Beslis</strong>: metaal of niet? Welk metaal?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Bekijk elk staal en kies er een antwoord voor.',
+      'Sleep een hulpmiddel naar het staal en schrijf je waarneming in het schrift.',
+      'Vergelijk je schrift met de referentiefiche.'
+    ],
     yourQuestion: 'Jouw onderzoeksvraag',
     briefQuestion: 'Welke stalen zijn metalen, en welk metaal is elk staal?',
     briefCheckItems: ['Metaal of niet, voor elk staal', 'Welk metaal het is'],

@@ -1000,6 +1000,14 @@ tspan.lab-gloss:focus-visible {
   line-height: 1.4;
 }
 
+/* Sous la phrase courte : le comment, en plus petit (on peut s'en passer). */
+.lab-brief-detail {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--color-muted);
+}
+
 /* Les dessins du labo qui illustrent une étape (outils, objets), avec leur nom. */
 .lab-brief-pics {
   display: flex;

@@ -1204,7 +1204,7 @@
       intro: gloss(LABELS.briefTask),
       questionTitle: LABELS.yourQuestions,
       questions: [LABELS.question, LABELS.question2].map(gloss),
-      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), pics: [['throw', 'recycle', 'reuse'].map(w => ({ html: wayIcon(w), label: LABELS.ways[w].name })), Object.keys(LABELS.steps).filter(s => s !== 'use').map(s => ({ html: `<img src="${imgSrc(s)}" alt="" draggable="false">`, label: LABELS.steps[s] })), null][i] })),
+      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), detail: gloss(LABELS.briefDetails[i]), pics: [['throw', 'recycle', 'reuse'].map(w => ({ html: wayIcon(w), label: LABELS.ways[w].name })), Object.keys(LABELS.steps).filter(s => s !== 'use').map(s => ({ html: `<img src="${imgSrc(s)}" alt="" draggable="false">`, label: LABELS.steps[s] })), null][i] })),
       checks: Object.values(LABELS.criteria)
     }),
     title: LABELS.title,

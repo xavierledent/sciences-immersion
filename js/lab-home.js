@@ -899,7 +899,7 @@
       intro: gloss(LABELS.briefTask),
       questionTitle: LABELS.yourQuestions,
       questions: [LABELS.questions[1], LABELS.questions[2], LABELS.questions[3]].map(gloss),
-      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), pics: [null, ['camera', 'meter'].map(k => ({ html: `<img src="${iconSrc(k)}" alt="" draggable="false">`, label: LABELS.briefTools[k] })), null][i] })),
+      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), detail: gloss(LABELS.briefDetails[i]), pics: [null, ['camera', 'meter'].map(k => ({ html: `<img src="${iconSrc(k)}" alt="" draggable="false">`, label: LABELS.briefTools[k] })), null][i] })),
       checks: Object.values(LABELS.criteria)
     }),
     title: LABELS.title,

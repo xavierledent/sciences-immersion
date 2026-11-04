@@ -19,6 +19,12 @@ LabEngine.addText('metals', {
       '<strong>Test</strong> each sample. <strong>Note</strong> what you see.',
       '<strong>Decide</strong>: metal or not? Which metal?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Look at each sample, then choose an answer for it.',
+      'Drag a tool onto the sample, then write your observation in the notebook.',
+      'Compare your notebook with the reference sheet.'
+    ],
     yourQuestion: 'Your question',
     briefQuestion: 'Which samples are metals, and which metal is each one?',
     briefCheckItems: ['Metal or not, for each sample', 'Which metal it is'],

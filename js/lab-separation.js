@@ -1723,7 +1723,7 @@
       intro: gloss(LABELS.briefTask),
       questionTitle: LABELS.yourQuestion,
       questions: [LABELS.question].map(gloss),
-      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), pics: [null, BASE_TOOLS.map(k => ({ html: icon(k), label: LABELS.tools[k] })), null][i] })),
+      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), detail: gloss(LABELS.briefDetails[i]), pics: [null, BASE_TOOLS.map(k => ({ html: icon(k), label: LABELS.tools[k] })), null][i] })),
       checks: Object.values(LABELS.criteria)
     }),
     title: LABELS.title,

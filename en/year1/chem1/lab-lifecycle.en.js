@@ -25,6 +25,12 @@ LabEngine.addText('lifecycle', {
       '<strong>Place</strong> the cards. <strong>Run</strong> the model. <strong>Draw</strong> the graphs.',
       '<strong>Answer</strong> the two questions. Were you right?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Put the three ways in order, from the best to the worst for the planet.',
+      'The four counters fill up step by step: write their totals in your notebook.',
+      'Use your counters and your graphs to explain your answers.'
+    ],
 
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',

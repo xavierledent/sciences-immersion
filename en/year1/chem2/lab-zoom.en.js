@@ -25,6 +25,12 @@ LabEngine.addText('zoom', {
       '<strong>Pour</strong>, <strong>mix</strong>, <strong>zoom in</strong>. <strong>Build</strong> the model.',
       '<strong>Answer</strong>. <strong>Find</strong> the rule.'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'For each preparation, choose: pure substance, homogeneous or heterogeneous mixture.',
+      'Put the right particles on the slide, then compare with the reference model.',
+      'Look at what the particles do in each result.'
+    ],
 
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',

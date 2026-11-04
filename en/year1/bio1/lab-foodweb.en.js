@@ -23,6 +23,12 @@ LabEngine.addText('foodweb', {
       '<strong>Build</strong> the food web. <strong>Start</strong> the disease. <strong>Read</strong> the graphs.',
       '<strong>Answer</strong> questions a and b. Were you right?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'For each species, choose one of the small graphs.',
+      'Put each card on its level, then draw the arrows “is eaten by”.',
+      'Read the years 0 and 10 on each graph.'
+    ],
 
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',

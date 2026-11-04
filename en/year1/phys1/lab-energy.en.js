@@ -25,6 +25,12 @@ LabEngine.addText('energy', {
       '<strong>Turn</strong> the crank. <strong>Measure</strong>. <strong>Draw</strong> the energy flow.',
       '<strong>Answer</strong> the questions. Were you right?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Choose a lamp in each sentence. You can add why.',
+      'Take the right instrument for each numbered point, then write its value in the table.',
+      'Add up the energy at the end with the values of your table.'
+    ],
     briefQuestion: 'Both lamps receive the same energy: what does each lamp do with it?',
 
     // « a, b and c »

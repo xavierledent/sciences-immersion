@@ -30,6 +30,12 @@ LabEngine.addText('separation', {
       '<strong>Gebruik</strong> de hulpmiddelen. <strong>Vul</strong> je scheidingslogboek <strong>in</strong>.',
       '<strong>Benoem</strong> elke techniek. Werkte je plan?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Bekijk de fasen en zet dan de hulpmiddelen in volgorde.',
+      'Neem een hulpmiddel en raak dan het recipiënt aan waarop je het wilt gebruiken.',
+      'De fiche met de technieken helpt je om elke techniek te benoemen.'
+    ],
 
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',

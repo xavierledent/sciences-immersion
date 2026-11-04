@@ -21,6 +21,12 @@ LabEngine.addText('soil', {
       '<strong>Spreid</strong> uit, <strong>bekijk</strong> en <strong>sorteer</strong> wat je vindt.',
       '<strong>Beantwoord</strong> de vraag. Had je gelijk?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Bekijk de twee plaatsen en kies staal A of B.',
+      'Trek eerst de handschoenen aan. Sleep dan alles wat je vindt naar een schaaltje.',
+      'Gebruik je waarnemingsblad: het vult zich vanzelf in.'
+    ],
     question: 'Waaruit bestaat een [bodemstaal], en verandert de samenstelling [afhankelijk van] de plaats?',
     yourQuestion: 'Jouw onderzoeksvraag',
     yourSamples: 'Jouw twee stalen',

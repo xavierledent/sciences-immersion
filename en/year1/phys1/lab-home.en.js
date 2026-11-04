@@ -24,6 +24,12 @@ LabEngine.addText('home', {
       '<strong>Label</strong> objects. <strong>Film</strong> the rooms. <strong>Read</strong> the meter.',
       '<strong>Answer</strong> the three questions. Were you right?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Choose the objects that store energy, then answer two short questions.',
+      'Do the three missions in any order. Switch devices on and off to read the meter.',
+      'Use the temperatures and the powers in your notebook.'
+    ],
     briefTools: { camera: 'Thermal camera', meter: 'Electricity meter' },
 
     // « a, b and c »

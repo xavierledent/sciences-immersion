@@ -27,6 +27,12 @@ LabEngine.addText('grid', {
       '<strong>Kies</strong> centrales. <strong>Laat</strong> de dag <strong>lopen</strong>. <strong>Probeer</strong> opnieuw.',
       '<strong>Beantwoord</strong> de twee vragen. Had je gelijk?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Zeg of wind en zon het alleen kunnen, en kies dan de installaties die jij zou gebruiken.',
+      'Vul eerst de identiteitskaarten in. Test 1 gebruikt alleen wind en zon.',
+      'Gebruik de grafieken van je testen.'
+    ],
     briefQuestion: 'En welke installaties helpen als wind en zon niet genoeg zijn?',
 
     // « a, b en c »

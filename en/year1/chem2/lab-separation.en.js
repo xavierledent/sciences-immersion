@@ -30,6 +30,12 @@ LabEngine.addText('separation', {
       '<strong>Use</strong> the tools. <strong>Fill in</strong> your separation log.',
       '<strong>Name</strong> each technique. Did your plan work?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Look at the phases, then put the tools in order.',
+      'Take a tool, then touch the container you want to use it on.',
+      'The techniques sheet can help you name each one.'
+    ],
 
     // « a, b and c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0] || '',

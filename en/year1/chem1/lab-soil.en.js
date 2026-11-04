@@ -21,6 +21,12 @@ LabEngine.addText('soil', {
       '<strong>Spread</strong>, <strong>look</strong> and <strong>sort</strong> what you find.',
       '<strong>Answer</strong> the question. Were you right?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Look at the two places, then choose sample A or B.',
+      'Put on the gloves first. Then drag everything you find into a cup.',
+      'Use your observation sheet: it fills in by itself.'
+    ],
     question: 'What is a [soil sample] made of, and does its composition change [depending on] the location?',
     yourQuestion: 'Your question',
     yourSamples: 'Your two samples',

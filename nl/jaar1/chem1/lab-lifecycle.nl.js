@@ -25,6 +25,12 @@ LabEngine.addText('lifecycle', {
       '<strong>Leg</strong> de kaarten. <strong>Laat</strong> het model <strong>lopen</strong>. <strong>Teken</strong> de grafieken.',
       '<strong>Beantwoord</strong> de twee vragen. Had je gelijk?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Zet de drie manieren in volgorde, van de beste tot de slechtste voor de planeet.',
+      'De vier tellers vullen zich stap voor stap: schrijf hun totalen in je schrift.',
+      'Gebruik je tellers en je grafieken om je antwoorden uit te leggen.'
+    ],
 
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',

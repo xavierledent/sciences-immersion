@@ -100,6 +100,7 @@
       briefBack: 'Back to the lab',
       briefAgain: 'You can read this page again at any time: “Mission” button, at the top.',
       briefCheck: '<strong>Check</strong>: read your corrected report. <strong>Find</strong> your mistakes.',
+      briefCheckDetail: 'Touch each criterion to see what was right and what was wrong.',
       briefChecks: 'The correction looks at:',
       report: {
         name: 'Name', className: 'Class', date: 'Date',
@@ -142,6 +143,7 @@
       briefBack: 'Terug naar het labo',
       briefAgain: 'Je kunt deze pagina altijd opnieuw lezen: knop “Opdracht”, bovenaan.',
       briefCheck: '<strong>Controleer</strong>: lees je verbeterde verslag. <strong>Zoek</strong> je fouten.',
+      briefCheckDetail: 'Raak elk criterium aan om te zien wat juist en wat fout was.',
       briefChecks: 'De verbetering kijkt naar:',
       report: {
         name: 'Naam', className: 'Klas', date: 'Datum',
@@ -1343,7 +1345,8 @@
        numérotée s'il y en a plusieurs). La 4e étape (Check) est la même
        partout : le moteur l'écrit, avec checks (les noms des critères de
        la correction). pics : les dessins du labo qui illustrent une étape
-       ([{ html, label }] : outils, objets ; jamais un résultat). Phrases
+       ([{ html, label }] : outils, objets ; jamais un résultat) ; detail :
+       sous la phrase courte, le comment en une phrase (jamais le résultat). Phrases
        courtes : l'élève ne lit pas un long texte. Toujours la même page, rien du tirage
        (les choses, la météo…) : la surprise vient après. Le moteur fait la
        mise en page. */
@@ -1353,7 +1356,7 @@
       const checks = b.checks && b.checks.length
         ? `<div><p class="lab-brief-checks">${L.briefChecks}</p><ul class="lab-brief-crit">${b.checks.map(c => `<li>${c}</li>`).join('')}</ul></div>`
         : '';
-      const steps = b.steps.slice(0, 3).concat({ text: L.briefCheck, art: checks });
+      const steps = b.steps.slice(0, 3).concat({ text: L.briefCheck, detail: L.briefCheckDetail, art: checks });
       const questionsHTML = qs => (qs.length > 1
         ? `<ol class="lab-brief-qs">${qs.map(q => `<li>${q}</li>`).join('')}</ol>`
         : `<p class="lab-brief-q">${qs[0] || ''}</p>`);
@@ -1375,6 +1378,7 @@
         `<ol class="lab-brief-steps">${steps.map((s, i) => `<li class="lab-brief-step">` +
           `<span class="lab-brief-num">${i + 1}</span><div class="lab-brief-step-body">` +
           `<p class="lab-brief-name">${L.steps[i]}</p><p class="lab-brief-text">${s.text}</p>` +
+          (s.detail ? `<p class="lab-brief-detail">${s.detail}</p>` : '') +
           (s.pics && s.pics.length ? `<div class="lab-brief-pics">${s.pics.map(p => `<span class="lab-brief-pic">${p.html}` +
             (p.label ? `<span>${p.label}</span>` : '') + `</span>`).join('')}</div>` : '') +
           (s.art ? `<div class="lab-brief-stepart">${s.art}</div>` : '') + `</div></li>`).join('')}</ol>` +

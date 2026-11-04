@@ -1260,6 +1260,7 @@
       art: `<div class="dr-plan dr-brief-plan">${planSVG({ water: 0, dep: 0, stormOn: false, plain: true })}${zonesHTML()}</div>`,
       steps: LABELS.briefSteps.map((text, i) => ({
         text: gloss(text),
+        detail: gloss(LABELS.briefDetails[i]),
         art: i === 1 ? `<span class="dr-brief-item">${cupSVG()}<span>${LABELS.cupBtn}</span></span>` : ''
       })),
       checks: CRITERIA.map(k => LABELS.criteria[k])

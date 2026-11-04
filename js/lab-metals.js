@@ -1348,7 +1348,7 @@
       intro: gloss(LABELS.briefTask),
       questionTitle: LABELS.yourQuestion,
       questions: [LABELS.briefQuestion].map(gloss),
-      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), pics: [null, Object.keys(LABELS.tests).map(k => ({ html: toolImg(k), label: LABELS.tests[k].tool })), null][i] })),
+      steps: LABELS.briefSteps.map((text, i) => ({ text: gloss(text), detail: gloss(LABELS.briefDetails[i]), pics: [null, Object.keys(LABELS.tests).map(k => ({ html: toolImg(k), label: LABELS.tests[k].tool })), null][i] })),
       checks: LABELS.briefCheckItems
     }),
     title: LABELS.title,

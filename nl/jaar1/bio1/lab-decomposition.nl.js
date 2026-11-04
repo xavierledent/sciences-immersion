@@ -28,6 +28,12 @@ LabEngine.addText('decomposition', {
       '<strong>Maak</strong> bokalen <strong>klaar</strong>. <strong>Wacht</strong>. <strong>Weeg</strong> de bladeren.',
       '<strong>Vergelijk</strong> de bokalen. <strong>Antwoord</strong>. Had je gelijk?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Kies de woorden die de zin aanvullen. Je kunt zeggen waarom.',
+      'Stel voor elke bokaal de bodem, de regenwormen, het water en de temperatuur in.',
+      'Gebruik de massa’s in je tabel en de grafiek.'
+    ],
     briefQuestion: 'Wat verandert de snelheid van de afbraak? Je test één factor.',
 
     // Masse au dixième, avec le séparateur décimal de la langue.

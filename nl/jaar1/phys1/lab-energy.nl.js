@@ -26,6 +26,12 @@ LabEngine.addText('energy', {
       '<strong>Draai</strong> aan de slinger. <strong>Meet</strong>. <strong>Teken</strong> de energiestroom.',
       '<strong>Beantwoord</strong> de vragen. Had je gelijk?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Kies een lamp in elke zin. Je kunt zeggen waarom.',
+      'Neem het juiste meetinstrument voor elk genummerd punt en schrijf de waarde in de tabel.',
+      'Tel de energie op het einde op met de waarden van je tabel.'
+    ],
     briefQuestion: 'Beide lampen krijgen evenveel energie: wat doet elke lamp ermee?',
 
     // « a, b en c »

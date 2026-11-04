@@ -25,6 +25,12 @@ LabEngine.addText('zones', {
       '<strong>Measure</strong>. <strong>Count</strong> the living things. <strong>Draw</strong> the histogram.',
       '<strong>Answer</strong> the questions. Were you right?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'For each question, choose zone A or zone B.',
+      'Touch a zone with an instrument, then write the value in your data sheet.',
+      'Compare the values and the counts of the two zones.'
+    ],
     question: 'Do abiotic factors (temperature, light, humidity) have an influence on biotic factors (the living things)?',
     question2: 'And do living things also have an influence on each other?',
     questionCase: 'To [find out], you compare two zones only [50 m apart]: you measure their abiotic factors and you count their living things.',

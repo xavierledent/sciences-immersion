@@ -40,6 +40,12 @@ LabEngine.addText('drain', {
       '<strong>Open</strong> de klep. <strong>Neem</strong> stalen. <strong>Test</strong> verbeteringen.',
       '<strong>Beantwoord</strong> de twee vragen. Had je gelijk?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Sleep elk ding naar een onderdeel van het plan, of naar de rivier.',
+      'Neem een staal bij elk onderdeel en in de rivier, en test daarna minstens twee verbeteringen.',
+      'Gebruik je logboek en de resultaten van je testen.'
+    ],
     volume: v => `Water dat vandaag aankomt: ${v} m³`,
     today: (weather, v) => `${weather}. Water dat vandaag aankomt: ${v} m³.`,
 

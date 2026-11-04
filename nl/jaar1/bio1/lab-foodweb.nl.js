@@ -24,6 +24,12 @@ LabEngine.addText('foodweb', {
       '<strong>Bouw</strong> het voedselweb. <strong>Start</strong> de ziekte. <strong>Lees</strong> de grafieken <strong>af</strong>.',
       '<strong>Beantwoord</strong> vraag a en b. Had je gelijk?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Kies voor elke soort een van de kleine grafieken.',
+      'Leg elke kaart op haar niveau en teken dan de pijlen “wordt gegeten door”.',
+      'Lees jaar 0 en jaar 10 af op elke grafiek.'
+    ],
 
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',

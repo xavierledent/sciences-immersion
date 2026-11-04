@@ -41,6 +41,12 @@ LabEngine.addText('drain', {
       '<strong>Open</strong> the valve. <strong>Take</strong> samples. <strong>Test</strong> improvements.',
       '<strong>Answer</strong> the two questions. Were you right?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Drag each thing onto a post of the plan, or into the river.',
+      'Take a sample at each post and in the river, then test at least two improvements.',
+      'Use your operator log and the results of your tests.'
+    ],
     volume: v => `Water arriving today: ${v} m³`,
     today: (weather, v) => `${weather}. Water arriving today: ${v} m³.`,
 

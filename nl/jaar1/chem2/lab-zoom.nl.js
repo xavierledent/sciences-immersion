@@ -27,6 +27,12 @@ LabEngine.addText('zoom', {
       '<strong>Giet</strong>, <strong>meng</strong>, <strong>zoom in</strong>. <strong>Bouw</strong> het model.',
       '<strong>Antwoord</strong>. <strong>Zoek</strong> de regel.'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Kies voor elke bereiding: zuivere stof, homogeen of heterogeen mengsel.',
+      'Zet de juiste deeltjes op het preparaat en vergelijk dan met het referentiemodel.',
+      'Kijk wat de deeltjes doen in elk resultaat.'
+    ],
 
     // « a, b en c »
     list: names => names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0] || '',

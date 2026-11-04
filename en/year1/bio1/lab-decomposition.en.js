@@ -23,6 +23,12 @@ LabEngine.addText('decomposition', {
       '<strong>Prepare</strong> jars. <strong>Wait</strong>. <strong>Weigh</strong> the leaves.',
       '<strong>Compare</strong> the jars. <strong>Answer</strong>. Were you right?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Choose the words that complete the sentence. You can add why.',
+      'Set the soil, the earthworms, the water and the temperature of each jar.',
+      'Use the masses in your table and the graph.'
+    ],
     briefQuestion: 'What changes the speed of decomposition? You test one factor.',
 
     // Masse au dixième, avec le séparateur décimal de la langue.

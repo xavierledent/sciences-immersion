@@ -27,6 +27,12 @@ LabEngine.addText('home', {
       '<strong>Plak</strong> etiketten. <strong>Film</strong> de kamers. <strong>Lees</strong> de meter <strong>af</strong>.',
       '<strong>Beantwoord</strong> de drie vragen. Had je gelijk?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Kies de voorwerpen die energie opslaan en beantwoord dan twee korte vragen.',
+      'Doe de drie opdrachten in de volgorde die je wilt. Zet toestellen aan en uit om de meter af te lezen.',
+      'Gebruik de temperaturen en de vermogens in je schrift.'
+    ],
     briefTools: { camera: 'Warmtecamera', meter: 'Elektriciteitsmeter' },
 
     // « a, b en c »

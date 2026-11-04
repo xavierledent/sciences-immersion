@@ -25,6 +25,12 @@ LabEngine.addText('grid', {
       '<strong>Choose</strong> power plants. <strong>Run</strong> the day. <strong>Try</strong> again.',
       '<strong>Answer</strong> the two questions. Were you right?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Say if wind and sun can do it alone, then choose the installations you would use.',
+      'Fill in the identity cards first. Test 1 uses wind and sun only.',
+      'Use the graphs of your tests.'
+    ],
     briefQuestion: 'And which installations help when wind and sun are not enough?',
 
     // « a, b and c »

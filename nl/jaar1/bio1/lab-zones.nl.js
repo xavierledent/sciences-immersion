@@ -25,6 +25,12 @@ LabEngine.addText('zones', {
       '<strong>Meet</strong>. <strong>Tel</strong> de levende wezens. <strong>Teken</strong> het histogram.',
       '<strong>Beantwoord</strong> de vragen. Had je gelijk?'
     ],
+    // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
+    briefDetails: [
+      'Kies voor elke vraag zone A of zone B.',
+      'Raak een zone aan met een meetinstrument en schrijf de waarde in je terreinfiche.',
+      'Vergelijk de waarden en de tellingen van de twee zones.'
+    ],
     question: 'Hebben abiotische factoren (temperatuur, licht, vochtigheid) een invloed op biotische factoren (de levende wezens)?',
     question2: 'En hebben levende wezens ook een invloed op elkaar?',
     questionCase: 'Om dat te [weten te komen], vergelijk je twee zones die maar [50 m uit elkaar] liggen: je meet hun abiotische factoren en je telt hun levende wezens.',
