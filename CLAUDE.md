@@ -64,7 +64,14 @@ préparations tirées parmi 12, de résultats différents : corps pur, mélange
 homogène ou hétérogène ; verser, mélanger, œil nu, microscope imaginaire ;
 il construit le modèle moléculaire puis le compare à un modèle de référence ;
 carnet avec solvant et soluté ; corps pur = même substance sous deux formes,
-lue comme deux formes par le microscope ; expérience sur un modèle) ; `phys1` n'a pas de labo
+lue comme deux formes par le microscope ; expérience sur un modèle) et « Down
+the drain » (station d'épuration anonyme : 4 choses jetées par la ville tirées
+parmi 12, météo sèche, pluie ou orage avec déversoir, budget tiré ; placer
+chaque chose, journée en accéléré, grille à racler, prélèvements au gobelet,
+analyse de l'eau de la rivière, journal de l'opérateur ; tester au moins deux
+améliorations parmi six, dont la campagne auprès des habitants et le bassin
+d'évaporation hors budget ; la bonne réponse peut être « aucune » ;
+expérience sur un modèle) ; `phys1` n'a pas de labo
 réel dans le cours. Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans

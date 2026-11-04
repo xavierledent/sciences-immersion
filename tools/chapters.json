@@ -82,6 +82,13 @@
             "title": "Zoom in",
             "question": "What do we get when we mix substances?",
             "text": "Make two preparations with bottles of pure substances, look at them with the naked eye, then zoom in with an imaginary microscope: build your own molecular model, compare it, then classify what you made."
+          },
+          {
+            "id": "drain",
+            "file": "lab-drain",
+            "title": "Down the drain",
+            "question": "Where does everything we send down the drain end up?",
+            "text": "You are an operator at a wastewater treatment plant. Run one day of the station, take samples at each post and in the river, then test improvements: which one protects the river best?"
           }
         ],
         "nl": [
@@ -98,6 +105,13 @@
             "title": "Zoom in",
             "question": "Wat krijgen we als we stoffen mengen?",
             "text": "Maak twee bereidingen met flessen zuivere stoffen, bekijk ze met het blote oog en zoom dan in met een denkbeeldige microscoop: bouw je eigen molecuulmodel, vergelijk het en deel dan in wat je gemaakt hebt."
+          },
+          {
+            "id": "drain",
+            "file": "lab-drain",
+            "title": "Door het putje",
+            "question": "Waar komt alles terecht wat we door het putje spoelen?",
+            "text": "Je bent operator in een waterzuiveringsstation. Laat een dag van het station voorbijgaan, neem stalen bij elk onderdeel en in de rivier, en test dan verbeteringen: welke beschermt de rivier het best?"
           }
         ]
       }

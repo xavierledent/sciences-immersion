@@ -58,7 +58,14 @@ verse), d'autres molécules que le cours (sucre, hélium, sable), solvant et
 soluté dans le carnet, une règle en Conclude. À garder : dessiner soi-même
 les modèles moléculaires.
 
-### 3. La station d'épuration ou le centre de tri — retenu
+### 3. La station d'épuration ou le centre de tri — construit (2026-11-04) : « Down the drain »
+
+Fiche validée le 2026-11-04 : jour d'orage avec déversoir, campagne auprès
+des habitants, bassin d'évaporation (fausse bonne idée chiffrée), bassin à
+bactéries nommé « pas une séparation », pas de gants, 4 choses par jour.
+Ajouté en construisant : le budget de la ville est tiré au sort (150 000,
+250 000 ou 300 000 € par an), sinon le filtre à sable gagnait presque
+toujours.
 
 Partie 3, vie courante (Exercice 7 b, French challenge). Expérience sur un
 modèle : l'élève prend la place d'un travailleur d'une de ces installations
