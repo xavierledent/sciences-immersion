@@ -18,8 +18,8 @@ LabEngine.addText('zones', {
     title: 'Twee ecosystemen onder de loep',
 
     // Page d'accueil (Mission) : toujours la même, rien du tirage ; des gestes, jamais des résultats.
-    briefTitle: 'Opdracht: vergelijk twee zones van het bos',
-    briefTask: 'Een uitstap in het bos: twee zones die maar 50 m uit elkaar liggen. Jouw taak: meet hun abiotische factoren, tel hun levende wezens, en zoek hoe levende wezens op elkaar inwerken.',
+    briefTitle: 'Opdracht: vergelijk twee zones dicht bij elkaar',
+    briefTask: 'Een uitstap: twee zones die maar 50 m uit elkaar liggen. Jouw taak: meet hun abiotische factoren, tel hun levende wezens, en zoek hoe levende wezens op elkaar inwerken.',
     briefSteps: [
       '<strong>Kies</strong> de zone die volgens jou de warmste, de lichtste en de vochtigste is, en waar je volgens jou de meeste mossen en varens vindt.',
       '<strong>Meet</strong> elke zone met de thermometer, de luxmeter en de hygrometer, en <strong>voel</strong> aan de bodem. <strong>Benoem</strong> en <strong>tel</strong> de levende wezens van het telkader, <strong>noteer</strong> hun interacties en <strong>teken</strong> dan het histogram.',
