@@ -538,7 +538,7 @@
         if (n.matches('select.lab-select')) added.add(n);
         n.querySelectorAll('select.lab-select').forEach(s => added.add(s));
       }));
-      added.forEach(steadySelect);
+      added.forEach(sel => { steadySelect(sel); markSelect(sel); });
     }).observe(bodyEl, { childList: true, subtree: true });
 
     lab.state = freshFrameState();
@@ -766,13 +766,25 @@
     glossTip.setAttribute('role', 'tooltip');
     card.appendChild(glossTip);
 
-    function showGloss(word) {
-      glossTip.textContent = word.dataset.translation;
+    /* side : à droite de l'élément, sinon à gauche, sinon au-dessus (liste
+       déroulante : la liste ouverte, dessinée par le navigateur, passe
+       devant tout le reste et s'ouvre vers le bas ou vers le haut ; jamais
+       sur les côtés). Sinon : au-dessus, ou en dessous faute de place. */
+    function placeTip(el, side) {
       glossTip.classList.add('is-visible');
       const c = card.getBoundingClientRect();
-      const w = word.getBoundingClientRect();
+      const w = el.getBoundingClientRect();
       const t = glossTip.getBoundingClientRect();
       const gap = 8;
+      if (side) {
+        let left = w.right - c.left + gap;
+        if (left + t.width > c.width - 4) left = w.left - c.left - gap - t.width;
+        if (left >= 4) {
+          glossTip.style.top = `${Math.max(4, w.top - c.top + w.height / 2 - t.height / 2)}px`;
+          glossTip.style.left = `${left}px`;
+          return;
+        }
+      }
       let top = w.top - c.top - t.height - gap;
       if (top < 4) top = w.bottom - c.top + gap;
       const left = Math.max(4, Math.min(c.width - t.width - 4, w.left - c.left + w.width / 2 - t.width / 2));
@@ -780,7 +792,46 @@
       glossTip.style.left = `${left}px`;
     }
 
-    function hideGloss() { glossTip.classList.remove('is-visible'); }
+    function showGloss(word) {
+      glossTip.classList.remove('is-pairs');
+      glossTip.textContent = word.dataset.translation;
+      placeTip(word);
+    }
+
+    /* Mots du lexique d'un texte qui n'est pas souligné (objet en main,
+       choix d'une liste) : [{ word, fr }], sans doublon. */
+    function glossPairs(texts) {
+      if (!autoRe) return [];
+      const seen = new Set();
+      const pairs = [];
+      texts.forEach(text => {
+        autoRe.lastIndex = 0;
+        let m;
+        while ((m = autoRe.exec(text))) {
+          const key = m[0].toLowerCase().replace(/\s+/g, ' ');
+          if (glossary[key] && !seen.has(key)) { seen.add(key); pairs.push({ word: m[0], fr: glossary[key] }); }
+        }
+      });
+      return pairs;
+    }
+
+    function showPairs(pairs, el, side) {
+      glossTip.classList.add('is-pairs');
+      glossTip.innerHTML = pairs.map(p => `<span><b>${escapeHtml(p.word)}</b> = ${escapeHtml(p.fr)}</span>`).join('');
+      placeTip(el, side);
+    }
+
+    /* Bulle épinglée : celle de l'objet en main ou de la liste ouverte ;
+       survoler un autre mot la remplace un instant, puis elle revient. */
+    let pinned = null;
+    function pinTip(fn) { pinned = fn; fn(); }
+    function unpinTip(fn) { if (pinned === fn) { pinned = null; glossTip.classList.remove('is-visible'); } }
+    function restoreTip() {
+      if (pinned) pinned();
+      else glossTip.classList.remove('is-visible');
+    }
+
+    function hideGloss() { pinned = null; glossTip.classList.remove('is-visible'); }
 
     card.addEventListener('mouseover', e => {
       const word = e.target.closest('.lab-gloss');
@@ -788,13 +839,76 @@
     });
     card.addEventListener('mouseout', e => {
       const word = e.target.closest('.lab-gloss');
-      if (word && !word.contains(e.relatedTarget) && document.activeElement !== word) hideGloss();
+      if (word && !word.contains(e.relatedTarget) && document.activeElement !== word) restoreTip();
     });
     card.addEventListener('focusin', e => {
       if (e.target.classList.contains('lab-gloss')) showGloss(e.target);
     });
     card.addEventListener('focusout', e => {
-      if (e.target.classList.contains('lab-gloss')) hideGloss();
+      if (e.target.classList.contains('lab-gloss')) restoreTip();
+    });
+
+    /* Listes déroulantes : rien ne se souligne dans les choix (le navigateur
+       les dessine en texte brut). Ouvrir la liste montre, à côté, la
+       traduction des mots du lexique de ses choix ; la liste fermée est
+       soulignée quand le choix affiché en contient un, et sa traduction
+       s'affiche au survol ou au focus. */
+    const optionTexts = sel => Array.from(sel.options).filter(o => o.value !== '').map(o => o.textContent);
+    const chosenText = sel => (sel.value !== '' && sel.selectedIndex >= 0 ? [sel.options[sel.selectedIndex].textContent] : []);
+    function markSelect(sel) {
+      sel.classList.toggle('lab-select-glossed', glossPairs(chosenText(sel)).length > 0);
+    }
+    let selectTip = null;   // { sel, fn } : bulle de la liste ouverte ou survolée
+    function pinSelect(sel, texts) {
+      const pairs = glossPairs(texts);
+      if (selectTip) unpinTip(selectTip.fn);
+      selectTip = null;
+      if (!pairs.length) return;
+      const fn = () => showPairs(pairs, sel, true);
+      selectTip = { sel, fn };
+      pinTip(fn);
+    }
+    function unpinSelect(sel) {
+      if (selectTip && selectTip.sel === sel) { unpinTip(selectTip.fn); selectTip = null; }
+    }
+    const selectOf = e => e.target.closest && e.target.closest('select.lab-select');
+    let selectOpen = null;
+    card.addEventListener('pointerdown', e => {
+      const sel = selectOf(e);
+      if (!sel || sel.disabled) return;
+      selectOpen = sel;
+      pinSelect(sel, optionTexts(sel));
+    });
+    card.addEventListener('keydown', e => {
+      const sel = selectOf(e);
+      if (!sel || !['ArrowDown', 'ArrowUp', ' ', 'Enter', 'F4'].includes(e.key)) return;
+      selectOpen = sel;
+      pinSelect(sel, optionTexts(sel));
+    });
+    card.addEventListener('change', e => {
+      const sel = selectOf(e);
+      if (!sel) return;
+      selectOpen = null;
+      markSelect(sel);
+      unpinSelect(sel);
+    });
+    card.addEventListener('focusin', e => {
+      const sel = selectOf(e);
+      if (sel && selectOpen !== sel) pinSelect(sel, chosenText(sel));
+    });
+    card.addEventListener('focusout', e => {
+      const sel = selectOf(e);
+      if (!sel) return;
+      if (selectOpen === sel) selectOpen = null;
+      unpinSelect(sel);
+    });
+    card.addEventListener('mouseover', e => {
+      const sel = selectOf(e);
+      if (sel && selectOpen !== sel && !(selectTip && selectTip.sel === sel) && !sel.contains(e.relatedTarget)) pinSelect(sel, chosenText(sel));
+    });
+    card.addEventListener('mouseout', e => {
+      const sel = selectOf(e);
+      if (sel && selectOpen !== sel && document.activeElement !== sel && !sel.contains(e.relatedTarget)) unpinSelect(sel);
     });
 
     /* Soulignement d'office (voir autoRe) : à chaque changement du labo, le
@@ -808,7 +922,8 @@
       'title, desc, style, script, .lab-header, .lab-reportview, .lab-gloss-tip, .lab-lock-tip, [data-no-gloss]';
     const NO_AUTO = `${NO_GLOSS}, .lab-gloss`;
 
-    function glossTextNode(node) {
+    // hold : dans un objet à prendre en main (voir glossHoldable).
+    function glossTextNode(node, hold) {
       const text = node.nodeValue;
       const parent = node.parentNode;
       if (!parent) return;
@@ -821,8 +936,8 @@
         if (!fr) continue;
         if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
         const word = svg ? document.createElementNS(SVG_NS, 'tspan') : document.createElement('span');
-        word.setAttribute('class', 'lab-gloss');
-        word.setAttribute('tabindex', '0');
+        word.setAttribute('class', hold ? 'lab-gloss lab-gloss-hold' : 'lab-gloss');
+        if (!hold) word.setAttribute('tabindex', '0');
         word.setAttribute('data-translation', fr);
         word.textContent = m[0];
         frag.appendChild(word);
@@ -842,6 +957,7 @@
       const words = [...root.querySelectorAll('.lab-gloss')];
       if (root.classList.contains('lab-gloss')) words.push(root);
       words.forEach(w => {
+        if (w.classList.contains('lab-gloss-hold')) return;
         if (w.parentElement && w.parentElement.closest(NO_GLOSS)) w.replaceWith(document.createTextNode(w.textContent));
       });
       if (!autoRe || root.closest(NO_AUTO)) return;
@@ -850,7 +966,22 @@
       });
       const nodes = [];
       while (walker.nextNode()) nodes.push(walker.currentNode);
-      nodes.forEach(glossTextNode);
+      nodes.forEach(n => glossTextNode(n));
+    }
+
+    /* Objet à prendre en main : une zone à toucher, mais ses mots du lexique
+       sont soulignés quand même (sans focus : le toucher prend l'objet), car
+       le prendre en main montre leur traduction (voir takeHeld). Pas dans
+       ses dessins (SVG). */
+    function glossHoldable(el) {
+      if (!autoRe) return;
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+        acceptNode: n => (n.parentElement && n.parentElement.namespaceURI !== SVG_NS &&
+          !n.parentElement.closest('.lab-gloss, svg, [data-no-gloss]') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT)
+      });
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(n => glossTextNode(n, true));
     }
 
     // Ce qui vient d'être souligné ne contient plus de mot à souligner : pas de boucle.
@@ -1229,6 +1360,13 @@
       ghostEl.innerHTML = opts.ghost();
       ghostEl.classList.add('is-carried');
       if (ev && ev.pointerType === 'mouse') showCarried(ev);
+      // Traduction des mots du lexique de l'objet (non soulignés : c'est
+      // une zone à toucher), tant qu'il est en main. Rien en le glissant.
+      const pairs = glossPairs([el.textContent]);
+      if (pairs.length) {
+        held.tip = () => { if (el.isConnected) showPairs(pairs, el); };
+        pinTip(held.tip);
+      }
       if (opts.onHold) opts.onHold(true);
     }
 
@@ -1246,8 +1384,9 @@
 
     function releaseHeld() {
       if (!held) return;
-      const { el, opts } = held;
+      const { el, opts, tip } = held;
       held = null;
+      if (tip) unpinTip(tip);
       el.classList.remove('is-held');
       targetsOf(opts).forEach(t => t.classList.remove('is-drop-ready', 'is-drop-target'));
       hideCarried();
@@ -1284,6 +1423,7 @@
     }, true);
 
     function makeDraggable(el, opts) {
+      if (opts.hold) glossHoldable(el);
       const tap = ev => {
         if (!opts.hold) { opts.onTap(); return; }
         if (held && held.el === el) releaseHeld();

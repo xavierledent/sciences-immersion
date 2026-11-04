@@ -212,7 +212,13 @@ scripts chargés.
     voir `SiteStorage.activity` dans [storage.js](js/storage.js)) ;
   - mots soulignés : tout mot du lexique (`glossary`) est souligné d'office
     partout où il apparaît dans le labo (SVG compris), jamais dans un
-    bouton, un onglet ou une zone à toucher (le moteur l'y retire) ;
+    bouton, un onglet ou une zone à toucher (le moteur l'y retire), sauf
+    un objet à prendre en main (`hold: true`), souligné quand même : le
+    prendre montre la traduction de ses mots du lexique dans une bulle,
+    tant qu'il est en main (rien en le glissant) ; une liste déroulante
+    (`lab-select`) ouverte montre à côté la traduction des mots du lexique
+    de ses choix, fermée elle est soulignée si son choix en contient un ;
+    le moteur s'en charge ;
     `[mot]` / `[groupe|clé]` pour une forme dont la clé diffère ; pas les
     mots transparents avec le français, l'expression entière quand le mot à
     mot serait faux (`[the wax melts]` → « la cire fond ») ; un mot qui a

@@ -885,6 +885,27 @@ tspan.lab-gloss:focus-visible {
   visibility: visible;
 }
 
+/* Mot souligné d'un objet à prendre en main : le curseur reste celui de l'objet. */
+.lab-gloss.lab-gloss-hold {
+  cursor: inherit;
+}
+
+/* Objet en main, liste déroulante : un mot et sa traduction par ligne. */
+.lab-gloss-tip.is-pairs span {
+  display: block;
+}
+
+.lab-gloss-tip.is-pairs b {
+  font-weight: 700;
+}
+
+/* Liste fermée dont le choix affiché contient un mot du lexique. */
+.lab-select.lab-select-glossed {
+  text-decoration: underline dotted var(--color-current);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
 /* ===== Scène animée et légende ===== */
 .lab-scene-wrap {
   position: relative;
