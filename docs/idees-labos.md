@@ -86,9 +86,18 @@ la conception) :
   norme », « récupérer le maximum de métal » ; l'élève voit les
   conséquences de ses réglages.
 
-Choix à faire : station d'épuration (colle mieux au chapitre : décantation,
-filtration, eau et solutés) ou centre de tri (parle plus aux élèves, mais
-surtout aimant, tamis, tri manuel).
+Choix de l'enseignant (2026-11-04) : **la station d'épuration** (colle
+mieux au chapitre : décantation, filtration, eau et solutés ; le centre de
+tri recouperait « From the Earth and back » de chem1). Le labo est axé sur
+deux attendus :
+- citer des techniques de séparation en lien avec le quotidien et selon les
+  enjeux environnementaux ;
+- compétence terminale : utiliser des connaissances scientifiques pour
+  justifier des choix en relation avec la séparation de constituants.
+
+Le French challenge du cours a une fiche sur une vraie station d'épuration
+belge : ne pas refaire cette activité. Sur le site, l'installation reste
+anonyme (aucun nom d'entreprise réelle).
 
 ### 2. « Mystery beakers » : la clé dichotomique — écarté
 
