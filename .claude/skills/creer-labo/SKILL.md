@@ -94,9 +94,12 @@ document si l'enseignant veut la faire relire) :
 1. Titre, question(s), attendus visés.
    **Page Mission** (accueil du labo, avant Predict, sans être une étape) :
    son titre propre au labo (la mission, sans dévoiler la réponse :
-   « Mission: follow the water, protect the river »), la situation, la
-   question, un geste par étape (des verbes en gras, jamais un résultat), ce
-   que regarde la correction, un dessin du labo s'il ne dévoile rien.
+   « Mission: follow the water, protect the river »), la situation en une
+   ou deux phrases, la question générale (jamais celle du tirage), pour les
+   étapes 1 à 3 une phrase courte (verbes en gras) puis une ligne de détail
+   (le comment : outil, endroit où noter, ordre ; jamais un résultat), les
+   dessins du labo qui illustrent chaque étape (outils, objets). Phrases
+   courtes et dessins : l'élève ne lit pas un long texte.
 2. **Predict** : l'hypothèse, sans texte libre obligatoire, sous une forme
    choisie pour ce labo : phrase à compléter, mais aussi classer, placer sur
    un dessin, esquisser l'allure d'une courbe, parier sur un ordre ou un
@@ -151,13 +154,21 @@ Structure commune (voir les en-têtes de `js/lab-engine.js` et des labos) :
 
 Règles qui font l'harmonie du site :
 
-- **Page Mission** : `briefing()` rend `{ heading, intro, questionTitle,
-  question, art, steps: [{ text, art }] × 4 }` (voir showBriefing dans
-  lab-engine.js, modèle : `lab-drain.js`). Le moteur la montre à la première
-  ouverture et après Restart ; la pastille « Mission », avant Predict, la
-  rouvre. Toujours la même page : rien du tirage (ni les choses du jour, ni
-  la météo, ni le mélange) ; la surprise vient à Predict. Textes :
-  `briefTitle`, `briefTask`, `briefSteps` (4), `briefChecks`.
+- **Page Mission** : la propriété `briefing` de `LabEngine.create` rend
+  `{ heading, intro, questionTitle, questions (ou question en HTML), art,
+  steps: [{ text, detail, pics, art }] × 3, checks }` (voir showBriefing
+  dans lab-engine.js ; modèles : `lab-metals.js`, et `lab-drain.js` pour un
+  dessin en haut). `pics` : `[{ html, label }]`, les dessins que le labo a
+  déjà (icônes d'outils, images Gemini), avec leur nom pris dans les
+  textes ; le moteur les met à la même taille. La 4e étape (Check) et la
+  liste des critères (`checks`, en général `Object.values(LABELS.criteria)`)
+  sont écrites par le moteur. Il montre la page à la première ouverture et
+  après Restart ; la pastille « Mission », avant Predict, la rouvre.
+  Toujours la même page : rien du tirage (ni les choses du jour, ni la
+  météo, ni le mélange, ni la question tirée : une `briefQuestion`
+  générale) ; la surprise vient à Predict. Textes : `briefTitle`,
+  `briefTask`, `briefSteps` (3 phrases courtes, verbes en `<strong>`),
+  `briefDetails` (3 lignes de détail), `briefQuestion` si besoin.
 - **Rien ne dévoile la réponse avant l'expérience** : un dessin montré à
   Predict ou sur la page Mission ne contient pas ce que l'élève doit
   trouver (station vide dans « Down the drain » : les dépôts n'apparaissent
