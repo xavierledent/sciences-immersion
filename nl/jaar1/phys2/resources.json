@@ -2,7 +2,13 @@
   "videos": {
     "title": "Vidéos",
     "basePath": "https://www.youtube.com/embed/",
-    "items": []
+    "items": [
+      {
+        "title": "Faseovergangen",
+        "youtubeId": "KDbcfggP7yQ",
+        "description": "Smelten, stollen, verdampen, condenseren, sublimeren: hoe gaat een stof van de ene toestand naar de andere?"
+      }
+    ]
   },
   "fichesOutils": {
     "title": "Fiches outils",

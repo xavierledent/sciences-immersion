@@ -2,7 +2,18 @@
   "videos": {
     "title": "Vidéos",
     "basePath": "https://www.youtube.com/embed/",
-    "items": []
+    "items": [
+      {
+        "title": "Changes of state",
+        "youtubeId": "xYU7RSoOZ0U",
+        "description": "Melting, freezing, evaporation, condensation and sublimation: what happens to the particles?"
+      },
+      {
+        "title": "Thermal expansion and contraction",
+        "youtubeId": "9UtfegG4DU8",
+        "description": "Why do solids, liquids and gases expand when they are heated and contract when they cool down?"
+      }
+    ]
   },
   "fichesOutils": {
     "title": "Fiches outils",
