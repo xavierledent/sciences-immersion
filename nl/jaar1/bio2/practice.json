@@ -1,5 +1,690 @@
 {
-  "level1": [],
-  "level2": [],
-  "level3": []
+  "level1": [
+    {
+      "id": 1,
+      "title": "Zaadcelfabriek",
+      "image": null,
+      "en": "Waar worden zaadcellen gemaakt?",
+      "fr": "Où fabrique-t-on les spermatozoïdes ?",
+      "corr_en": "Zaadcellen worden gemaakt in de testikels (in de balzak).",
+      "corr_fr": "Les spermatozoïdes sont fabriqués dans les testicules (à l'intérieur du scrotum)."
+    },
+    {
+      "id": 2,
+      "title": "Mannelijk schema: orgaan 1",
+      "image": "male-system-numbered.webp",
+      "en": "Bekijk het schema van het mannelijke voortplantingsstelsel. Hoe heet het orgaan met het nummer 1?",
+      "fr": "Observe le schéma du système reproducteur masculin. Quel est le nom de l'organe repéré par le numéro 1 ?",
+      "corr_en": "De prostaat.",
+      "corr_fr": "La prostate."
+    },
+    {
+      "id": 3,
+      "title": "Uitgang van zaadcellen: juist of fout?",
+      "image": null,
+      "en": "Juist of fout? Zaadcellen verlaten het lichaam via de zaadleider. Is het fout? Verbeter dan de zin.",
+      "fr": "Vrai ou faux ? Les spermatozoïdes quittent le corps par le canal déférent. Si c'est faux, corrige la phrase.",
+      "corr_en": "Fout. Zaadcellen verlaten het lichaam via de urinebuis, in de penis. (De zaadleider brengt ze alleen naar de urinebuis.)",
+      "corr_fr": "Faux. Les spermatozoïdes quittent le corps par l'urètre, à l'intérieur du pénis. (Le canal déférent les amène seulement vers l'urètre.)"
+    },
+    {
+      "id": 4,
+      "title": "Vrouwelijk schema: orgaan 2",
+      "image": "female-system-numbered.webp",
+      "en": "Bekijk het schema van het vrouwelijke voortplantingsstelsel. Hoe heet het orgaan met het nummer 2?",
+      "fr": "Observe le schéma du système reproducteur féminin. Quel est le nom de l'organe repéré par le numéro 2 ?",
+      "corr_en": "Een eierstok.",
+      "corr_fr": "Un ovaire."
+    },
+    {
+      "id": 5,
+      "title": "Wat is de puberteit?",
+      "image": null,
+      "en": "Wat is de puberteit?",
+      "fr": "Qu'est-ce que la puberté ?",
+      "corr_en": "De puberteit is de periode (rond 8 tot 14 jaar) waarin het lichaam verandert en de voortplantingsorganen beginnen te werken.",
+      "corr_fr": "La puberté est la période (vers 8 à 14 ans) où le corps change et où les organes reproducteurs commencent à fonctionner."
+    },
+    {
+      "id": 6,
+      "title": "Schema van de buitenkant: structuur 5",
+      "image": "vulva-numbered.webp",
+      "en": "Bekijk het schema van de buitenkant van het vrouwelijke voortplantingsstelsel. Hoe heet de structuur met het nummer 5?",
+      "fr": "Observe le schéma de l'extérieur de l'appareil reproducteur féminin. Quel est le nom de la structure repérée par le numéro 5 ?",
+      "corr_en": "De clitoris.",
+      "corr_fr": "Le clitoris."
+    },
+    {
+      "id": 7,
+      "title": "Bevruchting: juist of fout?",
+      "image": null,
+      "en": "Juist of fout? Bevruchting is de versmelting van één zaadcel en één eicel. Is het fout? Verbeter dan de zin.",
+      "fr": "Vrai ou faux ? La fécondation est l'union d'un spermatozoïde et d'un ovocyte. Si c'est faux, corrige la phrase.",
+      "corr_en": "Juist. De twee cellen versmelten en vormen de eerste cel van een nieuwe baby (de zygote).",
+      "corr_fr": "Vrai. Les deux cellules s'unissent et forment la première cellule d'un nouveau bébé (le zygote)."
+    },
+    {
+      "id": 8,
+      "title": "Staart van de zaadcel",
+      "image": "lab-report-reproductive-cells-nl.webp",
+      "en": "Bekijk dit labrapport. Wat is de wetenschappelijke naam van de staart van een zaadcel?",
+      "fr": "Observe ce rapport de laboratoire. Quel est le nom scientifique de la queue d'un spermatozoïde ?",
+      "corr_en": "Het flagellum (de zweepstaart).",
+      "corr_fr": "Le flagelle."
+    },
+    {
+      "id": 9,
+      "title": "Wat is menstruatie?",
+      "image": null,
+      "en": "Wat is menstruatie (de regels)?",
+      "fr": "Que sont les règles (menstruation) ?",
+      "corr_en": "Het baarmoederslijmvlies wordt afgebroken en verlaat het lichaam als bloed, via de vagina.",
+      "corr_fr": "La paroi de l'utérus se détruit et quitte le corps sous forme de sang, par le vagin."
+    },
+    {
+      "id": 10,
+      "title": "Welke tweeling?",
+      "image": "twins-one-egg.webp",
+      "en": "Bekijk het schema van de tweeling. Is het een eeneiige of een twee-eiige tweeling? Leg uit.",
+      "fr": "Observe le schéma des jumeaux. Sont-ils de vrais jumeaux (identiques) ou de faux jumeaux (fraternels) ? Explique.",
+      "corr_en": "Een eeneiige tweeling: ze komen uit één bevruchte eicel (één zygote) die in twee splitst.",
+      "corr_fr": "De vrais jumeaux : ils viennent d'un seul ovocyte fécondé (un seul zygote) qui se divise en deux."
+    },
+    {
+      "id": 11,
+      "title": "Zygote of embryo?",
+      "image": null,
+      "en": "Juist of fout? Het embryo is de allereerste cel van een nieuwe baby. Is het fout? Verbeter dan de zin.",
+      "fr": "Vrai ou faux ? L'embryon est la toute première cellule d'un nouveau bébé. Si c'est faux, corrige la phrase.",
+      "corr_en": "Fout. De zygote is de allereerste cel. Na een paar dagen wordt ze een bolletje cellen: het embryo.",
+      "corr_fr": "Faux. Le zygote est la toute première cellule. Après quelques jours, il devient une boule de cellules : l'embryon."
+    },
+    {
+      "id": 12,
+      "title": "Echografie in week 12",
+      "image": "ultrasound-week-12.webp",
+      "en": "Deze echografie werd gemaakt in week 12 van een zwangerschap. Hoe noemen we de baby in dit stadium?",
+      "fr": "Cette échographie a été réalisée à la 12e semaine d'une grossesse. Comment appelle-t-on le bébé à ce stade ?",
+      "corr_en": "Een foetus (de naam vanaf week 9 tot de geboorte).",
+      "corr_fr": "Un fœtus (nom donné de la 9e semaine jusqu'à la naissance)."
+    },
+    {
+      "id": 13,
+      "title": "Rol van de placenta",
+      "image": null,
+      "en": "Wat is de rol van de placenta?",
+      "fr": "Quel est le rôle du placenta ?",
+      "corr_en": "Ze verbindt de moeder en de foetus en regelt de uitwisselingen (zuurstof, voedingsstoffen, afvalstoffen) tussen hun bloed.",
+      "corr_fr": "Il relie la mère et le fœtus et organise les échanges (oxygène, nutriments, déchets) entre leurs sangs."
+    },
+    {
+      "id": 14,
+      "title": "Mysterieus middel",
+      "image": "copper-iud.webp",
+      "en": "Hoe heet dit anticonceptiemiddel? Het is een klein voorwerp dat in de baarmoeder geplaatst wordt.",
+      "fr": "Comment s'appelle ce moyen contraceptif ? C'est un petit objet placé dans l'utérus.",
+      "corr_en": "Het (koperen) spiraaltje.",
+      "corr_fr": "Le stérilet (DIU) au cuivre."
+    },
+    {
+      "id": 15,
+      "title": "Drie middelen",
+      "image": null,
+      "en": "Noem drie anticonceptiemiddelen. Eén ervan moet het condoom zijn.",
+      "fr": "Cite trois moyens contraceptifs. L'un d'eux doit être le préservatif.",
+      "corr_en": "Bijvoorbeeld: het condoom, de pil en het implantaat (ook mogelijk: het spiraaltje, de morning-afterpil, het vrouwencondoom).",
+      "corr_fr": "Par exemple : le préservatif, la pilule et l'implant (aussi possible : le stérilet, la pilule d'urgence, le préservatif interne)."
+    },
+    {
+      "id": 16,
+      "title": "Puberteit bij meisjes",
+      "image": "puberty-boy-girl.webp",
+      "en": "Bekijk de afbeelding. Noem twee veranderingen van de puberteit bij meisjes.",
+      "fr": "Observe l'image. Cite deux changements de la puberté chez les filles.",
+      "corr_en": "De borsten ontwikkelen zich en de menstruatiecycli beginnen (eerste menstruatie).",
+      "corr_fr": "Les seins se développent et les cycles menstruels commencent (premières règles)."
+    },
+    {
+      "id": 17,
+      "title": "Condoom: juist of fout?",
+      "image": null,
+      "en": "Juist of fout? Een condoom beschermt tegen een zwangerschap en ook tegen soa's. Is het fout? Verbeter dan de zin.",
+      "fr": "Vrai ou faux ? Le préservatif protège contre une grossesse et aussi contre les IST. Si c'est faux, corrige la phrase.",
+      "corr_en": "Juist. Een condoom houdt de zaadcellen tegen, zodat ze de eicel niet kunnen ontmoeten, en het verkleint ook het risico op soa's.",
+      "corr_fr": "Vrai. Le préservatif empêche les spermatozoïdes de rencontrer l'ovocyte et il réduit aussi le risque d'IST."
+    },
+    {
+      "id": 18,
+      "title": "Ontbrekende stap",
+      "image": "egg-cell-journey-nl.webp",
+      "en": "De afbeelding toont de weg van een eicel. Welke structuur ontbreekt in het vakje met het vraagteken?",
+      "fr": "L'image montre le trajet d'un ovocyte. Quelle structure manque dans la case avec le point d'interrogation ?",
+      "corr_en": "De trechter van de eileider (de opening in de vorm van een trechter naast de eierstok).",
+      "corr_fr": "Le pavillon de la trompe (l'ouverture en forme d'entonnoir à côté de l'ovaire)."
+    },
+    {
+      "id": 19,
+      "title": "Wat is een soa?",
+      "image": null,
+      "en": "Waar staat soa voor? Wat is het?",
+      "fr": "Que signifie IST ? De quoi s'agit-il ?",
+      "corr_en": "Seksueel overdraagbare aandoening: een infectie die van de ene persoon op de andere overgaat bij seksueel contact.",
+      "corr_fr": "Infection sexuellement transmissible : une infection qui passe d'une personne à l'autre lors d'un contact sexuel."
+    },
+    {
+      "id": 20,
+      "title": "Navelstreng",
+      "image": "umbilical-cord-fetus.webp",
+      "en": "Bekijk de afbeelding van een foetus in de baarmoeder. Hoe heet de structuur met het nummer 1?",
+      "fr": "Observe l'image d'un fœtus dans l'utérus. Quel est le nom de la structure repérée par le numéro 1 ?",
+      "corr_en": "De navelstreng.",
+      "corr_fr": "Le cordon ombilical."
+    }
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Weg van een zaadcel",
+      "image": null,
+      "en": "Beschrijf de weg van een zaadcel, van de plaats waar ze gemaakt wordt tot buiten het lichaam. Noem de organen waar ze door gaat.",
+      "fr": "Décris le trajet d'un spermatozoïde, depuis l'endroit où il est fabriqué jusqu'à l'extérieur du corps. Nomme les organes qu'il traverse.",
+      "corr_en": "Ze wordt gemaakt in een testikel, gaat door de zaadleider, krijgt vocht van de klieren (zaadblaasje en prostaat), gaat dan door de urinebuis en verlaat het lichaam aan het uiteinde van de penis.",
+      "corr_fr": "Il est fabriqué dans un testicule, passe par le canal déférent, reçoit un liquide des glandes (vésicule séminale et prostate), puis traverse l'urètre et quitte le corps par le bout du pénis."
+    },
+    {
+      "id": 2,
+      "title": "Twee klieren",
+      "image": "male-system-numbered.webp",
+      "en": "Bekijk het schema van het mannelijke voortplantingsstelsel. De structuren 1 en 5 zijn twee klieren. Noem ze en leg uit wat ze aan de zaadcellen toevoegen.",
+      "fr": "Observe le schéma du système reproducteur masculin. Les structures repérées 1 et 5 sont deux glandes. Nomme-les et explique ce qu'elles ajoutent aux spermatozoïdes.",
+      "corr_en": "Structuur 1 is de prostaat en structuur 5 is het zaadblaasje. Ze voegen een vocht toe dat de zaadcellen helpt zwemmen.",
+      "corr_fr": "La structure 1 est la prostate et la structure 5 est la vésicule séminale. Elles ajoutent un liquide qui aide les spermatozoïdes à nager."
+    },
+    {
+      "id": 3,
+      "title": "Weg van een eicel",
+      "image": null,
+      "en": "Een eicel verlaat een eierstok. Beschrijf haar weg tot ze in de baarmoeder komt.",
+      "fr": "Un ovocyte quitte un ovaire. Décris son trajet jusqu'à ce qu'il arrive dans l'utérus.",
+      "corr_en": "Ze komt in de eileider via de trechter, en beweegt dan langzaam door de eileider tot ze in de baarmoeder aankomt.",
+      "corr_fr": "Il entre dans la trompe de Fallope par le pavillon en forme d'entonnoir, puis il avance lentement dans la trompe jusqu'à arriver dans l'utérus."
+    },
+    {
+      "id": 4,
+      "title": "Ontmoetingsplaats",
+      "image": "female-system-numbered.webp",
+      "en": "Bekijk het schema van het vrouwelijke voortplantingsstelsel. De bevruchting gebeurt meestal in de structuur met het nummer 5. Noem deze structuur en zeg welke twee organen ze verbindt.",
+      "fr": "Observe le schéma du système reproducteur féminin. La fécondation a généralement lieu dans la structure repérée 5. Nomme cette structure et indique quels deux organes elle relie.",
+      "corr_en": "Structuur 5 is een eileider. Ze verbindt een eierstok met de baarmoeder.",
+      "corr_fr": "La structure 5 est une trompe de Fallope. Elle relie un ovaire à l'utérus."
+    },
+    {
+      "id": 5,
+      "title": "Boodschappers van de puberteit",
+      "image": null,
+      "en": "Wat veroorzaakt de veranderingen van de puberteit? Noem de chemische boodschappers en zeg waar ze vandaan komen.",
+      "fr": "Qu'est-ce qui provoque les changements de la puberté ? Nomme les messagers chimiques et indique d'où ils viennent.",
+      "corr_en": "Hormonen, chemische boodschappers. De hersenen sturen signalen naar de voortplantingsorganen: de testikels maken testosteron en de eierstokken maken oestrogeen, en die starten de veranderingen.",
+      "corr_fr": "Les hormones, des messagers chimiques. Le cerveau envoie des signaux aux organes reproducteurs : les testicules produisent de la testostérone et les ovaires de l'œstrogène, ce qui déclenche les changements."
+    },
+    {
+      "id": 6,
+      "title": "Twee openingen",
+      "image": "vulva-numbered.webp",
+      "en": "Bekijk het schema van de buitenkant van het vrouwelijke voortplantingsstelsel. De structuren 1 en 3 zijn twee verschillende openingen. Noem ze en zeg wat er langs elke opening het lichaam verlaat.",
+      "fr": "Observe le schéma de l'extérieur de l'appareil reproducteur féminin. Les structures repérées 1 et 3 sont deux ouvertures différentes. Nomme-les et indique ce qui quitte le corps par chacune.",
+      "corr_en": "Structuur 1 is de vagina: het menstruatiebloed (en de baby bij de geboorte) verlaat het lichaam langs daar. Structuur 3 is de urinebuis: de urine verlaat het lichaam langs daar.",
+      "corr_fr": "La structure 1 est le vagin : le sang des règles (et le bébé à la naissance) quitte le corps par là. La structure 3 est l'urètre : l'urine quitte le corps par là."
+    },
+    {
+      "id": 7,
+      "title": "Veranderingen in de puberteit",
+      "image": null,
+      "en": "Geef één verandering van de puberteit die alleen bij jongens gebeurt, één die alleen bij meisjes gebeurt en één die bij allebei gebeurt.",
+      "fr": "Donne un changement de la puberté qui n'a lieu que chez les garçons, un qui n'a lieu que chez les filles et un qui a lieu chez les deux.",
+      "corr_en": "Jongens: de stem wordt lager (of de testikels beginnen zaadcellen te maken). Meisjes: de borsten groeien (of de eerste menstruatie komt). Allebei: er groeit haar onder de oksels (of snelle groei).",
+      "corr_fr": "Garçons : la voix devient plus grave (ou les testicules fabriquent des spermatozoïdes). Filles : les seins se développent (ou arrivent les premières règles). Les deux : des poils poussent sous les bras (ou croissance rapide)."
+    },
+    {
+      "id": 8,
+      "title": "Twee cellen vergeleken",
+      "image": "lab-report-reproductive-cells-nl.webp",
+      "questions": [
+        {
+          "en": "Bekijk dit labrapport. Vergelijk het aantal zaadcellen en het aantal eicellen dat gemaakt wordt.",
+          "fr": "Observe ce rapport de laboratoire. Compare le nombre de spermatozoïdes et le nombre d'ovocytes produits.",
+          "corr_en": "Er worden elke dag honderden miljoenen zaadcellen gemaakt, maar er komt maar ongeveer één eicel per maand vrij.",
+          "corr_fr": "Des centaines de millions de spermatozoïdes sont produits chaque jour, mais un seul ovocyte environ est libéré chaque mois."
+        },
+        {
+          "en": "Een leerling zegt: \"Zaadcellen kunnen langer overleven dan de eicel.\" Heeft de leerling gelijk? Gebruik de getallen van het rapport.",
+          "fr": "Un élève dit : « Les spermatozoïdes peuvent survivre plus longtemps que l'ovocyte. » A-t-il raison ? Utilise les chiffres du rapport.",
+          "corr_en": "Ja. Zaadcellen kunnen 3 tot 5 dagen leven, maar de eicel leeft maar ongeveer 24 uur (1 dag).",
+          "corr_fr": "Oui. Les spermatozoïdes peuvent vivre de 3 à 5 jours, mais l'ovocyte ne vit qu'environ 24 heures (1 jour)."
+        },
+        {
+          "en": "Welke van de twee cellen kan zelf bewegen? Verklaar met het rapport.",
+          "fr": "Laquelle des deux cellules peut se déplacer toute seule ? Justifie avec le rapport.",
+          "corr_en": "De zaadcel: het rapport toont dat ze sterk vooruit zwemt. De eicel beweegt niet zelf en wordt alleen passief vervoerd in de eileiders.",
+          "corr_fr": "Le spermatozoïde : le rapport indique une forte mobilité vers l'avant. L'ovocyte est immobile et n'est transporté que passivement dans les trompes de Fallope."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "De cellen ontmoeten elkaar",
+      "image": null,
+      "en": "Waar gebeurt de bevruchting en wat gebeurt er precies?",
+      "fr": "Où a lieu la fécondation et que se passe-t-il exactement ?",
+      "corr_en": "De bevruchting gebeurt in een eileider. Eén zaadcel dringt de eicel binnen: de twee cellen versmelten en vormen de zygote, de eerste cel van een nieuwe baby.",
+      "corr_fr": "La fécondation a lieu dans une trompe de Fallope. Un spermatozoïde entre dans l'ovocyte : les deux cellules s'unissent et forment le zygote, la première cellule d'un nouveau bébé."
+    },
+    {
+      "id": 10,
+      "title": "Zwemwedstrijd",
+      "image": "sperm-swimming-tube.webp",
+      "en": "Bekijk de afbeelding. Zaadcellen zwemmen in een buis naar een grote ronde cel. Noem de buis en de ronde cel, en zeg wat er kan gebeuren als één zaadcel de ronde cel bereikt.",
+      "fr": "Observe l'image. Des spermatozoïdes nagent dans un tube vers une grosse cellule ronde. Nomme le tube et la cellule ronde, et indique ce qui peut arriver si un spermatozoïde atteint la cellule ronde.",
+      "corr_en": "De buis is een eileider en de ronde cel is de eicel. Als één zaadcel erin binnendringt, gebeurt er een bevruchting.",
+      "corr_fr": "Le tube est une trompe de Fallope et la cellule ronde est l'ovocyte. Si un spermatozoïde y entre, il y a fécondation."
+    },
+    {
+      "id": 11,
+      "title": "Het slijmvlies groeit terug",
+      "image": null,
+      "en": "Wat gebeurt er na de menstruatie met het baarmoederslijmvlies, en waarom is dat nuttig?",
+      "fr": "Après les règles, que devient la paroi de l'utérus et pourquoi est-ce utile ?",
+      "corr_en": "Het groeit terug en wordt dikker. Een dik slijmvlies is een zacht bedje dat een embryo kan opvangen als de eicel bevrucht wordt.",
+      "corr_fr": "Elle repousse et devient plus épaisse. Une paroi épaisse est un lit douillet qui peut accueillir un embryon si l'ovocyte est fécondé."
+    },
+    {
+      "id": 12,
+      "title": "Grafiek van het slijmvlies",
+      "image": "lining-graph-woman-d-nl.webp",
+      "questions": [
+        {
+          "en": "Lees de grafiek af. Hoe dik is het slijmvlies op dag 2 en op dag 6? Wat toont dat?",
+          "fr": "Lis le graphique. Quelle est l'épaisseur de la paroi le jour 2 et le jour 6 ? Qu'est-ce que cela montre ?",
+          "corr_en": "Ongeveer 4 mm op dag 2 en 1 mm op dag 6. Het slijmvlies wordt afgebroken en verlaat het lichaam (menstruatie).",
+          "corr_fr": "Environ 4 mm le jour 2 et 1 mm le jour 6. La paroi se détruit et quitte le corps (règles)."
+        },
+        {
+          "en": "Beschrijf hoe de dikte verandert tussen dag 8 en dag 23.",
+          "fr": "Décris comment l'épaisseur change entre le jour 8 et le jour 23.",
+          "corr_en": "Het slijmvlies groeit terug: het wordt steeds dikker, van ongeveer 1 mm tot ongeveer 11 mm.",
+          "corr_fr": "La paroi repousse : elle devient de plus en plus épaisse, d'environ 1 mm à environ 11 mm."
+        },
+        {
+          "en": "Op welke dag toont de pijl de eisprong, en hoe dik is het slijmvlies op die dag?",
+          "fr": "Quel jour la flèche indique-t-elle l'ovulation, et quelle est l'épaisseur de la paroi ce jour-là ?",
+          "corr_en": "De eisprong is op dag 16 en het slijmvlies is ongeveer 6 tot 7 mm dik.",
+          "corr_fr": "L'ovulation a lieu le jour 16 et la paroi mesure environ 6 à 7 mm."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Twee cycli",
+      "image": null,
+      "en": "Sara heeft een cyclus van 26 dagen en Mia een cyclus van 33 dagen. De eisprong gebeurt ongeveer 14 dagen voor het einde van de cyclus. Bereken de dag van de eisprong voor elke vrouw. Wie heeft eerst een eisprong, en hoeveel dagen vroeger?",
+      "fr": "Sara a un cycle de 26 jours et Mia a un cycle de 33 jours. L'ovulation a lieu environ 14 jours avant la fin du cycle. Calcule le jour de l'ovulation pour chaque femme. Qui ovule la première et combien de jours plus tôt ?",
+      "corr_en": "Sara: 26 − 14 = dag 12. Mia: 33 − 14 = dag 19. Sara heeft eerst een eisprong, 7 dagen vroeger. De cycli zijn verschillend, dus de dagen van de eisprong ook.",
+      "corr_fr": "Sara : 26 − 14 = jour 12. Mia : 33 − 14 = jour 19. Sara ovule la première, 7 jours plus tôt. Les cycles sont différents, donc les jours d'ovulation aussi."
+    },
+    {
+      "id": 14,
+      "title": "Voor of na?",
+      "image": "two-cycles-woman-a-b-nl.webp",
+      "questions": [
+        {
+          "en": "Bekijk de twee cycli. Welke vrouw heeft de langste cyclus, en hoeveel dagen langer?",
+          "fr": "Observe les deux cycles. Quelle femme a le cycle le plus long et de combien de jours ?",
+          "corr_en": "Vrouw B heeft de langste cyclus: 32 dagen tegenover 28 dagen, dus 4 dagen langer.",
+          "corr_fr": "La femme B a le cycle le plus long : 32 jours contre 28 jours, soit 4 jours de plus."
+        },
+        {
+          "en": "Zitten de extra dagen van de langste cyclus vóór of na de eisprong? Verklaar met getallen uit de grafieken.",
+          "fr": "Les jours supplémentaires du cycle le plus long se situent-ils avant ou après l'ovulation ? Justifie avec des chiffres des graphiques.",
+          "corr_en": "Vóór de eisprong. De eisprong is op dag 18 in plaats van dag 14 (4 dagen later), terwijl de eisprong bij beide vrouwen 14 dagen voor het einde van de cyclus gebeurt.",
+          "corr_fr": "Avant l'ovulation. L'ovulation a lieu le jour 18 au lieu du jour 14 (4 jours plus tard), alors que chez les deux femmes l'ovulation a lieu 14 jours avant la fin du cycle."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Risicodag?",
+      "image": null,
+      "en": "Clara heeft een cyclus van 28 dagen, dus haar eisprong is op dag 14. Op dag 12 heeft ze onbeschermde geslachtsgemeenschap. Zaadcellen kunnen tot 5 dagen leven in het vrouwelijke lichaam en een eicel leeft ongeveer 24 uur. Kan ze zwanger worden? Leg uit met de dagen.",
+      "fr": "Clara a un cycle de 28 jours, donc elle ovule le jour 14. Le jour 12, elle a un rapport sexuel sans protection. Les spermatozoïdes peuvent vivre jusqu'à 5 jours dans le corps féminin et un ovocyte vit environ 24 heures. Peut-elle tomber enceinte ? Explique avec les jours.",
+      "corr_en": "Ja. De zaadcellen van dag 12 kunnen leven tot dag 17. De eicel komt vrij op dag 14, dus de zaadcellen en de eicel kunnen elkaar ontmoeten in een eileider.",
+      "corr_fr": "Oui. Les spermatozoïdes du jour 12 peuvent vivre jusqu'au jour 17. L'ovocyte est libéré le jour 14, donc les spermatozoïdes et l'ovocyte peuvent se rencontrer dans une trompe de Fallope."
+    },
+    {
+      "id": 16,
+      "title": "Rol van het condoom",
+      "image": "condom-wrapper.webp",
+      "en": "Bekijk de afbeelding. Welk anticonceptiemiddel is dit? Leg uit hoe het een zwangerschap voorkomt en zeg waartegen het nog beschermt.",
+      "fr": "Observe l'image. De quel moyen contraceptif s'agit-il ? Explique comment il empêche une grossesse et indique contre quoi d'autre il protège.",
+      "corr_en": "Het is het condoom (voor mannen). Het vangt de zaadcellen op, zodat ze de eicel niet kunnen ontmoeten. Het beschermt ook tegen soa's.",
+      "corr_fr": "C'est le préservatif (masculin). Il retient les spermatozoïdes, qui ne peuvent donc pas rencontrer l'ovocyte. Il protège aussi contre les IST."
+    },
+    {
+      "id": 17,
+      "title": "Infokaart",
+      "image": null,
+      "en": "Lees de infokaart. Schrijf de drie belangrijkste gegevens op: hoe het werkt, hoe vaak je het gebruikt, en of het beschermt tegen soa's.\n\nInfokaart — Het anticonceptie-implantaat: een arts plaatst een klein, dun staafje onder de huid van de arm. Het geeft langzaam hormonen af. Deze hormonen stoppen de eisprong. Het werkt ongeveer 3 jaar. Het beschermt niet tegen soa's.",
+      "fr": "Lis la fiche d'information. Écris les trois informations essentielles : comment il fonctionne, à quelle fréquence on l'utilise, et s'il protège contre les IST.\n\nFiche d'information — L'implant contraceptif : un médecin place un petit bâtonnet fin sous la peau du bras. Il libère lentement des hormones. Ces hormones empêchent l'ovulation. Il agit pendant environ 3 ans. Il ne protège pas contre les IST.",
+      "corr_en": "Het geeft hormonen af die de eisprong stoppen, dus er komt geen eicel vrij. Het wordt één keer geplaatst en werkt ongeveer 3 jaar (niets te doen elke dag). Het beschermt niet tegen soa's.",
+      "corr_fr": "Il libère des hormones qui empêchent l'ovulation, donc aucun ovocyte n'est libéré. Il est posé une seule fois et agit pendant environ 3 ans (rien à faire chaque jour). Il ne protège pas contre les IST."
+    },
+    {
+      "id": 18,
+      "title": "Twee infecties",
+      "image": "sti-table-hpv-chlamydia-nl.webp",
+      "questions": [
+        {
+          "en": "Bekijk de tabel. Welke infectie wordt veroorzaakt door een virus en welke door een bacterie?",
+          "fr": "Observe le tableau. Quelle infection est causée par un virus et laquelle par une bactérie ?",
+          "corr_en": "HPV wordt veroorzaakt door een virus en chlamydia door een bacterie.",
+          "corr_fr": "Le HPV est causé par un virus et la chlamydia par une bactérie."
+        },
+        {
+          "en": "Welke infectie kun je voorkomen met een vaccin en welke kun je genezen met antibiotica?",
+          "fr": "Quelle infection peut être prévenue par un vaccin et laquelle peut être guérie par des antibiotiques ?",
+          "corr_en": "HPV kun je voorkomen met een vaccin. Chlamydia kun je genezen met antibiotica.",
+          "corr_fr": "Le HPV peut être prévenu par un vaccin. La chlamydia peut être guérie par des antibiotiques."
+        },
+        {
+          "en": "Beide infecties geven vaak geen tekenen. Waarom is dat een probleem?",
+          "fr": "Les deux infections ne donnent souvent aucun signe. Pourquoi est-ce un problème ?",
+          "corr_en": "Iemand kan de infectie hebben en ze doorgeven aan een partner zonder het te weten, en ze wordt misschien niet behandeld.",
+          "corr_fr": "Une personne peut avoir l'infection et la transmettre à un partenaire sans le savoir, et elle risque de ne pas être soignée."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Geboorte",
+      "image": null,
+      "en": "Hoe verlaat de baby het lichaam van de moeder aan het einde van een zwangerschap? Noem de organen die daarbij een rol spelen.",
+      "fr": "À la fin d'une grossesse, comment le bébé quitte-t-il le corps de sa mère ? Nomme les organes concernés.",
+      "corr_en": "De spieren van de baarmoeder duwen de baby naar buiten, door de baarmoederhals en de vagina. Dat is de bevalling.",
+      "corr_fr": "Les muscles de l'utérus poussent le bébé dehors à travers le col de l'utérus et le vagin. C'est l'accouchement."
+    },
+    {
+      "id": 20,
+      "title": "Tijdlijn van de zwangerschap",
+      "image": "pregnancy-timeline-weeks-nl.webp",
+      "en": "Bekijk de tijdlijn. Hoe noemen we de baby in week 6 en in week 20? Leg het verschil tussen de twee stadia uit.",
+      "fr": "Observe la frise chronologique. Comment appelle-t-on le bébé à la semaine 6 et à la semaine 20 ? Explique la différence entre les deux stades.",
+      "corr_en": "In week 6 is het een embryo: het zit vast aan de baarmoeder en zijn organen worden gevormd. In week 20 is het een foetus: het lijkt op een klein mensje en het beweegt.",
+      "corr_fr": "À la semaine 6, c'est un embryon : il est accroché à l'utérus et ses organes se forment. À la semaine 20, c'est un fœtus : il ressemble à un minuscule humain et il bouge."
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "Geblokkeerde weg",
+      "image": null,
+      "en": "Bij een vrouw zijn beide eileiders verstopt. Haar eierstokken en haar baarmoeder werken normaal. Voorspel wat er gebeurt met de eicel, met de bevruchting en met de menstruatie. Leg elke stap uit.",
+      "fr": "Une femme a les deux trompes de Fallope bouchées. Ses ovaires et son utérus fonctionnent normalement. Prédis ce qui arrive à l'ovocyte, à la fécondation et aux règles. Explique chaque étape.",
+      "corr_en": "De eierstokken geven nog altijd een eicel vrij, maar die kan niet door de verstopte eileider en de zaadcellen kunnen haar niet bereiken: er is dus geen bevruchting en geen zwangerschap. De eicel sterft, de cyclus gaat verder en het slijmvlies wordt afgebroken: ze heeft nog altijd haar menstruatie.",
+      "corr_fr": "Les ovaires libèrent toujours un ovocyte, mais il ne peut pas traverser la trompe bouchée et les spermatozoïdes ne peuvent pas l'atteindre : il n'y a ni fécondation ni grossesse. L'ovocyte meurt, le cycle continue et la paroi se détruit : elle a toujours des règles."
+    },
+    {
+      "id": 2,
+      "title": "Temperatuurgrafiek",
+      "image": "temperature-graph-woman-e-nl.webp",
+      "questions": [
+        {
+          "en": "Bekijk de grafiek. Beschrijf hoe de lichaamstemperatuur verandert tijdens de cyclus.",
+          "fr": "Observe le graphique. Décris comment la température du corps change pendant le cycle.",
+          "corr_en": "De temperatuur is laag (ongeveer 36,4 °C) tot de eisprong. Vlak na de eisprong stijgt ze en blijft ze hoog (ongeveer 36,9 °C) tot het einde van de cyclus.",
+          "corr_fr": "La température est basse (environ 36,4 °C) jusqu'à l'ovulation. Juste après l'ovulation, elle monte et reste élevée (environ 36,9 °C) jusqu'à la fin du cycle."
+        },
+        {
+          "en": "Met hoeveel graden stijgt de temperatuur ongeveer na de eisprong?",
+          "fr": "De combien de degrés environ la température monte-t-elle après l'ovulation ?",
+          "corr_en": "Met ongeveer 0,5 °C (van ongeveer 36,4 °C tot ongeveer 36,9 °C).",
+          "corr_fr": "D'environ 0,5 °C (de 36,4 °C environ à 36,9 °C environ)."
+        },
+        {
+          "en": "Vrouw F meet ook elke ochtend haar temperatuur, maar niemand kent de dag van haar eisprong. Haar temperatuur stijgt tussen dag 18 en dag 19 en blijft hoog. Op welke dag had ze waarschijnlijk haar eisprong? Verklaar.",
+          "fr": "La femme F mesure aussi sa température chaque matin, mais personne ne connaît son jour d'ovulation. Sa température monte entre le jour 18 et le jour 19 et reste élevée. Quel jour a-t-elle très probablement ovulé ? Justifie.",
+          "corr_en": "Waarschijnlijk op dag 18. Bij vrouw E stijgt de temperatuur vlak na de eisprong, dus de eisprong gebeurt net voor de stijging.",
+          "corr_fr": "Très probablement le jour 18. Chez la femme E, la température monte juste après l'ovulation, donc l'ovulation a lieu juste avant la hausse."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Een nieuwe ring",
+      "image": null,
+      "en": "Lees de informatie: \"Een nieuw anticonceptiemiddel is een soepele ring die een vrouw in haar vagina plaatst. Hij geeft drie weken lang langzaam hormonen af.\" Welke manier om de reis van de cellen te stoppen gebruikt hij: de eicel tegenhouden of de ontmoeting van de cellen tegenhouden? Beschermt hij tegen soa's? Leg uit.",
+      "fr": "Lis l'information : « Un nouveau moyen contraceptif est un anneau souple que la femme place dans son vagin. Il libère lentement des hormones pendant trois semaines. » Quelle façon d'arrêter le voyage des cellules utilise-t-il : empêcher l'ovocyte d'exister ou empêcher la rencontre des cellules ? Protège-t-il contre les IST ? Explique.",
+      "corr_en": "Hij geeft hormonen af, en die stoppen de eisprong: er komt geen eicel vrij en er is niets te bevruchten. Hormonale middelen houden een infectie niet tegen, dus hij beschermt niet tegen soa's. Een condoom is ook nodig.",
+      "corr_fr": "Il libère des hormones, qui empêchent l'ovulation : aucun ovocyte n'est libéré et il n'y a rien à féconder. Les méthodes hormonales n'empêchent pas une infection de passer, donc il ne protège pas contre les IST. Un préservatif est aussi nécessaire."
+    },
+    {
+      "id": 4,
+      "title": "Doorgeknipte buis",
+      "image": "male-cut-tube-scrotum.webp",
+      "en": "Bekijk het schema. Een chirurg knipt de zaadleider door en sluit hem af op de plaats met het rode kruis. De testikels werken nog normaal. Voorspel wat er met de zaadcellen gebeurt en leg uit waarom er geen zwangerschap kan komen.",
+      "fr": "Observe le schéma. Un chirurgien coupe et ferme le canal déférent à l'endroit marqué d'une croix rouge. Les testicules fonctionnent toujours normalement. Prédis ce qui arrive aux spermatozoïdes et explique pourquoi une grossesse ne peut pas avoir lieu.",
+      "corr_en": "De testikels maken nog altijd zaadcellen, maar die kunnen niet door de doorgeknipte zaadleider naar de urinebuis: ze kunnen het lichaam niet verlaten. De klieren voegen nog altijd hun vocht toe, maar zonder zaadcellen, dus geen enkele zaadcel kan een eicel ontmoeten.",
+      "corr_fr": "Les testicules fabriquent toujours des spermatozoïdes, mais ceux-ci ne peuvent pas passer par le canal déférent coupé pour rejoindre l'urètre : ils ne peuvent pas quitter le corps. Les glandes ajoutent toujours leur liquide, mais sans spermatozoïdes, donc aucun spermatozoïde ne peut rencontrer un ovocyte."
+    },
+    {
+      "id": 5,
+      "title": "Een derde infectie",
+      "image": null,
+      "en": "Lees de infofiche. Gebruik wat je weet over soa's en leg uit hoe iemand zich kan beschermen tegen deze infectie, en waarom een test belangrijk is, ook zonder tekenen.\n\nInfofiche — Gonorroe: wordt veroorzaakt door een bacterie. Wordt overgedragen bij seksueel contact. Vaak zijn er geen tekenen. Antibiotica kunnen het genezen. Er bestaat geen vaccin. Een condoom verkleint het risico.",
+      "fr": "Lis la fiche d'information. À l'aide de ce que tu sais sur les IST, explique comment une personne peut se protéger contre cette infection et pourquoi le dépistage est important même sans signes.\n\nFiche d'information — La gonorrhée : elle est causée par une bactérie. Elle se transmet lors d'un contact sexuel. Souvent, il n'y a aucun signe. Des antibiotiques peuvent la guérir. Il n'existe pas de vaccin. Le préservatif réduit le risque.",
+      "corr_en": "Iemand kan een condoom gebruiken, dat verkleint het risico. Er is geen vaccin, dus testen is belangrijk: er zijn vaak geen tekenen, dus de infectie kan verborgen blijven, en ze kan vroeg gevonden en genezen worden met antibiotica.",
+      "corr_fr": "Une personne peut utiliser un préservatif, qui réduit le risque. Il n'existe pas de vaccin, donc le dépistage est important : il n'y a souvent aucun signe, l'infection peut rester cachée, et on peut la détecter et la guérir tôt avec des antibiotiques."
+    },
+    {
+      "id": 6,
+      "title": "Groeispurten",
+      "image": "growth-speed-graph-nl.webp",
+      "questions": [
+        {
+          "en": "Bekijk de grafiek. Op welke leeftijd groeien meisjes het snelst? En jongens?",
+          "fr": "Observe le graphique. À quel âge les filles grandissent-elles le plus vite ? Et les garçons ?",
+          "corr_en": "Meisjes groeien het snelst rond 11 jaar en jongens rond 14 jaar.",
+          "corr_fr": "Les filles grandissent le plus vite vers 11 ans et les garçons vers 14 ans."
+        },
+        {
+          "en": "Wie groeit op 13 jaar het snelst, en hoeveel centimeter per jaar meer?",
+          "fr": "À 13 ans, qui grandit le plus vite et de combien de centimètres par an ?",
+          "corr_en": "Jongens groeien sneller: ongeveer 8,5 cm per jaar tegenover ongeveer 5 cm per jaar bij meisjes, dus ongeveer 3,5 cm meer.",
+          "corr_fr": "Les garçons grandissent plus vite : environ 8,5 cm par an contre environ 5 cm par an pour les filles, soit environ 3,5 cm de plus."
+        },
+        {
+          "en": "Twee klasgenoten zijn allebei 13. Sofia is bijna klaar met haar snelle groei, terwijl Tom pas begint. Gebruik de grafiek om dit uit te leggen, en zeg wat het toont over de leeftijd waarop de puberteit begint.",
+          "fr": "Deux camarades ont tous les deux 13 ans. Sofia a presque terminé sa croissance rapide, alors que Tom vient de commencer la sienne. Utilise le graphique pour expliquer cela et indique ce que cela montre sur l'âge de début de la puberté.",
+          "corr_en": "Gemiddeld is de snelste groei bij meisjes rond 11 jaar en bij jongens rond 14 jaar, dus op 13 jaar kan een meisje haar piek voorbij zijn terwijl een jongen pas begint. De puberteit begint niet voor iedereen op dezelfde leeftijd.",
+          "corr_fr": "En moyenne, la croissance la plus rapide des filles est vers 11 ans et celle des garçons vers 14 ans, donc à 13 ans une fille peut avoir dépassé son pic alors qu'un garçon commence. La puberté ne commence pas au même âge pour tout le monde."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Feit, hypothese, waardeoordeel",
+      "image": null,
+      "en": "Klasseer elke zin als een feit, een hypothese of een waardeoordeel, en verklaar je antwoord.\n1) Een zaadcel heeft een staart.\n2) De pil is het beste middel.\n3) Haar cyclus is te laat, dus misschien is ze zwanger.",
+      "fr": "Classe chaque phrase comme un fait, une hypothèse ou un jugement de valeur, et justifie ta réponse.\n1) Un spermatozoïde a une queue.\n2) La pilule est la meilleure méthode.\n3) Son cycle est en retard, donc elle est peut-être enceinte.",
+      "corr_en": "1) Feit: je kunt het waarnemen en controleren met een microscoop. 2) Waardeoordeel: \"het beste\" is een mening die van ieder persoon afhangt. 3) Hypothese: een mogelijke verklaring die je moet testen voor je ze aanvaardt.",
+      "corr_fr": "1) Fait : on peut l'observer et le vérifier au microscope. 2) Jugement de valeur : « la meilleure » est une opinion qui dépend de chaque personne. 3) Hypothèse : une explication possible qu'il faut tester avant de l'accepter."
+    },
+    {
+      "id": 8,
+      "title": "Lengte van de cyclus",
+      "image": "cycle-length-bar-chart-nl.webp",
+      "questions": [
+        {
+          "en": "Bekijk het staafdiagram. Welke cycluslengte komt het vaakst voor bij de zes vrouwen?",
+          "fr": "Observe l'histogramme. Quelle durée de cycle est la plus fréquente parmi les six femmes ?",
+          "corr_en": "28 dagen (drie vrouwen op zes).",
+          "corr_fr": "28 jours (trois femmes sur six)."
+        },
+        {
+          "en": "Een leerling zegt: \"Alle vrouwen hebben hun eisprong op dag 14.\" Gebruik de cyclus van Eva om te tonen dat dit fout is. Toon je berekening.",
+          "fr": "Un élève dit : « Toutes les femmes ovulent le jour 14. » Utilise le cycle d'Eva pour montrer que c'est faux. Montre ton calcul.",
+          "corr_en": "De eisprong gebeurt ongeveer 14 dagen voor het einde van de cyclus. De cyclus van Eva duurt 35 dagen, dus haar eisprong is op dag 35 − 14 = 21, niet op dag 14.",
+          "corr_fr": "L'ovulation a lieu environ 14 jours avant la fin du cycle. Le cycle d'Eva dure 35 jours, donc elle ovule le jour 35 − 14 = 21, et pas le jour 14."
+        },
+        {
+          "en": "Wat toont het diagram over menstruatiecycli?",
+          "fr": "Que montre l'histogramme à propos des cycles menstruels ?",
+          "corr_en": "Cycli zijn niet allemaal hetzelfde: ze verschillen van vrouw tot vrouw (hier van 26 tot 35 dagen).",
+          "corr_fr": "Les cycles ne sont pas tous identiques : ils varient d'une femme à l'autre (ici de 26 à 35 jours)."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Ontwerp een test",
+      "image": null,
+      "en": "Mina vraagt zich af of de lichaamstemperatuur van een vrouw verandert tijdens haar menstruatiecyclus. Help haar een klein experiment te ontwerpen: schrijf een onderzoeksvraag, een hypothese, wat ze moet meten, hoe vaak en hoelang.",
+      "fr": "Mina se demande si la température du corps d'une femme change pendant son cycle menstruel. Aide-la à concevoir une petite expérience : écris une question, une hypothèse, ce qu'elle doit mesurer, à quelle fréquence et pendant combien de temps.",
+      "corr_en": "Vraag: verandert de lichaamstemperatuur tijdens de cyclus? Hypothese: ze is hoger na de eisprong dan ervoor. Ze meet elke ochtend haar temperatuur, op hetzelfde uur en met dezelfde thermometer, minstens één volledige cyclus lang (ongeveer 28 dagen), noteert ze in een tabel en tekent een grafiek.",
+      "corr_fr": "Question : la température du corps change-t-elle pendant le cycle ? Hypothèse : elle est plus élevée après l'ovulation qu'avant. Elle mesure sa température chaque matin, à la même heure et avec le même thermomètre, pendant au moins un cycle complet (environ 28 jours), la note dans un tableau et trace un graphique."
+    },
+    {
+      "id": 10,
+      "title": "Zwanger of niet?",
+      "image": "lining-two-women-x-y-nl.webp",
+      "questions": [
+        {
+          "en": "Een van de twee vrouwen is zwanger. Welke? Verklaar met de grafiek.",
+          "fr": "Une des deux femmes est enceinte. Laquelle ? Justifie avec le graphique.",
+          "corr_en": "Vrouw Y. Na dag 28 blijft haar slijmvlies dik, terwijl het slijmvlies van vrouw X afgebroken wordt en weer dun wordt (menstruatie).",
+          "corr_fr": "La femme Y. Après le jour 28, sa paroi reste épaisse, alors que la paroi de la femme X se détruit et redevient mince (règles)."
+        },
+        {
+          "en": "Leg stap voor stap uit wat er in het lichaam van deze vrouw gebeurde, van de eisprong tot dag 40.",
+          "fr": "Explique étape par étape ce qui s'est passé dans le corps de cette femme, de l'ovulation jusqu'au jour 40.",
+          "corr_en": "Bij de eisprong kwam er een eicel vrij, die in een eileider bevrucht werd door een zaadcel. De zygote werd een embryo, dat zich vastzette in het dikke baarmoederslijmvlies (innesteling). Het slijmvlies bleef op zijn plaats, dus er was geen menstruatie.",
+          "corr_fr": "Un ovocyte a été libéré à l'ovulation et fécondé par un spermatozoïde dans une trompe de Fallope. Le zygote est devenu un embryon, qui s'est attaché à la paroi épaisse de l'utérus (nidation). La paroi est restée en place, donc il n'y a pas eu de règles."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Gedeelde verantwoordelijkheid",
+      "image": null,
+      "en": "Een jongen zegt: \"Anticonceptie en soa's zijn alleen het probleem van het meisje.\" Geef twee wetenschappelijke argumenten om te tonen dat de verantwoordelijkheid gedeeld is.",
+      "fr": "Un garçon dit : « La contraception et les IST, c'est seulement le problème de la fille. » Donne deux arguments scientifiques pour montrer que la responsabilité est partagée.",
+      "corr_en": "Voor een zwangerschap zijn een zaadcel en een eicel nodig, dus beide partners zijn betrokken. Soa's kunnen van de ene persoon naar de andere gaan, in beide richtingen, en een condoom (voor mannen of voor vrouwen) beschermt allebei. Beide partners moeten dus opletten.",
+      "corr_fr": "Une grossesse nécessite un spermatozoïde et un ovocyte, donc les deux partenaires sont concernés. Les IST peuvent passer de l'une à l'autre personne, et un préservatif (masculin ou interne) protège les deux. Les deux partenaires doivent donc faire attention."
+    },
+    {
+      "id": 12,
+      "title": "Uitwisselingen in de placenta",
+      "image": "placenta-exchanges-nl.webp",
+      "questions": [
+        {
+          "en": "Bekijk het schema. Waarom zeggen we dat het bloed van de moeder en het bloed van de foetus nooit mengen?",
+          "fr": "Observe le schéma. Pourquoi dit-on que le sang de la mère et le sang du fœtus ne se mélangent jamais ?",
+          "corr_en": "Ze zijn gescheiden door de dunne wand van de placenta. Alleen sommige stoffen gaan erdoor, het bloed zelf niet.",
+          "corr_fr": "Ils sont séparés par la paroi fine du placenta. Seules certaines substances la traversent, pas le sang lui-même."
+        },
+        {
+          "en": "Noem twee stoffen die van de moeder naar de foetus gaan en twee die van de foetus naar de moeder gaan.",
+          "fr": "Nomme deux substances qui vont de la mère vers le fœtus et deux qui vont du fœtus vers la mère.",
+          "corr_en": "Van de moeder naar de foetus: zuurstof en voedingsstoffen. Van de foetus naar de moeder: koolstofdioxide en afvalstoffen.",
+          "corr_fr": "De la mère vers le fœtus : oxygène et nutriments. Du fœtus vers la mère : dioxyde de carbone et déchets."
+        },
+        {
+          "en": "Een zwangere vrouw neemt een geneesmiddel dat in haar bloed komt. Leg uit hoe dit geneesmiddel de foetus zou kunnen bereiken, en wat ze moet doen voor ze een geneesmiddel neemt.",
+          "fr": "Une femme enceinte prend un médicament qui passe dans son sang. Explique comment ce médicament pourrait atteindre le fœtus, et ce qu'elle doit faire avant de prendre un médicament.",
+          "corr_en": "Stoffen in het bloed van de moeder kunnen door de placenta naar het bloed van de foetus gaan, dus het geneesmiddel kan de foetus bereiken. Ze moet een arts raadplegen voor ze een geneesmiddel neemt.",
+          "corr_fr": "Les substances du sang de la mère peuvent traverser le placenta et passer dans le sang du fœtus, donc le médicament pourrait l'atteindre. Elle doit demander l'avis d'un médecin avant de prendre un médicament."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Een tweeling",
+      "image": null,
+      "en": "Een koppel heeft een tweeling van twee jongens. De arts legt uit dat er maar één eicel bevrucht werd. Welk soort tweeling is het? Hoeveel zygoten waren er in het begin? Leg uit hoe twee baby's kunnen ontstaan uit één bevruchte eicel.",
+      "fr": "Un couple a des jumeaux garçons. Le médecin explique qu'un seul ovocyte a été fécondé. De quel type de jumeaux s'agit-il ? Combien y avait-il de zygotes au départ ? Explique comment deux bébés peuvent commencer à partir d'un seul ovocyte fécondé.",
+      "corr_en": "Het is een eeneiige tweeling. Er was in het begin maar één zygote. Na de bevruchting splitste deze zygote in twee, en elk deel ontwikkelde zich tot een embryo: zo groeiden er twee baby's uit één bevruchte eicel.",
+      "corr_fr": "Ce sont de vrais jumeaux (identiques). Il n'y avait qu'un seul zygote au départ. Après la fécondation, ce zygote s'est divisé en deux et chaque partie s'est développée en un embryon : deux bébés sont donc nés d'un seul ovocyte fécondé."
+    },
+    {
+      "id": 14,
+      "title": "Twee wegen",
+      "image": "two-paths-after-ovulation-nl.webp",
+      "en": "Bekijk het stroomschema met de twee mogelijke wegen na de eisprong. Schrijf wat er ontbreekt in de vakjes 1 tot 4. Leg daarna uit waarom er geen menstruatie is als de eicel bevrucht wordt.",
+      "fr": "Observe l'organigramme qui montre les deux voies possibles après l'ovulation. Écris ce qui manque dans les cases 1 à 4. Explique ensuite pourquoi il n'y a pas de règles quand l'ovocyte est fécondé.",
+      "corr_en": "1: bevruchting. 2: innesteling. 3: 24 uur. 4: menstruatie. Als de eicel bevrucht wordt, zet het embryo zich vast in het dikke baarmoederslijmvlies: het slijmvlies blijft op zijn plaats en wordt niet afgebroken, dus er is negen maanden lang geen menstruatie.",
+      "corr_fr": "1 : la fécondation. 2 : la nidation (implantation). 3 : 24 heures. 4 : les règles (menstruation). Quand l'ovocyte est fécondé, l'embryon s'attache à la paroi épaisse de l'utérus : la paroi reste en place et ne se détruit pas, donc il n'y a pas de règles pendant neuf mois."
+    },
+    {
+      "id": 15,
+      "title": "Implantaat en condoom",
+      "image": null,
+      "en": "Leo en Kim gebruiken het anticonceptie-implantaat. Kim zegt: \"We zijn volledig beschermd, dus we hebben geen condooms nodig.\" Heeft ze gelijk? Leg uit met de rol van elk middel.",
+      "fr": "Leo et Kim utilisent l'implant contraceptif. Kim dit : « Nous sommes complètement protégés, donc nous n'avons pas besoin de préservatifs. » A-t-elle raison ? Explique avec le rôle de chaque moyen.",
+      "corr_en": "Ze heeft maar gedeeltelijk gelijk. Het implantaat geeft hormonen af die de eisprong stoppen, dus het beschermt tegen een zwangerschap, maar het houdt soa's niet tegen. Een condoom is ook nodig om je te beschermen tegen soa's: dat is dubbele bescherming.",
+      "corr_fr": "Elle n'a que partiellement raison. L'implant libère des hormones qui empêchent l'ovulation, donc il protège d'une grossesse, mais il n'empêche pas les IST de passer. Un préservatif est aussi nécessaire pour se protéger des IST : c'est la double protection."
+    },
+    {
+      "id": 16,
+      "title": "Waarom vroeg vaccineren?",
+      "image": "hpv-vaccination.webp",
+      "en": "Bekijk de afbeelding van een vaccinatie. Leg uit waarom het HPV-vaccin het best werkt vóór het eerste seksuele contact, en waarom iemand die gevaccineerd is toch nog een andere bescherming nodig kan hebben.",
+      "fr": "Observe l'image d'une vaccination. Explique pourquoi le vaccin contre le HPV agit mieux avant le premier contact sexuel, et pourquoi une personne vaccinée peut quand même avoir besoin d'une autre protection.",
+      "corr_en": "Het vaccin beschermt het lichaam voor het met het virus in contact komt, dus het werkt het best vóór elk contact. Maar het beschermt alleen tegen HPV, niet tegen andere soa's zoals chlamydia, en het is geen anticonceptiemiddel: condooms blijven nodig.",
+      "corr_fr": "Le vaccin protège le corps avant qu'il rencontre le virus, donc il agit mieux avant tout contact. Mais il protège seulement contre le HPV, pas contre d'autres IST comme la chlamydia, et ce n'est pas un contraceptif : les préservatifs restent nécessaires."
+    },
+    {
+      "id": 17,
+      "title": "De mythe van de veilige dagen",
+      "image": null,
+      "en": "Een vriendin zegt: \"De eisprong is altijd op dag 14, dus op alle andere dagen ben ik veilig.\" Geef twee wetenschappelijke argumenten om te tonen waarom ze ongelijk heeft.",
+      "fr": "Une amie dit : « L'ovulation a toujours lieu le jour 14, donc je ne risque rien tous les autres jours. » Donne deux arguments scientifiques pour montrer pourquoi elle a tort.",
+      "corr_en": "Cycli verschillen in lengte en de eisprong gebeurt ongeveer 14 dagen voor het einde van de cyclus, dus niet altijd op dag 14. Bovendien kunnen zaadcellen tot 5 dagen in het lichaam leven: geslachtsgemeenschap een paar dagen voor de eisprong kan dus nog tot een bevruchting leiden.",
+      "corr_fr": "Les cycles varient en durée et l'ovulation a lieu environ 14 jours avant la fin du cycle, donc ce n'est pas toujours le jour 14. De plus, les spermatozoïdes peuvent vivre jusqu'à 5 jours dans le corps : un rapport quelques jours avant l'ovulation peut encore mener à une fécondation."
+    },
+    {
+      "id": 18,
+      "title": "Determineersleutel",
+      "image": "contraception-key-nl.webp",
+      "questions": [
+        {
+          "en": "Gebruik de sleutel. Welk middel vind je als de antwoorden \"Nee\" zijn op de eerste vraag en \"Nee\" op de tweede vraag?",
+          "fr": "Utilise la clé. Quelle méthode trouves-tu si les réponses sont « Non » à la première question et « Non » à la deuxième question ?",
+          "corr_en": "Het koperen spiraaltje.",
+          "corr_fr": "Le stérilet au cuivre."
+        },
+        {
+          "en": "Een nieuw middel is een ring die in de vagina geplaatst wordt. Hij bevat hormonen en wordt niet elke dag genomen. Waar kom je uit in de sleutel? Welke vraag zou je kunnen toevoegen om hem te onderscheiden van het implantaat?",
+          "fr": "Un nouveau moyen est un anneau placé dans le vagin. Il contient des hormones et ne se prend pas tous les jours. Où arriverais-tu dans la clé ? Quelle question pourrais-tu ajouter pour le séparer de l'implant ?",
+          "corr_en": "Je komt uit bij het implantaat (ja voor hormonen, nee voor elke dag). Een nieuwe vraag kan zijn: \"Wordt het onder de huid van de arm geplaatst?\" (of \"Wordt het in de vagina geplaatst?\").",
+          "corr_fr": "Tu arriverais à l'implant (oui aux hormones, non à tous les jours). Une nouvelle question pourrait être : « Est-il placé sous la peau du bras ? » (ou « Est-il placé dans le vagin ? »)."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Van mening veranderen",
+      "image": null,
+      "en": "Emma vond het goed om tijd alleen door te brengen met Noah. Later zegt ze dat ze niet verder wil gaan. Noah antwoordt: \"Maar je zei eerst ja!\" Wie heeft gelijk? Leg uit met het idee van toestemming en gedeelde verantwoordelijkheid.",
+      "fr": "Emma a accepté de passer du temps seule avec Noah. Plus tard, elle dit qu'elle ne veut pas aller plus loin. Noah répond : « Mais tu avais dit oui avant ! » Qui a raison ? Explique, en utilisant l'idée de consentement et de responsabilité partagée.",
+      "corr_en": "Emma heeft gelijk. Toestemming moet op elk moment vrij gegeven worden en iemand mag altijd van mening veranderen: eerder ja zeggen is niet genoeg. Noah moet haar beslissing respecteren, want elke partner is verantwoordelijk om de ander te respecteren.",
+      "corr_fr": "Emma a raison. Le consentement doit être donné librement à chaque instant et une personne peut changer d'avis à tout moment : avoir dit oui avant ne suffit pas. Noah doit respecter sa décision, car chaque partenaire est responsable du respect de l'autre."
+    },
+    {
+      "id": 20,
+      "title": "Een late menstruatie",
+      "image": "zoe-calendar-nl.webp",
+      "en": "Bekijk de kalender van Zoe, die een cyclus van 33 dagen heeft. Haar menstruatie komt niet op 3 november. Zaadcellen kunnen tot 5 dagen leven en een eicel leeft ongeveer 24 uur. Leg stap voor stap uit wat er gebeurd kan zijn.",
+      "fr": "Observe le calendrier de Zoe, qui a un cycle de 33 jours. Ses règles ne viennent pas le 3 novembre. Les spermatozoïdes peuvent vivre jusqu'à 5 jours et un ovocyte vit environ 24 heures. Explique étape par étape ce qui a pu se passer.",
+      "corr_en": "Zoe heeft haar eisprong 14 dagen voor het einde van haar cyclus: op dag 19, dat is 19 oktober. De zaadcellen van 17 oktober kunnen leven tot 22 oktober, dus ze kunnen de eicel ontmoeten en bevruchten. Het embryo heeft zich daarna misschien vastgezet in het dikke slijmvlies (innesteling); het slijmvlies bleef op zijn plaats, dus er is geen menstruatie.",
+      "corr_fr": "Zoe ovule 14 jours avant la fin de son cycle : le jour 19, soit le 19 octobre. Les spermatozoïdes du 17 octobre peuvent vivre jusqu'au 22 octobre, donc ils peuvent rencontrer l'ovocyte et le féconder. L'embryon a pu ensuite s'attacher à la paroi épaisse (nidation) ; la paroi est restée en place, donc il n'y a pas de règles."
+    }
+  ]
 }
