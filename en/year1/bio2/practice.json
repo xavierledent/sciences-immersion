@@ -1,5 +1,690 @@
 {
-  "level1": [],
-  "level2": [],
-  "level3": []
+  "level1": [
+    {
+      "id": 1,
+      "title": "Sperm factory",
+      "image": null,
+      "en": "Where are sperm cells made?",
+      "fr": "Où fabrique-t-on les spermatozoïdes ?",
+      "corr_en": "Sperm cells are made in the testes (inside the scrotum).",
+      "corr_fr": "Les spermatozoïdes sont fabriqués dans les testicules (à l'intérieur du scrotum)."
+    },
+    {
+      "id": 2,
+      "title": "Male diagram: organ 1",
+      "image": "male-system-numbered.webp",
+      "en": "Look at the diagram of the male reproductive system. What is the name of the organ marked with the number 1?",
+      "fr": "Observe le schéma du système reproducteur masculin. Quel est le nom de l'organe repéré par le numéro 1 ?",
+      "corr_en": "The prostate.",
+      "corr_fr": "La prostate."
+    },
+    {
+      "id": 3,
+      "title": "Sperm exit: true or false?",
+      "image": null,
+      "en": "True or false? Sperm cells leave the body through the vas deferens. If it is false, correct the sentence.",
+      "fr": "Vrai ou faux ? Les spermatozoïdes quittent le corps par le canal déférent. Si c'est faux, corrige la phrase.",
+      "corr_en": "False. Sperm cells leave the body through the urethra, inside the penis. (The vas deferens only carries them toward the urethra.)",
+      "corr_fr": "Faux. Les spermatozoïdes quittent le corps par l'urètre, à l'intérieur du pénis. (Le canal déférent les amène seulement vers l'urètre.)"
+    },
+    {
+      "id": 4,
+      "title": "Female diagram: organ 2",
+      "image": "female-system-numbered.webp",
+      "en": "Look at the diagram of the female reproductive system. What is the name of the organ marked with the number 2?",
+      "fr": "Observe le schéma du système reproducteur féminin. Quel est le nom de l'organe repéré par le numéro 2 ?",
+      "corr_en": "An ovary.",
+      "corr_fr": "Un ovaire."
+    },
+    {
+      "id": 5,
+      "title": "What is puberty?",
+      "image": null,
+      "en": "What is puberty?",
+      "fr": "Qu'est-ce que la puberté ?",
+      "corr_en": "Puberty is the time (around 8 to 14 years old) when the body changes and the reproductive organs start to work.",
+      "corr_fr": "La puberté est la période (vers 8 à 14 ans) où le corps change et où les organes reproducteurs commencent à fonctionner."
+    },
+    {
+      "id": 6,
+      "title": "Outside diagram: structure 5",
+      "image": "vulva-numbered.webp",
+      "en": "Look at the diagram of the outside of the female reproductive system. What is the name of the structure marked with the number 5?",
+      "fr": "Observe le schéma de l'extérieur de l'appareil reproducteur féminin. Quel est le nom de la structure repérée par le numéro 5 ?",
+      "corr_en": "The clitoris.",
+      "corr_fr": "Le clitoris."
+    },
+    {
+      "id": 7,
+      "title": "Fertilization: true or false?",
+      "image": null,
+      "en": "True or false? Fertilization is the union of one sperm cell and one egg cell (oocyte). If it is false, correct the sentence.",
+      "fr": "Vrai ou faux ? La fécondation est l'union d'un spermatozoïde et d'un ovocyte. Si c'est faux, corrige la phrase.",
+      "corr_en": "True. The two cells join and form the first cell of a new baby (the zygote).",
+      "corr_fr": "Vrai. Les deux cellules s'unissent et forment la première cellule d'un nouveau bébé (le zygote)."
+    },
+    {
+      "id": 8,
+      "title": "Tail of the sperm cell",
+      "image": "lab-report-reproductive-cells.webp",
+      "en": "Look at this laboratory report. What is the scientific name of the tail of a sperm cell?",
+      "fr": "Observe ce rapport de laboratoire. Quel est le nom scientifique de la queue d'un spermatozoïde ?",
+      "corr_en": "The flagellum.",
+      "corr_fr": "Le flagelle."
+    },
+    {
+      "id": 9,
+      "title": "What is menstruation?",
+      "image": null,
+      "en": "What is menstruation (a period)?",
+      "fr": "Que sont les règles (menstruation) ?",
+      "corr_en": "The lining of the uterus breaks down and leaves the body as blood through the vagina.",
+      "corr_fr": "La paroi de l'utérus se détruit et quitte le corps sous forme de sang, par le vagin."
+    },
+    {
+      "id": 10,
+      "title": "Which twins?",
+      "image": "twins-one-egg.webp",
+      "en": "Look at the diagram of the twins. Are they identical twins or fraternal twins? Explain.",
+      "fr": "Observe le schéma des jumeaux. Sont-ils de vrais jumeaux (identiques) ou de faux jumeaux (fraternels) ? Explique.",
+      "corr_en": "Identical twins: they come from one fertilized egg cell (one zygote) that splits in two.",
+      "corr_fr": "De vrais jumeaux : ils viennent d'un seul ovocyte fécondé (un seul zygote) qui se divise en deux."
+    },
+    {
+      "id": 11,
+      "title": "Zygote or embryo?",
+      "image": null,
+      "en": "True or false? The embryo is the very first cell of a new baby. If it is false, correct the sentence.",
+      "fr": "Vrai ou faux ? L'embryon est la toute première cellule d'un nouveau bébé. Si c'est faux, corrige la phrase.",
+      "corr_en": "False. The zygote is the very first cell. After a few days, it becomes a ball of cells: the embryo.",
+      "corr_fr": "Faux. Le zygote est la toute première cellule. Après quelques jours, il devient une boule de cellules : l'embryon."
+    },
+    {
+      "id": 12,
+      "title": "Ultrasound at week 12",
+      "image": "ultrasound-week-12.webp",
+      "en": "This ultrasound picture was taken in week 12 of a pregnancy. What is the baby called at this stage?",
+      "fr": "Cette échographie a été réalisée à la 12e semaine d'une grossesse. Comment appelle-t-on le bébé à ce stade ?",
+      "corr_en": "A fetus (the name from week 9 until birth).",
+      "corr_fr": "Un fœtus (nom donné de la 9e semaine jusqu'à la naissance)."
+    },
+    {
+      "id": 13,
+      "title": "Role of the placenta",
+      "image": null,
+      "en": "What is the role of the placenta?",
+      "fr": "Quel est le rôle du placenta ?",
+      "corr_en": "It connects the mother and the fetus and organizes the exchanges (oxygen, nutrients, waste) between their blood.",
+      "corr_fr": "Il relie la mère et le fœtus et organise les échanges (oxygène, nutriments, déchets) entre leurs sangs."
+    },
+    {
+      "id": 14,
+      "title": "Mystery method",
+      "image": "copper-iud.webp",
+      "en": "What is the name of this contraceptive method? It is a small object placed in the uterus.",
+      "fr": "Comment s'appelle ce moyen contraceptif ? C'est un petit objet placé dans l'utérus.",
+      "corr_en": "The (copper) IUD.",
+      "corr_fr": "Le stérilet (DIU) au cuivre."
+    },
+    {
+      "id": 15,
+      "title": "Three methods",
+      "image": null,
+      "en": "Name three contraceptive methods. One of them must be the condom.",
+      "fr": "Cite trois moyens contraceptifs. L'un d'eux doit être le préservatif.",
+      "corr_en": "For example: the condom, the pill and the implant (also possible: the IUD, the emergency pill, the internal condom).",
+      "corr_fr": "Par exemple : le préservatif, la pilule et l'implant (aussi possible : le stérilet, la pilule d'urgence, le préservatif interne)."
+    },
+    {
+      "id": 16,
+      "title": "Puberty in girls",
+      "image": "puberty-boy-girl.webp",
+      "en": "Look at the picture. Name two changes of puberty in girls.",
+      "fr": "Observe l'image. Cite deux changements de la puberté chez les filles.",
+      "corr_en": "The breasts develop (breast development) and the menstrual cycles start (first menstruation).",
+      "corr_fr": "Les seins se développent et les cycles menstruels commencent (premières règles)."
+    },
+    {
+      "id": 17,
+      "title": "Condom: true or false?",
+      "image": null,
+      "en": "True or false? A condom protects against a pregnancy and also against STIs. If it is false, correct the sentence.",
+      "fr": "Vrai ou faux ? Le préservatif protège contre une grossesse et aussi contre les IST. Si c'est faux, corrige la phrase.",
+      "corr_en": "True. A condom stops the sperm cells from meeting the egg cell and it also reduces the risk of STIs.",
+      "corr_fr": "Vrai. Le préservatif empêche les spermatozoïdes de rencontrer l'ovocyte et il réduit aussi le risque d'IST."
+    },
+    {
+      "id": 18,
+      "title": "Missing step",
+      "image": "egg-cell-journey.webp",
+      "en": "The picture shows the journey of an egg cell. Which structure is missing in the box with the question mark?",
+      "fr": "L'image montre le trajet d'un ovocyte. Quelle structure manque dans la case avec le point d'interrogation ?",
+      "corr_en": "The Fallopian tube opening (the funnel-shaped opening next to the ovary).",
+      "corr_fr": "Le pavillon de la trompe (l'ouverture en forme d'entonnoir à côté de l'ovaire)."
+    },
+    {
+      "id": 19,
+      "title": "What is an STI?",
+      "image": null,
+      "en": "What does STI stand for? What is it?",
+      "fr": "Que signifie IST ? De quoi s'agit-il ?",
+      "corr_en": "Sexually transmitted infection: an infection that passes from one person to another during sexual contact.",
+      "corr_fr": "Infection sexuellement transmissible : une infection qui passe d'une personne à l'autre lors d'un contact sexuel."
+    },
+    {
+      "id": 20,
+      "title": "Umbilical cord",
+      "image": "umbilical-cord-fetus.webp",
+      "en": "Look at the picture of a fetus in the uterus. What is the name of the structure marked with the number 1?",
+      "fr": "Observe l'image d'un fœtus dans l'utérus. Quel est le nom de la structure repérée par le numéro 1 ?",
+      "corr_en": "The umbilical cord.",
+      "corr_fr": "Le cordon ombilical."
+    }
+  ],
+  "level2": [
+    {
+      "id": 1,
+      "title": "Journey of a sperm cell",
+      "image": null,
+      "en": "Describe the journey of a sperm cell from the place where it is made to the outside of the body. Name the organs it goes through.",
+      "fr": "Décris le trajet d'un spermatozoïde, depuis l'endroit où il est fabriqué jusqu'à l'extérieur du corps. Nomme les organes qu'il traverse.",
+      "corr_en": "It is made in a testis, travels through the vas deferens, receives a liquid from the glands (seminal vesicle and prostate), then goes through the urethra and leaves the body at the tip of the penis.",
+      "corr_fr": "Il est fabriqué dans un testicule, passe par le canal déférent, reçoit un liquide des glandes (vésicule séminale et prostate), puis traverse l'urètre et quitte le corps par le bout du pénis."
+    },
+    {
+      "id": 2,
+      "title": "Two glands",
+      "image": "male-system-numbered.webp",
+      "en": "Look at the diagram of the male reproductive system. The structures marked 1 and 5 are two glands. Name them and explain what they add to the sperm cells.",
+      "fr": "Observe le schéma du système reproducteur masculin. Les structures repérées 1 et 5 sont deux glandes. Nomme-les et explique ce qu'elles ajoutent aux spermatozoïdes.",
+      "corr_en": "Structure 1 is the prostate and structure 5 is the seminal vesicle. They add a liquid that helps the sperm cells to swim.",
+      "corr_fr": "La structure 1 est la prostate et la structure 5 est la vésicule séminale. Elles ajoutent un liquide qui aide les spermatozoïdes à nager."
+    },
+    {
+      "id": 3,
+      "title": "Journey of an egg cell",
+      "image": null,
+      "en": "An egg cell leaves an ovary. Describe its journey until it reaches the uterus.",
+      "fr": "Un ovocyte quitte un ovaire. Décris son trajet jusqu'à ce qu'il arrive dans l'utérus.",
+      "corr_en": "It enters the Fallopian tube through the funnel-shaped opening, then it moves slowly along the tube until it arrives in the uterus.",
+      "corr_fr": "Il entre dans la trompe de Fallope par le pavillon en forme d'entonnoir, puis il avance lentement dans la trompe jusqu'à arriver dans l'utérus."
+    },
+    {
+      "id": 4,
+      "title": "Meeting place",
+      "image": "female-system-numbered.webp",
+      "en": "Look at the diagram of the female reproductive system. Fertilization usually happens in the structure marked 5. Name this structure and say which two organs it connects.",
+      "fr": "Observe le schéma du système reproducteur féminin. La fécondation a généralement lieu dans la structure repérée 5. Nomme cette structure et indique quels deux organes elle relie.",
+      "corr_en": "Structure 5 is a Fallopian tube. It connects an ovary to the uterus.",
+      "corr_fr": "La structure 5 est une trompe de Fallope. Elle relie un ovaire à l'utérus."
+    },
+    {
+      "id": 5,
+      "title": "Puberty messengers",
+      "image": null,
+      "en": "What causes the changes of puberty? Name the chemical messengers and say where they come from.",
+      "fr": "Qu'est-ce qui provoque les changements de la puberté ? Nomme les messagers chimiques et indique d'où ils viennent.",
+      "corr_en": "Hormones, chemical messengers. The brain sends signals to the reproductive organs: the testes produce testosterone and the ovaries produce estrogen, which start the changes.",
+      "corr_fr": "Les hormones, des messagers chimiques. Le cerveau envoie des signaux aux organes reproducteurs : les testicules produisent de la testostérone et les ovaires de l'œstrogène, ce qui déclenche les changements."
+    },
+    {
+      "id": 6,
+      "title": "Two openings",
+      "image": "vulva-numbered.webp",
+      "en": "Look at the diagram of the outside of the female reproductive system. The structures marked 1 and 3 are two different openings. Name them and say what leaves the body through each one.",
+      "fr": "Observe le schéma de l'extérieur de l'appareil reproducteur féminin. Les structures repérées 1 et 3 sont deux ouvertures différentes. Nomme-les et indique ce qui quitte le corps par chacune.",
+      "corr_en": "Structure 1 is the vagina: menstrual blood (and a baby at birth) leaves the body through it. Structure 3 is the urethra: urine leaves the body through it.",
+      "corr_fr": "La structure 1 est le vagin : le sang des règles (et le bébé à la naissance) quitte le corps par là. La structure 3 est l'urètre : l'urine quitte le corps par là."
+    },
+    {
+      "id": 7,
+      "title": "Puberty changes",
+      "image": null,
+      "en": "Give one change of puberty that happens only in boys, one that happens only in girls and one that happens in both.",
+      "fr": "Donne un changement de la puberté qui n'a lieu que chez les garçons, un qui n'a lieu que chez les filles et un qui a lieu chez les deux.",
+      "corr_en": "Boys: the voice becomes deeper (or the testes start to make sperm cells). Girls: the breasts grow (or the first menstruation arrives). Both: hair grows under the arms (or rapid growth).",
+      "corr_fr": "Garçons : la voix devient plus grave (ou les testicules fabriquent des spermatozoïdes). Filles : les seins se développent (ou arrivent les premières règles). Les deux : des poils poussent sous les bras (ou croissance rapide)."
+    },
+    {
+      "id": 8,
+      "title": "Two cells compared",
+      "image": "lab-report-reproductive-cells.webp",
+      "questions": [
+        {
+          "en": "Look at this laboratory report. Compare the number of sperm cells and the number of egg cells that are produced.",
+          "fr": "Observe ce rapport de laboratoire. Compare le nombre de spermatozoïdes et le nombre d'ovocytes produits.",
+          "corr_en": "Hundreds of millions of sperm cells are produced daily, but only about one egg cell is released each month.",
+          "corr_fr": "Des centaines de millions de spermatozoïdes sont produits chaque jour, mais un seul ovocyte environ est libéré chaque mois."
+        },
+        {
+          "en": "A student says: \"Sperm cells can survive longer than the egg cell.\" Is the student right? Use the numbers of the report.",
+          "fr": "Un élève dit : « Les spermatozoïdes peuvent survivre plus longtemps que l'ovocyte. » A-t-il raison ? Utilise les chiffres du rapport.",
+          "corr_en": "Yes. Sperm cells can live 3 to 5 days, but the egg cell lives only about 24 hours (1 day).",
+          "corr_fr": "Oui. Les spermatozoïdes peuvent vivre de 3 à 5 jours, mais l'ovocyte ne vit qu'environ 24 heures (1 jour)."
+        },
+        {
+          "en": "Which of the two cells can move on its own? Justify with the report.",
+          "fr": "Laquelle des deux cellules peut se déplacer toute seule ? Justifie avec le rapport.",
+          "corr_en": "The sperm cell: the report shows strong forward mobility. The oocyte is immobile and is only transported passively in the Fallopian tubes.",
+          "corr_fr": "Le spermatozoïde : le rapport indique une forte mobilité vers l'avant. L'ovocyte est immobile et n'est transporté que passivement dans les trompes de Fallope."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "The cells meet",
+      "image": null,
+      "en": "Where does fertilization happen and what exactly happens?",
+      "fr": "Où a lieu la fécondation et que se passe-t-il exactement ?",
+      "corr_en": "Fertilization happens in a Fallopian tube. One sperm cell enters the egg cell: the two cells join and form the zygote, the first cell of a new baby.",
+      "corr_fr": "La fécondation a lieu dans une trompe de Fallope. Un spermatozoïde entre dans l'ovocyte : les deux cellules s'unissent et forment le zygote, la première cellule d'un nouveau bébé."
+    },
+    {
+      "id": 10,
+      "title": "Swimming race",
+      "image": "sperm-swimming-tube.webp",
+      "en": "Look at the picture. Sperm cells swim in a tube toward a big round cell. Name the tube and the round cell, and say what can happen if one sperm cell reaches the round cell.",
+      "fr": "Observe l'image. Des spermatozoïdes nagent dans un tube vers une grosse cellule ronde. Nomme le tube et la cellule ronde, et indique ce qui peut arriver si un spermatozoïde atteint la cellule ronde.",
+      "corr_en": "The tube is a Fallopian tube and the round cell is the egg cell (oocyte). If one sperm cell enters it, fertilization happens.",
+      "corr_fr": "Le tube est une trompe de Fallope et la cellule ronde est l'ovocyte. Si un spermatozoïde y entre, il y a fécondation."
+    },
+    {
+      "id": 11,
+      "title": "Lining grows back",
+      "image": null,
+      "en": "After menstruation, what happens to the lining of the uterus, and why is this useful?",
+      "fr": "Après les règles, que devient la paroi de l'utérus et pourquoi est-ce utile ?",
+      "corr_en": "It grows back and gets thicker. A thick lining is a soft bed that can receive an embryo if the egg cell is fertilized.",
+      "corr_fr": "Elle repousse et devient plus épaisse. Une paroi épaisse est un lit douillet qui peut accueillir un embryon si l'ovocyte est fécondé."
+    },
+    {
+      "id": 12,
+      "title": "Lining graph",
+      "image": "lining-graph-woman-d.webp",
+      "questions": [
+        {
+          "en": "Read the graph. What is the thickness of the lining on day 2 and on day 6? What does this show?",
+          "fr": "Lis le graphique. Quelle est l'épaisseur de la paroi le jour 2 et le jour 6 ? Qu'est-ce que cela montre ?",
+          "corr_en": "About 4 mm on day 2 and 1 mm on day 6. The lining is breaking down and leaving the body (menstruation).",
+          "corr_fr": "Environ 4 mm le jour 2 et 1 mm le jour 6. La paroi se détruit et quitte le corps (règles)."
+        },
+        {
+          "en": "Describe how the thickness changes between day 8 and day 23.",
+          "fr": "Décris comment l'épaisseur change entre le jour 8 et le jour 23.",
+          "corr_en": "The lining grows back: it becomes thicker and thicker, from about 1 mm to about 11 mm.",
+          "corr_fr": "La paroi repousse : elle devient de plus en plus épaisse, d'environ 1 mm à environ 11 mm."
+        },
+        {
+          "en": "On which day does the arrow show ovulation, and how thick is the lining on that day?",
+          "fr": "Quel jour la flèche indique-t-elle l'ovulation, et quelle est l'épaisseur de la paroi ce jour-là ?",
+          "corr_en": "Ovulation is on day 16 and the lining is about 6 to 7 mm thick.",
+          "corr_fr": "L'ovulation a lieu le jour 16 et la paroi mesure environ 6 à 7 mm."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Two cycles",
+      "image": null,
+      "en": "Sara has a 26-day cycle and Mia has a 33-day cycle. Ovulation happens about 14 days before the end of the cycle. Calculate the day of ovulation for each woman. Who ovulates first, and how many days earlier?",
+      "fr": "Sara a un cycle de 26 jours et Mia a un cycle de 33 jours. L'ovulation a lieu environ 14 jours avant la fin du cycle. Calcule le jour de l'ovulation pour chaque femme. Qui ovule la première et combien de jours plus tôt ?",
+      "corr_en": "Sara: 26 − 14 = day 12. Mia: 33 − 14 = day 19. Sara ovulates first, 7 days earlier. The cycles are different, so the days of ovulation are different.",
+      "corr_fr": "Sara : 26 − 14 = jour 12. Mia : 33 − 14 = jour 19. Sara ovule la première, 7 jours plus tôt. Les cycles sont différents, donc les jours d'ovulation aussi."
+    },
+    {
+      "id": 14,
+      "title": "Before or after?",
+      "image": "two-cycles-woman-a-b.webp",
+      "questions": [
+        {
+          "en": "Look at the two cycles. Which woman has the longer cycle, and by how many days?",
+          "fr": "Observe les deux cycles. Quelle femme a le cycle le plus long et de combien de jours ?",
+          "corr_en": "Woman B has the longer cycle: 32 days against 28 days, so 4 days longer.",
+          "corr_fr": "La femme B a le cycle le plus long : 32 jours contre 28 jours, soit 4 jours de plus."
+        },
+        {
+          "en": "Is the extra length of the longer cycle before or after ovulation? Justify with numbers from the graphs.",
+          "fr": "Les jours supplémentaires du cycle le plus long se situent-ils avant ou après l'ovulation ? Justifie avec des chiffres des graphiques.",
+          "corr_en": "Before ovulation. Ovulation is on day 18 instead of day 14 (4 days later), while in both women ovulation happens 14 days before the end of the cycle.",
+          "corr_fr": "Avant l'ovulation. L'ovulation a lieu le jour 18 au lieu du jour 14 (4 jours plus tard), alors que chez les deux femmes l'ovulation a lieu 14 jours avant la fin du cycle."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Risky day?",
+      "image": null,
+      "en": "Clara has a 28-day cycle, so she ovulates on day 14. On day 12 she has sexual intercourse without protection. Sperm cells can live up to 5 days in the female body and an egg cell lives about 24 hours. Can she become pregnant? Explain with the days.",
+      "fr": "Clara a un cycle de 28 jours, donc elle ovule le jour 14. Le jour 12, elle a un rapport sexuel sans protection. Les spermatozoïdes peuvent vivre jusqu'à 5 jours dans le corps féminin et un ovocyte vit environ 24 heures. Peut-elle tomber enceinte ? Explique avec les jours.",
+      "corr_en": "Yes. The sperm cells from day 12 can live until day 17. The egg cell is released on day 14, so the sperm cells and the egg cell can meet in a Fallopian tube.",
+      "corr_fr": "Oui. Les spermatozoïdes du jour 12 peuvent vivre jusqu'au jour 17. L'ovocyte est libéré le jour 14, donc les spermatozoïdes et l'ovocyte peuvent se rencontrer dans une trompe de Fallope."
+    },
+    {
+      "id": 16,
+      "title": "Condom role",
+      "image": "condom-wrapper.webp",
+      "en": "Look at the picture. Which contraceptive method is this? Explain how it prevents a pregnancy and say what else it protects against.",
+      "fr": "Observe l'image. De quel moyen contraceptif s'agit-il ? Explique comment il empêche une grossesse et indique contre quoi d'autre il protège.",
+      "corr_en": "It is the (male) condom. It catches the sperm cells, so they cannot meet the egg cell. It also protects against STIs.",
+      "corr_fr": "C'est le préservatif (masculin). Il retient les spermatozoïdes, qui ne peuvent donc pas rencontrer l'ovocyte. Il protège aussi contre les IST."
+    },
+    {
+      "id": 17,
+      "title": "Information card",
+      "image": null,
+      "en": "Read the information card. Write the three essential facts: how it works, how often it is used, and whether it protects against STIs.\n\nInformation card — The contraceptive implant: a doctor places a small, thin rod under the skin of the arm. It releases hormones slowly. These hormones stop ovulation. It works for about 3 years. It does not protect against STIs.",
+      "fr": "Lis la fiche d'information. Écris les trois informations essentielles : comment il fonctionne, à quelle fréquence on l'utilise, et s'il protège contre les IST.\n\nFiche d'information — L'implant contraceptif : un médecin place un petit bâtonnet fin sous la peau du bras. Il libère lentement des hormones. Ces hormones empêchent l'ovulation. Il agit pendant environ 3 ans. Il ne protège pas contre les IST.",
+      "corr_en": "It releases hormones that stop ovulation, so no egg cell is released. It is placed once and works for about 3 years (nothing to do every day). It does not protect against STIs.",
+      "corr_fr": "Il libère des hormones qui empêchent l'ovulation, donc aucun ovocyte n'est libéré. Il est posé une seule fois et agit pendant environ 3 ans (rien à faire chaque jour). Il ne protège pas contre les IST."
+    },
+    {
+      "id": 18,
+      "title": "Two infections",
+      "image": "sti-table-hpv-chlamydia.webp",
+      "questions": [
+        {
+          "en": "Look at the table. Which infection is caused by a virus and which one by a bacterium?",
+          "fr": "Observe le tableau. Quelle infection est causée par un virus et laquelle par une bactérie ?",
+          "corr_en": "HPV is caused by a virus and chlamydia is caused by a bacterium.",
+          "corr_fr": "Le HPV est causé par un virus et la chlamydia par une bactérie."
+        },
+        {
+          "en": "Which infection can be prevented with a vaccine and which one can be cured with antibiotics?",
+          "fr": "Quelle infection peut être prévenue par un vaccin et laquelle peut être guérie par des antibiotiques ?",
+          "corr_en": "HPV can be prevented with a vaccine. Chlamydia can be cured with antibiotics.",
+          "corr_fr": "Le HPV peut être prévenu par un vaccin. La chlamydia peut être guérie par des antibiotiques."
+        },
+        {
+          "en": "Both infections often show no signs. Why is this a problem?",
+          "fr": "Les deux infections ne donnent souvent aucun signe. Pourquoi est-ce un problème ?",
+          "corr_en": "A person can have the infection and pass it to a partner without knowing it, and it may stay untreated.",
+          "corr_fr": "Une personne peut avoir l'infection et la transmettre à un partenaire sans le savoir, et elle risque de ne pas être soignée."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Birth",
+      "image": null,
+      "en": "At the end of a pregnancy, how does the baby leave the mother's body? Name the organs involved.",
+      "fr": "À la fin d'une grossesse, comment le bébé quitte-t-il le corps de sa mère ? Nomme les organes concernés.",
+      "corr_en": "The muscles of the uterus push the baby out through the cervix and the vagina. This is birth.",
+      "corr_fr": "Les muscles de l'utérus poussent le bébé dehors à travers le col de l'utérus et le vagin. C'est l'accouchement."
+    },
+    {
+      "id": 20,
+      "title": "Pregnancy timeline",
+      "image": "pregnancy-timeline-weeks.webp",
+      "en": "Look at the timeline. What is the baby called in week 6 and in week 20? Explain the difference between the two stages.",
+      "fr": "Observe la frise chronologique. Comment appelle-t-on le bébé à la semaine 6 et à la semaine 20 ? Explique la différence entre les deux stades.",
+      "corr_en": "In week 6 it is an embryo: it is attached to the uterus and its organs form. In week 20 it is a fetus: it looks like a tiny human and it moves.",
+      "corr_fr": "À la semaine 6, c'est un embryon : il est accroché à l'utérus et ses organes se forment. À la semaine 20, c'est un fœtus : il ressemble à un minuscule humain et il bouge."
+    }
+  ],
+  "level3": [
+    {
+      "id": 1,
+      "title": "Blocked journey",
+      "image": null,
+      "en": "A woman has both Fallopian tubes blocked. Her ovaries and her uterus work normally. Predict what happens to the egg cell, to fertilization and to menstruation. Explain each step.",
+      "fr": "Une femme a les deux trompes de Fallope bouchées. Ses ovaires et son utérus fonctionnent normalement. Prédis ce qui arrive à l'ovocyte, à la fécondation et aux règles. Explique chaque étape.",
+      "corr_en": "The ovaries still release an egg cell, but it cannot travel through the blocked tube and sperm cells cannot reach it, so there is no fertilization and no pregnancy. The egg cell dies, the cycle goes on and the lining breaks down: she still has menstruation.",
+      "corr_fr": "Les ovaires libèrent toujours un ovocyte, mais il ne peut pas traverser la trompe bouchée et les spermatozoïdes ne peuvent pas l'atteindre : il n'y a ni fécondation ni grossesse. L'ovocyte meurt, le cycle continue et la paroi se détruit : elle a toujours des règles."
+    },
+    {
+      "id": 2,
+      "title": "Temperature graph",
+      "image": "temperature-graph-woman-e.webp",
+      "questions": [
+        {
+          "en": "Look at the graph. Describe how the body temperature changes during the cycle.",
+          "fr": "Observe le graphique. Décris comment la température du corps change pendant le cycle.",
+          "corr_en": "The temperature is low (about 36.4 °C) until ovulation. Right after ovulation it rises and stays high (about 36.9 °C) until the end of the cycle.",
+          "corr_fr": "La température est basse (environ 36,4 °C) jusqu'à l'ovulation. Juste après l'ovulation, elle monte et reste élevée (environ 36,9 °C) jusqu'à la fin du cycle."
+        },
+        {
+          "en": "By about how many degrees does the temperature rise after ovulation?",
+          "fr": "De combien de degrés environ la température monte-t-elle après l'ovulation ?",
+          "corr_en": "By about 0.5 °C (from about 36.4 °C to about 36.9 °C).",
+          "corr_fr": "D'environ 0,5 °C (de 36,4 °C environ à 36,9 °C environ)."
+        },
+        {
+          "en": "Woman F also measures her temperature every morning, but nobody knows her day of ovulation. Her temperature rises between day 18 and day 19 and stays high. On which day did she most likely ovulate? Justify.",
+          "fr": "La femme F mesure aussi sa température chaque matin, mais personne ne connaît son jour d'ovulation. Sa température monte entre le jour 18 et le jour 19 et reste élevée. Quel jour a-t-elle très probablement ovulé ? Justifie.",
+          "corr_en": "Most likely on day 18. In woman E the temperature rises right after ovulation, so ovulation happens just before the rise.",
+          "corr_fr": "Très probablement le jour 18. Chez la femme E, la température monte juste après l'ovulation, donc l'ovulation a lieu juste avant la hausse."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "A new ring",
+      "image": null,
+      "en": "Read the information: \"A new contraceptive method is a flexible ring that a woman places in her vagina. It slowly releases hormones for three weeks.\" Which way of stopping the journey of the cells does it use: stopping the egg cell or stopping the meeting of the cells? Does it protect against STIs? Explain.",
+      "fr": "Lis l'information : « Un nouveau moyen contraceptif est un anneau souple que la femme place dans son vagin. Il libère lentement des hormones pendant trois semaines. » Quelle façon d'arrêter le voyage des cellules utilise-t-il : empêcher l'ovocyte d'exister ou empêcher la rencontre des cellules ? Protège-t-il contre les IST ? Explique.",
+      "corr_en": "It releases hormones, so the hormones stop ovulation: no egg cell is released and there is nothing to fertilize. Hormonal methods do not stop an infection from passing, so it does not protect against STIs. A condom is needed too.",
+      "corr_fr": "Il libère des hormones, qui empêchent l'ovulation : aucun ovocyte n'est libéré et il n'y a rien à féconder. Les méthodes hormonales n'empêchent pas une infection de passer, donc il ne protège pas contre les IST. Un préservatif est aussi nécessaire."
+    },
+    {
+      "id": 4,
+      "title": "Cut tube",
+      "image": "male-cut-tube-scrotum.webp",
+      "en": "Look at the diagram. A surgeon cuts and closes the vas deferens at the place marked with a red cross. The testes still work normally. Predict what happens to the sperm cells and explain why a pregnancy cannot happen.",
+      "fr": "Observe le schéma. Un chirurgien coupe et ferme le canal déférent à l'endroit marqué d'une croix rouge. Les testicules fonctionnent toujours normalement. Prédis ce qui arrive aux spermatozoïdes et explique pourquoi une grossesse ne peut pas avoir lieu.",
+      "corr_en": "The testes still make sperm cells, but they cannot travel through the cut vas deferens to the urethra, so they cannot leave the body. The glands still add their liquid, but without sperm cells, so no sperm cell can meet an egg cell.",
+      "corr_fr": "Les testicules fabriquent toujours des spermatozoïdes, mais ceux-ci ne peuvent pas passer par le canal déférent coupé pour rejoindre l'urètre : ils ne peuvent pas quitter le corps. Les glandes ajoutent toujours leur liquide, mais sans spermatozoïdes, donc aucun spermatozoïde ne peut rencontrer un ovocyte."
+    },
+    {
+      "id": 5,
+      "title": "A third infection",
+      "image": null,
+      "en": "Read the information sheet. Using what you know about STIs, explain how a person can protect themselves against this infection and why testing is important even without signs.\n\nInformation sheet — Gonorrhea: it is caused by a bacterium. It passes during sexual contact. Often there are no signs. Antibiotics can cure it. There is no vaccine. A condom reduces the risk.",
+      "fr": "Lis la fiche d'information. À l'aide de ce que tu sais sur les IST, explique comment une personne peut se protéger contre cette infection et pourquoi le dépistage est important même sans signes.\n\nFiche d'information — La gonorrhée : elle est causée par une bactérie. Elle se transmet lors d'un contact sexuel. Souvent, il n'y a aucun signe. Des antibiotiques peuvent la guérir. Il n'existe pas de vaccin. Le préservatif réduit le risque.",
+      "corr_en": "A person can use a condom, which reduces the risk. There is no vaccine, so testing matters: there are often no signs, so the infection can stay hidden, and it can be found and cured early with antibiotics.",
+      "corr_fr": "Une personne peut utiliser un préservatif, qui réduit le risque. Il n'existe pas de vaccin, donc le dépistage est important : il n'y a souvent aucun signe, l'infection peut rester cachée, et on peut la détecter et la guérir tôt avec des antibiotiques."
+    },
+    {
+      "id": 6,
+      "title": "Growth spurts",
+      "image": "growth-speed-graph.webp",
+      "questions": [
+        {
+          "en": "Look at the graph. At what age do girls grow fastest? And boys?",
+          "fr": "Observe le graphique. À quel âge les filles grandissent-elles le plus vite ? Et les garçons ?",
+          "corr_en": "Girls grow fastest at about 11 years old and boys at about 14 years old.",
+          "corr_fr": "Les filles grandissent le plus vite vers 11 ans et les garçons vers 14 ans."
+        },
+        {
+          "en": "At age 13, who grows faster and by how many centimeters per year?",
+          "fr": "À 13 ans, qui grandit le plus vite et de combien de centimètres par an ?",
+          "corr_en": "Boys grow faster: about 8.5 cm per year against about 5 cm per year for girls, so about 3.5 cm more.",
+          "corr_fr": "Les garçons grandissent plus vite : environ 8,5 cm par an contre environ 5 cm par an pour les filles, soit environ 3,5 cm de plus."
+        },
+        {
+          "en": "Two classmates are both 13. Sofia has almost finished her fast growth, while Tom has just started his. Use the graph to explain this, and say what it shows about the age at which puberty starts.",
+          "fr": "Deux camarades ont tous les deux 13 ans. Sofia a presque terminé sa croissance rapide, alors que Tom vient de commencer la sienne. Utilise le graphique pour expliquer cela et indique ce que cela montre sur l'âge de début de la puberté.",
+          "corr_en": "On average, the fastest growth of girls is around 11 and of boys around 14, so at 13 a girl can be past her peak while a boy is just starting. Puberty does not begin at the same age for everyone.",
+          "corr_fr": "En moyenne, la croissance la plus rapide des filles est vers 11 ans et celle des garçons vers 14 ans, donc à 13 ans une fille peut avoir dépassé son pic alors qu'un garçon commence. La puberté ne commence pas au même âge pour tout le monde."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Fact, hypothesis, judgment",
+      "image": null,
+      "en": "Classify each sentence as a fact, a hypothesis or a value judgment, and justify your answer.\n1) A sperm cell has a tail.\n2) The pill is the best method.\n3) Her cycle is late, so maybe she is pregnant.",
+      "fr": "Classe chaque phrase comme un fait, une hypothèse ou un jugement de valeur, et justifie ta réponse.\n1) Un spermatozoïde a une queue.\n2) La pilule est la meilleure méthode.\n3) Son cycle est en retard, donc elle est peut-être enceinte.",
+      "corr_en": "1) Fact: it can be observed and checked under a microscope. 2) Value judgment: \"best\" is an opinion that depends on each person. 3) Hypothesis: a possible explanation that must be tested before being accepted.",
+      "corr_fr": "1) Fait : on peut l'observer et le vérifier au microscope. 2) Jugement de valeur : « la meilleure » est une opinion qui dépend de chaque personne. 3) Hypothèse : une explication possible qu'il faut tester avant de l'accepter."
+    },
+    {
+      "id": 8,
+      "title": "Cycle lengths",
+      "image": "cycle-length-bar-chart.webp",
+      "questions": [
+        {
+          "en": "Look at the bar chart. Which cycle length is the most common among the six women?",
+          "fr": "Observe l'histogramme. Quelle durée de cycle est la plus fréquente parmi les six femmes ?",
+          "corr_en": "28 days (three women out of six).",
+          "corr_fr": "28 jours (trois femmes sur six)."
+        },
+        {
+          "en": "A student says: \"All women ovulate on day 14.\" Use Eva's cycle to show that this is wrong. Show your calculation.",
+          "fr": "Un élève dit : « Toutes les femmes ovulent le jour 14. » Utilise le cycle d'Eva pour montrer que c'est faux. Montre ton calcul.",
+          "corr_en": "Ovulation happens about 14 days before the end of the cycle. Eva's cycle lasts 35 days, so she ovulates on day 35 − 14 = 21, not on day 14.",
+          "corr_fr": "L'ovulation a lieu environ 14 jours avant la fin du cycle. Le cycle d'Eva dure 35 jours, donc elle ovule le jour 35 − 14 = 21, et pas le jour 14."
+        },
+        {
+          "en": "What does the chart show about menstrual cycles?",
+          "fr": "Que montre l'histogramme à propos des cycles menstruels ?",
+          "corr_en": "Cycles are not all the same: they vary from one woman to another (here from 26 to 35 days).",
+          "corr_fr": "Les cycles ne sont pas tous identiques : ils varient d'une femme à l'autre (ici de 26 à 35 jours)."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Design a test",
+      "image": null,
+      "en": "Mina wonders whether a woman's body temperature changes during her menstrual cycle. Help her design a small experiment: write a question, a hypothesis, what she must measure, how often and for how long.",
+      "fr": "Mina se demande si la température du corps d'une femme change pendant son cycle menstruel. Aide-la à concevoir une petite expérience : écris une question, une hypothèse, ce qu'elle doit mesurer, à quelle fréquence et pendant combien de temps.",
+      "corr_en": "Question: does body temperature change during the cycle? Hypothesis: it is higher after ovulation than before. She measures her temperature every morning, at the same time and with the same thermometer, for at least one full cycle (about 28 days), notes it in a table and draws a graph.",
+      "corr_fr": "Question : la température du corps change-t-elle pendant le cycle ? Hypothèse : elle est plus élevée après l'ovulation qu'avant. Elle mesure sa température chaque matin, à la même heure et avec le même thermomètre, pendant au moins un cycle complet (environ 28 jours), la note dans un tableau et trace un graphique."
+    },
+    {
+      "id": 10,
+      "title": "Pregnant or not?",
+      "image": "lining-two-women-x-y.webp",
+      "questions": [
+        {
+          "en": "One of the two women is pregnant. Which one? Justify with the graph.",
+          "fr": "Une des deux femmes est enceinte. Laquelle ? Justifie avec le graphique.",
+          "corr_en": "Woman Y. After day 28 her lining stays thick, while the lining of woman X breaks down and becomes thin again (menstruation).",
+          "corr_fr": "La femme Y. Après le jour 28, sa paroi reste épaisse, alors que la paroi de la femme X se détruit et redevient mince (règles)."
+        },
+        {
+          "en": "Explain step by step what happened in the body of this woman, from ovulation until day 40.",
+          "fr": "Explique étape par étape ce qui s'est passé dans le corps de cette femme, de l'ovulation jusqu'au jour 40.",
+          "corr_en": "An egg cell was released at ovulation and fertilized by a sperm cell in a Fallopian tube. The zygote became an embryo, which attached to the thick lining of the uterus (implantation). The lining stayed in place, so there was no menstruation.",
+          "corr_fr": "Un ovocyte a été libéré à l'ovulation et fécondé par un spermatozoïde dans une trompe de Fallope. Le zygote est devenu un embryon, qui s'est attaché à la paroi épaisse de l'utérus (nidation). La paroi est restée en place, donc il n'y a pas eu de règles."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Shared responsibility",
+      "image": null,
+      "en": "A boy says: \"Contraception and STIs are only the girl's problem.\" Give two scientific arguments to show that the responsibility is shared.",
+      "fr": "Un garçon dit : « La contraception et les IST, c'est seulement le problème de la fille. » Donne deux arguments scientifiques pour montrer que la responsabilité est partagée.",
+      "corr_en": "A pregnancy needs one sperm cell and one egg cell, so both partners are involved. STIs can pass from either person to the other, and a condom (male or internal) protects both. So both partners must take care.",
+      "corr_fr": "Une grossesse nécessite un spermatozoïde et un ovocyte, donc les deux partenaires sont concernés. Les IST peuvent passer de l'une à l'autre personne, et un préservatif (masculin ou interne) protège les deux. Les deux partenaires doivent donc faire attention."
+    },
+    {
+      "id": 12,
+      "title": "Placenta exchanges",
+      "image": "placenta-exchanges.webp",
+      "questions": [
+        {
+          "en": "Look at the diagram. Why do we say that the blood of the mother and the blood of the fetus never mix?",
+          "fr": "Observe le schéma. Pourquoi dit-on que le sang de la mère et le sang du fœtus ne se mélangent jamais ?",
+          "corr_en": "They are separated by the thin wall of the placenta. Only some substances pass through it, the blood itself does not.",
+          "corr_fr": "Ils sont séparés par la paroi fine du placenta. Seules certaines substances la traversent, pas le sang lui-même."
+        },
+        {
+          "en": "Name two substances that go from the mother to the fetus and two that go from the fetus to the mother.",
+          "fr": "Nomme deux substances qui vont de la mère vers le fœtus et deux qui vont du fœtus vers la mère.",
+          "corr_en": "From the mother to the fetus: oxygen and nutrients. From the fetus to the mother: carbon dioxide and waste.",
+          "corr_fr": "De la mère vers le fœtus : oxygène et nutriments. Du fœtus vers la mère : dioxyde de carbone et déchets."
+        },
+        {
+          "en": "A pregnant woman takes a medicine that enters her blood. Explain how this medicine could reach the fetus, and what she should do before taking any medicine.",
+          "fr": "Une femme enceinte prend un médicament qui passe dans son sang. Explique comment ce médicament pourrait atteindre le fœtus, et ce qu'elle doit faire avant de prendre un médicament.",
+          "corr_en": "Substances in the mother's blood can pass through the placenta to the blood of the fetus, so the medicine could reach it. She should ask a doctor before taking any medicine.",
+          "corr_fr": "Les substances du sang de la mère peuvent traverser le placenta et passer dans le sang du fœtus, donc le médicament pourrait l'atteindre. Elle doit demander l'avis d'un médecin avant de prendre un médicament."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Twin case",
+      "image": null,
+      "en": "A couple has twin boys. The doctor explains that only one egg cell was fertilized. Which type of twins are they? How many zygotes were there at the start? Explain how two babies can start from one fertilized egg cell.",
+      "fr": "Un couple a des jumeaux garçons. Le médecin explique qu'un seul ovocyte a été fécondé. De quel type de jumeaux s'agit-il ? Combien y avait-il de zygotes au départ ? Explique comment deux bébés peuvent commencer à partir d'un seul ovocyte fécondé.",
+      "corr_en": "They are identical twins. There was only one zygote at the start. After fertilization this zygote split in two, and each part developed into one embryo, so two babies grew from one fertilized egg cell.",
+      "corr_fr": "Ce sont de vrais jumeaux (identiques). Il n'y avait qu'un seul zygote au départ. Après la fécondation, ce zygote s'est divisé en deux et chaque partie s'est développée en un embryon : deux bébés sont donc nés d'un seul ovocyte fécondé."
+    },
+    {
+      "id": 14,
+      "title": "Two paths",
+      "image": "two-paths-after-ovulation.webp",
+      "en": "Look at the flow chart showing the two possible paths after ovulation. Write what is missing in boxes 1 to 4. Then explain why there is no menstruation when the egg cell is fertilized.",
+      "fr": "Observe l'organigramme qui montre les deux voies possibles après l'ovulation. Écris ce qui manque dans les cases 1 à 4. Explique ensuite pourquoi il n'y a pas de règles quand l'ovocyte est fécondé.",
+      "corr_en": "1: fertilization. 2: implantation. 3: 24 hours. 4: menstruation. When the egg cell is fertilized, the embryo attaches to the thick lining of the uterus, so the lining stays in place and does not break down: there is no menstruation for nine months.",
+      "corr_fr": "1 : la fécondation. 2 : la nidation (implantation). 3 : 24 heures. 4 : les règles (menstruation). Quand l'ovocyte est fécondé, l'embryon s'attache à la paroi épaisse de l'utérus : la paroi reste en place et ne se détruit pas, donc il n'y a pas de règles pendant neuf mois."
+    },
+    {
+      "id": 15,
+      "title": "Implant and condom",
+      "image": null,
+      "en": "Leo and Kim use the contraceptive implant. Kim says: \"We are fully protected, so we do not need condoms.\" Is she right? Explain with the role of each method.",
+      "fr": "Leo et Kim utilisent l'implant contraceptif. Kim dit : « Nous sommes complètement protégés, donc nous n'avons pas besoin de préservatifs. » A-t-elle raison ? Explique avec le rôle de chaque moyen.",
+      "corr_en": "She is only partly right. The implant releases hormones that stop ovulation, so it protects against a pregnancy, but it does not stop STIs from passing. A condom is also needed to protect against STIs: this is dual protection.",
+      "corr_fr": "Elle n'a que partiellement raison. L'implant libère des hormones qui empêchent l'ovulation, donc il protège d'une grossesse, mais il n'empêche pas les IST de passer. Un préservatif est aussi nécessaire pour se protéger des IST : c'est la double protection."
+    },
+    {
+      "id": 16,
+      "title": "Why vaccinate early?",
+      "image": "hpv-vaccination.webp",
+      "en": "Look at the picture of a vaccine. Explain why the HPV vaccine works best before the first sexual contact, and why a vaccinated person may still need other protection.",
+      "fr": "Observe l'image d'un vaccin. Explique pourquoi le vaccin contre le HPV agit mieux avant le premier contact sexuel, et pourquoi une personne vaccinée peut quand même avoir besoin d'une autre protection.",
+      "corr_en": "The vaccine protects the body before it meets the virus, so it works best before any contact. But it protects only against HPV, not against other STIs such as chlamydia, and it is not a contraceptive, so condoms are still needed.",
+      "corr_fr": "Le vaccin protège le corps avant qu'il rencontre le virus, donc il agit mieux avant tout contact. Mais il protège seulement contre le HPV, pas contre d'autres IST comme la chlamydia, et ce n'est pas un contraceptif : les préservatifs restent nécessaires."
+    },
+    {
+      "id": 17,
+      "title": "Safe days myth",
+      "image": null,
+      "en": "A friend says: \"Ovulation is always on day 14, so I am safe on all the other days.\" Give two scientific arguments to show why she is wrong.",
+      "fr": "Une amie dit : « L'ovulation a toujours lieu le jour 14, donc je ne risque rien tous les autres jours. » Donne deux arguments scientifiques pour montrer pourquoi elle a tort.",
+      "corr_en": "Cycles vary in length, and ovulation happens about 14 days before the end of the cycle, so it is not always on day 14. Also, sperm cells can live up to 5 days in the body, so intercourse a few days before ovulation can still lead to fertilization.",
+      "corr_fr": "Les cycles varient en durée et l'ovulation a lieu environ 14 jours avant la fin du cycle, donc ce n'est pas toujours le jour 14. De plus, les spermatozoïdes peuvent vivre jusqu'à 5 jours dans le corps : un rapport quelques jours avant l'ovulation peut encore mener à une fécondation."
+    },
+    {
+      "id": 18,
+      "title": "Method key",
+      "image": "contraception-key.webp",
+      "questions": [
+        {
+          "en": "Use the key. Which method do you find if the answers are \"No\" to the first question and \"No\" to the second question?",
+          "fr": "Utilise la clé. Quelle méthode trouves-tu si les réponses sont « Non » à la première question et « Non » à la deuxième question ?",
+          "corr_en": "The copper IUD.",
+          "corr_fr": "Le stérilet au cuivre."
+        },
+        {
+          "en": "A new method is a ring placed in the vagina. It contains hormones and is not taken every day. Where would you end up in the key? What question could you add to separate it from the implant?",
+          "fr": "Un nouveau moyen est un anneau placé dans le vagin. Il contient des hormones et ne se prend pas tous les jours. Où arriverais-tu dans la clé ? Quelle question pourrais-tu ajouter pour le séparer de l'implant ?",
+          "corr_en": "You would end up with the implant (yes to hormones, no to every day). A new question could be: \"Is it placed under the skin of the arm?\" (or \"Is it placed in the vagina?\").",
+          "corr_fr": "Tu arriverais à l'implant (oui aux hormones, non à tous les jours). Une nouvelle question pourrait être : « Est-il placé sous la peau du bras ? » (ou « Est-il placé dans le vagin ? »)."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Changing your mind",
+      "image": null,
+      "en": "Emma agreed to spend time alone with Noah. Later she says she does not want to go further. Noah answers: \"But you said yes before!\" Who is right? Explain, using the idea of consent and shared responsibility.",
+      "fr": "Emma a accepté de passer du temps seule avec Noah. Plus tard, elle dit qu'elle ne veut pas aller plus loin. Noah répond : « Mais tu avais dit oui avant ! » Qui a raison ? Explique, en utilisant l'idée de consentement et de responsabilité partagée.",
+      "corr_en": "Emma is right. Consent must be given freely at every moment and a person can change their mind at any time: saying yes before is not enough. Noah must respect her decision, because each partner is responsible for respecting the other.",
+      "corr_fr": "Emma a raison. Le consentement doit être donné librement à chaque instant et une personne peut changer d'avis à tout moment : avoir dit oui avant ne suffit pas. Noah doit respecter sa décision, car chaque partenaire est responsable du respect de l'autre."
+    },
+    {
+      "id": 20,
+      "title": "A late period",
+      "image": "zoe-calendar.webp",
+      "en": "Look at the calendar of Zoe, who has a 33-day cycle. Her menstruation does not come on 3 November. Sperm cells can live up to 5 days and an egg cell lives about 24 hours. Explain step by step what may have happened.",
+      "fr": "Observe le calendrier de Zoe, qui a un cycle de 33 jours. Ses règles ne viennent pas le 3 novembre. Les spermatozoïdes peuvent vivre jusqu'à 5 jours et un ovocyte vit environ 24 heures. Explique étape par étape ce qui a pu se passer.",
+      "corr_en": "Zoe ovulates 14 days before the end of her cycle: on day 19, which is 19 October. The sperm cells from 17 October can live until 22 October, so they can meet the egg cell and fertilize it. The embryo may then have attached to the thick lining (implantation); the lining stayed in place, so there is no menstruation.",
+      "corr_fr": "Zoe ovule 14 jours avant la fin de son cycle : le jour 19, soit le 19 octobre. Les spermatozoïdes du 17 octobre peuvent vivre jusqu'au 22 octobre, donc ils peuvent rencontrer l'ovocyte et le féconder. L'embryon a pu ensuite s'attacher à la paroi épaisse (nidation) ; la paroi est restée en place, donc il n'y a pas de règles."
+    }
+  ]
 }
