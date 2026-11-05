@@ -179,7 +179,7 @@ Lu par [explorations-engine.js](../js/explorations-engine.js).
 
 Lu par [autoeval-engine.js](../js/autoeval-engine.js) sur `assessment.html`. Le
 fichier n'existe que pour les chapitres dont l'autoévaluation est rédigée
-(`bio1`, `chem1` et `phys1` à ce jour).
+(`bio1`, `chem1`, `phys1`, `chem2` et `phys2` à ce jour).
 
 ```json
 {

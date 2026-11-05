@@ -1,0 +1,868 @@
+{
+  "categories": [
+    {
+      "id": "savoirs",
+      "title": "Savoirs",
+      "items": [
+        {
+          "id": "s1",
+          "isVocabulary": false,
+          "text": "Préciser que les gaz se distinguent des liquides par la variabilité de leur volume lorsqu'on exerce une action mécanique.",
+          "locations": [
+            "PART 1 : Mission 1 (observer les seringues, comparer liquide et gaz)",
+            "PART 1 : Exercise 1 (a) pourquoi comprimer un gaz mais pas un liquide)",
+            "PART 1 : Summary (colonne « Volume ? »)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 18
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "isVocabulary": false,
+          "text": "Décrire les états de la matière (gaz, liquide, solide) au niveau macroscopique et au niveau moléculaire et établir un lien entre ces deux descriptions.",
+          "locations": [
+            "PART 1 : Mission 1 (description macroscopique : forme, volume)",
+            "PART 1 : Mission 2 (description des particules pour chaque état)",
+            "PART 1 : Exercise 1 (lien particules ↔ propriétés)",
+            "PART 1 : Exercise 2 (reconnaître l'état d'une substance et justifier)",
+            "PART 1 : Summary (tableau modèle / état / micro / macro)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level1",
+              "id": 3
+            },
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 18
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "isVocabulary": false,
+          "text": "Énoncer que l'état physique d'un corps dépend de sa température.",
+          "locations": [
+            "PART 2 : Mission 5 (c) et d) et conclusion)",
+            "PART 2 : Exercise 4 (vitesse des particules à différentes températures)",
+            "PART 3 : Exercise 10 (quel état à quelle température)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 17
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "isVocabulary": false,
+          "text": "Définir la température et préciser l'unité usuelle.",
+          "locations": [
+            "PART 2 : Mission 3 (d) pourquoi utiliser un thermomètre)",
+            "PART 2 : Mission 4 (b) tableau grandeur / unité / instrument)",
+            "PART 2 : Exercise 3 (lecture de thermomètres)",
+            "PART 2 : Summary (« Temperature measures… degrees… »)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 5
+            },
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level1",
+              "id": 11
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "isVocabulary": false,
+          "text": "Énoncer que l'agitation moléculaire au sein de la matière dépend de la température.",
+          "locations": [
+            "PART 2 : Mission 5 (b) tableau froid / chaud et conclusion)",
+            "PART 2 : Exercise 4 (classer par vitesse des particules)",
+            "PART 2 : Exercise 6 (« It tells us how much the particles move »)",
+            "PART 2 : Summary (première phrase)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 3
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "isVocabulary": false,
+          "text": "Distinguer chaleur de température.",
+          "locations": [
+            "PART 2 : Mission 6 (d) la glace donne-t-elle du « froid » ?)",
+            "PART 2 : Exercise 6 (Heat or temperature?)",
+            "PART 2 : Summary (phrases sur la température et sur la chaleur)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 7
+            }
+          ]
+        },
+        {
+          "id": "s7",
+          "isVocabulary": false,
+          "text": "Identifier que la chaleur est de l'énergie thermique transférée d'un corps chaud à un corps froid.",
+          "locations": [
+            "PART 2 : Mission 6 (a) à d) : sens du transfert, définition de heat)",
+            "PART 2 : Exercise 5 (flèches du transfert)",
+            "PART 2 : Exercise 7 (transferts de chaleur sur l'image)",
+            "PART 2 : Exercise 8 (d) échanges main / tasse / air)",
+            "PART 2 : Summary (définition de heat)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 9
+            },
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 7
+            }
+          ]
+        },
+        {
+          "id": "s8",
+          "isVocabulary": false,
+          "text": "Énoncer que l'apport ou la perte d'énergie thermique peut être responsable d'une modification de la température et/ou de l'état des corps.",
+          "locations": [
+            "PART 2 : Summary (température qui augmente ou diminue, exception : voir PART 3)",
+            "PART 3 : Mission 7 (a) chauffage ou refroidissement)",
+            "PART 3 : Mission 8 (b) interprétation : énergie qui sépare les liens)",
+            "PART 3 : Mission 9 (3e question : où va l'énergie)",
+            "PART 3 : Exercise 11 (What does energy do?)",
+            "PART 3 : Summary (« The thermal energy … the links »)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 12
+            }
+          ]
+        },
+        {
+          "id": "s9",
+          "isVocabulary": false,
+          "text": "Nommer les changements d'état et les associer aux états de la matière concernés.",
+          "locations": [
+            "PART 3 : Mission 7 (tableau « From … to … » et nom du changement, schéma-triangle)",
+            "PART 3 : Exercise 12 (Name the change)",
+            "PART 5 : Défi de français (b) nom du changement d'état)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 12
+            },
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 17
+            }
+          ]
+        },
+        {
+          "id": "s10",
+          "isVocabulary": false,
+          "text": "Préciser que la température reste constante lors du changement d'état d'un corps pur, malgré l'apport ou la perte d'énergie thermique.",
+          "locations": [
+            "PART 3 : Mission 8 (tableau de mesures, graphique, interprétation a), conclusion)",
+            "PART 3 : Exercise 9 (c) « Why is the line flat… ? »)",
+            "PART 3 : Mission 9 (2e question : la flamme est augmentée)",
+            "PART 3 : Summary (palier (plateau))"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 13
+            },
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        },
+        {
+          "id": "s11",
+          "isVocabulary": false,
+          "text": "Citer les températures d'ébullition et de fusion de l'eau dans les conditions de référence.",
+          "locations": [
+            "PART 2 : Mission 4 (a) et c) points fixes du thermomètre)",
+            "PART 2 : Summary (« Water melts at … and boils at … »)",
+            "PART 3 : Mission 8 (conclusion : point de fusion de l'eau)",
+            "PART 3 : Mission 9 (1re question)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 7
+            },
+            {
+              "level": "level1",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        },
+        {
+          "id": "s12",
+          "isVocabulary": false,
+          "text": "Énoncer que lorsque l'eau change d'état, sa masse est conservée (ex. : l'impact de la fonte des glaces continentales).",
+          "locations": [
+            "PART 3 : Mission 8 (hypothèse et conclusion : masse initiale / finale)",
+            "PART 3 : Mission 9 (4e question : la masse n'est pas perdue)",
+            "PART 3 : Summary (« The mass is always … »)",
+            "PART 4 : Mission 13 (interprétation : eau « nouvelle » venue de la terre)",
+            "PART 5 : Défi de français (b) ligne « masse d'eau »)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 15
+            },
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s13",
+          "isVocabulary": false,
+          "text": "Énoncer qu'un apport ou une perte d'énergie thermique peut modifier le volume d'un corps (dilatation, contraction).",
+          "locations": [
+            "PART 4 : Mission 10 (observer solide, liquide, gaz chauffés et refroidis)",
+            "PART 4 : Mission 11 (a) et b))",
+            "PART 4 : Exercise 13 (Expansion or change of state?)",
+            "PART 4 : Summary (Thermal expansion / Thermal contraction)",
+            "PART 5 : Défi de français (a) le joint de dilatation)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 15
+            }
+          ]
+        },
+        {
+          "id": "s14-vocabulaire",
+          "isVocabulary": true,
+          "text": "Utiliser les termes : changement d'état, chaleur, température, énergie thermique.",
+          "locations": [
+            "PART 2 : Mission 6, Exercise 6, Summary (temperature, heat, thermal energy)",
+            "PART 3 : Mission 7, Exercise 11, Exercise 12, Summary (thermal energy, change of state)",
+            "PART 5 : Défi de français (rapport d'Inès avec les mots obligatoires)",
+            "Glossary : Scientific glossary (temperature, heat, thermal energy, change of state)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 9
+            },
+            {
+              "level": "level1",
+              "id": 13
+            },
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "savoirFaire",
+      "title": "Savoir-faire",
+      "items": [
+        {
+          "id": "sf1",
+          "isVocabulary": false,
+          "text": "S-F 6 et S-F 7 : Relever des températures afin de réaliser un graphique de l'évolution de la température de l'eau en fonction du temps lorsqu'on la chauffe, lorsqu'elle change d'état.",
+          "locations": [
+            "PART 3 : Mission 8 (relevé des températures, tracé du graphique)",
+            "PART 3 : Exercise 9 (lecture d'un graphique)",
+            "PART 3 : Mission 9 (lecture du tableau de températures)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 8
+            }
+          ]
+        },
+        {
+          "id": "sf2",
+          "isVocabulary": false,
+          "text": "S-F 23 : Mettre en évidence l'impact d'un apport ou d'une perte d'énergie thermique sur le volume d'un corps (au moins, d'un gaz, d'un liquide et d'un solide).",
+          "locations": [
+            "PART 4 : Mission 10 (trois vidéos : solide, liquide, gaz chauffés puis refroidis)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 14
+            }
+          ]
+        },
+        {
+          "id": "sf3",
+          "isVocabulary": false,
+          "text": "S-F 17 : Utiliser des modèles moléculaires pour expliquer les propriétés macroscopiques des états solide, liquide et gazeux.",
+          "locations": [
+            "PART 1 : Mission 2 (description des particules)",
+            "PART 1 : Exercise 1 (a) et b))",
+            "PART 1 : Exercise 2 (justifier l'état d'une substance)",
+            "PART 1 : Summary (tableau modèle / macro)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 3
+            },
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 2
+            }
+          ]
+        },
+        {
+          "id": "sf4",
+          "isVocabulary": false,
+          "text": "S-F 17 : Utiliser des modèles moléculaires pour expliquer le changement de température ou d'état d'un corps sous l'effet d'un apport ou d'une perte d'énergie thermique.",
+          "locations": [
+            "PART 2 : Mission 5 (particules et température)",
+            "PART 2 : Exercise 8 (b) et c) dessiner les particules)",
+            "PART 3 : Mission 8 (b) interprétation)",
+            "PART 3 : Mission 9 (3e question)",
+            "PART 3 : Exercise 11 (What does energy do?)",
+            "PART 5 : Défi de français (c) dessiner les particules d'eau et de glace)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 6
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        },
+        {
+          "id": "sf5",
+          "isVocabulary": false,
+          "text": "S-F 17 : Utiliser des modèles moléculaires pour expliquer la conservation de la masse lors d'un changement d'état.",
+          "locations": [
+            "PART 3 : Mission 8 (conclusion : « the number of particles stays the same »)",
+            "PART 3 : Summary (« The mass is always… »)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 16
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "sf6",
+          "isVocabulary": false,
+          "text": "S-F 17 : Utiliser des modèles moléculaires pour expliquer la dilatation ou la contraction d'un corps sous l'effet d'un apport ou d'une perte d'énergie thermique.",
+          "locations": [
+            "PART 4 : Mission 11 (particules, espace occupé et volume)",
+            "PART 4 : Exercise 14 (b) expliquer avec le modèle particulaire)",
+            "PART 4 : Summary (Thermal expansion / contraction)",
+            "PART 5 : Défi de français (a) dilatation du béton)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 4
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 15
+            }
+          ]
+        },
+        {
+          "id": "sf7",
+          "isVocabulary": false,
+          "text": "S-F 23 : Identifier la particularité de l'eau en ce qui concerne la variation de volume en fonction de la température.",
+          "locations": [
+            "PART 4 : Mission 12 (The ice tray)",
+            "PART 4 : Summary (« Water is special »)",
+            "PART 5 : Défi de français (b) tableau, rapport (« anomalie de l'eau »))"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level2",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 16
+            }
+          ]
+        },
+        {
+          "id": "sf8",
+          "isVocabulary": false,
+          "text": "S-F 23 : Expliquer en quoi un réchauffement climatique peut impacter le niveau des océans.",
+          "locations": [
+            "PART 4 : Mission 13 (glace de mer ou glace terrestre)",
+            "PART 4 : Exercise 14 (The case of the rising sea)",
+            "PART 4 : Summary (« Sea level »)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 19
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level2",
+              "id": 19
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "competence",
+      "title": "Compétence",
+      "items": [
+        {
+          "id": "c1",
+          "isVocabulary": false,
+          "text": "Expliquer des phénomènes, à l'aide d'un modèle moléculaire (ex. : fusion d'un corps, évaporation …).",
+          "locations": [
+            "PART 2 : Mission 5 (particules et température)",
+            "PART 3 : Mission 8 (fusion de la glace : b) interprétation)",
+            "PART 3 : Mission 9 (ébullition et évaporation de l'eau des pâtes)",
+            "PART 3 : Exercise 11 (What does energy do?)",
+            "PART 4 : Mission 11 (dilatation et contraction)",
+            "PART 4 : Exercise 14 (niveau de la mer, b))",
+            "PART 5 : Défi de français (dégel d'avril : joint de dilatation, eau gelée)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 15
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
