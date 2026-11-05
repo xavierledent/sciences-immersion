@@ -634,8 +634,7 @@
       lab.state = freshFrameState();
       def.reset();
       if (activeSince) activeSince = Date.now();
-      render();
-      showBriefing(); // nouveau tirage : nouvelle mission
+      render(); // la mission ne dépend pas du tirage : déjà lue, on repart de Predict
     }
 
     /* ===== Reprise et suivi =====
@@ -698,13 +697,18 @@
        Check ; report = le rapport corrigé du dernier Check (HTML de
        reportHTML(true), tel que l'élève le voit), lu par la fiche élève ;
        labels = noms des critères { clé: libellé } (summary().labels), cumulés
-       d'un Check à l'autre (les critères peuvent dépendre du tirage). */
+       d'un Check à l'autre (les critères peuvent dépendre du tirage) ;
+       briefed = la page Mission a été quittée par l'élève (voir
+       showBriefing) : elle ne s'affiche plus d'office. */
     const REPORT_MAX = 150000; // garde-fou : un document Firestore fait 1 Mio au plus
+    function readResult() {
+      if (!window.SiteStorage) return null;
+      try { return JSON.parse(SiteStorage.data.get('labResult', [def.id]) || 'null'); } catch (e) { return null; }
+    }
+
     function saveResult(step, check, labels) {
       if (!window.SiteStorage || wasUnlocked) return;
-      let r = null;
-      try { r = JSON.parse(SiteStorage.data.get('labResult', [def.id]) || 'null'); } catch (e) { r = null; }
-      r = r || { maxStep: 1, checks: 0, best: null, last: null };
+      const r = readResult() || { maxStep: 1, checks: 0, best: null, last: null };
       r.maxStep = Math.max(r.maxStep || 1, step);
       if (check) {
         r.checks = (r.checks || 0) + 1;
@@ -717,6 +721,18 @@
           if (report.length <= REPORT_MAX) { r.report = report; r.reportAt = check.at; }
         } catch (e) { /* le rapport est un plus : le résultat s'enregistre sans lui */ }
       }
+      SiteStorage.data.set('labResult', [def.id], JSON.stringify(r));
+    }
+
+    function isBriefed() {
+      const r = readResult();
+      return !!(r && r.briefed);
+    }
+
+    function markBriefed() {
+      if (!window.SiteStorage || isBriefed()) return;
+      const r = readResult() || { maxStep: 1, checks: 0, best: null, last: null };
+      r.briefed = true;
       SiteStorage.data.set('labResult', [def.id], JSON.stringify(r));
     }
 
@@ -1241,7 +1257,7 @@
       render();
       fitToScreen();
       if (resumed) resumed = await askResume();
-      else if (!def.isStarted() && !lab.state.checked) showBriefing();
+      else if (!def.isStarted() && !lab.state.checked && !isBriefed()) showBriefing();
       track('lab_opened', { resumed, step: lab.state.step });
       saveResult(lab.state.step, null); // « commencé » pour le tableau de bord
     }
@@ -1334,9 +1350,11 @@
     /* ===== Page d'accueil du labo (mission) =====
        Avant Predict, sans être une étape : la situation, la question, ce que
        l'élève fera à chaque étape (des gestes, jamais des résultats) et ce
-       que regarde la correction. Montrée quand le labo n'est pas commencé
-       (première ouverture, nouveau tirage) ; la pastille « Mission » de
-       l'en-tête la rouvre à tout moment, sans rien changer au travail.
+       que regarde la correction. Montrée d'office tant que l'élève ne l'a
+       jamais quittée (labResult.briefed, noté dans render) : ni Restart ni
+       « Start again » n'y ramènent, ils repartent de Predict. La pastille
+       « Mission » de l'en-tête la rouvre à tout moment, sans rien changer
+       au travail.
        def.briefing() → { heading, title, intro, questionTitle, question
        ou questions, art, steps: [{ text, art }] × 3, checks } : HTML des
        textes du labo ; heading (titre de la page), title (petit titre
@@ -1392,6 +1410,8 @@
 
     /* ===== Étapes ===== */
     function render() {
+      // On quitte la page Mission (bouton du bas ou pastille) : elle est lue.
+      if (card.classList.contains('lab-is-briefing')) markBriefed();
       card.classList.remove('lab-is-briefing');
       sceneToken++;
       releaseHeld();

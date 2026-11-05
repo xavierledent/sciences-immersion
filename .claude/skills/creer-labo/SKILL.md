@@ -162,8 +162,9 @@ Règles qui font l'harmonie du site :
   déjà (icônes d'outils, images Gemini), avec leur nom pris dans les
   textes ; le moteur les met à la même taille. La 4e étape (Check) et la
   liste des critères (`checks`, en général `Object.values(LABELS.criteria)`)
-  sont écrites par le moteur. Il montre la page à la première ouverture et
-  après Restart ; la pastille « Mission », avant Predict, la rouvre.
+  sont écrites par le moteur. Il montre la page d'office tant que l'élève
+  ne l'a pas quittée une fois (Restart repart de Predict) ; la pastille
+  « Mission », avant Predict, la rouvre.
   Toujours la même page : rien du tirage (ni les choses du jour, ni la
   météo, ni le mélange, ni la question tirée : une `briefQuestion`
   générale) ; la surprise vient à Predict. Textes : `briefTitle`,
