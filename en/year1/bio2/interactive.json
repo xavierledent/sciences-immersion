@@ -1,7 +1,1473 @@
 {
-  "multipleChoice": [],
-  "dragAndDrop": [],
-  "fillBlanks": [],
-  "matchPairs": [],
-  "sorting": []
+  "multipleChoice": [
+    {
+      "id": "qcm-1",
+      "quizTitle": "The journey of the cells",
+      "questions": [
+        {
+          "question": "Where are sperm cells made?",
+          "options": [
+            "In the testes",
+            "In the prostate",
+            "In the vas deferens",
+            "In the penis"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Sperm cells are made in the <strong>testes</strong>. The vas deferens only carries them and the prostate adds a liquid."
+        },
+        {
+          "question": "Which tube carries sperm cells from the testes up into the body?",
+          "options": [
+            "The vas deferens",
+            "The urethra",
+            "The Fallopian tube",
+            "The cervix"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The <strong>vas deferens</strong> carries the sperm cells up toward the urethra. The Fallopian tubes belong to the female system."
+        },
+        {
+          "question": "The prostate and the seminal vesicle add a liquid to the sperm cells. What does this liquid do?",
+          "options": [
+            "It helps the sperm cells to swim",
+            "It makes new sperm cells",
+            "It carries the urine",
+            "It starts puberty"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The liquid <strong>helps the sperm cells to swim</strong>. The sperm cells themselves are made in the testes."
+        },
+        {
+          "question": "Which organs make egg cells?",
+          "options": [
+            "The ovaries",
+            "The uterus",
+            "The Fallopian tubes",
+            "The cervix"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Egg cells (oocytes) are made in the <strong>ovaries</strong>. The uterus is where a baby can grow."
+        },
+        {
+          "question": "An egg cell leaves an ovary. What does it enter first?",
+          "options": [
+            "The Fallopian tube opening",
+            "The uterus",
+            "The cervix",
+            "The vagina"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The egg cell enters the <strong>funnel-shaped opening</strong> of the Fallopian tube, then moves slowly along the tube."
+        },
+        {
+          "question": "Where does fertilization usually happen?",
+          "options": [
+            "In a Fallopian tube",
+            "In the uterus",
+            "In the vagina",
+            "In an ovary"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A sperm cell meets the egg cell in a <strong>Fallopian tube</strong>. The embryo only reaches the uterus a few days later."
+        },
+        {
+          "question": "What is the very first cell of a new baby called?",
+          "options": [
+            "The zygote",
+            "The embryo",
+            "The fetus",
+            "The oocyte"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The <strong>zygote</strong> is formed by fertilization. After a few days it has divided into a ball of cells: the embryo."
+        },
+        {
+          "question": "Which two cells join during fertilization?",
+          "options": [
+            "One sperm cell and one egg cell",
+            "Two sperm cells",
+            "Two egg cells",
+            "One egg cell and one zygote"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Fertilization is the union of <strong>one sperm cell and one egg cell</strong>. The result is the zygote."
+        }
+      ]
+    },
+    {
+      "id": "qcm-2",
+      "quizTitle": "Read the diagram",
+      "questions": [
+        {
+          "question": "What is the name of structure 1?",
+          "options": [
+            "The uterus",
+            "The cervix",
+            "The vagina",
+            "An ovary"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Structure 1 is the <strong>uterus</strong>: its walls are thick and a baby can grow inside."
+        },
+        {
+          "question": "Which structure makes egg cells?",
+          "options": [
+            "Structure 2",
+            "Structure 1",
+            "Structure 5",
+            "Structure 6"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Structure 2 is an <strong>ovary</strong>. The Fallopian tube (5) only carries the egg cell."
+        },
+        {
+          "question": "Which structure is the narrow bottom of the uterus?",
+          "options": [
+            "Structure 6",
+            "Structure 4",
+            "Structure 5",
+            "Structure 3"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Structure 6 is the <strong>cervix</strong>. Below it, the vagina (4) leads to the outside of the body."
+        },
+        {
+          "question": "Which structure is the funnel-shaped opening that receives the egg cell?",
+          "options": [
+            "Structure 3",
+            "Structure 5",
+            "Structure 6",
+            "Structure 1"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Structure 3 is the <strong>Fallopian tube opening</strong>. The egg cell enters the tube here and then moves along it."
+        },
+        {
+          "question": "Structure 5 connects...",
+          "options": [
+            "an ovary to the uterus",
+            "the uterus to the vagina",
+            "the vagina to the outside of the body",
+            "the two ovaries to each other"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A <strong>Fallopian tube</strong> connects an ovary to the uterus. Fertilization usually happens in it."
+        },
+        {
+          "question": "At birth, through which two structures does the baby leave the body?",
+          "options": [
+            "Structures 6 and 4",
+            "Structures 5 and 2",
+            "Structures 3 and 1",
+            "Structures 2 and 6"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The muscles of the uterus push the baby through the <strong>cervix (6) and the vagina (4)</strong>."
+        },
+        {
+          "question": "Which structure is a tube that goes from the cervix to the outside of the body?",
+          "options": [
+            "Structure 4",
+            "Structure 5",
+            "Structure 6",
+            "Structure 3"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The <strong>vagina</strong> (structure 4) is the tube from the cervix to the outside. It is not one of the Fallopian tubes."
+        }
+      ],
+      "image": "assets/female-system-numbered.webp"
+    },
+    {
+      "id": "qcm-3",
+      "quizTitle": "Cycle detective",
+      "questions": [
+        {
+          "question": "Which woman has the longer cycle?",
+          "options": [
+            "Woman Q",
+            "Woman P",
+            "They have the same cycle",
+            "We cannot know"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Woman Q's cycle lasts <strong>35 days</strong>, woman P's cycle lasts 26 days. Menstrual cycles vary from one woman to another."
+        },
+        {
+          "question": "How long is the cycle of woman P?",
+          "options": [
+            "26 days",
+            "28 days",
+            "14 days",
+            "35 days"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The curve of woman P ends on day <strong>26</strong>: this is the length of her cycle."
+        },
+        {
+          "question": "Ovulation happens about 14 days before the end of the cycle. On which day does woman P ovulate?",
+          "options": [
+            "Day 12",
+            "Day 14",
+            "Day 26",
+            "Day 21"
+          ],
+          "correctAnswer": 0,
+          "explanation": "26 − 14 = <strong>day 12</strong>."
+        },
+        {
+          "question": "On which day does woman Q ovulate?",
+          "options": [
+            "Day 21",
+            "Day 14",
+            "Day 35",
+            "Day 17"
+          ],
+          "correctAnswer": 0,
+          "explanation": "35 − 14 = <strong>day 21</strong>."
+        },
+        {
+          "question": "What happens to the lining of the uterus between day 1 and day 5 in both women?",
+          "options": [
+            "It breaks down and leaves the body",
+            "It grows back and gets thicker",
+            "It stays very thick",
+            "It stays the same"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The lining becomes thinner: it <strong>breaks down and leaves the body</strong> during menstruation."
+        },
+        {
+          "question": "Which part of the cycle is much longer in woman Q: before or after ovulation?",
+          "options": [
+            "Before ovulation",
+            "After ovulation",
+            "Both parts equally",
+            "Neither part"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Woman Q ovulates on day 21 and woman P on day 12, but both have about <strong>14 days after</strong> ovulation. The difference is before ovulation."
+        },
+        {
+          "question": "Woman R has a 31-day cycle. On which day does she ovulate?",
+          "options": [
+            "Day 17",
+            "Day 14",
+            "Day 31",
+            "Day 15"
+          ],
+          "correctAnswer": 0,
+          "explanation": "31 − 14 = <strong>day 17</strong>. Ovulation is not always on day 14."
+        }
+      ],
+      "image": "assets/cycle-graph-woman-p-q.webp"
+    },
+    {
+      "id": "qcm-4",
+      "quizTitle": "Pregnancy and birth",
+      "questions": [
+        {
+          "question": "From week 2 to week 8 of a pregnancy, the future baby is called...",
+          "options": [
+            "An embryo",
+            "A zygote",
+            "A fetus",
+            "An oocyte"
+          ],
+          "correctAnswer": 0,
+          "explanation": "From week 2 to week 8 it is an <strong>embryo</strong>: it attaches to the uterus and its organs form."
+        },
+        {
+          "question": "From week 9 until birth, the baby is called...",
+          "options": [
+            "A fetus",
+            "An embryo",
+            "A zygote",
+            "A sperm cell"
+          ],
+          "correctAnswer": 0,
+          "explanation": "From week 9 it looks like a tiny human and starts to move: it is a <strong>fetus</strong>."
+        },
+        {
+          "question": "What is implantation?",
+          "options": [
+            "The embryo attaches to the wall of the uterus",
+            "A sperm cell enters the egg cell",
+            "An ovary releases an egg cell",
+            "The baby leaves the uterus"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Implantation</strong> happens a few days after fertilization, when the embryo attaches to the thick lining of the uterus."
+        },
+        {
+          "question": "Which organ connects the mother and the fetus through the umbilical cord?",
+          "options": [
+            "The placenta",
+            "The prostate",
+            "The cervix",
+            "The ovary"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The <strong>placenta</strong> is linked to the fetus by the umbilical cord."
+        },
+        {
+          "question": "What does the placenta organize?",
+          "options": [
+            "Exchanges between the blood of the mother and the blood of the fetus",
+            "The mixing of the two bloods",
+            "The production of egg cells",
+            "Menstruation"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The placenta organizes <strong>exchanges</strong> of oxygen, nutrients and waste. The two bloods never mix."
+        },
+        {
+          "question": "Why does a pregnant woman have no menstruation?",
+          "options": [
+            "The lining of the uterus stays in place",
+            "The egg cell leaves the body",
+            "The lining is very thin",
+            "The ovaries are closed"
+          ],
+          "correctAnswer": 0,
+          "explanation": "If the egg cell is fertilized, the lining <strong>stays in place</strong> and the embryo attaches to it, so there is no menstruation."
+        },
+        {
+          "question": "Fraternal twins start from...",
+          "options": [
+            "Two egg cells, each fertilized by a sperm cell",
+            "One zygote that splits in two",
+            "One egg cell and two sperm cells",
+            "One egg cell that splits before fertilization"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Fraternal twins come from <strong>two different fertilized egg cells</strong>. Identical twins come from one zygote that splits."
+        },
+        {
+          "question": "A pregnant woman breathes in a harmful substance and it reaches her blood. Why can it also reach the fetus?",
+          "options": [
+            "Substances in the mother's blood can pass through the placenta",
+            "The two bloods mix completely",
+            "The fetus breathes air in the uterus",
+            "The substance goes through the vagina"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The bloods never mix, but <strong>substances can pass through the placenta</strong>, so a harmful substance can reach the fetus."
+        }
+      ]
+    },
+    {
+      "id": "qcm-5",
+      "quizTitle": "Staying protected",
+      "questions": [
+        {
+          "question": "Which methods protect against a pregnancy and against STIs?",
+          "options": [
+            "The male and the internal condom",
+            "The pill and the implant",
+            "The copper IUD and the emergency pill",
+            "Withdrawal"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Only <strong>condoms</strong> (male and internal) do both. Hormonal methods and the IUD protect against pregnancy but not against STIs."
+        },
+        {
+          "question": "How does the pill prevent a pregnancy?",
+          "options": [
+            "Its hormones stop ovulation",
+            "It catches the sperm cells",
+            "It cures infections",
+            "It blocks the Fallopian tubes"
+          ],
+          "correctAnswer": 0,
+          "explanation": "The pill contains hormones that <strong>stop ovulation</strong>: no egg cell is released, so there is nothing to fertilize."
+        },
+        {
+          "question": "HPV is caused by...",
+          "options": [
+            "A virus",
+            "A bacterium",
+            "A hormone",
+            "A sperm cell"
+          ],
+          "correctAnswer": 0,
+          "explanation": "HPV is a <strong>virus</strong>. Chlamydia, in contrast, is caused by a bacterium."
+        },
+        {
+          "question": "Chlamydia can be cured with...",
+          "options": [
+            "Antibiotics",
+            "A vaccine",
+            "Hormones",
+            "A condom"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Chlamydia is caused by a bacterium, so <strong>antibiotics</strong> can cure it. A condom protects but it does not cure."
+        },
+        {
+          "question": "When does the HPV vaccine work best?",
+          "options": [
+            "Before the first sexual contact",
+            "After catching the virus",
+            "During menstruation",
+            "Only for adults over 30"
+          ],
+          "correctAnswer": 0,
+          "explanation": "A vaccine prepares the body before it meets the virus, so it works best <strong>before the first sexual contact</strong>."
+        },
+        {
+          "question": "What is dual protection?",
+          "options": [
+            "Protecting yourself against both a pregnancy and STIs",
+            "Taking the pill twice a day",
+            "Having two partners",
+            "Getting vaccinated twice"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Dual protection</strong> means protecting against a pregnancy and against STIs at the same time, for example with a condom."
+        },
+        {
+          "question": "A new method is a hormonal patch worn on the skin. How does it most likely stop a pregnancy?",
+          "options": [
+            "Its hormones stop ovulation",
+            "It catches sperm cells like a condom",
+            "It cures STIs",
+            "It blocks the urethra"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Like the pill and the implant, a hormonal method <strong>stops ovulation</strong>. A patch does not act as a barrier."
+        },
+        {
+          "question": "Sam said yes earlier but now says no. What should the partner do?",
+          "options": [
+            "Respect the \"no\": a person can change their mind at any time",
+            "Continue, because the answer was yes before",
+            "Ask again until Sam says yes",
+            "Wait and see"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Consent</strong> can be withdrawn at any time, and respecting it is the responsibility of both partners."
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "id": "dnd-1",
+      "quizTitle": "Male reproductive system",
+      "backgroundImage": "assets/male-system-numbered.webp",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "prostate",
+        "vas deferens",
+        "testes",
+        "urethra",
+        "seminal vesicle",
+        "penis",
+        "scrotum",
+        "bladder"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 49.3,
+          "y_pourcent": 50.67,
+          "acceptedText": "prostate"
+        },
+        {
+          "x_pourcent": 61.1,
+          "y_pourcent": 29.91,
+          "acceptedText": "vas deferens"
+        },
+        {
+          "x_pourcent": 59.88,
+          "y_pourcent": 84.8,
+          "acceptedText": "testes"
+        },
+        {
+          "x_pourcent": 71.34,
+          "y_pourcent": 82.82,
+          "acceptedText": "urethra"
+        },
+        {
+          "x_pourcent": 41.31,
+          "y_pourcent": 39.38,
+          "acceptedText": "seminal vesicle"
+        },
+        {
+          "x_pourcent": 70.68,
+          "y_pourcent": 67.3,
+          "acceptedText": "penis"
+        },
+        {
+          "x_pourcent": 63.35,
+          "y_pourcent": 90.91,
+          "acceptedText": "scrotum"
+        }
+      ]
+    },
+    {
+      "id": "dnd-2",
+      "quizTitle": "Female reproductive system",
+      "backgroundImage": "assets/female-system-numbered.webp",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "uterus",
+        "ovaries",
+        "Fallopian tube opening",
+        "vagina",
+        "Fallopian tubes",
+        "cervix",
+        "placenta"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 52.7,
+          "y_pourcent": 49.35,
+          "acceptedText": "uterus"
+        },
+        {
+          "x_pourcent": 32.42,
+          "y_pourcent": 43.78,
+          "acceptedText": "ovaries"
+        },
+        {
+          "x_pourcent": 76.99,
+          "y_pourcent": 43.88,
+          "acceptedText": "Fallopian tube opening"
+        },
+        {
+          "x_pourcent": 53.26,
+          "y_pourcent": 84.72,
+          "acceptedText": "vagina"
+        },
+        {
+          "x_pourcent": 25.76,
+          "y_pourcent": 30.19,
+          "acceptedText": "Fallopian tubes"
+        },
+        {
+          "x_pourcent": 51.76,
+          "y_pourcent": 69.4,
+          "acceptedText": "cervix"
+        }
+      ]
+    },
+    {
+      "id": "dnd-3",
+      "quizTitle": "The outside of the female system",
+      "backgroundImage": "assets/vulva-numbered.webp",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "vagina",
+        "labia",
+        "urethra",
+        "vulva",
+        "clitoris",
+        "cervix"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 61.23,
+          "acceptedText": "vagina"
+        },
+        {
+          "x_pourcent": 59.9,
+          "y_pourcent": 50.63,
+          "acceptedText": "labia"
+        },
+        {
+          "x_pourcent": 49.84,
+          "y_pourcent": 46.01,
+          "acceptedText": "urethra"
+        },
+        {
+          "x_pourcent": 82.73,
+          "y_pourcent": 49.71,
+          "acceptedText": "vulva"
+        },
+        {
+          "x_pourcent": 50.73,
+          "y_pourcent": 30.18,
+          "acceptedText": "clitoris"
+        }
+      ]
+    },
+    {
+      "id": "dnd-4",
+      "quizTitle": "The lining of the uterus",
+      "backgroundImage": "assets/cycle-lining-numbered.webp",
+      "hideOnSuccess": true,
+      "instructions": "Drag each label onto the correct numbered circle.",
+      "reservoirItems": [
+        "menstruation",
+        "lining grows back",
+        "ovulation",
+        "thick lining",
+        "fertilization"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 11.81,
+          "y_pourcent": 77.43,
+          "acceptedText": "menstruation"
+        },
+        {
+          "x_pourcent": 37.86,
+          "y_pourcent": 76.6,
+          "acceptedText": "lining grows back"
+        },
+        {
+          "x_pourcent": 54.85,
+          "y_pourcent": 16.58,
+          "acceptedText": "ovulation"
+        },
+        {
+          "x_pourcent": 85.09,
+          "y_pourcent": 50.58,
+          "acceptedText": "thick lining"
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "id": "fitb-1",
+      "quizTitle": "A sperm cell's trip",
+      "text": "Imagine a sperm cell on a long trip. It starts in a [blank0]. Then it swims up the [blank1]. On the way, two glands add a liquid: the [blank2] and the prostate. Finally, the sperm cell leaves the body through the [blank3], inside the penis.",
+      "blanks": [
+        {
+          "options": [
+            "testis",
+            "prostate",
+            "bladder",
+            "uterus"
+          ],
+          "correctAnswer": "testis"
+        },
+        {
+          "options": [
+            "vas deferens",
+            "urethra",
+            "Fallopian tube",
+            "cervix"
+          ],
+          "correctAnswer": "vas deferens"
+        },
+        {
+          "options": [
+            "seminal vesicle",
+            "ovary",
+            "scrotum",
+            "placenta"
+          ],
+          "correctAnswer": "seminal vesicle"
+        },
+        {
+          "options": [
+            "urethra",
+            "vagina",
+            "vas deferens",
+            "uterus"
+          ],
+          "correctAnswer": "urethra"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "trip",
+          "translation": "voyage"
+        },
+        {
+          "word": "swims",
+          "translation": "nage"
+        },
+        {
+          "word": "gland",
+          "translation": "glande"
+        },
+        {
+          "word": "liquid",
+          "translation": "liquide"
+        }
+      ]
+    },
+    {
+      "id": "fitb-2",
+      "quizTitle": "The menstrual cycle",
+      "text": "Day 1 of the cycle is the first day of [blank0]. The lining of the uterus [blank1] and leaves the body as blood. Then it grows back and becomes [blank2]. Ovulation happens about 14 days before the end of the cycle. So a woman with a 30-day cycle ovulates on day [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "menstruation",
+            "ovulation",
+            "fertilization",
+            "puberty"
+          ],
+          "correctAnswer": "menstruation"
+        },
+        {
+          "options": [
+            "breaks down",
+            "grows",
+            "swims",
+            "divides"
+          ],
+          "correctAnswer": "breaks down"
+        },
+        {
+          "options": [
+            "thicker",
+            "thinner",
+            "smaller",
+            "harder"
+          ],
+          "correctAnswer": "thicker"
+        },
+        {
+          "options": [
+            "16",
+            "14",
+            "30",
+            "10"
+          ],
+          "correctAnswer": "16"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "blood",
+          "translation": "sang"
+        },
+        {
+          "word": "grows back",
+          "translation": "repousse"
+        }
+      ]
+    },
+    {
+      "id": "fitb-3",
+      "quizTitle": "The pregnancy app",
+      "text": "After fertilization, the first cell is called a [blank0]. It divides and becomes an [blank1]. The embryo attaches to the wall of the [blank2]: this is called [blank3]. From week 9, the baby is a [blank4]. The [blank5] organizes the exchanges between the blood of the mother and the blood of the fetus. At the end, the muscles of the uterus push the baby out: this is [blank6].",
+      "blanks": [
+        {
+          "options": [
+            "zygote",
+            "fetus",
+            "oocyte",
+            "sperm cell"
+          ],
+          "correctAnswer": "zygote"
+        },
+        {
+          "options": [
+            "embryo",
+            "ovary",
+            "placenta",
+            "cervix"
+          ],
+          "correctAnswer": "embryo"
+        },
+        {
+          "options": [
+            "uterus",
+            "vagina",
+            "ovary",
+            "urethra"
+          ],
+          "correctAnswer": "uterus"
+        },
+        {
+          "options": [
+            "implantation",
+            "ovulation",
+            "birth",
+            "puberty"
+          ],
+          "correctAnswer": "implantation"
+        },
+        {
+          "options": [
+            "fetus",
+            "zygote",
+            "oocyte",
+            "embryo"
+          ],
+          "correctAnswer": "fetus"
+        },
+        {
+          "options": [
+            "placenta",
+            "prostate",
+            "clitoris",
+            "scrotum"
+          ],
+          "correctAnswer": "placenta"
+        },
+        {
+          "options": [
+            "birth",
+            "puberty",
+            "menstruation",
+            "ovulation"
+          ],
+          "correctAnswer": "birth"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "attaches",
+          "translation": "s'attache"
+        },
+        {
+          "word": "exchanges",
+          "translation": "échanges"
+        },
+        {
+          "word": "push",
+          "translation": "poussent"
+        }
+      ]
+    },
+    {
+      "id": "fitb-4",
+      "quizTitle": "Staying protected",
+      "text": "Sam and Ana want to avoid both a pregnancy and an infection. Only a [blank0] protects against both. Ana takes the pill: its hormones stop [blank1], but the pill does not protect against [blank2]. HPV is caused by a [blank3], and a [blank4] exists against it. Gonorrhea is caused by a bacterium, so [blank5] can cure it.",
+      "blanks": [
+        {
+          "options": [
+            "condom",
+            "pill",
+            "implant",
+            "copper IUD"
+          ],
+          "correctAnswer": "condom"
+        },
+        {
+          "options": [
+            "ovulation",
+            "puberty",
+            "menstruation",
+            "birth"
+          ],
+          "correctAnswer": "ovulation"
+        },
+        {
+          "options": [
+            "STIs",
+            "pregnancy",
+            "ovulation",
+            "puberty"
+          ],
+          "correctAnswer": "STIs"
+        },
+        {
+          "options": [
+            "virus",
+            "bacterium",
+            "hormone",
+            "gland"
+          ],
+          "correctAnswer": "virus"
+        },
+        {
+          "options": [
+            "vaccine",
+            "antibiotic",
+            "condom",
+            "pill"
+          ],
+          "correctAnswer": "vaccine"
+        },
+        {
+          "options": [
+            "antibiotics",
+            "a vaccine",
+            "hormones",
+            "a condom"
+          ],
+          "correctAnswer": "antibiotics"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "avoid",
+          "translation": "éviter"
+        },
+        {
+          "word": "gonorrhea",
+          "translation": "gonorrhée"
+        },
+        {
+          "word": "exists",
+          "translation": "existe"
+        },
+        {
+          "word": "cure",
+          "translation": "guérir"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "id": "memory-1",
+      "quizTitle": "Organs and jobs",
+      "instructions": "Match each organ with its job.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Testes"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Sperm production"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Ovaries"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Oocyte production"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Uterus"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Baby grows"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Fallopian tubes"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Fertilization site"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Vas deferens"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Sperm transport"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Cervix"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Narrow bottom"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-2",
+      "quizTitle": "Name that method",
+      "instructions": "Match each picture with the name of the contraceptive method.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/copper-iud.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Copper IUD"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/condom-wrapper.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Condom"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/method-pill.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Pill"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/method-implant.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Implant"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/method-internal-condom.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Internal condom"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "image",
+            "content": "assets/method-emergency-pill.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Emergency pill"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-3",
+      "quizTitle": "Stages and events",
+      "instructions": "Match each word with its meaning.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Zygote"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "First cell"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Embryo"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Weeks 2–8"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Fetus"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "From week 9"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Implantation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Attaches to uterus"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Placenta"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Mother-fetus exchanges"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Birth"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Pushing baby out"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-4",
+      "quizTitle": "Cause and effect",
+      "instructions": "Match each situation with its effect.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Blocked tubes"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "No meeting"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "No ovulation"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "No egg cell"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Fertilized egg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "No menstruation"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Unfertilized egg"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Lining leaves"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Two zygotes"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Fraternal twins"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "One zygote splits"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Identical twins"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "id": "sorting-1",
+      "quizTitle": "Male or female system?",
+      "instructions": "Sort each organ into the reproductive system it belongs to.",
+      "categories": [
+        "Male system",
+        "Female system"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Male system",
+          "type": "text",
+          "content": "Testes"
+        },
+        {
+          "id": 2,
+          "category": "Male system",
+          "type": "text",
+          "content": "Prostate"
+        },
+        {
+          "id": 3,
+          "category": "Male system",
+          "type": "text",
+          "content": "Penis"
+        },
+        {
+          "id": 4,
+          "category": "Male system",
+          "type": "text",
+          "content": "Seminal vesicle"
+        },
+        {
+          "id": 5,
+          "category": "Male system",
+          "type": "text",
+          "content": "Vas deferens"
+        },
+        {
+          "id": 6,
+          "category": "Female system",
+          "type": "text",
+          "content": "Ovaries"
+        },
+        {
+          "id": 7,
+          "category": "Female system",
+          "type": "text",
+          "content": "Uterus"
+        },
+        {
+          "id": 8,
+          "category": "Female system",
+          "type": "text",
+          "content": "Vagina"
+        },
+        {
+          "id": 9,
+          "category": "Female system",
+          "type": "text",
+          "content": "Cervix"
+        },
+        {
+          "id": 10,
+          "category": "Female system",
+          "type": "text",
+          "content": "Fallopian tubes"
+        },
+        {
+          "id": 11,
+          "category": "Female system",
+          "type": "text",
+          "content": "Clitoris"
+        }
+      ]
+    },
+    {
+      "id": "sorting-2",
+      "quizTitle": "Changes of puberty",
+      "instructions": "Puberty changes the body. Sort each change: does it happen in boys only, in girls only or in both?",
+      "categories": [
+        "Boys only",
+        "Girls only",
+        "Both"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Boys only",
+          "type": "text",
+          "content": "Deeper voice"
+        },
+        {
+          "id": 2,
+          "category": "Boys only",
+          "type": "text",
+          "content": "Sperm production"
+        },
+        {
+          "id": 3,
+          "category": "Girls only",
+          "type": "text",
+          "content": "First menstruation"
+        },
+        {
+          "id": 4,
+          "category": "Girls only",
+          "type": "text",
+          "content": "Breast development"
+        },
+        {
+          "id": 5,
+          "category": "Both",
+          "type": "text",
+          "content": "Body hair"
+        },
+        {
+          "id": 6,
+          "category": "Both",
+          "type": "text",
+          "content": "Rapid growth"
+        },
+        {
+          "id": 7,
+          "category": "Both",
+          "type": "text",
+          "content": "New emotions"
+        }
+      ]
+    },
+    {
+      "id": "sorting-3",
+      "quizTitle": "Stop the journey",
+      "instructions": "A medical center sorts contraceptive methods by the way they stop a pregnancy: no egg cell is released, or the cells cannot meet.",
+      "categories": [
+        "No egg cell",
+        "No meeting"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "No egg cell",
+          "type": "text",
+          "content": "Pill"
+        },
+        {
+          "id": 2,
+          "category": "No egg cell",
+          "type": "text",
+          "content": "Implant"
+        },
+        {
+          "id": 3,
+          "category": "No egg cell",
+          "type": "text",
+          "content": "Emergency pill"
+        },
+        {
+          "id": 4,
+          "category": "No egg cell",
+          "type": "text",
+          "content": "Hormone patch"
+        },
+        {
+          "id": 5,
+          "category": "No egg cell",
+          "type": "text",
+          "content": "Hormone ring"
+        },
+        {
+          "id": 6,
+          "category": "No meeting",
+          "type": "text",
+          "content": "Condom"
+        },
+        {
+          "id": 7,
+          "category": "No meeting",
+          "type": "text",
+          "content": "Internal condom"
+        },
+        {
+          "id": 8,
+          "category": "No meeting",
+          "type": "text",
+          "content": "Copper IUD"
+        },
+        {
+          "id": 9,
+          "category": "No meeting",
+          "type": "text",
+          "content": "Withdrawal"
+        }
+      ]
+    },
+    {
+      "id": "sorting-4",
+      "quizTitle": "Fact, hypothesis or judgment?",
+      "instructions": "Read each statement. Is it a fact, a hypothesis or a value judgment?",
+      "categories": [
+        "Fact",
+        "Hypothesis",
+        "Value judgment"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Fact",
+          "type": "text",
+          "content": "Sperm cells swim"
+        },
+        {
+          "id": 2,
+          "category": "Fact",
+          "type": "text",
+          "content": "Testes make sperm"
+        },
+        {
+          "id": 3,
+          "category": "Fact",
+          "type": "text",
+          "content": "Egg lives 24h"
+        },
+        {
+          "id": 4,
+          "category": "Hypothesis",
+          "type": "text",
+          "content": "Maybe she ovulated"
+        },
+        {
+          "id": 5,
+          "category": "Hypothesis",
+          "type": "text",
+          "content": "Perhaps it's twins"
+        },
+        {
+          "id": 6,
+          "category": "Hypothesis",
+          "type": "text",
+          "content": "Possibly an infection"
+        },
+        {
+          "id": 7,
+          "category": "Value judgment",
+          "type": "text",
+          "content": "Condoms are annoying"
+        },
+        {
+          "id": 8,
+          "category": "Value judgment",
+          "type": "text",
+          "content": "Pill is best"
+        },
+        {
+          "id": 9,
+          "category": "Value judgment",
+          "type": "text",
+          "content": "Puberty is embarrassing"
+        }
+      ]
+    }
+  ]
 }
