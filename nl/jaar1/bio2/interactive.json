@@ -1,7 +1,1473 @@
 {
-  "multipleChoice": [],
-  "dragAndDrop": [],
-  "fillBlanks": [],
-  "matchPairs": [],
-  "sorting": []
+  "multipleChoice": [
+    {
+      "id": "qcm-1",
+      "quizTitle": "De reis van de cellen",
+      "questions": [
+        {
+          "question": "Waar worden zaadcellen gemaakt?",
+          "options": [
+            "In de testikels",
+            "In de prostaat",
+            "In de zaadleider",
+            "In de penis"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Zaadcellen worden gemaakt in de <strong>testikels</strong>. De zaadleider vervoert ze alleen en de prostaat voegt een vocht toe."
+        },
+        {
+          "question": "Welke buis vervoert de zaadcellen van de testikels omhoog in het lichaam?",
+          "options": [
+            "De zaadleider",
+            "De urinebuis",
+            "De eileider",
+            "De baarmoederhals"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De <strong>zaadleider</strong> vervoert de zaadcellen omhoog naar de urinebuis. De eileiders horen bij het vrouwelijke stelsel."
+        },
+        {
+          "question": "De prostaat en het zaadblaasje voegen een vocht toe aan de zaadcellen. Wat doet dit vocht?",
+          "options": [
+            "Het helpt de zaadcellen zwemmen",
+            "Het maakt nieuwe zaadcellen",
+            "Het vervoert de urine",
+            "Het start de puberteit"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het vocht <strong>helpt de zaadcellen zwemmen</strong>. De zaadcellen zelf worden gemaakt in de testikels."
+        },
+        {
+          "question": "Welke organen maken eicellen?",
+          "options": [
+            "De eierstokken",
+            "De baarmoeder",
+            "De eileiders",
+            "De baarmoederhals"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Eicellen (oöcyten) worden gemaakt in de <strong>eierstokken</strong>. In de baarmoeder kan een baby groeien."
+        },
+        {
+          "question": "Een eicel verlaat een eierstok. Waar komt ze eerst in?",
+          "options": [
+            "De trechter van de eileider",
+            "De baarmoeder",
+            "De baarmoederhals",
+            "De vagina"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De eicel komt in de <strong>trechter</strong> van de eileider en beweegt dan langzaam door de eileider."
+        },
+        {
+          "question": "Waar gebeurt de bevruchting meestal?",
+          "options": [
+            "In een eileider",
+            "In de baarmoeder",
+            "In de vagina",
+            "In een eierstok"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een zaadcel ontmoet de eicel in een <strong>eileider</strong>. Het embryo komt pas een paar dagen later in de baarmoeder."
+        },
+        {
+          "question": "Hoe heet de allereerste cel van een nieuwe baby?",
+          "options": [
+            "De zygote",
+            "Het embryo",
+            "De foetus",
+            "De oöcyt"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De <strong>zygote</strong> ontstaat bij de bevruchting. Na een paar dagen is ze gedeeld tot een bolletje cellen: het embryo."
+        },
+        {
+          "question": "Welke twee cellen versmelten bij de bevruchting?",
+          "options": [
+            "Eén zaadcel en één eicel",
+            "Twee zaadcellen",
+            "Twee eicellen",
+            "Eén eicel en één zygote"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Bevruchting is de versmelting van <strong>één zaadcel en één eicel</strong>. Het resultaat is de zygote."
+        }
+      ]
+    },
+    {
+      "id": "qcm-2",
+      "quizTitle": "Lees het schema",
+      "image": "assets/female-system-numbered.webp",
+      "questions": [
+        {
+          "question": "Hoe heet structuur 1?",
+          "options": [
+            "De baarmoeder",
+            "De baarmoederhals",
+            "De vagina",
+            "Een eierstok"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Structuur 1 is de <strong>baarmoeder</strong>: haar wanden zijn dik en er kan een baby in groeien."
+        },
+        {
+          "question": "Welke structuur maakt eicellen?",
+          "options": [
+            "Structuur 2",
+            "Structuur 1",
+            "Structuur 5",
+            "Structuur 6"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Structuur 2 is een <strong>eierstok</strong>. De eileider (5) vervoert de eicel alleen."
+        },
+        {
+          "question": "Welke structuur is het smalle onderste deel van de baarmoeder?",
+          "options": [
+            "Structuur 6",
+            "Structuur 4",
+            "Structuur 5",
+            "Structuur 3"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Structuur 6 is de <strong>baarmoederhals</strong>. Daaronder leidt de vagina (4) naar buiten."
+        },
+        {
+          "question": "Welke structuur is de trechtervormige opening die de eicel opvangt?",
+          "options": [
+            "Structuur 3",
+            "Structuur 5",
+            "Structuur 6",
+            "Structuur 1"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Structuur 3 is de <strong>trechter van de eileider</strong>. Hier komt de eicel in de eileider en daarna beweegt ze erdoor."
+        },
+        {
+          "question": "Structuur 5 verbindt...",
+          "options": [
+            "een eierstok met de baarmoeder",
+            "de baarmoeder met de vagina",
+            "de vagina met de buitenkant van het lichaam",
+            "de twee eierstokken met elkaar"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een <strong>eileider</strong> verbindt een eierstok met de baarmoeder. Daar gebeurt meestal de bevruchting."
+        },
+        {
+          "question": "Langs welke twee structuren verlaat de baby het lichaam bij de geboorte?",
+          "options": [
+            "Structuren 6 en 4",
+            "Structuren 5 en 2",
+            "Structuren 3 en 1",
+            "Structuren 2 en 6"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De spieren van de baarmoeder duwen de baby door de <strong>baarmoederhals (6) en de vagina (4)</strong>."
+        },
+        {
+          "question": "Welke structuur is een buis van de baarmoederhals naar buiten?",
+          "options": [
+            "Structuur 4",
+            "Structuur 5",
+            "Structuur 6",
+            "Structuur 3"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De <strong>vagina</strong> (structuur 4) is de buis van de baarmoederhals naar buiten. Het is geen eileider."
+        }
+      ]
+    },
+    {
+      "id": "qcm-3",
+      "quizTitle": "Cyclusdetective",
+      "image": "assets/cycle-graph-woman-p-q-nl.webp",
+      "questions": [
+        {
+          "question": "Welke vrouw heeft de langste cyclus?",
+          "options": [
+            "Vrouw Q",
+            "Vrouw P",
+            "Ze hebben dezelfde cyclus",
+            "Dat kunnen we niet weten"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De cyclus van vrouw Q duurt <strong>35 dagen</strong>, die van vrouw P 26 dagen. Menstruatiecycli verschillen van vrouw tot vrouw."
+        },
+        {
+          "question": "Hoelang duurt de cyclus van vrouw P?",
+          "options": [
+            "26 dagen",
+            "28 dagen",
+            "14 dagen",
+            "35 dagen"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De curve van vrouw P stopt op dag <strong>26</strong>: zo lang duurt haar cyclus."
+        },
+        {
+          "question": "De eisprong gebeurt ongeveer 14 dagen voor het einde van de cyclus. Op welke dag heeft vrouw P haar eisprong?",
+          "options": [
+            "Dag 12",
+            "Dag 14",
+            "Dag 26",
+            "Dag 21"
+          ],
+          "correctAnswer": 0,
+          "explanation": "26 − 14 = <strong>dag 12</strong>."
+        },
+        {
+          "question": "Op welke dag heeft vrouw Q haar eisprong?",
+          "options": [
+            "Dag 21",
+            "Dag 14",
+            "Dag 35",
+            "Dag 17"
+          ],
+          "correctAnswer": 0,
+          "explanation": "35 − 14 = <strong>dag 21</strong>."
+        },
+        {
+          "question": "Wat gebeurt er bij beide vrouwen met het baarmoederslijmvlies tussen dag 1 en dag 5?",
+          "options": [
+            "Het wordt afgebroken en verlaat het lichaam",
+            "Het groeit terug en wordt dikker",
+            "Het blijft heel dik",
+            "Het blijft hetzelfde"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het slijmvlies wordt dunner: het <strong>wordt afgebroken en verlaat het lichaam</strong> tijdens de menstruatie."
+        },
+        {
+          "question": "Welk deel van de cyclus is veel langer bij vrouw Q: voor of na de eisprong?",
+          "options": [
+            "Voor de eisprong",
+            "Na de eisprong",
+            "Beide delen evenveel",
+            "Geen van beide"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Vrouw Q heeft haar eisprong op dag 21 en vrouw P op dag 12, maar bij allebei duurt het deel na de eisprong ongeveer <strong>14 dagen</strong>. Het verschil zit voor de eisprong."
+        },
+        {
+          "question": "Vrouw R heeft een cyclus van 31 dagen. Op welke dag heeft ze haar eisprong?",
+          "options": [
+            "Dag 17",
+            "Dag 14",
+            "Dag 31",
+            "Dag 15"
+          ],
+          "correctAnswer": 0,
+          "explanation": "31 − 14 = <strong>dag 17</strong>. De eisprong is niet altijd op dag 14."
+        }
+      ]
+    },
+    {
+      "id": "qcm-4",
+      "quizTitle": "Zwangerschap en geboorte",
+      "questions": [
+        {
+          "question": "Van week 2 tot week 8 van een zwangerschap heet de toekomstige baby...",
+          "options": [
+            "Een embryo",
+            "Een zygote",
+            "Een foetus",
+            "Een oöcyt"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Van week 2 tot week 8 is het een <strong>embryo</strong>: het zet zich vast in de baarmoeder en zijn organen worden gevormd."
+        },
+        {
+          "question": "Vanaf week 9 tot de geboorte heet de baby...",
+          "options": [
+            "Een foetus",
+            "Een embryo",
+            "Een zygote",
+            "Een zaadcel"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Vanaf week 9 lijkt het op een klein mensje en begint het te bewegen: het is een <strong>foetus</strong>."
+        },
+        {
+          "question": "Wat is innesteling?",
+          "options": [
+            "Het embryo zet zich vast in de wand van de baarmoeder",
+            "Een zaadcel dringt de eicel binnen",
+            "Een eierstok geeft een eicel vrij",
+            "De baby verlaat de baarmoeder"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De <strong>innesteling</strong> gebeurt een paar dagen na de bevruchting, als het embryo zich vastzet in het dikke baarmoederslijmvlies."
+        },
+        {
+          "question": "Welk orgaan verbindt de moeder en de foetus via de navelstreng?",
+          "options": [
+            "De placenta",
+            "De prostaat",
+            "De baarmoederhals",
+            "De eierstok"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De <strong>placenta</strong> is met de foetus verbonden door de navelstreng."
+        },
+        {
+          "question": "Wat regelt de placenta?",
+          "options": [
+            "De uitwisselingen tussen het bloed van de moeder en het bloed van de foetus",
+            "Het mengen van de twee soorten bloed",
+            "Het maken van eicellen",
+            "De menstruatie"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De placenta regelt de <strong>uitwisselingen</strong> van zuurstof, voedingsstoffen en afvalstoffen. De twee soorten bloed mengen nooit."
+        },
+        {
+          "question": "Waarom heeft een zwangere vrouw geen menstruatie?",
+          "options": [
+            "Het baarmoederslijmvlies blijft op zijn plaats",
+            "De eicel verlaat het lichaam",
+            "Het slijmvlies is heel dun",
+            "De eierstokken zijn gesloten"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Als de eicel bevrucht is, <strong>blijft het slijmvlies op zijn plaats</strong> en zet het embryo zich erin vast, dus er is geen menstruatie."
+        },
+        {
+          "question": "Een twee-eiige tweeling ontstaat uit...",
+          "options": [
+            "Twee eicellen, elk bevrucht door een zaadcel",
+            "Eén zygote die in twee splitst",
+            "Eén eicel en twee zaadcellen",
+            "Eén eicel die splitst voor de bevruchting"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een twee-eiige tweeling komt uit <strong>twee verschillende bevruchte eicellen</strong>. Een eeneiige tweeling komt uit één zygote die splitst."
+        },
+        {
+          "question": "Een zwangere vrouw ademt een schadelijke stof in en die komt in haar bloed. Waarom kan die stof ook de foetus bereiken?",
+          "options": [
+            "Stoffen in het bloed van de moeder kunnen door de placenta gaan",
+            "De twee soorten bloed mengen helemaal",
+            "De foetus ademt lucht in de baarmoeder",
+            "De stof gaat door de vagina"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Het bloed mengt nooit, maar <strong>stoffen kunnen door de placenta gaan</strong>, dus een schadelijke stof kan de foetus bereiken."
+        }
+      ]
+    },
+    {
+      "id": "qcm-5",
+      "quizTitle": "Goed beschermd",
+      "questions": [
+        {
+          "question": "Welke middelen beschermen tegen een zwangerschap én tegen soa's?",
+          "options": [
+            "Het mannencondoom en het vrouwencondoom",
+            "De pil en het implantaat",
+            "Het koperen spiraaltje en de morning-afterpil",
+            "Terugtrekken"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Alleen <strong>condooms</strong> (voor mannen en voor vrouwen) doen allebei. Hormonale middelen en het spiraaltje beschermen tegen zwangerschap, maar niet tegen soa's."
+        },
+        {
+          "question": "Hoe voorkomt de pil een zwangerschap?",
+          "options": [
+            "Haar hormonen stoppen de eisprong",
+            "Ze vangt de zaadcellen op",
+            "Ze geneest infecties",
+            "Ze sluit de eileiders af"
+          ],
+          "correctAnswer": 0,
+          "explanation": "De pil bevat hormonen die <strong>de eisprong stoppen</strong>: er komt geen eicel vrij, dus er is niets te bevruchten."
+        },
+        {
+          "question": "HPV wordt veroorzaakt door...",
+          "options": [
+            "Een virus",
+            "Een bacterie",
+            "Een hormoon",
+            "Een zaadcel"
+          ],
+          "correctAnswer": 0,
+          "explanation": "HPV is een <strong>virus</strong>. Chlamydia daarentegen wordt veroorzaakt door een bacterie."
+        },
+        {
+          "question": "Chlamydia kun je genezen met...",
+          "options": [
+            "Antibiotica",
+            "Een vaccin",
+            "Hormonen",
+            "Een condoom"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Chlamydia wordt veroorzaakt door een bacterie, dus <strong>antibiotica</strong> kunnen het genezen. Een condoom beschermt, maar geneest niet."
+        },
+        {
+          "question": "Wanneer werkt het HPV-vaccin het best?",
+          "options": [
+            "Voor het eerste seksuele contact",
+            "Na een besmetting met het virus",
+            "Tijdens de menstruatie",
+            "Alleen bij volwassenen boven 30"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Een vaccin bereidt het lichaam voor voor het met het virus in contact komt, dus het werkt het best <strong>voor het eerste seksuele contact</strong>."
+        },
+        {
+          "question": "Wat is dubbele bescherming?",
+          "options": [
+            "Je beschermen tegen een zwangerschap én tegen soa's",
+            "De pil twee keer per dag nemen",
+            "Twee partners hebben",
+            "Twee keer gevaccineerd worden"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Dubbele bescherming</strong> betekent dat je je tegelijk beschermt tegen een zwangerschap en tegen soa's, bijvoorbeeld met een condoom."
+        },
+        {
+          "question": "Een nieuw middel is een hormoonpleister die je op de huid draagt. Hoe stopt die waarschijnlijk een zwangerschap?",
+          "options": [
+            "De hormonen stoppen de eisprong",
+            "Hij vangt zaadcellen op zoals een condoom",
+            "Hij geneest soa's",
+            "Hij sluit de urinebuis af"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Zoals de pil en het implantaat stopt een hormonaal middel <strong>de eisprong</strong>. Een pleister werkt niet als een barrière."
+        },
+        {
+          "question": "Sam zei eerst ja, maar zegt nu nee. Wat moet de partner doen?",
+          "options": [
+            "Het \"nee\" respecteren: iemand mag altijd van mening veranderen",
+            "Doorgaan, want het antwoord was eerst ja",
+            "Opnieuw vragen tot Sam ja zegt",
+            "Afwachten"
+          ],
+          "correctAnswer": 0,
+          "explanation": "<strong>Toestemming</strong> kan op elk moment ingetrokken worden, en ze respecteren is de verantwoordelijkheid van beide partners."
+        }
+      ]
+    }
+  ],
+  "dragAndDrop": [
+    {
+      "id": "dnd-1",
+      "quizTitle": "Mannelijk voortplantingsstelsel",
+      "backgroundImage": "assets/male-system-numbered.webp",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar het juiste genummerde cirkeltje.",
+      "reservoirItems": [
+        "prostaat",
+        "zaadleider",
+        "testikels",
+        "urinebuis",
+        "zaadblaasje",
+        "penis",
+        "balzak",
+        "blaas"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 49.3,
+          "y_pourcent": 50.67,
+          "acceptedText": "prostaat"
+        },
+        {
+          "x_pourcent": 61.1,
+          "y_pourcent": 29.91,
+          "acceptedText": "zaadleider"
+        },
+        {
+          "x_pourcent": 59.88,
+          "y_pourcent": 84.8,
+          "acceptedText": "testikels"
+        },
+        {
+          "x_pourcent": 71.34,
+          "y_pourcent": 82.82,
+          "acceptedText": "urinebuis"
+        },
+        {
+          "x_pourcent": 41.31,
+          "y_pourcent": 39.38,
+          "acceptedText": "zaadblaasje"
+        },
+        {
+          "x_pourcent": 70.68,
+          "y_pourcent": 67.3,
+          "acceptedText": "penis"
+        },
+        {
+          "x_pourcent": 63.35,
+          "y_pourcent": 90.91,
+          "acceptedText": "balzak"
+        }
+      ]
+    },
+    {
+      "id": "dnd-2",
+      "quizTitle": "Vrouwelijk voortplantingsstelsel",
+      "backgroundImage": "assets/female-system-numbered.webp",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar het juiste genummerde cirkeltje.",
+      "reservoirItems": [
+        "baarmoeder",
+        "eierstokken",
+        "trechter van de eileider",
+        "vagina",
+        "eileiders",
+        "baarmoederhals",
+        "placenta"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 52.7,
+          "y_pourcent": 49.35,
+          "acceptedText": "baarmoeder"
+        },
+        {
+          "x_pourcent": 32.42,
+          "y_pourcent": 43.78,
+          "acceptedText": "eierstokken"
+        },
+        {
+          "x_pourcent": 76.99,
+          "y_pourcent": 43.88,
+          "acceptedText": "trechter van de eileider"
+        },
+        {
+          "x_pourcent": 53.26,
+          "y_pourcent": 84.72,
+          "acceptedText": "vagina"
+        },
+        {
+          "x_pourcent": 25.76,
+          "y_pourcent": 30.19,
+          "acceptedText": "eileiders"
+        },
+        {
+          "x_pourcent": 51.76,
+          "y_pourcent": 69.4,
+          "acceptedText": "baarmoederhals"
+        }
+      ]
+    },
+    {
+      "id": "dnd-3",
+      "quizTitle": "De buitenkant van het vrouwelijke stelsel",
+      "backgroundImage": "assets/vulva-numbered.webp",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar het juiste genummerde cirkeltje.",
+      "reservoirItems": [
+        "vagina",
+        "schaamlippen",
+        "urinebuis",
+        "vulva",
+        "clitoris",
+        "baarmoederhals"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 50,
+          "y_pourcent": 61.23,
+          "acceptedText": "vagina"
+        },
+        {
+          "x_pourcent": 59.9,
+          "y_pourcent": 50.63,
+          "acceptedText": "schaamlippen"
+        },
+        {
+          "x_pourcent": 49.84,
+          "y_pourcent": 46.01,
+          "acceptedText": "urinebuis"
+        },
+        {
+          "x_pourcent": 82.73,
+          "y_pourcent": 49.71,
+          "acceptedText": "vulva"
+        },
+        {
+          "x_pourcent": 50.73,
+          "y_pourcent": 30.18,
+          "acceptedText": "clitoris"
+        }
+      ]
+    },
+    {
+      "id": "dnd-4",
+      "quizTitle": "Het baarmoederslijmvlies",
+      "backgroundImage": "assets/cycle-lining-numbered-nl.webp",
+      "hideOnSuccess": true,
+      "instructions": "Sleep elk label naar het juiste genummerde cirkeltje.",
+      "reservoirItems": [
+        "menstruatie",
+        "slijmvlies groeit terug",
+        "eisprong",
+        "dik slijmvlies",
+        "bevruchting"
+      ],
+      "dropZones": [
+        {
+          "x_pourcent": 11.81,
+          "y_pourcent": 77.43,
+          "acceptedText": "menstruatie"
+        },
+        {
+          "x_pourcent": 37.86,
+          "y_pourcent": 76.6,
+          "acceptedText": "slijmvlies groeit terug"
+        },
+        {
+          "x_pourcent": 54.85,
+          "y_pourcent": 16.58,
+          "acceptedText": "eisprong"
+        },
+        {
+          "x_pourcent": 85.09,
+          "y_pourcent": 50.58,
+          "acceptedText": "dik slijmvlies"
+        }
+      ]
+    }
+  ],
+  "fillBlanks": [
+    {
+      "id": "fitb-1",
+      "quizTitle": "De reis van een zaadcel",
+      "text": "Stel je een zaadcel voor op een lange reis. Ze begint in een [blank0]. Dan zwemt ze omhoog door de [blank1]. Onderweg voegen twee klieren een vocht toe: [blank2] en de prostaat. Ten slotte verlaat de zaadcel het lichaam via de [blank3], in de penis.",
+      "blanks": [
+        {
+          "options": [
+            "testikel",
+            "prostaat",
+            "blaas",
+            "baarmoeder"
+          ],
+          "correctAnswer": "testikel"
+        },
+        {
+          "options": [
+            "zaadleider",
+            "urinebuis",
+            "eileider",
+            "baarmoederhals"
+          ],
+          "correctAnswer": "zaadleider"
+        },
+        {
+          "options": [
+            "het zaadblaasje",
+            "de eierstok",
+            "de balzak",
+            "de placenta"
+          ],
+          "correctAnswer": "het zaadblaasje"
+        },
+        {
+          "options": [
+            "urinebuis",
+            "vagina",
+            "zaadleider",
+            "baarmoeder"
+          ],
+          "correctAnswer": "urinebuis"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "reis",
+          "translation": "voyage"
+        },
+        {
+          "word": "zwemt",
+          "translation": "nage"
+        },
+        {
+          "word": "klier",
+          "translation": "glande"
+        },
+        {
+          "word": "vocht",
+          "translation": "liquide"
+        }
+      ]
+    },
+    {
+      "id": "fitb-2",
+      "quizTitle": "De menstruatiecyclus",
+      "text": "Dag 1 van de cyclus is de eerste dag van de [blank0]. Het baarmoederslijmvlies [blank1] en verlaat het lichaam als bloed. Daarna groeit het terug en wordt het [blank2]. De eisprong gebeurt ongeveer 14 dagen voor het einde van de cyclus. Een vrouw met een cyclus van 30 dagen heeft haar eisprong dus op dag [blank3].",
+      "blanks": [
+        {
+          "options": [
+            "menstruatie",
+            "eisprong",
+            "bevruchting",
+            "puberteit"
+          ],
+          "correctAnswer": "menstruatie"
+        },
+        {
+          "options": [
+            "wordt afgebroken",
+            "groeit",
+            "zwemt",
+            "deelt zich"
+          ],
+          "correctAnswer": "wordt afgebroken"
+        },
+        {
+          "options": [
+            "dikker",
+            "dunner",
+            "kleiner",
+            "harder"
+          ],
+          "correctAnswer": "dikker"
+        },
+        {
+          "options": [
+            "16",
+            "14",
+            "30",
+            "10"
+          ],
+          "correctAnswer": "16"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "bloed",
+          "translation": "sang"
+        },
+        {
+          "word": "groeit terug",
+          "translation": "repousse"
+        }
+      ]
+    },
+    {
+      "id": "fitb-3",
+      "quizTitle": "De zwangerschapsapp",
+      "text": "Na de bevruchting heet de eerste cel een [blank0]. Ze deelt zich en wordt [blank1]. Het embryo zet zich vast in de wand van de [blank2]: dat heet [blank3]. Vanaf week 9 is de baby een [blank4]. [blank5] regelt de uitwisselingen tussen het bloed van de moeder en het bloed van de foetus. Op het einde duwen de spieren van de baarmoeder de baby naar buiten: dat is de [blank6].",
+      "blanks": [
+        {
+          "options": [
+            "zygote",
+            "foetus",
+            "oöcyt",
+            "zaadcel"
+          ],
+          "correctAnswer": "zygote"
+        },
+        {
+          "options": [
+            "een embryo",
+            "een eierstok",
+            "een placenta",
+            "een baarmoederhals"
+          ],
+          "correctAnswer": "een embryo"
+        },
+        {
+          "options": [
+            "baarmoeder",
+            "vagina",
+            "eierstok",
+            "urinebuis"
+          ],
+          "correctAnswer": "baarmoeder"
+        },
+        {
+          "options": [
+            "innesteling",
+            "eisprong",
+            "geboorte",
+            "puberteit"
+          ],
+          "correctAnswer": "innesteling"
+        },
+        {
+          "options": [
+            "foetus",
+            "zygote",
+            "oöcyt",
+            "embryo"
+          ],
+          "correctAnswer": "foetus"
+        },
+        {
+          "options": [
+            "De placenta",
+            "De prostaat",
+            "De clitoris",
+            "De balzak"
+          ],
+          "correctAnswer": "De placenta"
+        },
+        {
+          "options": [
+            "geboorte",
+            "puberteit",
+            "menstruatie",
+            "eisprong"
+          ],
+          "correctAnswer": "geboorte"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "zet zich vast",
+          "translation": "s'attache"
+        },
+        {
+          "word": "uitwisselingen",
+          "translation": "échanges"
+        },
+        {
+          "word": "duwen",
+          "translation": "poussent"
+        }
+      ]
+    },
+    {
+      "id": "fitb-4",
+      "quizTitle": "Goed beschermd",
+      "text": "Sam en Ana willen zowel een zwangerschap als een infectie vermijden. Alleen een [blank0] beschermt tegen allebei. Ana neemt de pil: haar hormonen stoppen de [blank1], maar de pil beschermt niet tegen [blank2]. HPV wordt veroorzaakt door een [blank3], en er bestaat een [blank4] tegen. Gonorroe wordt veroorzaakt door een bacterie, dus [blank5] kunnen het genezen.",
+      "blanks": [
+        {
+          "options": [
+            "condoom",
+            "pil",
+            "implantaat",
+            "koperen spiraaltje"
+          ],
+          "correctAnswer": "condoom"
+        },
+        {
+          "options": [
+            "eisprong",
+            "puberteit",
+            "menstruatie",
+            "geboorte"
+          ],
+          "correctAnswer": "eisprong"
+        },
+        {
+          "options": [
+            "soa's",
+            "zwangerschap",
+            "eisprong",
+            "puberteit"
+          ],
+          "correctAnswer": "soa's"
+        },
+        {
+          "options": [
+            "virus",
+            "bacterie",
+            "hormoon",
+            "klier"
+          ],
+          "correctAnswer": "virus"
+        },
+        {
+          "options": [
+            "vaccin",
+            "antibioticum",
+            "condoom",
+            "pil"
+          ],
+          "correctAnswer": "vaccin"
+        },
+        {
+          "options": [
+            "antibiotica",
+            "vaccins",
+            "hormonen",
+            "condooms"
+          ],
+          "correctAnswer": "antibiotica"
+        }
+      ],
+      "wordBank": [
+        {
+          "word": "vermijden",
+          "translation": "éviter"
+        },
+        {
+          "word": "gonorroe",
+          "translation": "gonorrhée"
+        },
+        {
+          "word": "bestaat",
+          "translation": "existe"
+        },
+        {
+          "word": "genezen",
+          "translation": "guérir"
+        }
+      ]
+    }
+  ],
+  "matchPairs": [
+    {
+      "id": "memory-1",
+      "quizTitle": "Organen en hun taak",
+      "instructions": "Verbind elk orgaan met zijn taak.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Testikels"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Maken zaadcellen"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Eierstokken"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Maken eicellen"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Baarmoeder"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Baby groeit"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Eileiders"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Plaats van bevruchting"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Zaadleider"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Vervoert zaadcellen"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Baarmoederhals"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Smal onderste deel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-2",
+      "quizTitle": "Welk middel is dit?",
+      "instructions": "Verbind elke afbeelding met de naam van het anticonceptiemiddel.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "image",
+            "content": "assets/copper-iud.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Koperen spiraaltje"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "image",
+            "content": "assets/condom-wrapper.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Condoom"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "image",
+            "content": "assets/method-pill.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Pil"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "image",
+            "content": "assets/method-implant.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Implantaat"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "image",
+            "content": "assets/method-internal-condom.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Vrouwencondoom"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "image",
+            "content": "assets/method-emergency-pill.webp"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Morning-afterpil"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-3",
+      "quizTitle": "Stadia en gebeurtenissen",
+      "instructions": "Verbind elk woord met zijn betekenis.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Zygote"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Eerste cel"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Embryo"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Week 2–8"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Foetus"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Vanaf week 9"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Innesteling"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Vastzetten in baarmoeder"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Placenta"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Uitwisseling moeder-foetus"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Geboorte"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Baby naar buiten"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-4",
+      "quizTitle": "Oorzaak en gevolg",
+      "instructions": "Verbind elke situatie met haar gevolg.",
+      "pairs": [
+        {
+          "id": 1,
+          "sideA": {
+            "type": "text",
+            "content": "Verstopte eileiders"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Geen ontmoeting"
+          }
+        },
+        {
+          "id": 2,
+          "sideA": {
+            "type": "text",
+            "content": "Geen eisprong"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Geen eicel"
+          }
+        },
+        {
+          "id": 3,
+          "sideA": {
+            "type": "text",
+            "content": "Bevruchte eicel"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Geen menstruatie"
+          }
+        },
+        {
+          "id": 4,
+          "sideA": {
+            "type": "text",
+            "content": "Onbevruchte eicel"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Slijmvlies afgebroken"
+          }
+        },
+        {
+          "id": 5,
+          "sideA": {
+            "type": "text",
+            "content": "Twee zygoten"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Twee-eiige tweeling"
+          }
+        },
+        {
+          "id": 6,
+          "sideA": {
+            "type": "text",
+            "content": "Eén zygote splitst"
+          },
+          "sideB": {
+            "type": "text",
+            "content": "Eeneiige tweeling"
+          }
+        }
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "id": "sorting-1",
+      "quizTitle": "Mannelijk of vrouwelijk stelsel?",
+      "instructions": "Plaats elk orgaan bij het voortplantingsstelsel waartoe het behoort.",
+      "categories": [
+        "Mannelijk stelsel",
+        "Vrouwelijk stelsel"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Mannelijk stelsel",
+          "type": "text",
+          "content": "Testikels"
+        },
+        {
+          "id": 2,
+          "category": "Mannelijk stelsel",
+          "type": "text",
+          "content": "Prostaat"
+        },
+        {
+          "id": 3,
+          "category": "Mannelijk stelsel",
+          "type": "text",
+          "content": "Penis"
+        },
+        {
+          "id": 4,
+          "category": "Mannelijk stelsel",
+          "type": "text",
+          "content": "Zaadblaasje"
+        },
+        {
+          "id": 5,
+          "category": "Mannelijk stelsel",
+          "type": "text",
+          "content": "Zaadleider"
+        },
+        {
+          "id": 6,
+          "category": "Vrouwelijk stelsel",
+          "type": "text",
+          "content": "Eierstokken"
+        },
+        {
+          "id": 7,
+          "category": "Vrouwelijk stelsel",
+          "type": "text",
+          "content": "Baarmoeder"
+        },
+        {
+          "id": 8,
+          "category": "Vrouwelijk stelsel",
+          "type": "text",
+          "content": "Vagina"
+        },
+        {
+          "id": 9,
+          "category": "Vrouwelijk stelsel",
+          "type": "text",
+          "content": "Baarmoederhals"
+        },
+        {
+          "id": 10,
+          "category": "Vrouwelijk stelsel",
+          "type": "text",
+          "content": "Eileiders"
+        },
+        {
+          "id": 11,
+          "category": "Vrouwelijk stelsel",
+          "type": "text",
+          "content": "Clitoris"
+        }
+      ]
+    },
+    {
+      "id": "sorting-2",
+      "quizTitle": "Veranderingen in de puberteit",
+      "instructions": "De puberteit verandert het lichaam. Sorteer elke verandering: gebeurt ze alleen bij jongens, alleen bij meisjes of bij allebei?",
+      "categories": [
+        "Alleen jongens",
+        "Alleen meisjes",
+        "Allebei"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Alleen jongens",
+          "type": "text",
+          "content": "Lagere stem"
+        },
+        {
+          "id": 2,
+          "category": "Alleen jongens",
+          "type": "text",
+          "content": "Aanmaak van zaadcellen"
+        },
+        {
+          "id": 3,
+          "category": "Alleen meisjes",
+          "type": "text",
+          "content": "Eerste menstruatie"
+        },
+        {
+          "id": 4,
+          "category": "Alleen meisjes",
+          "type": "text",
+          "content": "Groei van de borsten"
+        },
+        {
+          "id": 5,
+          "category": "Allebei",
+          "type": "text",
+          "content": "Lichaamshaar"
+        },
+        {
+          "id": 6,
+          "category": "Allebei",
+          "type": "text",
+          "content": "Snelle groei"
+        },
+        {
+          "id": 7,
+          "category": "Allebei",
+          "type": "text",
+          "content": "Nieuwe emoties"
+        }
+      ]
+    },
+    {
+      "id": "sorting-3",
+      "quizTitle": "Stop de reis",
+      "instructions": "Een medisch centrum sorteert anticonceptiemiddelen volgens de manier waarop ze een zwangerschap stoppen: er komt geen eicel vrij, of de cellen kunnen elkaar niet ontmoeten.",
+      "categories": [
+        "Geen eicel",
+        "Geen ontmoeting"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Geen eicel",
+          "type": "text",
+          "content": "Pil"
+        },
+        {
+          "id": 2,
+          "category": "Geen eicel",
+          "type": "text",
+          "content": "Implantaat"
+        },
+        {
+          "id": 3,
+          "category": "Geen eicel",
+          "type": "text",
+          "content": "Morning-afterpil"
+        },
+        {
+          "id": 4,
+          "category": "Geen eicel",
+          "type": "text",
+          "content": "Hormoonpleister"
+        },
+        {
+          "id": 5,
+          "category": "Geen eicel",
+          "type": "text",
+          "content": "Hormoonring"
+        },
+        {
+          "id": 6,
+          "category": "Geen ontmoeting",
+          "type": "text",
+          "content": "Condoom"
+        },
+        {
+          "id": 7,
+          "category": "Geen ontmoeting",
+          "type": "text",
+          "content": "Vrouwencondoom"
+        },
+        {
+          "id": 8,
+          "category": "Geen ontmoeting",
+          "type": "text",
+          "content": "Koperen spiraaltje"
+        },
+        {
+          "id": 9,
+          "category": "Geen ontmoeting",
+          "type": "text",
+          "content": "Terugtrekken"
+        }
+      ]
+    },
+    {
+      "id": "sorting-4",
+      "quizTitle": "Feit, hypothese of oordeel?",
+      "instructions": "Lees elke uitspraak. Is het een feit, een hypothese of een waardeoordeel?",
+      "categories": [
+        "Feit",
+        "Hypothese",
+        "Waardeoordeel"
+      ],
+      "items": [
+        {
+          "id": 1,
+          "category": "Feit",
+          "type": "text",
+          "content": "Zaadcellen zwemmen"
+        },
+        {
+          "id": 2,
+          "category": "Feit",
+          "type": "text",
+          "content": "Testikels maken zaadcellen"
+        },
+        {
+          "id": 3,
+          "category": "Feit",
+          "type": "text",
+          "content": "Eicel leeft 24 u"
+        },
+        {
+          "id": 4,
+          "category": "Hypothese",
+          "type": "text",
+          "content": "Misschien eisprong gehad"
+        },
+        {
+          "id": 5,
+          "category": "Hypothese",
+          "type": "text",
+          "content": "Misschien een tweeling"
+        },
+        {
+          "id": 6,
+          "category": "Hypothese",
+          "type": "text",
+          "content": "Mogelijk een infectie"
+        },
+        {
+          "id": 7,
+          "category": "Waardeoordeel",
+          "type": "text",
+          "content": "Condooms zijn vervelend"
+        },
+        {
+          "id": 8,
+          "category": "Waardeoordeel",
+          "type": "text",
+          "content": "De pil is het beste"
+        },
+        {
+          "id": 9,
+          "category": "Waardeoordeel",
+          "type": "text",
+          "content": "Puberteit is gênant"
+        }
+      ]
+    }
+  ]
 }
