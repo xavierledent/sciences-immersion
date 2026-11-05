@@ -28,6 +28,17 @@
   "liensUtiles": {
     "title": "Liens utiles",
     "basePath": "",
-    "items": []
+    "items": [
+      {
+        "title": "Simulation PhET : états de la matière",
+        "url": "https://phet.colorado.edu/fr/simulations/states-of-matter-basics",
+        "description": "Chauffe ou refroidis de l'eau, de l'oxygène ou du néon et regarde les particules : serrées et qui vibrent, qui glissent les unes sur les autres, ou loin les unes des autres."
+      },
+      {
+        "title": "Les changements d'état de l'eau",
+        "url": "https://www.schoolmouv.fr/cours/les-changements-d-etat-de-l-eau/fiche-de-cours",
+        "description": "Une fiche claire pour revoir les noms des changements d'état : fusion, solidification, vaporisation, liquéfaction, sublimation, condensation."
+      }
+    ]
   }
 }
