@@ -34,8 +34,7 @@ docs/formats-donnees.md              format de chaque JSON
 ```
 
 Chapitres : `bio1`, `chem1`, `phys1`, `chem2`, `phys2`, `bio2`. Tous ont leur
-vocabulaire. Exercices et autoévaluation : `bio1`, `chem1`, `phys1`. Jeux :
-`bio1`, `chem1`. Ailleurs, les tableaux sont vides (contenu pas encore rédigé).
+vocabulaire, leurs exercices, leurs jeux et leur autoévaluation.
 
 Labos virtuels (en anglais et en néerlandais) : `chem1` « Metal detectives »,
 « Under our feet » (composition du sol) et « From the Earth and back » (cycle

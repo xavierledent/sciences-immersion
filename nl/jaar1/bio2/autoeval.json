@@ -1,0 +1,622 @@
+{
+  "categories": [
+    {
+      "id": "savoirs",
+      "title": "Savoirs",
+      "items": [
+        {
+          "id": "s1",
+          "isVocabulary": false,
+          "text": "Identifier les principaux organes du système reproducteur masculin (testicule, pénis, urètre, prostate, vésicule séminale, canal déférent).",
+          "locations": [
+            "PART 1 : Diagram A (Male reproductive system)",
+            "PART 1 : Summary (texte à trous)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level2",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 4
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "isVocabulary": false,
+          "text": "Localiser les testicules comme le lieu de production des spermatozoïdes et décrire leur trajet au sein de l'appareil reproducteur masculin.",
+          "locations": [
+            "PART 1 : Mission 2 (dessin des flèches directionnelles →)",
+            "PART 1 : Summary (The male system)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 1
+            },
+            {
+              "level": "level1",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 4
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "isVocabulary": false,
+          "text": "Identifier les principaux organes du système reproducteur féminin (vagin, utérus, ovaires, tubes utérins (trompes de Fallope), pavillons, col de l'utérus, lèvres, clitoris, vulve).",
+          "locations": [
+            "PART 1 : Diagram B (Internal female reproductive system)",
+            "PART 1 : Diagram C (External female reproductive system)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level2",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 6
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "isVocabulary": false,
+          "text": "Localiser les ovaires comme le lieu de production des ovocytes (futurs ovules) et décrire leur trajet au sein de l'appareil reproducteur féminin.",
+          "locations": [
+            "PART 1 : Mission 2 (flèches sur le diagramme B)",
+            "PART 2 : Mission Chronological order (événement 2)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level2",
+              "id": 3
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 1
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "isVocabulary": false,
+          "text": "Décrire les modifications de la paroi utérine lors d'un cycle menstruel.",
+          "locations": [
+            "PART 3 : Analyse de graphiques (épaisseur de l'endomètre)",
+            "PART 3 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 11
+            },
+            {
+              "level": "level2",
+              "id": 12
+            },
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "isVocabulary": false,
+          "text": "Énoncer les transformations du corps liées à la puberté (pilosité, mue de la voix, musculature, seins, apparition des menstruations…).",
+          "locations": [
+            "PART 1 : Lecture du témoignage de Thomas",
+            "PART 1 : Mission 2 (Classification table)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 5
+            },
+            {
+              "level": "level1",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 5
+            },
+            {
+              "level": "level2",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 6
+            }
+          ]
+        },
+        {
+          "id": "s7",
+          "isVocabulary": false,
+          "text": "Préciser que la fécondation est le résultat de l'union entre un spermatozoïde et un ovocyte.",
+          "locations": [
+            "PART 2 : Section Fertilization",
+            "PART 2 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 7
+            },
+            {
+              "level": "level1",
+              "id": 8
+            },
+            {
+              "level": "level1",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 4
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 9
+            },
+            {
+              "level": "level2",
+              "id": 10
+            },
+            {
+              "level": "level2",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 1
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s8",
+          "isVocabulary": false,
+          "text": "Expliquer le déroulement d'une grossesse (embryon, implantation dans la paroi de l'utérus, fœtus, échanges placentaires, accouchement).",
+          "locations": [
+            "PART 4 : Medical app simulation (Flo)",
+            "PART 4 : Exercise 4",
+            "PART 4 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 11
+            },
+            {
+              "level": "level1",
+              "id": 12
+            },
+            {
+              "level": "level1",
+              "id": 13
+            },
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 19
+            },
+            {
+              "level": "level2",
+              "id": 20
+            },
+            {
+              "level": "level3",
+              "id": 10
+            },
+            {
+              "level": "level3",
+              "id": 12
+            },
+            {
+              "level": "level3",
+              "id": 13
+            },
+            {
+              "level": "level3",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 20
+            }
+          ]
+        },
+        {
+          "id": "s9",
+          "isVocabulary": false,
+          "text": "Citer quelques moyens contraceptifs, dont au moins le préservatif.",
+          "locations": [
+            "PART 5 : Tableau Birth control methods (via bedsider.org)",
+            "PART 5 : Summary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 14
+            },
+            {
+              "level": "level1",
+              "id": 15
+            },
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 18
+            }
+          ]
+        },
+        {
+          "id": "s10",
+          "isVocabulary": false,
+          "text": "Expliquer les rôles du préservatif (prévention des IST et contraception) et de la vaccination (en lien avec des IST).",
+          "locations": [
+            "PART 5 : Question ouverte sur la double protection",
+            "PART 5 : Section STI's FAQ (Planned Parenthood)",
+            "PART 5 : Exercise 7 (brochure HPV)"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 17
+            },
+            {
+              "level": "level1",
+              "id": 19
+            },
+            {
+              "level": "level2",
+              "id": 16
+            },
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 16
+            }
+          ]
+        },
+        {
+          "id": "s11-vocabulaire",
+          "isVocabulary": true,
+          "text": "Utiliser les termes : testicule, pénis, urètre, prostate, vésicule séminale, canal déférent, vagin, utérus, ovaires, tubes utérins, pavillons, col de l'utérus, lèvres, clitoris, vulve, puberté, cycle menstruel, spermatozoïde, ovocyte, embryon, fœtus, accouchement, moyens contraceptifs, préservatif, IST.",
+          "locations": [
+            "Tout au long du document",
+            "Scientific glossary"
+          ],
+          "exercises": [
+            {
+              "level": "level1",
+              "id": 2
+            },
+            {
+              "level": "level1",
+              "id": 3
+            },
+            {
+              "level": "level1",
+              "id": 4
+            },
+            {
+              "level": "level1",
+              "id": 5
+            },
+            {
+              "level": "level1",
+              "id": 6
+            },
+            {
+              "level": "level1",
+              "id": 7
+            },
+            {
+              "level": "level1",
+              "id": 8
+            },
+            {
+              "level": "level1",
+              "id": 9
+            },
+            {
+              "level": "level1",
+              "id": 11
+            },
+            {
+              "level": "level1",
+              "id": 12
+            },
+            {
+              "level": "level1",
+              "id": 13
+            },
+            {
+              "level": "level1",
+              "id": 15
+            },
+            {
+              "level": "level1",
+              "id": 18
+            },
+            {
+              "level": "level1",
+              "id": 19
+            },
+            {
+              "level": "level1",
+              "id": 20
+            },
+            {
+              "level": "level2",
+              "id": 8
+            },
+            {
+              "level": "level2",
+              "id": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "savoirFaire",
+      "title": "Savoir-faire",
+      "items": [
+        {
+          "id": "sf1",
+          "isVocabulary": false,
+          "text": "S-F 21 : Comparer des cycles menstruels pour montrer leur variabilité.",
+          "locations": [
+            "PART 3 : Graphical data analysis (comparaison de Woman A et Woman B)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 13
+            },
+            {
+              "level": "level2",
+              "id": 14
+            },
+            {
+              "level": "level3",
+              "id": 2
+            },
+            {
+              "level": "level3",
+              "id": 8
+            },
+            {
+              "level": "level3",
+              "id": 9
+            },
+            {
+              "level": "level3",
+              "id": 17
+            }
+          ]
+        },
+        {
+          "id": "sf2",
+          "isVocabulary": false,
+          "text": "S-F 13 : Recueillir des informations essentielles concernant les moyens contraceptifs à partir de documents et/ou de personnes-ressources.",
+          "locations": [
+            "PART 5 : Recherche numérique guidée sur le site bedsider.org"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 3
+            },
+            {
+              "level": "level3",
+              "id": 18
+            }
+          ]
+        },
+        {
+          "id": "sf3",
+          "isVocabulary": false,
+          "text": "S-F 21 : Recueillir les informations essentielles concernant les moyens pour se protéger contre les infections sexuellement transmissibles et autres infections liées aux appareils reproducteurs (dont au moins le Papilloma Virus Humain et une autre) et les structurer.",
+          "locations": [
+            "PART 5 : Section STI's FAQ (recherche Planned Parenthood)",
+            "PART 5 : Exercise 7 (analyse de la brochure officielle belge HPV)"
+          ],
+          "exercises": [
+            {
+              "level": "level2",
+              "id": 18
+            },
+            {
+              "level": "level3",
+              "id": 5
+            },
+            {
+              "level": "level3",
+              "id": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "competence",
+      "title": "Compétence",
+      "items": [
+        {
+          "id": "c1",
+          "isVocabulary": false,
+          "text": "Utiliser des connaissances scientifiques pour justifier des choix en relation avec la contraception et/ou la protection contre des IST et préciser qu'il s'agit d'une responsabilité partagée entre les partenaires.",
+          "locations": [
+            "PART 6 : The French challenge (défi citoyen : « De la biologie au consentement – Une responsabilité à 50/50 »)"
+          ],
+          "exercises": [
+            {
+              "level": "level3",
+              "id": 7
+            },
+            {
+              "level": "level3",
+              "id": 11
+            },
+            {
+              "level": "level3",
+              "id": 15
+            },
+            {
+              "level": "level3",
+              "id": 17
+            },
+            {
+              "level": "level3",
+              "id": 19
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
