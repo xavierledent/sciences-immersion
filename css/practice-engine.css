@@ -2199,3 +2199,283 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
   border-color: var(--color-current);
   color: var(--color-current-text, #ffffff);
 }
+
+
+/* ===== Fenêtre d'exercice « paysage » =====
+   Ouverte d'office en plein écran (openModalAtExercise) ; hors plein écran,
+   elle occupe toute la fenêtre moins une petite marge. En-tête compact
+   (plein écran à gauche, niveau et titre centrés, fermer à droite, puis les
+   20 exercices), puis deux colonnes (voir setExerciseMode) :
+   - .exo-side : l'image à gauche, centrée dans une colonne de 55 %
+     (--exo-side-w, posée en JS) ; le travail à droite ;
+   - .exo-text : pas d'image : l'énoncé en grand à gauche et une mascotte ;
+     le travail à droite, la réponse en face de la question.
+   Placé en fin de fichier : ces règles passent devant les précédentes. */
+#exercise-modal .modal-card {
+  width: calc(100vw - 32px);
+  max-width: none;
+  height: calc(100vh - 32px);
+  height: calc(100dvh - 32px);
+  max-height: none;
+}
+
+#exercise-modal .modal-card:fullscreen .modal-card-inner,
+#exercise-modal.is-comparing .modal-card:fullscreen .modal-card-inner {
+  max-width: none;
+}
+
+#exercise-modal .modal-card-inner {
+  min-height: 0;
+}
+
+#exercise-modal .modal-header {
+  flex: none;
+  gap: 10px;
+  padding: 14px 24px 12px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+}
+
+#exercise-modal .modal-close,
+#exercise-modal .modal-fullscreen {
+  top: 14px;
+}
+
+/* Plus de cales verticales : les colonnes remplissent la hauteur. La règle
+   d'origine vise :fullscreen : il faut la même force ici, sinon les deux
+   cales reviennent en plein écran et prennent chacune une case de la grille
+   (l'image passait à droite, le travail en bas à gauche). */
+#exercise-modal.has-answer-box .modal-card .modal-body::before,
+#exercise-modal.has-answer-box .modal-card .modal-body::after,
+#exercise-modal.has-answer-box .modal-card:fullscreen .modal-body::before,
+#exercise-modal.has-answer-box .modal-card:fullscreen .modal-body::after {
+  content: none;
+}
+
+/* Même chose pour le rappel de l'énoncé, que l'ancienne mise en page
+   remontait en tête en plein écran. */
+#exercise-modal .modal-card:fullscreen .exercise-layout .exercise-recall {
+  order: 0;
+}
+
+#exercise-modal.has-answer-box .modal-body.exercise-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  gap: 24px;
+  padding: 18px 24px 20px;
+  overflow: hidden;
+}
+
+/* Même largeur de colonnes pour tous les exercices (55 % à gauche, l'image
+   centrée dedans) : rien ne saute d'un exercice au suivant. La colonne de
+   gauche ne cède de la place que si une longue correction ne tient pas. */
+#exercise-modal.exo-side .exercise-layout {
+  grid-template-columns: var(--exo-side-w, 55%) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+#exercise-modal.exo-text .exercise-layout {
+  grid-template-columns: var(--exo-text-w, 55%) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+/* ----- Colonne de gauche : l'image, ou l'énoncé en grand ----- */
+.exercise-side {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+}
+
+#exercise-modal.has-answer-box .exercise-layout .exercise-image-wrap {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+#exercise-modal.has-answer-box .exercise-layout .exercise-image {
+  max-width: 100%;
+  max-height: 100%;
+  box-shadow: 0 10px 26px rgba(17, 36, 72, 0.12);
+}
+
+.exercise-textside {
+  display: none;
+}
+
+#exercise-modal.exo-text .exercise-textside {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* Au-delà de 260 px de mascotte, le reste en marge au-dessus. */
+  padding-top: max(0px, calc(var(--exo-q-top, 0px) - 276px));
+}
+
+/* Pas assez de place pour la mascotte : la question descend seule. */
+#exercise-modal.exo-text .exercise-textside.no-mascot {
+  padding-top: var(--exo-q-top, 0px);
+}
+
+#exercise-modal.exo-text .exercise-textside.no-mascot .exercise-mascot {
+  display: none;
+}
+
+/* L'énoncé seul dans son cadre (même habillage que l'énoncé à côté d'une
+   image) : on l'identifie au premier regard ; boutons, mots et mascotte
+   restent hors du cadre. */
+.exercise-textside-statement {
+  flex: none;
+  padding: 18px 22px;
+  border-radius: 22px;
+  background: rgba(var(--color-current-rgb), 0.05);
+  border: 1px solid rgba(var(--color-current-rgb), 0.18);
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: pre-line;
+  text-align: left;
+  color: var(--color-text);
+}
+
+/* La mascotte au-dessus de la question, posée sur elle : toute la hauteur
+   qui reste au-dessus de la zone de réponse (--exo-q-top, mesuré en JS). */
+.exercise-mascot {
+  order: -1;
+  flex: none;
+  height: min(260px, calc(var(--exo-q-top, 256px) - 16px));
+  width: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  mix-blend-mode: multiply;
+}
+
+/* ----- Colonne de droite : le travail de l'élève ----- */
+.exercise-main {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.exercise-main > * {
+  flex-shrink: 0;
+}
+
+#exercise-modal .exercise-layout .language-buttons {
+  width: min(100%, 420px);
+  margin: 0 auto;
+}
+
+#exercise-modal .exercise-layout .language-buttons .toggle-button {
+  padding: 9px 14px;
+}
+
+#exercise-modal.has-answer-box .exercise-layout #exercise-subquestion-nav {
+  justify-content: center;
+  margin: 0;
+}
+
+#exercise-modal.has-answer-box .exercise-layout .exercise-recall,
+#exercise-modal.has-answer-box .exercise-layout .student-answer {
+  margin: 0;
+}
+
+#exercise-modal.has-answer-box .exercise-layout .self-assess {
+  margin: 0 0 12px;
+}
+
+/* Rappel de l'énoncé pendant la correction (avec image) : lisible, aligné à
+   gauche, jusqu'à quatre lignes. */
+#exercise-modal.has-answer-box .exercise-layout .exercise-recall-text {
+  font-size: 0.95rem;
+  text-align: left;
+  color: var(--color-text);
+  -webkit-line-clamp: 4;
+}
+
+/* Sans image, l'énoncé est à gauche : il ne se répète pas à droite, mais
+   il y garde sa place (invisible), pour que la réponse et « Check my
+   answer » restent à la même hauteur qu'à côté d'une image. */
+#exercise-modal.exo-text:not(.is-comparing) .answer-compare {
+  visibility: hidden;
+}
+
+#exercise-modal.exo-text .exercise-recall {
+  display: none !important;
+}
+
+#exercise-modal .exercise-recall-img {
+  display: none !important;
+}
+
+#exercise-modal.has-answer-box .exercise-layout .exercise-text,
+#exercise-modal.has-answer-box .exercise-layout .student-answer-echo {
+  min-height: 0;
+  padding: 12px 16px;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  text-align: left;
+}
+
+/* La réponse commence à la hauteur d'une question de deux lignes sans
+   image (énoncé en grand à gauche, voir syncTextSideHeights) : même taille
+   et même place, avec ou sans image, pour la plupart des exercices ; elle
+   grandit avec le texte. */
+#exercise-modal.has-answer-box .exercise-layout .student-answer-input {
+  min-height: 105px;
+  max-height: 200px;
+  font-size: 1.05rem;
+}
+
+/* Correction : la réponse puis la correction, l'une sous l'autre, chacune à
+   la hauteur de son texte. */
+#exercise-modal.has-answer-box .exercise-layout .answer-compare.is-comparing {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .exercise-text,
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .student-answer-echo {
+  flex: none;
+  min-height: 0;
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .answer-compare-mine .answer-compare-label {
+  justify-content: flex-start;
+  min-height: 0;
+  margin-bottom: 6px;
+}
+
+/* « Check my answer » et « Edit my answer » : le même grand bouton, sur
+   toute la largeur de la colonne ; l'autoévaluation au-dessus, à la même
+   largeur. */
+#exercise-modal .exercise-layout .student-answer-check,
+#exercise-modal .exercise-layout .self-assess-buttons {
+  width: 100%;
+}
+
+#exercise-modal .exercise-layout .student-answer-check {
+  min-height: 50px;
+  font-size: 1rem;
+}
+
+@media (max-width: 899px) {
+  #exercise-modal.has-answer-box .modal-body.exercise-layout {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  #exercise-modal.has-answer-box .exercise-layout .exercise-image {
+    max-height: 280px;
+  }
+
+  .exercise-main {
+    overflow: visible;
+  }
+}

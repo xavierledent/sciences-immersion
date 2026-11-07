@@ -158,39 +158,51 @@
             <h2 id='exercise-modal-title'>Exercise 1</h2>
           </div>
           <div id='exercises-pagination'></div>
-          <div class='language-buttons'>
-            <button type='button' class='toggle-button active' id='btn-statement-en'>Question EN</button>
-            <button type='button' class='toggle-button' id='btn-statement-fr'><span class='toggle-fill' id='statement-fr-fill'></span><span class='toggle-label' id='statement-fr-label'>Question FR</span></button>
-          </div>
         </div>
 
-        <div class='modal-body'>
-          <div id='exercise-image-wrap' class='exercise-image-wrap'>
-            <img id='exercise-image' class='exercise-image' alt='Illustration de l’exercice' src='' />
-          </div>
-          <div id='exercise-recall' class='exercise-recall'>
-            <img id='exercise-recall-img' class='exercise-recall-img' alt='' />
-            <p id='exercise-recall-text' class='exercise-recall-text'></p>
-          </div>
-          <div id='exercise-subquestion-nav' class='hidden'></div>
-          <div class='answer-compare' id='answer-compare'>
-            <div class='answer-compare-mine'>
-              <div class='answer-compare-label' id='answer-compare-mine-label'>Your answer</div>
-              <div class='student-answer-echo' id='student-answer-echo'></div>
+        <!-- Deux colonnes (mise en page « paysage », practice-engine.css) :
+             à gauche l'image ; sans image, l'énoncé en grand, les mots du
+             lexique trouvés dans l'énoncé et une mascotte ; à droite le
+             travail de l'élève. Une image très large passe en bandeau en haut. -->
+        <div class='modal-body exercise-layout' id='exercise-layout'>
+          <div class='exercise-side' id='exercise-side'>
+            <div id='exercise-image-wrap' class='exercise-image-wrap'>
+              <img id='exercise-image' class='exercise-image' alt='Illustration de l’exercice' src='' />
             </div>
-            <div class='answer-compare-corr'>
-              <div class='correction-buttons'>
-                <button type='button' class='toggle-button active' id='btn-correction-en'>Correction EN</button>
-                <button type='button' class='toggle-button' id='btn-correction-fr'><span class='toggle-fill' id='correction-fr-fill'></span><span class='toggle-label' id='correction-fr-label'>Correction FR</span></button>
+            <div class='exercise-textside' id='exercise-textside'>
+              <div class='exercise-textside-statement' id='exercise-textside-statement'></div>
+              <img class='exercise-mascot' id='exercise-mascot' alt='' />
+            </div>
+          </div>
+          <div class='exercise-main' id='exercise-main'>
+            <div class='language-buttons'>
+              <button type='button' class='toggle-button active' id='btn-statement-en'>Question EN</button>
+              <button type='button' class='toggle-button' id='btn-statement-fr'><span class='toggle-fill' id='statement-fr-fill'></span><span class='toggle-label' id='statement-fr-label'>Question FR</span></button>
+            </div>
+            <div id='exercise-recall' class='exercise-recall'>
+              <img id='exercise-recall-img' class='exercise-recall-img' alt='' />
+              <p id='exercise-recall-text' class='exercise-recall-text'></p>
+            </div>
+            <div id='exercise-subquestion-nav' class='hidden'></div>
+            <div class='answer-compare' id='answer-compare'>
+              <div class='answer-compare-mine'>
+                <div class='answer-compare-label' id='answer-compare-mine-label'>Your answer</div>
+                <div class='student-answer-echo' id='student-answer-echo'></div>
               </div>
-              <div id='exercise-text' class='exercise-text'>Chargement de l'exercice...</div>
+              <div class='answer-compare-corr'>
+                <div class='correction-buttons'>
+                  <button type='button' class='toggle-button active' id='btn-correction-en'>Correction EN</button>
+                  <button type='button' class='toggle-button' id='btn-correction-fr'><span class='toggle-fill' id='correction-fr-fill'></span><span class='toggle-label' id='correction-fr-label'>Correction FR</span></button>
+                </div>
+                <div id='exercise-text' class='exercise-text'>Chargement de l'exercice...</div>
+              </div>
             </div>
-          </div>
-          <div class='student-answer' id='student-answer'>
-            <textarea id='student-answer-input' class='student-answer-input' rows='2'></textarea>
-            <div class='student-answer-bar'>
-              <span class='student-answer-saved' id='student-answer-saved' aria-live='polite'></span>
-              <button type='button' class='student-answer-check' id='btn-check-answer'>Check my answer</button>
+            <div class='student-answer' id='student-answer'>
+              <textarea id='student-answer-input' class='student-answer-input' rows='2'></textarea>
+              <div class='student-answer-bar'>
+                <span class='student-answer-saved' id='student-answer-saved' aria-live='polite'></span>
+                <button type='button' class='student-answer-check' id='btn-check-answer'>Check my answer</button>
+              </div>
             </div>
           </div>
         </div>

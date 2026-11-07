@@ -225,6 +225,12 @@
     // Showing/hiding therefore targets the wrapper when it exists.
     const exerciseImageWrap = document.getElementById('exercise-image-wrap');
     const exerciseImageHost = exerciseImageWrap || exerciseImage;
+    // Mise en page « paysage » : deux colonnes (voir le template).
+    const exerciseLayout = document.getElementById('exercise-layout');
+    const exerciseMain = document.getElementById('exercise-main');
+    const exerciseTextSide = document.getElementById('exercise-textside');
+    const exerciseTextSideStatement = document.getElementById('exercise-textside-statement');
+    const exerciseMascot = document.getElementById('exercise-mascot');
     const exerciseSubQuestionNav = document.getElementById('exercise-subquestion-nav');
     const exerciseText = document.getElementById('exercise-text');
     const exercisesPagination = document.getElementById('exercises-pagination');
@@ -392,66 +398,104 @@
        On raisonne sur la hauteur maximale que la modale PEUT atteindre (90vh) et
        non sur sa hauteur actuelle, qui épouse son contenu : sinon l'image se
        réduirait alors qu'il reste de la place. */
+    /* ===== Fenêtre d'exercice « paysage » =====
+       Deux dispositions, posées en classe sur la fenêtre, avec les mêmes
+       colonnes (55 % à gauche) : la fenêtre garde la même forme d'un
+       exercice à l'autre, rien ne saute.
+       - exo-side : l'image à gauche, centrée dans sa colonne, quelle que soit
+         sa forme (une image très large s'agrandit d'un clic) ;
+       - exo-text : pas d'image : l'énoncé en grand à gauche et une
+         mascotte ; à droite, le travail à la même place qu'avec une image :
+         l'énoncé de droite garde sa place, invisible ; à gauche, la
+         mascotte au-dessus et la question en face de la zone de réponse
+         (--exo-q-top). */
+
+    function setExerciseMode(mode) {
+      ['exo-side', 'exo-text'].forEach(c => modalOverlay.classList.toggle(c, c === 'exo-' + mode));
+    }
+
+    function exerciseImageRatio() {
+      return exerciseImage && exerciseImage.naturalWidth && exerciseImage.naturalHeight
+        ? exerciseImage.naturalWidth / exerciseImage.naturalHeight : 0;
+    }
+
     function syncExerciseImageHeight() {
-      if (!exerciseImageWrap || !modalOverlay.classList.contains('modal-open')) return;
-      if (exerciseImageHost.style.display === 'none') return;
+      if (!exerciseLayout || !modalOverlay.classList.contains('modal-open')) return;
+      exerciseImage.style.maxHeight = '';
+      const cs = getComputedStyle(exerciseLayout);
+      const innerH = exerciseLayout.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      const innerW = exerciseLayout.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
 
-      const card = modalOverlay.querySelector('.modal-card');
-      const header = modalOverlay.querySelector('.modal-header');
-      const body = modalOverlay.querySelector('.modal-body');
-      if (!card || !header || !body) return;
+      // Le travail de l'élève doit tenir dans sa colonne : si elle déborde
+      // (longue correction), la colonne de gauche cède de la largeur par pas,
+      // jusqu'à un plancher.
+      const fits = () => !exerciseMain || exerciseMain.scrollHeight <= exerciseMain.clientHeight + 1;
+      const shrink = (prop, start, floor) => {
+        let w = start;
+        exerciseLayout.style.setProperty(prop, Math.round(w) + 'px');
+        while (!fits() && w - 30 >= floor) {
+          w -= 30;
+          exerciseLayout.style.setProperty(prop, Math.round(w) + 'px');
+        }
+      };
+      const usable = innerW - (parseFloat(cs.columnGap) || 0);
 
-      /* Deux régimes, assumés comme tels.
-         En fenêtré la carte épouse son contenu sous un plafond de 90vh : la
-         mesurer serait circulaire, puisque sa hauteur dépend de l'image dont on
-         cherche justement la hauteur. On raisonne donc sur ce qu'elle PEUT
-         atteindre, d'où le 0,9 — reflet en dur du max-height: 90vh du CSS.
-         En plein écran, la feuille du navigateur lui impose 100% : sa hauteur est
-         définie, indépendante du contenu, et la mesure devient à la fois possible
-         et exacte. */
-      const isFullscreen = document.fullscreenElement === card;
-      const cardMax = isFullscreen
-        ? card.getBoundingClientRect().height
-        : window.innerHeight * 0.9;
-
-      const bodyStyle = getComputedStyle(body);
-      const bodyMax = cardMax
-        - header.offsetHeight
-        - parseFloat(bodyStyle.paddingTop) - parseFloat(bodyStyle.paddingBottom);
-
-      let used = 0;
-      Array.from(body.children).forEach(child => {
-        if (child === exerciseImageWrap) return;
-        const cs = getComputedStyle(child);
-        if (cs.display === 'none') return;
-        used += child.offsetHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom);
-      });
-
-      const wrapStyle = getComputedStyle(exerciseImageWrap);
-      used += parseFloat(wrapStyle.marginTop) + parseFloat(wrapStyle.marginBottom);
-
-      // Petite marge de sécurité : les bordures et arrondis de la carte ne sont
-      // pas comptés ci-dessus.
-      /* Le plafond de 280px n'a jamais mordu tant que la place manquait ; en
-         plein écran il deviendrait la seule contrainte active et annulerait tout
-         le bénéfice. Il tombe donc là, et là seulement.
-         L'image ne dépassera pas sa taille naturelle pour autant : on ne pose
-         qu'un maximum, jamais une taille. Une photo de 400px de haut s'arrêtera
-         à 400px, nette, plutôt que d'être étirée. */
-      const available = bodyMax - used - 12;
-      const ceiling = isFullscreen ? Infinity : 280;
-      exerciseImage.style.maxHeight = Math.max(60, Math.min(ceiling, available)) + 'px';
-
-      /* Le calcul ci-dessus reste une estimation : il ignore les bordures, les
-         marges fusionnées et les arrondis. On mesure donc le débordement réel et
-         on rend cette hauteur à l'image. Mesurer vaut mieux que d'ajuster une
-         marge au jugé, et la boucle ne peut pas s'emballer — une seule passe,
-         bornée par le plancher. */
-      const overflow = body.scrollHeight - body.clientHeight;
-      if (overflow > 0) {
-        const shown = exerciseImage.getBoundingClientRect().height;
-        exerciseImage.style.maxHeight = Math.max(60, shown - overflow) + 'px';
+      // Même largeur pour tous (55 %), avec ou sans image : la colonne de
+      // droite ne bouge pas d'un exercice au suivant.
+      if (modalOverlay.classList.contains('exo-side')) {
+        shrink('--exo-side-w', usable * 0.55, usable * 0.35);
+      } else if (modalOverlay.classList.contains('exo-text')) {
+        // Hauteurs naturelles d'abord : la zone de réponse allongée pour
+        // suivre la question ne doit pas compter comme un débordement.
+        if (answerFeatureOn && !modalOverlay.classList.contains('is-comparing')) {
+          answerBox.style.marginBottom = '';
+          exerciseTextSideStatement.style.minHeight = '';
+          answerInput.style.height = 'auto';
+          answerInput.style.height = answerInput.scrollHeight + 'px';
+        }
+        shrink('--exo-text-w', usable * 0.55, usable * 0.35);
+        syncTextSideHeights();
       }
+    }
+
+    // L'image chargée : les colonnes sont recalculées.
+    if (exerciseImage) exerciseImage.addEventListener('load', syncExerciseImageHeight);
+
+    /* Mascotte de la colonne de gauche (exercices sans image), tirée au
+       hasard dans la série de la matière du chapitre (quatre scènes par
+       matière, planches Gemini découpées, assets/ex-*.webp) : jamais la même
+       que celle de l'exercice sans image précédent ; un exercice garde la
+       sienne jusqu'au rechargement de la page (changer de langue ou passer à
+       la correction ne la change pas). */
+    const EXERCISE_MASCOTS = {
+      bio: ['ex-bio-1.webp', 'ex-bio-2.webp', 'ex-bio-3.webp', 'ex-bio-4.webp'],
+      chemistry: ['ex-chem-1.webp', 'ex-chem-2.webp', 'ex-chem-3.webp', 'ex-chem-4.webp'],
+      physics: ['ex-phys-1.webp', 'ex-phys-2.webp', 'ex-phys-3.webp', 'ex-phys-4.webp']
+    };
+
+    const exerciseMascotPicks = new Map();
+    let lastExerciseMascot = '';
+
+    function exerciseMascotSrc(levelKey, exerciseId) {
+      const subject = ['bio', 'chemistry', 'physics'].find(sub => document.body.classList.contains('subject-' + sub)) || 'bio';
+      const list = EXERCISE_MASCOTS[subject];
+      const key = levelKey + '/' + exerciseId;
+      let name = exerciseMascotPicks.get(key);
+      if (!name) {
+        const choices = list.filter(n => n !== lastExerciseMascot);
+        name = choices[Math.floor(Math.random() * choices.length)];
+        exerciseMascotPicks.set(key, name);
+      }
+      lastExerciseMascot = name;
+      return '../../../assets/' + encodeURIComponent(name);
+    }
+
+    function renderTextSide(source) {
+      if (!exerciseTextSide) return;
+      const statement = (source && (source[lastStatementView] || source.en)) || '';
+      setRichText(exerciseTextSideStatement, statement);
+      const src = exerciseMascotSrc(currentLevel, currentExercise);
+      if (exerciseMascot.getAttribute('src') !== src) exerciseMascot.setAttribute('src', src);
     }
 
     // Returns the exercise's questions array when it uses the multi-sub-question format, else null.
@@ -499,6 +543,17 @@
     // queue and the deep links — same setup either way, only the
     // starting exercise differs.
     function openModalAtExercise(levelKey, exerciseId) {
+      /* Plein écran d'office, comme les labos : le geste qui ouvre l'exercice
+         l'autorise. Sans geste (lien direct), le navigateur refuse : le
+         premier toucher dans la fenêtre le redemande. */
+      const exerciseCard = modalOverlay.querySelector('.modal-card');
+      if (exerciseCard && !document.fullscreenElement && exerciseCard.requestFullscreen) {
+        exerciseCard.requestFullscreen().catch(() => {
+          modalOverlay.addEventListener('pointerdown', () => {
+            if (!document.fullscreenElement && modalOverlay.classList.contains('modal-open')) exerciseCard.requestFullscreen().catch(() => {});
+          }, { once: true, capture: true });
+        });
+      }
       flushAnswerSave();
       answerLoadedKey = null;
       currentLevel = levelKey;
@@ -627,7 +682,8 @@
       if (mode === 'full') {
         const numbersWrap = document.createElement('div');
         numbersWrap.className = 'exercise-pager-numbers';
-        getPaginationRange(currentExercise, numExercises, 3).forEach(item => {
+        // Tous les numéros (20 par niveau) : plus besoin de « … » ni de « Go to ».
+        getPaginationRange(currentExercise, numExercises, numExercises).forEach(item => {
           if (item === '...') {
             const dots = document.createElement('span');
             dots.className = 'exercise-pager-ellipsis';
@@ -671,6 +727,7 @@
       pager.appendChild(nextBtn);
 
       exercisesPagination.appendChild(pager);
+      if (mode === 'full') return;
 
       const goTo = document.createElement('div');
       goTo.className = 'exercise-pager-goto';
@@ -850,6 +907,7 @@
       }
 
       if (exerciseItem.image) {
+        setExerciseMode('side');
         // Image introuvable : on replie le conteneur plutôt que de laisser un
         // cadre vide ou une icône cassée au milieu de l'énoncé. L'exercice reste
         // lisible et utilisable sans elle.
@@ -863,6 +921,7 @@
         exerciseImageHost.style.display = '';
       } else {
         exerciseImageHost.style.display = 'none';
+        setExerciseMode('text');
       }
 
       renderSubQuestionNav(exerciseItem);
@@ -882,6 +941,7 @@
       syncAnswerBoxForExercise();
       updateAnswerCompare(exerciseItem, source);
       applyToggleState();
+      if (!exerciseItem.image) renderTextSide(source);
 
       renderExerciseSteps();
       // Après le rendu : la place restante dépend de ce qui vient d'être affiché
@@ -1401,7 +1461,50 @@
     function autoGrowAnswer() {
       if (!answerFeatureOn) return;
       answerInput.style.height = 'auto';
-      answerInput.style.height = answerInput.scrollHeight + 'px';
+      // scrollHeight ne compte pas la bordure (box-sizing: border-box) :
+      // sans elle, une barre de défilement apparaît pour 2 px.
+      answerInput.style.height = answerInput.scrollHeight + (answerInput.offsetHeight - answerInput.clientHeight) + 'px';
+      syncTextSideHeights();
+    }
+
+    /* Sans image : la question de gauche et la zone de réponse en face ont
+       la même hauteur, celle de la plus grande des deux (la réponse grandit
+       encore avec le texte, jusqu'à son maximum). Ce que la zone de réponse
+       gagne ainsi déborde vers le bas (marge négative) : le reste de la
+       colonne ne bouge pas, la réponse reste à la même hauteur qu'à côté
+       d'une image. Pendant la correction, la question garde sa hauteur. */
+    function syncTextSideHeights() {
+      if (!answerFeatureOn || !exerciseTextSideStatement) return;
+      const textMode = modalOverlay.classList.contains('exo-text');
+      const comparing = modalOverlay.classList.contains('is-comparing');
+      answerBox.style.marginBottom = '';
+      if (!textMode) { exerciseTextSideStatement.style.minHeight = ''; return; }
+      if (comparing) return;
+      exerciseTextSideStatement.style.minHeight = '';
+      const statementH = exerciseTextSideStatement.offsetHeight;
+      const answerH = answerInput.offsetHeight;
+      if (!answerH) return;
+      if (statementH > answerH) {
+        answerInput.style.height = statementH + 'px';
+        // Hauteur posée au contenu ou à la bordure selon box-sizing : on
+        // corrige l'écart mesuré.
+        const gap = statementH - answerInput.offsetHeight;
+        if (gap) answerInput.style.height = statementH + gap + 'px';
+      }
+      const finalH = answerInput.offsetHeight;
+      exerciseTextSideStatement.style.minHeight = finalH + 'px';
+      if (finalH > answerH) answerBox.style.marginBottom = -(finalH - answerH) + 'px';
+
+      // La question en face de la zone de réponse, sans sortir de sa
+      // colonne ; la mascotte occupe la place au-dessus (cachée s'il n'en
+      // reste pas assez : jamais en icône). Gardée pendant la correction :
+      // la question ne bouge pas au clic sur « Check my answer ».
+      const sideTop = exerciseTextSide.getBoundingClientRect().top;
+      const target = answerInput.getBoundingClientRect().top - sideTop;
+      const room = exerciseTextSide.clientHeight - exerciseTextSideStatement.offsetHeight;
+      const top = Math.max(0, Math.round(Math.min(target, room)));
+      exerciseLayout.style.setProperty('--exo-q-top', top + 'px');
+      exerciseTextSide.classList.toggle('no-mascot', top - 16 < 90);
     }
 
     function scheduleAnswerSave() {
@@ -1548,13 +1651,9 @@
       const hasImage = !!(exerciseItem && exerciseItem.image);
       if (exerciseRecall) {
         if (comparing) {
-          if (hasImage) {
-            exerciseImageHost.style.display = 'none';
-            exerciseRecallImg.src = `assets/${exerciseItem.image}`;
-            exerciseRecallImg.style.display = '';
-          } else {
-            exerciseRecallImg.style.display = 'none';
-          }
+          // L'image reste à sa place pendant la correction (mise en page
+          // « paysage ») : plus de vignette à côté du rappel de l'énoncé.
+          exerciseRecallImg.style.display = 'none';
           exerciseRecall.classList.toggle('is-textonly', !hasImage);
           setRichText(exerciseRecallText, (source && (source[lastStatementView] || source.en)) || '');
           exerciseRecall.classList.add('is-visible');
