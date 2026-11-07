@@ -1,11 +1,14 @@
 (function () {
-  // Standalone-page counterpart of the autoeval modal in resources-engine.js
-  // (see that file for the original). Same data shape, same localStorage
-  // rating convention, same synthesis rules — only the chrome differs: this
-  // renders straight into the page instead of into a modal, so there is no
-  // open/close/fullscreen wiring here.
+  // Page d'autoévaluation (assessment.html), mise en page « paysage » : tout
+  // sur un écran de Chromebook. À gauche la mascotte, les trois catégories
+  // (avec l'état de chacune) et « Bilan du chapitre » ; à droite la liste de
+  // la catégorie choisie, en une ou deux colonnes selon la place (fitList).
+  // On note dans la ligne (ampoules) ; toucher le texte d'un attendu ouvre
+  // sa fenêtre (texte entier, ampoules, conseil, parties du cours, exercices
+  // et labos liés) ; le bilan s'ouvre dans une fenêtre aussi.
   let autoevalItemsById = new Map();
   let autoevalCategoriesCache = [];
+  let autoevalCategoryOfItem = new Map();
 
   const AUTOEVAL_LEVEL_LABELS = { level1: 'Niveau 1', level2: 'Niveau 2', level3: 'Niveau 3' };
 
@@ -129,26 +132,44 @@
     return bulbSvg;
   }
 
-  function createAutoEvalItem(item) {
-    const rating = readAutoevalRating(item.id);
-    const bulbsHtml = '<div class="autoeval-bulbs">' +
+  function createBulbsHtml(rating) {
+    return '<div class="autoeval-bulbs">' +
       [1, 2, 3].map(n =>
         `<button type="button" class="autoeval-bulb${rating && n <= rating ? ' is-lit' : ''}" data-level="${n}" aria-label="Niveau ${n}">${getBulbSvg()}</button>`
       ).join('') +
       '</div>';
+  }
+
+  // Le texte est un bouton qui ouvre la fenêtre de l'attendu ; le chevron
+  // « › » en bout de texte le signale.
+  function createAutoEvalItem(item) {
+    const rating = readAutoevalRating(item.id);
     return `
-      <div class="autoeval-item" data-item-id="${item.id}">
-        <div class="autoeval-item-header">
-          <button type="button" class="autoeval-item-toggle" aria-expanded="false">
-            <span class="autoeval-item-chevron">▾</span>
-            <span class="autoeval-item-text">${richText(item.text || '')}</span>
-          </button>
-          ${bulbsHtml}
-        </div>
+      <div class="autoeval-item" data-item-id="${item.id}" data-rating="${rating || 0}">
+        <button type="button" class="autoeval-item-open" aria-haspopup="dialog">
+          <span class="autoeval-item-text">${richText(item.text || '')}</span>
+          <span class="autoeval-item-more" aria-hidden="true">›</span>
+        </button>
+        ${createBulbsHtml(rating)}
+      </div>
+    `;
+  }
+
+  // La fenêtre d'un attendu : même structure de notation (data-item-id,
+  // ampoules) que la ligne, donc le même geste et la même mise à jour.
+  function renderAutoevalDetail(itemId) {
+    const box = document.getElementById('autoeval-detail');
+    const item = autoevalItemsById.get(itemId);
+    if (!box || !item) return;
+    const rating = readAutoevalRating(item.id);
+    const category = autoevalCategoryOfItem.get(itemId);
+    box.innerHTML = `
+      <div class="autoeval-detail-item" data-item-id="${item.id}" data-rating="${rating || 0}">
+        <span class="autoeval-detail-kicker">${richText((category && category.title) || '')}</span>
+        <p class="autoeval-detail-text" id="autoeval-detail-text">${richText(item.text || '')}</p>
+        <div class="autoeval-detail-rate">${createBulbsHtml(rating)}<span>Touche l'ampoule de ton niveau.</span></div>
         <div class="autoeval-advice-slot">${buildAutoevalAdviceHtml(item, rating)}</div>
-        <div class="autoeval-item-details" hidden>
-          ${buildAutoevalDetailsHtml(item, rating)}
-        </div>
+        <div class="autoeval-item-details">${buildAutoevalDetailsHtml(item, rating)}</div>
       </div>
     `;
   }
@@ -299,28 +320,86 @@
     ].filter(Boolean).map(([kicker, text]) =>
       `<div class="autoeval-synthesis-msg"><span class="autoeval-synthesis-kicker">${kicker}</span>${text}</div>`
     );
-    container.innerHTML = blocks.join('');
+    const waiting = !categoryScoreboard
+      ? '<p class="autoeval-synthesis-wait">Évalue d\'abord quelques attendus : ton bilan apparaîtra ici.</p>'
+      : (!mainMessage ? '<p class="autoeval-synthesis-wait">Le bilan croisé apparaît dès que tu as évalué au moins un attendu dans chacune des trois catégories.</p>' : '');
+    container.innerHTML = blocks.join('') + waiting;
+    renderTabStatuses();
+  }
+
+  // L'état de chaque catégorie, sous son nom dans la colonne de gauche :
+  // « À consolider · 6 / 8 » (même mot que le bilan par catégorie).
+  function renderTabStatuses() {
+    autoevalCategoriesCache.forEach(category => {
+      const el = document.querySelector(`.autoeval-tab-status[data-category="${category.id}"]`);
+      if (!el) return;
+      const total = category.items.length;
+      const rated = category.items.filter(item => readAutoevalRating(item.id) !== null).length;
+      const status = computeCategoryStatus(category);
+      el.textContent = `${status ? AUTOEVAL_CATEGORY_STATUS_LABEL[status] : 'À évaluer'} · ${rated} / ${total}`;
+    });
   }
 
   function showError() {
     const panels = document.getElementById('autoeval-panels');
     const tabs = document.getElementById('autoeval-tabs');
-    const synthesis = document.getElementById('autoeval-synthesis');
     if (tabs) tabs.innerHTML = '';
-    if (synthesis) synthesis.innerHTML = '';
     if (panels) panels.innerHTML = '<div class="load-error">Erreur de chargement. Recharge la page, et préviens ton professeur si cela se reproduit.</div>';
+  }
+
+  /* La liste de la catégorie choisie remplit sa carte : en une colonne si
+     elle tient, sinon en deux (colonne de gauche d'abord), puis le texte
+     rapetisse (--autoeval-fit). Mesuré, pas supposé :
+     le nombre d'attendus et la longueur des textes varient d'un chapitre à
+     l'autre (de 1 à 14 attendus, de 30 à 300 caractères). */
+  // 0,6 au plus bas : sur le Chromebook, rien ne descend sous 0,78 ; plus
+  // bas, c'est un écran plus petit que prévu, et la page doit y tenir
+  // quand même plutôt que de déborder.
+  const FIT_MIN = 0.6;
+
+  function fitList() {
+    const panel = document.querySelector('.autoeval-panel.is-active');
+    if (!panel) return;
+    const list = panel.querySelector('.autoeval-list');
+    const count = list.children.length;
+    // Débordement : de la liste, ou d'un texte hors de sa case (les rangées
+    // se tassent avant que la liste ne déborde).
+    const texts = [...list.querySelectorAll('.autoeval-item-open')];
+    const overflows = () => list.scrollHeight > list.clientHeight + 1
+      || texts.some(t => t.scrollHeight > t.clientHeight + 1);
+    const apply = (cols, fit) => {
+      list.style.setProperty('--autoeval-cols', cols);
+      list.style.setProperty('--autoeval-rows', Math.ceil(count / cols));
+      list.style.setProperty('--autoeval-fit', fit);
+    };
+    apply(1, 1);
+    if (!overflows()) return;
+    if (count > 1) apply(2, 1);
+    let fit = 1;
+    while (fit > FIT_MIN && overflows()) {
+      fit = Math.round((fit - 0.03) * 100) / 100;
+      apply(count > 1 ? 2 : 1, fit);
+    }
+  }
+
+  function showCategory(categoryId) {
+    document.querySelectorAll('.autoeval-tab').forEach(b => {
+      const on = b.dataset.category === categoryId;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    document.querySelectorAll('.autoeval-panel').forEach(p => p.classList.toggle('is-active', p.dataset.category === categoryId));
+    fitList();
   }
 
   function renderAutoEvalPage(data) {
     const tabs = document.getElementById('autoeval-tabs');
     const panels = document.getElementById('autoeval-panels');
-    const synthesis = document.getElementById('autoeval-synthesis');
     if (!tabs || !panels) return;
 
     if (!data || !data.categories?.length) {
       tabs.innerHTML = '';
       panels.innerHTML = '<p>Fiche indisponible pour ce chapitre pour le moment.</p>';
-      if (synthesis) synthesis.innerHTML = '';
       autoevalCategoriesCache = [];
       return;
     }
@@ -328,17 +407,62 @@
     const categories = data.categories.filter(category => category.items?.length);
     autoevalCategoriesCache = categories;
     autoevalItemsById = new Map();
-    categories.forEach(category => category.items.forEach(item => autoevalItemsById.set(String(item.id), item)));
+    autoevalCategoryOfItem = new Map();
+    categories.forEach(category => category.items.forEach(item => {
+      autoevalItemsById.set(String(item.id), item);
+      autoevalCategoryOfItem.set(String(item.id), category);
+    }));
 
     tabs.innerHTML = categories.map((category, i) =>
-      `<button type="button" class="toggle-button autoeval-tab${i === 0 ? ' active' : ''}" data-category="${category.id}">${richText(category.title || '')}</button>`
+      `<button type="button" class="autoeval-tab${i === 0 ? ' active' : ''}" data-category="${category.id}" aria-pressed="${i === 0}">` +
+      `<span class="autoeval-tab-title">${richText(category.title || '')}</span>` +
+      `<span class="autoeval-tab-status" data-category="${category.id}"></span></button>`
     ).join('');
     panels.innerHTML = categories.map((category, i) => `
       <div class="autoeval-panel${i === 0 ? ' is-active' : ''}" data-category="${category.id}">
-        ${category.items.map(createAutoEvalItem).join('')}
+        <h2 class="autoeval-panel-title">${richText(category.title || '')}</h2>
+        <div class="autoeval-list">${category.items.map(createAutoEvalItem).join('')}</div>
       </div>
     `).join('');
 
+    renderAutoevalSynthesis();
+    fitList();
+  }
+
+  function openModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.add('modal-open');
+  }
+
+  function closeModal(modal) {
+    if (modal) modal.classList.remove('modal-open');
+  }
+
+  // Une note (ligne ou fenêtre) : enregistrée, puis la ligne, la fenêtre si
+  // elle montre cet attendu, les états des catégories et le bilan suivent.
+  function rate(itemId, clickedLevel) {
+    const wasAlreadyAtThisLevel = readAutoevalRating(itemId) === clickedLevel;
+    const level = wasAlreadyAtThisLevel ? null : clickedLevel;
+    if (level === null) clearAutoevalRating(itemId);
+    else writeAutoevalRating(itemId, level);
+
+    if (window.logEvent) {
+      const category = autoevalCategoryOfItem.get(itemId);
+      window.logEvent('autoeval_item_rated', { itemId, category: category ? category.id : null, rating: level });
+    }
+
+    document.querySelectorAll(`[data-item-id="${itemId}"]`).forEach(el => {
+      el.dataset.rating = level || 0;
+      el.querySelectorAll('.autoeval-bulb').forEach(b => {
+        b.classList.toggle('is-lit', level !== null && parseInt(b.dataset.level, 10) <= level);
+      });
+    });
+    const detail = document.querySelector(`.autoeval-detail-item[data-item-id="${itemId}"]`);
+    const item = autoevalItemsById.get(itemId);
+    if (detail && item) {
+      detail.querySelector('.autoeval-advice-slot').innerHTML = buildAutoevalAdviceHtml(item, level);
+      detail.querySelector('.autoeval-item-details').innerHTML = buildAutoevalDetailsHtml(item, level);
+    }
     renderAutoevalSynthesis();
   }
 
@@ -349,50 +473,44 @@
 
     tabs.addEventListener('click', event => {
       const tabBtn = event.target.closest('.autoeval-tab');
-      if (!tabBtn) return;
-      const categoryId = tabBtn.dataset.category;
-      tabs.querySelectorAll('.autoeval-tab').forEach(b => b.classList.toggle('active', b === tabBtn));
-      panels.querySelectorAll('.autoeval-panel').forEach(p => p.classList.toggle('is-active', p.dataset.category === categoryId));
+      if (tabBtn) showCategory(tabBtn.dataset.category);
     });
 
-    panels.addEventListener('click', event => {
-      const toggleBtn = event.target.closest('.autoeval-item-toggle');
-      if (toggleBtn) {
-        const details = toggleBtn.closest('.autoeval-item').querySelector('.autoeval-item-details');
-        const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-        toggleBtn.setAttribute('aria-expanded', String(!expanded));
-        details.hidden = expanded;
-        return;
-      }
-
+    document.addEventListener('click', event => {
       const bulbBtn = event.target.closest('.autoeval-bulb');
       if (bulbBtn) {
-        const itemEl = bulbBtn.closest('.autoeval-item');
-        const itemId = itemEl.dataset.itemId;
-        const clickedLevel = parseInt(bulbBtn.dataset.level, 10);
-        const wasAlreadyAtThisLevel = readAutoevalRating(itemId) === clickedLevel;
-        const level = wasAlreadyAtThisLevel ? null : clickedLevel;
-
-        if (level === null) clearAutoevalRating(itemId);
-        else writeAutoevalRating(itemId, level);
-
-        if (window.logEvent) {
-          const categoryId = itemEl.closest('.autoeval-panel')?.dataset.category || null;
-          window.logEvent('autoeval_item_rated', { itemId, category: categoryId, rating: level });
-        }
-
-        itemEl.querySelectorAll('.autoeval-bulb').forEach(b => {
-          b.classList.toggle('is-lit', level !== null && parseInt(b.dataset.level, 10) <= level);
-        });
-
-        const item = autoevalItemsById.get(itemId);
-        if (item) {
-          itemEl.querySelector('.autoeval-advice-slot').innerHTML = buildAutoevalAdviceHtml(item, level);
-          itemEl.querySelector('.autoeval-item-details').innerHTML = buildAutoevalDetailsHtml(item, level);
-        }
-        renderAutoevalSynthesis();
+        const holder = bulbBtn.closest('[data-item-id]');
+        if (holder) rate(holder.dataset.itemId, parseInt(bulbBtn.dataset.level, 10));
+        return;
       }
+      const openBtn = event.target.closest('.autoeval-item-open');
+      if (openBtn) {
+        renderAutoevalDetail(openBtn.closest('.autoeval-item').dataset.itemId);
+        openModal('autoeval-detail-modal');
+        return;
+      }
+      if (event.target.closest('#autoeval-bilan-open')) {
+        renderAutoevalSynthesis();
+        openModal('autoeval-bilan-modal');
+        return;
+      }
+      const closeBtn = event.target.closest('[data-autoeval-close]');
+      if (closeBtn) { closeModal(closeBtn.closest('.modal-overlay')); return; }
+      // Un toucher sur le fond grisé referme la fenêtre.
+      if (event.target.matches('#autoeval-detail-modal, #autoeval-bilan-modal')) closeModal(event.target);
     });
+
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      document.querySelectorAll('#autoeval-detail-modal.modal-open, #autoeval-bilan-modal.modal-open').forEach(closeModal);
+    });
+
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(fitList, 150);
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitList);
 
     if (window.logEvent) window.logEvent('autoeval_page_opened', {});
 
@@ -400,11 +518,10 @@
     // avant le premier affichage.
     Promise.all([fetch('./autoeval.json?v=' + Date.now()), SiteStorage.ready])
       .then(([response]) => {
-        // A 404 means this chapter simply has no fiche yet (most chapters,
-        // during the rollout) — not a technical failure, so it takes the
-        // same friendly empty-state as a fiche with no categories
-        // (renderAutoEvalPage below), never the "reload / tell your
-        // teacher" error message that a genuine fetch/parse failure gets.
+        // A 404 means this chapter simply has no fiche yet — not a technical
+        // failure, so it takes the same friendly empty-state as a fiche with
+        // no categories (renderAutoEvalPage below), never the "reload / tell
+        // your teacher" error message that a genuine fetch/parse failure gets.
         if (response.status === 404) return null;
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         return response.json();

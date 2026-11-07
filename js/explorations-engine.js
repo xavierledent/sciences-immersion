@@ -13,7 +13,7 @@
   // ses descriptions diminue pas à pas jusqu'à ce que tout tienne (mesuré,
   // pas supposé : la place dépend de l'écran et des textes).
   const DESC_MAX = 0.82; // rem
-  const DESC_MIN = 0.7;
+  const DESC_MIN = 0.6; // sur le Chromebook, rien ne descend sous 0,82 : plus bas, écran plus petit que prévu
 
   function tileHtml(href, title, description, external) {
     const label = external ? 'Ouvrir' : 'Lire';

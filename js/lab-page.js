@@ -54,7 +54,10 @@
     });
   }
 
-  const FIT_MIN = 0.78;
+  // 0,6 au plus bas : sur le Chromebook, rien ne descend sous 0,78 ; plus
+  // bas, c'est un écran plus petit que prévu, et la page doit y tenir
+  // quand même plutôt que de déborder.
+  const FIT_MIN = 0.6;
 
   function fitTiles() {
     const slots = document.querySelector('.lab-slots');

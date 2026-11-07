@@ -1242,7 +1242,15 @@
       // Demandé tout de suite, pendant le geste qui ouvre le labo (sans
       // geste, lien direct, le navigateur refuse : le labo s'ajuste alors
       // à la fenêtre, voir fitToScreen).
-      if (!document.fullscreenElement && card.requestFullscreen) card.requestFullscreen().catch(() => {});
+      if (!document.fullscreenElement && card.requestFullscreen) {
+        card.requestFullscreen().catch(() => {
+          // Refusé faute de geste (lien direct : autoévaluation, devoir du
+          // tableau de bord) : le premier toucher dans le labo le redemande.
+          overlay.addEventListener('pointerdown', () => {
+            if (!document.fullscreenElement && overlay.classList.contains('modal-open')) card.requestFullscreen().catch(() => {});
+          }, { once: true, capture: true });
+        });
+      }
       // Travail de l'élève chargé (Firestore) avant de chercher une reprise.
       // Lancé dès le chargement de la page : déjà prêt au moment du clic.
       if (window.SiteStorage) await SiteStorage.ready;

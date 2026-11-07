@@ -28,48 +28,126 @@
   --autoeval-accent-rgb: var(--color-slate-rgb);
 }
 
-/* Standalone page (assessment.html) — same reading width the old modal card
-   used (min(92vw,760px)) for the same line length, but flowing with the page
-   instead of scrolling inside a fixed-height card. Same white-card look as
-   .section-card/.exercise-card elsewhere on the site, so the tool doesn't
-   read as bare text sitting directly on the page background. */
-.autoeval-page-body {
-  width: min(100%, 760px);
-  margin: 28px auto 0;
-  padding: 28px 24px;
+/* ===== Page d'autoévaluation, mise en page « paysage » =====
+   Tout sur un écran de Chromebook (1366 × 640 utiles). À gauche une carte :
+   la mascotte, les trois catégories (boutons, avec l'état de chacune) et
+   « Bilan du chapitre » ; à droite la liste de la catégorie choisie, en une
+   ou deux colonnes et à la taille de texte que mesure autoeval-engine.js
+   (fitList : --autoeval-cols, --autoeval-rows, --autoeval-fit). Le détail
+   d'un attendu et le bilan s'ouvrent dans des fenêtres. */
+.autoeval-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  /* Une seule rangée, de la hauteur disponible (page-fit). */
+  grid-template-rows: minmax(0, 1fr);
+  gap: 20px;
+}
+
+.autoeval-side,
+.autoeval-main {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   border-radius: var(--radius);
   background: var(--color-surface);
   box-shadow: var(--color-shadow);
   border: 1px solid rgba(17, 36, 72, 0.08);
 }
 
-/* Category tabs — same toggle-pill pattern as the Level 1/2/3 tabs on the
-   practice page's "My progress", just recoloured to the fiche's own slate
-   identity instead of the subject colour. Splitting into tabs (rather than
-   stacking all three categories) is the main fix for how long this modal
-   got once a whole chapter's worth of attendus was in it. */
-.autoeval-tabs {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.autoeval-side {
   gap: 10px;
-  margin: 0 0 20px;
+  padding: 16px 18px;
+}
+
+.autoeval-illustration {
+  display: block;
+  width: 100%;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 150px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+/* Les trois catégories, l'une sous l'autre : comme les modes de Vocabulary,
+   dans l'ardoise de la fiche. Sous le nom, l'état (« À consolider · 6 / 8 »). */
+.autoeval-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .autoeval-tab {
-  border: 1px solid var(--autoeval-border);
-  border-radius: 999px;
-  padding: 10px 14px;
-  background: var(--autoeval-bg);
-  color: var(--autoeval-accent-dark);
-  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 54px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--autoeval-accent);
+  border-radius: 16px;
+  background: #ffffff;
+  color: var(--autoeval-accent);
+  font: inherit;
   cursor: pointer;
-  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+
+.autoeval-tab-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.autoeval-tab-status {
+  font-size: 0.74rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+html[data-pointer='fine'] .autoeval-tab:not(.active):hover,
+.autoeval-tab:focus-visible {
+  background: var(--autoeval-bg);
+  transform: translateY(-1px);
 }
 
 .autoeval-tab.active {
   background: var(--autoeval-accent);
-  border-color: var(--autoeval-accent);
   color: #ffffff;
+  box-shadow: 0 8px 18px rgba(var(--autoeval-accent-rgb), 0.3);
+}
+
+.autoeval-bilan-btn {
+  margin-top: auto;
+  min-height: 44px;
+  border: 1.5px solid var(--autoeval-accent);
+  border-radius: 16px;
+  background: #ffffff;
+  color: var(--autoeval-accent);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+html[data-pointer='fine'] .autoeval-bilan-btn:hover,
+.autoeval-bilan-btn:focus-visible {
+  background: var(--autoeval-accent);
+  color: #ffffff;
+}
+
+/* ----- À droite : la catégorie choisie ----- */
+.autoeval-main {
+  padding: 12px 16px 14px;
+}
+
+#autoeval-panels {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .autoeval-panel {
@@ -77,58 +155,168 @@
 }
 
 .autoeval-panel.is-active {
-  display: block;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
+.autoeval-panel-title {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--autoeval-accent-dark);
+}
+
+/* Les attendus remplissent la carte : rangées égales étirées à la hauteur
+   disponible (align-content: stretch sur des rangées auto), colonne de
+   gauche d'abord quand il y en a deux. */
+.autoeval-list {
+  --autoeval-cols: 1;
+  --autoeval-rows: 1;
+  --autoeval-fit: 1;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(var(--autoeval-cols), minmax(0, 1fr));
+  /* 84 px au plus par attendu : peu d'attendus ne font pas de lignes
+     géantes, la liste se range alors en haut de la carte. */
+  grid-template-rows: repeat(var(--autoeval-rows), minmax(auto, 84px));
+  align-content: start;
+  gap: 5px 10px;
+}
+
+/* Pas de hauteur minimale fixe ici (elle est sur le bouton du texte) : une
+   case doit pouvoir mesurer au moins son contenu, sinon la grille tasse les
+   rangées et le texte déborde de sa case. */
 .autoeval-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 6px 2px 2px;
   background: var(--autoeval-bg);
   border: 1px solid var(--autoeval-border);
-  border-radius: 16px;
-  padding: 12px 16px;
+  border-radius: 14px;
 }
 
-.autoeval-item + .autoeval-item {
-  margin-top: 12px;
-}
-
-.autoeval-item-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* Collapsed by default (see resources-engine.js): only this row shows —
-   statement + bulbs — the "emplacement dans le cours" and exercise links
-   unfold on click instead of always taking up their own vertical space. */
-.autoeval-item-toggle {
+/* Le texte de l'attendu : un bouton, qui ouvre sa fenêtre (chevron « › »
+   en bout de texte). */
+.autoeval-item-open {
   flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  align-self: stretch;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  padding: 3px 8px;
   border: none;
+  border-radius: 10px;
   background: none;
-  padding: 0;
-  text-align: left;
   font: inherit;
-  font-weight: 600;
+  text-align: left;
   color: var(--color-text);
   cursor: pointer;
 }
 
-.autoeval-item-chevron {
-  flex-shrink: 0;
+html[data-pointer='fine'] .autoeval-item-open:hover,
+.autoeval-item-open:focus-visible {
+  background: rgba(255, 255, 255, 0.7);
+  outline: none;
+}
+
+.autoeval-item-text {
+  font-size: calc(0.92rem * var(--autoeval-fit));
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.autoeval-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Les ampoules d'une ligne suivent un peu la taille du texte (pas en
+   dessous de 85 %) : de la largeur rendue au texte quand la liste est
+   chargée. */
+.autoeval-list .autoeval-bulbs {
+  font-size: calc(1.1rem * max(var(--autoeval-fit), 0.85));
+}
+
+.autoeval-item-more {
+  flex: none;
+  color: var(--autoeval-accent);
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ----- Fenêtres : un attendu, le bilan ----- */
+.autoeval-modal-card {
+  width: min(92vw, 680px);
+  border-color: var(--autoeval-border);
+}
+
+.autoeval-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.autoeval-detail-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--autoeval-accent-dark);
-  transition: transform var(--transition);
 }
 
-.autoeval-item-toggle[aria-expanded='true'] .autoeval-item-chevron {
-  transform: rotate(-180deg);
+.autoeval-detail-text {
+  margin: 0;
+  padding-right: 40px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
 }
 
-.autoeval-item-details {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px dashed var(--autoeval-border);
+.autoeval-detail-rate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
+.autoeval-detail-rate .autoeval-bulbs {
+  font-size: 1.5rem;
+}
+
+.autoeval-detail-item .autoeval-advice {
+  margin: 0;
+}
+
+.autoeval-detail-item .autoeval-item-details:empty,
+.autoeval-detail-item .autoeval-advice-slot:empty {
+  display: none;
+}
+
+.autoeval-modal-title {
+  margin: 0 0 14px;
+  padding-right: 40px;
+  font-size: 1.15rem;
+  color: var(--autoeval-accent-dark);
+}
+
+.autoeval-synthesis-wait {
+  margin: 0;
+  color: var(--color-muted);
+  text-align: left;
 }
 
 .autoeval-item-locations {
@@ -136,11 +324,23 @@
   padding-left: 20px;
   color: var(--color-muted);
   font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: left;
 }
 
-/* Not justified (style.css justifies every p): the level groups are
-   unbreakable inline-flex blocks, so justifying only stretches the few
-   spaces between them into wide gaps. Same for .autoeval-advice. */
+@media (max-width: 899px) {
+  .autoeval-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .autoeval-list {
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+}
+
 .autoeval-item-exercises {
   margin: 0;
   font-size: 0.9rem;
@@ -350,7 +550,7 @@ body.high-contrast .autoeval-bulb:focus-visible {
    closing judgement rather than another item in the list. Justified so the
    block reads as one dense, deliberate paragraph rather than a ragged one. */
 .autoeval-synthesis-msg {
-  margin: 0 0 24px;
+  margin: 0 0 14px;
   padding: 16px 18px;
   border-radius: 12px;
   background: var(--autoeval-accent);
