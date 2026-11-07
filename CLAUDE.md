@@ -180,7 +180,10 @@ scripts chargés.
   marquées `data-page-zoom` (pas les fenêtres d'exercice ou de jeu, déjà
   plein écran). Pas de marge haute sur `main` (elle traverse `body` et fait
   défiler) : du padding. `page-fit` : hauteur exacte de l'écran (les
-  colonnes s'y ajustent au lieu d'allonger la page).
+  colonnes s'y ajustent au lieu d'allonger la page). Mascottes (images
+  Friends) : jamais en icône, une centaine de pixels de haut au moins sur
+  le Chromebook ; pas de titre écrit dans l'image (la page le dit déjà) ;
+  fond blanc fondu (`mix-blend-mode: multiply`).
 - **Labos en plein écran : toute la place est utilisée.** Un labo se dessine
   pour le Chromebook à 100 % ; avec plus de place (plein écran sur un grand
   écran), le moteur agrandit d'un même facteur le corps et le pied du labo

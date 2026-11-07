@@ -39,12 +39,14 @@
     }
 
     /* Titre de la carte à gauche, son illustration à droite : la mascotte de
-       progression pour les exercices, Friends Practice pour les jeux. */
+       progression pour les exercices, Friends Practice pour les jeux. Une
+       mascotte n'est jamais une icône : 110 px de haut sur le Chromebook
+       (86 px sur un écran moins haut, voir plus bas). */
     .practice-card-head {
       display: flex;
       align-items: center;
       gap: 16px;
-      min-height: 56px;
+      min-height: 110px;
     }
 
     .exercise-card .practice-card-head h3,
@@ -54,10 +56,34 @@
       text-align: left;
     }
 
+    /* Exercises : le titre et la légende des couleurs à gauche de la
+       mascotte, dans la hauteur de celle-ci (la légende passe sur deux
+       lignes au besoin) : la mascotte grandit sans allonger la carte. */
+    .practice-card-title {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
     .practice-card-head img {
-      height: 56px;
+      height: 110px;
       width: auto;
       margin-left: auto;
+      mix-blend-mode: multiply;
+    }
+
+    /* Écran moins haut que le Chromebook (1366 × 600) : un peu plus petites,
+       pour que la page ne défile pas. */
+    @media (max-height: 630px) {
+      .practice-card-head {
+        min-height: 86px;
+      }
+
+      .practice-card-head img {
+        height: 86px;
+      }
     }
 
     .practice-card-head .practice-illustration {
