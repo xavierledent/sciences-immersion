@@ -1,63 +1,181 @@
-/* Styles propres à explorations.html (injectés par explorations-engine.js).
-   Extrait de style.css. */
+/* Styles propres à explorations.html (tuiles injectées par
+   explorations-engine.js). Mise en page « paysage » : tout sur un écran de
+   Chromebook (1366 × 640 utiles) — à gauche la mascotte et ce que propose la
+   page ; à droite Documentation au-dessus de Liens utiles, chacune remplie
+   de tuiles (titre, bouton court, description). Les deux cartes ont le même
+   nombre de colonnes (--exp-cols, posé par le moteur). L'en-tête compact
+   est dans style.css. */
 
-/* ── Explorations: two visually separate cards, rows kept aligned across
-   both via CSS subgrid — row N sizes to the taller of the two items at
-   that position, in either card, regardless of text length on either side.
-   The row count is dynamic (depends on how many items load), so JS sets
-   grid-template-rows on .explorations-grid itself (see loadExplorations()). ── */
-.explorations-grid {
+.explorations-layout {
+  --exp-cols: 2;
+  flex: 1;
+  min-height: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 270px minmax(0, 1fr);
+  /* Une seule rangée, de la hauteur disponible (page-fit). */
+  grid-template-rows: minmax(0, 1fr);
   gap: 24px;
 }
 
+.explorations-side,
 .explorations-card {
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-row: 1 / -1;
-  row-gap: 20px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   background: var(--color-surface);
   border: 1px solid rgba(17, 36, 72, 0.08);
   border-radius: var(--radius);
   box-shadow: var(--color-shadow);
-  padding: 22px 18px;
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
-/* Same light lift as .section-card on vocabulary/resources — explorations
-   cards were missing it entirely. */
+/* Même léger soulèvement que .section-card sur les autres pages. */
 html[data-pointer='fine'] .explorations-card:hover,
-.explorations-card:focus-visible {
+html[data-pointer='fine'] .explorations-side:hover {
   transform: translateY(-3px);
   border-color: rgba(29, 179, 212, 0.3);
-  outline: none;
   box-shadow: 0 24px 50px rgba(17, 36, 72, 0.16);
+}
+
+/* ----- À gauche : la mascotte et l'introduction ----- */
+.explorations-side {
+  justify-content: center;
+  gap: 18px;
+  padding: 22px 18px;
+}
+
+.explorations-illustration {
+  display: block;
+  width: 100%;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 240px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.explorations-side p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  text-align: center;
+}
+
+/* ----- À droite : les deux cartes. Chacune prend la hauteur de ses tuiles,
+   la place qui reste se partage entre les deux (pas de vide en bas). ----- */
+.explorations-main {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.explorations-card {
+  --exp-desc-size: 0.82rem;
+  flex: 1 1 auto;
+  gap: 10px;
+  padding: 16px 18px;
 }
 
 .explorations-card h3 {
   margin: 0;
   font-size: 1.1rem;
   text-align: center;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(17, 36, 72, 0.07);
 }
 
-.exp-cell {
+.exp-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--exp-cols), minmax(0, 1fr));
+  /* Rangées égales, jamais plus basses que leur contenu. */
+  grid-auto-rows: 1fr;
+  gap: 10px;
+}
+
+/* Une tuile : titre en gras et bouton court sur la même ligne, la
+   description dessous ; le contenu centré dans la hauteur de la tuile. */
+.exp-tile {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  align-self: start;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(var(--color-current-rgb), 0.07);
+  border: 1px solid rgba(var(--color-current-rgb), 0.25);
 }
 
-.exp-cell p {
+.exp-tile-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.exp-tile-head strong {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+.exp-tile .resource-button {
+  flex: none;
+  width: auto;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.exp-tile p {
   margin: 0;
   color: var(--color-muted);
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: var(--exp-desc-size);
+  line-height: 1.45;
+  text-align: left;
 }
 
-/* Outbound-link cue, added only on "Liens utiles" buttons via JS */
+.exp-empty {
+  margin: 0;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* Lien vers un site extérieur : flèche ajoutée par le moteur. */
 .exp-external-icon {
-  margin-left: 4px;
+  margin-left: 2px;
+}
+
+/* Écran moins haut que le Chromebook (1366 × 600) : cartes et tuiles un peu
+   plus serrées, pour que quatre documents tiennent encore. */
+@media (max-height: 630px) {
+  .explorations-card {
+    gap: 8px;
+    padding: 12px 16px;
+  }
+
+  .exp-tile {
+    gap: 4px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 899px) {
+  .explorations-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 20px;
+  }
+
+  .explorations-illustration {
+    max-height: 160px;
+  }
+
+  .exp-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
 }

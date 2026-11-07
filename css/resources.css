@@ -20,17 +20,16 @@
   padding: 18px 20px;
 }
 
-/* Titres de carte à gauche, comme sur Practice. */
 .resources-layout .section-card h3 {
   margin: 0;
-  text-align: left;
+  text-align: center;
 }
 
 .resource-desc {
   margin: 0;
   font-size: 0.82rem;
   line-height: 1.5;
-  text-align: left;
+  text-align: center;
 }
 
 /* Les liens de la page : tous au format des boutons pleins du site
@@ -60,12 +59,13 @@
 
 /* Contour dans le ton foncé du chapitre, rempli quand il est choisi (comme
    les choix de mode de Vocabulary). */
+/* Rectangle aux coins arrondis, comme les autres boutons de la page. */
 .video-tab {
-  width: 36px;
-  height: 36px;
-  padding: 0;
+  min-width: 60px;
+  height: 38px;
+  padding: 0 16px;
   border: 1.5px solid var(--color-current-dark);
-  border-radius: 50%;
+  border-radius: 12px;
   background: #ffffff;
   color: var(--color-current-darker);
   font: inherit;

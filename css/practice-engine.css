@@ -43,17 +43,21 @@
        mascotte n'est jamais une icône : 110 px de haut sur le Chromebook
        (86 px sur un écran moins haut, voir plus bas). */
     .practice-card-head {
+      --head-h: 110px;
       display: flex;
       align-items: center;
       gap: 16px;
-      min-height: 110px;
+      min-height: var(--head-h);
     }
 
+    /* Titre centré dans la place laissée à gauche de l'illustration. */
     .exercise-card .practice-card-head h3,
     .interactive-card .practice-card-head h3 {
+      flex: 1;
       margin: 0;
       font-size: 1.35rem;
-      text-align: left;
+      line-height: 1.25;
+      text-align: center;
     }
 
     /* Exercises : le titre et la légende des couleurs à gauche de la
@@ -65,6 +69,18 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      /* « Exercises » à la même hauteur qu'« Interactive exercises »,
+         centré verticalement à côté de son image : la légende suit dessous. */
+      align-self: flex-start;
+      padding-top: calc((var(--head-h) - 1.35rem * 1.25) / 2);
+    }
+
+    .practice-card-title h3 {
+      flex: none;
+    }
+
+    .practice-card-title .status-legend {
+      justify-content: center;
     }
 
     .practice-card-head img {
@@ -78,7 +94,7 @@
        pour que la page ne défile pas. */
     @media (max-height: 630px) {
       .practice-card-head {
-        min-height: 86px;
+        --head-h: 86px;
       }
 
       .practice-card-head img {

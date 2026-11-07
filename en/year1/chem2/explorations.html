@@ -16,42 +16,55 @@
   <link rel='stylesheet' href='../../../css/explorations.css'>
 </head>
 
-<body>
-  <main class='page subject-chemistry'>
-    <header>
-      <div class="header-top">
-        <div>
-          <span class='topic-chip'>Explorations • English immersion • Year 1</span>
-          <h1>Chemistry 2 : Mixtures and pure substances</h1>
-          <p>Explore des documents et des ressources interactives pour approfondir les thèmes du chapitre.</p>
-        </div>
-        <img src="../../../assets/Friends-exp-2.webp" alt="Explorations illustration" />
+<body class='subject-chemistry'>
+  <main class='page page-wide page-fit subject-chemistry'>
+    <!-- En-tête compact (page-bar, style.css) : pastille du mode d'emploi
+         (#help-modal) à gauche, chapitre centré, navigation à droite. La
+         page est en français, comme ses documents : « Mode d'emploi ». -->
+    <header class='page-bar'>
+      <button type='button' class='page-bar-pill' data-help-open aria-haspopup='dialog'>Mode d'emploi</button>
+      <div class='page-bar-title'>
+        <span class='topic-chip'>Explorations • English immersion • Year 1</span>
+        <h1>Chemistry 2 : Mixtures and pure substances</h1>
       </div>
+      <nav class='chapter-nav page-bar-nav' id='chapter-nav' aria-label='Chapter navigation'></nav>
     </header>
 
-    <section>
-      <div class="explorations-grid" id="explorations-grid">
-        <div class="explorations-card doc-card">
+    <!-- À gauche la mascotte et ce que propose la page ; à droite deux
+         cartes l'une sous l'autre, remplies de tuiles par
+         explorations-engine.js (titre, bouton court, description). Les deux
+         cartes ont le même nombre de colonnes : les tuiles restent alignées. -->
+    <section class='explorations-layout' id='explorations-grid'>
+      <aside class='explorations-side'>
+        <img class='explorations-illustration' src='../../../assets/Friends-exp-2.webp' alt='Explorations illustration' />
+        <p>Explore des documents et des ressources interactives pour approfondir les thèmes du chapitre.</p>
+      </aside>
+      <div class='explorations-main'>
+        <article class='explorations-card doc-card'>
           <h3>Documentation</h3>
-        </div>
-        <div class="explorations-card links-card">
+          <div class='exp-grid'></div>
+        </article>
+        <article class='explorations-card links-card'>
           <h3>Liens utiles</h3>
-        </div>
+          <div class='exp-grid'></div>
+        </article>
       </div>
     </section>
-
-    <section class='note-box'>
-      <h3>Comment utiliser cette page ?</h3>
-      <p><strong>En bref :</strong> choisis un document dans la colonne de gauche pour découvrir une lecture
-        hors-programme, ou utilise les liens utiles de droite pour accéder à des ressources externes.</p>
-      <p class="note-box-tip"><strong>Conseil du prof :</strong> cette page est facultative — explore-la si un sujet
-        t'intéresse particulièrement.</p>
-    </section>
-
-    <section style="margin-top: 38px">
-      <nav class="chapter-nav" id="chapter-nav" aria-label="Chapter navigation"></nav>
-    </section>
   </main>
+
+  <div class='modal-overlay' id='help-modal'>
+    <div class='modal-card help-modal-card' data-page-zoom role='dialog' aria-modal='true' aria-labelledby='help-modal-title'>
+      <button type='button' class='modal-close' data-help-close aria-label='Fermer'>×</button>
+      <section class='note-box'>
+        <h3 id='help-modal-title'>Comment utiliser cette page ?</h3>
+        <p><strong>En bref :</strong> chaque document de la carte Documentation est une lecture hors programme, à
+          ouvrir en PDF avec « Lire » ; les liens utiles mènent à des ressources externes (sites, simulations,
+          expériences à refaire), à ouvrir avec « Ouvrir ». Lis la description de chaque tuile pour choisir.</p>
+        <p class="note-box-tip"><strong>Conseil du prof :</strong> cette page est facultative — explore-la si un sujet
+          t'intéresse particulièrement.</p>
+      </section>
+    </div>
+  </div>
 
   <script src='../../../js/rich-text.js'></script>
   <script src='../../../js/chapter-nav.js'></script>
