@@ -237,7 +237,8 @@
       outline: none;
     }
 
-    /* « Exercise 12 » au-dessus de la case : même infobulle que les mots à
+    /* « Exercise 12 » sous la case (au-dessus, elle couvrait les boutons de
+       la ligne du niveau) : même infobulle que les mots à
        traduire des textes à trous (.fitb-gloss::after) et que le verrou du
        bouton FR, dans la couleur du chapitre. À la souris et au clavier
        seulement : au doigt, toucher la case ouvre l'exercice. */
@@ -245,7 +246,7 @@
       content: attr(data-tooltip);
       position: absolute;
       left: 50%;
-      bottom: 100%;
+      top: 100%;
       transform: translateX(-50%) translateY(-2px);
       background: var(--color-current);
       color: var(--color-current-text, #ffffff);
@@ -266,7 +267,7 @@
     html[data-pointer='fine'] .level-cell:hover::after,
     .level-cell:focus-visible::after {
       opacity: 1;
-      transform: translateX(-50%) translateY(-6px);
+      transform: translateX(-50%) translateY(2px);
     }
 
     /* Case de jeu : un repère, pas un bouton (Play ouvre le jeu). */
