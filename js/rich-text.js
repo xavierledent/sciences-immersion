@@ -330,18 +330,89 @@
      Posée ici pour couvrir toutes les pages d'un coup, dans le flux normal
      du document — rien d'urgent à signaler, contrairement au bandeau hors
      ligne, donc pas de position fixe. */
+  /* Le nom de l'auteur ouvre un courriel. L'adresse n'apparaît en clair ni
+     dans le HTML servi ni dans le code (assemblée ici, au clic) : les robots
+     qui moissonnent les adresses lisent le texte des pages et du dépôt, pas
+     le résultat d'un script. */
+  const AUTHOR_MAIL = ['xavier.ledent', 'cnddinant.be'];
+
   function ensureCopyrightNotice() {
     if (document.getElementById('copyright-notice')) return;
-    const notice = document.createElement('footer');
+    // Accueil : une ligne en bas de la page (#site-footer), à côté des
+    // crédits photos. Autres pages refaites (main.page-wide) : dernière
+    // ligne de la page, en petit, pour ne pas la faire défiler. Ailleurs, en
+    // fin de document.
+    const slot = document.getElementById('site-footer');
+    const widePage = slot ? null : document.querySelector('main.page-wide');
+    const notice = document.createElement(slot ? 'span' : 'footer');
+    if (widePage) notice.className = 'page-wide-footer';
     notice.id = 'copyright-notice';
-    notice.textContent = '© 2026 Xavier Ledent — Tous droits réservés.';
-    document.body.appendChild(notice);
+    const author = document.createElement('a');
+    author.href = '#';
+    author.target = '_blank';
+    author.rel = 'noopener';
+    author.textContent = 'Xavier Ledent';
+    author.title = 'Écrire à Xavier Ledent';
+    // Adresse posée au moment du clic, avant que le lien ne s'ouvre (dans
+    // un nouvel onglet) : jamais présente dans la page avant.
+    author.addEventListener('click', () => {
+      author.href = 'mailto:' + AUTHOR_MAIL.join('@');
+    });
+    notice.append('© 2026 ', author, ' — Tous droits réservés.');
+    if (slot) slot.prepend(notice);
+    else if (widePage) widePage.appendChild(notice);
+    else document.body.appendChild(notice);
   }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', ensureCopyrightNotice);
   } else {
     ensureCopyrightNotice();
+  }
+
+  /* ===== Pages refaites : agrandies sur un grand écran =====
+     Les pages de la mise en page « paysage » (main.page-wide) se dessinent
+     pour le Chromebook à 100 % : 1366 × 640 px utiles dans le navigateur.
+     Avec plus de place, tout grandit d'un même facteur (zoom CSS) au lieu
+     d'ajouter du vide, comme les labos (fitToScreen dans lab-engine.js).
+     Le facteur est le plus petit des deux rapports, largeur et hauteur :
+     ce qui tenait sans défiler sur le Chromebook tient encore. Jamais de
+     réduction : en dessous du Chromebook, la page garde sa taille.
+     Grandissent avec la page : les fenêtres marquées data-page-zoom (fenêtre
+     des sections de l'accueil, modes d'emploi), sinon minuscules à côté
+     d'elle. Les fenêtres d'exercice et de jeu occupent déjà l'écran : non.
+     L'accueil (.home-layout) a la hauteur exacte de la fenêtre : sous zoom,
+     cette hauteur est recalculée en px (innerHeight / zoom), une unité que
+     le zoom multiplie à coup sûr. */
+  const PAGE_BASE_W = 1366;
+  const PAGE_BASE_H = 640;
+  const PAGE_ZOOM_MAX = 1.8;
+
+  function fitWidePage() {
+    const main = document.querySelector('main.page-wide');
+    if (!main) return;
+    const ratio = Math.min(window.innerWidth / PAGE_BASE_W, window.innerHeight / PAGE_BASE_H, PAGE_ZOOM_MAX);
+    // Petit écart toléré : un écran à peine plus grand ne mérite pas un
+    // texte agrandi de 2 %.
+    const zoom = ratio > 1.04 ? ratio : 1;
+    const value = zoom === 1 ? '' : zoom.toFixed(3);
+    main.style.zoom = value;
+    document.querySelectorAll('[data-page-zoom]').forEach(el => { el.style.zoom = value; });
+    if (main.classList.contains('home-layout')) {
+      main.style.height = zoom === 1 ? '' : (window.innerHeight / zoom).toFixed(2) + 'px';
+    }
+  }
+
+  let fitWideTimer = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(fitWideTimer);
+    fitWideTimer = setTimeout(fitWidePage, 120);
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fitWidePage);
+  } else {
+    fitWidePage();
   }
 
   /* ===== Contraste élevé =====

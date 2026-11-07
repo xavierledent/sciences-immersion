@@ -173,6 +173,13 @@ scripts chargés.
   un aperçu proche.** Les calculs de place se font sur le Chromebook à 100 %
   (1366 × 768). Pas de défilement dans les modales, tactile au même niveau que
   la souris, tailles mesurées en JS plutôt que supposées.
+- **Pages refaites (`main.page-wide`) : même principe que les labos.**
+  Dessinées pour 1366 × 640 utiles, sans défilement ; sur un plus grand
+  écran, `fitWidePage` ([rich-text.js](js/rich-text.js)) les agrandit d'un
+  même facteur (zoom CSS, jamais de réduction), avec les petites fenêtres
+  marquées `data-page-zoom` (pas les fenêtres d'exercice ou de jeu, déjà
+  plein écran). Pas de marge haute sur `main` (elle traverse `body` et fait
+  défiler) : du padding.
 - **Labos en plein écran : toute la place est utilisée.** Un labo se dessine
   pour le Chromebook à 100 % ; avec plus de place (plein écran sur un grand
   écran), le moteur agrandit d'un même facteur le corps et le pied du labo

@@ -45,20 +45,24 @@
     const style = document.createElement('style');
     style.id = 'welcome-back-style';
     style.textContent = `
-      /* Centré sur la même colonne que main.page (max-width 1080px) sans en
-         être l'enfant : le bandeau doit rester au tout haut de la page, avant
-         même le header, pas dans le flux de <main>. */
+      /* Flottant en haut de l'écran, centré, par-dessus l'en-tête : l'accueil
+         tient exactement dans la hauteur de l'écran, un bandeau dans le flux
+         le ferait défiler pendant ses quelques secondes. Il ne couvre que
+         l'en-tête (titre, pastilles), jamais les choix de langue, d'année
+         ou de chapitre ; le wrap laisse passer les clics à côté de la carte. */
       #welcome-back-wrap {
-        max-width: 1080px;
-        margin: 0 auto;
-        padding: 28px 22px 0;
+        position: fixed;
+        top: 12px;
+        left: 0;
+        right: 0;
+        z-index: 997;
+        padding: 0 16px;
         display: flex;
         justify-content: center;
+        pointer-events: none;
       }
       /* Une vraie carte, pas une pastille : à cette taille d'image, le
-         bandeau doit se voir tout de suite, sans jamais couvrir ce qu'il y a
-         en dessous — sélecteurs de langue/année/chapitre compris, restés
-         dans le flux normal de la page. */
+         bandeau doit se voir tout de suite. */
       #welcome-back-banner {
         display: flex;
         align-items: center;
@@ -72,6 +76,7 @@
         opacity: 0;
         transform: translateY(-36px);
         transition: opacity 550ms ease-out, transform 550ms ease-out;
+        pointer-events: auto;
       }
       #welcome-back-banner.is-visible {
         opacity: 1;

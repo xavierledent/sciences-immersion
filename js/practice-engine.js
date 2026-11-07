@@ -45,10 +45,10 @@
         selfAssessGotIt: 'Got it',
         yourAnswer: 'Your answer',
         answerEmpty: 'You have not written an answer yet.',
-        chapterOverviewTitle: 'My progress',
         exercisesRemaining: n => `${n} exercise${n !== 1 ? 's' : ''} to turn green. Keep going !`,
-        overviewAllTab: 'All',
-        continueLevel: 'Continue this level',
+        levelAllGreen: 'Every exercise is green. Well done !',
+        reviewRemaining: n => `Review the ${n} remaining`,
+        exerciseStepAria: n => `Exercise ${n}`,
         levelActionStart: 'Start',
         levelActionContinue: 'Continue',
         levelBadgeStart: 'Start here',
@@ -144,10 +144,10 @@
         selfAssessGotIt: 'Gelukt',
         yourAnswer: 'Jouw antwoord',
         answerEmpty: 'Je hebt nog geen antwoord geschreven.',
-        chapterOverviewTitle: 'Mijn voortgang',
         exercisesRemaining: n => `Nog ${n} oefening${n !== 1 ? 'en' : ''} om groen te worden. Ga zo door !`,
-        overviewAllTab: 'Alle',
-        continueLevel: 'Dit level verderzetten',
+        levelAllGreen: 'Alle oefeningen zijn groen. Goed gedaan !',
+        reviewRemaining: n => `Herhaal de ${n} resterende`,
+        exerciseStepAria: n => `Oefening ${n}`,
         levelActionStart: 'Beginnen',
         levelActionContinue: 'Doorgaan',
         levelBadgeStart: 'Begin hier',
@@ -212,12 +212,7 @@
     const practicePath = './practice.json';
     const interactivePath = './interactive.json';
     const levelButtonsContainer = document.getElementById('level-buttons');
-    const overviewModal = document.getElementById('overview-modal');
-    const overviewModalClose = document.getElementById('overview-modal-close');
-    const overviewModalTitle = document.getElementById('overview-modal-title');
-    const overviewTabs = document.getElementById('overview-tabs');
     const overviewMascotImg = document.getElementById('overview-mascot');
-    const overviewPanels = document.getElementById('overview-panels');
     const modalOverlay = document.getElementById('exercise-modal');
     const modalClose = document.getElementById('exercise-modal-close');
     const modalTitle = document.getElementById('exercise-modal-title');
@@ -274,8 +269,8 @@
     let currentView = 'en';
     let currentSubQuestion = 0;
 
-    // Revision mode: a session tied to one specific level, started from the
-    // overview's "Continue this level" button. Never persisted (localStorage
+    // Revision mode: a session tied to one specific level, started from its
+    // "Review the N remaining" button on the page. Never persisted (localStorage
     // or otherwise) — closing the exercise modal or reopening a level from
     // scratch always resets it, deliberately, rather than restoring a session
     // the student may not remember starting.
@@ -505,8 +500,8 @@
       openModalAtExercise(levelKey, 1);
     }
 
-    // Shared by the level buttons (always exercise 1) and the chapter overview
-    // grid (any exercise the student picks) — same setup either way, only the
+    // Shared by the level buttons (always exercise 1) and the exercise grid
+    // of each level (any exercise the student picks) — same setup either way, only the
     // starting exercise differs.
     function openModalAtExercise(levelKey, exerciseId) {
       flushAnswerSave();
@@ -531,11 +526,8 @@
     function closeModal() {
       flushAnswerSave();
       // Closing via the × normally relies on display:none forcing the browser
-      // to auto-exit fullscreen — true when this card entered fullscreen the
-      // usual way. But the My progress → exercise swap (see carryFullscreenTo)
-      // hands fullscreen to this card via a direct element-to-element request,
-      // and closing right after apparently doesn't trigger that same implicit
-      // exit reliably. Exiting explicitly here covers both paths.
+      // to auto-exit fullscreen, which isn't reliable in every case. Exiting
+      // explicitly here is the safe path.
       if (document.fullscreenElement && modalOverlay.contains(document.fullscreenElement)) {
         document.exitFullscreen().catch(() => {});
       }
@@ -543,9 +535,10 @@
       // Never persisted — closing the modal always drops the revision session
       // rather than risk restoring one silently on the next open.
       revisionActive = false;
-      // Le badge/"Continue" doit refléter ce qui vient de se passer sans
-      // attendre un rechargement de page.
+      // Le badge/"Continue", les pastilles et les compteurs doivent refléter
+      // ce qui vient de se passer sans attendre un rechargement de page.
       applyLevelResumeUI();
+      renderLevelBoard();
     }
 
     function updateModalHeader() {
@@ -1200,11 +1193,12 @@
       if (level) el.classList.add('self-assess-' + level);
     }
 
-    /* ===== Chapter overview modal =====
-       Rebuilt from scratch on every open rather than kept in sync incrementally:
-       self-assessment can change while the exercise modal is open behind it, so
-       a fresh read from storage.js is simpler and cheaper than tracking
-       invalidation. */
+    /* ===== Tableau des niveaux (page Practice) =====
+       Les 20 exercices de chaque niveau sont visibles sur la page, avec leur
+       état (ce que montrait la fenêtre « My progress », supprimée). Reconstruit
+       à chaque fermeture de la fenêtre d'exercice plutôt que tenu à jour pas à
+       pas : l'autoévaluation change pendant que la fenêtre est ouverte, une
+       relecture complète depuis storage.js est plus simple et ne coûte rien. */
     const OVERVIEW_LEVELS = ['level1', 'level2', 'level3'];
 
     // "Remaining" = not green: red + amber + never-attempted, exactly what the
@@ -1220,8 +1214,8 @@
 
     // "Attempted" = any self-assessment at all, red/amber/green alike — only
     // never-opened (grey) is excluded. Deliberately not "mastered" (green):
-    // the header mascot rewards time spent working through a level, not the
-    // score, which the counter text and pastille colours already carry.
+    // the mascot rewards time spent working through the chapter, not the
+    // score, which the counters and pastille colours already carry.
     function countOverviewAttempted(levelKey) {
       const exerciseList = practiceData[levelKey] || [];
       let attempted = 0;
@@ -1231,20 +1225,14 @@
       return attempted;
     }
 
-    // Same %-attempted idea as countOverviewAttempted, but for the whole
-    // chapter at once when the "All" tab is active: one combined fraction
-    // across all three levels rather than one level's own.
-    function overviewAttemptedPercent(levelKey) {
-      if (levelKey === 'all') {
-        let total = 0, attempted = 0;
-        OVERVIEW_LEVELS.forEach(key => {
-          total += (practiceData[key] || []).length;
-          attempted += countOverviewAttempted(key);
-        });
-        return total > 0 ? (attempted / total) * 100 : 0;
-      }
-      const exerciseList = practiceData[levelKey] || [];
-      return exerciseList.length > 0 ? (countOverviewAttempted(levelKey) / exerciseList.length) * 100 : 0;
+    // Share of the whole chapter (all three levels together) already tried.
+    function chapterAttemptedPercent() {
+      let total = 0, attempted = 0;
+      OVERVIEW_LEVELS.forEach(key => {
+        total += (practiceData[key] || []).length;
+        attempted += countOverviewAttempted(key);
+      });
+      return total > 0 ? (attempted / total) * 100 : 0;
     }
 
     function getOverviewMascotSrc(percent) {
@@ -1254,60 +1242,12 @@
       return '../../../assets/Friends palier 1.webp';
     }
 
-    function updateOverviewMascot(levelKey) {
+    function updateOverviewMascot() {
       if (!overviewMascotImg) return;
-      overviewMascotImg.src = getOverviewMascotSrc(overviewAttemptedPercent(levelKey));
-    }
-
-    // Leaving the overview modal for the exercise modal closes the former
-    // (display:none on its overlay), which forces the browser to exit
-    // fullscreen if that's what was fullscreen — jumping the student back
-    // into a small window even though they never asked to leave fullscreen.
-    // Captured before closing, applied to the new modal's own card after.
-    function isCardFullscreen(overlayEl) {
-      const card = overlayEl.querySelector('.modal-card');
-      return !!card && document.fullscreenElement === card;
-    }
-
-    // Returns the request's promise (always resolving, errors swallowed) so
-    // callers can wait for it before hiding the overview modal: requestFullscreen
-    // is asynchronous, and hiding — display:none — the still-current fullscreen
-    // element while the new request hasn't landed yet interrupts that request
-    // instead of letting it complete.
-    function carryFullscreenTo(overlayEl) {
-      const card = overlayEl.querySelector('.modal-card');
-      if (card && card.requestFullscreen) return card.requestFullscreen().catch(() => {});
-      return Promise.resolve();
-    }
-
-    function buildOverviewGrid(levelKey) {
-      const exerciseList = practiceData[levelKey] || [];
-      const grid = document.createElement('div');
-      grid.className = 'overview-grid';
-      exerciseList.forEach(item => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'exercise-step';
-        btn.textContent = String(item.id);
-        // Always coloured, unlike the pager's dot: grey by default (never
-        // attempted) rather than shown only once started, since the whole
-        // point here is to see every exercise's status at a glance.
-        applySelfAssessClass(btn, worstSelfAssess(levelKey, item));
-        btn.addEventListener('click', () => {
-          const wasFullscreen = isCardFullscreen(overviewModal);
-          revisionActive = false;
-          openModalAtExercise(levelKey, item.id);
-          if (wasFullscreen) {
-            // Only hide the overview modal once the new card has actually
-            // become fullscreen — see carryFullscreenTo.
-            carryFullscreenTo(modalOverlay).then(closeOverviewModal);
-          } else {
-            closeOverviewModal();
-          }
-        });
-        grid.appendChild(btn);
-      });
-      return grid;
+      const src = getOverviewMascotSrc(chapterAttemptedPercent());
+      // Comparé à l'attribut, pas à .src (URL absolue) : sinon l'image serait
+      // rechargée à chaque fermeture de la fenêtre d'exercice.
+      if (overviewMascotImg.getAttribute('src') !== src) overviewMascotImg.src = src;
     }
 
     // Every non-green exercise id in a level, in exercise order — the revision
@@ -1321,8 +1261,8 @@
     function startRevisionMode(levelKey) {
       const queue = getNonGreenExerciseIds(levelKey);
       // The button that calls this is hidden whenever the level has nothing
-      // left (see buildOverviewLevelSection), so an empty queue here would
-      // mean the count changed between render and click — safe to just no-op.
+      // left (see renderLevelBoard), so an empty queue here would mean the
+      // count changed between render and click — safe to just no-op.
       if (queue.length === 0) return;
       revisionActive = true;
       revisionLevel = levelKey;
@@ -1331,101 +1271,54 @@
       openModalAtExercise(levelKey, queue[0]);
     }
 
-    // One level's counter + grid, used both as its own tab panel and as one
-    // stacked section inside the "All" tab.
-    function buildOverviewLevelSection(levelKey) {
-      const section = document.createElement('div');
-      section.className = 'overview-level-section';
-
-      const remaining = countOverviewRemaining(levelKey);
-      const counter = document.createElement('p');
-      counter.className = 'overview-counter';
-      counter.textContent = L.exercisesRemaining(remaining);
-      section.appendChild(counter);
-
-      section.appendChild(buildOverviewGrid(levelKey));
-
-      // Below the grid, like the classic exercise modals' own action button
-      // sits below their content. Hidden rather than disabled when the level
-      // is already fully green: per the site's convention elsewhere, an
-      // action with nothing left to do disappears instead of sitting there
-      // inert.
-      if (remaining > 0) {
-        const continueBtn = document.createElement('button');
-        continueBtn.type = 'button';
-        continueBtn.className = 'overview-continue-btn';
-        continueBtn.textContent = L.continueLevel;
-        continueBtn.addEventListener('click', () => {
-          const wasFullscreen = isCardFullscreen(overviewModal);
-          startRevisionMode(levelKey);
-          // See buildOverviewGrid's click handler and carryFullscreenTo for
-          // why the overview modal only closes once the swap has landed.
-          if (wasFullscreen) {
-            carryFullscreenTo(modalOverlay).then(closeOverviewModal);
-          } else {
-            closeOverviewModal();
-          }
-        });
-        section.appendChild(continueBtn);
-      }
-
-      return section;
-    }
-
-    function renderOverviewModal() {
-      overviewTabs.innerHTML = '';
-      overviewPanels.innerHTML = '';
-
-      OVERVIEW_LEVELS.forEach(levelKey => {
-        const tabBtn = document.createElement('button');
-        tabBtn.type = 'button';
-        tabBtn.className = 'toggle-button overview-tab';
-        tabBtn.textContent = getLevelLabel(levelKey);
-        tabBtn.dataset.level = levelKey;
-        if (levelKey === currentLevel) tabBtn.classList.add('active');
-        overviewTabs.appendChild(tabBtn);
-
-        const panel = document.createElement('div');
-        panel.className = 'overview-panel';
-        panel.dataset.level = levelKey;
-        if (levelKey === currentLevel) panel.classList.add('is-active');
-
-        panel.appendChild(buildOverviewLevelSection(levelKey));
-        overviewPanels.appendChild(panel);
+    function buildLevelGrid(levelKey, grid) {
+      grid.innerHTML = '';
+      (practiceData[levelKey] || []).forEach(item => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'exercise-step';
+        btn.textContent = String(item.id);
+        btn.dataset.exercise = String(item.id);
+        btn.setAttribute('aria-label', L.exerciseStepAria(item.id));
+        // Always coloured, unlike the pager's dot: grey by default (never
+        // attempted) rather than shown only once started, since the whole
+        // point here is to see every exercise's status at a glance.
+        applySelfAssessClass(btn, worstSelfAssess(levelKey, item));
+        grid.appendChild(btn);
       });
+    }
 
-      // "All" shows every level stacked in one panel, each under its own
-      // heading — bare numbers alone would be ambiguous since every level
-      // restarts its own numbering at 1.
-      const allTabBtn = document.createElement('button');
-      allTabBtn.type = 'button';
-      allTabBtn.className = 'toggle-button overview-tab';
-      allTabBtn.textContent = L.overviewAllTab;
-      allTabBtn.dataset.level = 'all';
-      overviewTabs.appendChild(allTabBtn);
-
-      const allPanel = document.createElement('div');
-      allPanel.className = 'overview-panel';
-      allPanel.dataset.level = 'all';
+    // Compteur, grille et bouton de révision de chaque niveau, puis la
+    // mascotte. Les boutons « Start / Continue » restent dans le HTML :
+    // applyLevelResumeUI s'en occupe.
+    function renderLevelBoard() {
       OVERVIEW_LEVELS.forEach(levelKey => {
-        const heading = document.createElement('h3');
-        heading.className = 'overview-level-heading';
-        heading.textContent = getLevelLabel(levelKey);
-        allPanel.appendChild(heading);
-        allPanel.appendChild(buildOverviewLevelSection(levelKey));
+        const row = levelButtonsContainer.querySelector(`[data-level-row="${levelKey}"]`);
+        if (!row) return;
+        const exerciseList = practiceData[levelKey] || [];
+        const remaining = countOverviewRemaining(levelKey);
+
+        const counter = row.querySelector('.level-counter');
+        if (counter) {
+          counter.textContent = exerciseList.length === 0 ? ''
+            : remaining > 0 ? L.exercisesRemaining(remaining) : L.levelAllGreen;
+          counter.hidden = exerciseList.length === 0;
+        }
+
+        const grid = row.querySelector('.level-grid');
+        if (grid) buildLevelGrid(levelKey, grid);
+
+        // Rien à réviser tant que le niveau n'a pas été commencé (« Start »
+        // suffit), ni une fois tout vert : le bouton disparaît plutôt que de
+        // rester inerte, comme ailleurs sur le site.
+        const reviewBtn = row.querySelector('.level-review-btn');
+        if (reviewBtn) {
+          const show = remaining > 0 && countOverviewAttempted(levelKey) > 0;
+          reviewBtn.hidden = !show;
+          reviewBtn.textContent = show ? L.reviewRemaining(remaining) : '';
+        }
       });
-      overviewPanels.appendChild(allPanel);
-    }
-
-    function openOverviewModal() {
-      overviewModalTitle.textContent = L.chapterOverviewTitle;
-      renderOverviewModal();
-      updateOverviewMascot(currentLevel);
-      overviewModal.classList.add('modal-open');
-    }
-
-    function closeOverviewModal() {
-      overviewModal.classList.remove('modal-open');
+      updateOverviewMascot();
     }
 
     function writeStoredAnswer(levelKey, exerciseId, subIndex, value) {
@@ -1718,8 +1611,8 @@
         if (levelBtn) {
           // Le niveau mis en avant rouvre l'exercice exact où l'élève
           // s'était arrêté ("Continue"), pas le système de révision (qui
-          // saute les exercices déjà verts) — celui-ci reste exclusivement
-          // accessible depuis "My progress".
+          // saute les exercices déjà verts) — celui-ci a son propre bouton,
+          // « Review the N remaining », sur la ligne du niveau.
           const savedExercise = levelBtn.classList.contains('is-current-level')
             ? readLastExercise(levelBtn.dataset.level)
             : null;
@@ -1731,19 +1624,18 @@
           }
           return;
         }
-        const overviewBtn = event.target.closest('button[data-action="chapter-overview"]');
-        if (overviewBtn) openOverviewModal();
-      });
-
-      overviewModalClose.addEventListener('click', closeOverviewModal);
-
-      overviewTabs.addEventListener('click', event => {
-        const tabBtn = event.target.closest('.overview-tab');
-        if (!tabBtn) return;
-        const levelKey = tabBtn.dataset.level;
-        overviewTabs.querySelectorAll('.overview-tab').forEach(b => b.classList.toggle('active', b === tabBtn));
-        overviewPanels.querySelectorAll('.overview-panel').forEach(p => p.classList.toggle('is-active', p.dataset.level === levelKey));
-        updateOverviewMascot(levelKey);
+        const reviewBtn = event.target.closest('button[data-review]');
+        if (reviewBtn) {
+          startRevisionMode(reviewBtn.dataset.review);
+          return;
+        }
+        // Une pastille de la grille : l'exercice choisi, hors révision.
+        const step = event.target.closest('.level-grid .exercise-step');
+        if (step) {
+          const row = step.closest('[data-level-row]');
+          revisionActive = false;
+          openModalAtExercise(row.dataset.levelRow, parseInt(step.dataset.exercise, 10));
+        }
       });
 
       // Fermeture par la croix uniquement : un appui à côté de la modale est vite
@@ -1803,7 +1695,6 @@
          On appelle les fonctions de fermeture existantes plutôt que de retirer
          la classe, pour ne pas court-circuiter leur nettoyage. */
       const MODAL_CLOSERS = [
-        ['overview-modal', closeOverviewModal],
         ['exercise-modal', closeModal],
         ['interactive-modal', closeInteractiveModal],
         ['qcm-modal', closeQCMModal],
@@ -2469,6 +2360,7 @@
       bindEvents();
       initAnswerBox();
       applyLevelResumeUI();
+      renderLevelBoard();
       openFromDeepLink();
     }
 
