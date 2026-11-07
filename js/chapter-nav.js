@@ -9,13 +9,17 @@
   };
   const L = LABELS[pageLang];
 
+  // Ordre du parcours : apprendre les mots, s'entraîner, faire les labos ;
+  // les ressources servent tout du long ; l'autoévaluation est la finalité ;
+  // les explorations, pour qui a tout fait. Même ordre que la fenêtre des
+  // sections sur l'accueil (index.html, siteData.sections).
   const SECTIONS = [
     { file: 'vocabulary.html', label: L.vocabulary },
     { file: 'practice.html', label: L.practice },
-    { file: 'resources.html', label: L.resources },
-    { file: 'explorations.html', label: L.explorations },
     { file: 'laboratory.html', label: L.lab },
-    { file: 'assessment.html', label: L.assessment }
+    { file: 'resources.html', label: L.resources },
+    { file: 'assessment.html', label: L.assessment },
+    { file: 'explorations.html', label: L.explorations }
   ];
 
   // Existence of a section is stable for the whole visit, so the HEAD check is
@@ -55,7 +59,9 @@
 
     SECTIONS.filter(s => inPageBar || s.file !== currentFile).forEach(section => {
       const link = document.createElement('a');
-      link.className = 'chapter-nav-btn';
+      // Assessment en ardoise, comme dans la fenêtre des sections de
+      // l'accueil et sur sa page : la finalité du parcours (style.css).
+      link.className = section.file === 'assessment.html' ? 'chapter-nav-btn is-assessment' : 'chapter-nav-btn';
       link.href = './' + section.file;
       link.textContent = section.label;
       container.appendChild(link);

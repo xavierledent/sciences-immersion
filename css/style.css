@@ -1395,6 +1395,22 @@ main.page.page-wide {
   border-color: var(--color-current);
 }
 
+/* Assessment en ardoise, la finalité du parcours : même couleur que sa
+   carte dans la fenêtre des sections de l'accueil (assessment.css) et que
+   sa page. Contour et texte ardoise, rempli au survol et sur sa page. */
+.chapter-nav-btn.is-assessment {
+  border-color: var(--color-slate);
+  color: var(--color-slate);
+}
+
+html[data-pointer='fine'] .chapter-nav-btn.is-assessment:hover,
+.chapter-nav-btn.is-assessment:focus-visible,
+.chapter-nav-btn.is-assessment.is-current {
+  background: var(--color-slate);
+  border-color: var(--color-slate);
+  color: #ffffff;
+}
+
 /* Mode d'emploi de la page, ouvert par la pastille « How it works ». */
 .help-modal-card {
   width: min(92vw, 760px);

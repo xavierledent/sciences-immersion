@@ -112,6 +112,7 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Titre ou couleur d'un chapitre | [tools/chapters.json](tools/chapters.json), puis régénérer (la liste de l'accueil en sort aussi) |
 | Accueil, choix de la langue et de l'année | [index.html](index.html), [welcome-back.js](js/welcome-back.js) |
 | Labos virtuels : modale, étapes, verrous, rapport | [lab-engine.js](js/lab-engine.js), [lab-engine.css](css/lab-engine.css) ; un labo : `lab-<nom>.{js,css}` dans `js/` et `css/` (simulation), `<chapitre>/lab-<nom>.<en\|nl>.js` (textes) |
+| Page Lab : trois places par chapitre, progression de l'élève sur chaque carte | [generate-laboratory.js](tools/generate-laboratory.js) (cartes), [lab-page.js](js/lab-page.js) (barre d'étapes, état, bouton, taille des textes), [lab-engine.css](css/lab-engine.css) (début du fichier) |
 | Créer un labo (démarche, conventions) | skill `creer-labo` |
 | Idées de labos à venir, avec l'avis de l'enseignant | [docs/idees-labos.md](docs/idees-labos.md) |
 | Ajouter un labo à un chapitre | sa ligne dans `labs.en` et `labs.nl` de [tools/chapters.json](tools/chapters.json) (même `id`), sa simulation `lab-<nom>.{js,css}` dans `js/` et `css/`, ses textes `lab-<nom>.<langue>.js` dans chaque filière, puis régénérer |

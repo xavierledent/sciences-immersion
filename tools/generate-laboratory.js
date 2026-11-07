@@ -10,20 +10,34 @@
 // showing that the lab is still in development; the home page says the same
 // on the chapter's card.
 //
+// The page always shows three places, one per lab (three labs per chapter
+// in the end): a place without a lab yet shows a dashed "still in
+// development" tile. Each lab tile carries a four-step bar under a short
+// "Your progress" label (filled cells = steps reached, from the student's
+// saved progress, by js/lab-page.js); each cell names its step in a tooltip.
+//
 // Usage: node tools/generate-laboratory.js [--check]
 
 const { generatePage } = require('./lib/render');
 
+const SLOTS = 3;
+
 const LABELS = {
   en: {
     enter: 'Enter the lab',
+    notStarted: 'Not started yet',
+    progress: 'Your progress',
+    steps: ['Predict', 'Experiment', 'Conclude', 'Check'],
     soonTitle: 'Lab is still in development.',
-    soonText: 'Come back soon: a virtual lab for this chapter is on its way. In the meantime, the other sections of the chapter are waiting for you.'
+    soonText: 'Come back soon: a new virtual lab is on its way.'
   },
   nl: {
     enter: 'Naar het labo',
+    notStarted: 'Nog niet begonnen',
+    progress: 'Jouw voortgang',
+    steps: ['Voorspellen', 'Experimenteren', 'Besluiten', 'Controleren'],
     soonTitle: 'Labo is nog in ontwikkeling.',
-    soonText: 'Kom snel terug: er komt een virtueel labo voor dit hoofdstuk. Ondertussen wachten de andere onderdelen van het hoofdstuk op je.'
+    soonText: 'Kom snel terug: er is een nieuw virtueel labo onderweg.'
   }
 };
 
@@ -37,19 +51,24 @@ function labsOf(chapter, lang) {
 
 function labContent(labs, lang) {
   const L = LABELS[lang];
-  if (!labs.length) {
-    return `      <article class='lab-tile lab-tile-soon'>\n` +
-      `        <h2 class='lab-tile-title'>${L.soonTitle}</h2>\n` +
-      `        <p class='lab-tile-text'>${L.soonText}</p>\n` +
-      `      </article>`;
-  }
-  return labs.map(lab =>
-    `      <article class='lab-tile'>\n` +
+  const soon =
+    `      <article class='lab-tile lab-tile-soon'>\n` +
+    `        <h2 class='lab-tile-title'>${L.soonTitle}</h2>\n` +
+    `        <p class='lab-tile-text'>${L.soonText}</p>\n` +
+    `      </article>`;
+  const tiles = labs.slice(0, SLOTS).map(lab =>
+    `      <article class='lab-tile' data-lab-tile='${lab.id}'>\n` +
     `        <h2 class='lab-tile-title'>${escapeHtml(lab.title)}</h2>\n` +
     `        <p class='lab-tile-question'>${escapeHtml(lab.question)}</p>\n` +
     `        <p class='lab-tile-text'>${escapeHtml(lab.text)}</p>\n` +
+    `        <div class='lab-tile-progress'>\n` +
+    `          <span class='lab-tile-progress-label'>${L.progress}</span>\n` +
+    `          <div class='lab-tile-steps' role='img' aria-label='${L.notStarted}'>${L.steps.map((name, i) => `<span data-tooltip='${i + 1}. ${name}'></span>`).join('')}</div>\n` +
+    `        </div>\n` +
     `        <button type='button' class='resource-button lab-tile-btn' data-lab-open='${lab.id}'>${L.enter}</button>\n` +
-    `      </article>`).join('\n');
+    `      </article>`);
+  while (tiles.length < SLOTS) tiles.push(soon);
+  return tiles.join('\n');
 }
 
 function render(template, chapter, lang) {

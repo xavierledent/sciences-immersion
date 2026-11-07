@@ -20,64 +20,82 @@
 </head>
 
 <body class='subject-bio'>
-  <main class='page subject-bio'>
-    <header>
-      <div class="header-top">
-        <div>
-          <span class='topic-chip'>Virtueel labo • Nederlandse immersie • Jaar 1</span>
-          <h1>Bio 1 : Ecosystemen</h1>
-          <p>Word een echte labowetenschapper: kies een onderzoek, voer de proeven zelf uit en trek je eigen besluiten.</p>
-        </div>
-        <img src="../../../assets/Friends-lab-2.webp" alt="" class="lab-header-img" />
+  <main class='page page-wide page-fit subject-bio'>
+    <!-- En-tête compact (page-bar, style.css) : pastille du mode d'emploi
+         (#help-modal) à gauche, chapitre centré, navigation à droite. -->
+    <header class='page-bar'>
+      <button type='button' class='page-bar-pill' data-help-open aria-haspopup='dialog'>Hoe werkt het?</button>
+      <div class='page-bar-title'>
+        <span class='topic-chip'>Virtueel labo • Nederlandse immersie • Jaar 1</span>
+        <h1>Bio 1 : Ecosystemen</h1>
       </div>
+      <nav class='chapter-nav page-bar-nav' id='chapter-nav' aria-label='Hoofdstuknavigatie'></nav>
     </header>
 
-    <section class='lab-grid' aria-label='Onderzoeken'>
-      <article class='lab-tile'>
+    <!-- À gauche la mascotte et la démarche commune aux labos ; à droite
+         trois places, une par labo (générées : tools/generate-laboratory.js ;
+         progression de l'élève : js/lab-page.js). -->
+    <section class='lab-layout'>
+      <aside class='lab-side'>
+        <img class='lab-illustration' src='../../../assets/Friends-lab-2.webp' alt='' />
+        <h2 class='lab-method-title'>Hoe werkt een labo?</h2>
+        <ol class='lab-method'>
+          <li><span class='lab-method-num'>1</span><strong>Voorspellen</strong><span>Lees de vraag en stel een hypothese op.</span></li>
+          <li><span class='lab-method-num'>2</span><strong>Experimenteren</strong><span>Voer het experiment uit, noteer wat je waarneemt.</span></li>
+          <li><span class='lab-method-num'>3</span><strong>Besluiten</strong><span>Gebruik je resultaten om de vraag te beantwoorden.</span></li>
+          <li><span class='lab-method-num'>4</span><strong>Controleren</strong><span>Bekijk de verbetering, druk je labverslag af.</span></li>
+        </ol>
+      </aside>
+      <section class='lab-slots' aria-label='Onderzoeken'>
+      <article class='lab-tile' data-lab-tile='decomposition'>
         <h2 class='lab-tile-title'>De verdwijnende bladeren</h2>
         <p class='lab-tile-question'>Waardoor verdwijnen dode bladeren?</p>
         <p class='lab-tile-text'>Elke herfst vallen er tonnen bladeren in het bos. Een jaar later zijn ze verdwenen. Zet zelf een experiment op om te ontdekken waarom.</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Jouw voortgang</span>
+          <div class='lab-tile-steps' role='img' aria-label='Nog niet begonnen'><span data-tooltip='1. Voorspellen'></span><span data-tooltip='2. Experimenteren'></span><span data-tooltip='3. Besluiten'></span><span data-tooltip='4. Controleren'></span></div>
+        </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='decomposition'>Naar het labo</button>
       </article>
-      <article class='lab-tile'>
+      <article class='lab-tile' data-lab-tile='zones'>
         <h2 class='lab-tile-title'>Twee ecosystemen onder de loep</h2>
         <p class='lab-tile-question'>Hebben abiotische factoren en andere levende wezens een invloed op levende wezens?</p>
         <p class='lab-tile-text'>Meet de temperatuur, het licht en de vochtigheid van twee zones, en determineer en tel dan de levende wezens in een telkader. Je histogram zal het verschil tonen. Zoek met een loep hoe levende wezens een interactie hebben.</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Jouw voortgang</span>
+          <div class='lab-tile-steps' role='img' aria-label='Nog niet begonnen'><span data-tooltip='1. Voorspellen'></span><span data-tooltip='2. Experimenteren'></span><span data-tooltip='3. Besluiten'></span><span data-tooltip='4. Controleren'></span></div>
+        </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='zones'>Naar het labo</button>
       </article>
-      <article class='lab-tile'>
+      <article class='lab-tile' data-lab-tile='foodweb'>
         <h2 class='lab-tile-title'>Trek aan één draad</h2>
         <p class='lab-tile-question'>Wat gebeurt er met een bos als één soort verdwijnt?</p>
         <p class='lab-tile-text'>Bouw met ecologische kaarten het voedselweb van een Belgisch bos. Dan slaat een ziekte toe: laat het model 10 jaar lopen, en vergelijk met één enkele voedselketen.</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Jouw voortgang</span>
+          <div class='lab-tile-steps' role='img' aria-label='Nog niet begonnen'><span data-tooltip='1. Voorspellen'></span><span data-tooltip='2. Experimenteren'></span><span data-tooltip='3. Besluiten'></span><span data-tooltip='4. Controleren'></span></div>
+        </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='foodweb'>Naar het labo</button>
       </article>
-    </section>
-
-    <section class='lab-method-box'>
-      <h2 class='lab-method-title'>Hoe werkt een labo?</h2>
-      <ol class='lab-method'>
-        <li><span class='lab-method-num'>1</span><strong>Voorspellen</strong><span>Lees de vraag en stel een hypothese op: wat denk jij dat het antwoord is?</span></li>
-        <li><span class='lab-method-num'>2</span><strong>Experimenteren</strong><span>Voer het experiment uit en noteer wat je waarneemt.</span></li>
-        <li><span class='lab-method-num'>3</span><strong>Besluiten</strong><span>Gebruik je resultaten om de vraag te beantwoorden.</span></li>
-        <li><span class='lab-method-num'>4</span><strong>Controleren</strong><span>Bekijk de verbetering en druk je labverslag af.</span></li>
-      </ol>
-    </section>
-
-    <section class='note-box'>
-      <h3>Hoe werkt deze pagina?</h3>
-      <p><strong>Kort gezegd:</strong> een echt labo, op het scherm. Elk labo begint met een vraag. Stel een
-        hypothese op, voer dan zelf het experiment uit en kijk goed wat er gebeurt. Noteer je waarnemingen in je
-        schrift — het labo doet het niet voor jou. Gebruik op het einde je resultaten om de vraag te beantwoorden.
-        Onderlijnde woorden kun je in het Frans vertalen.</p>
-      <p class="note-box-tip"><strong>Tip van de leerkracht:</strong> een wetenschapper vertrouwt op resultaten,
-        niet op een eerste indruk. Komen je resultaten niet overeen met je hypothese? Dat is geen fout. Ook een
-        verkeerde hypothese leert je iets.</p>
-    </section>
-
-    <section style="margin-top: 38px">
-      <nav class="chapter-nav" id="chapter-nav" aria-label="Hoofdstuknavigatie"></nav>
+      </section>
     </section>
   </main>
+
+  <div class='modal-overlay' id='help-modal'>
+    <div class='modal-card help-modal-card' data-page-zoom role='dialog' aria-modal='true' aria-labelledby='help-modal-title'>
+      <button type='button' class='modal-close' data-help-close aria-label='Sluiten'>×</button>
+      <section class='note-box'>
+        <h3 id='help-modal-title'>Hoe werkt deze pagina?</h3>
+        <p><strong>Kort gezegd:</strong> een echt labo, op het scherm. Elk labo begint met een vraag. Stel een
+          hypothese op, voer dan zelf het experiment uit en kijk goed wat er gebeurt. Noteer je waarnemingen in je
+          schrift — het labo doet het niet voor jou. Gebruik op het einde je resultaten om de vraag te beantwoorden.
+          Onderlijnde woorden kun je in het Frans vertalen.</p>
+        <p class="note-box-tip"><strong>Tip van de leerkracht:</strong> een wetenschapper vertrouwt op resultaten,
+          niet op een eerste indruk. Komen je resultaten niet overeen met je hypothese? Dat is geen fout. Ook een
+          verkeerde hypothese leert je iets.</p>
+      </section>
+    </div>
+  </div>
 
   <script src='../../../js/rich-text.js'></script>
   <script src='../../../js/lab-engine.js'></script>
@@ -88,6 +106,7 @@
   <script src='lab-foodweb.nl.js'></script>
   <script src='../../../js/lab-foodweb.js'></script>
   <script src='../../../js/chapter-nav.js'></script>
+  <script src='../../../js/lab-page.js'></script>
 </body>
 
 </html>

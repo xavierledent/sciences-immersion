@@ -70,7 +70,7 @@
           <div>
             <p class="home-placeholder-title">Choisis ta langue, puis ton année.</p>
             <p>Tes chapitres apparaîtront ici. Touche un chapitre pour voir ses sections : vocabulaire, exercices,
-              ressources, explorations, labo et autoévaluation.</p>
+              labo, ressources, autoévaluation et explorations.</p>
           </div>
         </section>
 
@@ -168,12 +168,18 @@
           { code: 'year1', label_en: 'Year 1', label_nl: 'Jaar 1', folder_en: 'year1', folder_nl: 'jaar1', subtitle_en: '1ère secondaire', subtitle_nl: '1e secundair' },
           { code: 'year2', label_en: 'Year 2', label_nl: 'Jaar 2', folder_en: 'year2', folder_nl: 'jaar2', subtitle_en: '2ème secondaire', subtitle_nl: '2e secundair' }
         ],
+        // Ordre du parcours (même ordre que la barre de navigation,
+        // js/chapter-nav.js) : Vocabulary, Practice, Lab, Resources (servent
+        // tout du long), Assessment (la finalité), Explorations (pour qui a
+        // tout fait). Dans la fenêtre en 2 colonnes : Assessment et
+        // Explorations sur la dernière rangée.
         sections: [
           { key: 'vocabulary', label_en: 'Vocabulary', label_nl: 'Woordenschat' },
           { key: 'practice', label_en: 'Practice', label_nl: 'Oefeningen' },
+          { key: 'laboratory', label_en: 'Lab', label_nl: 'Labo' },
           { key: 'resources', label_en: 'Resources', label_nl: 'Hulpbronnen' },
-          { key: 'explorations', label_en: 'Explorations', label_nl: 'Exploraties' },
-          { key: 'laboratory', label_en: 'Lab', label_nl: 'Labo' }
+          { key: 'assessment', label_en: 'Assessment', label_nl: 'Zelfevaluatie', assessment: true },
+          { key: 'explorations', label_en: 'Explorations', label_nl: 'Exploraties' }
         ]
       };
 
@@ -360,30 +366,18 @@
         modalChip.textContent = getSubjectLabel(chapter.folder);
 
         modalOptions.innerHTML = '';
+        // Assessment garde sa couleur ardoise fixe (assessment.css), qui la
+        // marque comme la finalité. Chaque chapitre a son assessment.html
+        // (`hasAssessment` gardé : un futur chapitre sans autoévaluation
+        // n'aurait pas de bouton vers une page absente).
         siteData.sections.forEach(section => {
+          if (section.assessment && !chapter.hasAssessment) return;
           const card = document.createElement('a');
-          card.className = 'section-card';
+          card.className = section.assessment ? 'section-card assessment-card' : 'section-card';
           card.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/${section.key}.html`;
-          const label = getSectionLabel(section);
-          card.textContent = label;
+          card.textContent = getSectionLabel(section);
           modalOptions.appendChild(card);
         });
-
-        // Assessment: the 6th and last card of the grid, after Lab. With Lab
-        // the chapter has 5 sections (an odd number): Assessment joins the
-        // grid to make an even 2 x 3, where its own fixed slate colour (see
-        // assessment.css) is what marks it as the final step — it used to
-        // sit on its own row below a dashed divider. Every chapter has its
-        // own assessment.html (`hasAssessment` kept as a flag rather than
-        // removed, so a future chapter added without one yet doesn't get a
-        // button pointing at a missing page).
-        if (chapter.hasAssessment) {
-          const assessmentCard = document.createElement('a');
-          assessmentCard.className = 'section-card assessment-card';
-          assessmentCard.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/assessment.html`;
-          assessmentCard.textContent = selectedLanguage.code === 'nl' ? 'Zelfevaluatie' : 'Assessment';
-          modalOptions.appendChild(assessmentCard);
-        }
 
         modalOverlay.classList.add('modal-open');
         // Empêche la page de défiler derrière la modale, comme sur les pages
