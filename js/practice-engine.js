@@ -47,6 +47,7 @@
         answerEmpty: 'You have not written an answer yet.',
         greenCount: (n, total) => `${n} / ${total} green`,
         toImprove: n => `${n} to improve`,
+        exerciseCellLabel: n => `Exercise ${n}`,
         gamesDone: (n, total) => `${n} / ${total} done`,
         levelActionStart: 'Start',
         levelActionContinue: 'Continue',
@@ -146,6 +147,7 @@
         answerEmpty: 'Je hebt nog geen antwoord geschreven.',
         greenCount: (n, total) => `${n} / ${total} groen`,
         toImprove: n => `${n} te verbeteren`,
+        exerciseCellLabel: n => `Oefening ${n}`,
         gamesDone: (n, total) => `${n} / ${total} klaar`,
         levelActionStart: 'Beginnen',
         levelActionContinue: 'Doorgaan',
@@ -1279,14 +1281,19 @@
     }
 
     // Barre du niveau : une case par exercice, de la couleur de son état
-    // (mêmes couleurs que les points de la pagination). Pas de numéros : ils
-    // sont dans la fenêtre d'exercice.
+    // (mêmes couleurs que les points de la pagination). Pas de numéro
+    // affiché, mais chaque case est un bouton qui ouvre son exercice ; le
+    // numéro est dans l'infobulle et pour les lecteurs d'écran.
     function buildLevelBar(levelKey, bar) {
       bar.innerHTML = '';
       (practiceData[levelKey] || []).forEach(item => {
-        const cell = document.createElement('span');
+        const cell = document.createElement('button');
+        cell.type = 'button';
         const state = exerciseState(levelKey, item);
         cell.className = 'level-cell' + (typeof state === 'number' ? ' self-assess-' + state : state === 'answered' ? ' is-answered' : '');
+        cell.dataset.exercise = String(item.id);
+        cell.setAttribute('aria-label', L.exerciseCellLabel(item.id));
+        cell.title = L.exerciseCellLabel(item.id);
         bar.appendChild(cell);
       });
     }
@@ -1669,7 +1676,17 @@
           return;
         }
         const reviewBtn = event.target.closest('button[data-review]');
-        if (reviewBtn) startRevisionMode(reviewBtn.dataset.review);
+        if (reviewBtn) {
+          startRevisionMode(reviewBtn.dataset.review);
+          return;
+        }
+        // Une case de la barre : cet exercice-là, hors révision.
+        const cell = event.target.closest('.level-cell');
+        if (cell) {
+          const row = cell.closest('[data-level-row]');
+          revisionActive = false;
+          openModalAtExercise(row.dataset.levelRow, parseInt(cell.dataset.exercise, 10));
+        }
       });
 
       // Fermeture par la croix uniquement : un appui à côté de la modale est vite

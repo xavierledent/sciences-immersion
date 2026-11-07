@@ -197,18 +197,53 @@
       gap: 4px;
     }
 
-    .level-cell,
+    /* Case d'exercice : un vrai bouton qui ouvre cet exercice. Le bouton
+       fait 26 px de haut (zone à toucher), la case dessinée 14 px
+       (::before) : la barre reste fine, le doigt a de la marge. */
+    .level-cell {
+      position: relative;
+      height: 26px;
+      padding: 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .level-cell::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 6px;
+      height: 14px;
+      border-radius: 4px;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1.5px rgba(19, 36, 61, 0.22);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .level-cell.is-answered::before { background: rgba(19, 36, 61, 0.45); box-shadow: none; }
+    .level-cell.self-assess-1::before { background: var(--color-rose); box-shadow: none; }
+    .level-cell.self-assess-2::before { background: #d99a2b; box-shadow: none; }
+    .level-cell.self-assess-3::before { background: var(--color-emerald); box-shadow: none; }
+
+    html[data-pointer='fine'] .level-cell:hover::before,
+    .level-cell:focus-visible::before {
+      box-shadow: 0 0 0 2px var(--color-current-darker);
+      transform: scaleY(1.2);
+    }
+
+    .level-cell:focus-visible {
+      outline: none;
+    }
+
+    /* Case de jeu : un repère, pas un bouton (Play ouvre le jeu). */
     .game-cell {
       height: 14px;
       border-radius: 4px;
       background: #ffffff;
       box-shadow: inset 0 0 0 1.5px rgba(19, 36, 61, 0.22);
     }
-
-    .level-cell.is-answered { background: rgba(19, 36, 61, 0.45); box-shadow: none; }
-    .level-cell.self-assess-1 { background: var(--color-rose); box-shadow: none; }
-    .level-cell.self-assess-2 { background: #d99a2b; box-shadow: none; }
-    .level-cell.self-assess-3 { background: var(--color-emerald); box-shadow: none; }
 
     .game-row {
       gap: 14px;
@@ -326,7 +361,9 @@
        site donc n'entre en conflit avec aucun pattern existant. */
     .is-current-level {
       background: var(--color-current-dark);
-      box-shadow: 0 0 0 4px rgba(var(--color-current-rgb), 0.25), 0 16px 30px rgba(var(--color-current-rgb), 0.3);
+      /* Ombre courte : une ombre longue débordait sur la barre de cases
+         juste en dessous et l'assombrissait. */
+      box-shadow: 0 0 0 4px rgba(var(--color-current-rgb), 0.25), 0 4px 10px rgba(var(--color-current-rgb), 0.18);
     }
 
     html[data-pointer='fine'] .is-current-level:hover,
