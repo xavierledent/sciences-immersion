@@ -1237,7 +1237,14 @@
     }, true);
 
     /* ===== Ouverture / fermeture ===== */
-    async function openLab() {
+    /* Ouverture : « Enter the lab » (reprise proposée), une case d'étape de
+       la carte (data-lab-step : le labo s'ouvre à cette étape, sans poser
+       la question de la reprise ; une étape pas encore accessible, ou Check
+       avant la correction, laisse le labo là où l'élève s'était arrêté), ou
+       un lien direct (?lab=). */
+    async function openLab(event) {
+      const trigger = event && event.currentTarget;
+      const wantedStep = trigger && trigger.dataset ? parseInt(trigger.dataset.labStep, 10) || 0 : 0;
       // Plein écran d'office : toute la hauteur du Chromebook pour le labo.
       // Demandé tout de suite, pendant le geste qui ouvre le labo (sans
       // geste, lien direct, le navigateur refuse : le labo s'ajuste alors
@@ -1264,7 +1271,11 @@
       startClock();
       render();
       fitToScreen();
-      if (resumed) resumed = await askResume();
+      if (wantedStep) {
+        const reachable = wantedStep < 4 ? canReach(wantedStep) : lab.state.checked;
+        if (reachable && wantedStep !== lab.state.step) lab.goToStep(wantedStep);
+        if (!def.isStarted() && !lab.state.checked && !isBriefed()) showBriefing();
+      } else if (resumed) resumed = await askResume();
       else if (!def.isStarted() && !lab.state.checked && !isBriefed()) showBriefing();
       track('lab_opened', { resumed, step: lab.state.step });
       saveResult(lab.state.step, null); // « commencé » pour le tableau de bord

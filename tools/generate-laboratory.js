@@ -14,7 +14,9 @@
 // in the end): a place without a lab yet shows a dashed "still in
 // development" tile. Each lab tile carries a four-step bar under a short
 // "Your progress" label (filled cells = steps reached, from the student's
-// saved progress, by js/lab-page.js); each cell names its step in a tooltip.
+// saved progress, by js/lab-page.js); each cell names its step in a tooltip
+// and is a button that opens the lab at that step (lab-engine.js, as far as
+// the student may go: the locks still apply).
 //
 // Usage: node tools/generate-laboratory.js [--check]
 
@@ -63,7 +65,7 @@ function labContent(labs, lang) {
     `        <p class='lab-tile-text'>${escapeHtml(lab.text)}</p>\n` +
     `        <div class='lab-tile-progress'>\n` +
     `          <span class='lab-tile-progress-label'>${L.progress}</span>\n` +
-    `          <div class='lab-tile-steps' role='img' aria-label='${L.notStarted}'>${L.steps.map((name, i) => `<span data-tooltip='${i + 1}. ${name}'></span>`).join('')}</div>\n` +
+    `          <div class='lab-tile-steps' role='group' aria-label='${L.notStarted}'>${L.steps.map((name, i) => `<button type='button' class='lab-tile-step' data-lab-open='${lab.id}' data-lab-step='${i + 1}' data-tooltip='${i + 1}. ${name}' aria-label='${i + 1}. ${name}'></button>`).join('')}</div>\n` +
     `        </div>\n` +
     `        <button type='button' class='resource-button lab-tile-btn' data-lab-open='${lab.id}'>${L.enter}</button>\n` +
     `      </article>`);

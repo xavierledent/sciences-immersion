@@ -48,6 +48,7 @@
         greenCount: (n, total) => `${n} / ${total} green`,
         toImprove: n => `${n} to improve`,
         exerciseCellLabel: n => `Exercise ${n}`,
+        gameCellLabel: n => `Game ${n}`,
         gamesDone: (n, total) => `${n} / ${total} done`,
         levelActionStart: 'Start',
         levelActionContinue: 'Continue',
@@ -148,6 +149,7 @@
         greenCount: (n, total) => `${n} / ${total} groen`,
         toImprove: n => `${n} te verbeteren`,
         exerciseCellLabel: n => `Oefening ${n}`,
+        gameCellLabel: n => `Spel ${n}`,
         gamesDone: (n, total) => `${n} / ${total} klaar`,
         levelActionStart: 'Beginnen',
         levelActionContinue: 'Doorgaan',
@@ -1410,13 +1412,19 @@
         const counter = interactiveButtonsContainer.querySelector(`[data-game-counter="${type}"]`);
         let done = 0;
         if (bar) bar.innerHTML = '';
-        list.forEach(game => {
+        list.forEach((game, index) => {
           let isDone = false;
           try { isDone = GAME_DONE[type](game); } catch (e) { isDone = false; }
           if (isDone) done++;
           if (bar) {
-            const cell = document.createElement('span');
-            cell.className = 'game-cell' + (isDone ? ' is-done' : '');
+            // Comme une case d'exercice : un bouton qui ouvre ce jeu-là,
+            // son numéro dans l'infobulle et pour les lecteurs d'écran.
+            const cell = document.createElement('button');
+            cell.type = 'button';
+            cell.className = 'level-cell game-cell' + (isDone ? ' is-done' : '');
+            cell.dataset.gameIndex = String(index);
+            cell.setAttribute('aria-label', L.gameCellLabel(index + 1));
+            cell.dataset.tooltip = L.gameCellLabel(index + 1);
             bar.appendChild(cell);
           }
         });
@@ -1951,6 +1959,13 @@
       });
 
       interactiveButtonsContainer.addEventListener('click', event => {
+        // Une case de la barre : ce jeu-là.
+        const gameCell = event.target.closest('.game-cell');
+        if (gameCell) {
+          const bar = gameCell.closest('[data-game-bar]');
+          if (bar) openGameAt(bar.dataset.gameBar, parseInt(gameCell.dataset.gameIndex, 10));
+          return;
+        }
         const button = event.target.closest('button[data-type]');
         if (!button) return;
         const typeKey = button.dataset.type;
@@ -2450,7 +2465,12 @@
       const typeKey = Object.keys(GAME_PAGINATION).find(t =>
         (interactiveData[t] || []).some(g => g.id === gameId));
       if (!typeKey) return;
-      const index = interactiveData[typeKey].findIndex(g => g.id === gameId);
+      openGameAt(typeKey, interactiveData[typeKey].findIndex(g => g.id === gameId));
+    }
+
+    // Le jeu n° index (à partir de 0) d'une famille : le bouton Play, puis
+    // son onglet dans la fenêtre du jeu.
+    function openGameAt(typeKey, index) {
       const card = interactiveButtonsContainer.querySelector(`button[data-type="${typeKey}"]`);
       if (!card) return;
       card.click();

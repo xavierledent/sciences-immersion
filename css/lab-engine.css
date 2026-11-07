@@ -182,23 +182,53 @@ html[data-pointer='fine'] .lab-tile:not(.lab-tile-soon):hover,
   gap: 4px;
 }
 
-.lab-tile-steps span {
-  height: 10px;
-  border-radius: 5px;
-  background: #ffffff;
-  box-shadow: inset 0 0 0 1.5px rgba(var(--color-current-rgb), 0.45);
+/* Case d'étape : comme une case d'exercice de la page Practice
+   (.level-cell) : un bouton de 26 px de haut (zone à toucher), la case
+   dessinée de 14 px (::before), l'infobulle de l'étape (::after). */
+.lab-tile-step {
+  position: relative;
+  height: 26px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
-.lab-tile-steps span.is-reached {
+.lab-tile-step::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;
+  height: 14px;
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1.5px rgba(19, 36, 61, 0.22);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.lab-tile-step.is-reached::before {
   background: var(--color-current);
   box-shadow: none;
 }
 
-.lab-tile-steps span {
-  position: relative;
+/* Étape pas encore atteinte : rien à ouvrir (js/lab-page.js), l'infobulle
+   dit seulement son nom. */
+.lab-tile-step:not(.is-reached) {
+  cursor: default;
 }
 
-.lab-tile-steps span::after {
+html[data-pointer='fine'] .lab-tile-step.is-reached:hover::before,
+.lab-tile-step.is-reached:focus-visible::before {
+  box-shadow: 0 0 0 2px var(--color-current-darker);
+  transform: scaleY(1.2);
+}
+
+.lab-tile-step:focus-visible {
+  outline: none;
+}
+
+.lab-tile-step::after {
   content: attr(data-tooltip);
   position: absolute;
   left: 50%;
@@ -206,6 +236,7 @@ html[data-pointer='fine'] .lab-tile:not(.lab-tile-soon):hover,
   transform: translateX(-50%) translateY(2px);
   background: var(--color-current);
   color: var(--color-current-text, #ffffff);
+  font-family: var(--font-family, 'Poppins', sans-serif);
   font-size: 0.8rem;
   font-weight: 500;
   line-height: 1.4;
@@ -219,9 +250,10 @@ html[data-pointer='fine'] .lab-tile:not(.lab-tile-soon):hover,
   z-index: 20;
 }
 
-html[data-pointer='fine'] .lab-tile-steps span:hover::after {
+html[data-pointer='fine'] .lab-tile-step:hover::after,
+.lab-tile-step:focus-visible::after {
   opacity: 1;
-  transform: translateX(-50%) translateY(-4px);
+  transform: translateX(-50%) translateY(-2px);
 }
 
 .lab-tile-btn {

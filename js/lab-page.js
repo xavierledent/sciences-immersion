@@ -2,12 +2,16 @@
 
    Chaque carte de labo (data-lab-tile="<id>", générée par
    tools/generate-laboratory.js) porte une barre de quatre étapes (Predict,
-   Experiment, Conclude, Check) : une case pleine par étape atteinte, toutes
-   pleines après un Check ; l'état est dit en toutes lettres aux lecteurs
+   Experiment, Conclude, Check) : une case pleine par étape atteinte dans le
+   travail en cours, toutes pleines après un Check, toutes vides après
+   « Restart » ; une case pleine est un bouton qui ouvre le labo à cette
+   étape (lab-engine.js, data-lab-step), une case vide ne fait rien ; l'état est dit en toutes lettres aux lecteurs
    d'écran (aria-label). Le bouton dit toujours « Enter the lab » : c'est le
-   labo qui propose ensuite de continuer ou de recommencer. Tout vient
-   du résultat que lab-engine.js enregistre pour le tableau de bord (famille
-   labResult : { maxStep, checks, best }), lu ici sans rien écrire.
+   labo qui propose ensuite de continuer ou de recommencer. Les cases
+   viennent du travail en cours que lab-engine.js enregistre pour la reprise
+   (famille labProgress : frame { step, reached, checked }) ; le meilleur
+   score, de son résultat pour le tableau de bord (labResult, qui survit à
+   « Restart »). Lus ici sans rien écrire.
 
    Rafraîchi au chargement (SiteStorage.ready : le travail de l'élève vient de
    Firestore) et chaque fois qu'un labo se referme.
@@ -37,22 +41,44 @@
     try { return JSON.parse(SiteStorage.data.get('labResult', [id]) || 'null'); } catch (e) { return null; }
   }
 
+  function readFrame(id) {
+    if (!window.SiteStorage) return null;
+    try {
+      const saved = JSON.parse(SiteStorage.data.get('labProgress', [id]) || 'null');
+      return saved && saved.frame ? saved.frame : null;
+    } catch (e) { return null; }
+  }
+
   function render() {
     document.querySelectorAll('[data-lab-tile]').forEach(tile => {
-      const r = readResult(tile.dataset.labTile);
-      const checked = !!(r && r.checks > 0);
-      const reached = checked ? 4 : (r ? Math.min(4, Math.max(1, r.maxStep || 1)) : 0);
-      tile.querySelectorAll('.lab-tile-steps span').forEach((cell, i) => {
+      const id = tile.dataset.labTile;
+      const frame = readFrame(id);
+      const checked = !!(frame && frame.checked);
+      const reached = checked ? 4 : (frame ? Math.min(3, Math.max(1, frame.reached || frame.step || 1)) : 0);
+      tile.querySelectorAll('.lab-tile-step').forEach((cell, i) => {
         cell.classList.toggle('is-reached', i < reached);
+        if (i < reached) cell.removeAttribute('aria-disabled');
+        else cell.setAttribute('aria-disabled', 'true');
       });
       const bar = tile.querySelector('.lab-tile-steps');
       if (bar) {
+        const r = checked ? readResult(id) : null;
         bar.setAttribute('aria-label', checked
-          ? L.checked(r.best ? r.best.score : 0, r.best ? r.best.total : 0)
-          : (r ? L.inProgress(reached) : L.notStarted));
+          ? L.checked(r && r.best ? r.best.score : 0, r && r.best ? r.best.total : 0)
+          : (frame ? L.inProgress(reached) : L.notStarted));
       }
     });
   }
+
+  // Une case vide (étape pas encore atteinte) ne fait rien : arrêtée avant
+  // d'atteindre le bouton, qui ouvrirait le labo (lab-engine.js).
+  document.addEventListener('click', event => {
+    const cell = event.target.closest && event.target.closest('.lab-tile-step');
+    if (cell && !cell.classList.contains('is-reached')) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }, true);
 
   // 0,6 au plus bas : sur le Chromebook, rien ne descend sous 0,78 ; plus
   // bas, c'est un écran plus petit que prévu, et la page doit y tenir
