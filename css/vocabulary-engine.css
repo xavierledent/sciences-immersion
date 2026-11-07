@@ -692,3 +692,141 @@ body.high-contrast .flashcard-badge {
     flex: 1;
   }
 }
+
+/* ===== Mise en page « paysage » (page Vocabulary) =====
+   Tout sur un écran de Chromebook (1366 × 640 utiles) : à gauche une carte
+   avec l'illustration, les modes, « Only words to review » et les mots sus ;
+   à droite la flashcard, au centre du regard, qui prend toute la hauteur
+   restante, et ses boutons. L'en-tête compact est dans style.css
+   (.page-bar). Placé en fin de fichier : ces règles passent devant celles,
+   plus anciennes, de la page empilée. */
+/* Les deux colonnes l'une contre l'autre, centrées ensemble : la place
+   libre va aux bords de l'écran, pas entre la carte de gauche et la
+   flashcard (même choix que sur l'accueil). */
+.vocab-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 290px minmax(0, 720px);
+  /* Une seule rangée, de la hauteur disponible : les colonnes ne la
+     dépassent pas, leur contenu s'y ajuste. */
+  grid-template-rows: minmax(0, 1fr);
+  justify-content: center;
+  gap: 32px;
+}
+
+.vocab-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+  border-radius: 28px;
+  background: var(--color-surface);
+  box-shadow: var(--color-shadow);
+  border: 1px solid rgba(17, 36, 72, 0.08);
+}
+
+/* 150 px de haut si la place le permet ; rapetisse d'abord quand l'écran
+   est moins haut (la carte de gauche ne doit pas déborder). */
+.vocab-illustration {
+  flex: 0 1 150px;
+  min-height: 70px;
+  height: 150px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.vocab-side .mode-panel {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin: 4px 0 0;
+}
+
+.vocab-side .mode-button {
+  width: 100%;
+  padding: 12px 18px;
+}
+
+.vocab-side .review-only {
+  margin: 0;
+}
+
+/* Les mots sus en bas de la carte de gauche. */
+.vocab-side .known-progress {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+  font-size: 0.88rem;
+}
+
+.vocab-side .known-track {
+  width: 100px;
+}
+
+/* La carte prend toute la hauteur laissée par ses boutons : elle grandit
+   avec l'écran au lieu de laisser du vide. */
+.vocab-layout .card-container {
+  margin-top: 0;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vocab-layout .flashcard-wrapper {
+  flex: 1;
+  min-height: 0;
+  max-width: 720px;
+  gap: 18px;
+}
+
+.vocab-layout #flashcard-container {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.vocab-layout .flashcard,
+.vocab-layout .flashcard-end,
+.vocab-layout .flashcard-placeholder {
+  flex: 1;
+}
+
+.vocab-layout .flashcard {
+  display: flex;
+  flex-direction: column;
+}
+
+.vocab-layout .flashcard-inner {
+  flex: 1;
+}
+
+/* Le mot reste à hauteur fixe d'une carte à l'autre (justify flex-start,
+   voir .flashcard-body) ; plus bas que sur la petite carte d'avant. */
+.vocab-layout .flashcard-body {
+  gap: 18px;
+  padding-top: 44px;
+}
+
+.vocab-layout .flashcard-definition {
+  max-width: 560px;
+  font-size: 1.15rem;
+}
+
+@media (max-width: 899px) {
+  .vocab-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .vocab-illustration {
+    display: none;
+  }
+
+  .vocab-layout .flashcard,
+  .vocab-layout .flashcard-end,
+  .vocab-layout .flashcard-placeholder {
+    flex: none;
+  }
+}

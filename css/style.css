@@ -1750,7 +1750,14 @@ html[data-pointer='fine'] .home-footer a.credits-link:hover,
 /* Page à la hauteur exacte de la fenêtre, sur un écran de Chromebook ou plus
    grand. En dessous (téléphone, fenêtre étroite), la page défile normalement
    et les colonnes s'empilent. */
+/* Page à la hauteur exacte de l'écran (.page-fit, et l'accueil) : ses
+   colonnes s'ajustent à la place au lieu d'allonger la page. */
 @media (min-width: 900px) and (min-height: 520px) {
+  main.page.page-fit {
+    height: 100vh;
+    height: 100dvh;
+  }
+
   main.page.home-layout {
     height: 100vh;
     height: 100dvh;

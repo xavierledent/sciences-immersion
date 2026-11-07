@@ -348,11 +348,11 @@ function faceHtml(card, lang, definition, isKnown) {
   `;
 }
 
-/* Taille du mot mesurée, pas supposée : on part de 36 px et on réduit tant
+/* Taille du mot mesurée, pas supposée : on part de 48 px et on réduit tant
    que le mot déborde de la carte ou dépasse deux lignes. À refaire quand la
    police Poppins arrive (elle change les largeurs) et quand la fenêtre
    change de taille. */
-const TITLE_MAX = 36;
+const TITLE_MAX = 48;
 const TITLE_MIN = 22;
 
 function fitTitles(root) {

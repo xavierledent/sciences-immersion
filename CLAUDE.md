@@ -179,7 +179,8 @@ scripts chargés.
   même facteur (zoom CSS, jamais de réduction), avec les petites fenêtres
   marquées `data-page-zoom` (pas les fenêtres d'exercice ou de jeu, déjà
   plein écran). Pas de marge haute sur `main` (elle traverse `body` et fait
-  défiler) : du padding.
+  défiler) : du padding. `page-fit` : hauteur exacte de l'écran (les
+  colonnes s'y ajustent au lieu d'allonger la page).
 - **Labos en plein écran : toute la place est utilisée.** Un labo se dessine
   pour le Chromebook à 100 % ; avec plus de place (plein écran sur un grand
   écran), le moteur agrandit d'un même facteur le corps et le pied du labo
