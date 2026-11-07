@@ -1293,7 +1293,10 @@
         cell.className = 'level-cell' + (typeof state === 'number' ? ' self-assess-' + state : state === 'answered' ? ' is-answered' : '');
         cell.dataset.exercise = String(item.id);
         cell.setAttribute('aria-label', L.exerciseCellLabel(item.id));
-        cell.title = L.exerciseCellLabel(item.id);
+        // Infobulle du site (couleur du chapitre, voir .level-cell::after),
+        // pas l'attribut title : celle du navigateur arrive en retard, en
+        // gris, et jamais au doigt.
+        cell.dataset.tooltip = L.exerciseCellLabel(item.id);
         bar.appendChild(cell);
       });
     }

@@ -237,6 +237,38 @@
       outline: none;
     }
 
+    /* « Exercise 12 » au-dessus de la case : même infobulle que les mots à
+       traduire des textes à trous (.fitb-gloss::after) et que le verrou du
+       bouton FR, dans la couleur du chapitre. À la souris et au clavier
+       seulement : au doigt, toucher la case ouvre l'exercice. */
+    .level-cell::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      bottom: 100%;
+      transform: translateX(-50%) translateY(-2px);
+      background: var(--color-current);
+      color: var(--color-current-text, #ffffff);
+      font-family: var(--font-family, 'Poppins', sans-serif);
+      font-size: 0.8rem;
+      font-weight: 500;
+      line-height: 1.4;
+      white-space: nowrap;
+      padding: 5px 10px;
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(var(--color-current-rgb), 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 20;
+    }
+
+    html[data-pointer='fine'] .level-cell:hover::after,
+    .level-cell:focus-visible::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
     /* Case de jeu : un repère, pas un bouton (Play ouvre le jeu). */
     .game-cell {
       height: 14px;
