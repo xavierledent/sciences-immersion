@@ -1,48 +1,211 @@
-/* Styles propres à resources.html (injectés par resources-engine.js) :
-   grille de cartes, liste de vidéos. Extrait de style.css. */
+/* Styles propres à resources.html (cartes injectées par resources-engine.js).
+   Mise en page « paysage » : tout sur un écran de Chromebook (1366 × 640
+   utiles), en trois colonnes — vidéos, fiches outils, puis autoévaluation et
+   mindmaps. L'en-tête compact est dans style.css (.page-bar). */
 
-.card-grid {
+.resources-layout {
+  flex: 1;
+  min-height: 0;
   display: grid;
-  gap: 22px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr);
+  /* Une seule rangée, de la hauteur disponible (page-fit). */
+  grid-template-rows: minmax(0, 1fr);
+  gap: 24px;
 }
 
-@media (min-width: 900px) {
-  .card-grid {
-    grid-template-columns: repeat(2, minmax(280px, 1fr));
-  }
+.resources-layout .section-card {
+  min-height: 0;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 18px 20px;
 }
 
-.video-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 18px;
-  row-gap: 12px;
+/* Titres de carte à gauche, comme sur Practice. */
+.resources-layout .section-card h3 {
+  margin: 0;
+  text-align: left;
+}
+
+.resource-desc {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+/* Les liens de la page : tous au format des boutons pleins du site
+   (.resource-button, style.css), fiches outils comprises, un peu moins
+   hauts pour tenir dans la hauteur du Chromebook. */
+.resources-layout .section-card a {
+  width: 100%;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 46px;
+  padding: 6px 14px;
+  border-radius: 16px;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.resources-layout .resource-button-row {
+  margin-top: 0;
+}
+
+/* ----- Vidéos : un lecteur ; boutons numérotés s'il y a plusieurs vidéos ----- */
+.video-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Contour dans le ton foncé du chapitre, rempli quand il est choisi (comme
+   les choix de mode de Vocabulary). */
+.video-tab {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1.5px solid var(--color-current-dark);
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--color-current-darker);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+
+html[data-pointer='fine'] .video-tab:not(.is-active):hover,
+.video-tab:focus-visible {
+  background: rgba(var(--color-current-rgb), 0.12);
+  transform: translateY(-1px);
+}
+
+.video-tab.is-active {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: var(--color-current-text);
+  cursor: default;
 }
 
 .video-item {
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 3;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.video-item iframe {
-  width: 100%;
-  min-height: 250px;
-  border: 1px solid rgba(17, 36, 72, 0.08);
-  border-radius: 18px;
-}
-
-.video-meta {
-  display: grid;
-  gap: 8px;
-  align-content: start;
-}
-
-.video-meta strong {
-  text-align: center;
+.video-title {
   display: block;
+  text-align: center;
 }
 
-.card-grid .full-width {
-  grid-column: 1 / -1;
+/* Le lecteur en 16:9 sur toute la largeur ; s'il manque de la hauteur, il
+   rapetisse en gardant ses proportions (unités de conteneur). */
+.video-frame {
+  flex: 0 1 auto;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  container-type: size;
+}
+
+.video-frame iframe {
+  display: block;
+  width: min(100cqw, 177.78cqh);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  border-radius: 14px;
+  box-sizing: border-box;
+}
+
+/* Trois lignes réservées : rien ne bouge d'une vidéo à l'autre. */
+.video-desc {
+  flex: none;
+  min-height: calc(3 * 1.45em);
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* L'illustration remplit le bas de la carte de droite : sa taille ne dépend
+   que de la page (pas de la vidéo choisie). */
+.resources-illustration {
+  display: block;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.resources-side-card .resources-illustration {
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: 240px;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Avant le chargement, l'illustration attend dans la grille, cachée. */
+.resources-layout > .resources-illustration {
+  display: none;
+}
+
+/* ----- Fiches outils : deux colonnes de pastilles ----- */
+.resource-list {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
+  gap: 10px;
+}
+
+.resource-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.resource-list li a {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.resource-list li p {
+  margin: 0;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+/* ----- Autoévaluation et mindmaps : une carte en deux parties ----- */
+.resources-side-card .side-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resources-side-card .side-block + .side-block {
+  margin-top: 2px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(17, 36, 72, 0.08);
+}
+
+.resource-button-row,
+.mindmap-section,
+.mindmap-section > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 899px) {
+  .resources-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 20px;
+  }
 }
