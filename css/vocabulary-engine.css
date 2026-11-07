@@ -707,7 +707,7 @@ body.high-contrast .flashcard-badge {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 290px minmax(0, 720px);
+  grid-template-columns: 290px minmax(0, 620px);
   /* Une seule rangée, de la hauteur disponible : les colonnes ne la
      dépassent pas, leur contenu s'y ajuste. */
   grid-template-rows: minmax(0, 1fr);
@@ -764,24 +764,26 @@ body.high-contrast .flashcard-badge {
   width: 100px;
 }
 
-/* La carte prend toute la hauteur laissée par ses boutons : elle grandit
-   avec l'écran au lieu de laisser du vide. */
+/* La carte, à proportions de fiche (environ 3 : 2), et ses boutons, centrés
+   ensemble dans la hauteur ; la carte ne rapetisse que si l'écran manque de
+   hauteur. Sur grand écran, le zoom de la page l'agrandit avec le reste. */
 .vocab-layout .card-container {
   margin-top: 0;
   min-height: 0;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .vocab-layout .flashcard-wrapper {
-  flex: 1;
+  flex: 0 1 auto;
   min-height: 0;
-  max-width: 720px;
+  max-width: 580px;
   gap: 18px;
 }
 
 .vocab-layout #flashcard-container {
-  flex: 1;
+  flex: 0 1 380px;
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -791,6 +793,7 @@ body.high-contrast .flashcard-badge {
 .vocab-layout .flashcard-end,
 .vocab-layout .flashcard-placeholder {
   flex: 1;
+  min-height: 0;
 }
 
 .vocab-layout .flashcard {
@@ -802,16 +805,82 @@ body.high-contrast .flashcard-badge {
   flex: 1;
 }
 
-/* Le mot reste à hauteur fixe d'une carte à l'autre (justify flex-start,
-   voir .flashcard-body) ; plus bas que sur la petite carte d'avant. */
+/* Carte construite : bande en haut (langue, Listen), le mot et sa
+   définition séparés d'un trait court, pied (numéro, « Tap to flip »). */
+.vocab-layout .flashcard-face {
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.vocab-layout .flashcard-top {
+  padding: 10px 16px;
+  background: rgba(var(--color-current-rgb), 0.1);
+  border-bottom: 1px solid rgba(var(--color-current-rgb), 0.18);
+}
+
+/* Le mot reste à la même hauteur d'une carte à l'autre (justify
+   flex-start, voir .flashcard-body). */
 .vocab-layout .flashcard-body {
-  gap: 18px;
-  padding-top: 44px;
+  gap: 0;
+  padding: 44px 36px 8px;
 }
 
 .vocab-layout .flashcard-definition {
-  max-width: 560px;
-  font-size: 1.15rem;
+  max-width: 460px;
+  font-size: 1.1rem;
+}
+
+.vocab-layout .flashcard-definition::before {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 3px;
+  margin: 18px auto 16px;
+  border-radius: 2px;
+  background: rgba(var(--color-current-rgb), 0.5);
+}
+
+.flashcard-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 18px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  pointer-events: none;
+}
+
+.flashcard-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-current-darker);
+}
+
+.flashcard-foot .flashcard-flip-icon {
+  position: static;
+  width: 16px;
+  height: 16px;
+  color: inherit;
+}
+
+/* Le verso se reconnaît au premier coup d'œil : fond franchement teinté,
+   bande plus foncée ; badge et Listen restent blancs pour ressortir. */
+.vocab-layout .flashcard-back {
+  background: linear-gradient(rgba(var(--color-current-rgb), 0.17), rgba(var(--color-current-rgb), 0.17)), #fff;
+  border-color: rgba(var(--color-current-rgb), 0.7);
+}
+
+.vocab-layout .flashcard-back .flashcard-top {
+  background: rgba(var(--color-current-rgb), 0.22);
+  border-bottom-color: rgba(var(--color-current-rgb), 0.3);
+}
+
+.vocab-layout .flashcard-back .flashcard-badge {
+  background: #fff;
 }
 
 @media (max-width: 899px) {

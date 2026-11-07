@@ -15,6 +15,8 @@ const LABELS = {
     speechLang: 'en-US',
     speechUnsupported: 'Speech synthesis is not supported in this browser.',
     known: 'Known',
+    tapToFlip: 'Tap to flip',
+    cardCount: (i, n) => `${i} / ${n}`,
     reviewOnly: n => `Only words to review (${n})`,
     progress: (k, n) => `${k} / ${n} words known`,
     resetAsk: k => k === 1 ? 'Forget the word marked as known?' : `Forget the ${k} words marked as known?`,
@@ -36,6 +38,8 @@ const LABELS = {
     speechLang: 'nl-BE',
     speechUnsupported: 'Spraaksynthese wordt niet ondersteund in deze browser.',
     known: 'Gekend',
+    tapToFlip: 'Tik om te draaien',
+    cardCount: (i, n) => `${i} / ${n}`,
     reviewOnly: n => `Alleen te herhalen woorden (${n})`,
     progress: (k, n) => `${k} / ${n} woorden gekend`,
     resetAsk: k => k === 1 ? 'Het gekende woord wissen?' : `De ${k} gekende woorden wissen?`,
@@ -344,7 +348,10 @@ function faceHtml(card, lang, definition, isKnown) {
       <h2 class="flashcard-title">${richText(card[lang])}</h2>
       ${definition ? `<p class="flashcard-definition">${richText(definition)}</p>` : ''}
     </div>
-    ${ICONS.flip}
+    <div class="flashcard-foot">
+      <span class="flashcard-count">${L.cardCount(currentCardIndex + 1, cards.length)}</span>
+      <span class="flashcard-hint">${ICONS.flip}${L.tapToFlip}</span>
+    </div>
   `;
 }
 
