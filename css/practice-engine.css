@@ -1,12 +1,16 @@
     /* ===== Page Practice : mise en page « paysage » =====
-       Tout tient sur un écran de Chromebook (1366 × 768 à 100 %, environ
-       630 px utiles) : à gauche les trois niveaux avec leurs 20 pastilles, à
-       droite l'illustration et les jeux. L'en-tête compact est dans style.css
-       (.page-bar). */
+       Tout tient sur un écran de Chromebook (1366 × 640 utiles). Deux cartes
+       de même largeur, construites pareil : les exercices (une ligne par
+       niveau, barre de 20 cases) et les jeux (une ligne par type, une case
+       par jeu) — les jeux comptent autant que les exercices. L'en-tête
+       compact est dans style.css (.page-bar). */
+    /* flex: 1 : les cartes prennent la hauteur restante de l'écran (plein
+       écran du Chromebook compris), leurs lignes se répartissent dedans. */
     .practice-grid {
+      flex: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 320px;
-      gap: 22px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
       align-items: stretch;
     }
 
@@ -14,37 +18,48 @@
     .interactive-card {
       display: flex;
       flex-direction: column;
+      gap: 8px;
+      padding: 14px 22px 18px;
       border-radius: 28px;
       background: var(--color-surface);
       box-shadow: var(--color-shadow);
       border: 1px solid rgba(17, 36, 72, 0.08);
     }
 
-    .exercise-card {
-      padding: 14px 22px 18px;
-      gap: 10px;
-    }
-
-    .exercise-card h3,
-    .interactive-card h3 {
-      margin: 0;
-      font-size: 1.25rem;
-    }
-
-    .exercise-card-head {
+    /* Titre de la carte à gauche, son illustration à droite : la mascotte de
+       progression pour les exercices, Friends Practice pour les jeux. */
+    .practice-card-head {
       display: flex;
       align-items: center;
-      gap: 22px;
+      gap: 16px;
+      min-height: 56px;
+    }
+
+    .exercise-card .practice-card-head h3,
+    .interactive-card .practice-card-head h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      text-align: left;
+    }
+
+    .practice-card-head img {
+      height: 56px;
+      width: auto;
+      margin-left: auto;
+    }
+
+    .practice-card-head .practice-illustration {
+      border-radius: 12px;
     }
 
     .status-legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px 16px;
+      gap: 4px 14px;
       margin: 0;
       padding: 0;
       list-style: none;
-      font-size: 0.82rem;
+      font-size: 0.76rem;
       font-weight: 600;
       color: var(--color-muted);
     }
@@ -55,151 +70,190 @@
       gap: 6px;
     }
 
-    /* Mêmes couleurs que le point des pastilles (.overview-grid plus bas). */
+    /* Mêmes couleurs que les cases des barres (.level-cell plus bas). */
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       background: rgba(19, 36, 61, 0.45);
+    }
+
+    .status-dot.is-untried {
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1.5px rgba(19, 36, 61, 0.3);
     }
 
     .status-dot.self-assess-1 { background: var(--color-rose); }
     .status-dot.self-assess-2 { background: #d99a2b; }
     .status-dot.self-assess-3 { background: var(--color-emerald); }
 
-    .level-board {
+    .level-board,
+    .game-board {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      justify-content: space-evenly;
+      gap: 8px;
     }
 
     .level-row {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      padding-top: 10px;
+      gap: 10px;
+      padding-top: 12px;
       border-top: 1px solid rgba(17, 36, 72, 0.08);
     }
 
-    .level-row-head {
+    .level-row-head,
+    .game-row {
       display: flex;
       align-items: center;
-      gap: 14px;
-      min-height: 46px;
+      gap: 12px;
     }
 
     .level-name {
       display: inline-flex;
       align-items: center;
       flex-shrink: 0;
-      min-width: 140px;
-      font-size: 1.1rem;
+      width: 128px;
+      font-size: 1.05rem;
       font-weight: 700;
     }
 
-    .level-counter {
+    /* Compteurs (« 10 / 20 green », « 2 / 3 done ») : pastille pâle de la
+       couleur de la matière. */
+    .level-counter,
+    .game-counter {
       margin: 0;
-      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(var(--color-current-rgb), 0.12);
+      color: var(--color-current-darker);
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
     }
 
-    .level-row-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .level-counter[hidden],
+    .game-counter[hidden] {
+      display: none;
+    }
+
+    /* « 4 to improve » : lance la révision des exercices répondus et pas
+       verts. Une petite pastille à contour plutôt qu'un gros bouton : la
+       barre montre déjà les couleurs, c'est une action secondaire. */
+    .level-review-btn {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1.5px solid var(--color-current-dark);
+      background: #ffffff;
+      color: var(--color-current-darker);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .level-review-btn[hidden] {
+      display: none;
+    }
+
+    html[data-pointer='fine'] .level-review-btn:hover,
+    .level-review-btn:focus-visible {
+      background: rgba(var(--color-current-rgb), 0.1);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    /* Bouton plein du niveau (Start / Continue / Practice again) et Play :
+       apparence des boutons pleins du site (.resource-button), à la taille
+       d'une ligne. */
+    .level-option,
+    .game-play {
+      position: relative;
+      flex-shrink: 0;
+      width: auto;
+      height: 44px;
+      padding: 0 18px;
+      font-size: 0.95rem;
+    }
+
+    .level-option {
+      min-width: 116px;
       margin-left: auto;
     }
 
-    .level-review-btn {
-      margin: 0;
+    .game-play {
+      min-width: 104px;
     }
 
-    /* Le bouton du niveau garde l'apparence des boutons pleins du site
-       (.resource-button), à la taille d'une ligne de niveau. */
-    .level-option {
-      position: relative;
-      width: auto;
-      min-width: 140px;
-      height: 46px;
-      padding: 0 22px;
-      font-size: 0.95rem;
-    }
-
-    /* Double classe : les règles .overview-grid (plus bas dans ce fichier,
-       même spécificité sinon) gagneraient. */
-    .overview-grid.level-grid {
-      grid-template-columns: repeat(20, minmax(0, 1fr));
-      gap: 6px;
-      max-width: none;
-      margin: 0;
-    }
-
-    .overview-grid.level-grid .exercise-step {
-      aspect-ratio: auto;
-      height: 42px;
-      border-radius: 10px;
-      font-size: 0.82rem;
-      padding-bottom: 12px;
-    }
-
-    .overview-grid.level-grid .exercise-step::after {
-      bottom: 6px;
-    }
-
-    .practice-side {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      min-height: 0;
-    }
-
-    .practice-illustration {
-      display: block;
-      height: 110px;
-      width: auto;
-      align-self: center;
-      border-radius: 20px;
-    }
-
-    .interactive-card {
-      flex: 1;
-      padding: 16px 18px;
-      gap: 10px;
-    }
-
-    .exercise-actions {
+    /* Barre du niveau : une case par exercice, de la couleur de son état. */
+    .level-bar {
       display: grid;
-      gap: 8px;
+      grid-template-columns: repeat(20, minmax(0, 1fr));
+      gap: 4px;
     }
 
-    .exercise-actions .resource-button {
-      height: 50px;
-      font-size: 0.95rem;
+    .level-cell,
+    .game-cell {
+      height: 14px;
+      border-radius: 4px;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1.5px rgba(19, 36, 61, 0.22);
     }
 
-    /* Plus étroit : la colonne des jeux passe sous les niveaux, et les
-       pastilles se rangent par 10. */
+    .level-cell.is-answered { background: rgba(19, 36, 61, 0.45); box-shadow: none; }
+    .level-cell.self-assess-1 { background: var(--color-rose); box-shadow: none; }
+    .level-cell.self-assess-2 { background: #d99a2b; box-shadow: none; }
+    .level-cell.self-assess-3 { background: var(--color-emerald); box-shadow: none; }
+
+    .game-row {
+      gap: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(17, 36, 72, 0.08);
+    }
+
+    .game-name {
+      flex: 1;
+      min-width: 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .game-bar {
+      display: flex;
+      gap: 4px;
+    }
+
+    .game-cell {
+      width: 14px;
+    }
+
+    .game-cell.is-done {
+      background: var(--color-current);
+      box-shadow: none;
+    }
+
+    .game-counter {
+      width: 92px;
+      padding-inline: 0;
+      text-align: center;
+    }
+
+    /* Plus étroit : les deux cartes s'empilent. */
     @media (max-width: 1100px) {
       .practice-grid {
         grid-template-columns: 1fr;
       }
-
-      .overview-grid.level-grid {
-        grid-template-columns: repeat(10, minmax(0, 1fr));
-      }
-
-      .practice-illustration {
-        display: none;
-      }
     }
 
     @media (max-width: 700px) {
-      .exercise-card-head,
-      .level-row-head {
+      .level-row-head,
+      .game-row {
         flex-wrap: wrap;
-      }
-
-      .level-row-actions {
-        margin-left: 0;
       }
     }
 
@@ -1633,6 +1687,9 @@
       padding-bottom: 13px;
     }
 
+    /* Point sous le numéro : gris si l'exercice a une réponse pas encore
+       évaluée (.has-answer), de couleur s'il est évalué, absent sinon —
+       comme dans la pagination de la fenêtre d'exercice. */
     .overview-grid .exercise-step::after {
       content: '';
       position: absolute;
@@ -1642,6 +1699,10 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
+      background: transparent;
+    }
+
+    .overview-grid .exercise-step.has-answer::after {
       background: rgba(19, 36, 61, 0.45);
     }
 

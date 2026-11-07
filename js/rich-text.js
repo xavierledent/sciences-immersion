@@ -381,9 +381,9 @@
      Grandissent avec la page : les fenêtres marquées data-page-zoom (fenêtre
      des sections de l'accueil, modes d'emploi), sinon minuscules à côté
      d'elle. Les fenêtres d'exercice et de jeu occupent déjà l'écran : non.
-     L'accueil (.home-layout) a la hauteur exacte de la fenêtre : sous zoom,
-     cette hauteur est recalculée en px (innerHeight / zoom), une unité que
-     le zoom multiplie à coup sûr. */
+     Une page refaite a au moins la hauteur de la fenêtre, l'accueil
+     (.home-layout) exactement cette hauteur : sous zoom, elle est recalculée
+     en px (innerHeight / zoom), une unité que le zoom multiplie à coup sûr. */
   const PAGE_BASE_W = 1366;
   const PAGE_BASE_H = 640;
   const PAGE_ZOOM_MAX = 1.8;
@@ -398,9 +398,9 @@
     const value = zoom === 1 ? '' : zoom.toFixed(3);
     main.style.zoom = value;
     document.querySelectorAll('[data-page-zoom]').forEach(el => { el.style.zoom = value; });
-    if (main.classList.contains('home-layout')) {
-      main.style.height = zoom === 1 ? '' : (window.innerHeight / zoom).toFixed(2) + 'px';
-    }
+    const screenHeight = zoom === 1 ? '' : (window.innerHeight / zoom).toFixed(2) + 'px';
+    main.style.minHeight = screenHeight;
+    if (main.classList.contains('home-layout')) main.style.height = screenHeight;
   }
 
   let fitWideTimer = 0;

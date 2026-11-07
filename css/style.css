@@ -1329,6 +1329,14 @@ main.page.page-wide {
   max-width: 1400px;
   margin: 0 auto;
   padding: 22px 26px 30px;
+  /* Au moins la hauteur de l'écran : sur une page de chapitre, main porte
+     le cadre de la matière (liseré, fond teinté), qui doit descendre
+     jusqu'en bas. Sous zoom, fitWidePage (rich-text.js) remplace cette
+     valeur par une hauteur en px. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 .page > header.page-bar {
@@ -1342,10 +1350,14 @@ main.page.page-wide {
   text-align: left;
 }
 
+/* Pastille et titre centrés dans la place entre la pastille du mode
+   d'emploi (à gauche) et la navigation (à droite). */
 .page-bar-title {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   min-width: 0;
 }
 
@@ -1357,7 +1369,7 @@ main.page.page-wide {
 }
 
 .page-bar .topic-chip + h1 {
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .page-bar h1 {
@@ -1383,29 +1395,7 @@ main.page.page-wide {
   border-color: var(--color-current);
 }
 
-.page-help-btn {
-  flex-shrink: 0;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid rgba(17, 36, 72, 0.12);
-  background: #ffffff;
-  color: var(--color-text);
-  font-family: inherit;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform var(--transition), border-color var(--transition);
-}
-
-html[data-pointer='fine'] .page-help-btn:hover,
-.page-help-btn:focus-visible {
-  transform: translateY(-1px);
-  outline: none;
-  border-color: rgba(29, 179, 212, 0.3);
-}
-
-/* Mode d'emploi de la page, ouvert par « ? ». */
+/* Mode d'emploi de la page, ouvert par la pastille « How it works ». */
 .help-modal-card {
   width: min(92vw, 760px);
 }
@@ -1434,7 +1424,7 @@ html[data-pointer='fine'] .page-help-btn:hover,
 }
 
 .home-layout .page-bar .site-badge + h1 {
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 /* En-tête de l'accueil : trois colonnes, le titre au centre. Les deux
@@ -1479,10 +1469,12 @@ html[data-pointer='fine'] .page-help-btn:hover,
   margin: 0;
 }
 
-/* Bouton texte de l'en-tête (Mode d'emploi) : même pastille que celles du
-   compte à droite (.account-badge, access-control.js) — taille, contour,
-   ombre —, pour que l'en-tête soit symétrique. */
-.home-bar-btn {
+/* Pastille de l'en-tête des pages refaites (Mode d'emploi de l'accueil,
+   How it works des pages de chapitre) : même pastille que celles du compte
+   sur l'accueil (.account-badge, access-control.js) — taille, contour,
+   ombre. */
+.page-bar-pill {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1501,8 +1493,8 @@ html[data-pointer='fine'] .page-help-btn:hover,
   transition: transform var(--transition), border-color var(--transition), background var(--transition);
 }
 
-html[data-pointer='fine'] .home-bar-btn:hover,
-.home-bar-btn:focus-visible {
+html[data-pointer='fine'] .page-bar-pill:hover,
+.page-bar-pill:focus-visible {
   transform: translateY(-1px);
   border-color: var(--color-slate);
   outline: none;
@@ -1583,6 +1575,10 @@ html[data-pointer='fine'] .home-bar-btn:hover,
   margin: 14px 0 0;
   padding: 0;
   font-size: 0.72rem;
+}
+
+#copyright-notice.page-wide-footer a {
+  color: inherit;
 }
 
 /* Ligne du bas : copyright (rich-text.js) et crédits photos, discrets. */

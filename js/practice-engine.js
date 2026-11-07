@@ -45,12 +45,12 @@
         selfAssessGotIt: 'Got it',
         yourAnswer: 'Your answer',
         answerEmpty: 'You have not written an answer yet.',
-        exercisesRemaining: n => `${n} exercise${n !== 1 ? 's' : ''} to turn green. Keep going !`,
-        levelAllGreen: 'Every exercise is green. Well done !',
-        reviewRemaining: n => `Review the ${n} remaining`,
-        exerciseStepAria: n => `Exercise ${n}`,
+        greenCount: (n, total) => `${n} / ${total} green`,
+        toImprove: n => `${n} to improve`,
+        gamesDone: (n, total) => `${n} / ${total} done`,
         levelActionStart: 'Start',
         levelActionContinue: 'Continue',
+        levelActionAgain: 'Practice again',
         levelBadgeStart: 'Start here',
         levelBadgeContinue: 'Pick up here',
         revisionModeLabel: 'Revision mode',
@@ -144,12 +144,12 @@
         selfAssessGotIt: 'Gelukt',
         yourAnswer: 'Jouw antwoord',
         answerEmpty: 'Je hebt nog geen antwoord geschreven.',
-        exercisesRemaining: n => `Nog ${n} oefening${n !== 1 ? 'en' : ''} om groen te worden. Ga zo door !`,
-        levelAllGreen: 'Alle oefeningen zijn groen. Goed gedaan !',
-        reviewRemaining: n => `Herhaal de ${n} resterende`,
-        exerciseStepAria: n => `Oefening ${n}`,
+        greenCount: (n, total) => `${n} / ${total} groen`,
+        toImprove: n => `${n} te verbeteren`,
+        gamesDone: (n, total) => `${n} / ${total} klaar`,
         levelActionStart: 'Beginnen',
         levelActionContinue: 'Doorgaan',
+        levelActionAgain: 'Opnieuw oefenen',
         levelBadgeStart: 'Begin hier',
         levelBadgeContinue: 'Ga hier verder',
         revisionModeLabel: 'Herhalingsmodus',
@@ -493,15 +493,8 @@
       return '';
     }
 
-    function openModal(levelKey) {
-      // Starting a level fresh from its button never carries over a revision
-      // session from earlier — see the state comment near revisionActive.
-      revisionActive = false;
-      openModalAtExercise(levelKey, 1);
-    }
-
-    // Shared by the level buttons (always exercise 1) and the exercise grid
-    // of each level (any exercise the student picks) — same setup either way, only the
+    // Shared by the level buttons (first exercise not done yet), the revision
+    // queue and the deep links — same setup either way, only the
     // starting exercise differs.
     function openModalAtExercise(levelKey, exerciseId) {
       flushAnswerSave();
@@ -732,7 +725,7 @@
       for (let step = 1; step <= ids.length; step++) {
         const idx = (currentIdx + step) % ids.length;
         const item = exerciseList[idx];
-        if (worstSelfAssess(revisionLevel, item) !== 3) return item.id;
+        if (isToImprove(revisionLevel, item)) return item.id;
       }
       return null;
     }
@@ -750,7 +743,7 @@
 
       const progress = document.createElement('span');
       progress.className = 'revision-bar-progress';
-      progress.textContent = L.revisionProgress(countOverviewRemaining(revisionLevel), revisionTotal);
+      progress.textContent = L.revisionProgress(countToImprove(revisionLevel), revisionTotal);
       bar.appendChild(progress);
 
       const nextId = findNextRevisionExercise();
@@ -1096,11 +1089,6 @@
     // chaque niveau, et quel niveau a été touché en dernier tous niveaux
     // confondus — deux clés distinctes, car "reprendre" doit rouvrir
     // l'exercice exact, pas juste le niveau.
-    function readLastExercise(levelKey) {
-      const n = parseInt(SiteStorage.data.get('practiceLastExercise', [levelKey]), 10);
-      return Number.isInteger(n) && n >= 1 ? n : null;
-    }
-
     function writeLastExercise(levelKey, exerciseId) {
       SiteStorage.data.set('practiceLastExercise', [levelKey], String(exerciseId));
     }
@@ -1201,15 +1189,34 @@
        relecture complète depuis storage.js est plus simple et ne coûte rien. */
     const OVERVIEW_LEVELS = ['level1', 'level2', 'level3'];
 
-    // "Remaining" = not green: red + amber + never-attempted, exactly what the
-    // student still owes this level.
-    function countOverviewRemaining(levelKey) {
-      const exerciseList = practiceData[levelKey] || [];
-      let remaining = 0;
-      exerciseList.forEach(item => {
-        if (worstSelfAssess(levelKey, item) !== 3) remaining++;
-      });
-      return remaining;
+    /* État d'un exercice, tel que le montrent la barre du niveau et la
+       pagination de la fenêtre : 'untried' (pas de réponse), 'answered'
+       (répondu, pas évalué), ou le niveau d'autoévaluation 1, 2, 3. */
+    function exerciseState(levelKey, item) {
+      const assessed = worstSelfAssess(levelKey, item);
+      if (assessed !== null) return assessed;
+      return hasAnyStoredAnswer(levelKey, item) ? 'answered' : 'untried';
+    }
+
+    // « À améliorer » : déjà répondu mais pas vert (rouge, orange, gris).
+    // Jamais un exercice pas encore fait : celui-là, c'est Start / Continue.
+    function isToImprove(levelKey, item) {
+      const state = exerciseState(levelKey, item);
+      return state !== 'untried' && state !== 3;
+    }
+
+    function countToImprove(levelKey) {
+      return (practiceData[levelKey] || []).filter(item => isToImprove(levelKey, item)).length;
+    }
+
+    function countGreen(levelKey) {
+      return (practiceData[levelKey] || []).filter(item => worstSelfAssess(levelKey, item) === 3).length;
+    }
+
+    // Premier exercice pas encore fait du niveau (où mène Continue), ou null.
+    function firstUntriedExercise(levelKey) {
+      const item = (practiceData[levelKey] || []).find(it => exerciseState(levelKey, it) === 'untried');
+      return item ? item.id : null;
     }
 
     // "Attempted" = any self-assessment at all, red/amber/green alike — only
@@ -1250,16 +1257,16 @@
       if (overviewMascotImg.getAttribute('src') !== src) overviewMascotImg.src = src;
     }
 
-    // Every non-green exercise id in a level, in exercise order — the revision
-    // queue. Recomputed on demand rather than cached: self-assessment changes
-    // during the session as the student works through it.
-    function getNonGreenExerciseIds(levelKey) {
+    // File de révision : les exercices « à améliorer » du niveau, dans
+    // l'ordre. Recalculée à la demande : l'autoévaluation change pendant la
+    // séance.
+    function getToImproveExerciseIds(levelKey) {
       const exerciseList = practiceData[levelKey] || [];
-      return exerciseList.filter(item => worstSelfAssess(levelKey, item) !== 3).map(item => item.id);
+      return exerciseList.filter(item => isToImprove(levelKey, item)).map(item => item.id);
     }
 
     function startRevisionMode(levelKey) {
-      const queue = getNonGreenExerciseIds(levelKey);
+      const queue = getToImproveExerciseIds(levelKey);
       // The button that calls this is hidden whenever the level has nothing
       // left (see renderLevelBoard), so an empty queue here would mean the
       // count changed between render and click — safe to just no-op.
@@ -1271,54 +1278,98 @@
       openModalAtExercise(levelKey, queue[0]);
     }
 
-    function buildLevelGrid(levelKey, grid) {
-      grid.innerHTML = '';
+    // Barre du niveau : une case par exercice, de la couleur de son état
+    // (mêmes couleurs que les points de la pagination). Pas de numéros : ils
+    // sont dans la fenêtre d'exercice.
+    function buildLevelBar(levelKey, bar) {
+      bar.innerHTML = '';
       (practiceData[levelKey] || []).forEach(item => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'exercise-step';
-        btn.textContent = String(item.id);
-        btn.dataset.exercise = String(item.id);
-        btn.setAttribute('aria-label', L.exerciseStepAria(item.id));
-        // Always coloured, unlike the pager's dot: grey by default (never
-        // attempted) rather than shown only once started, since the whole
-        // point here is to see every exercise's status at a glance.
-        applySelfAssessClass(btn, worstSelfAssess(levelKey, item));
-        grid.appendChild(btn);
+        const cell = document.createElement('span');
+        const state = exerciseState(levelKey, item);
+        cell.className = 'level-cell' + (typeof state === 'number' ? ' self-assess-' + state : state === 'answered' ? ' is-answered' : '');
+        bar.appendChild(cell);
       });
     }
 
-    // Compteur, grille et bouton de révision de chaque niveau, puis la
-    // mascotte. Les boutons « Start / Continue » restent dans le HTML :
-    // applyLevelResumeUI s'en occupe.
+    // Compteur, barre et pastille « … to improve » de chaque niveau, puis la
+    // mascotte. Les boutons Start / Continue : applyLevelResumeUI.
     function renderLevelBoard() {
       OVERVIEW_LEVELS.forEach(levelKey => {
         const row = levelButtonsContainer.querySelector(`[data-level-row="${levelKey}"]`);
         if (!row) return;
-        const exerciseList = practiceData[levelKey] || [];
-        const remaining = countOverviewRemaining(levelKey);
+        const total = (practiceData[levelKey] || []).length;
 
         const counter = row.querySelector('.level-counter');
         if (counter) {
-          counter.textContent = exerciseList.length === 0 ? ''
-            : remaining > 0 ? L.exercisesRemaining(remaining) : L.levelAllGreen;
-          counter.hidden = exerciseList.length === 0;
+          counter.textContent = total ? L.greenCount(countGreen(levelKey), total) : '';
+          counter.hidden = total === 0;
         }
 
-        const grid = row.querySelector('.level-grid');
-        if (grid) buildLevelGrid(levelKey, grid);
+        const bar = row.querySelector('.level-bar');
+        if (bar) buildLevelBar(levelKey, bar);
 
-        // Rien à réviser tant que le niveau n'a pas été commencé (« Start »
-        // suffit), ni une fois tout vert : le bouton disparaît plutôt que de
-        // rester inerte, comme ailleurs sur le site.
+        // Rien à améliorer : la pastille disparaît plutôt que de rester
+        // inerte, comme ailleurs sur le site.
         const reviewBtn = row.querySelector('.level-review-btn');
         if (reviewBtn) {
-          const show = remaining > 0 && countOverviewAttempted(levelKey) > 0;
-          reviewBtn.hidden = !show;
-          reviewBtn.textContent = show ? L.reviewRemaining(remaining) : '';
+          const toImprove = countToImprove(levelKey);
+          reviewBtn.hidden = toImprove === 0;
+          reviewBtn.textContent = toImprove ? L.toImprove(toImprove) : '';
         }
       });
       updateOverviewMascot();
+    }
+
+    /* Jeux : une ligne par type, une case par jeu, pleine dès que le jeu a
+       été achevé une fois (son meilleur résultat s'enregistre à l'écran de
+       fin, jamais avant). Chaque jeu garde son propre enregistrement : le
+       moteur ne fait que demander s'il existe. */
+    const GAME_DONE = {
+      multipleChoice: game => getQcmBestScore(game) !== null,
+      dragAndDrop: game => getDndBestStat(game, 'mistakes') !== null,
+      fillBlanks: game => getFitbBestMistakes(game) !== null,
+      matchPairs: game => getMemoryBestStat(game, 'moves') !== null,
+      sorting: game => getSortingBestMistakes(game) !== null
+    };
+
+    function renderGameBoard() {
+      if (!interactiveData) return;
+      Object.keys(GAME_DONE).forEach(type => {
+        const list = interactiveData[type] || [];
+        const bar = interactiveButtonsContainer.querySelector(`[data-game-bar="${type}"]`);
+        const counter = interactiveButtonsContainer.querySelector(`[data-game-counter="${type}"]`);
+        let done = 0;
+        if (bar) bar.innerHTML = '';
+        list.forEach(game => {
+          let isDone = false;
+          try { isDone = GAME_DONE[type](game); } catch (e) { isDone = false; }
+          if (isDone) done++;
+          if (bar) {
+            const cell = document.createElement('span');
+            cell.className = 'game-cell' + (isDone ? ' is-done' : '');
+            bar.appendChild(cell);
+          }
+        });
+        if (counter) {
+          counter.textContent = list.length ? L.gamesDone(done, list.length) : '';
+          counter.hidden = list.length === 0;
+        }
+      });
+    }
+
+    // À la fermeture d'un jeu (sa fenêtre perd modal-open), les cases des
+    // jeux se mettent à jour : un jeu achevé se voit tout de suite.
+    function watchGameModals() {
+      ['qcm-modal', 'dnd-modal', 'fitb-modal', 'memory-modal', 'sorting-modal'].forEach(id => {
+        const overlay = document.getElementById(id);
+        if (!overlay) return;
+        let wasOpen = overlay.classList.contains('modal-open');
+        new MutationObserver(() => {
+          const isOpen = overlay.classList.contains('modal-open');
+          if (wasOpen && !isOpen) renderGameBoard();
+          wasOpen = isOpen;
+        }).observe(overlay, { attributes: true, attributeFilter: ['class'] });
+      });
     }
 
     function writeStoredAnswer(levelKey, exerciseId, subIndex, value) {
@@ -1609,33 +1660,16 @@
       levelButtonsContainer.addEventListener('click', event => {
         const levelBtn = event.target.closest('button[data-level]');
         if (levelBtn) {
-          // Le niveau mis en avant rouvre l'exercice exact où l'élève
-          // s'était arrêté ("Continue"), pas le système de révision (qui
-          // saute les exercices déjà verts) — celui-ci a son propre bouton,
-          // « Review the N remaining », sur la ligne du niveau.
-          const savedExercise = levelBtn.classList.contains('is-current-level')
-            ? readLastExercise(levelBtn.dataset.level)
-            : null;
-          if (savedExercise) {
-            revisionActive = false;
-            openModalAtExercise(levelBtn.dataset.level, savedExercise);
-          } else {
-            openModal(levelBtn.dataset.level);
-          }
+          // Start / Continue : le premier exercice pas encore fait du niveau ;
+          // tout est fait (Practice again) : l'exercice 1. Les exercices à
+          // retravailler ont leur propre bouton, « … to improve ».
+          const untried = firstUntriedExercise(levelBtn.dataset.level);
+          revisionActive = false;
+          openModalAtExercise(levelBtn.dataset.level, untried || 1);
           return;
         }
         const reviewBtn = event.target.closest('button[data-review]');
-        if (reviewBtn) {
-          startRevisionMode(reviewBtn.dataset.review);
-          return;
-        }
-        // Une pastille de la grille : l'exercice choisi, hors révision.
-        const step = event.target.closest('.level-grid .exercise-step');
-        if (step) {
-          const row = step.closest('[data-level-row]');
-          revisionActive = false;
-          openModalAtExercise(row.dataset.levelRow, parseInt(step.dataset.exercise, 10));
-        }
+        if (reviewBtn) startRevisionMode(reviewBtn.dataset.review);
       });
 
       // Fermeture par la croix uniquement : un appui à côté de la modale est vite
@@ -1801,7 +1835,7 @@
         const button = event.target.closest('button[data-type]');
         if (!button) return;
         const typeKey = button.dataset.type;
-        const title = button.textContent;
+        const title = button.dataset.title || button.textContent;
 
         const GAMES = {
           dragAndDrop: ['dnd-modal', openDndModal],
@@ -2326,30 +2360,34 @@
     // tout de suite, sans attendre un rechargement de la page. Repart donc
     // toujours d'un état propre — sinon un badge posé au tour précédent
     // resterait collé sur l'ancien niveau en plus du nouveau.
+    /* Libellé de chaque bouton de niveau : Start (rien de fait), Continue
+       (il reste des exercices pas encore faits), Practice again (tout est
+       fait). Le niveau travaillé en dernier (ou Level 1) porte en plus le
+       badge « Pick up here » / « Start here ». */
     function applyLevelResumeUI() {
-      const options = levelButtonsContainer.querySelectorAll('.level-option');
-      options.forEach(btn => {
-        btn.classList.remove('is-current-level');
-        const badge = btn.querySelector('.level-badge');
-        if (badge) badge.remove();
-        const action = btn.querySelector('.level-action');
-        if (action) action.textContent = L.levelActionStart;
-      });
-
       const touchedLevel = readLastTouchedLevel();
       const currentLevelKey = (touchedLevel && practiceData[touchedLevel]) ? touchedLevel : 'level1';
-      const savedExercise = readLastExercise(currentLevelKey);
 
-      options.forEach(btn => {
-        if (btn.dataset.level !== currentLevelKey) return;
+      levelButtonsContainer.querySelectorAll('.level-option').forEach(btn => {
+        const levelKey = btn.dataset.level;
+        const list = practiceData[levelKey] || [];
+        const untried = list.filter(item => exerciseState(levelKey, item) === 'untried').length;
+        const notStarted = untried === list.length;
+        const label = notStarted ? L.levelActionStart
+          : untried > 0 ? L.levelActionContinue : L.levelActionAgain;
         const action = btn.querySelector('.level-action');
-        if (!action) return;
-        btn.classList.add('is-current-level');
-        action.textContent = savedExercise ? L.levelActionContinue : L.levelActionStart;
-        const badge = document.createElement('span');
-        badge.className = 'level-badge';
-        badge.textContent = savedExercise ? L.levelBadgeContinue : L.levelBadgeStart;
-        btn.prepend(badge);
+        if (action) action.textContent = label;
+
+        const isCurrent = levelKey === currentLevelKey;
+        btn.classList.toggle('is-current-level', isCurrent);
+        const oldBadge = btn.querySelector('.level-badge');
+        if (oldBadge) oldBadge.remove();
+        if (isCurrent) {
+          const badge = document.createElement('span');
+          badge.className = 'level-badge';
+          badge.textContent = notStarted ? L.levelBadgeStart : L.levelBadgeContinue;
+          btn.prepend(badge);
+        }
       });
     }
 
@@ -2361,6 +2399,8 @@
       initAnswerBox();
       applyLevelResumeUI();
       renderLevelBoard();
+      renderGameBoard();
+      watchGameModals();
       openFromDeepLink();
     }
 
