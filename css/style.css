@@ -17,7 +17,11 @@
   --color-shadow: 0 22px 42px rgba(17, 36, 72, 0.12);
   --radius: 28px;
   --transition: 220ms ease;
-  --font-family: 'Poppins', sans-serif;
+  /* Noto Color Emoji en dernier : les émojis du contenu des jeux (tri, memory)
+     ont le même dessin sur tous les ordinateurs (police chargée par la page
+     Practice seulement ; ailleurs, celle du système). Après sans-serif pour
+     qu'elle ne serve jamais aux chiffres pendant le chargement de Poppins. */
+  --font-family: 'Poppins', sans-serif, 'Noto Color Emoji';
   /* Subject-aware color tokens (overridden per subject class below) */
   --color-current: var(--color-bio);
   --color-current-rgb: 98, 181, 170;

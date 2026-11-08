@@ -84,9 +84,9 @@
 
       const byWidth = (usableW - (cols - 1) * gap) / cols;
       const byHeight = (usableH - (rows - 1) * gap) / rows;
-      // Plafond à 135px : la taille d'origine, pour ne pas obtenir des cartes
-      // démesurées sur grand écran.
-      const size = Math.max(56, Math.min(135, Math.floor(Math.min(byWidth, byHeight))));
+      // Plafond à 220px : la grille prend la place de la fenêtre plein écran
+      // (135px laissait un grand vide), sans cartes démesurées sur grand écran.
+      const size = Math.max(56, Math.min(220, Math.floor(Math.min(byWidth, byHeight))));
 
       grid.style.setProperty('--memory-card-size', size + 'px');
       grid.style.maxWidth = `${cols * size + (cols - 1) * gap}px`;
@@ -161,16 +161,23 @@
       memoryStatsBar = document.createElement('div');
       memoryStatsBar.className = 'memory-stats-bar';
       memoryStatsBar.id = 'memory-stats-bar';
+      /* Comme au texte à trous : les compteurs au centre, dans l'axe de la
+         grille ; à droite, le résultat de fin (ou le rappel de la règle). */
       memoryStatsBar.innerHTML = `
-        <div class="memory-stat">
-          <button type="button" class="timer-toggle-btn" id="memory-timer-toggle">${L.showTimer}</button>
-          <span class="live-timer-display">${gameIcon('timer')}<span id="memory-stat-timer" class="live-timer-value">0:00</span></span>
+        <div class="memory-stats-center">
+          <div class="memory-stat">
+            <button type="button" class="timer-toggle-btn" id="memory-timer-toggle">${L.showTimer}</button>
+            <button type="button" class="live-timer-display memory-timer-live" id="memory-timer-live" aria-label="${L.hideTimer}">${gameIcon('timer')}<span id="memory-stat-timer" class="live-timer-value">0:00</span></button>
+          </div>
+          <div class="memory-stat stat-badge">${gameIcon('moves')}${L.moves} <span id="memory-stat-moves">0</span></div>
         </div>
-        <div class="memory-stat stat-badge">${gameIcon('moves')}${L.moves} <span id="memory-stat-moves">0</span></div>
-        <div class="dnd-stat-result" id="memory-stat-result"></div>
+        <div class="dnd-stat-result memory-stat-result" id="memory-stat-result"></div>
       `;
       memInstr.after(memoryStatsBar);
       document.getElementById('memory-timer-toggle').addEventListener('click', toggleLiveTimer);
+      // Le temps affiché est lui-même le bouton qui le masque, comme au
+      // glisser-déposer : plus de bouton « Hide » à côté.
+      document.getElementById('memory-timer-live').addEventListener('click', toggleLiveTimer);
       applyLiveTimerVisibility();
       memoryTimerIntervalId = setInterval(updateMemoryTimerDisplay, 1000);
 

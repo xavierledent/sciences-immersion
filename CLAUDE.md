@@ -170,6 +170,15 @@ scripts chargés.
   signaler (détail dans [docs/formats-donnees.md](docs/formats-donnees.md)).
 - **Texte des JSON.** Seules les balises `<strong>`, `<em>`, `<u>` et `<br>`
   sont interprétées.
+- **Émojis dans les cartes des jeux** (`interactive.json`, surtout tri et
+  memory) : à chaque ajout ou modification de jeux, les relire un par un.
+  Gardés quand ils montrent l'objet nommé (aide à l'immersion) ; retirés ou
+  changés quand ils donnent la réponse (même émoji sur toutes les cartes
+  d'une catégorie, symbole qui désigne la catégorie : ♨️ pour Thermal, ☢️
+  pour le nucléaire, visages pour Judgement), quand ils montrent autre chose
+  que le mot (🌀 pour un ressort), ou sur des énoncés abstraits. Le même dans
+  les deux langues. Les deux cartes d'une paire ou d'un même mélange peuvent
+  partager un émoji.
 - **Chromebook tactile (100 %) ; un écran de bureau zoomé à 125 % en donne
   un aperçu proche.** Les calculs de place se font sur le Chromebook à 100 %
   (1366 × 768). Pas de défilement dans les modales, tactile au même niveau que

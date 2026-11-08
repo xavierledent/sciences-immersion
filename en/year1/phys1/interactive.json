@@ -1646,7 +1646,7 @@
           "id": 7,
           "category": "Mechanical",
           "type": "text",
-          "content": "🌀 Compressed spring"
+          "content": "Compressed spring"
         },
         {
           "id": 8,
@@ -1664,13 +1664,13 @@
           "id": 10,
           "category": "Thermal",
           "type": "text",
-          "content": "🫖 Thermos flask"
+          "content": "Thermos flask"
         },
         {
           "id": 11,
           "category": "Thermal",
           "type": "text",
-          "content": "♨️ Hot water bottle"
+          "content": "Hot water bottle"
         },
         {
           "id": 12,
@@ -1694,13 +1694,13 @@
           "id": 1,
           "category": "Thermal energy",
           "type": "text",
-          "content": "🔥 Electric oven"
+          "content": "Electric oven"
         },
         {
           "id": 2,
           "category": "Thermal energy",
           "type": "text",
-          "content": "💇 Hair straightener"
+          "content": "Hair straightener"
         },
         {
           "id": 3,
@@ -1718,19 +1718,19 @@
           "id": 5,
           "category": "Mechanical energy",
           "type": "text",
-          "content": "🌀 Electric fan"
+          "content": "Electric fan"
         },
         {
           "id": 6,
           "category": "Mechanical energy",
           "type": "text",
-          "content": "🥤 Blender"
+          "content": "Blender"
         },
         {
           "id": 7,
           "category": "Mechanical energy",
           "type": "text",
-          "content": "🔩 Electric drill"
+          "content": "Electric drill"
         },
         {
           "id": 8,
@@ -1772,55 +1772,55 @@
           "id": 1,
           "category": "Wind turbine",
           "type": "text",
-          "content": "🌬️ Weather dependent"
+          "content": "Weather dependent"
         },
         {
           "id": 2,
           "category": "Wind turbine",
           "type": "text",
-          "content": "🏞️ Needs much space"
+          "content": "Needs much space"
         },
         {
           "id": 3,
           "category": "Wind turbine",
           "type": "text",
-          "content": "♻️ Renewable resource"
+          "content": "Renewable resource"
         },
         {
           "id": 4,
           "category": "Nuclear power plant",
           "type": "text",
-          "content": "☢️ Radioactive waste"
+          "content": "Radioactive waste"
         },
         {
           "id": 5,
           "category": "Nuclear power plant",
           "type": "text",
-          "content": "⚙️ Constant production"
+          "content": "Constant production"
         },
         {
           "id": 6,
           "category": "Nuclear power plant",
           "type": "text",
-          "content": "⛔ Limited uranium"
+          "content": "Limited uranium"
         },
         {
           "id": 7,
           "category": "Gas power plant",
           "type": "text",
-          "content": "💨 Releases CO2"
+          "content": "Releases CO2"
         },
         {
           "id": 8,
           "category": "Gas power plant",
           "type": "text",
-          "content": "⚡ Fast to start"
+          "content": "Fast to start"
         },
         {
           "id": 9,
           "category": "Gas power plant",
           "type": "text",
-          "content": "💶 Cheap to build"
+          "content": "Cheap to build"
         }
       ]
     }

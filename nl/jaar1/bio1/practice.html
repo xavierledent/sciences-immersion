@@ -11,7 +11,7 @@
   <link rel='icon' type='image/svg+xml' href='../../../assets/favicon.svg'>
   <link rel='preconnect' href='https://fonts.googleapis.com'>
   <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Color+Emoji&display=swap' rel='stylesheet'>
   <link rel='stylesheet' href='../../../css/style.css'>
   <link rel='stylesheet' href='../../../css/practice-engine.css'>
   <link rel='stylesheet' href='../../../css/practice-qcm.css'>
@@ -278,8 +278,12 @@
       <div class='modal-card-inner memory-modal-card-inner'>
         <div class='modal-header memory-modal-header'>
           <button type='button' class='modal-fullscreen' id='memory-fullscreen' aria-label='Volledig scherm'>⛶</button>
-          <h2 id='memory-modal-title' class='game-modal-title'>Zoek de paren</h2>
           <button type='button' class='modal-close' id='memory-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p class='game-modal-kicker'>Zoek de paren</p>
+            <h2 id='memory-modal-title' class='game-modal-title'>Zoek de paren</h2>
+          </div>
+          <div class='memory-pagination' id='memory-pagination'></div>
         </div>
 
         <div class='modal-body memory-modal-body'>
@@ -289,13 +293,6 @@
           <div class='memory-grid-container'>
             <div class='memory-grid' id='memory-grid'>
               <!-- Les cartes seront injectées ici par JS -->
-            </div>
-          </div>
-
-          <!-- Zone de navigation en bas -->
-          <div class='modal-footer memory-footer'>
-            <div class='memory-pagination' id='memory-pagination'>
-              <!-- Boutons de pagination des jeux (Game 1, Game 2, etc.) -->
             </div>
           </div>
         </div>

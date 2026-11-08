@@ -168,7 +168,7 @@
 }
 
 .memory-card-backpattern {
-  font-size: 2.2rem;
+  font-size: clamp(1.6rem, calc(var(--memory-card-size, 135px) * 0.26), 3.2rem);
   font-weight: 700;
   color: var(--color-current-text, #ffffff);
   opacity: 0.8;
@@ -206,7 +206,7 @@
      memorySyncCardSize : le repère utile est la place réellement disponible, pas
      la largeur de la fenêtre comme le faisait le 1.8vw d'avant. Un mot long tient
      ainsi sans avoir à être coupé dans la plupart des cas. */
-  font-size: clamp(0.65rem, calc(var(--memory-card-size, 135px) * 0.13), 0.95rem);
+  font-size: clamp(0.65rem, calc(var(--memory-card-size, 135px) * 0.115), 1.3rem);
   font-weight: 600;
   /* Largeur imposée plutôt que déduite : en tant qu'élément flex, le span se
      dimensionnait sur son contenu et « Decomposers » lui donnait une largeur
@@ -315,16 +315,6 @@
   100% { opacity: 0; transform: scale(0.9); }
 }
 
-/* Footer & Navigation */
-.memory-footer {
-  padding: 14px 0 6px;
-  border-top: 1px solid rgba(17, 36, 72, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
 .memory-pagination {
   display: flex;
   gap: 8px;
@@ -367,4 +357,100 @@ html[data-pointer='fine'] .memory-pagination .exercise-step:hover {
   .memory-card-tick {
     animation: none;
   }
+}
+
+/* ===== Fenêtre du memory « paysage » =====
+   Ouverte d'office en plein écran (requestModalFullscreen, moteur) ; hors
+   plein écran, toute la fenêtre moins une petite marge, comme les autres
+   jeux. En-tête compact (« Match the pairs » en petit, titre du jeu, onglets
+   Game 1, 2…), la consigne, la ligne des compteurs (au centre, dans l'axe de
+   la grille ; le résultat à droite), puis la grille, dont les cartes
+   grandissent jusqu'à 220px (memorySyncCardSize).
+   Placé en fin de fichier : ces règles passent devant les précédentes. */
+.memory-large-modal-overlay {
+  padding: 0;
+}
+
+.memory-modal-card {
+  width: calc(100vw - 32px);
+  height: calc(100vh - 32px);
+  height: calc(100dvh - 32px);
+  max-width: none;
+  max-height: none;
+}
+
+#memory-modal .memory-modal-header {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 14px 24px 12px;
+}
+
+#memory-modal .modal-close,
+#memory-modal .modal-fullscreen {
+  top: 14px;
+}
+
+#memory-modal .modal-header-titles h2 {
+  text-align: center;
+}
+
+#memory-modal .memory-pagination {
+  justify-content: center;
+  gap: 6px;
+}
+
+#memory-modal .memory-pagination .exercise-step {
+  width: auto;
+  height: auto;
+  aspect-ratio: auto;
+  padding: 7px 16px;
+  font-size: 0.85rem;
+  border-radius: 10px;
+}
+
+.memory-modal-body {
+  min-height: 0;
+  padding: 12px 24px 20px;
+  gap: 12px;
+}
+
+/* Trois colonnes, les deux extrêmes de même largeur : les compteurs restent
+   au milieu quoi qu'il s'affiche à droite. */
+.memory-stats-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  padding: 6px 10px;
+}
+
+.memory-stats-center {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.memory-stat-result {
+  grid-column: 3;
+  min-width: 0;
+}
+
+.memory-stats-bar .timer-toggle-btn.active {
+  display: none;
+}
+
+.memory-timer-live {
+  padding: 3px 10px;
+  border: 1px solid var(--color-current);
+  border-radius: 999px;
+  background: var(--color-current);
+  color: var(--color-current-text, #ffffff);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
 }
