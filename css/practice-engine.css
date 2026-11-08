@@ -2545,3 +2545,87 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
     overflow: visible;
   }
 }
+
+/* ===== Écran de correction allégé (maquette « écran de correction allégé »,
+   validée le 2026-11-08) =====
+   Quatre blocs annoncés de la même façon, un petit titre à gauche : la
+   question, ta réponse, la correction, l'autoévaluation. Les deux paires de
+   boutons de langue, en petit au bout de la ligne de titre de leur bloc,
+   deux boutons distincts : « NL » et « FR » seulement, le titre dit de quel
+   texte il s'agit (.toggle-word masqué). L'écran où l'élève écrit sa réponse
+   ne change pas (grands boutons « Question EN / Question FR »). */
+.compare-title {
+  display: none;
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .compare-title,
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .answer-compare-mine .answer-compare-label,
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .self-assess-prompt {
+  display: block;
+  min-height: 0;
+  margin: 0;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--color-muted);
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .language-buttons,
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .answer-compare-corr .correction-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .compare-title {
+  margin-right: auto;
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .toggle-word {
+  display: none;
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .language-buttons .toggle-button,
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .answer-compare-corr .toggle-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  min-height: 38px;
+  padding: 0 16px;
+  font-size: 0.82rem;
+}
+
+/* Le titre colle à son cadre (6 px), les blocs restent séparés par
+   l'espacement de la colonne. */
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .exercise-recall {
+  margin-top: -8px;
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .answer-compare-mine .answer-compare-label,
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .answer-compare-corr .correction-buttons {
+  margin-bottom: 6px;
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .self-assess-prompt {
+  margin-bottom: 8px;
+}
+
+/* Le bouton FR est maintenant au bord droit de la colonne : son infobulle de
+   verrou (« traduction disponible dans… ») s'aligne sur ce bord au lieu de
+   se centrer sous le bouton, sinon elle dépassait et faisait apparaître une
+   barre de défilement horizontale, même invisible. */
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .toggle-lock-wrap.is-fr-locked::after {
+  left: auto;
+  right: 0;
+  transform: translateY(6px);
+}
+
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .toggle-lock-wrap.is-fr-locked:hover::after {
+  transform: translateY(10px);
+}
