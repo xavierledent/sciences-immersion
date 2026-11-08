@@ -380,7 +380,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'exercise-step qcm-step';
-        btn.textContent = `Quiz ${index + 1}`;
+        btn.textContent = L.quizTab(index + 1);
         btn.dataset.index = index;
         btn.addEventListener('click', () => {
           qcmCurrentQuestionIndex = 0;

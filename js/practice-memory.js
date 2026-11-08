@@ -110,7 +110,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'exercise-step memory-step';
-        btn.textContent = `Game ${index + 1}`;
+        btn.textContent = L.gameTab(index + 1);
         btn.dataset.index = index;
         btn.addEventListener('click', () => {
           loadMemoryExercise(index);

@@ -56,7 +56,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'exercise-step sorting-step';
-        btn.textContent = `Game ${index + 1}`;
+        btn.textContent = L.gameTab(index + 1);
         btn.dataset.index = index;
         btn.addEventListener('click', () => {
           loadSortingExercise(index);

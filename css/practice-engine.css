@@ -584,6 +584,15 @@
       text-align: center;
     }
 
+    /* Nom du jeu en petit, au-dessus du titre de l'exercice de jeu (QCM,
+       glisser-déposer…). */
+    .game-modal-kicker {
+      margin: 0;
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--color-muted);
+    }
+
     #exercise-modal .modal-close,
     #dnd-modal .modal-close,
     #memory-modal .modal-close,

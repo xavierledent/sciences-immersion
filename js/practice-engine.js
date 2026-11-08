@@ -49,7 +49,11 @@
         greenCount: (n, total) => `${n} / ${total} green`,
         toImprove: n => `${n} to improve`,
         exerciseCellLabel: n => `Exercise ${n}`,
-        gameCellLabel: n => `Game ${n}`,
+        // Onglet d'un exercice de jeu, et infobulle de sa case sur la page :
+        // le même mot des deux côtés.
+        quizTab: n => `Quiz ${n}`,
+        textTab: n => `Text ${n}`,
+        gameTab: n => `Game ${n}`,
         gamesDone: (n, total) => `${n} / ${total} done`,
         levelActionStart: 'Start',
         levelActionContinue: 'Continue',
@@ -151,7 +155,9 @@
         greenCount: (n, total) => `${n} / ${total} groen`,
         toImprove: n => `${n} te verbeteren`,
         exerciseCellLabel: n => `Oefening ${n}`,
-        gameCellLabel: n => `Spel ${n}`,
+        quizTab: n => `Quiz ${n}`,
+        textTab: n => `Tekst ${n}`,
+        gameTab: n => `Spel ${n}`,
         gamesDone: (n, total) => `${n} / ${total} klaar`,
         levelActionStart: 'Beginnen',
         levelActionContinue: 'Doorgaan',
@@ -1411,6 +1417,13 @@
       sorting: game => getSortingBestMistakes(game) !== null
     };
 
+    // « Quiz 2 », « Text 2 », « Game 2 » : le mot de l'onglet de ce type de jeu.
+    function gameTabLabel(type, n) {
+      if (type === 'multipleChoice') return L.quizTab(n);
+      if (type === 'fillBlanks') return L.textTab(n);
+      return L.gameTab(n);
+    }
+
     function renderGameBoard() {
       if (!interactiveData) return;
       Object.keys(GAME_DONE).forEach(type => {
@@ -1430,8 +1443,9 @@
             cell.type = 'button';
             cell.className = 'level-cell game-cell' + (isDone ? ' is-done' : '');
             cell.dataset.gameIndex = String(index);
-            cell.setAttribute('aria-label', L.gameCellLabel(index + 1));
-            cell.dataset.tooltip = L.gameCellLabel(index + 1);
+            const label = gameTabLabel(type, index + 1);
+            cell.setAttribute('aria-label', label);
+            cell.dataset.tooltip = label;
             bar.appendChild(cell);
           }
         });

@@ -64,7 +64,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'exercise-step dnd-step';
-        btn.textContent = `Game ${index + 1}`;
+        btn.textContent = L.gameTab(index + 1);
         btn.dataset.index = index;
         btn.addEventListener('click', () => {
           loadDndExercise(index);
@@ -111,13 +111,16 @@
       dndStatsBar.innerHTML = `
         <div class="dnd-stat">
           <button type="button" class="timer-toggle-btn" id="dnd-timer-toggle">${L.showTimer}</button>
-          <span class="live-timer-display"><span class="dnd-stat-icon">⏱️</span><span id="dnd-stat-timer" class="live-timer-value">0:00</span></span>
+          <button type="button" class="live-timer-display dnd-timer-live" id="dnd-timer-live" aria-label="${L.hideTimer}"><span class="dnd-stat-icon">⏱️</span><span id="dnd-stat-timer" class="live-timer-value">0:00</span></button>
         </div>
         <div class="dnd-stat stat-badge"><span class="dnd-stat-icon">❌</span>${L.errors} <span id="dnd-stat-mistakes">0</span></div>
         <div class="dnd-stat-result" id="dnd-stat-result"></div>
       `;
       dndInstr.after(dndStatsBar);
       document.getElementById('dnd-timer-toggle').addEventListener('click', toggleLiveTimer);
+      // Le temps affiché est lui-même le bouton qui le masque (« Hide » ne
+      // tient pas à côté dans la colonne de droite, voir practice-dnd.css).
+      document.getElementById('dnd-timer-live').addEventListener('click', toggleLiveTimer);
       applyLiveTimerVisibility();
       dndTimerIntervalId = setInterval(updateDndTimerDisplay, 1000);
 
@@ -271,29 +274,41 @@
        confortable au doigt. 13px est le plancher, au-delà le texte devient trop
        petit pour des élèves de 12 ans sur Chromebook. */
     const DND_ITEM_STEPS = [
-      { font: '1rem', padX: '20px', gap: '12px' },
-      { font: '0.9375rem', padX: '14px', gap: '10px' },
-      { font: '0.875rem', padX: '12px', gap: '8px' },
-      { font: '0.8125rem', padX: '10px', gap: '6px' }
+      // L'espace entre les étiquettes se resserre d'abord, le texte ensuite.
+      { font: '1rem', padX: '14px', gap: '10px' },
+      { font: '1rem', padX: '14px', gap: '6px' },
+      { font: '0.9375rem', padX: '12px', gap: '6px' },
+      { font: '0.875rem', padX: '10px', gap: '6px' },
+      { font: '0.8125rem', padX: '8px', gap: '6px' }
     ];
 
-    /* Plus grand cran qui tient les étiquettes sur une seule ligne, mesuré sur
-       les étiquettes réellement affichées. Un seul cran pour tout le jeu, pour
-       qu'aucune étiquette ne paraisse plus importante qu'une autre. Si même le
-       plus petit ne suffit pas, il reste appliqué et les étiquettes passent sur
-       deux lignes. Doit précéder le calage de l'image, dont la hauteur
-       disponible dépend de celle du réservoir. */
+    /* Les étiquettes dans la colonne de droite (mise en page « paysage ») :
+       une colonne, au plus grand cran qui tient dans la hauteur ; sinon deux
+       colonnes, de nouveau au plus grand cran qui tient. Mesuré sur les
+       étiquettes du jeu, au chargement : un seul cran pour tout le jeu, pour
+       qu'aucune étiquette ne paraisse plus importante qu'une autre (une
+       étiquette posée libère de la place, rien ne se recale ; seul un
+       changement de taille de la fenêtre recale, via dndSyncBoardMetrics). */
     function dndFitReservoir() {
       const reservoir = document.getElementById('dnd-reservoir');
       if (!reservoir || reservoir.clientWidth === 0) return;
       const items = Array.from(reservoir.querySelectorAll('.dnd-item'));
       if (!items.length) return;
-      for (const step of DND_ITEM_STEPS) {
+      // Tient en hauteur, et aucun mot ne dépasse de son étiquette (un mot
+      // n'est jamais coupé : on réduit plutôt le texte).
+      const fits = () => reservoir.scrollHeight <= reservoir.clientHeight + 1 &&
+        items.every(item => item.scrollWidth <= item.clientWidth + 1);
+      const apply = step => {
         reservoir.style.setProperty('--dnd-item-font', step.font);
         reservoir.style.setProperty('--dnd-item-pad-x', step.padX);
         reservoir.style.setProperty('--dnd-item-gap', step.gap);
-        const firstTop = items[0].offsetTop;
-        if (items.every(item => item.offsetTop === firstTop)) return;
+      };
+      for (const twoCols of [false, true]) {
+        reservoir.classList.toggle('is-two-cols', twoCols);
+        for (const step of DND_ITEM_STEPS) {
+          apply(step);
+          if (fits()) return;
+        }
       }
     }
 

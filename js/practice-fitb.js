@@ -294,7 +294,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'exercise-step fitb-step';
-        btn.textContent = `Text ${index + 1}`;
+        btn.textContent = L.textTab(index + 1);
         btn.dataset.index = index;
         btn.addEventListener('click', () => loadFitbExercise(index));
         paginationContainer.appendChild(btn);

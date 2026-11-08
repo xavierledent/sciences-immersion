@@ -240,32 +240,30 @@
       <div class='modal-card-inner dnd-modal-card-inner'>
         <div class='modal-header dnd-modal-header'>
           <button type='button' class='modal-fullscreen' id='dnd-fullscreen' aria-label='Full screen'>⛶</button>
-          <h2 id='dnd-modal-title' class='game-modal-title'>Drag and drop</h2>
           <button type='button' class='modal-close' id='dnd-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p class='game-modal-kicker'>Drag and drop</p>
+            <h2 id='dnd-modal-title' class='game-modal-title'>Drag and drop</h2>
+          </div>
+          <div class='dnd-pagination' id='dnd-pagination'></div>
         </div>
 
+        <!-- Mise en page « paysage » (practice-dnd.css) : l'image, qui est le
+             jeu, à gauche et aussi grande que possible ; à droite une colonne
+             fixe : consigne, chronomètre et erreurs (ajoutés en JS sous la
+             consigne), puis les étiquettes. -->
         <div class='modal-body dnd-modal-body'>
-          <!-- Instructions optionnelles -->
-          <div id='dnd-instructions' class='dnd-instructions-text' style='display: none;'></div>
           <div id='dnd-live-region' class='visually-hidden' aria-live='polite' aria-atomic='true'></div>
-          <!-- Réservoir d'étiquettes en haut -->
-          <div class='dnd-reservoir' id='dnd-reservoir'>
-            <!-- Les étiquettes de mots seront injectées ici -->
-          </div>
-
-          <!-- Plateau de jeu (Image de fond + zones cibles) -->
-          <div class='dnd-board-container'>
-            <div class='dnd-board' id='dnd-board'>
-              <img id='dnd-bg-image' src='' alt='Drag and drop board' />
-              <!-- Les zones de drop cibles seront injectées ici de manière absolue -->
+          <div class='dnd-layout'>
+            <div class='dnd-board-container'>
+              <div class='dnd-board' id='dnd-board'>
+                <img id='dnd-bg-image' src='' alt='Drag and drop board' />
+              </div>
             </div>
-          </div>
-
-          <!-- Zone de navigation et de choix des jeux en bas -->
-          <div class='modal-footer dnd-footer'>
-            <div class='dnd-pagination' id='dnd-pagination'>
-              <!-- Les boutons numérotés [ Game 1 ] [ Game 2 ]... seront injectés ici -->
-            </div>
+            <aside class='dnd-side'>
+              <div id='dnd-instructions' class='dnd-instructions-text' style='display: none;'></div>
+              <div class='dnd-reservoir' id='dnd-reservoir'></div>
+            </aside>
           </div>
         </div>
       </div>
