@@ -132,15 +132,14 @@
       <button type='button' class='modal-close' data-help-close aria-label='Close'>×</button>
       <section class='note-box'>
         <h3 id='help-modal-title'>How does this page work?</h3>
-        <p><strong>In short:</strong> two ways to practice, equally useful. The classic exercises (Level 1 to 3) get
-          progressively harder; pick any level in any order — start at Level 1 if the topic is new, or jump to Level 3 if
-          you're already comfortable. "Start" or "Continue" takes you to the first exercise you haven't done yet. After
-          each exercise, rate yourself "Needs work", "Almost" or "Got it": the bar under each level shows one square per
-          exercise in that colour (grey: answered, not rated yet; white: not tried yet), and "… to improve" takes you
-          through the exercises you have answered that aren't green yet. The interactive games (multiple-choice, drag
-          and drop, fill in the blanks, match the pairs, sorting) review the same notions another way: each square
-          fills in once you have finished that game. Your answers are saved with your school account: your teachers
-          can read them to help you, never to grade you.</p>
+        <p><strong>In short:</strong> two ways to practice the chapter, equally useful.</p>
+        <ul class='help-list'>
+          <li><strong>Exercises (Level 1 to 3):</strong> they get harder level by level; pick any level, in any order. <strong>Start</strong> or <strong>Continue</strong> opens the first exercise you haven't done yet.</li>
+          <li><strong>Rate yourself:</strong> after each exercise, choose <strong>Needs work</strong>, <strong>Almost</strong> or <strong>Got it</strong>. The squares under each level take that colour (grey: answered, not rated yet; white: not tried yet). <strong>… to improve</strong> takes you through the exercises that aren't green yet.</li>
+          <li><strong>Interactive exercises:</strong> the same notions, another way (multiple-choice, drag and drop, fill in the blanks, match the pairs, sorting). A square fills in once you have finished that game.</li>
+          <li><strong>Squares:</strong> tap any square to open that exercise or game.</li>
+          <li><strong>Saved:</strong> your answers are saved with your school account; your teachers read them to help you, never to grade you.</li>
+        </ul>
         <p class="note-box-tip"><strong>Teacher's tip:</strong> an exercise that isn't green yet stays available to
           redo — come back to it as often as you need, repeated practice is the best way to improve.</p>
       </section>
@@ -168,10 +167,6 @@
           <div class='exercise-side' id='exercise-side'>
             <div id='exercise-image-wrap' class='exercise-image-wrap'>
               <img id='exercise-image' class='exercise-image' alt='Illustration de l’exercice' src='' />
-            </div>
-            <div class='exercise-textside' id='exercise-textside'>
-              <div class='exercise-textside-statement' id='exercise-textside-statement'></div>
-              <img class='exercise-mascot' id='exercise-mascot' alt='' />
             </div>
           </div>
           <div class='exercise-main' id='exercise-main'>
@@ -304,8 +299,12 @@
       <div class='modal-card-inner sorting-modal-card-inner'>
         <div class='modal-header sorting-modal-header'>
           <button type='button' class='modal-fullscreen' id='sorting-fullscreen' aria-label='Full screen'>⛶</button>
-          <h2 id='sorting-modal-title' class='game-modal-title'>Sorting challenge</h2>
           <button type='button' class='modal-close' id='sorting-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p class='game-modal-kicker'>Sorting challenge</p>
+            <h2 id='sorting-modal-title' class='game-modal-title'>Sorting challenge</h2>
+          </div>
+          <div class='sorting-pagination' id='sorting-pagination'></div>
         </div>
 
         <div class='modal-body sorting-modal-body'>
@@ -331,13 +330,6 @@
           <!-- Zone du bouton de vérification final (au milieu, désactivé tant qu'il reste des cartes) -->
           <div class='sorting-action-container'>
             <button type='button' class='sorting-action-btn' id='btn-check-sorting' disabled>Check Categories</button>
-          </div>
-
-          <!-- Zone de navigation en bas -->
-          <div class='modal-footer sorting-footer'>
-            <div class='sorting-pagination' id='sorting-pagination'>
-              <!-- Boutons de pagination des jeux (Game 1, Game 2, etc.) -->
-            </div>
           </div>
         </div>
       </div>

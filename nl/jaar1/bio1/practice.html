@@ -132,16 +132,14 @@
       <button type='button' class='modal-close' data-help-close aria-label='Sluiten'>×</button>
       <section class='note-box'>
         <h3 id='help-modal-title'>Hoe werkt deze pagina?</h3>
-        <p><strong>Kort gezegd:</strong> twee manieren om te oefenen, allebei even nuttig. De klassieke oefeningen
-          (Level 1 tot 3) worden geleidelijk moeilijker; kies elk level in eender welke volgorde — begin bij Level 1 als
-          het onderwerp nieuw is, of ga meteen naar Level 3 als je je er al zeker bij voelt. "Beginnen" of "Doorgaan"
-          brengt je naar de eerste oefening die je nog niet gemaakt hebt. Beoordeel jezelf na elke oefening met "Nog
-          oefenen", "Bijna" of "Gelukt": de balk onder elk level toont één vakje per oefening in die kleur (grijs:
-          beantwoord, nog niet beoordeeld; wit: nog niet geprobeerd), en "… te verbeteren" neemt je mee langs de
-          oefeningen die je beantwoord hebt en die nog niet groen zijn. De interactieve spellen (meerkeuzevragen, sleep
-          en plaats, vul de gaten in, zoek de paren, sorteeruitdaging) herhalen dezelfde begrippen op een andere manier:
-          elk vakje kleurt zodra je dat spel helemaal gespeeld hebt. Je antwoorden worden bewaard met je schoolaccount:
-          je leerkrachten kunnen ze lezen om je te helpen, nooit om je punten te geven.</p>
+        <p><strong>Kort gezegd:</strong> twee manieren om het hoofdstuk te oefenen, allebei even nuttig.</p>
+        <ul class='help-list'>
+          <li><strong>Oefeningen (Level 1 tot 3):</strong> ze worden per level moeilijker; kies eender welk level, in eender welke volgorde. <strong>Beginnen</strong> of <strong>Doorgaan</strong> opent de eerste oefening die je nog niet gemaakt hebt.</li>
+          <li><strong>Beoordeel jezelf:</strong> kies na elke oefening <strong>Nog oefenen</strong>, <strong>Bijna</strong> of <strong>Gelukt</strong>. De vakjes onder elk level krijgen die kleur (grijs: beantwoord, nog niet beoordeeld; wit: nog niet geprobeerd). <strong>… te verbeteren</strong> neemt je mee langs de oefeningen die nog niet groen zijn.</li>
+          <li><strong>Interactieve oefeningen:</strong> dezelfde begrippen, op een andere manier (meerkeuzevragen, sleep en plaats, vul de gaten in, zoek de paren, sorteeruitdaging). Een vakje kleurt zodra je dat spel helemaal gespeeld hebt.</li>
+          <li><strong>Vakjes:</strong> tik op een vakje om die oefening of dat spel te openen.</li>
+          <li><strong>Bewaard:</strong> je antwoorden worden bewaard met je schoolaccount; je leerkrachten lezen ze om je te helpen, nooit om je punten te geven.</li>
+        </ul>
         <p class="note-box-tip"><strong>Tip van de leerkracht:</strong> een oefening die nog niet groen is, blijft
           beschikbaar om opnieuw te doen — kom er zo vaak op terug als nodig, regelmatig oefenen is de beste manier om
           vooruitgang te boeken.</p>
@@ -170,10 +168,6 @@
           <div class='exercise-side' id='exercise-side'>
             <div id='exercise-image-wrap' class='exercise-image-wrap'>
               <img id='exercise-image' class='exercise-image' alt='Illustration de l’exercice' src='' />
-            </div>
-            <div class='exercise-textside' id='exercise-textside'>
-              <div class='exercise-textside-statement' id='exercise-textside-statement'></div>
-              <img class='exercise-mascot' id='exercise-mascot' alt='' />
             </div>
           </div>
           <div class='exercise-main' id='exercise-main'>
@@ -306,8 +300,12 @@
       <div class='modal-card-inner sorting-modal-card-inner'>
         <div class='modal-header sorting-modal-header'>
           <button type='button' class='modal-fullscreen' id='sorting-fullscreen' aria-label='Volledig scherm'>⛶</button>
-          <h2 id='sorting-modal-title' class='game-modal-title'>Sorteeruitdaging</h2>
           <button type='button' class='modal-close' id='sorting-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p class='game-modal-kicker'>Sorteeruitdaging</p>
+            <h2 id='sorting-modal-title' class='game-modal-title'>Sorteeruitdaging</h2>
+          </div>
+          <div class='sorting-pagination' id='sorting-pagination'></div>
         </div>
 
         <div class='modal-body sorting-modal-body'>
@@ -333,13 +331,6 @@
           <!-- Zone du bouton de vérification final (au milieu, désactivé tant qu'il reste des cartes) -->
           <div class='sorting-action-container'>
             <button type='button' class='sorting-action-btn' id='btn-check-sorting' disabled>Categorieën controleren</button>
-          </div>
-
-          <!-- Zone de navigation en bas -->
-          <div class='modal-footer sorting-footer'>
-            <div class='sorting-pagination' id='sorting-pagination'>
-              <!-- Boutons de pagination des jeux (Game 1, Game 2, etc.) -->
-            </div>
           </div>
         </div>
       </div>

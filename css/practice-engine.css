@@ -79,8 +79,16 @@
       flex: none;
     }
 
+    /* Une seule ligne, à la place laissée par la mascotte : il ne manquait que
+       quelques pixels sur un écran de PC (agrandi par fitWidePage, ou avec une
+       barre de défilement), d'où des espaces un peu plus serrés. */
     .practice-card-title .status-legend {
       justify-content: center;
+      column-gap: 8px;
+    }
+
+    .practice-card-title .status-legend li {
+      gap: 5px;
     }
 
     .practice-card-head img {
@@ -640,7 +648,10 @@
     #memory-modal .modal-close,
     #sorting-modal .modal-close,
     #qcm-modal .modal-close,
-    #fitb-modal .modal-close {
+    #fitb-modal .modal-close,
+    /* Le mode d'emploi de la page aussi : la règle .modal-close du moteur
+       (position: static) le sortait de son coin, comme sur les autres pages. */
+    #help-modal .modal-close {
       position: absolute !important;
       top: 18px;
       right: 18px;
@@ -1033,6 +1044,28 @@
       color: var(--color-text);
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
+    }
+
+    /* Triangle dessiné (pagerArrowSvg), dans la couleur du chapitre : les
+       caractères ◀ ▶ changeaient de dessin d'un ordinateur à l'autre, et
+       devenaient même des émojis gris. */
+    .exercise-pager-arrow svg {
+      display: block;
+      width: 14px;
+      height: 14px;
+      margin: auto;
+      fill: currentColor;
+    }
+
+    /* Émojis du contenu des jeux (cartes du memory et du tri) : la police de
+       Google, chargée par la page Practice, pour le même dessin sur tous les
+       ordinateurs. Limitée à ces cartes : ailleurs, elle transformait des
+       signes comme ◀ ▶ en émojis. Après sans-serif, pour qu'elle ne serve
+       jamais aux chiffres pendant le chargement de Poppins. */
+    .memory-card-back,
+    .sorting-card,
+    .sorting-bin-item {
+      font-family: 'Poppins', sans-serif, 'Noto Color Emoji';
     }
 
     .exercise-pager-arrow {
@@ -2100,16 +2133,11 @@
       display: flex;
     }
 
-    /* An <img> only ever shrinks to fit max-width/max-height — it never grows past
-       its natural size. Small diagrams (the food web is 715x455) were therefore
-       shown at roughly their in-modal size, leaving the screen unused. The
-       min-height forces them up to 2.5x the 230px used inside the modal, while
-       max-height still caps pictures that are already larger. object-fit keeps
-       the ratio safe if both constraints ever fight. */
+    /* Taille posée par openImageLightbox : l'image remplit l'écran, même
+       au-delà de sa taille d'origine. */
     .image-lightbox-img {
       width: auto;
       height: auto;
-      min-height: min(575px, 92vh);
       max-width: 96vw;
       max-height: 92vh;
       object-fit: contain;
@@ -2220,10 +2248,10 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
    elle occupe toute la fenêtre moins une petite marge. En-tête compact
    (plein écran à gauche, niveau et titre centrés, fermer à droite, puis les
    20 exercices), puis deux colonnes (voir setExerciseMode) :
-   - .exo-side : l'image à gauche, centrée dans une colonne de 55 %
-     (--exo-side-w, posée en JS) ; le travail à droite ;
-   - .exo-text : pas d'image : l'énoncé en grand à gauche et une mascotte ;
-     le travail à droite, la réponse en face de la question.
+   l'image à gauche, centrée dans une colonne de 55 % (--exo-side-w, posée
+   en JS) ; à droite les boutons Question EN / FR, la question et le travail.
+   Sans image (.exo-mascot), une mascotte de la matière à la place de
+   l'image.
    Placé en fin de fichier : ces règles passent devant les précédentes. */
 #exercise-modal .modal-card {
   width: calc(100vw - 32px);
@@ -2288,11 +2316,6 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
   grid-template-rows: minmax(0, 1fr);
 }
 
-#exercise-modal.exo-text .exercise-layout {
-  grid-template-columns: var(--exo-text-w, 55%) minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr);
-}
-
 /* ----- Colonne de gauche : l'image, ou l'énoncé en grand ----- */
 .exercise-side {
   min-width: 0;
@@ -2313,56 +2336,30 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
   box-shadow: 0 10px 26px rgba(17, 36, 72, 0.12);
 }
 
-.exercise-textside {
-  display: none;
-}
-
-#exercise-modal.exo-text .exercise-textside {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  /* Au-delà de 260 px de mascotte, le reste en marge au-dessus. */
-  padding-top: max(0px, calc(var(--exo-q-top, 0px) - 276px));
-}
-
-/* Pas assez de place pour la mascotte : la question descend seule. */
-#exercise-modal.exo-text .exercise-textside.no-mascot {
-  padding-top: var(--exo-q-top, 0px);
-}
-
-#exercise-modal.exo-text .exercise-textside.no-mascot .exercise-mascot {
-  display: none;
-}
-
-/* L'énoncé seul dans son cadre (même habillage que l'énoncé à côté d'une
-   image) : on l'identifie au premier regard ; boutons, mots et mascotte
-   restent hors du cadre. */
-.exercise-textside-statement {
-  flex: none;
-  padding: 18px 22px;
-  border-radius: 22px;
-  background: rgba(var(--color-current-rgb), 0.05);
-  border: 1px solid rgba(var(--color-current-rgb), 0.18);
-  font-size: 1.4rem;
-  font-weight: 500;
-  line-height: 1.5;
-  white-space: pre-line;
-  text-align: left;
-  color: var(--color-text);
-}
-
-/* La mascotte au-dessus de la question, posée sur elle : toute la hauteur
-   qui reste au-dessus de la zone de réponse (--exo-q-top, mesuré en JS). */
-.exercise-mascot {
-  order: -1;
-  flex: none;
-  height: min(260px, calc(var(--exo-q-top, 256px) - 16px));
-  width: 100%;
-  object-fit: contain;
-  object-position: center bottom;
+/* Pas d'image : la mascotte à sa place, plus petite qu'une image
+   d'exercice (elle n'est qu'un décor), sans cadre, fond blanc fondu, et
+   sans agrandissement au clic. */
+#exercise-modal.exo-mascot.has-answer-box .exercise-layout .exercise-image {
+  max-height: min(100%, 320px);
+  border-radius: 0;
+  box-shadow: none;
   mix-blend-mode: multiply;
+  cursor: default;
+}
+
+#exercise-modal.exo-mascot .exercise-image-wrap[data-hint]::after {
+  display: none !important;
+}
+
+/* Sans image, les deux colonnes se resserrent en un bloc centré, la
+   mascotte (300 px) contre la colonne de travail (640 px) : le regard tombe
+   au milieu de l'écran au lieu d'aller chercher la question tout à droite.
+   Largeurs posées par syncExerciseImageHeight (une longue correction
+   élargit la colonne de travail). */
+#exercise-modal.exo-side.exo-mascot .exercise-layout {
+  grid-template-columns: var(--exo-mascot-w, 300px) minmax(0, var(--exo-main-w, 640px));
+  justify-content: center;
+  column-gap: 32px;
 }
 
 /* ----- Colonne de droite : le travail de l'élève ----- */
@@ -2378,6 +2375,33 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
 
 .exercise-main > * {
   flex-shrink: 0;
+}
+
+/* Sur un grand écran, la place libre n'est plus partagée à parts égales
+   au-dessus et en dessous : une part au-dessus pour deux en dessous. Le
+   contenu se pose au tiers de la hauteur, là où l'œil le cherche, au lieu de
+   pendre au milieu. Deux cales de base nulle : elles ne prennent que de la
+   place libre, donc rien ne bouge sur le Chromebook, où il n'y en a pas, et
+   rien ne se coupe si le contenu déborde. L'image (ou la mascotte) est
+   placée de même par syncExerciseImageHeight (marge haute d'un tiers de la
+   place libre). */
+#exercise-modal.has-answer-box .exercise-main {
+  justify-content: flex-start;
+}
+
+#exercise-modal.has-answer-box .exercise-main::before,
+#exercise-modal.has-answer-box .exercise-main::after {
+  content: '';
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+#exercise-modal.has-answer-box .exercise-main::after {
+  flex-grow: 2;
+}
+
+#exercise-modal.has-answer-box .exercise-layout .exercise-image-wrap {
+  align-items: flex-start;
 }
 
 #exercise-modal .exercise-layout .language-buttons {
@@ -2412,17 +2436,6 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
   -webkit-line-clamp: 4;
 }
 
-/* Sans image, l'énoncé est à gauche : il ne se répète pas à droite, mais
-   il y garde sa place (invisible), pour que la réponse et « Check my
-   answer » restent à la même hauteur qu'à côté d'une image. */
-#exercise-modal.exo-text:not(.is-comparing) .answer-compare {
-  visibility: hidden;
-}
-
-#exercise-modal.exo-text .exercise-recall {
-  display: none !important;
-}
-
 #exercise-modal .exercise-recall-img {
   display: none !important;
 }
@@ -2436,10 +2449,8 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
   text-align: left;
 }
 
-/* La réponse commence à la hauteur d'une question de deux lignes sans
-   image (énoncé en grand à gauche, voir syncTextSideHeights) : même taille
-   et même place, avec ou sans image, pour la plupart des exercices ; elle
-   grandit avec le texte. */
+/* La zone de réponse : trois lignes au départ, elle grandit avec le texte
+   (autoGrowAnswer) jusqu'à son maximum. */
 #exercise-modal.has-answer-box .exercise-layout .student-answer-input {
   min-height: 105px;
   max-height: 200px;
@@ -2451,6 +2462,13 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
 #exercise-modal.has-answer-box .exercise-layout .answer-compare.is-comparing {
   grid-template-columns: minmax(0, 1fr);
   gap: 10px;
+}
+
+/* La question, un peu plus grande que la réponse : c'est elle qu'on lit en
+   premier. Pendant la correction, ce cadre affiche la correction, à la même
+   taille que la réponse de l'élève. */
+#exercise-modal.has-answer-box:not(.is-comparing) .exercise-layout .exercise-text {
+  font-size: 1.2rem;
 }
 
 #exercise-modal.has-answer-box.is-comparing .exercise-layout .exercise-text,

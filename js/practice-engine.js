@@ -238,9 +238,6 @@
     // Mise en page « paysage » : deux colonnes (voir le template).
     const exerciseLayout = document.getElementById('exercise-layout');
     const exerciseMain = document.getElementById('exercise-main');
-    const exerciseTextSide = document.getElementById('exercise-textside');
-    const exerciseTextSideStatement = document.getElementById('exercise-textside-statement');
-    const exerciseMascot = document.getElementById('exercise-mascot');
     const exerciseSubQuestionNav = document.getElementById('exercise-subquestion-nav');
     const exerciseText = document.getElementById('exercise-text');
     const exercisesPagination = document.getElementById('exercises-pagination');
@@ -409,19 +406,18 @@
        non sur sa hauteur actuelle, qui épouse son contenu : sinon l'image se
        réduirait alors qu'il reste de la place. */
     /* ===== Fenêtre d'exercice « paysage » =====
-       Deux dispositions, posées en classe sur la fenêtre, avec les mêmes
-       colonnes (55 % à gauche) : la fenêtre garde la même forme d'un
-       exercice à l'autre, rien ne saute.
-       - exo-side : l'image à gauche, centrée dans sa colonne, quelle que soit
-         sa forme (une image très large s'agrandit d'un clic) ;
-       - exo-text : pas d'image : l'énoncé en grand à gauche et une
-         mascotte ; à droite, le travail à la même place qu'avec une image :
-         l'énoncé de droite garde sa place, invisible ; à gauche, la
-         mascotte au-dessus et la question en face de la zone de réponse
-         (--exo-q-top). */
+       Une seule disposition pour tous les exercices : à gauche l'image,
+       centrée dans une colonne de 55 % (une image très large s'agrandit d'un
+       clic) ; à droite les boutons Question EN / FR, la question, la réponse.
+       Sans image (exo-mascot), une mascotte de la matière à la place de
+       l'image, plus petite, ni cadre ni agrandissement, et les deux colonnes
+       resserrées en un bloc centré : le travail n'est plus isolé à droite.
+       La fenêtre change donc de forme entre les deux sortes d'exercices :
+       accepté, l'élève passe du temps sur chacun. */
 
     function setExerciseMode(mode) {
-      ['exo-side', 'exo-text'].forEach(c => modalOverlay.classList.toggle(c, c === 'exo-' + mode));
+      modalOverlay.classList.add('exo-side');
+      modalOverlay.classList.toggle('exo-mascot', mode === 'mascot');
     }
 
     function exerciseImageRatio() {
@@ -452,26 +448,36 @@
 
       // Même largeur pour tous (55 %), avec ou sans image : la colonne de
       // droite ne bouge pas d'un exercice au suivant.
-      if (modalOverlay.classList.contains('exo-side')) {
-        shrink('--exo-side-w', usable * 0.55, usable * 0.35);
-      } else if (modalOverlay.classList.contains('exo-text')) {
-        // Hauteurs naturelles d'abord : la zone de réponse allongée pour
-        // suivre la question ne doit pas compter comme un débordement.
-        if (answerFeatureOn && !modalOverlay.classList.contains('is-comparing')) {
-          answerBox.style.marginBottom = '';
-          exerciseTextSideStatement.style.minHeight = '';
-          answerInput.style.height = 'auto';
-          answerInput.style.height = answerInput.scrollHeight + 'px';
+      if (modalOverlay.classList.contains('exo-mascot')) {
+        // Sans image : la mascotte et le travail côte à côte, le bloc centré
+        // (practice-engine.css). Une longue correction qui ne tient pas
+        // élargit la colonne de travail ; la mascotte lui cède la place.
+        let mainW = 640;
+        const apply = () => {
+          exerciseLayout.style.setProperty('--exo-main-w', mainW + 'px');
+          exerciseLayout.style.setProperty('--exo-mascot-w', Math.max(0, Math.min(300, usable - mainW)) + 'px');
+        };
+        apply();
+        while (!fits() && mainW + 40 <= usable - 160) {
+          mainW += 40;
+          apply();
         }
-        shrink('--exo-text-w', usable * 0.55, usable * 0.35);
-        syncTextSideHeights();
+      } else if (modalOverlay.classList.contains('exo-side')) {
+        shrink('--exo-side-w', usable * 0.55, usable * 0.35);
+      }
+      if (modalOverlay.classList.contains('exo-side')) {
+        // L'image au tiers de la place libre, comme le travail de droite
+        // (practice-engine.css) : sur grand écran, elle ne pend plus au milieu.
+        exerciseImage.style.marginTop = '';
+        const free = exerciseImageWrap.clientHeight - exerciseImage.offsetHeight;
+        exerciseImage.style.marginTop = free > 1 ? Math.round(free / 3) + 'px' : '';
       }
     }
 
     // L'image chargée : les colonnes sont recalculées.
     if (exerciseImage) exerciseImage.addEventListener('load', syncExerciseImageHeight);
 
-    /* Mascotte de la colonne de gauche (exercices sans image), tirée au
+    /* Mascotte à la place de l'image (exercices sans image), tirée au
        hasard dans la série de la matière du chapitre (quatre scènes par
        matière, planches Gemini découpées, assets/ex-*.webp) : jamais la même
        que celle de l'exercice sans image précédent ; un exercice garde la
@@ -498,14 +504,6 @@
       }
       lastExerciseMascot = name;
       return '../../../assets/' + encodeURIComponent(name);
-    }
-
-    function renderTextSide(source) {
-      if (!exerciseTextSide) return;
-      const statement = (source && (source[lastStatementView] || source.en)) || '';
-      setRichText(exerciseTextSideStatement, statement);
-      const src = exerciseMascotSrc(currentLevel, currentExercise);
-      if (exerciseMascot.getAttribute('src') !== src) exerciseMascot.setAttribute('src', src);
     }
 
     // Returns the exercise's questions array when it uses the multi-sub-question format, else null.
@@ -659,6 +657,13 @@
        aucune forme intermédiaire n'apparaît à l'écran. */
     const EXERCISE_PAGER_MODES = ['full', 'compact', 'minimal'];
 
+    // Flèches de la pagination : triangle plein aux coins arrondis, dans la
+    // couleur du chapitre (practice-engine.css).
+    function pagerArrowSvg(direction) {
+      const d = direction === 'prev' ? 'M9.5 1.8 2.5 6l7 4.2Z' : 'M2.5 1.8 9.5 6l-7 4.2Z';
+      return `<svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="${d}" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+    }
+
     function renderExerciseSteps() {
       if (revisionActive && currentLevel === revisionLevel) {
         renderRevisionBar();
@@ -690,7 +695,7 @@
       prevBtn.className = 'exercise-pager-arrow';
       prevBtn.dataset.direction = 'prev';
       prevBtn.setAttribute('aria-label', L.prevExerciseAria);
-      prevBtn.textContent = '◀';
+      prevBtn.innerHTML = pagerArrowSvg('prev');
       prevBtn.disabled = currentExercise <= 1;
       pager.appendChild(prevBtn);
 
@@ -737,7 +742,7 @@
       nextBtn.className = 'exercise-pager-arrow';
       nextBtn.dataset.direction = 'next';
       nextBtn.setAttribute('aria-label', L.nextExerciseAria);
-      nextBtn.textContent = '▶';
+      nextBtn.innerHTML = pagerArrowSvg('next');
       nextBtn.disabled = currentExercise >= numExercises;
       pager.appendChild(nextBtn);
 
@@ -922,7 +927,7 @@
       }
 
       if (exerciseItem.image) {
-        setExerciseMode('side');
+        setExerciseMode('image');
         // Image introuvable : on replie le conteneur plutôt que de laisser un
         // cadre vide ou une icône cassée au milieu de l'énoncé. L'exercice reste
         // lisible et utilisable sans elle.
@@ -935,8 +940,12 @@
         // centrage et l'étirement qui adapte l'image à la hauteur disponible.
         exerciseImageHost.style.display = '';
       } else {
-        exerciseImageHost.style.display = 'none';
-        setExerciseMode('text');
+        // Pas d'image : une mascotte de la matière à sa place, même colonne.
+        setExerciseMode('mascot');
+        swapImage(exerciseImage, exerciseMascotSrc(currentLevel, currentExercise), () => {
+          exerciseImageHost.style.display = 'none';
+        });
+        exerciseImageHost.style.display = '';
       }
 
       renderSubQuestionNav(exerciseItem);
@@ -956,7 +965,6 @@
       syncAnswerBoxForExercise();
       updateAnswerCompare(exerciseItem, source);
       applyToggleState();
-      if (!exerciseItem.image) renderTextSide(source);
 
       renderExerciseSteps();
       // Après le rendu : la place restante dépend de ce qui vient d'être affiché
@@ -1493,47 +1501,6 @@
       // scrollHeight ne compte pas la bordure (box-sizing: border-box) :
       // sans elle, une barre de défilement apparaît pour 2 px.
       answerInput.style.height = answerInput.scrollHeight + (answerInput.offsetHeight - answerInput.clientHeight) + 'px';
-      syncTextSideHeights();
-    }
-
-    /* Sans image : la question de gauche et la zone de réponse en face ont
-       la même hauteur, celle de la plus grande des deux (la réponse grandit
-       encore avec le texte, jusqu'à son maximum). Ce que la zone de réponse
-       gagne ainsi déborde vers le bas (marge négative) : le reste de la
-       colonne ne bouge pas, la réponse reste à la même hauteur qu'à côté
-       d'une image. Pendant la correction, la question garde sa hauteur. */
-    function syncTextSideHeights() {
-      if (!answerFeatureOn || !exerciseTextSideStatement) return;
-      const textMode = modalOverlay.classList.contains('exo-text');
-      const comparing = modalOverlay.classList.contains('is-comparing');
-      answerBox.style.marginBottom = '';
-      if (!textMode) { exerciseTextSideStatement.style.minHeight = ''; return; }
-      if (comparing) return;
-      exerciseTextSideStatement.style.minHeight = '';
-      const statementH = exerciseTextSideStatement.offsetHeight;
-      const answerH = answerInput.offsetHeight;
-      if (!answerH) return;
-      if (statementH > answerH) {
-        answerInput.style.height = statementH + 'px';
-        // Hauteur posée au contenu ou à la bordure selon box-sizing : on
-        // corrige l'écart mesuré.
-        const gap = statementH - answerInput.offsetHeight;
-        if (gap) answerInput.style.height = statementH + gap + 'px';
-      }
-      const finalH = answerInput.offsetHeight;
-      exerciseTextSideStatement.style.minHeight = finalH + 'px';
-      if (finalH > answerH) answerBox.style.marginBottom = -(finalH - answerH) + 'px';
-
-      // La question en face de la zone de réponse, sans sortir de sa
-      // colonne ; la mascotte occupe la place au-dessus (cachée s'il n'en
-      // reste pas assez : jamais en icône). Gardée pendant la correction :
-      // la question ne bouge pas au clic sur « Check my answer ».
-      const sideTop = exerciseTextSide.getBoundingClientRect().top;
-      const target = answerInput.getBoundingClientRect().top - sideTop;
-      const room = exerciseTextSide.clientHeight - exerciseTextSideStatement.offsetHeight;
-      const top = Math.max(0, Math.round(Math.min(target, room)));
-      exerciseLayout.style.setProperty('--exo-q-top', top + 'px');
-      exerciseTextSide.classList.toggle('no-mascot', top - 16 < 90);
     }
 
     function scheduleAnswerSave() {
@@ -1722,8 +1689,22 @@
       // Réattachée à chaque ouverture : le plein écran a pu changer d'hôte.
       overlayHost().appendChild(box);
       const img = box.querySelector('.image-lightbox-img');
+      /* Agrandie pour remplir l'écran (96 % × 92 %), même au-delà de sa taille
+         d'origine : un <img> ne fait sinon que rétrécir, et sur un grand écran
+         l'« agrandissement » laissait l'image à la taille qu'elle avait déjà
+         dans la fenêtre. */
+      const fit = () => {
+        if (!img.naturalWidth || !img.naturalHeight) return;
+        const scale = Math.min(window.innerWidth * 0.96 / img.naturalWidth, window.innerHeight * 0.92 / img.naturalHeight);
+        img.style.width = Math.round(img.naturalWidth * scale) + 'px';
+        img.style.height = Math.round(img.naturalHeight * scale) + 'px';
+      };
+      img.style.width = '';
+      img.style.height = '';
+      img.onload = fit;
       img.src = src;
       img.alt = alt || '';
+      if (img.complete) fit();
       box.classList.add('is-open');
     }
 
@@ -1737,7 +1718,11 @@
       // Hover hint rendered by CSS from this attribute, same pattern as the
       // fill-in-the-blanks word glosses, so it picks up the chapter colour.
       if (exerciseImageWrap) exerciseImageWrap.dataset.hint = L.enlargeHint;
-      exerciseImage.addEventListener('click', () => openImageLightbox(exerciseImage.src, exerciseImage.alt));
+      exerciseImage.addEventListener('click', () => {
+        // La mascotte (exercice sans image) n'est qu'un décor : pas d'agrandissement.
+        if (modalOverlay.classList.contains('exo-mascot')) return;
+        openImageLightbox(exerciseImage.src, exerciseImage.alt);
+      });
       if (exerciseRecallImg) {
         // The 52px thumbnail is too small to host the same tooltip; the native
         // one keeps the affordance without covering the picture.
@@ -1859,6 +1844,7 @@
       window.addEventListener('resize', dndSyncBoardMetrics);
       window.addEventListener('resize', syncExerciseImageHeight);
       window.addEventListener('resize', memorySyncCardSize);
+      window.addEventListener('resize', sortingRefitItems);
       /* Le texte à trous prend la plus grande taille qui tient dans la place
          disponible : elle change avec la fenêtre et au passage en plein écran. */
       window.addEventListener('resize', fitbFitText);

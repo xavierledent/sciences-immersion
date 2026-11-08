@@ -105,18 +105,15 @@
   }
 
   // Descriptions des modèles de mindmap (resources.json) dans le mode
-  // d'emploi, avant le conseil du prof : un paragraphe par description,
-  // précédé du titre du bloc (ou du modèle, s'il y en a plusieurs).
+  // d'emploi : ajoutées à la ligne « Modèles de mindmap » de la liste ; le
+  // titre du modèle en gras seulement s'il y en a plusieurs.
   function addMindmapHelp(data) {
-    const box = document.querySelector('#help-modal .note-box');
+    const intro = document.querySelector('#help-modal .help-mindmaps');
     const described = mindmapItems(data).filter(item => item.description);
-    if (!box || !described.length) return;
-    const tip = box.querySelector('.note-box-tip');
+    if (!intro || !described.length) return;
     described.forEach(item => {
-      const label = described.length > 1 ? (item.title || 'Modèle') : ((data && data.title) || 'Modèles de mindmap');
-      const p = document.createElement('p');
-      p.innerHTML = `<strong>${richText(label)} :</strong> ${richText(item.description)}`;
-      box.insertBefore(p, tip);
+      const label = described.length > 1 ? `<strong>${richText(item.title || 'Modèle')}</strong> : ` : '';
+      intro.insertAdjacentHTML('beforeend', ` ${label}${richText(item.description)}`);
     });
   }
 
