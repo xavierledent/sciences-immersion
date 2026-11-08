@@ -593,6 +593,48 @@
       color: var(--color-muted);
     }
 
+    /* Icônes des jeux (gameIcon, gameReward dans practice-engine.js).
+       Compteurs : au trait, à la taille du texte qui les suit. */
+    .game-icon {
+      flex: none;
+      width: 1.25em;
+      height: 1.25em;
+      vertical-align: middle;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .game-icon-correct { color: #0ca37f; }
+    .game-icon-wrong { color: #d4527a; }
+    .game-icon-moves { color: var(--color-current-dark); }
+
+    /* Récompenses : pleines, un peu plus grandes que le texte, avec un rebond
+       à leur apparition. */
+    .game-reward {
+      flex: none;
+      width: 1.6em;
+      height: 1.6em;
+      vertical-align: middle;
+      animation: game-reward-pop 0.6s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+    }
+    .game-reward-gold { --metal: #f2c443; --metal-dark: #a8801f; }
+    .game-reward-silver { --metal: #d3dae1; --metal-dark: #7f8b97; }
+    .game-reward-bronze { --metal: #dc9c62; --metal-dark: #925a28; }
+    .game-reward .ribbon-a { fill: var(--color-current); }
+    .game-reward .ribbon-b { fill: var(--color-current-dark); }
+    .game-reward .disc { fill: var(--metal, var(--color-current)); stroke: var(--metal-dark, none); }
+    .game-reward .ring { stroke: var(--metal-dark); }
+    @keyframes game-reward-pop {
+      0% { transform: scale(0.2); opacity: 0; }
+      60% { transform: scale(1.25); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .game-reward { animation: none; }
+    }
+
     #exercise-modal .modal-close,
     #dnd-modal .modal-close,
     #memory-modal .modal-close,
@@ -661,11 +703,6 @@
        feuille du navigateur rend cette dernière inatteignable. La carte occupe
        donc bien tout l'écran, seul le texte reste dans une colonne lisible.
        Sans effet sur un Chromebook, dont l'écran fait déjà moins que ce plafond. */
-    .fitb-modal-card:fullscreen .fitb-modal-card-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      width: 100%;
-    }
 
     /* Même principe pour les exercices classiques : c'est le contenu qu'on
        plafonne, la carte étant hors d'atteinte. */
@@ -748,25 +785,10 @@
       flex-grow: 3;
     }
 
-    /* Sur un grand écran, le blanc autour du texte à trous ne vient pas d'une
-       colonne trop étroite mais d'un texte trop petit pour l'écran : à 1,15rem,
-       la ligne de 1100px porte ~120 caractères, loin au-dessus des 45 à 75 que
-       demande une lecture confortable. Agrandir la police remplit l'espace et
-       rapproche la longueur de ligne du confortable, au lieu de l'en éloigner.
-       Le seuil de 1400px met le Chromebook hors de portée : son écran fait 1093px
-       en pixels CSS, la colonne y est déjà pleine, et grossir le texte n'y
-       ferait qu'ajouter du défilement. */
+    /* Sur un grand écran, plein écran : le texte grandit pour remplir la place
+       au lieu de laisser du blanc (le texte à trous, lui, mesure sa taille :
+       fitbFitText). Le seuil de 1400px met le Chromebook hors de portée. */
     @media (min-width: 1400px) {
-      .fitb-modal-card:fullscreen .fitb-text {
-        font-size: 1.6rem;
-      }
-
-      /* Les listes déroulantes sont dans le fil du texte : les laisser à 1rem
-         les ferait paraître rabougries au milieu de mots bien plus grands. */
-      .fitb-modal-card:fullscreen .fitb-select {
-        font-size: 1.4rem;
-      }
-
       /* Le QCM part des mêmes tailles — 1,15rem pour l'énoncé, 1rem pour les
          réponses — et souffre du même mal dans sa colonne plafonnée. */
       .qcm-modal-card:fullscreen .qcm-question {

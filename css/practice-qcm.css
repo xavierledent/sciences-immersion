@@ -174,14 +174,19 @@
       font-size: 1.5rem;
       margin-bottom: 12px;
     }
+    /* Centré malgré la règle commune des paragraphes (justifiés, style.css). */
     .qcm-score-screen p {
+      text-align: center;
       font-size: 1.2rem;
       color: var(--color-muted);
     }
     .qcm-rank-badge {
-      font-size: 2.6rem;
       line-height: 1;
       margin-bottom: 6px;
+    }
+    .qcm-rank-badge .game-reward {
+      width: 64px;
+      height: 64px;
     }
     .qcm-score-screen .qcm-rank-label {
       font-weight: 700;

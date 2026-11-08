@@ -71,10 +71,10 @@
 
     function getQcmRank(score, total) {
       const pct = total > 0 ? score / total : 0;
-      if (pct >= 0.9) return { emoji: '🥇', label: L.rankGold };
-      if (pct >= 0.7) return { emoji: '🥈', label: L.rankSilver };
-      if (pct >= 0.5) return { emoji: '🥉', label: L.rankBronze };
-      return { emoji: '💪', label: L.rankKeepPracticing };
+      if (pct >= 0.9) return { icon: 'gold', label: L.rankGold };
+      if (pct >= 0.7) return { icon: 'silver', label: L.rankSilver };
+      if (pct >= 0.5) return { icon: 'bronze', label: L.rankBronze };
+      return { icon: 'up', label: L.rankKeepPracticing };
     }
 
     /* Une valeur numérique, ou null si le texte n'en est pas une. La virgule est
@@ -147,13 +147,13 @@
         const rank = getQcmRank(qcmScore, totalQuestions);
         let bestHtml = '';
         if (qcmScoreScreenInfo.isNewRecord) {
-          bestHtml = `<p class="qcm-best-note qcm-best-note-new">${L.newPersonalBest}</p>`;
+          bestHtml = `<p class="qcm-best-note qcm-best-note-new">${gameReward('record')} ${L.newPersonalBest}</p>`;
         } else if (qcmScoreScreenInfo.best) {
           bestHtml = '<p class="qcm-best-note">' + L.yourBest + ' ' + qcmScoreScreenInfo.best.score + ' / ' + qcmScoreScreenInfo.best.total + '</p>';
         }
         qcmContent.innerHTML = `
           <div class="qcm-score-screen">
-            <div class="qcm-rank-badge">${rank.emoji}</div>
+            <div class="qcm-rank-badge">${gameReward(rank.icon)}</div>
             <h3>${L.quizCompleted}</h3>
             <p>${L.yourScore} <strong>${qcmScore} / ${totalQuestions}</strong></p>
             <p class="qcm-rank-label">${rank.label}</p>
@@ -174,7 +174,7 @@
       htmlStr += '</div>';
       if (qcmStreak >= 2) {
         htmlStr += '<div class="qcm-streak-pips">';
-        htmlStr += '<span class="qcm-streak-pips-label">🔥 ' + qcmStreak + '</span>';
+        htmlStr += '<span class="qcm-streak-pips-label">' + gameReward('streak') + ' ' + qcmStreak + '</span>';
         for (let i = 1; i <= QCM_STREAK_CAP; i++) {
           htmlStr += '<span class="qcm-streak-pip' + (i <= qcmStreak ? ' filled' : '') + '"></span>';
         }

@@ -12,9 +12,9 @@
 
     // Same thresholds as the other games, based on mistakes accumulated across checks.
     function getSortingRank(mistakes) {
-      if (mistakes === 0) return { emoji: '🥇', label: L.rankGold };
-      if (mistakes <= 2) return { emoji: '🥈', label: L.rankSilver };
-      return { emoji: '🥉', label: L.rankBronze };
+      if (mistakes === 0) return { icon: 'gold', label: L.rankGold };
+      if (mistakes <= 2) return { icon: 'silver', label: L.rankSilver };
+      return { icon: 'bronze', label: L.rankBronze };
     }
 
     function getSortingBestMistakes(exercise) {
@@ -135,7 +135,7 @@
         deckStat.className = 'sorting-deck-stat';
         deckContainer.appendChild(deckStat);
       }
-      deckStat.innerHTML = `<span class="sorting-stat-icon">❌</span>${L.errors} <span id="sorting-stat-mistakes">0</span>`;
+      deckStat.innerHTML = `${gameIcon('wrong')}${L.errors} <span id="sorting-stat-mistakes">0</span>`;
 
       // Reset state
       sortingIsChecked = false;
@@ -415,13 +415,13 @@
             window.logEvent('sorting_completed', { quizTitle: exercise.quizTitle, mistakes: sortingMistakeCount });
           }
           const note = isNewRecord
-            ? `🎉 ${L.newBestMistakes}`
+            ? `${gameReward('record')} ${L.newBestMistakes}`
             : (previousBest !== null ? L.bestMistakes(previousBest) : '');
 
           const resultEl = document.getElementById('sorting-stat-result');
           if (resultEl) {
             resultEl.innerHTML = `
-              <span class="sorting-result-badge">${rank.emoji} ${rank.label}</span>
+              <span class="sorting-result-badge">${gameReward(rank.icon)} ${rank.label}</span>
               ${note ? `<span class="sorting-result-note">${note}</span>` : ''}
             `;
             // La bande n'existe que pour ce moment-là : on la révèle maintenant.

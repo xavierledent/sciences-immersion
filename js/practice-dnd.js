@@ -27,9 +27,9 @@
     // Bronze/Silver/Gold based on mistakes made, same spirit as the QCM ranks —
     // no time threshold, since exercises have very different numbers of zones.
     function getDndRank(mistakes) {
-      if (mistakes === 0) return { emoji: '🥇', label: L.rankGold };
-      if (mistakes <= 2) return { emoji: '🥈', label: L.rankSilver };
-      return { emoji: '🥉', label: L.rankBronze };
+      if (mistakes === 0) return { icon: 'gold', label: L.rankGold };
+      if (mistakes <= 2) return { icon: 'silver', label: L.rankSilver };
+      return { icon: 'bronze', label: L.rankBronze };
     }
 
     function getDndBestStat(exercise, stat) {
@@ -111,9 +111,9 @@
       dndStatsBar.innerHTML = `
         <div class="dnd-stat">
           <button type="button" class="timer-toggle-btn" id="dnd-timer-toggle">${L.showTimer}</button>
-          <button type="button" class="live-timer-display dnd-timer-live" id="dnd-timer-live" aria-label="${L.hideTimer}"><span class="dnd-stat-icon">⏱️</span><span id="dnd-stat-timer" class="live-timer-value">0:00</span></button>
+          <button type="button" class="live-timer-display dnd-timer-live" id="dnd-timer-live" aria-label="${L.hideTimer}">${gameIcon('timer')}<span id="dnd-stat-timer" class="live-timer-value">0:00</span></button>
         </div>
-        <div class="dnd-stat stat-badge"><span class="dnd-stat-icon">❌</span>${L.errors} <span id="dnd-stat-mistakes">0</span></div>
+        <div class="dnd-stat stat-badge">${gameIcon('wrong')}${L.errors} <span id="dnd-stat-mistakes">0</span></div>
         <div class="dnd-stat-result" id="dnd-stat-result"></div>
       `;
       dndInstr.after(dndStatsBar);
@@ -466,16 +466,16 @@
 
         const rank = getDndRank(dndMistakeCount);
         const mistakesNote = isNewMistakesRecord
-          ? `🎉 ${L.newBestMistakes}`
+          ? `${gameReward('record')} ${L.newBestMistakes}`
           : (previousBestMistakes !== null ? L.bestMistakes(previousBestMistakes) : '');
         const timeNote = isNewTimeRecord
-          ? `🎉 ${L.newBestTime}`
+          ? `${gameReward('record')} ${L.newBestTime}`
           : (previousBestTime !== null ? L.bestTimePrefix + formatDndTime(previousBestTime) : '');
 
         const resultEl = document.getElementById('dnd-stat-result');
         if (resultEl) {
           resultEl.innerHTML = `
-            <span class="dnd-result-badge">${rank.emoji} ${rank.label}</span>
+            <span class="dnd-result-badge">${gameReward(rank.icon)} ${rank.label}</span>
             ${mistakesNote ? `<span class="dnd-result-note">${mistakesNote}</span>` : ''}
             ${timeNote ? `<span class="dnd-result-note">${timeNote}</span>` : ''}
           `;

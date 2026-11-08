@@ -70,7 +70,7 @@
         quizCompleted: 'Quiz Completed!',
         yourScore: 'Your score:',
         yourBest: 'Your best:',
-        newPersonalBest: '🎉 New personal best!',
+        newPersonalBest: 'New personal best!',
         checkAnswer: 'Check Answer',
         nextQuestion: 'Next Question',
         qcmResumeTitle: 'Quiz paused',
@@ -105,13 +105,13 @@
         wellDone: 'Well done !',
         bestMistakes: n => 'Best: ' + n + ' mistake' + (n !== 1 ? 's' : ''),
         bestMoves: n => 'Best: ' + n + ' move' + (n !== 1 ? 's' : ''),
-        glossHint: '💡 Underlined words can be translated into French',
-        listen: '🔊 Listen',
+        glossHint: 'Underlined words can be translated into French',
+        listen: 'Listen',
         // Même clé et mêmes valeurs que vocabulary-engine.js : les deux moteurs
         // font parler la même page, ils ne doivent pas le faire avec deux voix.
         speechLang: 'en-US',
-        pause: '⏸ Pause',
-        resume: '▶ Resume',
+        pause: 'Pause',
+        resume: 'Resume',
         bestTimePrefix: 'Best time: '
       },
       nl: {
@@ -174,7 +174,7 @@
         quizCompleted: 'Quiz voltooid!',
         yourScore: 'Jouw score:',
         yourBest: 'Jouw record:',
-        newPersonalBest: '🎉 Nieuw persoonlijk record!',
+        newPersonalBest: 'Nieuw persoonlijk record!',
         checkAnswer: 'Antwoord controleren',
         nextQuestion: 'Volgende vraag',
         qcmResumeTitle: 'Quiz gepauzeerd',
@@ -209,11 +209,11 @@
         wellDone: 'Goed gedaan!',
         bestMistakes: n => 'Beste: ' + n + ' fout' + (n !== 1 ? 'en' : ''),
         bestMoves: n => 'Beste: ' + n + ' zet' + (n !== 1 ? 'ten' : ''),
-        glossHint: '💡 Onderstreepte woorden kunnen naar het Frans vertaald worden',
-        listen: '🔊 Luister',
+        glossHint: 'Onderstreepte woorden kunnen naar het Frans vertaald worden',
+        listen: 'Luister',
         speechLang: 'nl-BE',
-        pause: '⏸ Pauze',
-        resume: '▶ Hervatten',
+        pause: 'Pauze',
+        resume: 'Hervatten',
         bestTimePrefix: 'Beste tijd: '
       }
     };
@@ -1859,9 +1859,10 @@
       window.addEventListener('resize', dndSyncBoardMetrics);
       window.addEventListener('resize', syncExerciseImageHeight);
       window.addEventListener('resize', memorySyncCardSize);
-      /* La taille du texte à trous change au passage en plein écran sur grand
-         écran : les listes doivent se remesurer, la largeur d'hier ne vaut plus. */
-      window.addEventListener('resize', fitbSyncSelectWidths);
+      /* Le texte à trous prend la plus grande taille qui tient dans la place
+         disponible : elle change avec la fenêtre et au passage en plein écran. */
+      window.addEventListener('resize', fitbFitText);
+      document.addEventListener('fullscreenchange', fitbFitText);
       /* La zone de réponse grandit avec le texte saisi jusqu'à un plafond, et sa
          hauteur est posée en pixels : le changement de taille de police en plein
          écran la rend caduque. */
@@ -2175,6 +2176,54 @@
       }
       
       updateInteractiveStepButtons();
+    }
+
+    /* ===== Jeux : icônes =====
+       Dessinées dans le site (SVG) plutôt qu'en émojis, dont le dessin change
+       d'un ordinateur à l'autre. Deux familles :
+       - gameIcon : les compteurs lus pendant le jeu (Correct, Errors,
+         chronomètre, Moves), sobres, au trait, comme le haut-parleur des
+         cartes de vocabulaire ; vert et rose = bonnes et mauvaises réponses ;
+       - gameReward : les récompenses (médailles, Perfect, record, série du
+         QCM, Keep practicing), pleines et en couleur, qui apparaissent avec un
+         rebond (practice-engine.css). Le ruban des médailles et Keep
+         practicing prennent la couleur du chapitre. */
+    const GAME_ICONS = {
+      correct: '<circle cx="10" cy="10" r="8.2" fill="currentColor" fill-opacity=".14" stroke="none"/><path d="M6.2 10.3l2.6 2.6 5-5.6"/>',
+      wrong: '<circle cx="10" cy="10" r="8.2" fill="currentColor" fill-opacity=".14" stroke="none"/><path d="M7.2 7.2l5.6 5.6M12.8 7.2l-5.6 5.6"/>',
+      timer: '<circle cx="10" cy="11.3" r="6.4"/><path d="M10 11.3V8.1M8 2.6h4M10 2.6v2.3M15.1 5.7l1.3-1.3"/>',
+      moves: '<path d="M4 9a6 6 0 0 1 10.4-3.6L16 7"/><path d="M16 3v4h-4"/><path d="M16 11a6 6 0 0 1-10.4 3.6L4 13"/><path d="M4 17v-4h4"/>'
+    };
+
+    const GAME_MEDAL = '<path class="ribbon-a" d="M6.5 1.5h4.2l2.4 7.6H8.9z"/><path class="ribbon-b" d="M17.5 1.5h-4.2l-2.4 7.6h4.2z"/>'
+      + '<circle class="disc" cx="12" cy="15.2" r="6.6" stroke-width="1.5"/>'
+      + '<circle class="ring" cx="12" cy="15.2" r="3.9" fill="none" stroke-width="1.2" opacity=".55"/>'
+      + '<path d="M8.9 13a4 4 0 0 1 2.4-1.6" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".85"/>';
+
+    const GAME_REWARDS = {
+      gold: GAME_MEDAL,
+      silver: GAME_MEDAL,
+      bronze: GAME_MEDAL,
+      perfect: '<path d="M6 3.5h12l4.2 5.3L12 21.5 1.8 8.8z" fill="#7cc0f2" stroke="#2f6fae" stroke-width="1.5" stroke-linejoin="round"/>'
+        + '<path d="M6 3.5h12l-3 5.3H9z" fill="#c4e5fb"/>'
+        + '<path d="M1.8 8.8h20.4M9 8.8l3 12.7 3-12.7M6 3.5l3 5.3M18 3.5l-3 5.3" fill="none" stroke="#2f6fae" stroke-width="1.2" stroke-linejoin="round"/>',
+      record: '<path d="M7 4.5H4.3a3.2 3.2 0 0 0 3.4 4.6M17 4.5h2.7a3.2 3.2 0 0 1-3.4 4.6" fill="none" stroke="#a8801f" stroke-width="1.6" stroke-linecap="round"/>'
+        + '<path d="M12 13.8v3" stroke="#a8801f" stroke-width="1.8"/>'
+        + '<path d="M7 2.5h10v6a5 5 0 0 1-10 0z" fill="#f2c443" stroke="#a8801f" stroke-width="1.5" stroke-linejoin="round"/>'
+        + '<rect x="7.8" y="16.6" width="8.4" height="4.4" rx="1.2" fill="#f2c443" stroke="#a8801f" stroke-width="1.5"/>'
+        + '<path d="M9.6 4.8v3.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".85"/>',
+      streak: '<path d="M12 1.8c.6 3.7 6 5.5 6 11.3a6 6 0 0 1-12 0c0-2.9 1.6-4.7 3.1-5.8.1 2.1 1 3.4 2.5 3.9C10.8 8.4 11 5 12 1.8z" fill="#ff8a3d" stroke="#d65a1c" stroke-width="1.4" stroke-linejoin="round"/>'
+        + '<path d="M12 11.3c.3 1.7 2.9 2.5 2.9 5a2.9 2.9 0 0 1-5.8 0c0-1.5.9-2.4 1.7-2.9.2 1 .7 1.5 1.2 1.7-.3-1.2-.3-2.4 0-3.8z" fill="#ffd34d"/>',
+      up: '<circle class="disc" cx="12" cy="12" r="10.5"/>'
+        + '<path d="M5.8 15.6l4.1-4.1 2.7 2.7 5.4-5.4M14.4 8.8h3.6v3.6" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>'
+    };
+
+    function gameIcon(name) {
+      return `<svg class="game-icon game-icon-${name}" viewBox="0 0 20 20" aria-hidden="true" focusable="false">${GAME_ICONS[name] || ''}</svg>`;
+    }
+
+    function gameReward(name) {
+      return `<svg class="game-reward game-reward-${name}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${GAME_REWARDS[name] || ''}</svg>`;
     }
 
     /* ===== Jeux : outils communs =====

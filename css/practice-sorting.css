@@ -79,10 +79,6 @@
   color: var(--color-text);
 }
 
-.sorting-stat-icon {
-  font-size: 1rem;
-}
-
 .sorting-result-badge {
   font-weight: 700;
   font-size: 0.95rem;

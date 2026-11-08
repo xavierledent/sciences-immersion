@@ -88,10 +88,6 @@
   color: var(--color-text);
 }
 
-.memory-stat-icon {
-  font-size: 1rem;
-}
-
 /* Grille de cartes */
 .memory-grid-container {
   position: relative;

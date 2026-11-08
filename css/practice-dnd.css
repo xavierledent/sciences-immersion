@@ -339,10 +339,6 @@ html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
   color: var(--color-text);
 }
 
-.dnd-stat-icon {
-  font-size: 1rem;
-}
-
 .dnd-stat-result {
   display: flex;
   align-items: center;

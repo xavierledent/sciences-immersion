@@ -34,13 +34,13 @@
       if (movesEl) movesEl.textContent = memoryMoveCount;
     }
 
-    // 💎 Perfect = flawless run (as many moves as pairs). Otherwise Gold/Silver/Bronze
+    // Perfect = flawless run (as many moves as pairs). Otherwise Gold/Silver/Bronze
     // scale relative to the number of pairs, since the minimum possible moves differs per exercise.
     function getMemoryRank(moves, totalPairs) {
-      if (moves === totalPairs) return { emoji: '💎', label: L.rankPerfect };
-      if (moves <= totalPairs * 2) return { emoji: '🥇', label: L.rankGold };
-      if (moves <= totalPairs * 3) return { emoji: '🥈', label: L.rankSilver };
-      return { emoji: '🥉', label: L.rankBronze };
+      if (moves === totalPairs) return { icon: 'perfect', label: L.rankPerfect };
+      if (moves <= totalPairs * 2) return { icon: 'gold', label: L.rankGold };
+      if (moves <= totalPairs * 3) return { icon: 'silver', label: L.rankSilver };
+      return { icon: 'bronze', label: L.rankBronze };
     }
 
     function getMemoryBestStat(exercise, stat) {
@@ -164,9 +164,9 @@
       memoryStatsBar.innerHTML = `
         <div class="memory-stat">
           <button type="button" class="timer-toggle-btn" id="memory-timer-toggle">${L.showTimer}</button>
-          <span class="live-timer-display"><span class="memory-stat-icon">⏱️</span><span id="memory-stat-timer" class="live-timer-value">0:00</span></span>
+          <span class="live-timer-display">${gameIcon('timer')}<span id="memory-stat-timer" class="live-timer-value">0:00</span></span>
         </div>
-        <div class="memory-stat stat-badge"><span class="memory-stat-icon">🔄</span>${L.moves} <span id="memory-stat-moves">0</span></div>
+        <div class="memory-stat stat-badge">${gameIcon('moves')}${L.moves} <span id="memory-stat-moves">0</span></div>
         <div class="dnd-stat-result" id="memory-stat-result"></div>
       `;
       memInstr.after(memoryStatsBar);
@@ -333,16 +333,16 @@
             }
 
             const movesNote = isNewMovesRecord
-              ? `🎉 ${L.newBestMoves}`
+              ? `${gameReward('record')} ${L.newBestMoves}`
               : (previousBestMoves !== null ? L.bestMoves(previousBestMoves) : '');
             const timeNote = isNewTimeRecord
-              ? `🎉 ${L.newBestTime}`
+              ? `${gameReward('record')} ${L.newBestTime}`
               : (previousBestTime !== null ? L.bestTimePrefix + formatMemoryTime(previousBestTime) : '');
 
             const resultEl = document.getElementById('memory-stat-result');
             if (resultEl) {
               resultEl.innerHTML = `
-                <span class="dnd-result-badge">${rank.emoji} ${rank.label}</span>
+                <span class="dnd-result-badge">${gameReward(rank.icon)} ${rank.label}</span>
                 ${movesNote ? `<span class="dnd-result-note">${movesNote}</span>` : ''}
                 ${timeNote ? `<span class="dnd-result-note">${timeNote}</span>` : ''}
               `;
