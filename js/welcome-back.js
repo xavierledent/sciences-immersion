@@ -144,10 +144,13 @@
         outline: 3px solid rgba(74, 100, 131, 0.35);
         outline-offset: 2px;
       }
+      /* Aligné à gauche : les paragraphes du site sont justifiés, ce qui
+         laissait des trous entre les mots sur cette carte étroite. */
       #welcome-back-banner p {
         margin: 0;
         flex: 1;
         min-width: 0;
+        text-align: left;
         font-family: var(--font-family);
         font-size: 1.05rem;
         font-weight: 600;
