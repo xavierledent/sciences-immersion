@@ -2362,6 +2362,17 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
   column-gap: 32px;
 }
 
+/* Plus assez de place pour la mascotte (moins de 120 px) : elle s'efface, le
+   travail prend toute la largeur. Cachée sans être retirée de la grille, le
+   travail garde sa colonne. */
+#exercise-modal.exo-side.exo-mascot.exo-mascot-gone .exercise-layout {
+  column-gap: 0;
+}
+
+#exercise-modal.exo-mascot-gone .exercise-layout .exercise-image-wrap {
+  visibility: hidden;
+}
+
 /* ----- Colonne de droite : le travail de l'élève ----- */
 .exercise-main {
   min-width: 0;
@@ -2427,13 +2438,17 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
   margin: 0 0 12px;
 }
 
-/* Rappel de l'énoncé pendant la correction (avec image) : lisible, aligné à
-   gauche, jusqu'à quatre lignes. */
+/* Rappel de l'énoncé pendant la correction : lisible, aligné à gauche, et
+   en entier (l'élève compare sa réponse à la correction en relisant la
+   question). La place vient de la colonne de gauche, qui cède de la largeur
+   (syncExerciseImageHeight), pas d'une coupure. */
 #exercise-modal.has-answer-box .exercise-layout .exercise-recall-text {
   font-size: 0.95rem;
   text-align: left;
   color: var(--color-text);
-  -webkit-line-clamp: 4;
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
 }
 
 #exercise-modal .exercise-recall-img {
@@ -2475,6 +2490,14 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
 #exercise-modal.has-answer-box.is-comparing .exercise-layout .student-answer-echo {
   flex: none;
   min-height: 0;
+}
+
+/* Longue correction qui ne tient pas : question, réponse et correction
+   réduites d'un même facteur (--exo-fit, de 1 à 0,85, posé par
+   syncExerciseImageHeight). */
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .exercise-recall,
+#exercise-modal.has-answer-box.is-comparing .exercise-layout .answer-compare {
+  zoom: var(--exo-fit, 1);
 }
 
 #exercise-modal.has-answer-box.is-comparing .exercise-layout .answer-compare-mine .answer-compare-label {
