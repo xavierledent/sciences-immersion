@@ -58,8 +58,6 @@
         levelActionStart: 'Start',
         levelActionContinue: 'Continue',
         levelActionAgain: 'Practice again',
-        levelBadgeStart: 'Start here',
-        levelBadgeContinue: 'Pick up here',
         revisionModeLabel: 'Revision mode',
         revisionProgress: (remaining, total) => `${remaining} of ${total} remaining`,
         revisionNext: 'Next',
@@ -162,8 +160,6 @@
         levelActionStart: 'Beginnen',
         levelActionContinue: 'Doorgaan',
         levelActionAgain: 'Opnieuw oefenen',
-        levelBadgeStart: 'Begin hier',
-        levelBadgeContinue: 'Ga hier verder',
         revisionModeLabel: 'Herhalingsmodus',
         revisionProgress: (remaining, total) => `${remaining} van ${total} resterend`,
         revisionNext: 'Volgende',
@@ -1251,24 +1247,15 @@
     }
 
     // Position de reprise : quel exercice a été touché en dernier dans
-    // chaque niveau, et quel niveau a été touché en dernier tous niveaux
-    // confondus — deux clés distinctes, car "reprendre" doit rouvrir
-    // l'exercice exact, pas juste le niveau.
+    // chaque niveau. (Le niveau touché en dernier, practiceLastTouchedLevel,
+    // n'est plus écrit depuis le 2026-11-08 : il ne servait qu'au badge
+    // « Pick up here », retiré.)
     function writeLastExercise(levelKey, exerciseId) {
       SiteStorage.data.set('practiceLastExercise', [levelKey], String(exerciseId));
     }
 
-    function readLastTouchedLevel() {
-      return SiteStorage.data.get('practiceLastTouchedLevel', []);
-    }
-
-    function writeLastTouchedLevel(levelKey) {
-      SiteStorage.data.set('practiceLastTouchedLevel', [], levelKey);
-    }
-
     function recordLevelResumePosition(levelKey, exerciseId) {
       writeLastExercise(levelKey, exerciseId);
-      writeLastTouchedLevel(levelKey);
     }
 
     function readStoredAnswer(levelKey, exerciseId, subIndex) {
@@ -2649,12 +2636,10 @@
     // resterait collé sur l'ancien niveau en plus du nouveau.
     /* Libellé de chaque bouton de niveau : Start (rien de fait), Continue
        (il reste des exercices pas encore faits), Practice again (tout est
-       fait). Le niveau travaillé en dernier (ou Level 1) porte en plus le
-       badge « Pick up here » / « Start here ». */
+       fait). Les trois boutons sont identiques : où en est l'élève, ses cases
+       et ce libellé le disent (plus de badge « Pick up here » ni de niveau
+       mis en avant, retirés le 2026-11-08 : l'élève choisit librement). */
     function applyLevelResumeUI() {
-      const touchedLevel = readLastTouchedLevel();
-      const currentLevelKey = (touchedLevel && practiceData[touchedLevel]) ? touchedLevel : 'level1';
-
       levelButtonsContainer.querySelectorAll('.level-option').forEach(btn => {
         const levelKey = btn.dataset.level;
         const list = practiceData[levelKey] || [];
@@ -2664,17 +2649,6 @@
           : untried > 0 ? L.levelActionContinue : L.levelActionAgain;
         const action = btn.querySelector('.level-action');
         if (action) action.textContent = label;
-
-        const isCurrent = levelKey === currentLevelKey;
-        btn.classList.toggle('is-current-level', isCurrent);
-        const oldBadge = btn.querySelector('.level-badge');
-        if (oldBadge) oldBadge.remove();
-        if (isCurrent) {
-          const badge = document.createElement('span');
-          badge.className = 'level-badge';
-          badge.textContent = notStarted ? L.levelBadgeStart : L.levelBadgeContinue;
-          btn.prepend(badge);
-        }
       });
     }
 
