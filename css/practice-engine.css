@@ -2494,6 +2494,17 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
 #exercise-modal .exercise-layout .student-answer-check {
   min-height: 50px;
   font-size: 1rem;
+  box-shadow: 0 6px 14px rgba(var(--color-slate-rgb), 0.26);
+}
+
+/* La colonne du travail défile si besoin (overflow) : elle rognait l'ombre
+   des boutons à ses bords, en angle droit sous « Check my answer » / « Edit
+   my answer ». Une marge intérieure pour les ombres, rendue par une marge
+   négative : la colonne déborde un peu dans le bord vide de la fenêtre, le
+   contenu garde sa place, sa largeur et sa hauteur. */
+#exercise-modal .exercise-layout .exercise-main {
+  margin: 0 -16px -14px;
+  padding: 0 16px 14px;
 }
 
 @media (max-width: 899px) {
