@@ -11,6 +11,11 @@
     let qcmStreak = 0;
     let qcmScoreSaved = false;
     let qcmScoreScreenInfo = null;
+    // Mascotte des questions sans image : une par quiz, tirée à son ouverture.
+    let qcmMascot = '';
+    // Haut du contenu de la colonne de droite avant « Check Answer » : gardé
+    // après, pour que les options ne bougent pas (voir syncQcmLayout).
+    let qcmMainTop = null;
 
     // Streak bar fills up to this many consecutive correct answers, then stays full.
     const QCM_STREAK_CAP = 5;
@@ -155,7 +160,7 @@
             ${bestHtml}
           </div>
         `;
-        if (qcmModalCard) qcmModalCard.classList.remove('qcm-has-image');
+        if (qcmModalCard) qcmModalCard.classList.remove('qcm-has-image', 'qcm-text');
         return;
       }
 
@@ -163,6 +168,7 @@
       const progressPercent = ((qcmCurrentQuestionIndex) / totalQuestions) * 100;
 
       let htmlStr = '<div class="qcm-progress-row">';
+      htmlStr += '<span class="qcm-progress-count">' + L.qcmQuestionCount(qcmCurrentQuestionIndex + 1, totalQuestions) + '</span>';
       htmlStr += '<div class="qcm-progress-container">';
       htmlStr += '<div class="qcm-progress-bar" style="width: ' + progressPercent + '%;"></div>';
       htmlStr += '</div>';
@@ -181,13 +187,27 @@
           ? questionData.image
           : (quizData.image || null);
 
-      if (qcmModalCard) qcmModalCard.classList.toggle('qcm-has-image', !!imageToShow);
-
-      if (imageToShow) {
-        htmlStr += '<img src="' + imageToShow + '" alt="Question Image" class="qcm-question-image" />';
+      if (qcmModalCard) {
+        qcmModalCard.classList.toggle('qcm-has-image', !!imageToShow);
+        qcmModalCard.classList.toggle('qcm-text', !imageToShow);
       }
 
-      htmlStr += '<div class="qcm-question">Question ' + (qcmCurrentQuestionIndex + 1) + '/' + totalQuestions + ': ' + richText(questionData.question) + '</div>';
+      /* Deux colonnes, les mêmes pour toutes les questions : à gauche l'image
+         (celle de la question, sinon celle du quiz) ou, sans image, la
+         question en grand avec la mascotte du quiz au-dessus ; à droite la
+         question, les options, l'explication et le bouton. Sans image, la
+         question de droite garde sa place sans se voir : les options restent
+         là où elles seraient à côté d'une image. */
+      htmlStr += '<div class="qcm-layout"><div class="qcm-side">';
+      if (imageToShow) {
+        htmlStr += '<img src="' + imageToShow + '" alt="" class="qcm-question-image" />';
+      } else {
+        htmlStr += '<div class="qcm-textside">' +
+          (qcmMascot ? '<img class="qcm-mascot" src="' + qcmMascot + '" alt="" />' : '') +
+          '<div class="qcm-textside-question">' + richText(questionData.question) + '</div></div>';
+      }
+      htmlStr += '</div><div class="qcm-main">';
+      htmlStr += '<div class="qcm-question">' + richText(questionData.question) + '</div>';
       htmlStr += '<div class="qcm-options" id="qcm-options-container">';
 
       htmlStr += questionData.options.map((opt, index) => {
@@ -229,8 +249,10 @@
       let actionDisabled = qcmSelectedOptionIndex === null ? 'disabled' : '';
       let actionText = qcmIsChecked ? L.nextQuestion : L.checkAnswer;
       htmlStr += '<button id="qcm-action-btn" class="qcm-action-btn" ' + actionDisabled + '>' + actionText + '</button>';
+      htmlStr += '</div></div>';
 
       qcmContent.innerHTML = htmlStr;
+      syncQcmLayout();
 
       // Même visionneuse que les exercices classiques : l'image reste petite
       // dans la modale pour laisser la place aux options, la lecture fine se
@@ -281,6 +303,55 @@
         });
       }
     }
+
+    /* Positions mesurées (pas supposées : elles dépendent de l'écran, de la
+       langue et de la longueur des textes).
+       - Avant « Check Answer », la colonne de droite est centrée ; son haut
+         est noté. Après, il est gardé : l'explication s'ajoute en dessous
+         sans faire remonter les options (sauf s'il faut de la place).
+       - Sans image, la question de gauche commence à la hauteur de la
+         première option, sans sortir de sa colonne ; la mascotte prend la
+         place au-dessus, cachée s'il n'en reste pas assez (jamais en icône).
+         Mesuré avant « Check Answer », gardé après : rien ne bouge à gauche. */
+    function syncQcmLayout() {
+      const content = document.getElementById('qcm-content');
+      const main = content && content.querySelector('.qcm-main');
+      if (!main || !document.getElementById('qcm-modal').classList.contains('modal-open')) return;
+      const first = main.firstElementChild;
+      if (!qcmIsChecked) {
+        main.classList.remove('is-pinned');
+        main.style.paddingTop = '';
+        qcmMainTop = first.getBoundingClientRect().top - main.getBoundingClientRect().top;
+      } else if (qcmMainTop != null) {
+        main.classList.add('is-pinned');
+        main.style.paddingTop = '0px';
+        // Hauteur du contenu (scrollHeight ne descend jamais sous la hauteur
+        // de la colonne : il ne dit pas la place libre).
+        const contentH = () => main.lastElementChild.getBoundingClientRect().bottom - first.getBoundingClientRect().top;
+        // Toujours pas assez de place, contenu en haut : options resserrées.
+        main.classList.toggle('is-tight', contentH() > main.clientHeight);
+        const room = Math.max(0, main.clientHeight - contentH());
+        main.style.paddingTop = Math.round(Math.min(qcmMainTop, room)) + 'px';
+      }
+
+      const side = content.querySelector('.qcm-textside');
+      if (!side || qcmIsChecked) return;
+      const question = side.querySelector('.qcm-textside-question');
+      const options = main.querySelector('.qcm-options');
+      const target = options.getBoundingClientRect().top - side.getBoundingClientRect().top;
+      const room = side.clientHeight - question.offsetHeight;
+      const top = Math.max(0, Math.round(Math.min(target, room)));
+      content.style.setProperty('--qcm-q-top', top + 'px');
+      content.classList.toggle('qcm-no-mascot', !qcmMascot || top - 16 < 90);
+    }
+
+    window.addEventListener('resize', () => {
+      const modal = document.getElementById('qcm-modal');
+      if (!modal || !modal.classList.contains('modal-open')) return;
+      // Les positions gardées ne valent plus pour la nouvelle taille.
+      if (!qcmIsChecked) syncQcmLayout();
+      else { qcmMainTop = null; const main = document.querySelector('#qcm-content .qcm-main'); if (main) { main.classList.remove('is-pinned'); main.style.paddingTop = ''; } }
+    });
 
     function openQCMModal() {
       qcmCurrentQuestionIndex = 0;
@@ -335,6 +406,8 @@
       });
 
       document.getElementById('qcm-modal-title').textContent = exercise.quizTitle || L.qcmDefaultTitle;
+      qcmMascot = randomChapterMascot(qcmMascot);
+      qcmMainTop = null;
 
       const instrContainer = document.getElementById('qcm-instructions-container');
       if (exercise.instructions) {
@@ -369,7 +442,7 @@
     function renderQcmResumePrompt(quizData, savedProgress) {
       const qcmContent = document.getElementById('qcm-content');
       const qcmModalCard = document.querySelector('.qcm-modal-card');
-      if (qcmModalCard) qcmModalCard.classList.remove('qcm-has-image');
+      if (qcmModalCard) qcmModalCard.classList.remove('qcm-has-image', 'qcm-text');
       const totalQuestions = quizData.questions.length;
 
       qcmContent.innerHTML = `

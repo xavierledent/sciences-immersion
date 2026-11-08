@@ -19,6 +19,7 @@
            propre. Ils reprennent le nom de chaque jeu tel qu'il figure dans
            l'en-tête des pages. */
         qcmDefaultTitle: 'Multiple-choice questions',
+        qcmQuestionCount: (n, total) => `Question ${n} / ${total}`,
         fitbDefaultTitle: 'Fill in the blanks',
         dndDefaultTitle: 'Drag and drop',
         memoryDefaultTitle: 'Match the pairs',
@@ -120,6 +121,7 @@
         exerciseUnderConstruction: 'Deze oefening is nog in opbouw — kom later terug!',
         gameUnderConstruction: 'Dit spel is nog in opbouw — kom later terug!',
         qcmDefaultTitle: 'Meerkeuzevragen',
+        qcmQuestionCount: (n, total) => `Vraag ${n} / ${total}`,
         fitbDefaultTitle: 'Vul de gaten in',
         dndDefaultTitle: 'Sleep en plaats',
         memoryDefaultTitle: 'Zoek de paren',
@@ -544,18 +546,23 @@
     // Shared by the level buttons (first exercise not done yet), the revision
     // queue and the deep links — same setup either way, only the
     // starting exercise differs.
+    /* Plein écran d'office à l'ouverture d'un exercice ou d'un jeu, comme les
+       labos : le geste qui ouvre la fenêtre l'autorise. Sans geste (lien
+       direct), le navigateur refuse : le premier toucher dans la fenêtre le
+       redemande. La sortie, elle, se fait à la fermeture (voir
+       updateBodyScrollLock). */
+    function requestModalFullscreen(overlay) {
+      const card = overlay && overlay.querySelector('.modal-card');
+      if (!card || document.fullscreenElement || !card.requestFullscreen) return;
+      card.requestFullscreen().catch(() => {
+        overlay.addEventListener('pointerdown', () => {
+          if (!document.fullscreenElement && overlay.classList.contains('modal-open')) card.requestFullscreen().catch(() => {});
+        }, { once: true, capture: true });
+      });
+    }
+
     function openModalAtExercise(levelKey, exerciseId) {
-      /* Plein écran d'office, comme les labos : le geste qui ouvre l'exercice
-         l'autorise. Sans geste (lien direct), le navigateur refuse : le
-         premier toucher dans la fenêtre le redemande. */
-      const exerciseCard = modalOverlay.querySelector('.modal-card');
-      if (exerciseCard && !document.fullscreenElement && exerciseCard.requestFullscreen) {
-        exerciseCard.requestFullscreen().catch(() => {
-          modalOverlay.addEventListener('pointerdown', () => {
-            if (!document.fullscreenElement && modalOverlay.classList.contains('modal-open')) exerciseCard.requestFullscreen().catch(() => {});
-          }, { once: true, capture: true });
-        });
-      }
+      requestModalFullscreen(modalOverlay);
       flushAnswerSave();
       answerLoadedKey = null;
       currentLevel = levelKey;
@@ -1999,6 +2006,7 @@
           showGameNotice(modalId, L.gameUnderConstruction);
         } else {
           clearGameNotice(modalId);
+          requestModalFullscreen(document.getElementById(modalId));
           openGame();
         }
       });
@@ -2158,6 +2166,16 @@
     /* ===== Jeux : outils communs =====
        Utilisés par plusieurs jeux : regroupés ici, dans le moteur, pour que
        chaque jeu ne dépende que du moteur et pas d'un autre jeu. */
+
+    // Une mascotte de la matière du chapitre (EXERCISE_MASCOTS), tirée au
+    // hasard, autre que `exclude` s'il y en a d'autres : chemin de l'image.
+    function randomChapterMascot(exclude) {
+      const subject = ['bio', 'chemistry', 'physics'].find(sub => document.body.classList.contains('subject-' + sub)) || 'bio';
+      const list = EXERCISE_MASCOTS[subject];
+      const others = list.map(n => '../../../assets/' + encodeURIComponent(n)).filter(src => src !== exclude);
+      const pool = others.length ? others : list;
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
 
     function shuffleArray(array) {
       const cloned = array.slice();
