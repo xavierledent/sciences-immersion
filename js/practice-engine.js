@@ -478,11 +478,13 @@
       }
       /* Correction encore trop haute, la colonne de gauche ayant cédé toute
          sa largeur : la question d'un bloc (sans ses retours à la ligne),
-         puis le texte réduit par paliers jusqu'à 85 % (question, réponse,
-         correction). Au-delà, la colonne défile. */
+         puis le texte réduit par paliers jusqu'à 70 % (question, réponse,
+         correction). Petit plutôt qu'un défilement, choix de l'enseignant :
+         trop petit en fenêtre, l'élève passe en plein écran. Au-delà, la
+         colonne défile. */
       if (comparing && !fits()) {
         setRecallFlat(true);
-        for (const step of [0.95, 0.9, 0.85]) {
+        for (const step of [0.95, 0.9, 0.85, 0.8, 0.75, 0.7]) {
           if (fits()) break;
           exerciseLayout.style.setProperty('--exo-fit', String(step));
         }

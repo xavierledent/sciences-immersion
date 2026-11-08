@@ -2493,7 +2493,7 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
 }
 
 /* Longue correction qui ne tient pas : question, réponse et correction
-   réduites d'un même facteur (--exo-fit, de 1 à 0,85, posé par
+   réduites d'un même facteur (--exo-fit, de 1 à 0,7, posé par
    syncExerciseImageHeight). */
 #exercise-modal.has-answer-box.is-comparing .exercise-layout .exercise-recall,
 #exercise-modal.has-answer-box.is-comparing .exercise-layout .answer-compare {
