@@ -418,6 +418,7 @@
     function setExerciseMode(mode) {
       modalOverlay.classList.add('exo-side');
       modalOverlay.classList.toggle('exo-mascot', mode === 'mascot');
+      modalOverlay.classList.remove('exo-mascot-gone');
     }
 
     function exerciseImageRatio() {
@@ -435,7 +436,8 @@
       // Le travail de l'élève doit tenir dans sa colonne : si elle déborde
       // (longue correction), la colonne de gauche cède de la largeur par pas,
       // jusqu'à un plancher.
-      const fits = () => !exerciseMain || exerciseMain.scrollHeight <= exerciseMain.clientHeight + 1;
+      // Strict : un seul pixel de trop affiche déjà une barre de défilement.
+      const fits = () => !exerciseMain || exerciseMain.scrollHeight <= exerciseMain.clientHeight;
       const shrink = (prop, start, floor) => {
         let w = start;
         exerciseLayout.style.setProperty(prop, Math.round(w) + 'px');
@@ -445,25 +447,45 @@
         }
       };
       const usable = innerW - (parseFloat(cs.columnGap) || 0);
+      const comparing = modalOverlay.classList.contains('is-comparing');
+      exerciseLayout.style.setProperty('--exo-fit', '1');
+      setRecallFlat(false);
 
       // Même largeur pour tous (55 %), avec ou sans image : la colonne de
       // droite ne bouge pas d'un exercice au suivant.
       if (modalOverlay.classList.contains('exo-mascot')) {
         // Sans image : la mascotte et le travail côte à côte, le bloc centré
-        // (practice-engine.css). Une longue correction qui ne tient pas
-        // élargit la colonne de travail ; la mascotte lui cède la place.
+        // (practice-engine.css). Une longue question ou correction qui ne
+        // tient pas élargit la colonne de travail : la mascotte rétrécit, et
+        // disparaît sous 120 px (jamais en icône) ; le travail prend alors
+        // toute la largeur. Plus large, le texte a moins de lignes.
+        const MASCOT_MIN_W = 120;
         let mainW = 640;
         const apply = () => {
-          exerciseLayout.style.setProperty('--exo-main-w', mainW + 'px');
-          exerciseLayout.style.setProperty('--exo-mascot-w', Math.max(0, Math.min(300, usable - mainW)) + 'px');
+          const mascotW = Math.min(300, usable - mainW);
+          const gone = mascotW < MASCOT_MIN_W;
+          modalOverlay.classList.toggle('exo-mascot-gone', gone);
+          exerciseLayout.style.setProperty('--exo-main-w', (gone ? innerW : mainW) + 'px');
+          exerciseLayout.style.setProperty('--exo-mascot-w', (gone ? 0 : mascotW) + 'px');
         };
         apply();
-        while (!fits() && mainW + 40 <= usable - 160) {
-          mainW += 40;
+        while (!fits() && mainW < usable) {
+          mainW = Math.min(usable, mainW + 40);
           apply();
         }
       } else if (modalOverlay.classList.contains('exo-side')) {
-        shrink('--exo-side-w', usable * 0.55, usable * 0.35);
+        shrink('--exo-side-w', usable * 0.55, usable * 0.25);
+      }
+      /* Correction encore trop haute, la colonne de gauche ayant cédé toute
+         sa largeur : la question d'un bloc (sans ses retours à la ligne),
+         puis le texte réduit par paliers jusqu'à 85 % (question, réponse,
+         correction). Au-delà, la colonne défile. */
+      if (comparing && !fits()) {
+        setRecallFlat(true);
+        for (const step of [0.95, 0.9, 0.85]) {
+          if (fits()) break;
+          exerciseLayout.style.setProperty('--exo-fit', String(step));
+        }
       }
       if (modalOverlay.classList.contains('exo-side')) {
         // L'image au tiers de la place libre, comme le travail de droite
@@ -471,6 +493,28 @@
         exerciseImage.style.marginTop = '';
         const free = exerciseImageWrap.clientHeight - exerciseImage.offsetHeight;
         exerciseImage.style.marginTop = free > 1 ? Math.round(free / 3) + 'px' : '';
+      }
+    }
+
+    /* Rappel de la question pendant la correction, sans ses retours à la
+       ligne (« (1)… (2)… (3)… » à la suite) quand la place manque : toute la
+       question plutôt qu'une question coupée. Le texte d'origine est gardé
+       pour revenir en arrière à la mesure suivante. */
+    function setRecallFlat(flat) {
+      const el = document.getElementById('exercise-recall-text');
+      if (!el) return;
+      if (flat) {
+        if (el.dataset.flat && el.innerHTML === el.dataset.flat) return;
+        const full = el.innerHTML;
+        const oneBlock = full.replace(/\s*<br\s*\/?>\s*/gi, ' ');
+        if (oneBlock === full) return;
+        el.dataset.full = full;
+        el.innerHTML = oneBlock;
+        el.dataset.flat = el.innerHTML;
+      } else if (el.dataset.flat) {
+        if (el.innerHTML === el.dataset.flat) el.innerHTML = el.dataset.full;
+        delete el.dataset.flat;
+        delete el.dataset.full;
       }
     }
 
