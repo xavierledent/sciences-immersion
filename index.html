@@ -6,7 +6,7 @@
   <script src="js/storage.js"></script>
   <script src="js/access-control.js"></script>
   <script src="js/tracking.js"></script>
-  <script src="js/welcome-back.js"></script>
+  <script src="js/welcome-back.js" data-home></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sciences Immersion | Home</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -21,51 +21,96 @@
 </head>
 
 <body>
-  <main class="page subject-neutral">
-    <header>
-      <div class="header-top">
-        <div>
-          <span class="site-badge">Sciences en immersion</span>
-          <h1>Bienvenue dans ton espace de sciences</h1>
-          <p class="subtitle">Sélectionne ta langue, puis ton année, puis le chapitre.</p>
-        </div>
-        <img src="assets/Friends.webp" alt="Mes amis" />
+  <!-- Mise en page « paysage » : tout tient sur un écran de Chromebook sans
+       défiler. À gauche l'illustration, la langue et l'année ; à droite les
+       chapitres en 3 × 2. Tant que l'année n'est pas choisie, la place des
+       chapitres accueille l'illustration en grand et dit ce qui va suivre
+       (#home-placeholder) ; l'illustration de gauche garde alors sa place,
+       invisible, pour que les boutons ne bougent pas. -->
+  <main class="page page-wide home-layout subject-neutral" id="home">
+    <!-- Trois colonnes : le mode d'emploi à gauche, la pastille et le titre au
+         centre, le compte connecté à droite (#account-slot : pastilles posées par
+         access-control.js, comme sur l'ancien accueil). « Tableau de bord »,
+         pour un enseignant, va à gauche (#dashboard-slot) : avec l'adresse,
+         il ne tiendrait pas sur une ligne à droite. -->
+    <header class="page-bar home-bar">
+      <div class="home-bar-start" id="dashboard-slot">
+        <button type="button" class="page-bar-pill" data-help-open aria-haspopup="dialog">Mode d'emploi</button>
       </div>
+      <div class="home-bar-title">
+        <span class="site-badge">Sciences en immersion</span>
+        <h1>Bienvenue dans ton espace de sciences</h1>
+      </div>
+      <div class="home-bar-end" id="account-slot"></div>
     </header>
 
-    <section class="selector-grid">
-      <div class="choice-row" id="language-row">
-        <h2>1. Choisis ta langue d'immersion</h2>
-        <div class="choice-list" id="language-list"></div>
+    <!-- .home-body : cadre mesuré (container query, style.css). Les deux
+         colonnes y forment un bloc centré, la colonne des chapitres ayant la
+         largeur exacte de la grille 3 × 2 à proportions fixes. -->
+    <div class="home-body">
+    <div class="home-grid">
+      <div class="home-side">
+        <img class="home-friends" src="assets/Friends.webp" alt="Mes amis" />
+
+        <section class="choice-row" id="language-row">
+          <h2>1. Choisis ta langue d'immersion</h2>
+          <div class="choice-list" id="language-list"></div>
+        </section>
+
+        <section class="choice-row" id="year-row" hidden>
+          <h2>2. Choisis ton année</h2>
+          <div class="choice-list" id="year-list"></div>
+        </section>
+
       </div>
 
-      <div class="choice-row" id="year-row" hidden>
-        <h2>2. Choisis ton année</h2>
-        <div class="choice-list" id="year-list"></div>
-      </div>
+      <div class="home-chapters">
+        <section class="home-placeholder" id="home-placeholder">
+          <img src="assets/Friends.webp" alt="" />
+          <div>
+            <p class="home-placeholder-title">Choisis ta langue, puis ton année.</p>
+            <p>Tes chapitres apparaîtront ici. Touche un chapitre pour voir ses sections : vocabulaire, exercices,
+              labo, ressources, autoévaluation et explorations.</p>
+          </div>
+        </section>
 
-      <div class="choice-row" id="chapter-row" hidden>
-        <h2>3. Choisis un chapitre</h2>
-        <div class="choice-list" id="chapter-list"></div>
+        <section class="choice-row" id="chapter-row" hidden>
+          <h2>3. Choisis un chapitre</h2>
+          <div class="chapter-fit">
+            <div class="choice-list" id="chapter-list"></div>
+          </div>
+        </section>
       </div>
-    </section>
+    </div>
+    </div>
 
-    <section class="note-box">
-      <h3>Comment utiliser cette page ?</h3>
-      <p><strong>En bref :</strong> <span id="note-text">chaque chapitre combine vocabulaire à écouter, exercices et
-        jeux interactifs, fiches outils et lectures pour aller plus loin, un labo virtuel pour expérimenter, et une
-        auto-évaluation pour faire le point. Tu es libre de naviguer entre les sections comme tu veux.</span></p>
-      <p class="note-box-tip"><strong>Conseil du prof :</strong> commence par le vocabulaire pour connaître les
-        mots-clés, puis enchaîne avec les exercices à ton rythme. Fais le labo après les exercices, pour mettre la
-        démarche scientifique en pratique. Garde l'auto-évaluation pour la fin : c'est le bilan général à faire
-        juste avant un contrôle, pour vérifier que tu es prêt·e.</p>
-    </section>
+    <!-- Copyright (posé ici par rich-text.js, qui l'ajoute en fin de page
+         ailleurs) et crédits photos : une seule ligne discrète en bas. -->
+    <footer class="home-footer" id="site-footer">
+      <a class="credits-link" href="credits.html">Crédits photos</a>
+    </footer>
   </main>
 
-  <p class="credits-link"><a href="credits.html">Crédits photos</a></p>
+  <div class="modal-overlay" id="help-modal">
+    <div class="modal-card help-modal-card help-slate" data-page-zoom role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
+      <button type="button" class="modal-close" data-help-close aria-label="Fermer">×</button>
+      <section class="note-box">
+        <h3 id="help-modal-title">Comment utiliser cette page ?</h3>
+        <p><strong>En bref :</strong> les sciences de 1ère secondaire, chapitre par chapitre, en anglais ou en néerlandais.</p>
+        <ul class='help-list'>
+          <li><strong>Langue, année, chapitre :</strong> choisis-les dans cet ordre.</li>
+          <li><strong>Sections :</strong> chaque chapitre combine vocabulaire à écouter, exercices et jeux interactifs, labo virtuel, fiches outils, auto-évaluation et lectures pour aller plus loin. Passe de l'une à l'autre comme tu veux.</li>
+        </ul>
+        <p class="note-box-tip"><strong>Conseil du prof :</strong> commence par le vocabulaire pour connaître les
+          mots-clés, puis enchaîne avec les exercices à ton rythme. Fais le labo après les exercices, pour mettre la
+          démarche scientifique en pratique. Garde l'auto-évaluation pour la fin : c'est le bilan général à faire
+          juste avant un contrôle, pour vérifier que tu es prêt·e.</p>
+      </section>
+    </div>
+  </div>
 
   <div class="modal-overlay" id="chapter-modal">
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="chapter-modal-title">
+    <div class="modal-card" data-page-zoom role="dialog" aria-modal="true" aria-labelledby="chapter-modal-title">
       <button type="button" class="modal-close" id="chapter-modal-close" aria-label="Close menu">×</button>
       <div class="modal-card-inner">
         <div class="modal-chip" id="chapter-modal-chip">Subject</div>
@@ -124,34 +169,33 @@
           { code: 'year1', label_en: 'Year 1', label_nl: 'Jaar 1', folder_en: 'year1', folder_nl: 'jaar1', subtitle_en: '1ère secondaire', subtitle_nl: '1e secundair' },
           { code: 'year2', label_en: 'Year 2', label_nl: 'Jaar 2', folder_en: 'year2', folder_nl: 'jaar2', subtitle_en: '2ème secondaire', subtitle_nl: '2e secundair' }
         ],
+        // Ordre du parcours (même ordre que la barre de navigation,
+        // js/chapter-nav.js) : Vocabulary, Practice, Lab, Resources (servent
+        // tout du long), Assessment (la finalité), Explorations (pour qui a
+        // tout fait). Dans la fenêtre en 2 colonnes : Assessment et
+        // Explorations sur la dernière rangée.
         sections: [
           { key: 'vocabulary', label_en: 'Vocabulary', label_nl: 'Woordenschat' },
           { key: 'practice', label_en: 'Practice', label_nl: 'Oefeningen' },
+          { key: 'laboratory', label_en: 'Lab', label_nl: 'Labo' },
           { key: 'resources', label_en: 'Resources', label_nl: 'Hulpbronnen' },
-          { key: 'explorations', label_en: 'Explorations', label_nl: 'Exploraties' },
-          { key: 'laboratory', label_en: 'Lab', label_nl: 'Labo' }
+          { key: 'assessment', label_en: 'Assessment', label_nl: 'Zelfevaluatie', assessment: true },
+          { key: 'explorations', label_en: 'Explorations', label_nl: 'Exploraties' }
         ]
       };
 
-      const uiText = {
-        en: {
-          title: 'Bienvenue dans ton espace de sciences',
-          subtitle: 'Sélectionne ta langue, puis ton année, puis le chapitre.',
-          step1: "1. Choisis ta langue d'immersion",
-          step2: '2. Choisis ton année',
-          step3: '3. Choisis un chapitre',
-          note: 'chaque chapitre combine vocabulaire à écouter, exercices et jeux interactifs, fiches outils et lectures pour aller plus loin, un labo virtuel pour expérimenter, et une auto-évaluation pour faire le point. Tu es libre de naviguer entre les sections comme tu veux.'
-        },
-        nl: {
-          title: 'Welkom in je wetenschapsruimte',
-          subtitle: 'Selecteer je taal, daarna je jaar en daarna het hoofdstuk. Elk hoofdstuk opent een venster met Vocabulary, Oefeningen, Hulpbronnen en Exploraties.',
-          step1: '1. Kies je moedertaal',
-          step2: '2. Kies je jaar',
-          step3: '3. Kies een hoofdstuk',
-          note: 'De pagina’s Vocabulary, Oefeningen, Hulpbronnen en Exploraties zijn al gemaakt in de mappen. Kies een hoofdstuk en selecteer daarna de sectie in het venster.'
-        }
+      // Titres des étapes, toujours en français quelle que soit la filière :
+      // seules les cartes de chapitre (titres tirés des données de la filière)
+      // changent de langue. Une fois les chapitres affichés, les étapes déjà
+      // faites prennent une forme courte (« Ta langue d'immersion ») : elles
+      // rappellent un choix plutôt qu'elles n'en demandent un.
+      const stepText = {
+        ask: { step1: "1. Choisis ta langue d'immersion", step2: '2. Choisis ton année' },
+        done: { step1: "1. Ta langue d'immersion", step2: '2. Ton année' }
       };
 
+      const homeMain = document.getElementById('home');
+      const placeholder = document.getElementById('home-placeholder');
       const languageList = document.getElementById('language-list');
       const yearRow = document.getElementById('year-row');
       const yearList = document.getElementById('year-list');
@@ -160,32 +204,45 @@
       const modalOverlay = document.getElementById('chapter-modal');
       const modalOptions = document.getElementById('chapter-modal-options');
       const modalTitle = document.getElementById('chapter-modal-title');
-      const modalCard = document.querySelector('.modal-card');
+      // Ciblée par sa modale : la page en a deux (sections, mode d'emploi).
+      const modalCard = modalOverlay.querySelector('.modal-card');
       const modalChip = document.getElementById('chapter-modal-chip');
       const modalClose = document.getElementById('chapter-modal-close');
-      const titleHeading = document.querySelector('h1');
-      const subtitleParagraph = document.querySelector('.subtitle');
       const step1Heading = document.querySelector('#language-row h2');
       const step2Heading = document.querySelector('#year-row h2');
-      const step3Heading = document.querySelector('#chapter-row h2');
-      const noteText = document.getElementById('note-text');
 
       let selectedLanguage = null;
       let selectedYear = null;
       let selectedChapter = null;
 
+      // Accorde la page à l'état du choix : chapitres affichés ou place
+      // d'attente, titres des étapes en forme longue ou courte. Appelée après
+      // chaque changement de langue ou d'année.
       function updateUITexts() {
-        // Page chrome (title, subtitle, step headings, footer note) always stays in
-        // French, regardless of the chosen immersion track — only the chapter cards
-        // themselves (their title, drawn from that track's own data) switch language.
-        const text = uiText.en;
-        titleHeading.textContent = text.title;
-        subtitleParagraph.textContent = text.subtitle;
+        const hasChapters = !chapterRow.hidden;
+        homeMain.classList.toggle('has-chapters', hasChapters);
+        placeholder.hidden = hasChapters;
+        const text = hasChapters ? stepText.done : stepText.ask;
         step1Heading.textContent = text.step1;
         step2Heading.textContent = text.step2;
-        step3Heading.textContent = text.step3;
-        noteText.textContent = text.note;
       }
+
+      // Mode d'emploi de la page, ouvert par « ? ». Fermeture par la croix ou
+      // Échap, comme les autres modales du site (pas de clic à côté).
+      const helpModal = document.getElementById('help-modal');
+      const openHelp = () => {
+        helpModal.classList.add('modal-open');
+        document.body.classList.add('modal-is-open');
+      };
+      const closeHelp = () => {
+        helpModal.classList.remove('modal-open');
+        document.body.classList.remove('modal-is-open');
+      };
+      document.querySelectorAll('[data-help-open]').forEach(btn => btn.addEventListener('click', openHelp));
+      helpModal.querySelectorAll('[data-help-close]').forEach(btn => btn.addEventListener('click', closeHelp));
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && helpModal.classList.contains('modal-open')) closeHelp();
+      });
 
       function getYearLabel(year) {
         return selectedLanguage && selectedLanguage.code === 'nl' ? year.label_nl : year.label_en;
@@ -261,10 +318,7 @@
 
         if (savedLanguage) {
           selectedLanguage = savedLanguage;
-          updateUITexts(selectedLanguage.code);
           yearRow.hidden = false;
-        } else {
-          updateUITexts('en');
         }
 
         renderLanguages();
@@ -277,6 +331,7 @@
         } else if (selectedLanguage) {
           renderYears();
         }
+        updateUITexts();
       }
 
       function getChapterOrder(chapter) {
@@ -312,30 +367,18 @@
         modalChip.textContent = getSubjectLabel(chapter.folder);
 
         modalOptions.innerHTML = '';
+        // Assessment garde sa couleur ardoise fixe (assessment.css), qui la
+        // marque comme la finalité. Chaque chapitre a son assessment.html
+        // (`hasAssessment` gardé : un futur chapitre sans autoévaluation
+        // n'aurait pas de bouton vers une page absente).
         siteData.sections.forEach(section => {
+          if (section.assessment && !chapter.hasAssessment) return;
           const card = document.createElement('a');
-          card.className = 'section-card';
+          card.className = section.assessment ? 'section-card assessment-card' : 'section-card';
           card.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/${section.key}.html`;
-          const label = getSectionLabel(section);
-          card.textContent = label;
+          card.textContent = getSectionLabel(section);
           modalOptions.appendChild(card);
         });
-
-        // Assessment: the 6th and last card of the grid, after Lab. With Lab
-        // the chapter has 5 sections (an odd number): Assessment joins the
-        // grid to make an even 2 x 3, where its own fixed slate colour (see
-        // assessment.css) is what marks it as the final step — it used to
-        // sit on its own row below a dashed divider. Every chapter has its
-        // own assessment.html (`hasAssessment` kept as a flag rather than
-        // removed, so a future chapter added without one yet doesn't get a
-        // button pointing at a missing page).
-        if (chapter.hasAssessment) {
-          const assessmentCard = document.createElement('a');
-          assessmentCard.className = 'section-card assessment-card';
-          assessmentCard.href = `${selectedLanguage.code}/${getYearFolder(selectedYear)}/${chapter.folder}/assessment.html`;
-          assessmentCard.textContent = selectedLanguage.code === 'nl' ? 'Zelfevaluatie' : 'Assessment';
-          modalOptions.appendChild(assessmentCard);
-        }
 
         modalOverlay.classList.add('modal-open');
         // Empêche la page de défiler derrière la modale, comme sur les pages
@@ -371,12 +414,12 @@
             selectedChapter = null;
             document.querySelectorAll('#language-list .choice-card').forEach(el => el.classList.remove('active'));
             card.classList.add('active');
-            updateUITexts(lang.code);
             yearRow.hidden = false;
             chapterRow.hidden = true;
             chapterList.innerHTML = '';
             saveSelections();
             renderYears();
+            updateUITexts();
           });
           if (selectedLanguage && selectedLanguage.code === language.code) {
             card.classList.add('active');
@@ -397,6 +440,7 @@
             chapterRow.hidden = false;
             saveSelections();
             renderChapters();
+            updateUITexts();
           });
           if (selectedYear && selectedYear.code === year.code) {
             card.classList.add('active');

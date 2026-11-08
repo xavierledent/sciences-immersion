@@ -27,9 +27,9 @@
     // Bronze/Silver/Gold based on mistakes made, same spirit as the QCM ranks —
     // no time threshold, since exercises have very different numbers of zones.
     function getDndRank(mistakes) {
-      if (mistakes === 0) return { emoji: '🥇', label: L.rankGold };
-      if (mistakes <= 2) return { emoji: '🥈', label: L.rankSilver };
-      return { emoji: '🥉', label: L.rankBronze };
+      if (mistakes === 0) return { icon: 'gold', label: L.rankGold };
+      if (mistakes <= 2) return { icon: 'silver', label: L.rankSilver };
+      return { icon: 'bronze', label: L.rankBronze };
     }
 
     function getDndBestStat(exercise, stat) {
@@ -64,7 +64,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'exercise-step dnd-step';
-        btn.textContent = `Game ${index + 1}`;
+        btn.textContent = L.gameTab(index + 1);
         btn.dataset.index = index;
         btn.addEventListener('click', () => {
           loadDndExercise(index);
@@ -111,13 +111,16 @@
       dndStatsBar.innerHTML = `
         <div class="dnd-stat">
           <button type="button" class="timer-toggle-btn" id="dnd-timer-toggle">${L.showTimer}</button>
-          <span class="live-timer-display"><span class="dnd-stat-icon">⏱️</span><span id="dnd-stat-timer" class="live-timer-value">0:00</span></span>
+          <button type="button" class="live-timer-display dnd-timer-live" id="dnd-timer-live" aria-label="${L.hideTimer}">${gameIcon('timer')}<span id="dnd-stat-timer" class="live-timer-value">0:00</span></button>
         </div>
-        <div class="dnd-stat stat-badge"><span class="dnd-stat-icon">❌</span>${L.errors} <span id="dnd-stat-mistakes">0</span></div>
+        <div class="dnd-stat stat-badge">${gameIcon('wrong')}${L.errors} <span id="dnd-stat-mistakes">0</span></div>
         <div class="dnd-stat-result" id="dnd-stat-result"></div>
       `;
       dndInstr.after(dndStatsBar);
       document.getElementById('dnd-timer-toggle').addEventListener('click', toggleLiveTimer);
+      // Le temps affiché est lui-même le bouton qui le masque (« Hide » ne
+      // tient pas à côté dans la colonne de droite, voir practice-dnd.css).
+      document.getElementById('dnd-timer-live').addEventListener('click', toggleLiveTimer);
       applyLiveTimerVisibility();
       dndTimerIntervalId = setInterval(updateDndTimerDisplay, 1000);
 
@@ -271,37 +274,66 @@
        confortable au doigt. 13px est le plancher, au-delà le texte devient trop
        petit pour des élèves de 12 ans sur Chromebook. */
     const DND_ITEM_STEPS = [
-      { font: '1rem', padX: '20px', gap: '12px' },
-      { font: '0.9375rem', padX: '14px', gap: '10px' },
-      { font: '0.875rem', padX: '12px', gap: '8px' },
-      { font: '0.8125rem', padX: '10px', gap: '6px' }
+      // L'espace entre les étiquettes se resserre d'abord, le texte ensuite.
+      { font: '1rem', padX: '14px', gap: '10px' },
+      { font: '1rem', padX: '14px', gap: '6px' },
+      { font: '0.9375rem', padX: '12px', gap: '6px' },
+      { font: '0.875rem', padX: '10px', gap: '6px' },
+      { font: '0.8125rem', padX: '8px', gap: '6px' }
     ];
 
-    /* Plus grand cran qui tient les étiquettes sur une seule ligne, mesuré sur
-       les étiquettes réellement affichées. Un seul cran pour tout le jeu, pour
-       qu'aucune étiquette ne paraisse plus importante qu'une autre. Si même le
-       plus petit ne suffit pas, il reste appliqué et les étiquettes passent sur
-       deux lignes. Doit précéder le calage de l'image, dont la hauteur
-       disponible dépend de celle du réservoir. */
+    /* Les étiquettes dans la colonne de droite (mise en page « paysage ») :
+       une colonne, au plus grand cran qui tient dans la hauteur ; sinon deux
+       colonnes, de nouveau au plus grand cran qui tient. Mesuré sur les
+       étiquettes du jeu, au chargement : un seul cran pour tout le jeu, pour
+       qu'aucune étiquette ne paraisse plus importante qu'une autre (une
+       étiquette posée libère de la place, rien ne se recale ; seul un
+       changement de taille de la fenêtre recale, via dndSyncBoardMetrics). */
     function dndFitReservoir() {
       const reservoir = document.getElementById('dnd-reservoir');
       if (!reservoir || reservoir.clientWidth === 0) return;
       const items = Array.from(reservoir.querySelectorAll('.dnd-item'));
       if (!items.length) return;
-      for (const step of DND_ITEM_STEPS) {
+      // Tient en hauteur, et aucun mot ne dépasse de son étiquette (un mot
+      // n'est jamais coupé : on réduit plutôt le texte).
+      const fits = () => reservoir.scrollHeight <= reservoir.clientHeight + 1 &&
+        items.every(item => item.scrollWidth <= item.clientWidth + 1);
+      const apply = step => {
         reservoir.style.setProperty('--dnd-item-font', step.font);
         reservoir.style.setProperty('--dnd-item-pad-x', step.padX);
         reservoir.style.setProperty('--dnd-item-gap', step.gap);
-        const firstTop = items[0].offsetTop;
-        if (items.every(item => item.offsetTop === firstTop)) return;
+      };
+      for (const twoCols of [false, true]) {
+        reservoir.classList.toggle('is-two-cols', twoCols);
+        for (const step of DND_ITEM_STEPS) {
+          apply(step);
+          if (fits()) return;
+        }
       }
     }
+
+    /* Place du jeu sur le Chromebook en plein écran (en-tête déduit) : la
+       colonne des étiquettes y est dessinée à 260 px. Avec plus de place,
+       elle grandit dans la même proportion que l'image (--dnd-scale : zoom de
+       la colonne, texte des étiquettes posées), au lieu de rester petite à
+       côté d'une image énorme. */
+    const DND_BASE_W = 1250;
+    const DND_BASE_H = 560;
+    const DND_SCALE_MAX = 1.6;
 
     function dndSyncBoardMetrics() {
       const bgImg = document.getElementById('dnd-bg-image');
       const board = document.getElementById('dnd-board');
       const container = document.querySelector('.dnd-board-container');
+      const layout = document.querySelector('.dnd-layout');
       if (!bgImg || !board) return;
+      if (layout) {
+        // Colonne de l'image remise à toute la place restante pour la mesure.
+        layout.style.removeProperty('--dnd-board-col');
+        const ratio = Math.min(layout.clientWidth / DND_BASE_W, layout.clientHeight / DND_BASE_H);
+        const scale = Math.max(1, Math.min(DND_SCALE_MAX, ratio || 1));
+        layout.style.setProperty('--dnd-scale', scale.toFixed(3));
+      }
       dndFitReservoir();
 
       /* Le plateau était dimensionné par des maximums (max-width, max-height),
@@ -327,9 +359,14 @@
           bgImg.style.height = Math.round(nh * scale) + 'px';
         }
       }
-      // Lu après le calage en taille : la largeur en dépend.
-      const width = bgImg.getBoundingClientRect().width;
+      // Lu après le calage en taille : la largeur en dépend. En pixels CSS
+      // (offsetWidth), pas à l'écran : la fenêtre peut être réduite d'un
+      // zoom hors plein écran (fitModalWindows, moteur).
+      const width = bgImg.offsetWidth;
       if (width > 0) board.style.setProperty('--dnd-board-w', width + 'px');
+      // La colonne de l'image épouse l'image : l'image et les étiquettes
+      // forment un bloc centré, sans vide entre les deux.
+      if (layout && width > 0) layout.style.setProperty('--dnd-board-col', width + 'px');
     }
 
     // Étiquette actuellement « portée » par l'élève en mode toucher-toucher.
@@ -451,16 +488,16 @@
 
         const rank = getDndRank(dndMistakeCount);
         const mistakesNote = isNewMistakesRecord
-          ? `🎉 ${L.newBestMistakes}`
+          ? `${gameReward('record')} ${L.newBestMistakes}`
           : (previousBestMistakes !== null ? L.bestMistakes(previousBestMistakes) : '');
         const timeNote = isNewTimeRecord
-          ? `🎉 ${L.newBestTime}`
+          ? `${gameReward('record')} ${L.newBestTime}`
           : (previousBestTime !== null ? L.bestTimePrefix + formatDndTime(previousBestTime) : '');
 
         const resultEl = document.getElementById('dnd-stat-result');
         if (resultEl) {
           resultEl.innerHTML = `
-            <span class="dnd-result-badge">${rank.emoji} ${rank.label}</span>
+            <span class="dnd-result-badge">${gameReward(rank.icon)} ${rank.label}</span>
             ${mistakesNote ? `<span class="dnd-result-note">${mistakesNote}</span>` : ''}
             ${timeNote ? `<span class="dnd-result-note">${timeNote}</span>` : ''}
           `;

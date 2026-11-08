@@ -1,12 +1,22 @@
-/* ===== Bandeau de retour après absence, page d'accueil uniquement =====
+/* ===== Bandeaux d'accueil =====
+
+   - « Content de te revoir » : retour après une semaine d'absence, page
+     d'accueil uniquement (script marqué data-home dans index.html).
+   - « Le site a fait peau neuve » : une seule fois par appareil, sur la
+     première page ouverte (accueil ou chapitre), pour les élèves qui
+     connaissaient l'ancien site (mise en page « paysage », novembre 2026).
+     Il reste affiché jusqu'au bouton « Compris ». À retirer quand plus aucun
+     élève n'a connu l'ancien site (fin de l'année scolaire).
 
    Distinct de STORAGE_KEY dans access-control.js ('accessToken') : cette clé
    ne suit qu'une date, jamais un accès, les deux ne doivent pas se marcher
    dessus. */
 (function () {
   const STORAGE_KEY = 'lastVisitAt';
+  const REDESIGN_KEY = 'redesignNoticeSeen';
   const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
   const DISPLAY_MS = 6000;
+  const IS_HOME = !!(document.currentScript && document.currentScript.hasAttribute('data-home'));
 
   const WELCOME_IMAGE = document.currentScript
     ? new URL('../assets/Friends%20wback.webp', document.currentScript.src).href
@@ -45,20 +55,24 @@
     const style = document.createElement('style');
     style.id = 'welcome-back-style';
     style.textContent = `
-      /* Centré sur la même colonne que main.page (max-width 1080px) sans en
-         être l'enfant : le bandeau doit rester au tout haut de la page, avant
-         même le header, pas dans le flux de <main>. */
+      /* Flottant en haut de l'écran, centré, par-dessus l'en-tête : l'accueil
+         tient exactement dans la hauteur de l'écran, un bandeau dans le flux
+         le ferait défiler pendant ses quelques secondes. Il ne couvre que
+         l'en-tête (titre, pastilles), jamais les choix de langue, d'année
+         ou de chapitre ; le wrap laisse passer les clics à côté de la carte. */
       #welcome-back-wrap {
-        max-width: 1080px;
-        margin: 0 auto;
-        padding: 28px 22px 0;
+        position: fixed;
+        top: 12px;
+        left: 0;
+        right: 0;
+        z-index: 997;
+        padding: 0 16px;
         display: flex;
         justify-content: center;
+        pointer-events: none;
       }
       /* Une vraie carte, pas une pastille : à cette taille d'image, le
-         bandeau doit se voir tout de suite, sans jamais couvrir ce qu'il y a
-         en dessous — sélecteurs de langue/année/chapitre compris, restés
-         dans le flux normal de la page. */
+         bandeau doit se voir tout de suite. */
       #welcome-back-banner {
         display: flex;
         align-items: center;
@@ -72,6 +86,7 @@
         opacity: 0;
         transform: translateY(-36px);
         transition: opacity 550ms ease-out, transform 550ms ease-out;
+        pointer-events: auto;
       }
       #welcome-back-banner.is-visible {
         opacity: 1;
@@ -87,6 +102,47 @@
         aspect-ratio: 944 / 1125;
         object-fit: contain;
         flex-shrink: 0;
+      }
+      #welcome-back-banner.is-redesign {
+        max-width: 620px;
+        align-items: flex-start;
+      }
+      #welcome-back-banner .welcome-back-text {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      #welcome-back-banner .welcome-back-text p {
+        flex: none;
+        font-size: 0.98rem;
+        font-weight: 500;
+        line-height: 1.5;
+        /* Les paragraphes du site sont justifiés : sur une colonne étroite,
+           des trous entre les mots. */
+        text-align: left;
+      }
+      #welcome-back-banner .welcome-back-text .welcome-back-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+      #welcome-back-banner .welcome-back-ok {
+        align-self: flex-end;
+        margin-top: 4px;
+        padding: 9px 22px;
+        border: none;
+        border-radius: 999px;
+        background: var(--color-slate, #4a6483);
+        color: #ffffff;
+        font-family: var(--font-family);
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      #welcome-back-banner .welcome-back-ok:focus-visible {
+        outline: 3px solid rgba(74, 100, 131, 0.35);
+        outline-offset: 2px;
       }
       #welcome-back-banner p {
         margin: 0;
@@ -161,7 +217,57 @@
     document.addEventListener('click', dismiss);
   }
 
+  /* Le site a fait peau neuve : reste affiché jusqu'à « Compris », puis ne
+     revient plus sur cet appareil. En test (?redesignTest=1), rien n'est
+     enregistré. */
+  function showRedesignNotice(forced) {
+    injectStyles();
+
+    const wrap = document.createElement('div');
+    wrap.id = 'welcome-back-wrap';
+
+    const banner = document.createElement('div');
+    banner.id = 'welcome-back-banner';
+    banner.className = 'is-redesign';
+    banner.setAttribute('role', 'status');
+    banner.innerHTML =
+      '<img src="' + WELCOME_IMAGE + '" alt="" />' +
+      '<div class="welcome-back-text">' +
+        '<p class="welcome-back-title">Le site a fait peau neuve !</p>' +
+        '<p>Les pages ont changé d\'allure, mais tout se trouve toujours au même endroit, ' +
+        'et ton travail est bien conservé : exercices, jeux, labos et autoévaluation.</p>' +
+        '<button type="button" class="welcome-back-ok">Compris</button>' +
+      '</div>';
+    wrap.appendChild(banner);
+    document.body.insertBefore(wrap, document.body.firstChild);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => banner.classList.add('is-visible'));
+    });
+
+    banner.querySelector('.welcome-back-ok').addEventListener('click', () => {
+      if (!forced) SiteStorage.device.set(REDESIGN_KEY, '1');
+      banner.classList.remove('is-visible');
+      setTimeout(() => wrap.remove(), 600);
+    });
+  }
+
   function init() {
+    /* Peau neuve : seulement pour qui connaissait l'ancien site, reconnu à
+       une trace laissée sur l'appareil (dernière visite de l'accueil, accès
+       enregistré). Un nouvel élève n'a ni l'un ni l'autre : il est noté
+       comme l'ayant vu, sans rien afficher (pour lui, rien n'a changé). */
+    const forcedRedesign = /(?:^|[?&])redesignTest=1(?:&|$)/.test(location.search);
+    let redesign = forcedRedesign;
+    if (!forcedRedesign && SiteStorage.device.get(REDESIGN_KEY) !== '1') {
+      const knewOldSite = !!SiteStorage.device.get(STORAGE_KEY) || !!SiteStorage.device.get('accessToken');
+      if (knewOldSite) redesign = true;
+      else SiteStorage.device.set(REDESIGN_KEY, '1');
+    }
+    if (redesign) whenContentRevealed(() => showRedesignNotice(forcedRedesign));
+
+    if (!IS_HOME) return;
+
     // Uniquement pour les tests en développement : force l'affichage
     // immédiat sans attendre 7 jours, et sans jamais écraser la vraie date de
     // dernière visite enregistrée (voir plus bas) — un rechargement répété
@@ -172,7 +278,7 @@
 
     if (!forced) writeLastVisit();
 
-    if (shouldShow) whenContentRevealed(showBanner);
+    if (shouldShow && !redesign) whenContentRevealed(showBanner);
   }
 
   if (document.readyState === 'loading') {

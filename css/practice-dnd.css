@@ -242,7 +242,7 @@ body.high-contrast .dnd-zone.correct .dnd-zone-text {
   font-weight: 700;
   color: var(--color-emerald);
   /* Suit la zone, sinon un texte figé déborderait d'une zone rétrécie. */
-  font-size: clamp(0.62rem, calc(var(--dnd-board-w, 900px) * 0.017), 0.95rem);
+  font-size: clamp(0.62rem, calc(var(--dnd-board-w, 900px) * 0.017), calc(0.95rem * var(--dnd-scale, 1)));
   line-height: 1.15;
   padding: 0 !important;
   margin: 0 !important;
@@ -339,10 +339,6 @@ html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
   color: var(--color-text);
 }
 
-.dnd-stat-icon {
-  font-size: 1rem;
-}
-
 .dnd-stat-result {
   display: flex;
   align-items: center;
@@ -409,5 +405,166 @@ html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
   .dnd-zone.just-placed,
   .dnd-zone-tick {
     animation: none;
+  }
+}
+
+/* ===== Fenêtre du glisser-déposer « paysage » =====
+   Ouverte d'office en plein écran (requestModalFullscreen, moteur) ; hors
+   plein écran, toute la fenêtre moins une petite marge. En-tête compact
+   (« Drag and drop » en petit, titre du jeu, onglets Game 1… 5), puis l'image
+   à gauche, aussi grande que la place le permet (dndSyncBoardMetrics), et
+   juste à droite une colonne de 260 px : consigne, chronomètre et erreurs,
+   étiquettes (une colonne, deux s'il le faut : dndFitReservoir). Les deux
+   forment un bloc centré ; sur un écran plus grand que le Chromebook, la
+   colonne et le texte des étiquettes grandissent avec l'image
+   (--dnd-scale).
+   Placé en fin de fichier : ces règles passent devant les précédentes. */
+.dnd-large-modal-overlay {
+  padding: 0;
+}
+
+.dnd-modal-card {
+  width: calc(100vw - 32px);
+  height: calc(100vh - 32px);
+  height: calc(100dvh - 32px);
+  max-width: none;
+}
+
+#dnd-modal .dnd-modal-header {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 14px 24px 12px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+}
+
+#dnd-modal .modal-close,
+#dnd-modal .modal-fullscreen {
+  top: 14px;
+}
+
+#dnd-modal .modal-header-titles h2 {
+  text-align: center;
+}
+
+#dnd-modal .dnd-pagination {
+  justify-content: center;
+  gap: 6px;
+}
+
+#dnd-modal .dnd-pagination .exercise-step {
+  width: auto;
+  height: auto;
+  aspect-ratio: auto;
+  padding: 7px 16px;
+  font-size: 0.85rem;
+  border-radius: 10px;
+}
+
+.dnd-modal-body {
+  min-height: 0;
+  padding: 16px 24px 20px;
+}
+
+.dnd-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: var(--dnd-board-col, minmax(0, 1fr)) calc(260px * var(--dnd-scale, 1));
+  grid-template-rows: minmax(0, 1fr);
+  justify-content: center;
+  gap: calc(32px * var(--dnd-scale, 1));
+}
+
+.dnd-board-container {
+  min-width: 0;
+  padding: 0;
+}
+
+/* ----- Colonne de droite ----- */
+/* Zoom : la colonne garde sa disposition de 260 px, agrandie d'un bloc. */
+.dnd-side {
+  zoom: var(--dnd-scale, 1);
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dnd-side .dnd-instructions-text {
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.dnd-side .dnd-stats-bar {
+  justify-content: space-between;
+  gap: 8px 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+}
+
+/* Chronomètre affiché : le temps remplace le bouton « Hide » et sert à le
+   masquer d'un toucher ; « Hide » et le temps côte à côte, avec le
+   compteur d'erreurs, passaient sur deux lignes (surtout en NL). */
+.dnd-side .timer-toggle-btn.active {
+  display: none;
+}
+
+.dnd-side .dnd-timer-live {
+  padding: 3px 10px;
+  border: 1px solid var(--color-current);
+  border-radius: 999px;
+  background: var(--color-current);
+  color: var(--color-current-text, #ffffff);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dnd-side .dnd-stat-result {
+  flex-basis: 100%;
+  gap: 4px 12px;
+}
+
+/* Les étiquettes les unes sous les autres ; deux colonnes et texte réduit
+   si elles ne tiennent pas (crans posés par dndFitReservoir). */
+.dnd-side .dnd-reservoir {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: var(--dnd-item-gap, 10px);
+  padding: 14px;
+  overflow: hidden;
+}
+
+.dnd-side .dnd-reservoir.is-two-cols {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dnd-side .dnd-item {
+  min-height: 44px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px var(--dnd-item-pad-x, 14px);
+  text-align: center;
+}
+
+@media (max-width: 899px) {
+  .dnd-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dnd-side .dnd-reservoir {
+    flex: none;
+    display: flex;
+    flex-wrap: wrap;
   }
 }

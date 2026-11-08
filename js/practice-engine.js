@@ -19,6 +19,7 @@
            propre. Ils reprennent le nom de chaque jeu tel qu'il figure dans
            l'en-tête des pages. */
         qcmDefaultTitle: 'Multiple-choice questions',
+        qcmQuestionCount: (n, total) => `Question ${n} / ${total}`,
         fitbDefaultTitle: 'Fill in the blanks',
         dndDefaultTitle: 'Drag and drop',
         memoryDefaultTitle: 'Match the pairs',
@@ -45,12 +46,18 @@
         selfAssessGotIt: 'Got it',
         yourAnswer: 'Your answer',
         answerEmpty: 'You have not written an answer yet.',
-        chapterOverviewTitle: 'My progress',
-        exercisesRemaining: n => `${n} exercise${n !== 1 ? 's' : ''} to turn green. Keep going !`,
-        overviewAllTab: 'All',
-        continueLevel: 'Continue this level',
+        greenCount: (n, total) => `${n} / ${total} green`,
+        toImprove: n => `${n} to improve`,
+        exerciseCellLabel: n => `Exercise ${n}`,
+        // Onglet d'un exercice de jeu, et infobulle de sa case sur la page :
+        // le même mot des deux côtés.
+        quizTab: n => `Quiz ${n}`,
+        textTab: n => `Text ${n}`,
+        gameTab: n => `Game ${n}`,
+        gamesDone: (n, total) => `${n} / ${total} done`,
         levelActionStart: 'Start',
         levelActionContinue: 'Continue',
+        levelActionAgain: 'Practice again',
         levelBadgeStart: 'Start here',
         levelBadgeContinue: 'Pick up here',
         revisionModeLabel: 'Revision mode',
@@ -63,7 +70,7 @@
         quizCompleted: 'Quiz Completed!',
         yourScore: 'Your score:',
         yourBest: 'Your best:',
-        newPersonalBest: '🎉 New personal best!',
+        newPersonalBest: 'New personal best!',
         checkAnswer: 'Check Answer',
         nextQuestion: 'Next Question',
         qcmResumeTitle: 'Quiz paused',
@@ -98,13 +105,13 @@
         wellDone: 'Well done !',
         bestMistakes: n => 'Best: ' + n + ' mistake' + (n !== 1 ? 's' : ''),
         bestMoves: n => 'Best: ' + n + ' move' + (n !== 1 ? 's' : ''),
-        glossHint: '💡 Underlined words can be translated into French',
-        listen: '🔊 Listen',
+        glossHint: 'Underlined words can be translated into French',
+        listen: 'Listen',
         // Même clé et mêmes valeurs que vocabulary-engine.js : les deux moteurs
         // font parler la même page, ils ne doivent pas le faire avec deux voix.
         speechLang: 'en-US',
-        pause: '⏸ Pause',
-        resume: '▶ Resume',
+        pause: 'Pause',
+        resume: 'Resume',
         bestTimePrefix: 'Best time: '
       },
       nl: {
@@ -118,6 +125,7 @@
         exerciseUnderConstruction: 'Deze oefening is nog in opbouw — kom later terug!',
         gameUnderConstruction: 'Dit spel is nog in opbouw — kom later terug!',
         qcmDefaultTitle: 'Meerkeuzevragen',
+        qcmQuestionCount: (n, total) => `Vraag ${n} / ${total}`,
         fitbDefaultTitle: 'Vul de gaten in',
         dndDefaultTitle: 'Sleep en plaats',
         memoryDefaultTitle: 'Zoek de paren',
@@ -144,12 +152,16 @@
         selfAssessGotIt: 'Gelukt',
         yourAnswer: 'Jouw antwoord',
         answerEmpty: 'Je hebt nog geen antwoord geschreven.',
-        chapterOverviewTitle: 'Mijn voortgang',
-        exercisesRemaining: n => `Nog ${n} oefening${n !== 1 ? 'en' : ''} om groen te worden. Ga zo door !`,
-        overviewAllTab: 'Alle',
-        continueLevel: 'Dit level verderzetten',
+        greenCount: (n, total) => `${n} / ${total} groen`,
+        toImprove: n => `${n} te verbeteren`,
+        exerciseCellLabel: n => `Oefening ${n}`,
+        quizTab: n => `Quiz ${n}`,
+        textTab: n => `Tekst ${n}`,
+        gameTab: n => `Spel ${n}`,
+        gamesDone: (n, total) => `${n} / ${total} klaar`,
         levelActionStart: 'Beginnen',
         levelActionContinue: 'Doorgaan',
+        levelActionAgain: 'Opnieuw oefenen',
         levelBadgeStart: 'Begin hier',
         levelBadgeContinue: 'Ga hier verder',
         revisionModeLabel: 'Herhalingsmodus',
@@ -162,7 +174,7 @@
         quizCompleted: 'Quiz voltooid!',
         yourScore: 'Jouw score:',
         yourBest: 'Jouw record:',
-        newPersonalBest: '🎉 Nieuw persoonlijk record!',
+        newPersonalBest: 'Nieuw persoonlijk record!',
         checkAnswer: 'Antwoord controleren',
         nextQuestion: 'Volgende vraag',
         qcmResumeTitle: 'Quiz gepauzeerd',
@@ -197,11 +209,11 @@
         wellDone: 'Goed gedaan!',
         bestMistakes: n => 'Beste: ' + n + ' fout' + (n !== 1 ? 'en' : ''),
         bestMoves: n => 'Beste: ' + n + ' zet' + (n !== 1 ? 'ten' : ''),
-        glossHint: '💡 Onderstreepte woorden kunnen naar het Frans vertaald worden',
-        listen: '🔊 Luister',
+        glossHint: 'Onderstreepte woorden kunnen naar het Frans vertaald worden',
+        listen: 'Luister',
         speechLang: 'nl-BE',
-        pause: '⏸ Pauze',
-        resume: '▶ Hervatten',
+        pause: 'Pauze',
+        resume: 'Hervatten',
         bestTimePrefix: 'Beste tijd: '
       }
     };
@@ -212,12 +224,7 @@
     const practicePath = './practice.json';
     const interactivePath = './interactive.json';
     const levelButtonsContainer = document.getElementById('level-buttons');
-    const overviewModal = document.getElementById('overview-modal');
-    const overviewModalClose = document.getElementById('overview-modal-close');
-    const overviewModalTitle = document.getElementById('overview-modal-title');
-    const overviewTabs = document.getElementById('overview-tabs');
     const overviewMascotImg = document.getElementById('overview-mascot');
-    const overviewPanels = document.getElementById('overview-panels');
     const modalOverlay = document.getElementById('exercise-modal');
     const modalClose = document.getElementById('exercise-modal-close');
     const modalTitle = document.getElementById('exercise-modal-title');
@@ -228,6 +235,9 @@
     // Showing/hiding therefore targets the wrapper when it exists.
     const exerciseImageWrap = document.getElementById('exercise-image-wrap');
     const exerciseImageHost = exerciseImageWrap || exerciseImage;
+    // Mise en page « paysage » : deux colonnes (voir le template).
+    const exerciseLayout = document.getElementById('exercise-layout');
+    const exerciseMain = document.getElementById('exercise-main');
     const exerciseSubQuestionNav = document.getElementById('exercise-subquestion-nav');
     const exerciseText = document.getElementById('exercise-text');
     const exercisesPagination = document.getElementById('exercises-pagination');
@@ -274,8 +284,8 @@
     let currentView = 'en';
     let currentSubQuestion = 0;
 
-    // Revision mode: a session tied to one specific level, started from the
-    // overview's "Continue this level" button. Never persisted (localStorage
+    // Revision mode: a session tied to one specific level, started from its
+    // "Review the N remaining" button on the page. Never persisted (localStorage
     // or otherwise) — closing the exercise modal or reopening a level from
     // scratch always resets it, deliberately, rather than restoring a session
     // the student may not remember starting.
@@ -395,66 +405,105 @@
        On raisonne sur la hauteur maximale que la modale PEUT atteindre (90vh) et
        non sur sa hauteur actuelle, qui épouse son contenu : sinon l'image se
        réduirait alors qu'il reste de la place. */
+    /* ===== Fenêtre d'exercice « paysage » =====
+       Une seule disposition pour tous les exercices : à gauche l'image,
+       centrée dans une colonne de 55 % (une image très large s'agrandit d'un
+       clic) ; à droite les boutons Question EN / FR, la question, la réponse.
+       Sans image (exo-mascot), une mascotte de la matière à la place de
+       l'image, plus petite, ni cadre ni agrandissement, et les deux colonnes
+       resserrées en un bloc centré : le travail n'est plus isolé à droite.
+       La fenêtre change donc de forme entre les deux sortes d'exercices :
+       accepté, l'élève passe du temps sur chacun. */
+
+    function setExerciseMode(mode) {
+      modalOverlay.classList.add('exo-side');
+      modalOverlay.classList.toggle('exo-mascot', mode === 'mascot');
+    }
+
+    function exerciseImageRatio() {
+      return exerciseImage && exerciseImage.naturalWidth && exerciseImage.naturalHeight
+        ? exerciseImage.naturalWidth / exerciseImage.naturalHeight : 0;
+    }
+
     function syncExerciseImageHeight() {
-      if (!exerciseImageWrap || !modalOverlay.classList.contains('modal-open')) return;
-      if (exerciseImageHost.style.display === 'none') return;
+      if (!exerciseLayout || !modalOverlay.classList.contains('modal-open')) return;
+      exerciseImage.style.maxHeight = '';
+      const cs = getComputedStyle(exerciseLayout);
+      const innerH = exerciseLayout.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      const innerW = exerciseLayout.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
 
-      const card = modalOverlay.querySelector('.modal-card');
-      const header = modalOverlay.querySelector('.modal-header');
-      const body = modalOverlay.querySelector('.modal-body');
-      if (!card || !header || !body) return;
+      // Le travail de l'élève doit tenir dans sa colonne : si elle déborde
+      // (longue correction), la colonne de gauche cède de la largeur par pas,
+      // jusqu'à un plancher.
+      const fits = () => !exerciseMain || exerciseMain.scrollHeight <= exerciseMain.clientHeight + 1;
+      const shrink = (prop, start, floor) => {
+        let w = start;
+        exerciseLayout.style.setProperty(prop, Math.round(w) + 'px');
+        while (!fits() && w - 30 >= floor) {
+          w -= 30;
+          exerciseLayout.style.setProperty(prop, Math.round(w) + 'px');
+        }
+      };
+      const usable = innerW - (parseFloat(cs.columnGap) || 0);
 
-      /* Deux régimes, assumés comme tels.
-         En fenêtré la carte épouse son contenu sous un plafond de 90vh : la
-         mesurer serait circulaire, puisque sa hauteur dépend de l'image dont on
-         cherche justement la hauteur. On raisonne donc sur ce qu'elle PEUT
-         atteindre, d'où le 0,9 — reflet en dur du max-height: 90vh du CSS.
-         En plein écran, la feuille du navigateur lui impose 100% : sa hauteur est
-         définie, indépendante du contenu, et la mesure devient à la fois possible
-         et exacte. */
-      const isFullscreen = document.fullscreenElement === card;
-      const cardMax = isFullscreen
-        ? card.getBoundingClientRect().height
-        : window.innerHeight * 0.9;
-
-      const bodyStyle = getComputedStyle(body);
-      const bodyMax = cardMax
-        - header.offsetHeight
-        - parseFloat(bodyStyle.paddingTop) - parseFloat(bodyStyle.paddingBottom);
-
-      let used = 0;
-      Array.from(body.children).forEach(child => {
-        if (child === exerciseImageWrap) return;
-        const cs = getComputedStyle(child);
-        if (cs.display === 'none') return;
-        used += child.offsetHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom);
-      });
-
-      const wrapStyle = getComputedStyle(exerciseImageWrap);
-      used += parseFloat(wrapStyle.marginTop) + parseFloat(wrapStyle.marginBottom);
-
-      // Petite marge de sécurité : les bordures et arrondis de la carte ne sont
-      // pas comptés ci-dessus.
-      /* Le plafond de 280px n'a jamais mordu tant que la place manquait ; en
-         plein écran il deviendrait la seule contrainte active et annulerait tout
-         le bénéfice. Il tombe donc là, et là seulement.
-         L'image ne dépassera pas sa taille naturelle pour autant : on ne pose
-         qu'un maximum, jamais une taille. Une photo de 400px de haut s'arrêtera
-         à 400px, nette, plutôt que d'être étirée. */
-      const available = bodyMax - used - 12;
-      const ceiling = isFullscreen ? Infinity : 280;
-      exerciseImage.style.maxHeight = Math.max(60, Math.min(ceiling, available)) + 'px';
-
-      /* Le calcul ci-dessus reste une estimation : il ignore les bordures, les
-         marges fusionnées et les arrondis. On mesure donc le débordement réel et
-         on rend cette hauteur à l'image. Mesurer vaut mieux que d'ajuster une
-         marge au jugé, et la boucle ne peut pas s'emballer — une seule passe,
-         bornée par le plancher. */
-      const overflow = body.scrollHeight - body.clientHeight;
-      if (overflow > 0) {
-        const shown = exerciseImage.getBoundingClientRect().height;
-        exerciseImage.style.maxHeight = Math.max(60, shown - overflow) + 'px';
+      // Même largeur pour tous (55 %), avec ou sans image : la colonne de
+      // droite ne bouge pas d'un exercice au suivant.
+      if (modalOverlay.classList.contains('exo-mascot')) {
+        // Sans image : la mascotte et le travail côte à côte, le bloc centré
+        // (practice-engine.css). Une longue correction qui ne tient pas
+        // élargit la colonne de travail ; la mascotte lui cède la place.
+        let mainW = 640;
+        const apply = () => {
+          exerciseLayout.style.setProperty('--exo-main-w', mainW + 'px');
+          exerciseLayout.style.setProperty('--exo-mascot-w', Math.max(0, Math.min(300, usable - mainW)) + 'px');
+        };
+        apply();
+        while (!fits() && mainW + 40 <= usable - 160) {
+          mainW += 40;
+          apply();
+        }
+      } else if (modalOverlay.classList.contains('exo-side')) {
+        shrink('--exo-side-w', usable * 0.55, usable * 0.35);
       }
+      if (modalOverlay.classList.contains('exo-side')) {
+        // L'image au tiers de la place libre, comme le travail de droite
+        // (practice-engine.css) : sur grand écran, elle ne pend plus au milieu.
+        exerciseImage.style.marginTop = '';
+        const free = exerciseImageWrap.clientHeight - exerciseImage.offsetHeight;
+        exerciseImage.style.marginTop = free > 1 ? Math.round(free / 3) + 'px' : '';
+      }
+    }
+
+    // L'image chargée : les colonnes sont recalculées.
+    if (exerciseImage) exerciseImage.addEventListener('load', syncExerciseImageHeight);
+
+    /* Mascotte à la place de l'image (exercices sans image), tirée au
+       hasard dans la série de la matière du chapitre (quatre scènes par
+       matière, planches Gemini découpées, assets/ex-*.webp) : jamais la même
+       que celle de l'exercice sans image précédent ; un exercice garde la
+       sienne jusqu'au rechargement de la page (changer de langue ou passer à
+       la correction ne la change pas). */
+    const EXERCISE_MASCOTS = {
+      bio: ['ex-bio-1.webp', 'ex-bio-2.webp', 'ex-bio-3.webp', 'ex-bio-4.webp'],
+      chemistry: ['ex-chem-1.webp', 'ex-chem-2.webp', 'ex-chem-3.webp', 'ex-chem-4.webp'],
+      physics: ['ex-phys-1.webp', 'ex-phys-2.webp', 'ex-phys-3.webp', 'ex-phys-4.webp']
+    };
+
+    const exerciseMascotPicks = new Map();
+    let lastExerciseMascot = '';
+
+    function exerciseMascotSrc(levelKey, exerciseId) {
+      const subject = ['bio', 'chemistry', 'physics'].find(sub => document.body.classList.contains('subject-' + sub)) || 'bio';
+      const list = EXERCISE_MASCOTS[subject];
+      const key = levelKey + '/' + exerciseId;
+      let name = exerciseMascotPicks.get(key);
+      if (!name) {
+        const choices = list.filter(n => n !== lastExerciseMascot);
+        name = choices[Math.floor(Math.random() * choices.length)];
+        exerciseMascotPicks.set(key, name);
+      }
+      lastExerciseMascot = name;
+      return '../../../assets/' + encodeURIComponent(name);
     }
 
     // Returns the exercise's questions array when it uses the multi-sub-question format, else null.
@@ -498,17 +547,60 @@
       return '';
     }
 
-    function openModal(levelKey) {
-      // Starting a level fresh from its button never carries over a revision
-      // session from earlier — see the state comment near revisionActive.
-      revisionActive = false;
-      openModalAtExercise(levelKey, 1);
+    // Shared by the level buttons (first exercise not done yet), the revision
+    // queue and the deep links — same setup either way, only the
+    // starting exercise differs.
+    /* Plein écran d'office à l'ouverture d'un exercice ou d'un jeu, comme les
+       labos : le geste qui ouvre la fenêtre l'autorise. Sans geste (lien
+       direct), le navigateur refuse : le premier toucher dans la fenêtre le
+       redemande. La sortie, elle, se fait à la fermeture (voir
+       updateBodyScrollLock). */
+    /* Fenêtres d'exercice et de jeu hors plein écran (l'élève en est sorti,
+       ou le navigateur l'a refusé) : la fenêtre du Chromebook perd environ
+       120 px de haut (onglets, barre d'adresse). Tout est calé pour le plein
+       écran du Chromebook (768 px de haut) : la carte est réduite d'un même
+       facteur (zoom CSS) pour retrouver exactement cette image, en plus
+       petit, au lieu de défiler. Jamais d'agrandissement (en plein écran,
+       chaque fenêtre utilise déjà toute la place) ; plancher à 0,7. Le zoom
+       passe avant les mesures des jeux : cet écouteur est posé avant les
+       leurs (initPractice, practice-<jeu>.js). */
+    const MODAL_BASE_H = 768;
+    const MODAL_ZOOM_MIN = 0.7;
+    const ZOOMED_MODAL_CARDS = ['exercise-modal', 'qcm-modal', 'fitb-modal', 'dnd-modal', 'memory-modal', 'sorting-modal']
+      .map(id => '#' + id + ' > .modal-card').join(', ');
+
+    function fitModalWindows() {
+      const w = window.innerWidth - 32;
+      const h = window.innerHeight - 32;
+      const zoom = Math.max(MODAL_ZOOM_MIN, Math.min(1, h / MODAL_BASE_H));
+      document.querySelectorAll(ZOOMED_MODAL_CARDS).forEach(card => {
+        const on = zoom < 0.99 && document.fullscreenElement !== card;
+        card.style.zoom = on ? zoom.toFixed(3) : '';
+        card.style.width = on ? (w / zoom).toFixed(1) + 'px' : '';
+        card.style.height = on ? (h / zoom).toFixed(1) + 'px' : '';
+        // Les plafonds en vh des feuilles de style seraient réduits deux fois.
+        card.style.maxWidth = on ? 'none' : '';
+        card.style.maxHeight = on ? 'none' : '';
+      });
     }
 
-    // Shared by the level buttons (always exercise 1) and the chapter overview
-    // grid (any exercise the student picks) — same setup either way, only the
-    // starting exercise differs.
+    window.addEventListener('resize', fitModalWindows);
+    document.addEventListener('fullscreenchange', fitModalWindows);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fitModalWindows);
+    else fitModalWindows();
+
+    function requestModalFullscreen(overlay) {
+      const card = overlay && overlay.querySelector('.modal-card');
+      if (!card || document.fullscreenElement || !card.requestFullscreen) return;
+      card.requestFullscreen().catch(() => {
+        overlay.addEventListener('pointerdown', () => {
+          if (!document.fullscreenElement && overlay.classList.contains('modal-open')) card.requestFullscreen().catch(() => {});
+        }, { once: true, capture: true });
+      });
+    }
+
     function openModalAtExercise(levelKey, exerciseId) {
+      requestModalFullscreen(modalOverlay);
       flushAnswerSave();
       answerLoadedKey = null;
       currentLevel = levelKey;
@@ -531,11 +623,8 @@
     function closeModal() {
       flushAnswerSave();
       // Closing via the × normally relies on display:none forcing the browser
-      // to auto-exit fullscreen — true when this card entered fullscreen the
-      // usual way. But the My progress → exercise swap (see carryFullscreenTo)
-      // hands fullscreen to this card via a direct element-to-element request,
-      // and closing right after apparently doesn't trigger that same implicit
-      // exit reliably. Exiting explicitly here covers both paths.
+      // to auto-exit fullscreen, which isn't reliable in every case. Exiting
+      // explicitly here is the safe path.
       if (document.fullscreenElement && modalOverlay.contains(document.fullscreenElement)) {
         document.exitFullscreen().catch(() => {});
       }
@@ -543,9 +632,10 @@
       // Never persisted — closing the modal always drops the revision session
       // rather than risk restoring one silently on the next open.
       revisionActive = false;
-      // Le badge/"Continue" doit refléter ce qui vient de se passer sans
-      // attendre un rechargement de page.
+      // Le badge/"Continue", les pastilles et les compteurs doivent refléter
+      // ce qui vient de se passer sans attendre un rechargement de page.
       applyLevelResumeUI();
+      renderLevelBoard();
     }
 
     function updateModalHeader() {
@@ -601,6 +691,13 @@
        aucune forme intermédiaire n'apparaît à l'écran. */
     const EXERCISE_PAGER_MODES = ['full', 'compact', 'minimal'];
 
+    // Flèches de la pagination : triangle plein aux coins arrondis, dans la
+    // couleur du chapitre (practice-engine.css).
+    function pagerArrowSvg(direction) {
+      const d = direction === 'prev' ? 'M9.5 1.8 2.5 6l7 4.2Z' : 'M2.5 1.8 9.5 6l-7 4.2Z';
+      return `<svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="${d}" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+    }
+
     function renderExerciseSteps() {
       if (revisionActive && currentLevel === revisionLevel) {
         renderRevisionBar();
@@ -632,14 +729,15 @@
       prevBtn.className = 'exercise-pager-arrow';
       prevBtn.dataset.direction = 'prev';
       prevBtn.setAttribute('aria-label', L.prevExerciseAria);
-      prevBtn.textContent = '◀';
+      prevBtn.innerHTML = pagerArrowSvg('prev');
       prevBtn.disabled = currentExercise <= 1;
       pager.appendChild(prevBtn);
 
       if (mode === 'full') {
         const numbersWrap = document.createElement('div');
         numbersWrap.className = 'exercise-pager-numbers';
-        getPaginationRange(currentExercise, numExercises, 3).forEach(item => {
+        // Tous les numéros (20 par niveau) : plus besoin de « … » ni de « Go to ».
+        getPaginationRange(currentExercise, numExercises, numExercises).forEach(item => {
           if (item === '...') {
             const dots = document.createElement('span');
             dots.className = 'exercise-pager-ellipsis';
@@ -678,11 +776,12 @@
       nextBtn.className = 'exercise-pager-arrow';
       nextBtn.dataset.direction = 'next';
       nextBtn.setAttribute('aria-label', L.nextExerciseAria);
-      nextBtn.textContent = '▶';
+      nextBtn.innerHTML = pagerArrowSvg('next');
       nextBtn.disabled = currentExercise >= numExercises;
       pager.appendChild(nextBtn);
 
       exercisesPagination.appendChild(pager);
+      if (mode === 'full') return;
 
       const goTo = document.createElement('div');
       goTo.className = 'exercise-pager-goto';
@@ -739,7 +838,7 @@
       for (let step = 1; step <= ids.length; step++) {
         const idx = (currentIdx + step) % ids.length;
         const item = exerciseList[idx];
-        if (worstSelfAssess(revisionLevel, item) !== 3) return item.id;
+        if (isToImprove(revisionLevel, item)) return item.id;
       }
       return null;
     }
@@ -757,7 +856,7 @@
 
       const progress = document.createElement('span');
       progress.className = 'revision-bar-progress';
-      progress.textContent = L.revisionProgress(countOverviewRemaining(revisionLevel), revisionTotal);
+      progress.textContent = L.revisionProgress(countToImprove(revisionLevel), revisionTotal);
       bar.appendChild(progress);
 
       const nextId = findNextRevisionExercise();
@@ -862,6 +961,7 @@
       }
 
       if (exerciseItem.image) {
+        setExerciseMode('image');
         // Image introuvable : on replie le conteneur plutôt que de laisser un
         // cadre vide ou une icône cassée au milieu de l'énoncé. L'exercice reste
         // lisible et utilisable sans elle.
@@ -874,7 +974,12 @@
         // centrage et l'étirement qui adapte l'image à la hauteur disponible.
         exerciseImageHost.style.display = '';
       } else {
-        exerciseImageHost.style.display = 'none';
+        // Pas d'image : une mascotte de la matière à sa place, même colonne.
+        setExerciseMode('mascot');
+        swapImage(exerciseImage, exerciseMascotSrc(currentLevel, currentExercise), () => {
+          exerciseImageHost.style.display = 'none';
+        });
+        exerciseImageHost.style.display = '';
       }
 
       renderSubQuestionNav(exerciseItem);
@@ -1103,11 +1208,6 @@
     // chaque niveau, et quel niveau a été touché en dernier tous niveaux
     // confondus — deux clés distinctes, car "reprendre" doit rouvrir
     // l'exercice exact, pas juste le niveau.
-    function readLastExercise(levelKey) {
-      const n = parseInt(SiteStorage.data.get('practiceLastExercise', [levelKey]), 10);
-      return Number.isInteger(n) && n >= 1 ? n : null;
-    }
-
     function writeLastExercise(levelKey, exerciseId) {
       SiteStorage.data.set('practiceLastExercise', [levelKey], String(exerciseId));
     }
@@ -1200,28 +1300,48 @@
       if (level) el.classList.add('self-assess-' + level);
     }
 
-    /* ===== Chapter overview modal =====
-       Rebuilt from scratch on every open rather than kept in sync incrementally:
-       self-assessment can change while the exercise modal is open behind it, so
-       a fresh read from storage.js is simpler and cheaper than tracking
-       invalidation. */
+    /* ===== Tableau des niveaux (page Practice) =====
+       Les 20 exercices de chaque niveau sont visibles sur la page, avec leur
+       état (ce que montrait la fenêtre « My progress », supprimée). Reconstruit
+       à chaque fermeture de la fenêtre d'exercice plutôt que tenu à jour pas à
+       pas : l'autoévaluation change pendant que la fenêtre est ouverte, une
+       relecture complète depuis storage.js est plus simple et ne coûte rien. */
     const OVERVIEW_LEVELS = ['level1', 'level2', 'level3'];
 
-    // "Remaining" = not green: red + amber + never-attempted, exactly what the
-    // student still owes this level.
-    function countOverviewRemaining(levelKey) {
-      const exerciseList = practiceData[levelKey] || [];
-      let remaining = 0;
-      exerciseList.forEach(item => {
-        if (worstSelfAssess(levelKey, item) !== 3) remaining++;
-      });
-      return remaining;
+    /* État d'un exercice, tel que le montrent la barre du niveau et la
+       pagination de la fenêtre : 'untried' (pas de réponse), 'answered'
+       (répondu, pas évalué), ou le niveau d'autoévaluation 1, 2, 3. */
+    function exerciseState(levelKey, item) {
+      const assessed = worstSelfAssess(levelKey, item);
+      if (assessed !== null) return assessed;
+      return hasAnyStoredAnswer(levelKey, item) ? 'answered' : 'untried';
+    }
+
+    // « À améliorer » : déjà répondu mais pas vert (rouge, orange, gris).
+    // Jamais un exercice pas encore fait : celui-là, c'est Start / Continue.
+    function isToImprove(levelKey, item) {
+      const state = exerciseState(levelKey, item);
+      return state !== 'untried' && state !== 3;
+    }
+
+    function countToImprove(levelKey) {
+      return (practiceData[levelKey] || []).filter(item => isToImprove(levelKey, item)).length;
+    }
+
+    function countGreen(levelKey) {
+      return (practiceData[levelKey] || []).filter(item => worstSelfAssess(levelKey, item) === 3).length;
+    }
+
+    // Premier exercice pas encore fait du niveau (où mène Continue), ou null.
+    function firstUntriedExercise(levelKey) {
+      const item = (practiceData[levelKey] || []).find(it => exerciseState(levelKey, it) === 'untried');
+      return item ? item.id : null;
     }
 
     // "Attempted" = any self-assessment at all, red/amber/green alike — only
     // never-opened (grey) is excluded. Deliberately not "mastered" (green):
-    // the header mascot rewards time spent working through a level, not the
-    // score, which the counter text and pastille colours already carry.
+    // the mascot rewards time spent working through the chapter, not the
+    // score, which the counters and pastille colours already carry.
     function countOverviewAttempted(levelKey) {
       const exerciseList = practiceData[levelKey] || [];
       let attempted = 0;
@@ -1231,20 +1351,14 @@
       return attempted;
     }
 
-    // Same %-attempted idea as countOverviewAttempted, but for the whole
-    // chapter at once when the "All" tab is active: one combined fraction
-    // across all three levels rather than one level's own.
-    function overviewAttemptedPercent(levelKey) {
-      if (levelKey === 'all') {
-        let total = 0, attempted = 0;
-        OVERVIEW_LEVELS.forEach(key => {
-          total += (practiceData[key] || []).length;
-          attempted += countOverviewAttempted(key);
-        });
-        return total > 0 ? (attempted / total) * 100 : 0;
-      }
-      const exerciseList = practiceData[levelKey] || [];
-      return exerciseList.length > 0 ? (countOverviewAttempted(levelKey) / exerciseList.length) * 100 : 0;
+    // Share of the whole chapter (all three levels together) already tried.
+    function chapterAttemptedPercent() {
+      let total = 0, attempted = 0;
+      OVERVIEW_LEVELS.forEach(key => {
+        total += (practiceData[key] || []).length;
+        attempted += countOverviewAttempted(key);
+      });
+      return total > 0 ? (attempted / total) * 100 : 0;
     }
 
     function getOverviewMascotSrc(percent) {
@@ -1254,75 +1368,27 @@
       return '../../../assets/Friends palier 1.webp';
     }
 
-    function updateOverviewMascot(levelKey) {
+    function updateOverviewMascot() {
       if (!overviewMascotImg) return;
-      overviewMascotImg.src = getOverviewMascotSrc(overviewAttemptedPercent(levelKey));
+      const src = getOverviewMascotSrc(chapterAttemptedPercent());
+      // Comparé à l'attribut, pas à .src (URL absolue) : sinon l'image serait
+      // rechargée à chaque fermeture de la fenêtre d'exercice.
+      if (overviewMascotImg.getAttribute('src') !== src) overviewMascotImg.src = src;
     }
 
-    // Leaving the overview modal for the exercise modal closes the former
-    // (display:none on its overlay), which forces the browser to exit
-    // fullscreen if that's what was fullscreen — jumping the student back
-    // into a small window even though they never asked to leave fullscreen.
-    // Captured before closing, applied to the new modal's own card after.
-    function isCardFullscreen(overlayEl) {
-      const card = overlayEl.querySelector('.modal-card');
-      return !!card && document.fullscreenElement === card;
-    }
-
-    // Returns the request's promise (always resolving, errors swallowed) so
-    // callers can wait for it before hiding the overview modal: requestFullscreen
-    // is asynchronous, and hiding — display:none — the still-current fullscreen
-    // element while the new request hasn't landed yet interrupts that request
-    // instead of letting it complete.
-    function carryFullscreenTo(overlayEl) {
-      const card = overlayEl.querySelector('.modal-card');
-      if (card && card.requestFullscreen) return card.requestFullscreen().catch(() => {});
-      return Promise.resolve();
-    }
-
-    function buildOverviewGrid(levelKey) {
+    // File de révision : les exercices « à améliorer » du niveau, dans
+    // l'ordre. Recalculée à la demande : l'autoévaluation change pendant la
+    // séance.
+    function getToImproveExerciseIds(levelKey) {
       const exerciseList = practiceData[levelKey] || [];
-      const grid = document.createElement('div');
-      grid.className = 'overview-grid';
-      exerciseList.forEach(item => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'exercise-step';
-        btn.textContent = String(item.id);
-        // Always coloured, unlike the pager's dot: grey by default (never
-        // attempted) rather than shown only once started, since the whole
-        // point here is to see every exercise's status at a glance.
-        applySelfAssessClass(btn, worstSelfAssess(levelKey, item));
-        btn.addEventListener('click', () => {
-          const wasFullscreen = isCardFullscreen(overviewModal);
-          revisionActive = false;
-          openModalAtExercise(levelKey, item.id);
-          if (wasFullscreen) {
-            // Only hide the overview modal once the new card has actually
-            // become fullscreen — see carryFullscreenTo.
-            carryFullscreenTo(modalOverlay).then(closeOverviewModal);
-          } else {
-            closeOverviewModal();
-          }
-        });
-        grid.appendChild(btn);
-      });
-      return grid;
-    }
-
-    // Every non-green exercise id in a level, in exercise order — the revision
-    // queue. Recomputed on demand rather than cached: self-assessment changes
-    // during the session as the student works through it.
-    function getNonGreenExerciseIds(levelKey) {
-      const exerciseList = practiceData[levelKey] || [];
-      return exerciseList.filter(item => worstSelfAssess(levelKey, item) !== 3).map(item => item.id);
+      return exerciseList.filter(item => isToImprove(levelKey, item)).map(item => item.id);
     }
 
     function startRevisionMode(levelKey) {
-      const queue = getNonGreenExerciseIds(levelKey);
+      const queue = getToImproveExerciseIds(levelKey);
       // The button that calls this is hidden whenever the level has nothing
-      // left (see buildOverviewLevelSection), so an empty queue here would
-      // mean the count changed between render and click — safe to just no-op.
+      // left (see renderLevelBoard), so an empty queue here would mean the
+      // count changed between render and click — safe to just no-op.
       if (queue.length === 0) return;
       revisionActive = true;
       revisionLevel = levelKey;
@@ -1331,101 +1397,120 @@
       openModalAtExercise(levelKey, queue[0]);
     }
 
-    // One level's counter + grid, used both as its own tab panel and as one
-    // stacked section inside the "All" tab.
-    function buildOverviewLevelSection(levelKey) {
-      const section = document.createElement('div');
-      section.className = 'overview-level-section';
+    // Barre du niveau : une case par exercice, de la couleur de son état
+    // (mêmes couleurs que les points de la pagination). Pas de numéro
+    // affiché, mais chaque case est un bouton qui ouvre son exercice ; le
+    // numéro est dans l'infobulle et pour les lecteurs d'écran.
+    function buildLevelBar(levelKey, bar) {
+      bar.innerHTML = '';
+      (practiceData[levelKey] || []).forEach(item => {
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        const state = exerciseState(levelKey, item);
+        cell.className = 'level-cell' + (typeof state === 'number' ? ' self-assess-' + state : state === 'answered' ? ' is-answered' : '');
+        cell.dataset.exercise = String(item.id);
+        cell.setAttribute('aria-label', L.exerciseCellLabel(item.id));
+        // Infobulle du site (couleur du chapitre, voir .level-cell::after),
+        // pas l'attribut title : celle du navigateur arrive en retard, en
+        // gris, et jamais au doigt.
+        cell.dataset.tooltip = L.exerciseCellLabel(item.id);
+        bar.appendChild(cell);
+      });
+    }
 
-      const remaining = countOverviewRemaining(levelKey);
-      const counter = document.createElement('p');
-      counter.className = 'overview-counter';
-      counter.textContent = L.exercisesRemaining(remaining);
-      section.appendChild(counter);
+    // Compteur, barre et pastille « … to improve » de chaque niveau, puis la
+    // mascotte. Les boutons Start / Continue : applyLevelResumeUI.
+    function renderLevelBoard() {
+      OVERVIEW_LEVELS.forEach(levelKey => {
+        const row = levelButtonsContainer.querySelector(`[data-level-row="${levelKey}"]`);
+        if (!row) return;
+        const total = (practiceData[levelKey] || []).length;
 
-      section.appendChild(buildOverviewGrid(levelKey));
+        const counter = row.querySelector('.level-counter');
+        if (counter) {
+          counter.textContent = total ? L.greenCount(countGreen(levelKey), total) : '';
+          counter.hidden = total === 0;
+        }
 
-      // Below the grid, like the classic exercise modals' own action button
-      // sits below their content. Hidden rather than disabled when the level
-      // is already fully green: per the site's convention elsewhere, an
-      // action with nothing left to do disappears instead of sitting there
-      // inert.
-      if (remaining > 0) {
-        const continueBtn = document.createElement('button');
-        continueBtn.type = 'button';
-        continueBtn.className = 'overview-continue-btn';
-        continueBtn.textContent = L.continueLevel;
-        continueBtn.addEventListener('click', () => {
-          const wasFullscreen = isCardFullscreen(overviewModal);
-          startRevisionMode(levelKey);
-          // See buildOverviewGrid's click handler and carryFullscreenTo for
-          // why the overview modal only closes once the swap has landed.
-          if (wasFullscreen) {
-            carryFullscreenTo(modalOverlay).then(closeOverviewModal);
-          } else {
-            closeOverviewModal();
+        const bar = row.querySelector('.level-bar');
+        if (bar) buildLevelBar(levelKey, bar);
+
+        // Rien à améliorer : la pastille disparaît plutôt que de rester
+        // inerte, comme ailleurs sur le site.
+        const reviewBtn = row.querySelector('.level-review-btn');
+        if (reviewBtn) {
+          const toImprove = countToImprove(levelKey);
+          reviewBtn.hidden = toImprove === 0;
+          reviewBtn.textContent = toImprove ? L.toImprove(toImprove) : '';
+        }
+      });
+      updateOverviewMascot();
+    }
+
+    /* Jeux : une ligne par type, une case par jeu, pleine dès que le jeu a
+       été achevé une fois (son meilleur résultat s'enregistre à l'écran de
+       fin, jamais avant). Chaque jeu garde son propre enregistrement : le
+       moteur ne fait que demander s'il existe. */
+    const GAME_DONE = {
+      multipleChoice: game => getQcmBestScore(game) !== null,
+      dragAndDrop: game => getDndBestStat(game, 'mistakes') !== null,
+      fillBlanks: game => getFitbBestMistakes(game) !== null,
+      matchPairs: game => getMemoryBestStat(game, 'moves') !== null,
+      sorting: game => getSortingBestMistakes(game) !== null
+    };
+
+    // « Quiz 2 », « Text 2 », « Game 2 » : le mot de l'onglet de ce type de jeu.
+    function gameTabLabel(type, n) {
+      if (type === 'multipleChoice') return L.quizTab(n);
+      if (type === 'fillBlanks') return L.textTab(n);
+      return L.gameTab(n);
+    }
+
+    function renderGameBoard() {
+      if (!interactiveData) return;
+      Object.keys(GAME_DONE).forEach(type => {
+        const list = interactiveData[type] || [];
+        const bar = interactiveButtonsContainer.querySelector(`[data-game-bar="${type}"]`);
+        const counter = interactiveButtonsContainer.querySelector(`[data-game-counter="${type}"]`);
+        let done = 0;
+        if (bar) bar.innerHTML = '';
+        list.forEach((game, index) => {
+          let isDone = false;
+          try { isDone = GAME_DONE[type](game); } catch (e) { isDone = false; }
+          if (isDone) done++;
+          if (bar) {
+            // Comme une case d'exercice : un bouton qui ouvre ce jeu-là,
+            // son numéro dans l'infobulle et pour les lecteurs d'écran.
+            const cell = document.createElement('button');
+            cell.type = 'button';
+            cell.className = 'level-cell game-cell' + (isDone ? ' is-done' : '');
+            cell.dataset.gameIndex = String(index);
+            const label = gameTabLabel(type, index + 1);
+            cell.setAttribute('aria-label', label);
+            cell.dataset.tooltip = label;
+            bar.appendChild(cell);
           }
         });
-        section.appendChild(continueBtn);
-      }
-
-      return section;
-    }
-
-    function renderOverviewModal() {
-      overviewTabs.innerHTML = '';
-      overviewPanels.innerHTML = '';
-
-      OVERVIEW_LEVELS.forEach(levelKey => {
-        const tabBtn = document.createElement('button');
-        tabBtn.type = 'button';
-        tabBtn.className = 'toggle-button overview-tab';
-        tabBtn.textContent = getLevelLabel(levelKey);
-        tabBtn.dataset.level = levelKey;
-        if (levelKey === currentLevel) tabBtn.classList.add('active');
-        overviewTabs.appendChild(tabBtn);
-
-        const panel = document.createElement('div');
-        panel.className = 'overview-panel';
-        panel.dataset.level = levelKey;
-        if (levelKey === currentLevel) panel.classList.add('is-active');
-
-        panel.appendChild(buildOverviewLevelSection(levelKey));
-        overviewPanels.appendChild(panel);
+        if (counter) {
+          counter.textContent = list.length ? L.gamesDone(done, list.length) : '';
+          counter.hidden = list.length === 0;
+        }
       });
+    }
 
-      // "All" shows every level stacked in one panel, each under its own
-      // heading — bare numbers alone would be ambiguous since every level
-      // restarts its own numbering at 1.
-      const allTabBtn = document.createElement('button');
-      allTabBtn.type = 'button';
-      allTabBtn.className = 'toggle-button overview-tab';
-      allTabBtn.textContent = L.overviewAllTab;
-      allTabBtn.dataset.level = 'all';
-      overviewTabs.appendChild(allTabBtn);
-
-      const allPanel = document.createElement('div');
-      allPanel.className = 'overview-panel';
-      allPanel.dataset.level = 'all';
-      OVERVIEW_LEVELS.forEach(levelKey => {
-        const heading = document.createElement('h3');
-        heading.className = 'overview-level-heading';
-        heading.textContent = getLevelLabel(levelKey);
-        allPanel.appendChild(heading);
-        allPanel.appendChild(buildOverviewLevelSection(levelKey));
+    // À la fermeture d'un jeu (sa fenêtre perd modal-open), les cases des
+    // jeux se mettent à jour : un jeu achevé se voit tout de suite.
+    function watchGameModals() {
+      ['qcm-modal', 'dnd-modal', 'fitb-modal', 'memory-modal', 'sorting-modal'].forEach(id => {
+        const overlay = document.getElementById(id);
+        if (!overlay) return;
+        let wasOpen = overlay.classList.contains('modal-open');
+        new MutationObserver(() => {
+          const isOpen = overlay.classList.contains('modal-open');
+          if (wasOpen && !isOpen) renderGameBoard();
+          wasOpen = isOpen;
+        }).observe(overlay, { attributes: true, attributeFilter: ['class'] });
       });
-      overviewPanels.appendChild(allPanel);
-    }
-
-    function openOverviewModal() {
-      overviewModalTitle.textContent = L.chapterOverviewTitle;
-      renderOverviewModal();
-      updateOverviewMascot(currentLevel);
-      overviewModal.classList.add('modal-open');
-    }
-
-    function closeOverviewModal() {
-      overviewModal.classList.remove('modal-open');
     }
 
     function writeStoredAnswer(levelKey, exerciseId, subIndex, value) {
@@ -1447,7 +1532,9 @@
     function autoGrowAnswer() {
       if (!answerFeatureOn) return;
       answerInput.style.height = 'auto';
-      answerInput.style.height = answerInput.scrollHeight + 'px';
+      // scrollHeight ne compte pas la bordure (box-sizing: border-box) :
+      // sans elle, une barre de défilement apparaît pour 2 px.
+      answerInput.style.height = answerInput.scrollHeight + (answerInput.offsetHeight - answerInput.clientHeight) + 'px';
     }
 
     function scheduleAnswerSave() {
@@ -1594,13 +1681,9 @@
       const hasImage = !!(exerciseItem && exerciseItem.image);
       if (exerciseRecall) {
         if (comparing) {
-          if (hasImage) {
-            exerciseImageHost.style.display = 'none';
-            exerciseRecallImg.src = `assets/${exerciseItem.image}`;
-            exerciseRecallImg.style.display = '';
-          } else {
-            exerciseRecallImg.style.display = 'none';
-          }
+          // L'image reste à sa place pendant la correction (mise en page
+          // « paysage ») : plus de vignette à côté du rappel de l'énoncé.
+          exerciseRecallImg.style.display = 'none';
           exerciseRecall.classList.toggle('is-textonly', !hasImage);
           setRichText(exerciseRecallText, (source && (source[lastStatementView] || source.en)) || '');
           exerciseRecall.classList.add('is-visible');
@@ -1640,8 +1723,22 @@
       // Réattachée à chaque ouverture : le plein écran a pu changer d'hôte.
       overlayHost().appendChild(box);
       const img = box.querySelector('.image-lightbox-img');
+      /* Agrandie pour remplir l'écran (96 % × 92 %), même au-delà de sa taille
+         d'origine : un <img> ne fait sinon que rétrécir, et sur un grand écran
+         l'« agrandissement » laissait l'image à la taille qu'elle avait déjà
+         dans la fenêtre. */
+      const fit = () => {
+        if (!img.naturalWidth || !img.naturalHeight) return;
+        const scale = Math.min(window.innerWidth * 0.96 / img.naturalWidth, window.innerHeight * 0.92 / img.naturalHeight);
+        img.style.width = Math.round(img.naturalWidth * scale) + 'px';
+        img.style.height = Math.round(img.naturalHeight * scale) + 'px';
+      };
+      img.style.width = '';
+      img.style.height = '';
+      img.onload = fit;
       img.src = src;
       img.alt = alt || '';
+      if (img.complete) fit();
       box.classList.add('is-open');
     }
 
@@ -1655,7 +1752,11 @@
       // Hover hint rendered by CSS from this attribute, same pattern as the
       // fill-in-the-blanks word glosses, so it picks up the chapter colour.
       if (exerciseImageWrap) exerciseImageWrap.dataset.hint = L.enlargeHint;
-      exerciseImage.addEventListener('click', () => openImageLightbox(exerciseImage.src, exerciseImage.alt));
+      exerciseImage.addEventListener('click', () => {
+        // La mascotte (exercice sans image) n'est qu'un décor : pas d'agrandissement.
+        if (modalOverlay.classList.contains('exo-mascot')) return;
+        openImageLightbox(exerciseImage.src, exerciseImage.alt);
+      });
       if (exerciseRecallImg) {
         // The 52px thumbnail is too small to host the same tooltip; the native
         // one keeps the affordance without covering the picture.
@@ -1716,34 +1817,26 @@
       levelButtonsContainer.addEventListener('click', event => {
         const levelBtn = event.target.closest('button[data-level]');
         if (levelBtn) {
-          // Le niveau mis en avant rouvre l'exercice exact où l'élève
-          // s'était arrêté ("Continue"), pas le système de révision (qui
-          // saute les exercices déjà verts) — celui-ci reste exclusivement
-          // accessible depuis "My progress".
-          const savedExercise = levelBtn.classList.contains('is-current-level')
-            ? readLastExercise(levelBtn.dataset.level)
-            : null;
-          if (savedExercise) {
-            revisionActive = false;
-            openModalAtExercise(levelBtn.dataset.level, savedExercise);
-          } else {
-            openModal(levelBtn.dataset.level);
-          }
+          // Start / Continue : le premier exercice pas encore fait du niveau ;
+          // tout est fait (Practice again) : l'exercice 1. Les exercices à
+          // retravailler ont leur propre bouton, « … to improve ».
+          const untried = firstUntriedExercise(levelBtn.dataset.level);
+          revisionActive = false;
+          openModalAtExercise(levelBtn.dataset.level, untried || 1);
           return;
         }
-        const overviewBtn = event.target.closest('button[data-action="chapter-overview"]');
-        if (overviewBtn) openOverviewModal();
-      });
-
-      overviewModalClose.addEventListener('click', closeOverviewModal);
-
-      overviewTabs.addEventListener('click', event => {
-        const tabBtn = event.target.closest('.overview-tab');
-        if (!tabBtn) return;
-        const levelKey = tabBtn.dataset.level;
-        overviewTabs.querySelectorAll('.overview-tab').forEach(b => b.classList.toggle('active', b === tabBtn));
-        overviewPanels.querySelectorAll('.overview-panel').forEach(p => p.classList.toggle('is-active', p.dataset.level === levelKey));
-        updateOverviewMascot(levelKey);
+        const reviewBtn = event.target.closest('button[data-review]');
+        if (reviewBtn) {
+          startRevisionMode(reviewBtn.dataset.review);
+          return;
+        }
+        // Une case de la barre : cet exercice-là, hors révision.
+        const cell = event.target.closest('.level-cell');
+        if (cell) {
+          const row = cell.closest('[data-level-row]');
+          revisionActive = false;
+          openModalAtExercise(row.dataset.levelRow, parseInt(cell.dataset.exercise, 10));
+        }
       });
 
       // Fermeture par la croix uniquement : un appui à côté de la modale est vite
@@ -1785,9 +1878,12 @@
       window.addEventListener('resize', dndSyncBoardMetrics);
       window.addEventListener('resize', syncExerciseImageHeight);
       window.addEventListener('resize', memorySyncCardSize);
-      /* La taille du texte à trous change au passage en plein écran sur grand
-         écran : les listes doivent se remesurer, la largeur d'hier ne vaut plus. */
-      window.addEventListener('resize', fitbSyncSelectWidths);
+      window.addEventListener('resize', sortingRefitItems);
+      /* Le texte à trous prend la plus grande taille qui tient dans la place
+         disponible : elle change avec la fenêtre et au passage en plein écran. */
+      window.addEventListener('resize', fitbFitText);
+      document.addEventListener('fullscreenchange', fitbFitText);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitbFitText);
       /* La zone de réponse grandit avec le texte saisi jusqu'à un plafond, et sa
          hauteur est posée en pixels : le changement de taille de police en plein
          écran la rend caduque. */
@@ -1803,7 +1899,6 @@
          On appelle les fonctions de fermeture existantes plutôt que de retirer
          la classe, pour ne pas court-circuiter leur nettoyage. */
       const MODAL_CLOSERS = [
-        ['overview-modal', closeOverviewModal],
         ['exercise-modal', closeModal],
         ['interactive-modal', closeInteractiveModal],
         ['qcm-modal', closeQCMModal],
@@ -1907,10 +2002,17 @@
       });
 
       interactiveButtonsContainer.addEventListener('click', event => {
+        // Une case de la barre : ce jeu-là.
+        const gameCell = event.target.closest('.game-cell');
+        if (gameCell) {
+          const bar = gameCell.closest('[data-game-bar]');
+          if (bar) openGameAt(bar.dataset.gameBar, parseInt(gameCell.dataset.gameIndex, 10));
+          return;
+        }
         const button = event.target.closest('button[data-type]');
         if (!button) return;
         const typeKey = button.dataset.type;
-        const title = button.textContent;
+        const title = button.dataset.title || button.textContent;
 
         const GAMES = {
           dragAndDrop: ['dnd-modal', openDndModal],
@@ -1940,6 +2042,7 @@
           showGameNotice(modalId, L.gameUnderConstruction);
         } else {
           clearGameNotice(modalId);
+          requestModalFullscreen(document.getElementById(modalId));
           openGame();
         }
       });
@@ -2096,9 +2199,67 @@
       updateInteractiveStepButtons();
     }
 
+    /* ===== Jeux : icônes =====
+       Dessinées dans le site (SVG) plutôt qu'en émojis, dont le dessin change
+       d'un ordinateur à l'autre. Deux familles :
+       - gameIcon : les compteurs lus pendant le jeu (Correct, Errors,
+         chronomètre, Moves), sobres, au trait, comme le haut-parleur des
+         cartes de vocabulaire ; vert et rose = bonnes et mauvaises réponses ;
+       - gameReward : les récompenses (médailles, Perfect, record, série du
+         QCM, Keep practicing), pleines et en couleur, qui apparaissent avec un
+         rebond (practice-engine.css). Le ruban des médailles et Keep
+         practicing prennent la couleur du chapitre. */
+    const GAME_ICONS = {
+      correct: '<circle cx="10" cy="10" r="8.2" fill="currentColor" fill-opacity=".14" stroke="none"/><path d="M6.2 10.3l2.6 2.6 5-5.6"/>',
+      wrong: '<circle cx="10" cy="10" r="8.2" fill="currentColor" fill-opacity=".14" stroke="none"/><path d="M7.2 7.2l5.6 5.6M12.8 7.2l-5.6 5.6"/>',
+      timer: '<circle cx="10" cy="11.3" r="6.4"/><path d="M10 11.3V8.1M8 2.6h4M10 2.6v2.3M15.1 5.7l1.3-1.3"/>',
+      moves: '<path d="M4 9a6 6 0 0 1 10.4-3.6L16 7"/><path d="M16 3v4h-4"/><path d="M16 11a6 6 0 0 1-10.4 3.6L4 13"/><path d="M4 17v-4h4"/>'
+    };
+
+    const GAME_MEDAL = '<path class="ribbon-a" d="M6.5 1.5h4.2l2.4 7.6H8.9z"/><path class="ribbon-b" d="M17.5 1.5h-4.2l-2.4 7.6h4.2z"/>'
+      + '<circle class="disc" cx="12" cy="15.2" r="6.6" stroke-width="1.5"/>'
+      + '<circle class="ring" cx="12" cy="15.2" r="3.9" fill="none" stroke-width="1.2" opacity=".55"/>'
+      + '<path d="M8.9 13a4 4 0 0 1 2.4-1.6" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".85"/>';
+
+    const GAME_REWARDS = {
+      gold: GAME_MEDAL,
+      silver: GAME_MEDAL,
+      bronze: GAME_MEDAL,
+      perfect: '<path d="M6 3.5h12l4.2 5.3L12 21.5 1.8 8.8z" fill="#7cc0f2" stroke="#2f6fae" stroke-width="1.5" stroke-linejoin="round"/>'
+        + '<path d="M6 3.5h12l-3 5.3H9z" fill="#c4e5fb"/>'
+        + '<path d="M1.8 8.8h20.4M9 8.8l3 12.7 3-12.7M6 3.5l3 5.3M18 3.5l-3 5.3" fill="none" stroke="#2f6fae" stroke-width="1.2" stroke-linejoin="round"/>',
+      record: '<path d="M7 4.5H4.3a3.2 3.2 0 0 0 3.4 4.6M17 4.5h2.7a3.2 3.2 0 0 1-3.4 4.6" fill="none" stroke="#a8801f" stroke-width="1.6" stroke-linecap="round"/>'
+        + '<path d="M12 13.8v3" stroke="#a8801f" stroke-width="1.8"/>'
+        + '<path d="M7 2.5h10v6a5 5 0 0 1-10 0z" fill="#f2c443" stroke="#a8801f" stroke-width="1.5" stroke-linejoin="round"/>'
+        + '<rect x="7.8" y="16.6" width="8.4" height="4.4" rx="1.2" fill="#f2c443" stroke="#a8801f" stroke-width="1.5"/>'
+        + '<path d="M9.6 4.8v3.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".85"/>',
+      streak: '<path d="M12 1.8c.6 3.7 6 5.5 6 11.3a6 6 0 0 1-12 0c0-2.9 1.6-4.7 3.1-5.8.1 2.1 1 3.4 2.5 3.9C10.8 8.4 11 5 12 1.8z" fill="#ff8a3d" stroke="#d65a1c" stroke-width="1.4" stroke-linejoin="round"/>'
+        + '<path d="M12 11.3c.3 1.7 2.9 2.5 2.9 5a2.9 2.9 0 0 1-5.8 0c0-1.5.9-2.4 1.7-2.9.2 1 .7 1.5 1.2 1.7-.3-1.2-.3-2.4 0-3.8z" fill="#ffd34d"/>',
+      up: '<circle class="disc" cx="12" cy="12" r="10.5"/>'
+        + '<path d="M5.8 15.6l4.1-4.1 2.7 2.7 5.4-5.4M14.4 8.8h3.6v3.6" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>'
+    };
+
+    function gameIcon(name) {
+      return `<svg class="game-icon game-icon-${name}" viewBox="0 0 20 20" aria-hidden="true" focusable="false">${GAME_ICONS[name] || ''}</svg>`;
+    }
+
+    function gameReward(name) {
+      return `<svg class="game-reward game-reward-${name}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${GAME_REWARDS[name] || ''}</svg>`;
+    }
+
     /* ===== Jeux : outils communs =====
        Utilisés par plusieurs jeux : regroupés ici, dans le moteur, pour que
        chaque jeu ne dépende que du moteur et pas d'un autre jeu. */
+
+    // Une mascotte de la matière du chapitre (EXERCISE_MASCOTS), tirée au
+    // hasard, autre que `exclude` s'il y en a d'autres : chemin de l'image.
+    function randomChapterMascot(exclude) {
+      const subject = ['bio', 'chemistry', 'physics'].find(sub => document.body.classList.contains('subject-' + sub)) || 'bio';
+      const list = EXERCISE_MASCOTS[subject];
+      const others = list.map(n => '../../../assets/' + encodeURIComponent(n)).filter(src => src !== exclude);
+      const pool = others.length ? others : list;
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
 
     function shuffleArray(array) {
       const cloned = array.slice();
@@ -2406,7 +2567,12 @@
       const typeKey = Object.keys(GAME_PAGINATION).find(t =>
         (interactiveData[t] || []).some(g => g.id === gameId));
       if (!typeKey) return;
-      const index = interactiveData[typeKey].findIndex(g => g.id === gameId);
+      openGameAt(typeKey, interactiveData[typeKey].findIndex(g => g.id === gameId));
+    }
+
+    // Le jeu n° index (à partir de 0) d'une famille : le bouton Play, puis
+    // son onglet dans la fenêtre du jeu.
+    function openGameAt(typeKey, index) {
       const card = interactiveButtonsContainer.querySelector(`button[data-type="${typeKey}"]`);
       if (!card) return;
       card.click();
@@ -2435,30 +2601,34 @@
     // tout de suite, sans attendre un rechargement de la page. Repart donc
     // toujours d'un état propre — sinon un badge posé au tour précédent
     // resterait collé sur l'ancien niveau en plus du nouveau.
+    /* Libellé de chaque bouton de niveau : Start (rien de fait), Continue
+       (il reste des exercices pas encore faits), Practice again (tout est
+       fait). Le niveau travaillé en dernier (ou Level 1) porte en plus le
+       badge « Pick up here » / « Start here ». */
     function applyLevelResumeUI() {
-      const options = levelButtonsContainer.querySelectorAll('.level-option');
-      options.forEach(btn => {
-        btn.classList.remove('is-current-level');
-        const badge = btn.querySelector('.level-badge');
-        if (badge) badge.remove();
-        const action = btn.querySelector('.level-action');
-        if (action) action.textContent = L.levelActionStart;
-      });
-
       const touchedLevel = readLastTouchedLevel();
       const currentLevelKey = (touchedLevel && practiceData[touchedLevel]) ? touchedLevel : 'level1';
-      const savedExercise = readLastExercise(currentLevelKey);
 
-      options.forEach(btn => {
-        if (btn.dataset.level !== currentLevelKey) return;
+      levelButtonsContainer.querySelectorAll('.level-option').forEach(btn => {
+        const levelKey = btn.dataset.level;
+        const list = practiceData[levelKey] || [];
+        const untried = list.filter(item => exerciseState(levelKey, item) === 'untried').length;
+        const notStarted = untried === list.length;
+        const label = notStarted ? L.levelActionStart
+          : untried > 0 ? L.levelActionContinue : L.levelActionAgain;
         const action = btn.querySelector('.level-action');
-        if (!action) return;
-        btn.classList.add('is-current-level');
-        action.textContent = savedExercise ? L.levelActionContinue : L.levelActionStart;
-        const badge = document.createElement('span');
-        badge.className = 'level-badge';
-        badge.textContent = savedExercise ? L.levelBadgeContinue : L.levelBadgeStart;
-        btn.prepend(badge);
+        if (action) action.textContent = label;
+
+        const isCurrent = levelKey === currentLevelKey;
+        btn.classList.toggle('is-current-level', isCurrent);
+        const oldBadge = btn.querySelector('.level-badge');
+        if (oldBadge) oldBadge.remove();
+        if (isCurrent) {
+          const badge = document.createElement('span');
+          badge.className = 'level-badge';
+          badge.textContent = notStarted ? L.levelBadgeStart : L.levelBadgeContinue;
+          btn.prepend(badge);
+        }
       });
     }
 
@@ -2469,6 +2639,9 @@
       bindEvents();
       initAnswerBox();
       applyLevelResumeUI();
+      renderLevelBoard();
+      renderGameBoard();
+      watchGameModals();
       openFromDeepLink();
     }
 

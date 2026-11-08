@@ -2,7 +2,14 @@
    Chargé juste après practice-engine.css. Les règles de sa pagination
    (#fitb-pagination) restent dans le moteur, avec celles des autres jeux. */
 
-    /* Fill in the Blanks Large Modal */
+    /* ===== Fenêtre du texte à trous « paysage » =====
+       Ouverte d'office en plein écran (requestModalFullscreen, moteur) ; hors
+       plein écran, toute la fenêtre moins une petite marge, comme le QCM et le
+       glisser-déposer. En-tête compact (« Fill in the blanks » en petit, titre
+       du texte, onglets Text 1, 2…), une ligne d'outils (compteurs, Listen),
+       puis le texte centré dans la place qui reste, dans une colonne de
+       lecture (46em) : sa taille est la plus grande qui tient (fitbFitText),
+       de sorte qu'un texte court ne laisse pas un grand vide. */
     .fitb-large-modal-overlay {
       position: fixed;
       inset: 0;
@@ -18,9 +25,9 @@
     }
 
     .fitb-modal-card {
-      width: 90vw;
-      height: 90vh;
-      max-width: 1100px;
+      width: calc(100vw - 32px);
+      height: calc(100vh - 32px);
+      height: calc(100dvh - 32px);
       background: var(--color-surface);
       box-shadow: var(--color-shadow);
       border-radius: var(--radius);
@@ -34,17 +41,39 @@
       height: 100%;
     }
 
-    .fitb-modal-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+    #fitb-modal .fitb-modal-header {
+      flex: none;
       display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-shrink: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding: 14px 24px 12px;
+      border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+    }
+
+    #fitb-modal .modal-close,
+    #fitb-modal .modal-fullscreen {
+      top: 14px;
+    }
+
+    #fitb-modal .modal-header-titles h2 {
+      text-align: center;
+    }
+
+    #fitb-modal #fitb-pagination {
+      justify-content: center;
+      gap: 6px;
+      margin: 0;
+    }
+
+    #fitb-modal #fitb-pagination .exercise-step {
+      padding: 7px 16px;
+      font-size: 0.85rem;
     }
 
     .fitb-modal-body {
       flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -52,7 +81,7 @@
 
     .fitb-quiz-image-container {
       flex-shrink: 0;
-      padding: 20px 24px 0;
+      padding: 14px 24px 0;
     }
 
     .fitb-quiz-image-container img {
@@ -64,25 +93,69 @@
     }
 
     .fitb-instructions-text {
-      padding: 12px 24px 0;
+      padding: 10px 24px 0;
       font-size: 0.95rem;
       color: var(--color-muted);
       font-weight: 400;
-      line-height: 1.6;
+      line-height: 1.45;
       flex-shrink: 0;
     }
 
     .fitb-scroll-content {
       flex: 1;
-      overflow-y: auto;
-      padding: 20px 24px;
       min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 14px 24px 20px;
+      overflow: hidden;
     }
 
-    .fitb-footer {
-      padding: 12px 24px 16px;
-      border-top: 1px solid rgba(17, 36, 72, 0.06);
-      flex-shrink: 0;
+    /* Le texte, la phrase sur les mots soulignés et le bouton, centrés dans la
+       place qui reste ; « safe » : un texte trop long pour la place (petite
+       fenêtre) défile depuis son début au lieu d'être coupé en haut. */
+    .fitb-main {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: safe center;
+      gap: 20px;
+      overflow-y: auto;
+    }
+
+    /* Une seule ligne : les compteurs au centre de l'écran (dans l'axe du
+       texte), la médaille de fin juste à leur droite, Listen tout à droite.
+       Trois colonnes, les deux extrêmes de même largeur : le centre reste au
+       milieu quoi qu'il s'affiche à droite, et rien ne bouge en fin de jeu. */
+    .fitb-topbar.fitb-stats-bar {
+      flex: none;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: 24px;
+      margin: 0;
+      padding: 6px 10px;
+    }
+
+    .fitb-stats-center {
+      grid-column: 2;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .fitb-topbar-end {
+      grid-column: 3;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .fitb-topbar-end .fitb-speak-btn {
+      margin-left: auto;
     }
 
     /* Fill in the Blanks Specific Styles */
@@ -104,9 +177,6 @@
       font-weight: 700;
       font-size: 0.95rem;
       color: var(--color-text);
-    }
-    .fitb-stat-icon {
-      font-size: 1rem;
     }
     .fitb-stat-result {
       display: flex;
@@ -169,38 +239,58 @@
       }
     }
     .fitb-text {
-      font-size: 1.15rem;
+      width: 100%;
+      max-width: 46em;
+      font-size: var(--fitb-font, 1.15rem);
       line-height: 2.2;
       color: var(--color-text);
-      margin-bottom: 30px;
       /* Les listes déroulantes étant toutes ramenées à la même largeur par
          fitbSyncSelectWidths, la justification n'a plus à composer avec des
          trous de tailles inégales. La dernière ligne reste en drapeau, comme il
          se doit. */
       text-align: justify;
     }
-    .fitb-tools-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
+    .fitb-scroll-content.is-wide .fitb-text {
+      max-width: none;
     }
+    /* Copie du bouton d'écoute des cartes de vocabulaire
+       (.flashcard-listen-btn, vocabulary-engine.css), dont la feuille n'est
+       pas chargée ici. */
     .fitb-speak-btn {
       flex-shrink: 0;
-      border: 1px solid rgba(17, 36, 72, 0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1.5px solid var(--color-current-dark);
       border-radius: 999px;
       padding: 6px 14px;
+      font-family: inherit;
       font-size: 0.85rem;
       font-weight: 700;
-      background: var(--color-surface);
+      background: #fff;
       color: var(--color-current-dark);
       cursor: pointer;
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      transition: background 0.15s, color 0.15s, transform 0.15s;
     }
-    html[data-pointer='fine'] .fitb-speak-btn:hover {
-      border-color: var(--color-current);
-      background: rgba(var(--color-current-rgb), 0.08);
+    .fitb-speak-icon {
+      flex: none;
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    html[data-pointer='fine'] .fitb-speak-btn:hover,
+    .fitb-speak-btn:focus-visible {
+      background: rgba(var(--color-current-rgb), 0.1);
+      outline: none;
+      transform: translateY(-1px);
+    }
+    .fitb-speak-btn:active {
+      background: rgba(var(--color-current-rgb), 0.22);
+      transform: scale(0.95);
     }
     .fitb-speak-btn.active {
       background: var(--color-current);
@@ -209,6 +299,7 @@
     }
     .fitb-gloss-hint {
       margin: 0;
+      text-align: center;
       font-size: 0.85rem;
       font-style: italic;
       color: var(--color-muted);
@@ -255,9 +346,9 @@
     }
     .fitb-select {
       font-family: inherit;
-      font-size: 1rem;
-      padding: 6px 12px;
-      margin: 0 4px;
+      font-size: 0.87em;
+      padding: 0.35em 0.7em;
+      margin: 0 0.25em;
       border: 2px solid rgba(17, 36, 72, 0.1);
       border-radius: 8px;
       background: #ffffff;
@@ -286,8 +377,9 @@
       opacity: 0.9;
     }
     .fitb-action-button {
-      width: 100%;
-      padding: 16px;
+      flex: none;
+      min-width: 300px;
+      padding: 14px 32px;
       border-radius: 16px;
       border: none;
       background: var(--color-current);

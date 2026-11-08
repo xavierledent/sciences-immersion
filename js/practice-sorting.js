@@ -12,9 +12,9 @@
 
     // Same thresholds as the other games, based on mistakes accumulated across checks.
     function getSortingRank(mistakes) {
-      if (mistakes === 0) return { emoji: '🥇', label: L.rankGold };
-      if (mistakes <= 2) return { emoji: '🥈', label: L.rankSilver };
-      return { emoji: '🥉', label: L.rankBronze };
+      if (mistakes === 0) return { icon: 'gold', label: L.rankGold };
+      if (mistakes <= 2) return { icon: 'silver', label: L.rankSilver };
+      return { icon: 'bronze', label: L.rankBronze };
     }
 
     function getSortingBestMistakes(exercise) {
@@ -56,7 +56,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'exercise-step sorting-step';
-        btn.textContent = `Game ${index + 1}`;
+        btn.textContent = L.gameTab(index + 1);
         btn.dataset.index = index;
         btn.addEventListener('click', () => {
           loadSortingExercise(index);
@@ -135,7 +135,7 @@
         deckStat.className = 'sorting-deck-stat';
         deckContainer.appendChild(deckStat);
       }
-      deckStat.innerHTML = `<span class="sorting-stat-icon">❌</span>${L.errors} <span id="sorting-stat-mistakes">0</span>`;
+      deckStat.innerHTML = `${gameIcon('wrong')}${L.errors} <span id="sorting-stat-mistakes">0</span>`;
 
       // Reset state
       sortingIsChecked = false;
@@ -213,6 +213,7 @@
       sortingClearSelection();
       sortingDeckItems = shuffleArray(exercise.items.map(item => ({ ...item })));
       renderSortingDeck();
+      sortingRefitItems();
     }
 
     // Carte « portée » par l'élève en mode toucher-toucher.
@@ -249,6 +250,10 @@
       if (sortingDeckItems.length === 0) {
         sortingModalBody.classList.add('all-placed');
         updateSortingActionButton(false); // Enable check button
+        /* La pioche disparaît : les bacs regagnent sa place, les cartes
+           peuvent reprendre un cran plus grand. Recalé à ce moment-là, où
+           tout bouge déjà, plutôt qu'en cours de jeu. */
+        sortingRefitItems();
         return;
       }
 
@@ -350,6 +355,56 @@
         }
         binContent.appendChild(itemEl);
       });
+      sortingFitItems();
+    }
+
+    /* Crans de taille des cartes posées dans les bacs, du plus confortable au
+       plus compact : police, rembourrage, largeur minimale d'une colonne (le
+       nombre de colonnes en découle) et hauteur des images. */
+    const SORTING_ITEM_STEPS = [
+      { font: '1.05rem', pad: '10px 18px', col: '170px', img: '110px' },
+      { font: '1rem', pad: '8px 16px', col: '150px', img: '90px' },
+      { font: '0.9375rem', pad: '8px 14px', col: '130px', img: '76px' },
+      { font: '0.875rem', pad: '6px 12px', col: '115px', img: '64px' },
+      { font: '0.8125rem', pad: '6px 10px', col: '100px', img: '54px' }
+    ];
+    let sortingItemStep = 0;
+
+    /* Un seul cran pour toutes les cartes de tous les bacs : aucune ne paraît
+       plus importante qu'une autre. Au fil du jeu, le cran ne fait que
+       descendre, quand un bac se remplit au point de déborder ou qu'un mot ne
+       tient plus dans sa carte (jamais coupé au milieu) ; il ne remonte qu'au
+       chargement d'un jeu et au changement de taille de la fenêtre
+       (sortingRefitItems). Au dernier cran, un mot trop long peut se couper. */
+    function sortingFitItems() {
+      const container = document.getElementById('sorting-bins-container');
+      if (!container || container.clientWidth === 0) return;
+      const apply = () => {
+        const step = SORTING_ITEM_STEPS[sortingItemStep];
+        container.style.setProperty('--sorting-item-font', step.font);
+        container.style.setProperty('--sorting-item-pad', step.pad);
+        container.style.setProperty('--sorting-item-col', step.col);
+        container.style.setProperty('--sorting-item-img', step.img);
+        container.classList.toggle('is-tightest', sortingItemStep === SORTING_ITEM_STEPS.length - 1);
+      };
+      const fits = () => {
+        // Les bacs défilent pendant le jeu ; une fois toutes les cartes posées,
+        // c'est leur conteneur (practice-sorting.css, .all-placed).
+        const boxes = [container, ...container.querySelectorAll('.sorting-bin')];
+        if (boxes.some(box => box.scrollHeight > box.clientHeight + 1)) return false;
+        return !Array.from(container.querySelectorAll('.sorting-bin-item span'))
+          .some(span => span.scrollWidth > span.clientWidth + 1);
+      };
+      apply();
+      while (!fits() && sortingItemStep < SORTING_ITEM_STEPS.length - 1) {
+        sortingItemStep++;
+        apply();
+      }
+    }
+
+    function sortingRefitItems() {
+      sortingItemStep = 0;
+      sortingFitItems();
     }
 
     function updateSortingActionButton(disabled) {
@@ -415,13 +470,13 @@
             window.logEvent('sorting_completed', { quizTitle: exercise.quizTitle, mistakes: sortingMistakeCount });
           }
           const note = isNewRecord
-            ? `🎉 ${L.newBestMistakes}`
+            ? `${gameReward('record')} ${L.newBestMistakes}`
             : (previousBest !== null ? L.bestMistakes(previousBest) : '');
 
           const resultEl = document.getElementById('sorting-stat-result');
           if (resultEl) {
             resultEl.innerHTML = `
-              <span class="sorting-result-badge">${rank.emoji} ${rank.label}</span>
+              <span class="sorting-result-badge">${gameReward(rank.icon)} ${rank.label}</span>
               ${note ? `<span class="sorting-result-note">${note}</span>` : ''}
             `;
             // La bande n'existe que pour ce moment-là : on la révèle maintenant.

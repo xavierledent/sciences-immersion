@@ -9,13 +9,17 @@
   };
   const L = LABELS[pageLang];
 
+  // Ordre du parcours : apprendre les mots, s'entraîner, faire les labos ;
+  // les ressources servent tout du long ; l'autoévaluation est la finalité ;
+  // les explorations, pour qui a tout fait. Même ordre que la fenêtre des
+  // sections sur l'accueil (index.html, siteData.sections).
   const SECTIONS = [
     { file: 'vocabulary.html', label: L.vocabulary },
     { file: 'practice.html', label: L.practice },
-    { file: 'resources.html', label: L.resources },
-    { file: 'explorations.html', label: L.explorations },
     { file: 'laboratory.html', label: L.lab },
-    { file: 'assessment.html', label: L.assessment }
+    { file: 'resources.html', label: L.resources },
+    { file: 'assessment.html', label: L.assessment },
+    { file: 'explorations.html', label: L.explorations }
   ];
 
   // Existence of a section is stable for the whole visit, so the HEAD check is
@@ -32,19 +36,20 @@
     try { sessionStorage.setItem(key, value); } catch (e) {}
   }
 
-  // Choix assumé : cette barre est toujours placée en bas de page (voir les
-  // templates HTML, juste avant </main>), jamais en haut. Un audit externe
-  // l'a signalé comme un défaut ("il faut scroller pour changer de section"),
-  // mais ce raisonnement suppose un usage en projection au tableau — ce n'est
-  // pas l'usage réel du site, pensé pour du travail autonome. En bas de page,
-  // le scroll fait passer l'élève par le contenu de la page ET par la
-  // note-box (conseils d'utilisation) avant d'atteindre la nav ; en haut,
-  // un élève pressé cliquerait directement sans jamais les voir.
+  // Deux emplacements :
+  // - en bas de page (ancienne mise en page, juste avant </main>) : la
+  //   section courante n'y figure pas ;
+  // - dans l'en-tête compact (.page-bar-nav, mise en page « paysage ») : la
+  //   page tient sur un écran sans défiler, la barre remonte donc en haut et
+  //   montre toutes les sections, la courante en surbrillance. Le mode
+  //   d'emploi, qui passait avant la barre en bas de page, s'ouvre par le
+  //   bouton « ? » (initHelpModal ci-dessous).
   function renderChapterNav() {
     const container = document.getElementById('chapter-nav');
     if (!container) return;
 
     const currentFile = location.pathname.split('/').pop();
+    const inPageBar = container.classList.contains('page-bar-nav');
 
     const home = document.createElement('a');
     home.className = 'chapter-nav-btn';
@@ -52,12 +57,21 @@
     home.textContent = L.home;
     container.appendChild(home);
 
-    SECTIONS.filter(s => s.file !== currentFile).forEach(section => {
+    SECTIONS.filter(s => inPageBar || s.file !== currentFile).forEach(section => {
       const link = document.createElement('a');
-      link.className = 'chapter-nav-btn';
+      // Assessment en ardoise, comme dans la fenêtre des sections de
+      // l'accueil et sur sa page : la finalité du parcours (style.css).
+      link.className = section.file === 'assessment.html' ? 'chapter-nav-btn is-assessment' : 'chapter-nav-btn';
       link.href = './' + section.file;
       link.textContent = section.label;
       container.appendChild(link);
+
+      // La page où l'on est : elle existe, rien à vérifier.
+      if (section.file === currentFile) {
+        link.classList.add('is-current');
+        link.setAttribute('aria-current', 'page');
+        return;
+      }
 
       // Vocabulary has no self-assessment of its own (just flashcards) — this
       // is the only signal available for "does this student ever go there".
@@ -96,9 +110,29 @@
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderChapterNav);
-  } else {
+  // Mode d'emploi de la page (#help-modal), ouvert par le bouton « ? » de
+  // l'en-tête compact. Fermeture par la croix ou Échap, comme les autres
+  // modales du site (pas de clic à côté : trop facile au doigt).
+  function initHelpModal() {
+    const modal = document.getElementById('help-modal');
+    if (!modal) return;
+    const open = () => modal.classList.add('modal-open');
+    const close = () => modal.classList.remove('modal-open');
+    document.querySelectorAll('[data-help-open]').forEach(btn => btn.addEventListener('click', open));
+    modal.querySelectorAll('[data-help-close]').forEach(btn => btn.addEventListener('click', close));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && modal.classList.contains('modal-open')) close();
+    });
+  }
+
+  function init() {
     renderChapterNav();
+    initHelpModal();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();

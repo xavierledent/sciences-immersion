@@ -1312,7 +1312,7 @@
           "id": 2,
           "category": "Pure substance",
           "type": "text",
-          "content": "⚗️ Oxygen gas"
+          "content": "Oxygen gas"
         },
         {
           "id": 3,
@@ -1324,7 +1324,7 @@
           "id": 4,
           "category": "Pure substance",
           "type": "text",
-          "content": "☁️ Carbon dioxide"
+          "content": "Carbon dioxide"
         },
         {
           "id": 5,
@@ -1395,7 +1395,7 @@
           "id": 4,
           "category": "Homogeneous mixture",
           "type": "text",
-          "content": "🍋 Vinegar and water"
+          "content": "Vinegar and water"
         },
         {
           "id": 5,
@@ -1481,7 +1481,7 @@
           "id": 8,
           "category": "Magnetic separation",
           "type": "text",
-          "content": "🔧 Bolts in sawdust"
+          "content": "🔩 Bolts in sawdust"
         },
         {
           "id": 9,
@@ -1510,13 +1510,13 @@
           "id": 1,
           "category": "Solute",
           "type": "text",
-          "content": "🫧 Oxygen in aquarium"
+          "content": "🐠 Oxygen in aquarium"
         },
         {
           "id": 2,
           "category": "Solute",
           "type": "text",
-          "content": "🍬 Sugar in syrup"
+          "content": "🍯 Sugar in syrup"
         },
         {
           "id": 3,
@@ -1528,19 +1528,19 @@
           "id": 4,
           "category": "Solvent",
           "type": "text",
-          "content": "💧 Water in aquarium"
+          "content": "🐠 Water in aquarium"
         },
         {
           "id": 5,
           "category": "Solvent",
           "type": "text",
-          "content": "💧 Water in syrup"
+          "content": "🍯 Water in syrup"
         },
         {
           "id": 6,
           "category": "Solvent",
           "type": "text",
-          "content": "💧 Water in squash"
+          "content": "🍹 Water in squash"
         }
       ]
     },
@@ -1558,55 +1558,55 @@
           "id": 1,
           "category": "Fact",
           "type": "text",
-          "content": "👀 Two layers visible"
+          "content": "Two layers visible"
         },
         {
           "id": 2,
           "category": "Fact",
           "type": "text",
-          "content": "⚖️ Sand sinks"
+          "content": "Sand sinks"
         },
         {
           "id": 3,
           "category": "Fact",
           "type": "text",
-          "content": "💧 Water is clear"
+          "content": "Water is clear"
         },
         {
           "id": 4,
           "category": "Judgement",
           "type": "text",
-          "content": "🤢 Looks disgusting"
+          "content": "Looks disgusting"
         },
         {
           "id": 5,
           "category": "Judgement",
           "type": "text",
-          "content": "😴 So boring"
+          "content": "So boring"
         },
         {
           "id": 6,
           "category": "Judgement",
           "type": "text",
-          "content": "😍 Beautiful colour"
+          "content": "Beautiful colour"
         },
         {
           "id": 7,
           "category": "Hypothesis",
           "type": "text",
-          "content": "🤔 Maybe it's salt"
+          "content": "Maybe it's salt"
         },
         {
           "id": 8,
           "category": "Hypothesis",
           "type": "text",
-          "content": "🧐 Probably oil"
+          "content": "Probably oil"
         },
         {
           "id": 9,
           "category": "Hypothesis",
           "type": "text",
-          "content": "💡 Might be sugar"
+          "content": "Might be sugar"
         }
       ]
     }

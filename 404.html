@@ -5,16 +5,20 @@
   <meta charset="UTF-8" />
   <!-- GitHub Pages sert ce fichier tel quel pour n'importe quelle adresse
        cassée, à n'importe quelle profondeur (ex. /en/year1/bio1/typo.html) —
-       mais la barre d'adresse garde cette adresse cassée, elle ne revient pas
-       à la racine. Tous les chemins relatifs ci-dessous se seraient donc
-       résolus par rapport à CETTE profondeur-là plutôt que par rapport à
-       l'emplacement réel de 404.html (toujours à la racine du dépôt),
-       cassant le script d'accès, l'image et le lien retour dès que la 404
-       survient ailleurs qu'à la racine. Fixer explicitement la base du
-       document à la racine du site publié règle les deux à la fois. À
-       adapter si le site passe un jour sous domaine personnalisé (racine
-       "/" plutôt que "/sciences-immersion/"). -->
-  <base href="/sciences-immersion/" />
+       mais la barre d'adresse garde cette adresse cassée. Les chemins
+       relatifs ci-dessous se résoudraient donc par rapport à CETTE
+       profondeur-là, cassant le script d'accès, les styles, l'image et le
+       lien retour. La base du document est donc fixée à la racine du site :
+       /sciences-immersion/ en ligne (GitHub Pages, sous-dossier du dépôt),
+       / ailleurs (serveur local, domaine personnalisé). Placée avant toute
+       ressource, elle vaut pour tout ce qui suit. -->
+  <script>
+    (function () {
+      var base = document.createElement('base');
+      base.href = location.pathname.indexOf('/sciences-immersion/') === 0 ? '/sciences-immersion/' : '/';
+      document.head.appendChild(base);
+    })();
+  </script>
   <script src="js/storage.js"></script>
   <script src="js/access-control.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,27 +32,58 @@
     /* Propre à cette page : GitHub Pages sert 404.html pour n'importe quelle
        adresse cassée, sur n'importe quel chapitre — pas de couleur de matière
        à hériter ici, contrairement au reste du site. */
-    .notfound-page {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
+    /* Mise en page « paysage » (comme les autres pages refaites) : tout sur
+       un écran de Chromebook, l'image à gauche, le titre et le bouton à
+       droite ; agrandie d'un même facteur sur grand écran (page-wide,
+       fitWidePage dans rich-text.js). */
+    main.page.page-wide.notfound-page {
+      justify-content: center;
+      align-items: center;
     }
 
     .notfound-card {
-      max-width: 420px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: auto 340px;
       align-items: center;
-      gap: 20px;
+      gap: 48px;
     }
 
     .notfound-card img {
-      width: 100%;
-      height: auto;
+      display: block;
+      height: min(460px, calc(100vh - 140px));
+      width: auto;
       border-radius: 24px;
       box-shadow: var(--color-shadow);
+    }
+
+    .notfound-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .notfound-text h1 {
+      margin: 0;
+    }
+
+    .notfound-text p {
+      margin: 0;
+      color: var(--color-muted);
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    @media (max-width: 760px) {
+      .notfound-card {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+
+      .notfound-card img {
+        height: auto;
+        max-width: 100%;
+      }
     }
 
     /* Slate plutôt que le violet de .button : cette page ne rattache à aucune
@@ -73,14 +108,18 @@
 </head>
 
 <body>
-  <main class="notfound-page">
+  <main class="page page-wide notfound-page">
     <div class="notfound-card">
-      <h1>Page non trouvée</h1>
       <!-- Les deux personnages du site : ils apparaissent déjà en encadré sur
            chaque page de chapitre, ce n'est donc pas un style importé d'ailleurs. -->
-      <img src="assets/Friends 404.webp"
+      <img src="assets/Friends-404-2.webp"
         alt="Oups ! Page non trouvée. On dirait qu'on s'est un peu perdu en chemin ! Retourne en sécurité sur la page d'accueil." />
-      <a href="index.html" class="button">Retour à l'accueil</a>
+      <div class="notfound-text">
+        <h1>Page non trouvée</h1>
+        <p>Cette adresse ne mène nulle part : le lien est peut-être incomplet ou mal recopié. Retourne à l'accueil
+          pour retrouver ton chapitre.</p>
+        <a href="index.html" class="button">Retour à l'accueil</a>
+      </div>
     </div>
   </main>
 

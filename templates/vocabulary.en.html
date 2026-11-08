@@ -5,6 +5,7 @@
   <script src="../../../js/storage.js"></script>
   <script src="../../../js/access-control.js"></script>
   <script src="../../../js/tracking.js"></script>
+  <script src="../../../js/welcome-back.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vocabulary - Year 1 - {{TITLE_SUFFIX}}</title>
   <link rel="icon" type="image/svg+xml" href="../../../assets/favicon.svg">
@@ -14,73 +15,79 @@
   <link rel="stylesheet" href="../../../css/style.css">
   <link rel="stylesheet" href="../../../css/vocabulary-engine.css">
 </head>
-<body>
-  <main class="page {{SUBJECT_CLASS}}">
-    <header>
-      <div class="header-top">
-        <div>
-          <span class="topic-chip">Vocabulary &bull; English immersion &bull; Year 1</span>
-          <h1>{{H1}}</h1>
-          <p>Discover the key vocabulary for {{VOCAB_TOPIC}} with fun interactive flashcards. Select your mode, tap a card to flip it, and press Listen to hear the word.</p>
-        </div>
-        <img src="../../../assets/Friends voc.webp" alt="Vocabulary illustration" />
+<body class="{{SUBJECT_CLASS}}">
+  <main class="page page-wide page-fit {{SUBJECT_CLASS}}">
+    <!-- En-tête compact (page-bar, style.css) : pastille du mode d'emploi
+         (#help-modal) à gauche, chapitre centré, navigation à droite. -->
+    <header class="page-bar">
+      <button type="button" class="page-bar-pill" data-help-open aria-haspopup="dialog">How it works</button>
+      <div class="page-bar-title">
+        <span class="topic-chip">Vocabulary &bull; English immersion &bull; Year 1</span>
+        <h1>{{H1}}</h1>
       </div>
+      <nav class="chapter-nav page-bar-nav" id="chapter-nav" aria-label="Chapter navigation"></nav>
     </header>
 
-    <section>
-      <div class="mode-panel" role="group" aria-label="Which language first">
-        <button type="button" class="mode-button active" data-mode="english-first" aria-pressed="true">English first</button>
-        <button type="button" class="mode-button" data-mode="french-first" aria-pressed="false">Fran&ccedil;ais d'abord</button>
-        <button type="button" class="mode-button" data-mode="random" aria-pressed="false">Random language</button>
-      </div>
-      <div class="review-only">
-        <label><input type="checkbox" id="review-only"> <span id="review-only-text">Only words to review</span></label>
-      </div>
-    </section>
+    <!-- À gauche les réglages (langue d'abord, mots à revoir) et les mots
+         sus ; à droite la carte, au centre du regard, et ses boutons. -->
+    <section class="vocab-layout">
+      <aside class="vocab-side">
+        <img class="vocab-illustration" src="../../../assets/Friends-voc-2.webp" alt="Vocabulary illustration" />
+        <div class="mode-panel" role="group" aria-label="Which language first">
+          <button type="button" class="mode-button active" data-mode="english-first" aria-pressed="true">English first</button>
+          <button type="button" class="mode-button" data-mode="french-first" aria-pressed="false">Fran&ccedil;ais d'abord</button>
+          <button type="button" class="mode-button" data-mode="random" aria-pressed="false">Random language</button>
+        </div>
+        <div class="review-only">
+          <label><input type="checkbox" id="review-only"> <span id="review-only-text">Only words to review</span></label>
+        </div>
+        <div class="known-progress" id="known-progress">
+          <span class="known-count" id="known-count">··· words known</span>
+          <span class="known-track" aria-hidden="true"><span class="known-bar" id="known-bar"></span></span>
+          <button type="button" class="known-reset" id="known-reset" hidden>reset</button>
+          <span class="known-reset-confirm" id="known-reset-confirm" hidden>
+            <span id="known-reset-question"></span>
+            <button type="button" class="known-reset-yes" id="known-reset-yes">Yes, reset</button>
+            <button type="button" class="known-reset-no" id="known-reset-no">Cancel</button>
+          </span>
+        </div>
+      </aside>
 
-    <section class="card-container">
-      <div class="flashcard-wrapper">
-        <div class="card-status">
-          <div class="known-progress" id="known-progress">
-            <span class="known-count" id="known-count">··· words known</span>
-            <span class="known-track" aria-hidden="true"><span class="known-bar" id="known-bar"></span></span>
-            <button type="button" class="known-reset" id="known-reset" hidden>reset</button>
-            <span class="known-reset-confirm" id="known-reset-confirm" hidden>
-              <span id="known-reset-question"></span>
-              <button type="button" class="known-reset-yes" id="known-reset-yes">Yes, reset</button>
-              <button type="button" class="known-reset-no" id="known-reset-no">Cancel</button>
-            </span>
+      <section class="card-container">
+        <div class="flashcard-wrapper">
+          <div id="flashcard-container" aria-live="polite"><div class="flashcard-placeholder" aria-hidden="true"></div></div>
+          <div class="card-actions">
+            <button type="button" class="nav-button" id="prev-button" aria-label="Previous card" aria-keyshortcuts="ArrowLeft"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+            <div class="known-actions is-hidden" id="known-actions" role="group" aria-label="Do you know this word?" aria-hidden="true">
+              <button type="button" class="known-btn known-btn-no" id="not-yet-button" tabindex="-1" aria-keyshortcuts="N"><svg class="known-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9"/></svg>Not yet</button>
+              <button type="button" class="known-btn known-btn-yes" id="know-button" tabindex="-1" aria-pressed="false" aria-keyshortcuts="K"><svg class="known-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.8 3.8 7.2-8.6"/></svg>I know it</button>
+            </div>
+            <button type="button" class="nav-button" id="next-button" aria-label="Next card" aria-keyshortcuts="ArrowRight"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           </div>
         </div>
-        <div id="flashcard-container" aria-live="polite"><div class="flashcard-placeholder" aria-hidden="true"></div></div>
-        <div class="card-actions">
-          <button type="button" class="nav-button" id="prev-button" aria-label="Previous card" aria-keyshortcuts="ArrowLeft"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
-          <div class="known-actions is-hidden" id="known-actions" role="group" aria-label="Do you know this word?" aria-hidden="true">
-            <button type="button" class="known-btn known-btn-no" id="not-yet-button" tabindex="-1" aria-keyshortcuts="N"><svg class="known-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9"/></svg>Not yet</button>
-            <button type="button" class="known-btn known-btn-yes" id="know-button" tabindex="-1" aria-pressed="false" aria-keyshortcuts="K"><svg class="known-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.8 3.8 7.2-8.6"/></svg>I know it</button>
-          </div>
-          <button type="button" class="nav-button" id="next-button" aria-label="Next card" aria-keyshortcuts="ArrowRight"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-        </div>
-      </div>
-    </section>
-
-    <section class="note-box">
-      <h3>How does this page work?</h3>
-      <p><strong>In short:</strong> switch modes to choose which language shows first, or mix both randomly. Press
-        Listen on each card and repeat the word out loud to train your pronunciation. On each card, tap "I know it"
-        or "Not yet" &mdash; or swipe the card: right if you know the word, left if not. Tick "Only words to review"
-        to hide the words you already know; untick it and they all come back. You can change your mind about a word
-        at any time. <strong>Keyboard:</strong> Space flips the card, K = I know it, N = Not yet, &larr; &rarr; move
-        between cards.</p>
-      <p class="note-box-tip"><strong>Teacher's tip:</strong> try "Français d'abord" mode — say the translation out
-        loud before you flip the card, that's the real test. And little and often works best: a few minutes every
-        day beats one long session the night before the test — come back often!</p>
-    </section>
-
-    <section style="margin-top: 38px">
-      <nav class="chapter-nav" id="chapter-nav" aria-label="Chapter navigation"></nav>
+      </section>
     </section>
   </main>
+
+  <div class="modal-overlay" id="help-modal">
+    <div class="modal-card help-modal-card" data-page-zoom role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
+      <button type="button" class="modal-close" data-help-close aria-label="Close">×</button>
+      <section class="note-box">
+        <h3 id="help-modal-title">How does this page work?</h3>
+        <p><strong>In short:</strong> the key words about {{VOCAB_TOPIC}}, one card at a time.</p>
+        <ul class='help-list'>
+          <li><strong>Cards:</strong> choose which language shows first, or mix both randomly, then tap the card to flip it.</li>
+          <li><strong>Listen:</strong> press it and repeat the word out loud to train your pronunciation.</li>
+          <li><strong>I know it / Not yet:</strong> tap one, or swipe the card: right if you know the word, left if not. You can change your mind at any time.</li>
+          <li><strong>Only words to review:</strong> tick it to hide the words you already know; untick it and they all come back.</li>
+          <li><strong>Keyboard:</strong> Space flips the card, K = I know it, N = Not yet, &larr; &rarr; move between cards.</li>
+        </ul>
+        <p class="note-box-tip"><strong>Teacher's tip:</strong> try "Français d'abord" mode — say the translation out
+          loud before you flip the card, that's the real test. And little and often works best: a few minutes every
+          day beats one long session the night before the test — come back often!</p>
+      </section>
+    </div>
+  </div>
 
   <script src="../../../js/rich-text.js"></script>
   <script src="../../../js/vocabulary-engine.js"></script>

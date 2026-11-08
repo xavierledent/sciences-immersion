@@ -479,12 +479,20 @@
       if (!badge) return;
       const link = document.createElement('a');
       link.id = 'dashboard-link';
-      link.className = 'account-badge';
       link.href = 'dashboard.html';
       link.textContent = 'Tableau de bord';
-      link.style.marginLeft = '8px';
+      link.className = 'account-badge';
       link.style.textDecoration = 'none';
-      badge.insertAdjacentElement('afterend', link);
+      // Accueil en mise en page « paysage » : à gauche de l'en-tête, après
+      // « Mode d'emploi » (#dashboard-slot de index.html). Sinon, à côté du
+      // badge.
+      const slot = document.getElementById('dashboard-slot');
+      if (slot) {
+        slot.appendChild(link);
+      } else {
+        link.style.marginLeft = '8px';
+        badge.insertAdjacentElement('afterend', link);
+      }
     }).catch(function () { /* hors ligne ou refusé : pas de lien */ });
   }
 
@@ -646,8 +654,12 @@
       // Juste après le sous-titre, dans le flux normal — voir la note sur
       // .account-badge. Repli sur body si la page a changé et n'a plus ce
       // sous-titre, pour ne jamais perdre le badge silencieusement.
+      // Accueil en mise en page « paysage » : à droite de l'en-tête
+      // (#account-slot de index.html).
+      const slot = document.getElementById('account-slot');
       const subtitle = document.querySelector('.subtitle');
-      if (subtitle) subtitle.insertAdjacentElement('afterend', badge);
+      if (slot) slot.appendChild(badge);
+      else if (subtitle) subtitle.insertAdjacentElement('afterend', badge);
       else document.body.appendChild(badge);
       watchChapterModal(badge);
     }

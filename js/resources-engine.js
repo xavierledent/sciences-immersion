@@ -15,24 +15,47 @@
     return card;
   }
 
-  function createVideoItem(video, basePath) {
-    const embedUrl = video.embedUrl || `${basePath || ''}${video.youtubeId || ''}`;
+  function videoEmbedUrl(video, basePath) {
+    return video.embedUrl || `${basePath || ''}${video.youtubeId || ''}`;
+  }
+
+  // Une seule vidéo affichée, à sa taille, quel que soit le nombre de vidéos :
+  // empilées, elles rapetissaient à chaque ajout. Avec plusieurs vidéos, une
+  // rangée de boutons numérotés (toujours une ligne, quels que soient le
+  // nombre et la longueur des titres) choisit celle du lecteur ; le titre de
+  // la vidéo choisie s'écrit au-dessus. Un seul lecteur, dont on change la
+  // vidéo : un lecteur caché continuerait à jouer.
+  const attr = text => String(text || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+
+  function createVideoBlock(items, basePath) {
+    const first = items[0];
+    const tabs = items.length > 1
+      ? `<div class="video-tabs">${items.map((video, i) =>
+        `<button type="button" class="video-tab${i === 0 ? ' is-active' : ''}" data-video="${i}" aria-pressed="${i === 0}" aria-label="${attr(video.title)}">${i + 1}</button>`).join('')}</div>`
+      : '';
     return `
+      ${tabs}
       <div class="video-item">
-        <div class="video-meta">
-          <strong>${richText(video.title || '')}</strong>
+        <strong class="video-title">${richText(first.title || '')}</strong>
+        <div class="video-frame">
+          <iframe
+            src="${videoEmbedUrl(first, basePath)}"
+            title="${attr(first.title || 'Vidéo')}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
         </div>
-        <iframe
-          src="${embedUrl}"
-          title="${video.title || 'Vidéo'}"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-        <div class="video-desc">
-          ${video.description ? `<p>${richText(video.description)}</p>` : ''}
-        </div>
+        <p class="video-desc">${first.description ? richText(first.description) : ''}</p>
       </div>
     `;
+  }
+
+  function showVideo(card, video, basePath) {
+    const frame = card.querySelector('.video-frame iframe');
+    frame.src = videoEmbedUrl(video, basePath);
+    frame.title = video.title || 'Vidéo';
+    card.querySelector('.video-title').innerHTML = richText(video.title || '');
+    card.querySelector('.video-desc').innerHTML = video.description ? richText(video.description) : '';
   }
 
   function createPdfList(items, basePath) {
@@ -53,7 +76,7 @@
   // this card anymore.
   function createAutoEvaluationContent(data) {
     if (!data) return '<p>Fiche indisponible.</p>';
-    const descHtml = data.description ? `<p style="margin:0 0 14px">${richText(data.description)}</p>` : '';
+    const descHtml = data.description ? `<p class="resource-desc">${richText(data.description)}</p>` : '';
     const pdfUrl = data.pdfFile ? `${data.basePath || ''}/${encodeURIComponent(data.pdfFile)}` : '';
     const pdfBtnHtml = pdfUrl
       ? `<a class="resource-button" href="${pdfUrl}" target="_blank" rel="noopener" data-resource-type="ficheAutoEvalPdf">Fiche d'autoévaluation (PDF)</a>`
@@ -61,20 +84,37 @@
     return `${descHtml}<div class="resource-button-row">${pdfBtnHtml}</div>`;
   }
 
-  function createMindmapContent(data, fallbackPath) {
-    if (!data) return '<p>Modèle indisponible.</p>';
-    const path  = data.basePath || fallbackPath || '';
-    const items = data.items?.length ? data.items
+  function mindmapItems(data) {
+    if (!data) return [];
+    return data.items?.length ? data.items
       : (data.file ? [{ title: data.title, description: data.description, file: data.file }] : []);
+  }
+
+  // La carte ne montre que les boutons : la description des modèles (longue)
+  // va dans le mode d'emploi (addMindmapHelp), faute de place sur l'écran.
+  function createMindmapContent(data, fallbackPath) {
+    const items = mindmapItems(data);
     if (!items.length) return '<p>Modèle indisponible.</p>';
-    const blocks = items.map((item, i) => {
-      const fileUrl  = `${path}/${encodeURIComponent(item.file || '')}`;
-      const label    = item.title || 'Modèle général';
-      const rawDesc  = item.description || '';
-      const descHtml = rawDesc ? `<p style="margin:0 0 10px">${richText(rawDesc)}</p>` : '';
-      return `<div>${descHtml}<a class="resource-button" href="${fileUrl}" target="_blank" rel="noopener" data-resource-type="mindmap">${richText(label)}</a></div>`;
+    const path = data.basePath || fallbackPath || '';
+    const blocks = items.map(item => {
+      const fileUrl = `${path}/${encodeURIComponent(item.file || '')}`;
+      const label   = item.title || 'Modèle général';
+      return `<a class="resource-button" href="${fileUrl}" target="_blank" rel="noopener" data-resource-type="mindmap">${richText(label)}</a>`;
     }).join('');
-    return `<div class="mindmap-section"><div style="display:flex;flex-direction:column;gap:12px">${blocks}</div></div>`;
+    return `<div class="mindmap-section">${blocks}</div>`;
+  }
+
+  // Descriptions des modèles de mindmap (resources.json) dans le mode
+  // d'emploi : ajoutées à la ligne « Modèles de mindmap » de la liste ; le
+  // titre du modèle en gras seulement s'il y en a plusieurs.
+  function addMindmapHelp(data) {
+    const intro = document.querySelector('#help-modal .help-mindmaps');
+    const described = mindmapItems(data).filter(item => item.description);
+    if (!intro || !described.length) return;
+    described.forEach(item => {
+      const label = described.length > 1 ? `<strong>${richText(item.title || 'Modèle')}</strong> : ` : '';
+      intro.insertAdjacentHTML('beforeend', ` ${label}${richText(item.description)}`);
+    });
   }
 
   // Même classe et même message que dans practice-engine.js et
@@ -87,6 +127,7 @@
   async function loadResources() {
     grid = document.getElementById('resources-grid');
     if (!grid) return;
+    const illustration = grid.querySelector('.resources-illustration');
 
     // One delegated listener for every fiches-outils/autoeval-PDF/mindmap
     // link ever rendered into the grid, rather than one per link — they're
@@ -111,57 +152,58 @@
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
 
-      // 1. Création de la carte "Fiches outils" (colonne de gauche)
+      // 1. Création de la carte "Fiches outils" (colonne du milieu)
       const fo = data.fichesOutils;
-      const foDescHtml = fo?.description ? `<p style="margin:0 0 14px">${richText(fo.description)}</p>` : '';
+      const foDescHtml = fo?.description ? `<p class="resource-desc">${richText(fo.description)}</p>` : '';
       const fichesOutilsSection = createCard(
         fo?.title || "Fiches outils",
         foDescHtml + createPdfList(fo?.items || [], fo?.basePath || '')
       );
 
-      // 2. Création de la carte autonome "Fiche d'autoévaluation"
-      const ficheAutoEvaluationSection = createCard(
-        (data.ficheAutoEvaluation && data.ficheAutoEvaluation.title) || "Autoévaluation par attendus",
-        createAutoEvaluationContent(data.ficheAutoEvaluation)
-      );
-
-      // 3. Création de la carte autonome "Modèles de mindmap"
+      // 2 et 3. Colonne de droite : une seule carte en deux parties, la fiche
+      // d'autoévaluation puis les modèles de mindmap (deux cartes ne tenaient
+      // pas dans la hauteur du Chromebook avec la description des mindmaps).
       const fallbackPath = data.ficheAutoEvaluation ? data.ficheAutoEvaluation.basePath : '';
-      const mindmapSection = createCard(
-        (data.mindmap && data.mindmap.title) || "Modèles de mindmap",
-        createMindmapContent(data.mindmap, fallbackPath)
-      );
+      const sideCard = document.createElement('article');
+      sideCard.className = 'section-card resources-side-card';
+      sideCard.innerHTML = `
+        <section class="side-block">
+          <h3>${richText((data.ficheAutoEvaluation && data.ficheAutoEvaluation.title) || "Autoévaluation par attendus")}</h3>
+          ${createAutoEvaluationContent(data.ficheAutoEvaluation)}
+        </section>
+        <section class="side-block">
+          <h3>${richText((data.mindmap && data.mindmap.title) || "Modèles de mindmap")}</h3>
+          ${createMindmapContent(data.mindmap, fallbackPath)}
+        </section>
+      `;
 
-      // --- STRUCTURATION DE LA COLONNE DE DROITE ---
-      // On solidarise les cartes d'autoévaluation et de mindmap dans une colonne flexbox
-      const rightColumnContainer = document.createElement('div');
-      rightColumnContainer.className = 'resources-right-col';
-      rightColumnContainer.style.display = 'flex';
-      rightColumnContainer.style.flexDirection = 'column';
-      rightColumnContainer.style.gap = '20px'; // Garde le même espace vertical qu'entre les autres blocs
-      // Le conteneur est étiré par la grille pour matcher la hauteur de la
-      // carte "Fiches outils" à gauche (souvent plus haute, avec sa dizaine
-      // de liens) : sans space-between, l'espace en trop restait vide sous
-      // la carte mindmap au lieu d'aller dans l'écart entre les deux cartes,
-      // et son bas ne touchait plus le bas de la carte de gauche.
-      rightColumnContainer.style.justifyContent = 'space-between';
-
-      // On insère les deux cartes à l'intérieur du conteneur de droite
-      rightColumnContainer.append(ficheAutoEvaluationSection, mindmapSection);
-
-      // 4. Création de la carte "Vidéos" (qui prendra toute la largeur en bas)
-      const hasVideos = data.videos && data.videos.items && data.videos.items.length;
+      // 4. Carte "Vidéos" (colonne de gauche).
+      const videoItems = (data.videos && data.videos.items) || [];
       const videosSection = createCard(
         (data.videos && data.videos.title) || "Vidéos",
-        hasVideos
-          ? `<div class="video-list">${data.videos.items.map(video => createVideoItem(video, data.videos.basePath)).join('')}</div>`
+        videoItems.length
+          ? createVideoBlock(videoItems, data.videos.basePath)
           : '<p>Aucune vidéo disponible pour le moment.</p>'
       );
-      videosSection.classList.add('full-width');
+      videosSection.classList.add('videos-card');
+      videosSection.addEventListener('click', event => {
+        const tab = event.target.closest('.video-tab');
+        if (!tab || tab.classList.contains('is-active')) return;
+        videosSection.querySelectorAll('.video-tab').forEach(other => {
+          const active = other === tab;
+          other.classList.toggle('is-active', active);
+          other.setAttribute('aria-pressed', String(active));
+        });
+        showVideo(videosSection, videoItems[Number(tab.dataset.video)], data.videos.basePath);
+      });
 
-      // Nettoyage et injection finale bien ordonnée
+      fichesOutilsSection.classList.add('fiches-card');
+      // L'illustration occupe la place libre en bas de la carte de droite.
+      if (illustration) sideCard.appendChild(illustration);
+      addMindmapHelp(data.mindmap);
+
       grid.innerHTML = '';
-      grid.append(fichesOutilsSection, rightColumnContainer, videosSection);
+      grid.append(videosSection, fichesOutilsSection, sideCard);
 
     } catch (error) {
       console.error(error);

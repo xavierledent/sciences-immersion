@@ -174,14 +174,19 @@
       font-size: 1.5rem;
       margin-bottom: 12px;
     }
+    /* Centré malgré la règle commune des paragraphes (justifiés, style.css). */
     .qcm-score-screen p {
+      text-align: center;
       font-size: 1.2rem;
       color: var(--color-muted);
     }
     .qcm-rank-badge {
-      font-size: 2.6rem;
       line-height: 1;
       margin-bottom: 6px;
+    }
+    .qcm-rank-badge .game-reward {
+      width: 64px;
+      height: 64px;
     }
     .qcm-score-screen .qcm-rank-label {
       font-weight: 700;
@@ -229,7 +234,16 @@
       transform: translateY(-2px);
     }
 
-    /* QCM Large Modal */
+    /* ===== Fenêtre QCM « paysage » =====
+       Ouverte d'office en plein écran (requestModalFullscreen, moteur) ; hors
+       plein écran, elle occupe toute la fenêtre moins une petite marge.
+       En-tête compact (plein écran à gauche, titre du quiz centré, fermer à
+       droite, puis les onglets Quiz 1, 2, 3…), la progression, puis deux
+       colonnes, les mêmes pour toutes les questions (renderQCM) : on lit à
+       gauche (la question en grand, puis l'image de la question ou du quiz,
+       sinon la mascotte du quiz), on répond à droite (options, bouton, puis
+       l'explication). Contenu au tiers de la place libre (--qcm-top, posé
+       par syncQcmLayout). */
     .qcm-large-modal-overlay {
       position: fixed;
       inset: 0;
@@ -245,9 +259,9 @@
     }
 
     .qcm-modal-card {
-      width: 90vw;
-      height: 96vh;
-      max-width: 1100px;
+      width: calc(100vw - 32px);
+      height: calc(100vh - 32px);
+      height: calc(100dvh - 32px);
       background: var(--color-surface);
       box-shadow: var(--color-shadow);
       border-radius: var(--radius);
@@ -261,120 +275,247 @@
       height: 100%;
     }
 
-    .qcm-modal-header {
-      padding: 14px 24px;
-      border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+    #qcm-modal .qcm-modal-header {
+      flex: none;
       display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-shrink: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding: 14px 24px 12px;
+      border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+    }
+
+    #qcm-modal .modal-close,
+    #qcm-modal .modal-fullscreen {
+      top: 14px;
+    }
+
+    #qcm-modal .modal-header-titles h2 {
+      text-align: center;
+    }
+
+    #qcm-modal #qcm-pagination {
+      justify-content: center;
+      gap: 6px;
+      margin: 0;
+    }
+
+    #qcm-modal #qcm-pagination .exercise-step {
+      padding: 7px 16px;
+      font-size: 0.85rem;
     }
 
     .qcm-modal-body {
       flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
     .qcm-instructions-text {
-      padding: 8px 24px 0;
-      font-size: 0.95rem;
-      color: var(--color-muted);
-      font-weight: 400;
-      line-height: 1.5;
       flex-shrink: 0;
+      padding: 10px 24px 0;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      color: var(--color-muted);
     }
 
     .qcm-scroll-content {
       flex: 1;
-      overflow-y: auto;
-      padding: 14px 24px;
       min-height: 0;
-    }
-
-    .qcm-footer {
-      padding: 8px 24px 12px;
-      border-top: 1px solid rgba(17, 36, 72, 0.06);
-      flex-shrink: 0;
-    }
-
-    .qcm-modal-card.qcm-has-image .qcm-modal-header {
-      padding: 6px 24px;
-    }
-
-    .qcm-modal-card.qcm-has-image .qcm-instructions-text {
-      padding: 4px 24px 0;
-      line-height: 1.35;
-    }
-
-    .qcm-modal-card.qcm-has-image .qcm-scroll-content {
-      padding: 8px 24px;
-    }
-
-    .qcm-modal-card.qcm-has-image .qcm-progress-row {
-      margin-bottom: 8px;
-    }
-    .qcm-modal-card.qcm-has-image .qcm-progress-row .qcm-progress-container {
-      margin-bottom: 0;
-    }
-
-    .qcm-modal-card.qcm-has-image .qcm-question-image {
-      margin: 4px auto;
-    }
-
-    /* ===== Image élastique du QCM =====
-       Même principe que dans la modale d'exercice : la zone de contenu devient
-       une pile verticale où seule l'image cède du terrain, pour que la question
-       et ses options restent visibles sans défilement. Le défilement est
-       conservé comme filet si un énoncé très long dépasse malgré tout. */
-    .qcm-scroll-content {
       display: flex;
       flex-direction: column;
+      gap: 14px;
+      padding: 14px 24px 20px;
+      overflow: hidden;
     }
 
     .qcm-scroll-content > * {
       flex-shrink: 0;
     }
 
-    /* L'image ne fait pas que céder du terrain, elle prend aussi celui qui reste :
-       un plafond fixe de 225px la laissait minuscule en plein écran, où l'espace
-       libre est justement ce qu'on est allé chercher. Les autres enfants de la
-       pile ont flex-shrink: 0, elle ne leur prend donc rien.
-       object-fit: contain agrandit l'image jusqu'à remplir sa boîte, à
-       proportions conservées — contrairement à scale-down, qui ne dépasse jamais
-       la taille native. */
-    .qcm-scroll-content > .qcm-question-image {
-      flex: 1 1 auto;
-      min-height: 70px;
-      max-height: none;
+    .qcm-scroll-content > .qcm-progress-row {
+      margin: 0;
     }
 
-    /* Le clic ouvre la visionneuse plein écran (voir renderQCM). */
-    .qcm-question-image {
+    .qcm-progress-count {
+      flex: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: var(--color-muted);
+    }
+
+    .qcm-layout {
+      flex: 1 1 0;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 55% minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    /* ----- Colonne de gauche : la question, puis l'image ou la mascotte ----- */
+    .qcm-side {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding-top: var(--qcm-top, 0px);
+    }
+
+    /* Hauteur maximale posée en JS : la place qui reste sous la question.
+       Toucher l'image l'ouvre en grand (visionneuse, voir renderQCM). */
+    .qcm-side .qcm-question-image,
+    .qcm-side .qcm-mascot {
+      flex: none;
+      display: block;
+      margin: 0;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .qcm-side .qcm-question-image {
+      border-radius: 18px;
+      box-shadow: 0 10px 26px rgba(17, 36, 72, 0.12);
       cursor: zoom-in;
     }
 
-    .qcm-modal-card.qcm-has-image .qcm-question {
-      margin-bottom: 8px;
+    .qcm-side .qcm-mascot {
+      mix-blend-mode: multiply;
     }
 
-    .qcm-modal-card.qcm-has-image .qcm-options {
+    /* Pas assez de place pour la mascotte : la question seule. */
+    .qcm-side.qcm-no-picture .qcm-mascot {
+      display: none;
+    }
+
+    .qcm-textside-question {
+      flex: none;
+      align-self: stretch;
+      padding: 18px 22px;
+      border-radius: 22px;
+      background: rgba(var(--color-current-rgb), 0.05);
+      border: 1px solid rgba(var(--color-current-rgb), 0.18);
+      font-size: 1.4rem;
+      font-weight: 500;
+      line-height: 1.5;
+      white-space: pre-line;
+      color: var(--color-text);
+    }
+
+    /* ----- Colonne de droite : les options, le bouton, l'explication ----- */
+    .qcm-main {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: var(--qcm-top, 0px);
+      /* Défilement en dernier recours (petite fenêtre hors plein écran,
+         même resserré) : jamais un bouton coupé. */
+      overflow-y: auto;
+    }
+
+    /* Pendant la mesure (syncQcmLayout) : tailles finales d'emblée. */
+    .qcm-layout.qcm-measuring * {
+      transition: none !important;
+    }
+
+    .qcm-main > * {
+      flex-shrink: 0;
+    }
+
+    .qcm-main .qcm-options {
+      margin: 0;
+      gap: 10px;
+    }
+
+    .qcm-main .qcm-option {
+      min-height: 52px;
+      padding: 9px 20px;
+      border-radius: 14px;
+      font-size: 1.05rem;
+    }
+
+    .qcm-main .qcm-explanation,
+    .qcm-main .qcm-gentle-feedback {
+      margin: 0;
+    }
+
+    /* La place de l'explication avant « Check Answer » (voir renderQCM). */
+    .qcm-main .qcm-feedback-ghost {
+      visibility: hidden;
+    }
+
+    /* Après « Check Answer », s'il manque encore de la place (cinq options et
+       une longue explication) : options et explication resserrées, plutôt
+       qu'un défilement (posé par syncQcmLayout). */
+    .qcm-main.is-tight {
+      gap: 8px;
+    }
+
+    .qcm-main.is-tight .qcm-options {
       gap: 6px;
-      margin-bottom: 8px;
     }
 
-    .qcm-modal-card.qcm-has-image .qcm-option {
-      padding: 7px 18px;
+    .qcm-main.is-tight .qcm-option {
+      min-height: 42px;
+      padding: 6px 18px;
     }
 
-    .qcm-modal-card.qcm-has-image .qcm-explanation {
-      margin: 0 0 8px;
-      padding: 6px 12px;
+    .qcm-main.is-tight .qcm-explanation {
+      padding: 8px 12px;
       font-size: 0.9rem;
-      line-height: 1.35;
+      line-height: 1.4;
     }
 
-    .qcm-modal-card.qcm-has-image .qcm-footer {
-      padding: 4px 24px 6px;
+    .qcm-main .qcm-action-btn {
+      height: 52px;
+      padding: 0 16px;
+      border-radius: 14px;
+      font-size: 1rem;
+    }
+
+    /* Écrans de fin et de reprise : au milieu de la fenêtre. */
+    .qcm-scroll-content > .qcm-score-screen {
+      width: min(100%, 560px);
+      margin: auto;
+    }
+
+    @media (min-width: 1400px) {
+      .qcm-modal-card:fullscreen .qcm-textside-question {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 899px) {
+      .qcm-scroll-content {
+        overflow-y: auto;
+      }
+
+      .qcm-layout {
+        flex: none;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .qcm-side .qcm-question-image {
+        max-height: 260px;
+      }
+
+      .qcm-side .qcm-mascot {
+        display: none;
+      }
+
+      .qcm-main {
+        overflow: visible;
+      }
     }

@@ -19,9 +19,9 @@
 
     // Same thresholds as the drag & drop badge, for consistency across games.
     function getFitbRank(mistakes) {
-      if (mistakes === 0) return { emoji: '🥇', label: L.rankGold };
-      if (mistakes <= 2) return { emoji: '🥈', label: L.rankSilver };
-      return { emoji: '🥉', label: L.rankBronze };
+      if (mistakes === 0) return { icon: 'gold', label: L.rankGold };
+      if (mistakes <= 2) return { icon: 'silver', label: L.rankSilver };
+      return { icon: 'bronze', label: L.rankBronze };
     }
 
     function updateFitbProgress(exerciseData) {
@@ -44,13 +44,13 @@
 
       const rank = getFitbRank(fitbMistakeCount);
       const note = isNewRecord
-        ? `🎉 ${L.newBestMistakes}`
+        ? `${gameReward('record')} ${L.newBestMistakes}`
         : (previousBest !== null ? L.bestMistakes(previousBest) : '');
 
       const resultEl = document.getElementById('fitb-stat-result');
       if (resultEl) {
         resultEl.innerHTML = `
-          <span class="fitb-result-badge">${rank.emoji} ${rank.label}</span>
+          <span class="fitb-result-badge">${gameReward(rank.icon)} ${rank.label}</span>
           ${note ? `<span class="fitb-result-note">${note}</span>` : ''}
         `;
       }
@@ -83,12 +83,20 @@
     // the (now unrelated) button/state instead of reading in the background.
     let fitbSpeechGeneration = 0;
 
+    /* Même bouton que l'écoute des cartes de vocabulaire (haut-parleur
+       dessiné et mot), pour que l'élève le reconnaisse d'une page à l'autre. */
+    const FITB_LISTEN_ICON = '<svg class="fitb-speak-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3.5 8v4h3l4 3.5v-11L6.5 8z"/><path d="M13.5 7.5a3.5 3.5 0 0 1 0 5M15.8 5.2a6.8 6.8 0 0 1 0 9.6"/></svg>';
+
+    function fitbSpeakButtonHtml(label) {
+      return FITB_LISTEN_ICON + '<span>' + label + '</span>';
+    }
+
     function updateFitbSpeakButton(state) {
       const btn = document.getElementById('fitb-speak-btn');
       if (!btn) return;
-      if (state === 'speaking') { btn.textContent = L.pause; btn.classList.add('active'); }
-      else if (state === 'paused') { btn.textContent = L.resume; btn.classList.add('active'); }
-      else { btn.textContent = L.listen; btn.classList.remove('active'); }
+      const label = state === 'speaking' ? L.pause : state === 'paused' ? L.resume : L.listen;
+      btn.innerHTML = fitbSpeakButtonHtml(label);
+      btn.classList.toggle('active', state === 'speaking' || state === 'paused');
     }
 
     // Single utterance, using the browser's native pause()/resume(). A previous word-by-word
@@ -165,14 +173,103 @@
 
       let widest = 0;
       selects.forEach(select => {
-        widest = Math.max(widest, select.getBoundingClientRect().width);
+        // offsetWidth : pixels CSS, comme la taille du texte, même quand la
+        // fenêtre est réduite d'un zoom (fitModalWindows, moteur).
+        widest = Math.max(widest, select.offsetWidth);
       });
-      if (widest <= 0) return;
+      const fontSize = parseFloat(getComputedStyle(selects[0]).fontSize);
+      if (widest <= 0 || !fontSize) return;
 
-      /* Quelques pixels de marge : une réponse juste passe en gras, ce qui
-         élargit légèrement son texte après coup. */
-      const target = Math.ceil(widest) + 6;
-      selects.forEach(select => { select.style.width = target + 'px'; });
+      /* En em, pas en pixels : la largeur suit la taille du texte quand elle
+         change (fitbFitText, plein écran), sans attendre une nouvelle mesure.
+         Une largeur en pixels mesurée avant le passage en plein écran coupait
+         le mot le plus long. Un peu de marge : une réponse juste passe en gras,
+         ce qui élargit légèrement son texte après coup. */
+      const target = (widest / fontSize + 0.5).toFixed(2);
+      selects.forEach(select => { select.style.width = target + 'em'; });
+    }
+
+    /* Taille du texte, de la plus grande à la plus petite (rem) : la première
+       qui tient dans la place sans défiler. 1,15rem est la taille d'origine,
+       1,6rem celle qu'avait le plein écran sur grand écran. */
+    const FITB_FONT_MAX = 1.6;
+    const FITB_FONT_MIN = 1.15;
+    // Dernier recours, en pleine largeur seulement : un texte très long
+    // (Bio 1, texte 6, plein écran du Chromebook) plutôt qu'un défilement.
+    const FITB_FONT_FLOOR = 1;
+
+    /* Mesuré au chargement d'un texte, au redimensionnement et au passage en
+       plein écran ; jamais au « Check » : rien ne bouge pendant le jeu. Si
+       même la plus petite taille déborde, la colonne de lecture s'élargit à
+       toute la fenêtre ; au-delà, le texte défile (.fitb-main). */
+    function fitbFitText() {
+      const content = document.getElementById('fitb-content');
+      const main = content && content.querySelector('.fitb-main');
+      if (!main || main.clientHeight === 0) return;
+      /* Tient avec une marge : calé au pixel près, le texte défilait sur le
+         Chromebook (polices, listes déroulantes un peu plus hautes que
+         mesuré, passage de la fenêtre au plein écran). Hauteur du contenu en
+         pixels CSS (offsetTop), la fenêtre pouvant être réduite d'un zoom. */
+      const FIT_MARGIN = 12;
+      const fits = () => {
+        const first = main.firstElementChild;
+        const last = main.lastElementChild;
+        if (!first) return true;
+        const contentH = last.offsetTop + last.offsetHeight - first.offsetTop;
+        return contentH <= main.clientHeight - FIT_MARGIN && main.scrollHeight <= main.clientHeight + 1;
+      };
+      content.classList.remove('is-wide');
+      fitbSyncSelectWidths();
+      // La colonne de lecture (46em) d'abord, de la plus grande taille à
+      // 1,15rem ; puis toute la largeur, en descendant jusqu'à 1rem.
+      const tryFrom = (start, floor) => {
+        for (let size = start; size >= floor - 0.001; size -= 0.05) {
+          content.style.setProperty('--fitb-font', size.toFixed(2) + 'rem');
+          if (fits()) return true;
+        }
+        return false;
+      };
+      if (!tryFrom(FITB_FONT_MAX, FITB_FONT_MIN)) {
+        content.classList.add('is-wide');
+        tryFrom(FITB_FONT_MIN, FITB_FONT_FLOOR);
+      }
+      // Mesure exacte à la taille retenue (le calcul en em est approché).
+      fitbSyncSelectWidths();
+      fitbWatchText(content.querySelector('.fitb-text'));
+    }
+
+    /* Remesuré dès que la mesure ne vaut plus, quel que soit l'événement
+       (sur le Chromebook, ni resize ni fullscreenchange n'arrivent au bon
+       moment : le passage en plein écran est animé, la fenêtre grandit par
+       étapes, et le texte défilait une fois l'écran rempli) :
+       - la place du texte a changé (#fitb-content) : nouvelle mesure ;
+       - le texte lui-même a changé de taille sans que la place change
+         (polices, listes déroulantes dessinées après coup) et il dépasse :
+         nouvelle mesure. Une mesure qui retombe sur le même résultat ne
+         change plus aucune taille : pas de boucle. */
+    let fitbWatchText = () => {};
+    if (window.ResizeObserver) {
+      const fitbArea = document.getElementById('fitb-content');
+      let fitbAreaSize = '';
+      let fitbWatched = null;
+      const observer = new ResizeObserver(() => {
+        if (!fitbArea) return;
+        const size = fitbArea.clientWidth + 'x' + fitbArea.clientHeight;
+        if (size !== fitbAreaSize) {
+          fitbAreaSize = size;
+          fitbFitText();
+          return;
+        }
+        const main = fitbArea.querySelector('.fitb-main');
+        if (main && main.clientHeight > 0 && main.scrollHeight > main.clientHeight + 1) fitbFitText();
+      });
+      if (fitbArea) observer.observe(fitbArea);
+      fitbWatchText = text => {
+        if (text === fitbWatched) return;
+        if (fitbWatched) observer.unobserve(fitbWatched);
+        fitbWatched = text;
+        if (text) observer.observe(text);
+      };
     }
 
     function renderFillInTheBlanks(exerciseData) {
@@ -200,20 +297,24 @@
       });
 
       fitbContent.innerHTML = `
-        <div class="fitb-stats-bar" id="fitb-stats-bar">
-          <div class="fitb-stat"><span class="fitb-stat-icon">✅</span>${L.correct} <span id="fitb-stat-progress">0/${exerciseData.blanks.length}</span></div>
-          <div class="fitb-stat"><span class="fitb-stat-icon">❌</span>${L.errors} <span id="fitb-stat-mistakes">0</span></div>
-          <div class="fitb-stat-result" id="fitb-stat-result"></div>
+        <div class="fitb-topbar fitb-stats-bar" id="fitb-stats-bar">
+          <div class="fitb-stats-center">
+            <div class="fitb-stat">${gameIcon('correct')}${L.correct} <span id="fitb-stat-progress">0/${exerciseData.blanks.length}</span></div>
+            <div class="fitb-stat">${gameIcon('wrong')}${L.errors} <span id="fitb-stat-mistakes">0</span></div>
+          </div>
+          <div class="fitb-topbar-end">
+            <div class="fitb-stat-result" id="fitb-stat-result"></div>
+            <button type="button" class="fitb-speak-btn" id="fitb-speak-btn">${fitbSpeakButtonHtml(L.listen)}</button>
+          </div>
         </div>
-        <div class="fitb-tools-row">
-          ${wordBank.length ? `<p class="fitb-gloss-hint">${L.glossHint}</p>` : '<span></span>'}
-          <button type="button" class="fitb-speak-btn" id="fitb-speak-btn">${L.listen}</button>
-        </div>
-        <div class="fitb-text">${processedText}</div>
-        <button id="fitb-action-btn" class="fitb-action-button">${L.checkAnswers}</button>`;
+        <div class="fitb-main">
+          <div class="fitb-text">${processedText}</div>
+          ${wordBank.length ? `<p class="fitb-gloss-hint">${L.glossHint}</p>` : ''}
+          <button id="fitb-action-btn" class="fitb-action-button">${L.checkAnswers}</button>
+        </div>`;
 
       setupFitbSpeakButton(exerciseData);
-      fitbSyncSelectWidths();
+      fitbFitText();
 
       const actionBtn = document.getElementById('fitb-action-btn');
 
@@ -294,7 +395,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'exercise-step fitb-step';
-        btn.textContent = `Text ${index + 1}`;
+        btn.textContent = L.textTab(index + 1);
         btn.dataset.index = index;
         btn.addEventListener('click', () => loadFitbExercise(index));
         paginationContainer.appendChild(btn);

@@ -1,7 +1,71 @@
 (function () {
   // Shared by every chapter's explorations.html. The fetch stays relative so
   // each chapter loads its own explorations.json without any inline config.
+  //
+  // Mise en page « paysage » : deux cartes l'une sous l'autre (Documentation,
+  // Liens utiles), remplies de tuiles — titre, bouton court, description.
+  // Les deux cartes ont le même nombre de colonnes, pour que les tuiles
+  // restent alignées d'une carte à l'autre : 3 dès qu'une carte a 3
+  // éléments (une seule rangée chacune), sinon 2 (4 éléments = 2 × 2, un
+  // seul = une tuile et une place vide).
+
+  // Une carte dont les tuiles ne tiennent pas dans sa hauteur : la police de
+  // ses descriptions diminue pas à pas jusqu'à ce que tout tienne (mesuré,
+  // pas supposé : la place dépend de l'écran et des textes).
+  const DESC_MAX = 0.82; // rem
+  const DESC_MIN = 0.6; // sur le Chromebook, rien ne descend sous 0,82 : plus bas, écran plus petit que prévu
+
+  function tileHtml(href, title, description, external) {
+    const label = external ? 'Ouvrir' : 'Lire';
+    const icon = external ? ' <span class="exp-external-icon" aria-hidden="true">&#8599;</span>' : '';
+    const type = external ? 'lien' : 'documentation';
+    const plainTitle = String(title || '').replace(/<[^>]*>/g, '').replace(/"/g, '&quot;');
+    return `
+      <div class="exp-tile">
+        <div class="exp-tile-head">
+          <strong>${richText(title || '')}</strong>
+          <a class="resource-button" href="${href}" target="_blank" rel="noopener" data-resource-type="${type}" aria-label="${label} : ${plainTitle}">${label}${icon}</a>
+        </div>
+        ${description ? `<p>${richText(description)}</p>` : ''}
+      </div>
+    `;
+  }
+
+  function fitDescriptions(grid) {
+    const cards = [...grid.querySelectorAll('.explorations-card')];
+    const sizes = new Map(cards.map(card => [card, DESC_MAX]));
+    const apply = card => card.style.setProperty('--exp-desc-size', sizes.get(card) + 'rem');
+    cards.forEach(apply);
+    const overflowing = () => cards.filter(card => card.scrollHeight > card.clientHeight + 1 && sizes.get(card) > DESC_MIN);
+    for (let guard = 0; guard < 20; guard++) {
+      const over = overflowing();
+      if (!over.length) break;
+      over.forEach(card => {
+        sizes.set(card, Math.round((sizes.get(card) - 0.02) * 100) / 100);
+        apply(card);
+      });
+    }
+  }
+
   async function loadExplorations() {
+    const grid = document.getElementById('explorations-grid');
+    if (!grid) return;
+
+    // One delegated listener for every documentation/lien-utile link ever
+    // rendered here, rather than one per link — plain <a target="_blank">,
+    // this only logs and never blocks the native navigation.
+    grid.addEventListener('click', event => {
+      const link = event.target.closest('a[data-resource-type]');
+      if (link && window.logEvent) {
+        const tile = link.closest('.exp-tile');
+        window.logEvent('exploration_link_opened', {
+          type: link.dataset.resourceType,
+          label: tile ? tile.querySelector('strong').textContent.trim() : link.textContent.trim(),
+          url: link.getAttribute('href')
+        });
+      }
+    });
+
     try {
       // Cache-buster, comme practice-engine.js : GitHub Pages sert les fichiers
       // avec 10 minutes de durée de vie, et les élèves verraient sinon l'ancien
@@ -12,66 +76,37 @@
 
       const docItems  = data.documentation?.items || [];
       const linkItems = data.liensUtiles?.items    || [];
-      const count     = Math.max(docItems.length, linkItems.length);
-      const grid      = document.getElementById('explorations-grid');
-      const docCard   = grid.querySelector('.doc-card');
-      const linksCard = grid.querySelector('.links-card');
+      const cols = (docItems.length === 3 || linkItems.length === 3) ? 3 : 2;
+      grid.style.setProperty('--exp-cols', cols);
 
-      // One delegated listener for every documentation/lien-utile link ever
-      // rendered here, rather than one per link — plain <a target="_blank">,
-      // this only logs and never blocks the native navigation. Set up once
-      // per load rather than once per item; harmless if loadExplorations
-      // runs again (a fresh grid element replaces the old listener target).
-      grid.addEventListener('click', event => {
-        const link = event.target.closest('a[data-resource-type]');
-        if (link && window.logEvent) {
-          window.logEvent('exploration_link_opened', {
-            type: link.dataset.resourceType,
-            label: link.textContent.trim(),
-            url: link.getAttribute('href')
-          });
-        }
+      const docCard  = grid.querySelector('.doc-card');
+      const linkCard = grid.querySelector('.links-card');
+
+      docCard.querySelector('.exp-grid').innerHTML = docItems.length
+        ? docItems.map(doc => tileHtml(
+          `${data.documentation.basePath}/${encodeURIComponent(doc.file)}`,
+          doc.title, doc.description, false)).join('')
+        : '<p class="exp-empty">Aucun document pour le moment.</p>';
+
+      linkCard.querySelector('.exp-grid').innerHTML = linkItems.length
+        ? linkItems.map(link => tileHtml(link.url, link.title, link.description, true)).join('')
+        : '<p class="exp-empty">Aucun lien pour le moment.</p>';
+
+      fitDescriptions(grid);
+      // La police Poppins change les largeurs : on remesure à son arrivée,
+      // et quand la fenêtre change de taille.
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fitDescriptions(grid));
+      let resizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => fitDescriptions(grid), 150);
       });
-
-      docCard.querySelectorAll('.exp-cell').forEach(el => el.remove());
-      linksCard.querySelectorAll('.exp-cell').forEach(el => el.remove());
-
-      // Header (row 1) + one row per item pair, shared across both subgridded cards.
-      grid.style.gridTemplateRows = `auto repeat(${count}, auto)`;
-
-      for (let i = 0; i < count; i++) {
-        const doc  = docItems[i]  || null;
-        const link = linkItems[i] || null;
-
-        const docCell = document.createElement('div');
-        docCell.className = 'exp-cell';
-        if (doc) {
-          const href = `${data.documentation.basePath}/${encodeURIComponent(doc.file)}`;
-          docCell.innerHTML = `
-            <a class="resource-button" href="${href}" target="_blank" rel="noopener" data-resource-type="documentation">${richText(doc.title)}</a>
-            ${doc.description ? `<p>${richText(doc.description)}</p>` : ''}
-          `;
-        }
-        docCard.appendChild(docCell);
-
-        const linkCell = document.createElement('div');
-        linkCell.className = 'exp-cell';
-        if (link) {
-          linkCell.innerHTML = `
-            <a class="resource-button" href="${link.url}" target="_blank" rel="noopener" data-resource-type="lien">${richText(link.title)} <span class="exp-external-icon" aria-hidden="true">&#8599;</span></a>
-            ${link.description ? `<p>${richText(link.description)}</p>` : ''}
-          `;
-        }
-        linksCard.appendChild(linkCell);
-      }
     } catch (error) {
       console.error(error);
       // Même classe et même message que dans les trois autres moteurs : une
       // panne se reconnaît partout de la même façon sur le site.
-      // grid-column:1/-1 fait toujours étendre le message sur toute la
-      // largeur de la grille, seule mise en forme propre à ce contexte.
-      document.getElementById('explorations-grid').insertAdjacentHTML('beforeend',
-        '<div class="load-error" style="grid-column:1/-1">Erreur de chargement. Recharge la page, et préviens ton professeur si cela se reproduit.</div>');
+      grid.querySelector('.doc-card .exp-grid').innerHTML =
+        '<div class="load-error">Erreur de chargement. Recharge la page, et préviens ton professeur si cela se reproduit.</div>';
     }
   }
 

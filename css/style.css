@@ -1314,3 +1314,557 @@ body.modal-is-open {
   opacity: 1;
   text-decoration: underline;
 }
+
+/* ===== Mise en page « paysage » (pages refaites une à une) =====
+   La page tient sur un écran de Chromebook sans défiler : main plus large,
+   marges réduites, en-tête compact d'une seule ligne (.page-bar) qui porte
+   le chapitre, la barre des sections (chapter-nav.js) et le bouton « ? » du
+   mode d'emploi (#help-modal). Placé en fin de fichier : ces règles doivent
+   passer devant celles de l'en-tête classique (.page > header…), de même
+   spécificité. */
+/* Marge extérieure remplacée par du padding (même rendu) : une marge
+   haute de main traverse body (min-height: 100vh) et ajoute 10 px de
+   défilement à une page qui tient pourtant dans l'écran. */
+main.page.page-wide {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 22px 26px 30px;
+  /* Au moins la hauteur de l'écran : sur une page de chapitre, main porte
+     le cadre de la matière (liseré, fond teinté), qui doit descendre
+     jusqu'en bas. Sous zoom, fitWidePage (rich-text.js) remplace cette
+     valeur par une hauteur en px. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page > header.page-bar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(17, 36, 72, 0.08);
+  text-align: left;
+}
+
+/* Pastille et titre centrés dans la place entre la pastille du mode
+   d'emploi (à gauche) et la navigation (à droite). */
+.page-bar-title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+
+.page > header.page-bar .topic-chip {
+  margin-inline: 0;
+  padding: 3px 10px;
+  font-size: 0.68rem;
+  gap: 6px;
+}
+
+.page-bar .topic-chip + h1 {
+  margin-top: 6px;
+}
+
+.page-bar h1 {
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.page-bar-nav {
+  margin-left: auto;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.page-bar-nav .chapter-nav-btn {
+  padding: 8px 14px;
+  font-size: 0.88rem;
+}
+
+/* La section où l'on est : remplie, comme un mode actif (.mode-button). */
+.chapter-nav-btn.is-current {
+  background: var(--color-current);
+  color: var(--color-current-text, #ffffff);
+  border-color: var(--color-current);
+}
+
+/* Assessment en ardoise, la finalité du parcours : même couleur que sa
+   carte dans la fenêtre des sections de l'accueil (assessment.css) et que
+   sa page. Contour et texte ardoise, rempli au survol et sur sa page. */
+.chapter-nav-btn.is-assessment {
+  border-color: var(--color-slate);
+  color: var(--color-slate);
+}
+
+html[data-pointer='fine'] .chapter-nav-btn.is-assessment:hover,
+.chapter-nav-btn.is-assessment:focus-visible,
+.chapter-nav-btn.is-assessment.is-current {
+  background: var(--color-slate);
+  border-color: var(--color-slate);
+  color: #ffffff;
+}
+
+/* Mode d'emploi de la page, ouvert par la pastille « How it works ». */
+.help-modal-card {
+  width: min(92vw, 760px);
+}
+
+.help-modal-card section.note-box {
+  margin-top: 0;
+  padding: 6px 4px 4px;
+  border: none;
+  box-shadow: none;
+}
+
+.help-modal-card section.note-box h3 {
+  padding-right: 56px;
+}
+
+/* « En bref » en une phrase, puis une ligne par partie de la page, son nom
+   en gras : plus lisible qu'un seul paragraphe. Alignée à gauche (les
+   paragraphes et listes du site sont justifiés, ce qui étire une ligne
+   courte). */
+.help-modal-card .help-list {
+  margin: 8px 0 0;
+  padding-left: 1.2em;
+  display: grid;
+  gap: 6px;
+}
+
+.help-modal-card .help-list li {
+  text-align: left;
+  line-height: 1.5;
+}
+
+.help-modal-card .help-list li::marker {
+  color: var(--color-current);
+}
+
+/* Accueil et Assessment : mode d'emploi en ardoise (pastilles, fond du
+   conseil du prof), la couleur de ces deux pages (bouton Assessment de la
+   barre, accueil sans chapitre). */
+.help-modal-card.help-slate {
+  --color-current: var(--color-slate);
+  --color-current-rgb: var(--color-slate-rgb);
+}
+
+/* ===== Accueil « paysage » (index.html) =====
+   En-tête compact (.page-bar), puis deux colonnes : à gauche l'illustration,
+   la langue et l'année ; à droite les six chapitres en 3 × 2, ou la place
+   d'attente (#home-placeholder) tant que l'année n'est pas choisie. Sur un
+   écran assez grand, la page prend exactement la hauteur de la fenêtre et
+   les cartes de chapitre se partagent la place restante : rien à faire
+   défiler sur le Chromebook. */
+.home-layout .page-bar .site-badge {
+  padding: 3px 10px;
+  font-size: 0.68rem;
+}
+
+.home-layout .page-bar .site-badge + h1 {
+  margin-top: 6px;
+}
+
+/* En-tête de l'accueil : trois colonnes, le titre au centre. Les deux
+   colonnes latérales ont la même largeur, sinon le titre se décalerait selon
+   la longueur de l'adresse affichée à droite. */
+.page > header.page-bar.home-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.home-bar-start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.home-bar-start .account-badge {
+  margin: 0;
+}
+
+.home-bar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Pastilles du compte (.account-badge, access-control.js) : celles du site
+   actuel, simplement rangées à droite de l'en-tête. */
+.home-bar-end {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  row-gap: 6px;
+  min-width: 0;
+}
+
+.home-bar-end .account-badge {
+  margin: 0;
+}
+
+/* Pastille de l'en-tête des pages refaites (Mode d'emploi de l'accueil,
+   How it works des pages de chapitre) : même pastille que celles du compte
+   sur l'accueil (.account-badge, access-control.js) — taille, contour,
+   ombre. */
+.page-bar-pill {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--color-slate-rgb), 0.25);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 6px 16px rgba(17, 36, 72, 0.08);
+  color: var(--color-slate);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
+}
+
+html[data-pointer='fine'] .page-bar-pill:hover,
+.page-bar-pill:focus-visible {
+  transform: translateY(-1px);
+  border-color: var(--color-slate);
+  outline: none;
+}
+
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 28px;
+}
+
+.home-side,
+.home-chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+
+.home-side .choice-row,
+.home-chapters .choice-row {
+  gap: 10px;
+}
+
+.home-layout .choice-row h2 {
+  font-size: 0.95rem;
+}
+
+/* Illustration de gauche : invisible tant que la place d'attente montre la
+   grande, mais sa place reste réservée pour que les boutons ne sautent pas
+   au moment où les chapitres apparaissent. */
+.home-friends {
+  height: 150px;
+  width: auto;
+  align-self: center;
+  margin-bottom: 4px;
+  /* Le fond blanc de l'image se fond dans celui de la page (multiplier
+     par du blanc ne change rien, le blanc prend la couleur du fond) ; les
+     autres couleurs ne bougent presque pas, le fond étant très clair. */
+  mix-blend-mode: multiply;
+}
+
+.home-layout:not(.has-chapters) .home-friends {
+  visibility: hidden;
+}
+
+/* Langue et année : boutons pleine largeur de la colonne, l'année sur deux
+   colonnes. Spécificité plus forte que #language-list .choice-card. */
+.home-side #language-list,
+.home-side #year-list {
+  display: grid;
+  gap: 10px;
+}
+
+.home-side #year-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.home-side #language-list .choice-card,
+.home-side #year-list .choice-card {
+  width: 100%;
+  min-height: 54px;
+  padding: 8px 38px 8px 14px;
+  border-radius: 28px;
+}
+
+.home-side #year-list .choice-card {
+  padding-right: 30px;
+}
+
+.home-side .choice-card h3 {
+  font-size: 1rem;
+}
+
+/* Copyright en dernière ligne d'une page refaite (rich-text.js). */
+#copyright-notice.page-wide-footer {
+  margin: 14px 0 0;
+  padding: 0;
+  font-size: 0.72rem;
+}
+
+#copyright-notice.page-wide-footer a {
+  color: inherit;
+}
+
+/* Ligne du bas : copyright (rich-text.js) et crédits photos, discrets. */
+.home-footer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  padding-top: 10px;
+  font-size: 0.72rem;
+  color: var(--color-muted);
+}
+
+.home-footer #copyright-notice {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+.home-footer a {
+  color: var(--color-muted);
+}
+
+.home-footer a.credits-link {
+  margin: 0;
+  opacity: 0.75;
+  text-decoration: none;
+}
+
+html[data-pointer='fine'] .home-footer a.credits-link:hover,
+.home-footer a.credits-link:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* Place d'attente : l'illustration en grand et ce qui va suivre. */
+.home-placeholder {
+  flex-grow: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding: 24px 40px;
+  border-radius: 28px;
+  border: 2px dashed rgba(var(--color-slate-rgb), 0.22);
+}
+
+.home-placeholder[hidden] {
+  display: none;
+}
+
+.home-placeholder img {
+  height: min(340px, 100%);
+  width: auto;
+  flex-shrink: 1;
+  min-width: 0;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.home-placeholder > div {
+  display: grid;
+  gap: 14px;
+  max-width: 420px;
+}
+
+.home-placeholder p {
+  margin: 0;
+  text-align: left;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+}
+
+.home-placeholder p.home-placeholder-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+/* Chapitres : 3 × 2. La grille garde les proportions de la maquette
+   (cartes d'environ 327 × 242 px sur le Chromebook : grille de 1017 × 502).
+   Sa taille vient de la colonne des chapitres, calculée plus bas (écran
+   assez grand) : si l'en-tête prend plus de place, les cartes rapetissent
+   sans s'élargir, et le zoom des grands écrans les agrandit pareil dans
+   les deux sens. */
+.home-chapters #chapter-row {
+  flex-grow: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-chapters #chapter-row[hidden] {
+  display: none;
+}
+
+/* Ligne fixe : sa hauteur (24 px + 10 px d'écart) entre dans le calcul de
+   la largeur de la colonne des chapitres, plus bas. */
+.home-chapters #chapter-row > h2 {
+  line-height: 24px;
+  height: 24px;
+}
+
+.home-layout #chapter-list {
+  width: 100%;
+  aspect-ratio: 1017 / 502;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 18px;
+}
+
+/* Intérieur des cartes resserré : à proportions fixes, une carte fait
+   environ 290 × 215 px sur le Chromebook ; le titre (2 lignes réservées),
+   la phrase d'état (2 lignes au plus) et Go doivent y tenir sans déborder. */
+.home-layout .chapter-card {
+  gap: 10px;
+  padding: 16px 16px 16px 18px;
+}
+
+/* La phrase d'état se centre dans la place entre le titre et Go : la carte
+   paraît moins vide qu'avec tout le texte en haut. Le titre garde ses deux
+   lignes réservées, la phrase est donc à la même hauteur sur toutes les
+   cartes d'une rangée. */
+.home-layout .chapter-card-copy {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.home-layout .chapter-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.home-layout .chapter-card-status {
+  margin: auto 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.home-layout .chapter-go-button {
+  padding: 8px 18px;
+}
+
+/* Couleur de la matière sur la carte : liseré à gauche et teinte pâle. */
+.home-layout .chapter-card.subject-bio {
+  border-left: 6px solid var(--color-bio);
+  background: linear-gradient(180deg, rgba(98, 181, 170, 0.12) 0%, var(--color-surface) 100%);
+}
+
+.home-layout .chapter-card.subject-chemistry {
+  border-left: 6px solid var(--color-chemistry);
+  background: linear-gradient(180deg, rgba(231, 195, 96, 0.12) 0%, var(--color-surface) 100%);
+}
+
+.home-layout .chapter-card.subject-physics {
+  border-left: 6px solid var(--color-physics);
+  background: linear-gradient(180deg, rgba(139, 123, 181, 0.12) 0%, var(--color-surface) 100%);
+}
+
+.home-layout .empty-message {
+  grid-column: 1 / -1;
+}
+
+/* Page à la hauteur exacte de la fenêtre, sur un écran de Chromebook ou plus
+   grand. En dessous (téléphone, fenêtre étroite), la page défile normalement
+   et les colonnes s'empilent. */
+/* Page à la hauteur exacte de l'écran (.page-fit, et l'accueil) : ses
+   colonnes s'ajustent à la place au lieu d'allonger la page. */
+@media (min-width: 900px) and (min-height: 520px) {
+  main.page.page-fit {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  main.page.home-layout {
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Cadre mesuré : la colonne des chapitres prend la largeur de la grille
+     3 × 2 qui tient dans la hauteur disponible (moins le titre « 3. … »),
+     sans dépasser la largeur restante ; les deux colonnes forment un bloc
+     centré, la place libre se partage entre les deux bords. */
+  .home-body {
+    flex-grow: 1;
+    min-height: 0;
+    container-type: size;
+  }
+
+  .home-layout .home-grid {
+    height: 100cqh;
+    grid-template-columns: 270px min(100cqw - 298px, (100cqh - 34px) * 1017 / 502);
+    justify-content: center;
+  }
+}
+
+@media (max-width: 899px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page > header.page-bar.home-bar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .home-bar-title {
+    order: -1;
+  }
+
+  .home-bar-end {
+    justify-content: center;
+  }
+
+  .home-layout:not(.has-chapters) .home-friends {
+    display: none;
+  }
+
+  .home-chapters #chapter-row > h2 {
+    height: auto;
+  }
+
+  .home-layout #chapter-list {
+    width: auto;
+    aspect-ratio: auto;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-auto-rows: auto;
+  }
+
+  .home-placeholder {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .home-placeholder img {
+    height: 200px;
+  }
+}

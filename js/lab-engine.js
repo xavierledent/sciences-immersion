@@ -1237,12 +1237,27 @@
     }, true);
 
     /* ===== Ouverture / fermeture ===== */
-    async function openLab() {
+    /* Ouverture : « Enter the lab » (reprise proposée), une case d'étape de
+       la carte (data-lab-step : le labo s'ouvre à cette étape, sans poser
+       la question de la reprise ; une étape pas encore accessible, ou Check
+       avant la correction, laisse le labo là où l'élève s'était arrêté), ou
+       un lien direct (?lab=). */
+    async function openLab(event) {
+      const trigger = event && event.currentTarget;
+      const wantedStep = trigger && trigger.dataset ? parseInt(trigger.dataset.labStep, 10) || 0 : 0;
       // Plein écran d'office : toute la hauteur du Chromebook pour le labo.
       // Demandé tout de suite, pendant le geste qui ouvre le labo (sans
       // geste, lien direct, le navigateur refuse : le labo s'ajuste alors
       // à la fenêtre, voir fitToScreen).
-      if (!document.fullscreenElement && card.requestFullscreen) card.requestFullscreen().catch(() => {});
+      if (!document.fullscreenElement && card.requestFullscreen) {
+        card.requestFullscreen().catch(() => {
+          // Refusé faute de geste (lien direct : autoévaluation, devoir du
+          // tableau de bord) : le premier toucher dans le labo le redemande.
+          overlay.addEventListener('pointerdown', () => {
+            if (!document.fullscreenElement && overlay.classList.contains('modal-open')) card.requestFullscreen().catch(() => {});
+          }, { once: true, capture: true });
+        });
+      }
       // Travail de l'élève chargé (Firestore) avant de chercher une reprise.
       // Lancé dès le chargement de la page : déjà prêt au moment du clic.
       if (window.SiteStorage) await SiteStorage.ready;
@@ -1256,7 +1271,11 @@
       startClock();
       render();
       fitToScreen();
-      if (resumed) resumed = await askResume();
+      if (wantedStep) {
+        const reachable = wantedStep < 4 ? canReach(wantedStep) : lab.state.checked;
+        if (reachable && wantedStep !== lab.state.step) lab.goToStep(wantedStep);
+        if (!def.isStarted() && !lab.state.checked && !isBriefed()) showBriefing();
+      } else if (resumed) resumed = await askResume();
       else if (!def.isStarted() && !lab.state.checked && !isBriefed()) showBriefing();
       track('lab_opened', { resumed, step: lab.state.step });
       saveResult(lab.state.step, null); // « commencé » pour le tableau de bord

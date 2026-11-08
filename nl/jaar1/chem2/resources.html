@@ -6,6 +6,7 @@
   <script src='../../../js/storage.js'></script>
   <script src='../../../js/access-control.js'></script>
   <script src='../../../js/tracking.js'></script>
+  <script src='../../../js/welcome-back.js'></script>
   <meta name='viewport' content='width=device-width, initial-scale=1.0' />
   <title>Hulpbronnen - Jaar 1 - Chem 2</title>
   <link rel='icon' type='image/svg+xml' href='../../../assets/favicon.svg'>
@@ -16,39 +17,48 @@
   <link rel='stylesheet' href='../../../css/resources.css'>
 </head>
 
-<body>
-  <main class='page subject-chemistry'>
-    <header>
-      <div class="header-top">
-        <div>
-          <span class='topic-chip'>Hulpbronnen • Nederlandse immersie • Jaar 1</span>
-          <h1>Chemie 2 : Mengsels en zuivere stoffen</h1>
-          <p>Retrouve ici les vidéos à lire sur la page, les fiches outils partagées et les fiches de révision de ce
-            chapitre.</p>
-        </div>
-        <img src="../../../assets/Friends res.webp" alt="Hulpbronnen illustratie" />
+<body class='subject-chemistry'>
+  <main class='page page-wide page-fit subject-chemistry'>
+    <!-- En-tête compact (page-bar, style.css) : pastille du mode d'emploi
+         (#help-modal) à gauche, chapitre centré, navigation à droite. La
+         page est en français, comme ses ressources : « Mode d'emploi ». -->
+    <header class='page-bar'>
+      <button type='button' class='page-bar-pill' data-help-open aria-haspopup='dialog'>Mode d'emploi</button>
+      <div class='page-bar-title'>
+        <span class='topic-chip'>Hulpbronnen • Nederlandse immersie • Jaar 1</span>
+        <h1>Chemie 2 : Mengsels en zuivere stoffen</h1>
       </div>
+      <nav class='chapter-nav page-bar-nav' id='chapter-nav' aria-label='Hoofdstuknavigatie'></nav>
     </header>
 
-    <section class='card-grid' id='resources-grid'>
-    </section>
-
-    <section class='note-box'>
-      <h3>Comment utiliser cette page ?</h3>
-      <p><strong>En bref :</strong> regarde les vidéos, consulte les fiches outils (tes guides permanents pour
-        structurer un rapport, analyser un graphique ou suivre la démarche scientifique) et utilise un modèle de
-        mindmap pour construire ta propre carte mentale du chapitre. La fiche d'autoévaluation (PDF) te permet
-        ensuite de vérifier seul·e ce qui est acquis.</p>
-      <p class="note-box-tip"><strong>Conseil du prof :</strong> ne garde pas ces ressources pour la dernière semaine
-        avant le contrôle — reviens-y au fil du chapitre, dès qu'un exercice te semble difficile. Et n'hésite pas à
-        faire la fiche d'autoévaluation une première fois avant même d'avoir tout révisé : elle te dira où
-        concentrer tes efforts.</p>
-    </section>
-
-    <section style="margin-top: 38px">
-      <nav class="chapter-nav" id="chapter-nav" aria-label="Hoofdstuknavigatie"></nav>
+    <!-- Trois colonnes remplies par resources-engine.js : vidéos, fiches
+         outils, puis autoévaluation et mindmaps. L'illustration va en bas de
+         la carte de droite ; la description des modèles de mindmap, dans le
+         mode d'emploi. -->
+    <section class='resources-layout' id='resources-grid'>
+      <img class='resources-illustration' src='../../../assets/Friends-res-2.webp' alt='Hulpbronnen illustratie' />
     </section>
   </main>
+
+  <div class='modal-overlay' id='help-modal'>
+    <div class='modal-card help-modal-card' data-page-zoom role='dialog' aria-modal='true' aria-labelledby='help-modal-title'>
+      <button type='button' class='modal-close' data-help-close aria-label='Fermer'>×</button>
+      <section class='note-box'>
+        <h3 id='help-modal-title'>Comment utiliser cette page ?</h3>
+        <p><strong>En bref :</strong> de quoi réviser le chapitre à ton rythme.</p>
+        <ul class='help-list'>
+          <li><strong>Vidéos :</strong> choisis-en une avec les boutons numérotés.</li>
+          <li><strong>Fiches outils :</strong> tes guides permanents pour structurer un rapport, analyser un graphique ou suivre la démarche scientifique.</li>
+          <li><strong>Autoévaluation :</strong> la fiche (PDF) te permet de vérifier seul·e ce qui est acquis.</li>
+          <li class='help-mindmaps'><strong>Modèles de mindmap :</strong> utilise-les pour construire ta propre carte mentale du chapitre.</li>
+        </ul>
+        <p class="note-box-tip"><strong>Conseil du prof :</strong> ne garde pas ces ressources pour la dernière semaine
+          avant le contrôle — reviens-y au fil du chapitre, dès qu'un exercice te semble difficile. Et n'hésite pas à
+          faire la fiche d'autoévaluation une première fois avant même d'avoir tout révisé : elle te dira où
+          concentrer tes efforts.</p>
+      </section>
+    </div>
+  </div>
 
   <script src='../../../js/rich-text.js'></script>
   <script src='../../../js/chapter-nav.js'></script>

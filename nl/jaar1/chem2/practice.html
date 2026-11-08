@@ -6,12 +6,13 @@
   <script src='../../../js/storage.js'></script>
   <script src='../../../js/access-control.js'></script>
   <script src='../../../js/tracking.js'></script>
+  <script src='../../../js/welcome-back.js'></script>
   <meta name='viewport' content='width=device-width, initial-scale=1.0' />
   <title>Oefeningen - Jaar 1 - Chem 2</title>
   <link rel='icon' type='image/svg+xml' href='../../../assets/favicon.svg'>
   <link rel='preconnect' href='https://fonts.googleapis.com'>
   <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Color+Emoji&display=swap' rel='stylesheet'>
   <link rel='stylesheet' href='../../../css/style.css'>
   <link rel='stylesheet' href='../../../css/practice-engine.css'>
   <link rel='stylesheet' href='../../../css/practice-qcm.css'>
@@ -22,77 +23,130 @@
 </head>
 
 <body class='subject-chemistry'>
-  <main class='page subject-chemistry'>
-    <header>
-      <div class="header-top">
-        <div>
-          <span class='topic-chip'>Oefeningen • Nederlandse immersie • Jaar 1</span>
-          <h1>Chemie 2 : Mengsels en zuivere stoffen</h1>
-          <p>Train je vaardigheden met progressieve oefenniveaus, in beide talen. Leer op een leuke manier met
-            interactieve oefeningen.</p>
-        </div>
-        <img src="../../../assets/Friends pra.webp" alt="Oefeningen illustratie" />
+  <main class='page page-wide subject-chemistry'>
+    <!-- En-tête compact (page-bar, style.css) : pastille du mode d'emploi
+         (#help-modal) à gauche, comme sur l'accueil, puis le chapitre et la
+         navigation entre sections. -->
+    <header class='page-bar'>
+      <button type='button' class='page-bar-pill' data-help-open aria-haspopup='dialog'>Hoe werkt het?</button>
+      <div class='page-bar-title'>
+        <span class='topic-chip'>Oefeningen • Nederlandse immersie • Jaar 1</span>
+        <h1>Chemie 2 : Mengsels en zuivere stoffen</h1>
       </div>
+      <nav class='chapter-nav page-bar-nav' id='chapter-nav' aria-label='Hoofdstuknavigatie'></nav>
     </header>
 
+    <!-- Deux cartes de même largeur, construites pareil : une ligne par niveau
+         (compteur, « … to improve », Start/Continue, barre de 20 cases) et
+         une ligne par type de jeu (barre d'une case par jeu, compteur, Play).
+         Remplies par renderLevelBoard, applyLevelResumeUI et renderGameBoard
+         (practice-engine.js). -->
     <section class='practice-grid'>
       <article class='exercise-card'>
-        <div>
-          <h3>Oefeningen</h3>
-          <!-- Structure à deux zones (label + action) pour la mise en
-               évidence du niveau où reprendre — voir practice-engine.js
-               (applyLevelResumeUI) et practice-engine.css (.level-option,
-               .level-badge, .is-current-level). -->
-          <div class='exercise-actions' id='level-buttons'>
-            <button type='button' class='resource-button level-option' data-level='level1'>
-              <span class='level-label'>Level 1 <span class='level-bulbs'><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg></span></span>
-              <span class='level-action'>Beginnen</span>
-            </button>
-            <button type='button' class='resource-button level-option' data-level='level2'>
-              <span class='level-label'>Level 2 <span class='level-bulbs'><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg></span></span>
-              <span class='level-action'>Beginnen</span>
-            </button>
-            <button type='button' class='resource-button level-option' data-level='level3'>
-              <span class='level-label'>Level 3 <span class='level-bulbs'><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg></span></span>
-              <span class='level-action'>Beginnen</span>
-            </button>
-            <button type='button' class='resource-button' data-action='chapter-overview'>Mijn voortgang</button>
+        <div class='practice-card-head'>
+          <div class='practice-card-title'>
+            <h3>Oefeningen</h3>
+            <ul class='status-legend'>
+              <li><span class='status-dot self-assess-1' aria-hidden='true'></span>Nog oefenen</li>
+              <li><span class='status-dot self-assess-2' aria-hidden='true'></span>Bijna</li>
+              <li><span class='status-dot self-assess-3' aria-hidden='true'></span>Gelukt</li>
+              <li><span class='status-dot is-answered' aria-hidden='true'></span>Beantwoord, nog niet beoordeeld</li>
+              <li><span class='status-dot is-untried' aria-hidden='true'></span>Nog niet geprobeerd</li>
+            </ul>
+          </div>
+          <img class='overview-mascot' id='overview-mascot' src='../../../assets/Friends palier 1.webp' alt='' />
+        </div>
+        <div class='level-board' id='level-buttons'>
+          <div class='level-row' data-level-row='level1'>
+            <div class='level-row-head'>
+              <span class='level-name'>Level 1 <span class='level-bulbs'><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg></span></span>
+              <p class='level-counter' hidden></p>
+              <button type='button' class='level-review-btn' data-review='level1' hidden></button>
+              <button type='button' class='resource-button level-option' data-level='level1'><span class='level-action'>Beginnen</span></button>
+            </div>
+            <div class='level-bar'></div>
+          </div>
+          <div class='level-row' data-level-row='level2'>
+            <div class='level-row-head'>
+              <span class='level-name'>Level 2 <span class='level-bulbs'><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg></span></span>
+              <p class='level-counter' hidden></p>
+              <button type='button' class='level-review-btn' data-review='level2' hidden></button>
+              <button type='button' class='resource-button level-option' data-level='level2'><span class='level-action'>Beginnen</span></button>
+            </div>
+            <div class='level-bar'></div>
+          </div>
+          <div class='level-row' data-level-row='level3'>
+            <div class='level-row-head'>
+              <span class='level-name'>Level 3 <span class='level-bulbs'><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg><svg class="bulb-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bulb-glass" d="M12 2.5a6.5 6.5 0 0 0-3.9 11.7c.8.6 1.4 1.6 1.4 2.6v.7h5v-.7c0-1 .6-2 1.4-2.6A6.5 6.5 0 0 0 12 2.5z"/><path class="bulb-shine" d="M8.7 7.8a3.6 3.6 0 0 1 2.3-2.4"/><path class="bulb-filament" d="M10.3 17.4v-4.1l.85-1.3.85 1.3.85-1.3.85 1.3v4.1"/><rect class="bulb-base" x="9.5" y="17.5" width="5" height="3.2" rx=".8"/><path class="bulb-thread" d="M9.5 19.1h5"/><path class="bulb-tip" d="M10.8 20.7h2.4l-.5 1.1h-1.4z"/></svg></span></span>
+              <p class='level-counter' hidden></p>
+              <button type='button' class='level-review-btn' data-review='level3' hidden></button>
+              <button type='button' class='resource-button level-option' data-level='level3'><span class='level-action'>Beginnen</span></button>
+            </div>
+            <div class='level-bar'></div>
           </div>
         </div>
       </article>
 
       <article class='interactive-card'>
-        <div>
+        <div class='practice-card-head'>
           <h3>Interactieve oefeningen</h3>
-          <div class='exercise-actions' id='interactive-buttons'>
-            <button type='button' class='resource-button' data-type='multipleChoice'>Meerkeuzevragen</button>
-            <button type='button' class='resource-button' data-type='dragAndDrop'>Sleep en plaats</button>
-            <button type='button' class='resource-button' data-type='fillBlanks'>Vul de gaten in</button>
-            <button type='button' class='resource-button' data-type='matchPairs'>Zoek de paren</button>
-            <button type='button' class='resource-button' data-type='sorting'>Sorteeruitdaging</button>
+          <img class='practice-illustration' src='../../../assets/Friends-pra-3.webp' alt='' />
+        </div>
+        <div class='game-board' id='interactive-buttons'>
+          <div class='game-row'>
+            <span class='game-name'>Meerkeuzevragen</span>
+            <span class='game-bar' data-game-bar='multipleChoice'></span>
+            <p class='game-counter' data-game-counter='multipleChoice' hidden></p>
+            <button type='button' class='resource-button game-play' data-type='multipleChoice' data-title='Meerkeuzevragen' aria-label='Spelen: Meerkeuzevragen'>Spelen</button>
+          </div>
+          <div class='game-row'>
+            <span class='game-name'>Sleep en plaats</span>
+            <span class='game-bar' data-game-bar='dragAndDrop'></span>
+            <p class='game-counter' data-game-counter='dragAndDrop' hidden></p>
+            <button type='button' class='resource-button game-play' data-type='dragAndDrop' data-title='Sleep en plaats' aria-label='Spelen: Sleep en plaats'>Spelen</button>
+          </div>
+          <div class='game-row'>
+            <span class='game-name'>Vul de gaten in</span>
+            <span class='game-bar' data-game-bar='fillBlanks'></span>
+            <p class='game-counter' data-game-counter='fillBlanks' hidden></p>
+            <button type='button' class='resource-button game-play' data-type='fillBlanks' data-title='Vul de gaten in' aria-label='Spelen: Vul de gaten in'>Spelen</button>
+          </div>
+          <div class='game-row'>
+            <span class='game-name'>Zoek de paren</span>
+            <span class='game-bar' data-game-bar='matchPairs'></span>
+            <p class='game-counter' data-game-counter='matchPairs' hidden></p>
+            <button type='button' class='resource-button game-play' data-type='matchPairs' data-title='Zoek de paren' aria-label='Spelen: Zoek de paren'>Spelen</button>
+          </div>
+          <div class='game-row'>
+            <span class='game-name'>Sorteeruitdaging</span>
+            <span class='game-bar' data-game-bar='sorting'></span>
+            <p class='game-counter' data-game-counter='sorting' hidden></p>
+            <button type='button' class='resource-button game-play' data-type='sorting' data-title='Sorteeruitdaging' aria-label='Spelen: Sorteeruitdaging'>Spelen</button>
           </div>
         </div>
       </article>
     </section>
-
-    <section class='note-box'>
-      <h3>Hoe werkt deze pagina?</h3>
-      <p><strong>Kort gezegd:</strong> twee manieren om te oefenen — de klassieke oefeningen (Level 1 tot 3) worden
-        geleidelijk moeilijker, terwijl de interactieve spellen (meerkeuzevragen, sleep en plaats, vul de gaten in,
-        zoek de paren, sorteeruitdaging) een andere manier bieden om dezelfde begrippen te herhalen. Kies elk level
-        in eender welke volgorde — begin bij Level 1 als het onderwerp nieuw is, of ga meteen naar Level 3 als je je
-        er al zeker bij voelt. Beoordeel jezelf na elke klassieke oefening met "Nog oefenen", "Bijna" of "Gelukt";
-        bekijk "Mijn voortgang" voor het volledige beeld van dit hoofdstuk. Je antwoorden worden bewaard met je
-        schoolaccount: je leerkrachten kunnen ze lezen om je te helpen, nooit om je punten te geven.</p>
-      <p class="note-box-tip"><strong>Tip van de leerkracht:</strong> een oefening die nog niet groen is, blijft
-        beschikbaar om opnieuw te doen — kom er zo vaak op terug als nodig, regelmatig oefenen is de beste manier om
-        vooruitgang te boeken.</p>
-    </section>
-
-    <section style="margin-top: 38px">
-      <nav class="chapter-nav" id="chapter-nav" aria-label="Hoofdstuknavigatie"></nav>
-    </section>
   </main>
+
+  <div class='modal-overlay' id='help-modal'>
+    <div class='modal-card help-modal-card' data-page-zoom role='dialog' aria-modal='true' aria-labelledby='help-modal-title'>
+      <button type='button' class='modal-close' data-help-close aria-label='Sluiten'>×</button>
+      <section class='note-box'>
+        <h3 id='help-modal-title'>Hoe werkt deze pagina?</h3>
+        <p><strong>Kort gezegd:</strong> twee manieren om het hoofdstuk te oefenen, allebei even nuttig.</p>
+        <ul class='help-list'>
+          <li><strong>Oefeningen (Level 1 tot 3):</strong> ze worden per level moeilijker; kies eender welk level, in eender welke volgorde. <strong>Beginnen</strong> of <strong>Doorgaan</strong> opent de eerste oefening die je nog niet gemaakt hebt.</li>
+          <li><strong>Beoordeel jezelf:</strong> kies na elke oefening <strong>Nog oefenen</strong>, <strong>Bijna</strong> of <strong>Gelukt</strong>. De vakjes onder elk level krijgen die kleur (grijs: beantwoord, nog niet beoordeeld; wit: nog niet geprobeerd). <strong>… te verbeteren</strong> neemt je mee langs de oefeningen die nog niet groen zijn.</li>
+          <li><strong>Interactieve oefeningen:</strong> dezelfde begrippen, op een andere manier (meerkeuzevragen, sleep en plaats, vul de gaten in, zoek de paren, sorteeruitdaging). Een vakje kleurt zodra je dat spel helemaal gespeeld hebt.</li>
+          <li><strong>Vakjes:</strong> tik op een vakje om die oefening of dat spel te openen.</li>
+          <li><strong>Bewaard:</strong> je antwoorden worden bewaard met je schoolaccount; je leerkrachten lezen ze om je te helpen, nooit om je punten te geven.</li>
+        </ul>
+        <p class="note-box-tip"><strong>Tip van de leerkracht:</strong> een oefening die nog niet groen is, blijft
+          beschikbaar om opnieuw te doen — kom er zo vaak op terug als nodig, regelmatig oefenen is de beste manier om
+          vooruitgang te boeken.</p>
+      </section>
+    </div>
+  </div>
 
   <div class='modal-overlay' id='exercise-modal'>
     <div class='modal-card exercise-modal' role='dialog' aria-modal='true' aria-labelledby='exercise-modal-title'>
@@ -105,62 +159,49 @@
             <h2 id='exercise-modal-title'>Oefening 1</h2>
           </div>
           <div id='exercises-pagination'></div>
-          <div class='language-buttons'>
-            <button type='button' class='toggle-button active' id='btn-statement-en'>Vraag NL</button>
-            <button type='button' class='toggle-button' id='btn-statement-fr'><span class='toggle-fill' id='statement-fr-fill'></span><span class='toggle-label' id='statement-fr-label'>Question FR</span></button>
-          </div>
         </div>
 
-        <div class='modal-body'>
-          <div id='exercise-image-wrap' class='exercise-image-wrap'>
-            <img id='exercise-image' class='exercise-image' alt='Illustration de l’exercice' src='' />
-          </div>
-          <div id='exercise-recall' class='exercise-recall'>
-            <img id='exercise-recall-img' class='exercise-recall-img' alt='' />
-            <p id='exercise-recall-text' class='exercise-recall-text'></p>
-          </div>
-          <div id='exercise-subquestion-nav' class='hidden'></div>
-          <div class='answer-compare' id='answer-compare'>
-            <div class='answer-compare-mine'>
-              <div class='answer-compare-label' id='answer-compare-mine-label'>Jouw antwoord</div>
-              <div class='student-answer-echo' id='student-answer-echo'></div>
+        <!-- Deux colonnes (mise en page « paysage », practice-engine.css) :
+             à gauche l'image ; sans image, l'énoncé en grand, les mots du
+             lexique trouvés dans l'énoncé et une mascotte ; à droite le
+             travail de l'élève. Une image très large passe en bandeau en haut. -->
+        <div class='modal-body exercise-layout' id='exercise-layout'>
+          <div class='exercise-side' id='exercise-side'>
+            <div id='exercise-image-wrap' class='exercise-image-wrap'>
+              <img id='exercise-image' class='exercise-image' alt='Illustration de l’exercice' src='' />
             </div>
-            <div class='answer-compare-corr'>
-              <div class='correction-buttons'>
-                <button type='button' class='toggle-button active' id='btn-correction-en'>Correctie NL</button>
-                <button type='button' class='toggle-button' id='btn-correction-fr'><span class='toggle-fill' id='correction-fr-fill'></span><span class='toggle-label' id='correction-fr-label'>Correction FR</span></button>
+          </div>
+          <div class='exercise-main' id='exercise-main'>
+            <div class='language-buttons'>
+              <button type='button' class='toggle-button active' id='btn-statement-en'>Vraag NL</button>
+              <button type='button' class='toggle-button' id='btn-statement-fr'><span class='toggle-fill' id='statement-fr-fill'></span><span class='toggle-label' id='statement-fr-label'>Question FR</span></button>
+            </div>
+            <div id='exercise-recall' class='exercise-recall'>
+              <img id='exercise-recall-img' class='exercise-recall-img' alt='' />
+              <p id='exercise-recall-text' class='exercise-recall-text'></p>
+            </div>
+            <div id='exercise-subquestion-nav' class='hidden'></div>
+            <div class='answer-compare' id='answer-compare'>
+              <div class='answer-compare-mine'>
+                <div class='answer-compare-label' id='answer-compare-mine-label'>Jouw antwoord</div>
+                <div class='student-answer-echo' id='student-answer-echo'></div>
               </div>
-              <div id='exercise-text' class='exercise-text'>Chargement de l'exercice...</div>
+              <div class='answer-compare-corr'>
+                <div class='correction-buttons'>
+                  <button type='button' class='toggle-button active' id='btn-correction-en'>Correctie NL</button>
+                  <button type='button' class='toggle-button' id='btn-correction-fr'><span class='toggle-fill' id='correction-fr-fill'></span><span class='toggle-label' id='correction-fr-label'>Correction FR</span></button>
+                </div>
+                <div id='exercise-text' class='exercise-text'>Chargement de l'exercice...</div>
+              </div>
+            </div>
+            <div class='student-answer' id='student-answer'>
+              <textarea id='student-answer-input' class='student-answer-input' rows='2'></textarea>
+              <div class='student-answer-bar'>
+                <span class='student-answer-saved' id='student-answer-saved' aria-live='polite'></span>
+                <button type='button' class='student-answer-check' id='btn-check-answer'>Mijn antwoord nakijken</button>
+              </div>
             </div>
           </div>
-          <div class='student-answer' id='student-answer'>
-            <textarea id='student-answer-input' class='student-answer-input' rows='2'></textarea>
-            <div class='student-answer-bar'>
-              <span class='student-answer-saved' id='student-answer-saved' aria-live='polite'></span>
-              <button type='button' class='student-answer-check' id='btn-check-answer'>Mijn antwoord nakijken</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class='modal-overlay' id='overview-modal'>
-    <div class='modal-card exercise-modal' role='dialog' aria-modal='true' aria-labelledby='overview-modal-title'>
-      <div class='modal-card-inner'>
-        <div class='modal-header'>
-          <button type='button' class='modal-fullscreen' id='overview-fullscreen' aria-label='Full screen'>⛶</button>
-          <div class='modal-header-titles'>
-            <h2 id='overview-modal-title'>Mijn voortgang</h2>
-            <img class='overview-mascot' id='overview-mascot' src='../../../assets/Friends palier 1.webp' alt='' />
-          </div>
-          <button type='button' class='modal-close' id='overview-modal-close' aria-label='Close'>×</button>
-        </div>
-
-        <div class='overview-tabs' id='overview-tabs'></div>
-
-        <div class='modal-body'>
-          <div id='overview-panels'></div>
         </div>
       </div>
     </div>
@@ -196,32 +237,30 @@
       <div class='modal-card-inner dnd-modal-card-inner'>
         <div class='modal-header dnd-modal-header'>
           <button type='button' class='modal-fullscreen' id='dnd-fullscreen' aria-label='Volledig scherm'>⛶</button>
-          <h2 id='dnd-modal-title' class='game-modal-title'>Sleep en plaats</h2>
           <button type='button' class='modal-close' id='dnd-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p class='game-modal-kicker'>Sleep en plaats</p>
+            <h2 id='dnd-modal-title' class='game-modal-title'>Sleep en plaats</h2>
+          </div>
+          <div class='dnd-pagination' id='dnd-pagination'></div>
         </div>
 
+        <!-- Mise en page « paysage » (practice-dnd.css) : l'image, qui est le
+             jeu, à gauche et aussi grande que possible ; à droite une colonne
+             fixe : consigne, chronomètre et erreurs (ajoutés en JS sous la
+             consigne), puis les étiquettes. -->
         <div class='modal-body dnd-modal-body'>
-          <!-- Instructions optionnelles -->
-          <div id='dnd-instructions' class='dnd-instructions-text' style='display: none;'></div>
           <div id='dnd-live-region' class='visually-hidden' aria-live='polite' aria-atomic='true'></div>
-          <!-- Réservoir d'étiquettes en haut -->
-          <div class='dnd-reservoir' id='dnd-reservoir'>
-            <!-- Les étiquettes de mots seront injectées ici -->
-          </div>
-
-          <!-- Plateau de jeu (Image de fond + zones cibles) -->
-          <div class='dnd-board-container'>
-            <div class='dnd-board' id='dnd-board'>
-              <img id='dnd-bg-image' src='' alt='Sleep-en-plaatsbord' />
-              <!-- Les zones de drop cibles seront injectées ici de manière absolue -->
+          <div class='dnd-layout'>
+            <div class='dnd-board-container'>
+              <div class='dnd-board' id='dnd-board'>
+                <img id='dnd-bg-image' src='' alt='Sleep-en-plaatsbord' />
+              </div>
             </div>
-          </div>
-
-          <!-- Zone de navigation et de choix des jeux en bas -->
-          <div class='modal-footer dnd-footer'>
-            <div class='dnd-pagination' id='dnd-pagination'>
-              <!-- Les boutons numérotés [ Game 1 ] [ Game 2 ]... seront injectés ici -->
-            </div>
+            <aside class='dnd-side'>
+              <div id='dnd-instructions' class='dnd-instructions-text' style='display: none;'></div>
+              <div class='dnd-reservoir' id='dnd-reservoir'></div>
+            </aside>
           </div>
         </div>
       </div>
@@ -234,8 +273,12 @@
       <div class='modal-card-inner memory-modal-card-inner'>
         <div class='modal-header memory-modal-header'>
           <button type='button' class='modal-fullscreen' id='memory-fullscreen' aria-label='Volledig scherm'>⛶</button>
-          <h2 id='memory-modal-title' class='game-modal-title'>Zoek de paren</h2>
           <button type='button' class='modal-close' id='memory-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p class='game-modal-kicker'>Zoek de paren</p>
+            <h2 id='memory-modal-title' class='game-modal-title'>Zoek de paren</h2>
+          </div>
+          <div class='memory-pagination' id='memory-pagination'></div>
         </div>
 
         <div class='modal-body memory-modal-body'>
@@ -245,13 +288,6 @@
           <div class='memory-grid-container'>
             <div class='memory-grid' id='memory-grid'>
               <!-- Les cartes seront injectées ici par JS -->
-            </div>
-          </div>
-
-          <!-- Zone de navigation en bas -->
-          <div class='modal-footer memory-footer'>
-            <div class='memory-pagination' id='memory-pagination'>
-              <!-- Boutons de pagination des jeux (Game 1, Game 2, etc.) -->
             </div>
           </div>
         </div>
@@ -265,8 +301,12 @@
       <div class='modal-card-inner sorting-modal-card-inner'>
         <div class='modal-header sorting-modal-header'>
           <button type='button' class='modal-fullscreen' id='sorting-fullscreen' aria-label='Volledig scherm'>⛶</button>
-          <h2 id='sorting-modal-title' class='game-modal-title'>Sorteeruitdaging</h2>
           <button type='button' class='modal-close' id='sorting-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p class='game-modal-kicker'>Sorteeruitdaging</p>
+            <h2 id='sorting-modal-title' class='game-modal-title'>Sorteeruitdaging</h2>
+          </div>
+          <div class='sorting-pagination' id='sorting-pagination'></div>
         </div>
 
         <div class='modal-body sorting-modal-body'>
@@ -293,13 +333,6 @@
           <div class='sorting-action-container'>
             <button type='button' class='sorting-action-btn' id='btn-check-sorting' disabled>Categorieën controleren</button>
           </div>
-
-          <!-- Zone de navigation en bas -->
-          <div class='modal-footer sorting-footer'>
-            <div class='sorting-pagination' id='sorting-pagination'>
-              <!-- Boutons de pagination des jeux (Game 1, Game 2, etc.) -->
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -311,16 +344,17 @@
       <div class='modal-card-inner fitb-modal-card-inner'>
         <div class='modal-header fitb-modal-header'>
           <button type='button' class='modal-fullscreen' id='fitb-fullscreen' aria-label='Volledig scherm'>⛶</button>
-          <h2 id='fitb-modal-title' class='game-modal-title'>Vul de gaten in</h2>
           <button type='button' class='modal-close' id='fitb-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p class='game-modal-kicker'>Vul de gaten in</p>
+            <h2 id='fitb-modal-title' class='game-modal-title'>Vul de gaten in</h2>
+          </div>
+          <div id='fitb-pagination'></div>
         </div>
         <div class='modal-body fitb-modal-body'>
           <div id='fitb-instructions-container' class='fitb-instructions-text' style='display: none;'></div>
           <div id='fitb-quiz-image-container' class='fitb-quiz-image-container' style='display: none;'></div>
           <div id='fitb-content' class='fitb-scroll-content'></div>
-          <div class='modal-footer fitb-footer'>
-            <div id='fitb-pagination'></div>
-          </div>
         </div>
       </div>
     </div>
@@ -332,15 +366,16 @@
       <div class='modal-card-inner qcm-modal-card-inner'>
         <div class='modal-header qcm-modal-header'>
           <button type='button' class='modal-fullscreen' id='qcm-fullscreen' aria-label='Volledig scherm'>⛶</button>
-          <h2 id='qcm-modal-title' class='game-modal-title'>Meerkeuzevragen</h2>
           <button type='button' class='modal-close' id='qcm-modal-close' aria-label='Close'>×</button>
+          <div class='modal-header-titles'>
+            <p class='game-modal-kicker'>Meerkeuzevragen</p>
+            <h2 id='qcm-modal-title' class='game-modal-title'>Meerkeuzevragen</h2>
+          </div>
+          <div id='qcm-pagination'></div>
         </div>
         <div class='modal-body qcm-modal-body'>
           <div id='qcm-instructions-container' class='qcm-instructions-text' style='display: none;'></div>
           <div id='qcm-content' class='qcm-scroll-content'></div>
-          <div class='modal-footer qcm-footer'>
-            <div id='qcm-pagination'></div>
-          </div>
         </div>
       </div>
     </div>

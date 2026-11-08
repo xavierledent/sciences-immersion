@@ -79,10 +79,6 @@
   color: var(--color-text);
 }
 
-.sorting-stat-icon {
-  font-size: 1rem;
-}
-
 .sorting-result-badge {
   font-weight: 700;
   font-size: 0.95rem;
@@ -306,34 +302,6 @@ html[data-pointer='fine'] .sorting-bin-item:hover:not(.correct):not(.incorrect) 
 /* Bounce feedback on a correctly sorted item + a checkmark that pops in and fades away */
 .sorting-bin-item.just-correct {
   animation: sorting-pop 0.4s ease;
-}
-
-/* Cartes placées : la compression avait un sens quand la place manquait, elle
-   n'en a plus en plein écran sur grand écran, où trois cartes flottent dans un
-   bac de 890px. Le seuil laisse le Chromebook intact — un bac peut y contenir
-   dix cartes qui doivent toutes tenir sans défilement. */
-@media (min-width: 1400px) {
-  /* Le nombre de colonnes cesse d'être figé : à largeur imposée, c'est lui qui
-     s'adapte. Trois colonnes sur un écran étroit comme aujourd'hui, cinq bien
-     remplies en plein écran, sans avoir à trancher pour un chiffre. */
-  .sorting-modal-card:fullscreen .sorting-bin-content {
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  }
-
-  /* Les cartes image méritent des colonnes plus larges : c'est la vignette qui
-     porte l'information, pas un mot de cinq lettres. */
-  .sorting-modal-card:fullscreen .sorting-bin-content.image-cards {
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  }
-
-  .sorting-modal-card:fullscreen .sorting-bin-item {
-    font-size: 1.1rem;
-    padding: 10px 18px;
-  }
-
-  .sorting-modal-card:fullscreen .sorting-bin-item img {
-    max-height: 110px;
-  }
 }
 
 @keyframes sorting-pop {
@@ -625,16 +593,6 @@ html[data-pointer='fine'] .sorting-action-btn:hover:not(:disabled) {
   cursor: not-allowed;
 }
 
-/* Footer & Navigation */
-.sorting-footer {
-  padding: 14px 0 6px;
-  border-top: 1px solid rgba(17, 36, 72, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
 .sorting-pagination {
   display: flex;
   gap: 8px;
@@ -667,4 +625,92 @@ html[data-pointer='fine'] .sorting-pagination .exercise-step:hover {
   border-color: rgba(12, 163, 127, 0.35);
   color: var(--color-current-text, #ffffff);
   box-shadow: 0 4px 12px rgba(var(--color-current-rgb), 0.25);
+}
+
+/* ===== Fenêtre du tri « paysage » =====
+   Ouverte d'office en plein écran (requestModalFullscreen, moteur) ; hors
+   plein écran, toute la fenêtre moins une petite marge, comme les autres
+   jeux. En-tête compact (« Sorting challenge » en petit, titre du jeu,
+   onglets Game 1, 2…), la consigne, les bacs, puis la pioche (consigne,
+   carte, erreurs). Les cartes posées dans les bacs prennent le plus grand
+   cran qui tient (sortingFitItems) ; un mot n'y est jamais coupé.
+   Placé en fin de fichier : ces règles passent devant les précédentes. */
+.sorting-large-modal-overlay {
+  padding: 0;
+}
+
+.sorting-modal-card {
+  width: calc(100vw - 32px);
+  height: calc(100vh - 32px);
+  height: calc(100dvh - 32px);
+  max-width: none;
+}
+
+#sorting-modal .sorting-modal-header {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 14px 24px 12px;
+}
+
+#sorting-modal .modal-close,
+#sorting-modal .modal-fullscreen {
+  top: 14px;
+}
+
+#sorting-modal .modal-header-titles h2 {
+  text-align: center;
+}
+
+#sorting-modal .sorting-pagination {
+  justify-content: center;
+  gap: 6px;
+}
+
+#sorting-modal .sorting-pagination .exercise-step {
+  width: auto;
+  height: auto;
+  aspect-ratio: auto;
+  padding: 7px 16px;
+  font-size: 0.85rem;
+  border-radius: 10px;
+}
+
+.sorting-modal-body {
+  padding: 12px 24px 20px;
+  gap: 12px;
+}
+
+.sorting-bin-content {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--sorting-item-col, 150px)), 1fr));
+  gap: 8px;
+}
+
+.sorting-bin-content.image-cards {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--sorting-item-img, 90px) + 40px)), 1fr));
+}
+
+.sorting-bin-item {
+  padding: var(--sorting-item-pad, 8px 16px);
+  font-size: var(--sorting-item-font, 1rem);
+  overflow-wrap: normal;
+  hyphens: manual;
+}
+
+.sorting-bin-item span {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Dernier cran seulement : un mot plus long que la carte se coupe plutôt que
+   de déborder du bac. */
+.sorting-bins-container.is-tightest .sorting-bin-item {
+  overflow-wrap: anywhere;
+}
+
+.sorting-bin-item img {
+  max-height: var(--sorting-item-img, 90px);
 }

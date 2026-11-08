@@ -6,6 +6,7 @@
   <script src='../../../js/storage.js'></script>
   <script src='../../../js/access-control.js'></script>
   <script src='../../../js/tracking.js'></script>
+  <script src='../../../js/welcome-back.js'></script>
   <meta name='viewport' content='width=device-width, initial-scale=1.0' />
   <title>Virtueel labo - Jaar 1 - Chem 1</title>
   <link rel='icon' type='image/svg+xml' href='../../../assets/favicon.svg'>
@@ -20,64 +21,87 @@
 </head>
 
 <body class='subject-chemistry'>
-  <main class='page subject-chemistry'>
-    <header>
-      <div class="header-top">
-        <div>
-          <span class='topic-chip'>Virtueel labo • Nederlandse immersie • Jaar 1</span>
-          <h1>Chemie 1 : Natuurlijke hulpbronnen en grondstoffen</h1>
-          <p>Word een echte labowetenschapper: kies een onderzoek, voer de proeven zelf uit en trek je eigen besluiten.</p>
-        </div>
-        <img src="../../../assets/Friends-lab.webp" alt="" class="lab-header-img" />
+  <main class='page page-wide page-fit subject-chemistry'>
+    <!-- En-tête compact (page-bar, style.css) : pastille du mode d'emploi
+         (#help-modal) à gauche, chapitre centré, navigation à droite. -->
+    <header class='page-bar'>
+      <button type='button' class='page-bar-pill' data-help-open aria-haspopup='dialog'>Hoe werkt het?</button>
+      <div class='page-bar-title'>
+        <span class='topic-chip'>Virtueel labo • Nederlandse immersie • Jaar 1</span>
+        <h1>Chemie 1 : Natuurlijke hulpbronnen en grondstoffen</h1>
       </div>
+      <nav class='chapter-nav page-bar-nav' id='chapter-nav' aria-label='Hoofdstuknavigatie'></nav>
     </header>
 
-    <section class='lab-grid' aria-label='Onderzoeken'>
-      <article class='lab-tile'>
+    <!-- À gauche la mascotte et la démarche commune aux labos ; à droite
+         trois places, une par labo (générées : tools/generate-laboratory.js ;
+         progression de l'élève : js/lab-page.js). -->
+    <section class='lab-layout'>
+      <aside class='lab-side'>
+        <img class='lab-illustration' src='../../../assets/Friends-lab-2.webp' alt='' />
+        <h2 class='lab-method-title'>Hoe werkt een labo?</h2>
+        <ol class='lab-method'>
+          <li><span class='lab-method-num'>1</span><strong>Voorspellen</strong><span>Lees de vraag en stel een hypothese op.</span></li>
+          <li><span class='lab-method-num'>2</span><strong>Experimenteren</strong><span>Voer het experiment uit, noteer wat je waarneemt.</span></li>
+          <li><span class='lab-method-num'>3</span><strong>Besluiten</strong><span>Gebruik je resultaten om de vraag te beantwoorden.</span></li>
+          <li><span class='lab-method-num'>4</span><strong>Controleren</strong><span>Bekijk de verbetering, druk je labverslag af.</span></li>
+        </ol>
+      </aside>
+      <section class='lab-slots' aria-label='Onderzoeken'>
+      <article class='lab-tile' data-lab-tile='metals'>
         <h2 class='lab-tile-title'>Metaaldetectives</h2>
         <p class='lab-tile-question'>Welke zijn metalen, en welke metalen zijn het?</p>
         <p class='lab-tile-text'>Vijf stalen, allemaal met dezelfde vorm. Sommige zijn metalen, andere lijken alleen maar op metalen.</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Jouw voortgang</span>
+          <div class='lab-tile-steps' role='group' aria-label='Nog niet begonnen'><button type='button' class='lab-tile-step' data-lab-open='metals' data-lab-step='1' data-tooltip='1. Voorspellen' aria-label='1. Voorspellen'></button><button type='button' class='lab-tile-step' data-lab-open='metals' data-lab-step='2' data-tooltip='2. Experimenteren' aria-label='2. Experimenteren'></button><button type='button' class='lab-tile-step' data-lab-open='metals' data-lab-step='3' data-tooltip='3. Besluiten' aria-label='3. Besluiten'></button><button type='button' class='lab-tile-step' data-lab-open='metals' data-lab-step='4' data-tooltip='4. Controleren' aria-label='4. Controleren'></button></div>
+        </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='metals'>Naar het labo</button>
       </article>
-      <article class='lab-tile'>
+      <article class='lab-tile' data-lab-tile='soil'>
         <h2 class='lab-tile-title'>Onder onze voeten</h2>
         <p class='lab-tile-question'>Waaruit bestaat de bodem, en verschilt hij van plaats tot plaats?</p>
         <p class='lab-tile-text'>Twee bodemstalen van twee plaatsen rond de school. Spreid ze uit, bekijk ze goed met een loep en sorteer wat je vindt.</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Jouw voortgang</span>
+          <div class='lab-tile-steps' role='group' aria-label='Nog niet begonnen'><button type='button' class='lab-tile-step' data-lab-open='soil' data-lab-step='1' data-tooltip='1. Voorspellen' aria-label='1. Voorspellen'></button><button type='button' class='lab-tile-step' data-lab-open='soil' data-lab-step='2' data-tooltip='2. Experimenteren' aria-label='2. Experimenteren'></button><button type='button' class='lab-tile-step' data-lab-open='soil' data-lab-step='3' data-tooltip='3. Besluiten' aria-label='3. Besluiten'></button><button type='button' class='lab-tile-step' data-lab-open='soil' data-lab-step='4' data-tooltip='4. Controleren' aria-label='4. Controleren'></button></div>
+        </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='soil'>Naar het labo</button>
       </article>
-      <article class='lab-tile'>
+      <article class='lab-tile' data-lab-tile='lifecycle'>
         <h2 class='lab-tile-title'>Van de aarde en terug</h2>
         <p class='lab-tile-question'>Weggooien, recycleren of hergebruiken: welke manier is het beste voor de planeet?</p>
         <p class='lab-tile-text'>Volg een voorwerp doorheen zijn levenscyclus. Drie manieren, vier tellers: wat nemen we van de aarde, en wat geven we terug? En welke stap verbruikt de meeste energie?</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Jouw voortgang</span>
+          <div class='lab-tile-steps' role='group' aria-label='Nog niet begonnen'><button type='button' class='lab-tile-step' data-lab-open='lifecycle' data-lab-step='1' data-tooltip='1. Voorspellen' aria-label='1. Voorspellen'></button><button type='button' class='lab-tile-step' data-lab-open='lifecycle' data-lab-step='2' data-tooltip='2. Experimenteren' aria-label='2. Experimenteren'></button><button type='button' class='lab-tile-step' data-lab-open='lifecycle' data-lab-step='3' data-tooltip='3. Besluiten' aria-label='3. Besluiten'></button><button type='button' class='lab-tile-step' data-lab-open='lifecycle' data-lab-step='4' data-tooltip='4. Controleren' aria-label='4. Controleren'></button></div>
+        </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='lifecycle'>Naar het labo</button>
       </article>
-    </section>
-
-    <section class='lab-method-box'>
-      <h2 class='lab-method-title'>Hoe werkt een labo?</h2>
-      <ol class='lab-method'>
-        <li><span class='lab-method-num'>1</span><strong>Voorspellen</strong><span>Lees de vraag en stel een hypothese op: wat denk jij dat het antwoord is?</span></li>
-        <li><span class='lab-method-num'>2</span><strong>Experimenteren</strong><span>Voer het experiment uit en noteer wat je waarneemt.</span></li>
-        <li><span class='lab-method-num'>3</span><strong>Besluiten</strong><span>Gebruik je resultaten om de vraag te beantwoorden.</span></li>
-        <li><span class='lab-method-num'>4</span><strong>Controleren</strong><span>Bekijk de verbetering en druk je labverslag af.</span></li>
-      </ol>
-    </section>
-
-    <section class='note-box'>
-      <h3>Hoe werkt deze pagina?</h3>
-      <p><strong>Kort gezegd:</strong> een echt labo, op het scherm. Elk labo begint met een vraag. Stel een
-        hypothese op, voer dan zelf het experiment uit en kijk goed wat er gebeurt. Noteer je waarnemingen in je
-        schrift — het labo doet het niet voor jou. Gebruik op het einde je resultaten om de vraag te beantwoorden.
-        Onderlijnde woorden kun je in het Frans vertalen.</p>
-      <p class="note-box-tip"><strong>Tip van de leerkracht:</strong> een wetenschapper vertrouwt op resultaten,
-        niet op een eerste indruk. Komen je resultaten niet overeen met je hypothese? Dat is geen fout. Ook een
-        verkeerde hypothese leert je iets.</p>
-    </section>
-
-    <section style="margin-top: 38px">
-      <nav class="chapter-nav" id="chapter-nav" aria-label="Hoofdstuknavigatie"></nav>
+      </section>
     </section>
   </main>
+
+  <div class='modal-overlay' id='help-modal'>
+    <div class='modal-card help-modal-card' data-page-zoom role='dialog' aria-modal='true' aria-labelledby='help-modal-title'>
+      <button type='button' class='modal-close' data-help-close aria-label='Sluiten'>×</button>
+      <section class='note-box'>
+        <h3 id='help-modal-title'>Hoe werkt deze pagina?</h3>
+        <p><strong>Kort gezegd:</strong> een echt labo, op het scherm, in vier stappen.</p>
+        <ul class='help-list'>
+          <li><strong>Voorspellen:</strong> lees de vraag en stel een hypothese op.</li>
+          <li><strong>Experimenteren:</strong> voer het experiment zelf uit en kijk goed. Noteer je waarnemingen in je schrift — het labo doet het niet voor jou.</li>
+          <li><strong>Besluiten:</strong> gebruik je resultaten om de vraag te beantwoorden.</li>
+          <li><strong>Controleren:</strong> lees je verbeterde labverslag en zoek je fouten.</li>
+          <li><strong>Vakjes:</strong> ze tonen hoe ver je bent; tik op een gekleurd vakje om naar die stap terug te gaan. Elk labo verandert telkens een beetje, zo kun je het opnieuw doen.</li>
+          <li><strong>Onderlijnde woorden:</strong> die kun je in het Frans vertalen.</li>
+        </ul>
+        <p class="note-box-tip"><strong>Tip van de leerkracht:</strong> een wetenschapper vertrouwt op resultaten,
+          niet op een eerste indruk. Komen je resultaten niet overeen met je hypothese? Dat is geen fout. Ook een
+          verkeerde hypothese leert je iets.</p>
+      </section>
+    </div>
+  </div>
 
   <script src='../../../js/rich-text.js'></script>
   <script src='../../../js/lab-engine.js'></script>
@@ -88,6 +112,7 @@
   <script src='lab-lifecycle.nl.js'></script>
   <script src='../../../js/lab-lifecycle.js'></script>
   <script src='../../../js/chapter-nav.js'></script>
+  <script src='../../../js/lab-page.js'></script>
 </body>
 
 </html>

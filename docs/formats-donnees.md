@@ -167,6 +167,9 @@ un `title` et un `basePath` auquel le moteur ajoute le nom de fichier :
 Les fiches outils et les PDF d'autoévaluation sont donc partagés, dans
 `assets/` à la racine, et non dans le dossier du chapitre.
 
+La `description` d'un modèle de mindmap ne s'affiche pas dans la carte (trop
+longue pour l'écran) : le moteur l'ajoute au mode d'emploi de la page.
+
 ## explorations.json
 
 Lu par [explorations-engine.js](../js/explorations-engine.js).

@@ -112,6 +112,7 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Titre ou couleur d'un chapitre | [tools/chapters.json](tools/chapters.json), puis régénérer (la liste de l'accueil en sort aussi) |
 | Accueil, choix de la langue et de l'année | [index.html](index.html), [welcome-back.js](js/welcome-back.js) |
 | Labos virtuels : modale, étapes, verrous, rapport | [lab-engine.js](js/lab-engine.js), [lab-engine.css](css/lab-engine.css) ; un labo : `lab-<nom>.{js,css}` dans `js/` et `css/` (simulation), `<chapitre>/lab-<nom>.<en\|nl>.js` (textes) |
+| Page Lab : trois places par chapitre, progression de l'élève sur chaque carte | [generate-laboratory.js](tools/generate-laboratory.js) (cartes), [lab-page.js](js/lab-page.js) (barre d'étapes, état, bouton, taille des textes), [lab-engine.css](css/lab-engine.css) (début du fichier) |
 | Créer un labo (démarche, conventions) | skill `creer-labo` |
 | Idées de labos à venir, avec l'avis de l'enseignant | [docs/idees-labos.md](docs/idees-labos.md) |
 | Ajouter un labo à un chapitre | sa ligne dans `labs.en` et `labs.nl` de [tools/chapters.json](tools/chapters.json) (même `id`), sa simulation `lab-<nom>.{js,css}` dans `js/` et `css/`, ses textes `lab-<nom>.<langue>.js` dans chaque filière, puis régénérer |
@@ -169,10 +170,34 @@ scripts chargés.
   signaler (détail dans [docs/formats-donnees.md](docs/formats-donnees.md)).
 - **Texte des JSON.** Seules les balises `<strong>`, `<em>`, `<u>` et `<br>`
   sont interprétées.
+- **Émojis dans les cartes des jeux** (`interactive.json`, surtout tri et
+  memory) : à chaque ajout ou modification de jeux, les relire un par un.
+  Gardés quand ils montrent l'objet nommé (aide à l'immersion) ; retirés ou
+  changés quand ils donnent la réponse (même émoji sur toutes les cartes
+  d'une catégorie, symbole qui désigne la catégorie : ♨️ pour Thermal, ☢️
+  pour le nucléaire, visages pour Judgement), quand ils montrent autre chose
+  que le mot (🌀 pour un ressort), ou sur des énoncés abstraits. Le même dans
+  les deux langues. Les deux cartes d'une paire ou d'un même mélange peuvent
+  partager un émoji.
 - **Chromebook tactile (100 %) ; un écran de bureau zoomé à 125 % en donne
   un aperçu proche.** Les calculs de place se font sur le Chromebook à 100 %
   (1366 × 768). Pas de défilement dans les modales, tactile au même niveau que
   la souris, tailles mesurées en JS plutôt que supposées.
+- **Pages refaites (`main.page-wide`) : même principe que les labos.**
+  Dessinées pour 1366 × 640 utiles, sans défilement ; sur un plus grand
+  écran, `fitWidePage` ([rich-text.js](js/rich-text.js)) les agrandit d'un
+  même facteur (zoom CSS, jamais de réduction), avec les petites fenêtres
+  marquées `data-page-zoom` (pas les fenêtres d'exercice ou de jeu, déjà
+  plein écran ; hors plein écran, `fitModalWindows`
+  ([practice-engine.js](js/practice-engine.js)) les réduit pour retrouver
+  l'image du plein écran du Chromebook ; leurs mesures en JS ne mélangent
+  donc pas `getBoundingClientRect`, à l'échelle de l'écran, et les tailles
+  CSS `offsetWidth` / `clientHeight`). Pas de marge haute sur `main` (elle traverse `body` et fait
+  défiler) : du padding. `page-fit` : hauteur exacte de l'écran (les
+  colonnes s'y ajustent au lieu d'allonger la page). Mascottes (images
+  Friends) : jamais en icône, une centaine de pixels de haut au moins sur
+  le Chromebook ; pas de titre écrit dans l'image (la page le dit déjà) ;
+  fond blanc fondu (`mix-blend-mode: multiply`).
 - **Labos en plein écran : toute la place est utilisée.** Un labo se dessine
   pour le Chromebook à 100 % ; avec plus de place (plein écran sur un grand
   écran), le moteur agrandit d'un même facteur le corps et le pied du labo

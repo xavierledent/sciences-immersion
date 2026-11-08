@@ -1646,7 +1646,7 @@
           "id": 7,
           "category": "Mechanisch",
           "type": "text",
-          "content": "🌀 Ingedrukte veer"
+          "content": "Ingedrukte veer"
         },
         {
           "id": 8,
@@ -1664,13 +1664,13 @@
           "id": 10,
           "category": "Thermisch",
           "type": "text",
-          "content": "🫖 Thermosfles"
+          "content": "Thermosfles"
         },
         {
           "id": 11,
           "category": "Thermisch",
           "type": "text",
-          "content": "♨️ Warmwaterkruik"
+          "content": "Warmwaterkruik"
         },
         {
           "id": 12,
@@ -1694,13 +1694,13 @@
           "id": 1,
           "category": "Thermische energie",
           "type": "text",
-          "content": "🔥 Elektrische oven"
+          "content": "Elektrische oven"
         },
         {
           "id": 2,
           "category": "Thermische energie",
           "type": "text",
-          "content": "💇 Stijltang"
+          "content": "Stijltang"
         },
         {
           "id": 3,
@@ -1718,19 +1718,19 @@
           "id": 5,
           "category": "Mechanische energie",
           "type": "text",
-          "content": "🌀 Elektrische ventilator"
+          "content": "Elektrische ventilator"
         },
         {
           "id": 6,
           "category": "Mechanische energie",
           "type": "text",
-          "content": "🥤 Blender"
+          "content": "Blender"
         },
         {
           "id": 7,
           "category": "Mechanische energie",
           "type": "text",
-          "content": "🔩 Elektrische boormachine"
+          "content": "Elektrische boormachine"
         },
         {
           "id": 8,
@@ -1772,55 +1772,55 @@
           "id": 1,
           "category": "Windturbine",
           "type": "text",
-          "content": "🌬️ Hangt af van het weer"
+          "content": "Hangt af van het weer"
         },
         {
           "id": 2,
           "category": "Windturbine",
           "type": "text",
-          "content": "🏞️ Heeft veel ruimte nodig"
+          "content": "Heeft veel ruimte nodig"
         },
         {
           "id": 3,
           "category": "Windturbine",
           "type": "text",
-          "content": "♻️ Hernieuwbare hulpbron"
+          "content": "Hernieuwbare hulpbron"
         },
         {
           "id": 4,
           "category": "Kerncentrale",
           "type": "text",
-          "content": "☢️ Radioactief afval"
+          "content": "Radioactief afval"
         },
         {
           "id": 5,
           "category": "Kerncentrale",
           "type": "text",
-          "content": "⚙️ Constante productie"
+          "content": "Constante productie"
         },
         {
           "id": 6,
           "category": "Kerncentrale",
           "type": "text",
-          "content": "⛔ Beperkte voorraad uranium"
+          "content": "Beperkte voorraad uranium"
         },
         {
           "id": 7,
           "category": "Gascentrale",
           "type": "text",
-          "content": "💨 Stoot CO2 uit"
+          "content": "Stoot CO2 uit"
         },
         {
           "id": 8,
           "category": "Gascentrale",
           "type": "text",
-          "content": "⚡ Snel op te starten"
+          "content": "Snel op te starten"
         },
         {
           "id": 9,
           "category": "Gascentrale",
           "type": "text",
-          "content": "💶 Goedkoop om te bouwen"
+          "content": "Goedkoop om te bouwen"
         }
       ]
     }

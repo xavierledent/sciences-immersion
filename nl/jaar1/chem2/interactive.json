@@ -1312,7 +1312,7 @@
           "id": 2,
           "category": "Zuivere stof",
           "type": "text",
-          "content": "⚗️ Zuurstofgas"
+          "content": "Zuurstofgas"
         },
         {
           "id": 3,
@@ -1324,7 +1324,7 @@
           "id": 4,
           "category": "Zuivere stof",
           "type": "text",
-          "content": "☁️ Koolstofdioxide"
+          "content": "Koolstofdioxide"
         },
         {
           "id": 5,
@@ -1395,7 +1395,7 @@
           "id": 4,
           "category": "Homogeen mengsel",
           "type": "text",
-          "content": "🍋 Azijn en water"
+          "content": "Azijn en water"
         },
         {
           "id": 5,
@@ -1481,7 +1481,7 @@
           "id": 8,
           "category": "Magnetische scheiding",
           "type": "text",
-          "content": "🔧 Bouten in zaagsel"
+          "content": "🔩 Bouten in zaagsel"
         },
         {
           "id": 9,
@@ -1510,13 +1510,13 @@
           "id": 1,
           "category": "Opgeloste stof",
           "type": "text",
-          "content": "🫧 Zuurstof in aquarium"
+          "content": "🐠 Zuurstof in aquarium"
         },
         {
           "id": 2,
           "category": "Opgeloste stof",
           "type": "text",
-          "content": "🍬 Suiker in siroop"
+          "content": "🍯 Suiker in siroop"
         },
         {
           "id": 3,
@@ -1528,19 +1528,19 @@
           "id": 4,
           "category": "Oplosmiddel",
           "type": "text",
-          "content": "💧 Water in aquarium"
+          "content": "🐠 Water in aquarium"
         },
         {
           "id": 5,
           "category": "Oplosmiddel",
           "type": "text",
-          "content": "💧 Water in siroop"
+          "content": "🍯 Water in siroop"
         },
         {
           "id": 6,
           "category": "Oplosmiddel",
           "type": "text",
-          "content": "💧 Water in limonade"
+          "content": "🍹 Water in limonade"
         }
       ]
     },
@@ -1558,55 +1558,55 @@
           "id": 1,
           "category": "Feit",
           "type": "text",
-          "content": "👀 Twee lagen zichtbaar"
+          "content": "Twee lagen zichtbaar"
         },
         {
           "id": 2,
           "category": "Feit",
           "type": "text",
-          "content": "⚖️ Zand zakt"
+          "content": "Zand zakt"
         },
         {
           "id": 3,
           "category": "Feit",
           "type": "text",
-          "content": "💧 Water is helder"
+          "content": "Water is helder"
         },
         {
           "id": 4,
           "category": "Oordeel",
           "type": "text",
-          "content": "🤢 Ziet er vies uit"
+          "content": "Ziet er vies uit"
         },
         {
           "id": 5,
           "category": "Oordeel",
           "type": "text",
-          "content": "😴 Zo saai"
+          "content": "Zo saai"
         },
         {
           "id": 6,
           "category": "Oordeel",
           "type": "text",
-          "content": "😍 Mooie kleur"
+          "content": "Mooie kleur"
         },
         {
           "id": 7,
           "category": "Hypothese",
           "type": "text",
-          "content": "🤔 Misschien is het zout"
+          "content": "Misschien is het zout"
         },
         {
           "id": 8,
           "category": "Hypothese",
           "type": "text",
-          "content": "🧐 Waarschijnlijk olie"
+          "content": "Waarschijnlijk olie"
         },
         {
           "id": 9,
           "category": "Hypothese",
           "type": "text",
-          "content": "💡 Kan suiker zijn"
+          "content": "Kan suiker zijn"
         }
       ]
     }

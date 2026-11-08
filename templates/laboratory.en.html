@@ -6,6 +6,7 @@
   <script src='../../../js/storage.js'></script>
   <script src='../../../js/access-control.js'></script>
   <script src='../../../js/tracking.js'></script>
+  <script src='../../../js/welcome-back.js'></script>
   <meta name='viewport' content='width=device-width, initial-scale=1.0' />
   <title>Virtual lab - Year 1 - {{TITLE_SUFFIX}}</title>
   <link rel='icon' type='image/svg+xml' href='../../../assets/favicon.svg'>
@@ -17,50 +18,62 @@
 </head>
 
 <body class='{{SUBJECT_CLASS}}'>
-  <main class='page {{SUBJECT_CLASS}}'>
-    <header>
-      <div class="header-top">
-        <div>
-          <span class='topic-chip'>Virtual lab • English immersion • Year 1</span>
-          <h1>{{H1}}</h1>
-          <p>Become a lab scientist: choose an investigation, run the tests yourself and draw your own conclusions.</p>
-        </div>
-        <img src="../../../assets/Friends-lab.webp" alt="" class="lab-header-img" />
+  <main class='page page-wide page-fit {{SUBJECT_CLASS}}'>
+    <!-- En-tête compact (page-bar, style.css) : pastille du mode d'emploi
+         (#help-modal) à gauche, chapitre centré, navigation à droite. -->
+    <header class='page-bar'>
+      <button type='button' class='page-bar-pill' data-help-open aria-haspopup='dialog'>How it works</button>
+      <div class='page-bar-title'>
+        <span class='topic-chip'>Virtual lab • English immersion • Year 1</span>
+        <h1>{{H1}}</h1>
       </div>
+      <nav class='chapter-nav page-bar-nav' id='chapter-nav' aria-label='Chapter navigation'></nav>
     </header>
 
-    <section class='lab-grid' aria-label='Investigations'>
+    <!-- À gauche la mascotte et la démarche commune aux labos ; à droite
+         trois places, une par labo (générées : tools/generate-laboratory.js ;
+         progression de l'élève : js/lab-page.js). -->
+    <section class='lab-layout'>
+      <aside class='lab-side'>
+        <img class='lab-illustration' src='../../../assets/Friends-lab-2.webp' alt='' />
+        <h2 class='lab-method-title'>How does a lab work?</h2>
+        <ol class='lab-method'>
+          <li><span class='lab-method-num'>1</span><strong>Predict</strong><span>Read the question and make a hypothesis.</span></li>
+          <li><span class='lab-method-num'>2</span><strong>Experiment</strong><span>Do the experiment, note what you observe.</span></li>
+          <li><span class='lab-method-num'>3</span><strong>Conclude</strong><span>Use your results to answer the question.</span></li>
+          <li><span class='lab-method-num'>4</span><strong>Check</strong><span>See the correction, print your report.</span></li>
+        </ol>
+      </aside>
+      <section class='lab-slots' aria-label='Investigations'>
 {{LAB_CONTENT}}
-    </section>
-
-    <section class='lab-method-box'>
-      <h2 class='lab-method-title'>How does a lab work?</h2>
-      <ol class='lab-method'>
-        <li><span class='lab-method-num'>1</span><strong>Predict</strong><span>Read the question and make a hypothesis: what do you think the answer is?</span></li>
-        <li><span class='lab-method-num'>2</span><strong>Experiment</strong><span>Carry out the experiment and write down what you observe.</span></li>
-        <li><span class='lab-method-num'>3</span><strong>Conclude</strong><span>Use your results to answer the question.</span></li>
-        <li><span class='lab-method-num'>4</span><strong>Check</strong><span>See the correction and print your lab report.</span></li>
-      </ol>
-    </section>
-
-    <section class='note-box'>
-      <h3>How does this page work?</h3>
-      <p><strong>In short:</strong> a real lab, on screen. Each lab starts with a question. Make a hypothesis, then
-        do the experiment yourself and watch carefully what happens. Write your observations in your notebook — the
-        lab does not do it for you. At the end, use your results to answer the question. Underlined words can be
-        translated into French.</p>
-      <p class="note-box-tip"><strong>Teacher's tip:</strong> a scientist trusts results, not first impressions. If
-        your results do not match your hypothesis, that is not a mistake. A wrong hypothesis teaches you something
-        too.</p>
-    </section>
-
-    <section style="margin-top: 38px">
-      <nav class="chapter-nav" id="chapter-nav" aria-label="Chapter navigation"></nav>
+      </section>
     </section>
   </main>
 
+  <div class='modal-overlay' id='help-modal'>
+    <div class='modal-card help-modal-card' data-page-zoom role='dialog' aria-modal='true' aria-labelledby='help-modal-title'>
+      <button type='button' class='modal-close' data-help-close aria-label='Close'>×</button>
+      <section class='note-box'>
+        <h3 id='help-modal-title'>How does this page work?</h3>
+        <p><strong>In short:</strong> a real lab, on screen, in four steps.</p>
+        <ul class='help-list'>
+          <li><strong>Predict:</strong> read the question and make a hypothesis.</li>
+          <li><strong>Experiment:</strong> do the experiment yourself and watch carefully. Write your observations in your notebook — the lab does not do it for you.</li>
+          <li><strong>Conclude:</strong> use your results to answer the question.</li>
+          <li><strong>Check:</strong> read your corrected lab report and find your mistakes.</li>
+          <li><strong>Squares:</strong> they show how far you have got; tap a coloured square to go back to that step. Each lab changes a little every time, so you can do it again.</li>
+          <li><strong>Underlined words:</strong> they can be translated into French.</li>
+        </ul>
+        <p class="note-box-tip"><strong>Teacher's tip:</strong> a scientist trusts results, not first impressions. If
+          your results do not match your hypothesis, that is not a mistake. A wrong hypothesis teaches you something
+          too.</p>
+      </section>
+    </div>
+  </div>
+
   <script src='../../../js/rich-text.js'></script>{{LAB_SCRIPTS}}
   <script src='../../../js/chapter-nav.js'></script>
+  <script src='../../../js/lab-page.js'></script>
 </body>
 
 </html>
