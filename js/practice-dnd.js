@@ -312,11 +312,28 @@
       }
     }
 
+    /* Place du jeu sur le Chromebook en plein écran (en-tête déduit) : la
+       colonne des étiquettes y est dessinée à 260 px. Avec plus de place,
+       elle grandit dans la même proportion que l'image (--dnd-scale : zoom de
+       la colonne, texte des étiquettes posées), au lieu de rester petite à
+       côté d'une image énorme. */
+    const DND_BASE_W = 1250;
+    const DND_BASE_H = 560;
+    const DND_SCALE_MAX = 1.6;
+
     function dndSyncBoardMetrics() {
       const bgImg = document.getElementById('dnd-bg-image');
       const board = document.getElementById('dnd-board');
       const container = document.querySelector('.dnd-board-container');
+      const layout = document.querySelector('.dnd-layout');
       if (!bgImg || !board) return;
+      if (layout) {
+        // Colonne de l'image remise à toute la place restante pour la mesure.
+        layout.style.removeProperty('--dnd-board-col');
+        const ratio = Math.min(layout.clientWidth / DND_BASE_W, layout.clientHeight / DND_BASE_H);
+        const scale = Math.max(1, Math.min(DND_SCALE_MAX, ratio || 1));
+        layout.style.setProperty('--dnd-scale', scale.toFixed(3));
+      }
       dndFitReservoir();
 
       /* Le plateau était dimensionné par des maximums (max-width, max-height),
@@ -342,9 +359,14 @@
           bgImg.style.height = Math.round(nh * scale) + 'px';
         }
       }
-      // Lu après le calage en taille : la largeur en dépend.
-      const width = bgImg.getBoundingClientRect().width;
+      // Lu après le calage en taille : la largeur en dépend. En pixels CSS
+      // (offsetWidth), pas à l'écran : la fenêtre peut être réduite d'un
+      // zoom hors plein écran (fitModalWindows, moteur).
+      const width = bgImg.offsetWidth;
       if (width > 0) board.style.setProperty('--dnd-board-w', width + 'px');
+      // La colonne de l'image épouse l'image : l'image et les étiquettes
+      // forment un bloc centré, sans vide entre les deux.
+      if (layout && width > 0) layout.style.setProperty('--dnd-board-col', width + 'px');
     }
 
     // Étiquette actuellement « portée » par l'élève en mode toucher-toucher.

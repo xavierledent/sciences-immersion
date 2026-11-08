@@ -242,7 +242,7 @@ body.high-contrast .dnd-zone.correct .dnd-zone-text {
   font-weight: 700;
   color: var(--color-emerald);
   /* Suit la zone, sinon un texte figé déborderait d'une zone rétrécie. */
-  font-size: clamp(0.62rem, calc(var(--dnd-board-w, 900px) * 0.017), 0.95rem);
+  font-size: clamp(0.62rem, calc(var(--dnd-board-w, 900px) * 0.017), calc(0.95rem * var(--dnd-scale, 1)));
   line-height: 1.15;
   padding: 0 !important;
   margin: 0 !important;
@@ -412,9 +412,12 @@ html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
    Ouverte d'office en plein écran (requestModalFullscreen, moteur) ; hors
    plein écran, toute la fenêtre moins une petite marge. En-tête compact
    (« Drag and drop » en petit, titre du jeu, onglets Game 1… 5), puis l'image
-   à gauche, aussi grande que la place le permet (dndSyncBoardMetrics), et à
-   droite une colonne fixe : consigne, chronomètre et erreurs, étiquettes
-   (une colonne, deux s'il le faut : dndFitReservoir).
+   à gauche, aussi grande que la place le permet (dndSyncBoardMetrics), et
+   juste à droite une colonne de 260 px : consigne, chronomètre et erreurs,
+   étiquettes (une colonne, deux s'il le faut : dndFitReservoir). Les deux
+   forment un bloc centré ; sur un écran plus grand que le Chromebook, la
+   colonne et le texte des étiquettes grandissent avec l'image
+   (--dnd-scale).
    Placé en fin de fichier : ces règles passent devant les précédentes. */
 .dnd-large-modal-overlay {
   padding: 0;
@@ -469,9 +472,10 @@ html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
+  grid-template-columns: var(--dnd-board-col, minmax(0, 1fr)) calc(260px * var(--dnd-scale, 1));
   grid-template-rows: minmax(0, 1fr);
-  gap: 24px;
+  justify-content: center;
+  gap: calc(32px * var(--dnd-scale, 1));
 }
 
 .dnd-board-container {
@@ -480,7 +484,9 @@ html[data-pointer='fine'] .dnd-pagination .exercise-step:hover {
 }
 
 /* ----- Colonne de droite ----- */
+/* Zoom : la colonne garde sa disposition de 260 px, agrandie d'un bloc. */
 .dnd-side {
+  zoom: var(--dnd-scale, 1);
   min-width: 0;
   min-height: 0;
   display: flex;

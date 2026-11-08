@@ -188,7 +188,11 @@ scripts chargés.
   écran, `fitWidePage` ([rich-text.js](js/rich-text.js)) les agrandit d'un
   même facteur (zoom CSS, jamais de réduction), avec les petites fenêtres
   marquées `data-page-zoom` (pas les fenêtres d'exercice ou de jeu, déjà
-  plein écran). Pas de marge haute sur `main` (elle traverse `body` et fait
+  plein écran ; hors plein écran, `fitModalWindows`
+  ([practice-engine.js](js/practice-engine.js)) les réduit pour retrouver
+  l'image du plein écran du Chromebook ; leurs mesures en JS ne mélangent
+  donc pas `getBoundingClientRect`, à l'échelle de l'écran, et les tailles
+  CSS `offsetWidth` / `clientHeight`). Pas de marge haute sur `main` (elle traverse `body` et fait
   défiler) : du padding. `page-fit` : hauteur exacte de l'écran (les
   colonnes s'y ajustent au lieu d'allonger la page). Mascottes (images
   Friends) : jamais en icône, une centaine de pixels de haut au moins sur

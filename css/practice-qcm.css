@@ -239,12 +239,11 @@
        plein écran, elle occupe toute la fenêtre moins une petite marge.
        En-tête compact (plein écran à gauche, titre du quiz centré, fermer à
        droite, puis les onglets Quiz 1, 2, 3…), la progression, puis deux
-       colonnes, les mêmes pour toutes les questions (renderQCM) :
-       - .qcm-has-image : l'image (de la question, sinon du quiz) à gauche ;
-       - .qcm-text : pas d'image : la question en grand à gauche, en face de
-         la première option, la mascotte du quiz au-dessus (syncQcmLayout) ;
-       à droite, la question (invisible sans image : elle garde sa place), les
-       options, l'explication et le bouton. */
+       colonnes, les mêmes pour toutes les questions (renderQCM) : on lit à
+       gauche (la question en grand, puis l'image de la question ou du quiz,
+       sinon la mascotte du quiz), on répond à droite (options, bouton, puis
+       l'explication). Contenu au tiers de la place libre (--qcm-top, posé
+       par syncQcmLayout). */
     .qcm-large-modal-overlay {
       position: fixed;
       inset: 0;
@@ -359,61 +358,48 @@
       gap: 28px;
     }
 
-    /* ----- Colonne de gauche : l'image, ou la question en grand ----- */
+    /* ----- Colonne de gauche : la question, puis l'image ou la mascotte ----- */
     .qcm-side {
       min-width: 0;
       min-height: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      gap: 16px;
+      padding-top: var(--qcm-top, 0px);
     }
 
-    /* Toucher l'image l'ouvre en grand (visionneuse, voir renderQCM). */
-    .qcm-side .qcm-question-image {
+    /* Hauteur maximale posée en JS : la place qui reste sous la question.
+       Toucher l'image l'ouvre en grand (visionneuse, voir renderQCM). */
+    .qcm-side .qcm-question-image,
+    .qcm-side .qcm-mascot {
+      flex: none;
       display: block;
       margin: 0;
+      width: auto;
+      height: auto;
       max-width: 100%;
-      max-height: 100%;
       object-fit: contain;
+    }
+
+    .qcm-side .qcm-question-image {
       border-radius: 18px;
       box-shadow: 0 10px 26px rgba(17, 36, 72, 0.12);
       cursor: zoom-in;
     }
 
-    .qcm-textside {
-      align-self: stretch;
-      flex: 1;
-      min-width: 0;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      /* Au-delà de 260 px de mascotte, le reste en marge au-dessus. */
-      padding-top: max(0px, calc(var(--qcm-q-top, 0px) - 276px));
-    }
-
-    /* La mascotte posée sur la question : la hauteur qui reste au-dessus de
-       la première option (--qcm-q-top, mesuré en JS). */
-    .qcm-mascot {
-      flex: none;
-      width: 100%;
-      height: min(260px, calc(var(--qcm-q-top, 256px) - 16px));
-      object-fit: contain;
-      object-position: center bottom;
+    .qcm-side .qcm-mascot {
       mix-blend-mode: multiply;
     }
 
-    /* Pas assez de place pour la mascotte : la question descend seule. */
-    .qcm-no-mascot .qcm-textside {
-      padding-top: var(--qcm-q-top, 0px);
-    }
-
-    .qcm-no-mascot .qcm-mascot {
+    /* Pas assez de place pour la mascotte : la question seule. */
+    .qcm-side.qcm-no-picture .qcm-mascot {
       display: none;
     }
 
     .qcm-textside-question {
       flex: none;
+      align-self: stretch;
       padding: 18px 22px;
       border-radius: 22px;
       background: rgba(var(--color-current-rgb), 0.05);
@@ -425,35 +411,26 @@
       color: var(--color-text);
     }
 
-    /* ----- Colonne de droite : la question, les options, le bouton ----- */
+    /* ----- Colonne de droite : les options, le bouton, l'explication ----- */
     .qcm-main {
       min-width: 0;
       min-height: 0;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       gap: 12px;
+      padding-top: var(--qcm-top, 0px);
+      /* Défilement en dernier recours (petite fenêtre hors plein écran,
+         même resserré) : jamais un bouton coupé. */
       overflow-y: auto;
     }
 
-    /* Après « Check Answer » : le haut noté avant est gardé (padding posé en
-       JS), l'explication s'ajoute en dessous. */
-    .qcm-main.is-pinned {
-      justify-content: flex-start;
+    /* Pendant la mesure (syncQcmLayout) : tailles finales d'emblée. */
+    .qcm-layout.qcm-measuring * {
+      transition: none !important;
     }
 
     .qcm-main > * {
       flex-shrink: 0;
-    }
-
-    .qcm-main .qcm-question {
-      margin: 0;
-      font-size: 1.3rem;
-      line-height: 1.4;
-    }
-
-    .qcm-modal-card.qcm-text .qcm-main .qcm-question {
-      visibility: hidden;
     }
 
     .qcm-main .qcm-options {
@@ -471,6 +448,11 @@
     .qcm-main .qcm-explanation,
     .qcm-main .qcm-gentle-feedback {
       margin: 0;
+    }
+
+    /* La place de l'explication avant « Check Answer » (voir renderQCM). */
+    .qcm-main .qcm-feedback-ghost {
+      visibility: hidden;
     }
 
     /* Après « Check Answer », s'il manque encore de la place (cinq options et
@@ -529,15 +511,7 @@
         max-height: 260px;
       }
 
-      .qcm-mascot {
-        display: none;
-      }
-
-      .qcm-textside {
-        padding-top: 0;
-      }
-
-      .qcm-modal-card.qcm-text .qcm-main .qcm-question {
+      .qcm-side .qcm-mascot {
         display: none;
       }
 

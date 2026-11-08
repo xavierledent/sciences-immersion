@@ -555,6 +555,40 @@
        direct), le navigateur refuse : le premier toucher dans la fenêtre le
        redemande. La sortie, elle, se fait à la fermeture (voir
        updateBodyScrollLock). */
+    /* Fenêtres d'exercice et de jeu hors plein écran (l'élève en est sorti,
+       ou le navigateur l'a refusé) : la fenêtre du Chromebook perd environ
+       120 px de haut (onglets, barre d'adresse). Tout est calé pour le plein
+       écran du Chromebook (768 px de haut) : la carte est réduite d'un même
+       facteur (zoom CSS) pour retrouver exactement cette image, en plus
+       petit, au lieu de défiler. Jamais d'agrandissement (en plein écran,
+       chaque fenêtre utilise déjà toute la place) ; plancher à 0,7. Le zoom
+       passe avant les mesures des jeux : cet écouteur est posé avant les
+       leurs (initPractice, practice-<jeu>.js). */
+    const MODAL_BASE_H = 768;
+    const MODAL_ZOOM_MIN = 0.7;
+    const ZOOMED_MODAL_CARDS = ['exercise-modal', 'qcm-modal', 'fitb-modal', 'dnd-modal', 'memory-modal', 'sorting-modal']
+      .map(id => '#' + id + ' > .modal-card').join(', ');
+
+    function fitModalWindows() {
+      const w = window.innerWidth - 32;
+      const h = window.innerHeight - 32;
+      const zoom = Math.max(MODAL_ZOOM_MIN, Math.min(1, h / MODAL_BASE_H));
+      document.querySelectorAll(ZOOMED_MODAL_CARDS).forEach(card => {
+        const on = zoom < 0.99 && document.fullscreenElement !== card;
+        card.style.zoom = on ? zoom.toFixed(3) : '';
+        card.style.width = on ? (w / zoom).toFixed(1) + 'px' : '';
+        card.style.height = on ? (h / zoom).toFixed(1) + 'px' : '';
+        // Les plafonds en vh des feuilles de style seraient réduits deux fois.
+        card.style.maxWidth = on ? 'none' : '';
+        card.style.maxHeight = on ? 'none' : '';
+      });
+    }
+
+    window.addEventListener('resize', fitModalWindows);
+    document.addEventListener('fullscreenchange', fitModalWindows);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fitModalWindows);
+    else fitModalWindows();
+
     function requestModalFullscreen(overlay) {
       const card = overlay && overlay.querySelector('.modal-card');
       if (!card || document.fullscreenElement || !card.requestFullscreen) return;
@@ -1849,6 +1883,7 @@
          disponible : elle change avec la fenêtre et au passage en plein écran. */
       window.addEventListener('resize', fitbFitText);
       document.addEventListener('fullscreenchange', fitbFitText);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitbFitText);
       /* La zone de réponse grandit avec le texte saisi jusqu'à un plafond, et sa
          hauteur est posée en pixels : le changement de taille de police en plein
          écran la rend caduque. */

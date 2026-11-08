@@ -173,7 +173,9 @@
 
       let widest = 0;
       selects.forEach(select => {
-        widest = Math.max(widest, select.getBoundingClientRect().width);
+        // offsetWidth : pixels CSS, comme la taille du texte, même quand la
+        // fenêtre est réduite d'un zoom (fitModalWindows, moteur).
+        widest = Math.max(widest, select.offsetWidth);
       });
       const fontSize = parseFloat(getComputedStyle(selects[0]).fontSize);
       if (widest <= 0 || !fontSize) return;
@@ -192,6 +194,9 @@
        1,6rem celle qu'avait le plein écran sur grand écran. */
     const FITB_FONT_MAX = 1.6;
     const FITB_FONT_MIN = 1.15;
+    // Dernier recours, en pleine largeur seulement : un texte très long
+    // (Bio 1, texte 6, plein écran du Chromebook) plutôt qu'un défilement.
+    const FITB_FONT_FLOOR = 1;
 
     /* Mesuré au chargement d'un texte, au redimensionnement et au passage en
        plein écran ; jamais au « Check » : rien ne bouge pendant le jeu. Si
@@ -201,16 +206,70 @@
       const content = document.getElementById('fitb-content');
       const main = content && content.querySelector('.fitb-main');
       if (!main || main.clientHeight === 0) return;
-      const fits = () => main.scrollHeight <= main.clientHeight + 1;
+      /* Tient avec une marge : calé au pixel près, le texte défilait sur le
+         Chromebook (polices, listes déroulantes un peu plus hautes que
+         mesuré, passage de la fenêtre au plein écran). Hauteur du contenu en
+         pixels CSS (offsetTop), la fenêtre pouvant être réduite d'un zoom. */
+      const FIT_MARGIN = 12;
+      const fits = () => {
+        const first = main.firstElementChild;
+        const last = main.lastElementChild;
+        if (!first) return true;
+        const contentH = last.offsetTop + last.offsetHeight - first.offsetTop;
+        return contentH <= main.clientHeight - FIT_MARGIN && main.scrollHeight <= main.clientHeight + 1;
+      };
       content.classList.remove('is-wide');
       fitbSyncSelectWidths();
-      for (let size = FITB_FONT_MAX; size >= FITB_FONT_MIN - 0.001; size -= 0.05) {
-        content.style.setProperty('--fitb-font', size.toFixed(2) + 'rem');
-        if (fits()) break;
+      // La colonne de lecture (46em) d'abord, de la plus grande taille à
+      // 1,15rem ; puis toute la largeur, en descendant jusqu'à 1rem.
+      const tryFrom = (start, floor) => {
+        for (let size = start; size >= floor - 0.001; size -= 0.05) {
+          content.style.setProperty('--fitb-font', size.toFixed(2) + 'rem');
+          if (fits()) return true;
+        }
+        return false;
+      };
+      if (!tryFrom(FITB_FONT_MAX, FITB_FONT_MIN)) {
+        content.classList.add('is-wide');
+        tryFrom(FITB_FONT_MIN, FITB_FONT_FLOOR);
       }
-      if (!fits()) content.classList.add('is-wide');
       // Mesure exacte à la taille retenue (le calcul en em est approché).
       fitbSyncSelectWidths();
+      fitbWatchText(content.querySelector('.fitb-text'));
+    }
+
+    /* Remesuré dès que la mesure ne vaut plus, quel que soit l'événement
+       (sur le Chromebook, ni resize ni fullscreenchange n'arrivent au bon
+       moment : le passage en plein écran est animé, la fenêtre grandit par
+       étapes, et le texte défilait une fois l'écran rempli) :
+       - la place du texte a changé (#fitb-content) : nouvelle mesure ;
+       - le texte lui-même a changé de taille sans que la place change
+         (polices, listes déroulantes dessinées après coup) et il dépasse :
+         nouvelle mesure. Une mesure qui retombe sur le même résultat ne
+         change plus aucune taille : pas de boucle. */
+    let fitbWatchText = () => {};
+    if (window.ResizeObserver) {
+      const fitbArea = document.getElementById('fitb-content');
+      let fitbAreaSize = '';
+      let fitbWatched = null;
+      const observer = new ResizeObserver(() => {
+        if (!fitbArea) return;
+        const size = fitbArea.clientWidth + 'x' + fitbArea.clientHeight;
+        if (size !== fitbAreaSize) {
+          fitbAreaSize = size;
+          fitbFitText();
+          return;
+        }
+        const main = fitbArea.querySelector('.fitb-main');
+        if (main && main.clientHeight > 0 && main.scrollHeight > main.clientHeight + 1) fitbFitText();
+      });
+      if (fitbArea) observer.observe(fitbArea);
+      fitbWatchText = text => {
+        if (text === fitbWatched) return;
+        if (fitbWatched) observer.unobserve(fitbWatched);
+        fitbWatched = text;
+        if (text) observer.observe(text);
+      };
     }
 
     function renderFillInTheBlanks(exerciseData) {
