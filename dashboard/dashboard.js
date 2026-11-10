@@ -41,7 +41,7 @@ const state = {
   student: null,   // fiche élève ouverte (adresse), dans l'onglet Suivi
   studentFrom: null, // 'journal' : fiche ouverte depuis le Journal, qui y ramène
   order: [],       // adresses dans l'ordre du tableau (Précédent / Suivant)
-  work: null,      // travail des élèves (loadWork), chargé au premier affichage du suivi
+  work: null,      // travail des élèves (loadWork), chargé dès l'ouverture
   loadedAt: null
 };
 
@@ -141,6 +141,9 @@ async function start() {
   initTooltip();
   setStatus('');
   showView(viewFromHash() || state.view);
+  // « Actifs ces 7 derniers jours » (bandeau) demande le travail des élèves,
+  // que le Journal, ouvert par défaut, ne lit pas : chargé tout de suite.
+  if (!state.work) reloadWork().catch(e => console.error(e));
 }
 
 /* Onglet affiché, noté dans l'adresse (dashboard.html#devoirs) : un
@@ -334,10 +337,19 @@ async function renderStudent() {
 
 /* ===== Onglet « Suivi de la classe » ===== */
 
-async function reloadWork() {
-  state.work = await loadWork();
-  state.loadedAt = new Date();
-  renderHero();
+/* Une seule lecture à la fois : celle lancée à l'ouverture (pour le chiffre
+   du bandeau) et celle d'un onglet qui en a besoin se partagent la même. */
+let workLoading = null;
+
+function reloadWork() {
+  if (!workLoading) {
+    workLoading = loadWork().then(work => {
+      state.work = work;
+      state.loadedAt = new Date();
+      renderHero();
+    }).finally(() => { workLoading = null; });
+  }
+  return workLoading;
 }
 
 /* Bandeau : salutation, date, trois chiffres (classes, élèves, actifs ces 7
