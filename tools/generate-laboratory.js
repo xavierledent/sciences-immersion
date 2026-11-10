@@ -31,7 +31,7 @@ const LABELS = {
     progress: 'Your progress',
     steps: ['Predict', 'Experiment', 'Conclude', 'Check'],
     soonTitle: 'Lab is still in development.',
-    soonText: 'Come back soon: a new virtual lab is on its way.'
+    soonText: 'A new virtual lab will appear here later.'
   },
   nl: {
     enter: 'Naar het labo',
@@ -39,7 +39,7 @@ const LABELS = {
     progress: 'Jouw voortgang',
     steps: ['Voorspellen', 'Experimenteren', 'Besluiten', 'Controleren'],
     soonTitle: 'Labo is nog in ontwikkeling.',
-    soonText: 'Kom snel terug: er is een nieuw virtueel labo onderweg.'
+    soonText: 'Hier komt later een nieuw virtueel labo.'
   }
 };
 

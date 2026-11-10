@@ -976,11 +976,14 @@
       flex-shrink: 0;
     }
 
+    /* Pas de sélection de texte au double clic, même sur une flèche grisée
+       (premier ou dernier exercice) ; ailleurs, rich-text.js s'en charge. */
     .exercise-pager {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 10px;
+      user-select: none;
     }
 
     .exercise-pager-numbers {
@@ -2272,11 +2275,21 @@ html[data-pointer='fine'] .timer-toggle-btn:hover {
 }
 
 /* Même largeur de colonnes pour tous les exercices (55 % à gauche, l'image
-   centrée dedans) : rien ne saute d'un exercice au suivant. La colonne de
+   centrée dedans), sauf image plus étroite (exo-snug, plus bas : la colonne
+   de travail se déplace alors un peu, accepté par l'enseignant). La colonne de
    gauche ne cède de la place que si une longue correction ne tient pas. */
 #exercise-modal.exo-side .exercise-layout {
   grid-template-columns: var(--exo-side-w, 55%) minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
+}
+
+/* Image plus étroite que sa colonne : la colonne épouse l'image et le bloc
+   se centre (largeurs posées par syncExerciseImageHeight). L'écart est
+   pris sur le vide que laissait l'image : rien ne déborde. */
+#exercise-modal.exo-side.exo-snug .exercise-layout {
+  grid-template-columns: var(--exo-side-w) minmax(0, var(--exo-main-w));
+  justify-content: center;
+  column-gap: 48px;
 }
 
 /* ----- Colonne de gauche : l'image, ou l'énoncé en grand ----- */

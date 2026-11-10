@@ -321,6 +321,23 @@
   window.addEventListener('offline', updateOfflineBanner);
   document.addEventListener('DOMContentLoaded', updateOfflineBanner);
 
+  /* ===== Clics rapides sans sélection =====
+     Deux ou trois clics rapides sur un bouton, une carte de memory, une
+     flèche : le navigateur les prend pour un double ou triple clic et
+     sélectionne le texte et les images autour (voile bleu). Bloqué sur tout
+     ce qui se touche ; le clic passe toujours. Le double clic sur un mot d'un
+     texte reste possible (sélectionner pour copier ou traduire), de même
+     que dans les champs de saisie et sur un objet à glisser (glisser-déposer
+     des jeux, qui démarre au mousedown). */
+  const RAPID_CLICK_TARGETS =
+    'button, a[href], label, summary, [role="button"], [tabindex]:not([tabindex="-1"]), .memory-card, .sorting-card, .sorting-bin-item';
+  document.addEventListener('mousedown', event => {
+    if (event.detail < 2 || !(event.target instanceof Element)) return;
+    const target = event.target;
+    if (target.closest('input, textarea, select, [contenteditable], [draggable="true"]')) return;
+    if (target.closest(RAPID_CLICK_TARGETS)) event.preventDefault();
+  }, true);
+
   /* ===== Mention de copyright =====
      Pas une obligation légale — la protection existe dès la création de
      l'œuvre, sans dépôt ni mention — mais LICENSE, à la racine du dépôt,

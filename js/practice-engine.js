@@ -414,7 +414,7 @@
     function setExerciseMode(mode) {
       modalOverlay.classList.add('exo-side');
       modalOverlay.classList.toggle('exo-mascot', mode === 'mascot');
-      modalOverlay.classList.remove('exo-mascot-gone');
+      modalOverlay.classList.remove('exo-mascot-gone', 'exo-snug');
     }
 
     function exerciseImageRatio() {
@@ -470,7 +470,19 @@
           apply();
         }
       } else if (modalOverlay.classList.contains('exo-side')) {
+        modalOverlay.classList.remove('exo-snug');
         shrink('--exo-side-w', usable * 0.55, usable * 0.25);
+        // Image plus étroite que sa colonne (limitée par la hauteur) : la
+        // colonne se ramène à l'image et le bloc image + travail se centre,
+        // au lieu d'un grand vide entre les deux. La colonne de travail garde
+        // sa largeur : seule sa position change d'un exercice à l'autre.
+        const sideW = parseFloat(exerciseLayout.style.getPropertyValue('--exo-side-w')) || 0;
+        const imgW = exerciseImage.complete ? exerciseImage.offsetWidth : 0;
+        if (imgW > 0 && imgW < sideW - 24) {
+          exerciseLayout.style.setProperty('--exo-main-w', Math.round(usable - sideW) + 'px');
+          exerciseLayout.style.setProperty('--exo-side-w', imgW + 'px');
+          modalOverlay.classList.add('exo-snug');
+        }
       }
       /* Correction encore trop haute, la colonne de gauche ayant cédé toute
          sa largeur : la question d'un bloc (sans ses retours à la ligne),
