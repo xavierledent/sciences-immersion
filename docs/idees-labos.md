@@ -123,3 +123,57 @@ du labo de séparation.
 
 Mission 1 : air et oxygène pur (pourcentage d'O₂, durée de combustion d'une
 bougie). Attendu mineur (proportions, S-F 22), manipulation pauvre.
+
+## phys2 — Energy, expansion and changes of state
+
+Labos réels du chapitre : la fonte de la glace (Mission 8) et la glace de
+mer ou sur terre (Mission 13, démonstration de l'enseignant). Trois labos
+retenus le 2026-11-05 ; les attendus sf1, sf4, sf5 et c1 renvoient au
+premier, sf2, sf6, sf8 et c1 au deuxième (champ `labs` d'autoeval.json).
+
+### 1. Palier et masse (Mission 8) — construit (2026-11-10) : « Watch it change »
+
+Le changement d'état est tiré au sort (idée de l'enseignant) : glace qui
+fond, eau qui gèle, eau qui bout, acide stéarique qui fond ou se solidifie ;
+l'eau sort plus souvent. Predict : esquisser l'allure de la courbe, parier
+sur la masse. L'élève choisit de fermer ou non le récipient (film étirable,
+ballon sur le flacon) : décisif pour l'ébullition. Thermomètre numérique,
+relevé chaque minute, graphique tracé à partir du tableau. La manipulation
+se recommence une fois. Pas de condensation ni de sublimation : palier non
+mesurable.
+
+### 2. « Ostend 2100 » (Mission 13, élargie) — construit (2026-11-10)
+
+Grande question en deux temps : pourquoi la mer monte, et ce que cela
+change à Ostende d'ici 2100. Trois postes : les deux verres (glace
+flottante, glace sur grille) ; l'eau de mer tiédie dans un flacon à tube
+fin, pesé avant et après (dilatation, masse conservée) ; un modèle de la
+côte (digue, ville, polders) avec un scénario mondial et la protection
+suffisante tirés (d'où la hauteur du tronçon de digue) : forte tempête
+aujourd'hui (l'eau reste sous le sommet), passage en 2100 (hausse lue sur
+la mire du port, colonnes « d'où vient la hausse » : glace de mer 0, glace
+terrestre, eau plus chaude), tempête en 2100 (la ville est inondée), puis
+protections à essayer (sable, mur). Predict : placer quatre niveaux (dont
+la tempête de 2100). Pourquoi la glace flotte (sf7) : expliqué à la
+correction. Poste 3 simplifié le 2026-11-10 à la demande de l'enseignant
+(trop chargé pour des 12-13 ans ; pari en cm jugé sans base) : plus de
+frise de 25 ans en 25 ans, de graphique FO5c, de mire de la digue ni de
+pari ; le scénario n'est dit qu'au Check.
+Chiffres : médianes du GIEC arrondies (40 à 70 cm entre 2025 et 2100),
+marée haute et tempête de 1953 d'après les relevés d'Ostende ; la part de
+la glace terrestre et celle de la dilatation, la hauteur des vagues, le
+gain du sable et du mur sont des valeurs du modèle, à revoir si une source
+précise est retrouvée.
+
+### 3. « The great melting race » — à construire
+
+Chaleur et température par le modèle moléculaire : tasse brûlante ou seau
+tiède, qui fait fondre le plus de glace ? Le gagnant dépend du tirage. Pari
+à Predict sur les volumes et les températures ; blocs de glace,
+thermomètres, eau fondue pesée ; loupe à particules (outil voisin du
+microscope imaginaire de « Zoom in », voulu ainsi : les mêmes outils
+servent d'un domaine à l'autre). Attendus s4 à s8, sf4, c1, s14.
+
+Autres idées du même jour, au second plan : joint de dilatation d'un pont,
+mélange d'eau chaude et d'eau froide, évaporation (test équitable),
+ébullition en altitude (recoupe EXPLO 4), substances mystère par leur palier.

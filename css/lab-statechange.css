@@ -1,0 +1,1313 @@
+/* ===== Labo virtuel « Watch it change » (phys2) =====
+   Ce qui est propre à ce labo : esquisse de la courbe, paillasse (balance,
+   dispositif, récipient, thermomètre), carnet, graphique, conclusion,
+   correction. Le cadre commun (modale, étapes, boutons, verrous, panneau,
+   rapport) est dans lab-engine.css. Classes préfixées sc- (state change).
+   Dessiné pour le corps du labo sur Chromebook à 100 % (1204 × 594), sans
+   défilement ; le moteur agrandit le tout sur un plus grand écran. */
+
+/* ===== Commun aux étapes ===== */
+.sc-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+}
+
+.sc-big-q {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.sc-questions {
+  margin: 6px 0 0;
+  padding-left: 1.5em;
+  list-style: lower-alpha;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.sc-questions li::marker {
+  color: var(--color-current-darker);
+  font-weight: 700;
+}
+
+.sc-reminder {
+  margin: 0;
+  padding: 5px 12px;
+  border-left: 3px solid var(--color-current);
+  border-radius: 0 10px 10px 0;
+  background: rgba(var(--color-current-rgb), 0.08);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.sc-reminder-box {
+  margin-top: auto;
+  padding: 8px 12px;
+}
+
+.sc-reminder-box .sc-big-q {
+  font-size: 0.88rem;
+}
+
+.sc-reminder-box .sc-questions {
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+
+.sc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.sc-chip {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 0.84rem;
+}
+
+.sc-ok { color: var(--color-emerald); font-weight: 600; }
+.sc-ko { color: var(--color-rose); font-weight: 600; }
+.sc-muted { color: var(--color-muted); }
+
+/* Liste dans une phrase ou dans le tableau : en attente (pointillé), puis
+   remplie. Sa largeur : celle de son choix le plus long (moteur). */
+.sc-select {
+  height: 30px;
+  max-width: 100%;
+  margin: 2px;
+  vertical-align: middle;
+  border-style: dashed;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.sc-select.is-filled {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+  color: var(--color-current-darkest);
+}
+
+.sc-select.lab-is-missing {
+  border-color: #d64545;
+}
+
+/* Esquisse de la courbe (hypothèse, conclusion, correction, rapport) */
+.sc-sketch-svg {
+  display: block;
+  font-family: var(--font-family);
+}
+
+.sc-sketch-axis {
+  font-size: 12px;
+  font-weight: 600;
+  fill: #6f7b74;
+}
+
+/* ===== Étape 1 : hypothèse ===== */
+.sc-predict {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 430px minmax(0, 1fr);
+  align-content: center;
+  gap: 14px;
+}
+
+.sc-predict-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sc-question-card,
+.sc-sit-card,
+.sc-hyp-card {
+  padding: 14px 18px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.3);
+  background: #ffffff;
+}
+
+.sc-question-card {
+  background: rgba(var(--color-current-rgb), 0.08);
+  border-color: transparent;
+}
+
+.sc-sit-card {
+  flex: 1;
+}
+
+.sc-sit {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.sc-sit-art {
+  padding: 6px 8px 0;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f3ea 100%);
+}
+
+.sc-art-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.sc-sit-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.sc-hyp-list {
+  margin: 0;
+  padding-left: 1.4em;
+  list-style: lower-alpha;
+  display: grid;
+  gap: 8px;
+}
+
+.sc-hyp-list > li::marker {
+  color: var(--color-current-darker);
+  font-weight: 700;
+}
+
+.sc-hyp-part {
+  padding: 8px 12px 10px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+}
+
+.sc-hyp-q {
+  margin: 0 0 6px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.sc-sketch,
+.sc-zones {
+  width: 420px;
+  margin: 0 auto;
+}
+
+.sc-sketch .sc-sketch-svg {
+  width: 420px;
+  height: 170px;
+}
+
+/* Sous le cadre de l'esquisse : mêmes marges que son axe (40 px à gauche,
+   12 px à droite), une colonne par tronçon. */
+.sc-zones {
+  box-sizing: border-box;
+  padding: 0 12px 0 40px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+}
+
+.sc-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 2px;
+}
+
+.sc-zone-name {
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+.sc-slopes {
+  display: flex;
+  gap: 4px;
+}
+
+.sc-slope {
+  width: 36px;
+  height: 34px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.sc-slope-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.sc-because {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+
+.sc-because span {
+  flex: 0 0 auto;
+}
+
+.sc-because .lab-input {
+  flex: 1;
+  width: auto;
+  height: 38px;
+}
+
+/* ===== Étape 2 : paillasse, carnet, graphique ===== */
+.sc-run {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 400px 318px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.sc-run.is-busy {
+  pointer-events: none;
+}
+
+.sc-bench {
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+/* Les trois phases : peser, mesurer, repeser (la phase en cours en couleur) */
+.sc-phases {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sc-phases li {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 28px;
+  border-radius: 14px;
+  background: rgba(17, 36, 72, 0.05);
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.sc-phase-n {
+  display: inline-grid;
+  place-items: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: #ffffff;
+  font-size: 0.7rem;
+}
+
+.sc-phases li.is-now {
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.sc-phases li.is-now .sc-phase-n {
+  color: var(--color-current-darkest);
+}
+
+.sc-phases li.is-done {
+  background: rgba(var(--color-current-rgb), 0.12);
+  color: var(--color-current-darkest);
+}
+
+/* Chronomètre et bouton « 1 minute » (avant : « Start measuring ») */
+.sc-timer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 4px 4px 8px;
+  border-radius: 16px;
+  background: rgba(var(--color-current-rgb), 0.07);
+}
+
+.sc-clock,
+.sc-lcd-box {
+  border-radius: 7px;
+  background: #1d2a23;
+  color: #a6f5b8;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.sc-clock {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  font-size: 1.25rem;
+}
+
+.sc-timer-info {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.sc-tick {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 176px;
+  height: 46px;
+  padding: 0 14px 0 12px;
+  border-radius: 14px;
+  border: 2px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  color: var(--color-current-darkest);
+  text-align: left;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.sc-tick-icon {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+}
+
+.sc-tick-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.sc-tick-text strong {
+  font-size: 0.9rem;
+}
+
+.sc-tick-text small {
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+html[data-pointer='fine'] button.sc-tick:not(.lab-is-locked):hover,
+button.sc-tick:focus-visible {
+  border-color: var(--color-current);
+  outline: none;
+}
+
+/* Ligne complète : le bouton devient l'action à faire, et pulse doucement */
+button.sc-tick.is-ready {
+  border-color: var(--color-current);
+  background: var(--color-current);
+  color: var(--color-current-text);
+  animation: sc-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes sc-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--color-current-rgb), 0.45); }
+  50% { box-shadow: 0 0 0 7px rgba(var(--color-current-rgb), 0); }
+}
+
+.sc-tick.lab-is-locked {
+  border-color: var(--lab-locked-border);
+  background: var(--lab-locked-bg);
+  color: var(--lab-locked-text);
+}
+
+.sc-tick.lab-is-locked .sc-tick-icon {
+  display: none;
+}
+
+.sc-tick > .lab-lock {
+  margin-right: 0;
+}
+
+.sc-tick > .lab-lock .lab-lock-svg {
+  width: 20px;
+  height: 24px;
+}
+
+/* Temps écoulé : plus de minute à faire passer, un simple état */
+.sc-tick.is-final {
+  border-style: solid;
+  border-color: var(--color-emerald);
+  color: var(--color-emerald);
+  background: transparent;
+}
+
+/* Scène de 400 × 336 : paillasse à y = 300, noms du matériel dessous */
+.sc-stage {
+  position: relative;
+  align-self: center;
+  justify-self: center;
+  width: 400px;
+  height: 336px;
+  border-radius: 18px;
+  box-shadow: inset 0 0 0 1px rgba(17, 36, 72, 0.08);
+  background: linear-gradient(180deg, #ffffff 0, #fbf8f2 300px, #efe6d6 300px, #e6dac5 336px);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sc-spot {
+  position: absolute;
+  top: 0;
+  height: 336px;
+  border-radius: 14px;
+  transition: box-shadow var(--transition), background var(--transition);
+}
+
+.sc-balance {
+  left: 10px;
+  width: 140px;
+}
+
+.sc-device {
+  left: 236px;
+  width: 160px;
+}
+
+.sc-spot > svg,
+.sc-front > svg,
+.sc-wire > svg {
+  position: absolute;
+  inset: 0 auto auto 0;
+  display: block;
+  width: 100%;
+  height: 300px;
+}
+
+.sc-wire > svg {
+  height: 336px;
+}
+
+.sc-spot-name {
+  position: absolute;
+  inset: 308px 0 auto 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: #6b5d45;
+}
+
+/* Les endroits où poser s'annoncent dès que l'objet est pris */
+.sc-spot.is-drop-ready {
+  background: rgba(var(--color-current-rgb), 0.08);
+  box-shadow: inset 0 0 0 2px rgba(var(--color-current-rgb), 0.45);
+}
+
+.sc-spot.is-drop-ready.is-drop-target {
+  background: rgba(var(--color-current-rgb), 0.16);
+  box-shadow: inset 0 0 0 3px var(--color-current);
+}
+
+.sc-spot.is-drop-ready.lab-is-locked {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--lab-locked-border);
+}
+
+.sc-vessel {
+  position: absolute;
+  z-index: 2;
+  width: 100px;
+  height: 170px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  touch-action: none;
+}
+
+.sc-vessel.lab-holdable {
+  cursor: grab;
+}
+
+.sc-vessel > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+html[data-pointer='fine'] .sc-vessel.lab-holdable:hover,
+.sc-vessel:focus-visible {
+  background: rgba(var(--color-current-rgb), 0.1);
+  outline: none;
+}
+
+.sc-vessel.is-dragging > svg {
+  opacity: 0.25;
+}
+
+/* Le thermomètre se pose sur le récipient */
+.sc-vessel.is-drop-ready {
+  background: rgba(var(--color-current-rgb), 0.12);
+  box-shadow: 0 0 0 2px rgba(var(--color-current-rgb), 0.5);
+}
+
+.sc-vessel.is-drop-ready.is-drop-target {
+  box-shadow: 0 0 0 3px var(--color-current);
+}
+
+.sc-front,
+.sc-wire {
+  position: absolute;
+  pointer-events: none;
+}
+
+.sc-front {
+  z-index: 3;
+  left: 236px;
+  top: 0;
+  width: 160px;
+  height: 300px;
+}
+
+.sc-wire {
+  z-index: 4;
+  inset: 0;
+}
+
+.sc-lcd {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  fill: #a6f5b8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Thermomètre et de quoi fermer le récipient, en haut de la scène */
+.sc-tool {
+  position: absolute;
+  z-index: 5;
+  top: 8px;
+  width: 108px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 6px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.45);
+  background: #ffffff;
+  color: var(--color-text);
+  touch-action: none;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.sc-probe {
+  left: 10px;
+}
+
+.sc-probe.is-in {
+  left: 284px;
+}
+
+.sc-cover {
+  left: 126px;
+}
+
+.sc-probe.lab-holdable {
+  cursor: grab;
+}
+
+html[data-pointer='fine'] .sc-tool:not(.lab-is-locked):hover,
+.sc-tool:focus-visible {
+  border-color: var(--color-current);
+  outline: none;
+}
+
+.sc-cover.is-selected {
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.16);
+}
+
+.sc-tool-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.sc-lcd-box {
+  min-width: 62px;
+  padding: 1px 6px;
+  font-size: 1.02rem;
+  line-height: 1.3;
+  text-align: right;
+}
+
+.sc-lcd-box small {
+  margin-left: 3px;
+  font-size: 0.68rem;
+}
+
+.sc-tool-name {
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-muted);
+}
+
+.sc-probe-icon {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 34px;
+}
+
+.sc-cover-icon {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+}
+
+/* Verrouillé : pâli, cadenas en pastille au coin (rien ne bouge dans le
+   bouton). Le thermomètre plongé reste net : on doit le lire. */
+.sc-tool.lab-is-locked:not(.is-in) {
+  border-color: var(--lab-locked-border);
+  background: var(--lab-locked-bg);
+}
+
+.sc-tool.lab-is-locked:not(.is-in) > svg,
+.sc-tool.lab-is-locked:not(.is-in) > .sc-tool-body {
+  opacity: 0.55;
+}
+
+.sc-tool > .lab-lock {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(17, 36, 72, 0.25);
+}
+
+.sc-tool > .lab-lock .lab-lock-svg {
+  width: 11px;
+  height: 13px;
+}
+
+.sc-ghost {
+  width: 100px;
+  height: 170px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 10px 16px rgba(17, 36, 72, 0.28));
+}
+
+.sc-ghost > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.sc-ghost-probe {
+  width: 24px;
+  height: 48px;
+}
+
+/* Bulles de l'eau qui bout, vapeur au-dessus du flacon ouvert */
+.sc-bubble {
+  transform-box: fill-box;
+  animation: sc-rise 1.2s linear infinite;
+}
+
+@keyframes sc-rise {
+  0% { transform: translateY(5px); opacity: 0.2; }
+  40% { opacity: 0.95; }
+  100% { transform: translateY(-9px); opacity: 0; }
+}
+
+.sc-steam {
+  animation: sc-steam 2.1s ease-in-out infinite;
+}
+
+@keyframes sc-steam {
+  0% { transform: translateY(5px); opacity: 0; }
+  40% { opacity: 0.85; }
+  100% { transform: translateY(-7px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.sc-tick.is-ready,
+  .sc-bubble,
+  .sc-steam { animation: none; }
+  .sc-steam { opacity: 0.7; }
+}
+
+.lab-caption.is-warning {
+  background: #fff1f0;
+  color: #9f2c2c;
+  font-weight: 600;
+}
+
+/* Carnet : les deux masses, puis le tableau minute par minute */
+.sc-notes,
+.sc-graph-panel {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 18px;
+  background: rgba(var(--color-current-rgb), 0.07);
+}
+
+.sc-notes .lab-panel-title,
+.sc-graph-panel .lab-panel-title {
+  margin: 0;
+}
+
+.sc-masses {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.sc-mass {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 8px 6px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.sc-mass-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.sc-mass-field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.sc-table-wrap {
+  flex: 1;
+  min-height: 0;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.sc-table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sc-table th,
+.sc-table td {
+  padding: 1px 4px;
+  border-bottom: 1px solid #eef0ec;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.sc-table tbody tr:last-child th,
+.sc-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sc-table thead th {
+  height: 24px;
+  font-size: 0.7rem;
+  color: var(--color-muted);
+}
+
+.sc-table th:first-child {
+  width: 22%;
+}
+
+.sc-table th:nth-child(2) {
+  width: 28%;
+}
+
+.sc-table tbody th {
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.sc-table .is-now {
+  background: rgba(var(--color-current-rgb), 0.1);
+}
+
+.sc-table .is-now th {
+  color: var(--color-current-darkest);
+  font-weight: 700;
+}
+
+.sc-cell-input,
+.sc-cell-wait {
+  display: block;
+  width: 100%;
+  height: 24px;
+  padding: 0 2px;
+  border-radius: 7px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.sc-cell-input:focus {
+  outline: none;
+  border-color: var(--color-current);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+}
+
+.sc-cell-input.is-invalid {
+  border-color: #d64545;
+  background: #fff1f0;
+}
+
+.sc-cell-input.lab-is-missing {
+  border-color: #d64545;
+}
+
+/* flex (et non block) : la flèche reste sur la ligne du choix. */
+.sc-table .sc-select {
+  display: flex;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  padding: 0 8px; /* la flèche à distance du bord droit */
+  font-size: 0.74rem;
+}
+
+/* Ligne pas encore disponible : le thermomètre n'est pas en place */
+.sc-cell-wait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: dashed;
+  border-color: rgba(17, 36, 72, 0.2);
+  background: transparent;
+}
+
+.sc-cell-wait > .lab-lock {
+  margin-right: 0;
+}
+
+.sc-cell-wait .lab-lock-svg {
+  width: 11px;
+  height: 13px;
+}
+
+/* ===== Graphique ===== */
+.sc-graph-wrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.sc-graph-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-family);
+}
+
+.sc-tick-label {
+  font-size: 12.5px;
+  fill: #6f7b74;
+  font-variant-numeric: tabular-nums;
+}
+
+.sc-axis-label {
+  font-size: 13px;
+  font-weight: 600;
+  fill: #4f5b54;
+}
+
+/* Point qui vient d'apparaître */
+.sc-graph-svg .is-fresh {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sc-pop 0.45s ease-out;
+}
+
+@keyframes sc-pop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-graph-svg .is-fresh { animation: none; }
+}
+
+.sc-key {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+}
+
+/* ===== Étape 3 : conclusion ===== */
+.sc-conclude {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 14px;
+}
+
+.sc-recap {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.sc-form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.sc-qs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  counter-reset: sc-q;
+}
+
+.sc-q {
+  padding: 8px 14px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+}
+
+.sc-q-title {
+  margin: 0 0 2px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+/* Lettre de la sous-question (a, b), comme dans la question de départ */
+.sc-qs > .sc-q {
+  counter-increment: sc-q;
+}
+
+.sc-qs > .sc-q > .sc-q-title::before {
+  content: counter(sc-q, lower-alpha);
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--color-current);
+  color: var(--color-current-text);
+  font-size: 0.78rem;
+}
+
+/* Listes au milieu des phrases : interligne large, sinon deux listes de
+   lignes voisines se chevauchent. */
+.sc-line {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 2.6;
+  text-align: left;
+}
+
+.sc-concl-input {
+  width: 62px;
+  height: 30px;
+  margin: 2px;
+  padding: 0 4px;
+  border-radius: 9px;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.sc-hyp-recap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0 2px;
+}
+
+.sc-hyp-recap .sc-sketch-svg {
+  flex: 0 0 auto;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.sc-hyp-recap p {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.sc-verdict {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.sc-verdict-text {
+  margin-right: 4px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.sc-verdict .sc-chip {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 0.8rem;
+}
+
+/* ===== Étape 4 : correction ===== */
+.sc-check {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.sc-check-left {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sc-crit-list {
+  display: grid;
+  gap: 6px;
+}
+
+.sc-crit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 5px 14px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #ffffff;
+  color: var(--color-text);
+  text-align: left;
+  box-shadow: inset 4px 0 0 var(--sc-crit-accent, transparent);
+}
+
+.sc-crit.is-ok { --sc-crit-accent: var(--color-emerald); background: rgba(12, 163, 127, 0.06); }
+.sc-crit.is-ko { --sc-crit-accent: var(--color-rose); background: rgba(212, 82, 122, 0.07); }
+
+.sc-crit.is-selected {
+  border-color: var(--color-current);
+}
+
+html[data-pointer='fine'] .sc-crit:not(.is-selected):hover,
+.sc-crit:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.5);
+  outline: none;
+}
+
+.sc-crit-text strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.sc-crit-text small {
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.sc-crit-mark {
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.is-ok .sc-crit-mark { color: var(--color-emerald); }
+.is-ko .sc-crit-mark { color: var(--color-rose); }
+
+.sc-check-detail {
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #fbfaf7;
+}
+
+.sc-check-detail h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.sc-check-detail p {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.sc-graph-mini {
+  height: 250px;
+  margin-bottom: 8px;
+  padding: 6px 8px;
+  gap: 4px;
+}
+
+.sc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.sc-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sc-misslist {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 0.8rem;
+}
+
+.sc-misslist li {
+  padding-left: 12px;
+  border-left: 3px solid var(--color-rose);
+  text-align: left;
+}
+
+/* L'esquisse de l'élève à côté de l'allure réelle */
+.sc-pair {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.sc-pair figure {
+  margin: 0;
+  padding: 6px 8px;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.sc-pair figcaption {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* ===== Écrans plus étroits ===== */
+@media (max-width: 980px) {
+  .sc-predict,
+  .sc-conclude { grid-template-columns: 1fr; height: auto; }
+  .sc-check { grid-template-columns: 280px minmax(0, 1fr); }
+}
+
+/* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */
+.lab-doc .sc-report-sketch svg,
+.lab-doc .sc-report-graph svg {
+  display: block;
+}
+
+.lab-doc .sc-report-results {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.lab-doc .sc-report-table {
+  width: auto;
+  min-width: 62mm;
+  margin-top: 0;
+  font-size: 8.5pt;
+}
+
+.lab-doc .sc-report-table th,
+.lab-doc .sc-report-table td {
+  padding: 1.5px 6px;
+}
+
+.lab-doc .sc-report-corr {
+  width: auto;
+  min-width: 70mm;
+}
+
+.lab-doc .sc-report-corr th {
+  text-align: left;
+}

@@ -15,6 +15,8 @@
   <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' rel='stylesheet'>
   <link rel='stylesheet' href='../../../css/style.css'>
   <link rel='stylesheet' href='../../../css/lab-engine.css'>
+  <link rel='stylesheet' href='../../../css/lab-statechange.css'>
+  <link rel='stylesheet' href='../../../css/lab-ostend.css'>
 </head>
 
 <body class='subject-physics'>
@@ -45,13 +47,25 @@
         </ol>
       </aside>
       <section class='lab-slots' aria-label='Investigations'>
-      <article class='lab-tile lab-tile-soon'>
-        <h2 class='lab-tile-title'>Lab is still in development.</h2>
-        <p class='lab-tile-text'>Come back soon: a new virtual lab is on its way.</p>
+      <article class='lab-tile' data-lab-tile='statechange'>
+        <h2 class='lab-tile-title'>Watch it change</h2>
+        <p class='lab-tile-question'>What happens to a substance during a change of state?</p>
+        <p class='lab-tile-text'>A substance changes state on your bench. Sketch the temperature curve, weigh, read the thermometer every minute and weigh again: what do the thermometer and the balance tell you?</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Your progress</span>
+          <div class='lab-tile-steps' role='group' aria-label='Not started yet'><button type='button' class='lab-tile-step' data-lab-open='statechange' data-lab-step='1' data-tooltip='1. Predict' aria-label='1. Predict'></button><button type='button' class='lab-tile-step' data-lab-open='statechange' data-lab-step='2' data-tooltip='2. Experiment' aria-label='2. Experiment'></button><button type='button' class='lab-tile-step' data-lab-open='statechange' data-lab-step='3' data-tooltip='3. Conclude' aria-label='3. Conclude'></button><button type='button' class='lab-tile-step' data-lab-open='statechange' data-lab-step='4' data-tooltip='4. Check' aria-label='4. Check'></button></div>
+        </div>
+        <button type='button' class='resource-button lab-tile-btn' data-lab-open='statechange'>Enter the lab</button>
       </article>
-      <article class='lab-tile lab-tile-soon'>
-        <h2 class='lab-tile-title'>Lab is still in development.</h2>
-        <p class='lab-tile-text'>Come back soon: a new virtual lab is on its way.</p>
+      <article class='lab-tile' data-lab-tile='ostend'>
+        <h2 class='lab-tile-title'>Ostend 2100</h2>
+        <p class='lab-tile-question'>Why is the sea rising, and what will it change at Ostend by 2100?</p>
+        <p class='lab-tile-text'>Melt ice in two glasses, warm up sea water, then travel to 2100 on a model of the coast: how high will the sea be at Ostend, and will the dike still protect the city?</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Your progress</span>
+          <div class='lab-tile-steps' role='group' aria-label='Not started yet'><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='1' data-tooltip='1. Predict' aria-label='1. Predict'></button><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='2' data-tooltip='2. Experiment' aria-label='2. Experiment'></button><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='3' data-tooltip='3. Conclude' aria-label='3. Conclude'></button><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='4' data-tooltip='4. Check' aria-label='4. Check'></button></div>
+        </div>
+        <button type='button' class='resource-button lab-tile-btn' data-lab-open='ostend'>Enter the lab</button>
       </article>
       <article class='lab-tile lab-tile-soon'>
         <h2 class='lab-tile-title'>Lab is still in development.</h2>
@@ -83,6 +97,11 @@
   </div>
 
   <script src='../../../js/rich-text.js'></script>
+  <script src='../../../js/lab-engine.js'></script>
+  <script src='lab-statechange.en.js'></script>
+  <script src='../../../js/lab-statechange.js'></script>
+  <script src='lab-ostend.en.js'></script>
+  <script src='../../../js/lab-ostend.js'></script>
   <script src='../../../js/chapter-nav.js'></script>
   <script src='../../../js/lab-page.js'></script>
 </body>

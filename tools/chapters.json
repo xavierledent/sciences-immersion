@@ -122,7 +122,41 @@
       "titleSuffix": "Phys 2",
       "hasAssessment": true,
       "h1": { "en": "Physics 2 : Energy, expansion and changes of state", "nl": "Fysica 2 : Energie, uitzetting en faseovergangen" },
-      "vocabTopic": { "en": "energy, expansion and changes of state", "nl": "energie, uitzetting en faseovergangen" }
+      "vocabTopic": { "en": "energy, expansion and changes of state", "nl": "energie, uitzetting en faseovergangen" },
+      "labs": {
+        "en": [
+          {
+            "id": "statechange",
+            "file": "lab-statechange",
+            "title": "Watch it change",
+            "question": "What happens to a substance during a change of state?",
+            "text": "A substance changes state on your bench. Sketch the temperature curve, weigh, read the thermometer every minute and weigh again: what do the thermometer and the balance tell you?"
+          },
+          {
+            "id": "ostend",
+            "file": "lab-ostend",
+            "title": "Ostend 2100",
+            "question": "Why is the sea rising, and what will it change at Ostend by 2100?",
+            "text": "Melt ice in two glasses, warm up sea water, then travel to 2100 on a model of the coast: how high will the sea be at Ostend, and will the dike still protect the city?"
+          }
+        ],
+        "nl": [
+          {
+            "id": "statechange",
+            "file": "lab-statechange",
+            "title": "Kijk hoe het verandert",
+            "question": "Wat gebeurt er met een stof tijdens een toestandsverandering?",
+            "text": "Op je labotafel verandert een stof van toestand. Schets de temperatuurcurve, weeg, lees elke minuut de thermometer af en weeg opnieuw: wat vertellen de thermometer en de balans je?"
+          },
+          {
+            "id": "ostend",
+            "file": "lab-ostend",
+            "title": "Oostende 2100",
+            "question": "Waarom stijgt de zee, en wat verandert dat tegen 2100 in Oostende?",
+            "text": "Smelt ijs in twee glazen, warm zeewater op en reis dan naar 2100 op een model van de kust: hoe hoog staat de zee in Oostende, en beschermt de dijk de stad nog?"
+          }
+        ]
+      }
     },
     {
       "folder": "bio2",

@@ -1,0 +1,1283 @@
+/* ===== Labo virtuel « Ostend 2100 » (phys2) =====
+   Ce qui est propre à ce labo : niveaux à placer (hypothèses), les
+   trois postes (deux verres, eau de mer tiédie, modèle de la côte) et leurs
+   carnets, conclusion, correction. Le cadre commun (modale, étapes,
+   boutons, verrous, panneau, rapport) est dans lab-engine.css. Classes
+   préfixées os- (Ostend). Dessiné pour le corps du labo sur Chromebook à
+   100 % (1204 × 594), sans défilement ; le moteur agrandit le tout sur un
+   plus grand écran. */
+
+/* ===== Commun aux étapes ===== */
+.os-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+}
+
+.os-big-q {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.os-reminder {
+  margin: auto 0 0;
+  padding: 6px 12px;
+  border-left: 3px solid var(--color-current);
+  border-radius: 0 10px 10px 0;
+  background: rgba(var(--color-current-rgb), 0.08);
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.os-chip {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 0.8rem;
+}
+
+.os-ok { color: var(--color-emerald); font-weight: 600; }
+.os-ko { color: var(--color-rose); font-weight: 600; }
+.os-muted { color: var(--color-muted); }
+
+/* Liste dans une phrase ou dans un tableau : en attente (pointillé), puis
+   remplie. Sa largeur : celle de son choix le plus long (moteur). */
+.os-select {
+  height: 30px;
+  max-width: 100%;
+  margin: 2px;
+  vertical-align: middle;
+  border-style: dashed;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.os-select.is-filled {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+  color: var(--color-current-darkest);
+}
+
+.os-select.lab-is-missing {
+  border-color: #d64545;
+}
+
+/* Graduations et étiquettes des dessins */
+.os-scale {
+  font-family: var(--font-family);
+  font-size: 11px;
+  fill: #4f5b54;
+  font-variant-numeric: tabular-nums;
+}
+
+.os-scale-unit {
+  font-weight: 700;
+}
+
+.os-lcd {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  fill: #a6f5b8;
+}
+
+.os-lcd-box {
+  min-width: 62px;
+  padding: 1px 6px;
+  border-radius: 7px;
+  background: #1d2a23;
+  color: #a6f5b8;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.os-lcd-box small {
+  margin-left: 3px;
+  font-size: 0.68rem;
+}
+
+/* ===== Étape 1 : hypothèses ===== */
+.os-predict {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 390px minmax(0, 1fr);
+  align-content: center;
+  gap: 14px;
+}
+
+.os-predict-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.os-question-card,
+.os-facts-card,
+.os-hyp-card {
+  padding: 14px 18px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.3);
+  background: #ffffff;
+}
+
+.os-question-card {
+  background: rgba(var(--color-current-rgb), 0.08);
+  border-color: transparent;
+}
+
+.os-intro {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.os-fact {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.os-hyp-part {
+  padding: 8px 12px 10px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+}
+
+.os-hyp-q {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.os-preds {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.os-pred {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.os-pred-art {
+  height: 220px;
+  display: grid;
+  place-items: center;
+}
+
+.os-pred-art svg {
+  display: block;
+  height: 220px;
+  width: auto;
+}
+
+/* Le nom dans un span : des mots soulignés, éléments d'un flex, se colleraient. */
+.os-pred-name {
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+.os-moves {
+  display: flex;
+  gap: 4px;
+}
+
+.os-move {
+  width: 38px;
+  height: 34px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.os-move-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.os-because {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+
+.os-because span {
+  flex: 0 0 auto;
+}
+
+.os-because .lab-input {
+  flex: 1;
+  width: auto;
+  height: 38px;
+}
+
+/* ===== Étape 2 : les trois postes ===== */
+.os-run {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px;
+}
+
+.os-run.is-busy {
+  pointer-events: none;
+}
+
+.os-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.os-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px 0 8px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.45);
+  background: #ffffff;
+  color: var(--color-text);
+  font-size: 0.84rem;
+  font-weight: 600;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.os-tab-num {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(var(--color-current-rgb), 0.18);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.os-tab-mark {
+  display: none;
+  color: var(--color-emerald);
+  font-weight: 700;
+}
+
+.os-tab.is-done .os-tab-mark {
+  display: inline;
+}
+
+.os-tab.is-selected {
+  border-color: var(--color-current);
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.os-tab.is-selected .os-tab-num {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.os-tab.is-selected .os-tab-mark {
+  color: var(--color-current-text);
+}
+
+.os-tab.lab-is-locked {
+  border-color: var(--lab-locked-border);
+  background: var(--lab-locked-bg);
+  color: var(--lab-locked-text);
+}
+
+html[data-pointer='fine'] .os-tab:not(.is-selected):not(.lab-is-locked):hover,
+.os-tab:focus-visible {
+  background: rgba(var(--color-current-rgb), 0.1);
+  outline: none;
+}
+
+.os-station {
+  min-height: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.os-station-1 { grid-template-columns: minmax(0, 1fr) 330px; }
+.os-station-2 { grid-template-columns: minmax(0, 1fr) 320px; }
+.os-station-3 { grid-template-columns: minmax(0, 1fr) 320px; }
+
+.os-bench,
+.os-coast {
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px;
+}
+
+.lab-caption.is-warning {
+  background: #fff1f0;
+  color: #9f2c2c;
+  font-weight: 600;
+}
+
+/* Boutons d'action (laisser fondre, chauffer, tempête) */
+.os-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 4px 14px 4px 12px;
+  border-radius: 14px;
+  border: 2px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  color: var(--color-current-darkest);
+  text-align: left;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.os-btn-icon {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+}
+
+.os-action-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.os-action-text strong {
+  font-size: 0.88rem;
+}
+
+.os-action-text small {
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+html[data-pointer='fine'] button.os-action:not(.lab-is-locked):hover,
+button.os-action:focus-visible {
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.1);
+  outline: none;
+}
+
+.os-action.lab-is-locked {
+  border-color: var(--lab-locked-border);
+  background: var(--lab-locked-bg);
+  color: var(--lab-locked-text);
+}
+
+.os-action.lab-is-locked .os-btn-icon {
+  display: none;
+}
+
+.os-action > .lab-lock {
+  margin-right: 0;
+}
+
+.os-action.is-final {
+  border-color: var(--color-emerald);
+  color: var(--color-emerald);
+  background: transparent;
+}
+
+.os-action.is-on {
+  border-color: var(--color-current);
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.os-tool-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-muted);
+}
+
+/* ----- Poste 1 : les deux verres ----- */
+.os-stage1 {
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  padding: 8px 16px;
+  border-radius: 18px;
+  box-shadow: inset 0 0 0 1px rgba(17, 36, 72, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8f2 86%, #efe6d6 86%, #e6dac5 100%);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.os-glass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 8px 6px;
+  border-radius: 16px;
+  transition: box-shadow var(--transition), background var(--transition);
+}
+
+.os-glass-svg {
+  display: block;
+}
+
+.os-glass-art .os-glass-svg {
+  width: 216px;
+  height: 374px;
+}
+
+.os-glass-name {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #6b5d45;
+}
+
+.os-glass.is-drop-ready {
+  background: rgba(var(--color-current-rgb), 0.08);
+  box-shadow: inset 0 0 0 2px rgba(var(--color-current-rgb), 0.45);
+}
+
+.os-glass.is-drop-ready.is-drop-target {
+  background: rgba(var(--color-current-rgb), 0.16);
+  box-shadow: inset 0 0 0 3px var(--color-current);
+}
+
+.os-side {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+}
+
+.os-tool {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 8px 8px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.45);
+  background: #ffffff;
+  color: var(--color-text);
+  cursor: grab;
+  touch-action: none;
+}
+
+html[data-pointer='fine'] .os-tool:hover,
+.os-tool:focus-visible {
+  border-color: var(--color-current);
+  outline: none;
+}
+
+/* Largeur selon le nombre de glaçons */
+.os-ice-icon {
+  width: auto;
+  height: 60px;
+}
+
+.os-ghost {
+  height: 60px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 10px 16px rgba(17, 36, 72, 0.28));
+}
+
+.os-ghost .os-ice-icon {
+  display: block;
+}
+
+/* Gouttes de la glace posée sur la grille */
+.os-drop {
+  animation: os-fall 0.8s linear infinite;
+}
+
+@keyframes os-fall {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(60px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .os-drop { animation: none; }
+}
+
+/* ----- Poste 2 : l'eau de mer tiédie ----- */
+.os-row2 {
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+
+/* Scène de 440 × 366 : paillasse à y = 330, noms du matériel dessous */
+.os-stage2 {
+  position: relative;
+  flex: 0 0 440px;
+  height: 366px;
+  border-radius: 18px;
+  box-shadow: inset 0 0 0 1px rgba(17, 36, 72, 0.08);
+  background: linear-gradient(180deg, #ffffff 0, #fbf8f2 330px, #efe6d6 330px, #e6dac5 366px);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.os-stage2-back,
+.os-stage2-front {
+  position: absolute;
+  inset: 0;
+}
+
+.os-stage2-front {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.os-stage2-back svg,
+.os-stage2-front svg {
+  display: block;
+  width: 440px;
+  height: 366px;
+}
+
+.os-flask {
+  position: absolute;
+  z-index: 2;
+  width: 100px;
+  height: 275px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  transition: background var(--transition);
+}
+
+.os-flask.is-at-balance { left: 40px; top: 4px; }
+.os-flask.is-at-bath { left: 250px; top: 14px; }
+
+.os-flask svg {
+  display: block;
+  width: 100px;
+  height: 275px;
+  pointer-events: none;
+}
+
+html[data-pointer='fine'] .os-flask:not(.lab-is-locked):hover,
+.os-flask:focus-visible {
+  background: rgba(var(--color-current-rgb), 0.12);
+  outline: none;
+}
+
+.os-thermo {
+  position: absolute;
+  left: 154px;
+  top: 10px;
+  width: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 4px 5px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(17, 36, 72, 0.12);
+  background: #ffffff;
+}
+
+.os-heat {
+  position: absolute;
+  left: 148px;
+  top: 78px;
+  width: 100px;
+  padding: 4px 8px;
+}
+
+.os-heat .os-action-text strong {
+  font-size: 0.8rem;
+}
+
+.os-spot-name {
+  position: absolute;
+  top: 338px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: #6b5d45;
+}
+
+.os-spot-balance { left: 20px; width: 140px; }
+.os-spot-bath { left: 200px; width: 200px; }
+
+.os-zoom,
+.os-inset {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 6px 4px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(17, 36, 72, 0.08);
+}
+
+.os-zoom figcaption,
+.os-inset figcaption {
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--color-current-darker);
+}
+
+.os-zoom-svg {
+  display: block;
+  width: 100px;
+  height: 330px;
+}
+
+/* ----- Poste 3 : le modèle de la côte ----- */
+.os-coast {
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+}
+
+.os-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.os-years {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 3px;
+  list-style: none;
+  border-radius: 13px;
+  background: rgba(var(--color-current-rgb), 0.1);
+}
+
+.os-year,
+.os-work {
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.45);
+  background: #ffffff;
+  color: var(--color-text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.os-year.is-selected,
+.os-work.is-selected {
+  border-color: var(--color-current);
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.os-year.lab-is-locked,
+.os-work.lab-is-locked {
+  border-color: var(--lab-locked-border);
+  background: var(--lab-locked-bg);
+  color: var(--lab-locked-text);
+}
+
+.os-works {
+  display: flex;
+  gap: 4px;
+}
+
+.os-work {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.os-storm {
+  margin-left: auto;
+  min-width: 168px;
+  min-height: 40px;
+}
+
+/* La côte, et la mire du port à sa droite */
+.os-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 130px;
+  align-items: start;
+  gap: 8px;
+}
+
+.os-coast-wrap {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(17, 36, 72, 0.08);
+}
+
+.os-coast-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.os-model-label {
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
+  fill: #35424e;
+}
+
+.os-model-note {
+  font-family: var(--font-family);
+  font-size: 10.5px;
+  font-weight: 600;
+  fill: #35628a;
+}
+
+.os-inset-gauge figcaption {
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+}
+
+.os-gauge-svg {
+  display: block;
+  width: 110px;
+  height: 190px;
+}
+
+/* D'où vient la hausse : le titre à gauche, puis les colonnes avec, sous
+   chacune, le poste qui l'a montrée et son nom */
+.os-inset-parts {
+  min-height: 0;
+  flex-direction: row;
+  justify-content: center;
+  gap: 16px;
+  padding: 4px 14px;
+}
+
+.os-inset-parts figcaption {
+  width: 150px;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.os-parts-svg {
+  display: block;
+  width: 410px;
+  height: 150px;
+}
+
+/* Noms sous les colonnes du dessin (centres à x = 90, 210 et 330) */
+.os-part-names {
+  width: 410px;
+  box-sizing: border-box;
+  padding-left: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 120px);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+/* ----- Carnets ----- */
+.os-notes {
+  min-height: 0;
+  min-width: 0;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-radius: 18px;
+  background: rgba(var(--color-current-rgb), 0.07);
+}
+
+.os-notes .lab-panel-title {
+  margin: 0;
+}
+
+.os-notes-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.os-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.os-table th,
+.os-table td {
+  height: 34px;
+  padding: 2px 5px;
+  border-bottom: 1px solid #eef0ec;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.os-table tbody tr:last-child th,
+.os-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.os-table thead th {
+  height: 26px;
+  font-size: 0.7rem;
+  color: var(--color-muted);
+}
+
+.os-table tbody th {
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-align: left;
+  padding-left: 9px;
+}
+
+.os-table .is-now {
+  background: rgba(var(--color-current-rgb), 0.1);
+}
+
+.os-cell-input {
+  display: block;
+  width: 100%;
+  height: 26px;
+  padding: 0 2px;
+  border-radius: 7px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.os-cell-input:focus {
+  outline: none;
+  border-color: var(--color-current);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+}
+
+.os-cell-input.is-invalid {
+  border-color: #d64545;
+  background: #fff1f0;
+}
+
+/* Case à remplir maintenant */
+.os-cell-input.is-todo,
+.os-select.is-todo {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.14);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+}
+
+.os-cell-input.lab-is-missing,
+.os-select.is-todo.lab-is-missing {
+  border-color: #d64545;
+}
+
+/* flex, comme le moteur : en block, la flèche passerait sous le texte */
+.os-table .os-select {
+  display: flex;
+  width: 100%;
+  height: 26px;
+  margin: 0;
+  padding: 0 8px;
+  font-size: 0.76rem;
+}
+
+/* Poste 2 : températures centrées dans leur colonne */
+.os-station-2 .os-table tbody th {
+  padding-left: 5px;
+  text-align: center;
+}
+
+/* Masse : le nom à gauche, la case à droite */
+.os-mass {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px 4px 10px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.os-mass-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.os-mass-field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.os-mass-field .os-cell-input {
+  width: 84px;
+}
+
+/* Poste 3 : trois petits tableaux serrés */
+.os-notes3 {
+  gap: 6px;
+  padding: 8px 10px 10px;
+}
+
+.os-notes3 .os-table th,
+.os-notes3 .os-table td {
+  height: 28px;
+  padding: 1px 4px;
+}
+
+.os-notes3 .os-table thead th {
+  height: 22px;
+  font-size: 0.66rem;
+}
+
+.os-notes3 .os-table tbody th {
+  font-size: 0.7rem;
+  padding-left: 7px;
+}
+
+.os-notes3 .os-cell-input,
+.os-notes3 .os-table .os-select {
+  height: 24px;
+}
+
+.os-table-tests th:first-child { width: 62%; }
+
+/* ===== Étape 3 : conclusion ===== */
+.os-conclude {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.os-recap {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 18px;
+  background: rgba(var(--color-current-rgb), 0.07);
+}
+
+.os-recap .lab-panel-title {
+  margin: 0;
+}
+
+.os-recap-block {
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.os-recap-block p,
+.os-recap-tests {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+.os-recap-block .os-recap-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-current-darker);
+}
+
+.os-recap-tests {
+  padding-left: 1.1em;
+}
+
+.os-form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+}
+
+.os-q {
+  padding: 7px 14px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+}
+
+.os-q-title {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.os-q-sub {
+  margin-left: 10px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+/* Listes au milieu des phrases : interligne large, sinon deux listes de
+   lignes voisines se chevauchent. */
+.os-line {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 2.6;
+  text-align: left;
+}
+
+.os-concl-input {
+  width: 58px;
+  height: 30px;
+  margin: 2px;
+  padding: 0 4px;
+  border-radius: 9px;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.os-verdicts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 18px;
+  margin-top: 6px;
+}
+
+.os-verdict {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.os-verdict-text {
+  flex: 1;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+/* ===== Étape 4 : correction ===== */
+.os-check {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.os-check-left {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.os-crit-list {
+  display: grid;
+  gap: 6px;
+}
+
+.os-crit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 5px 14px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #ffffff;
+  color: var(--color-text);
+  text-align: left;
+  box-shadow: inset 4px 0 0 var(--os-crit-accent, transparent);
+}
+
+.os-crit.is-ok { --os-crit-accent: var(--color-emerald); background: rgba(12, 163, 127, 0.06); }
+.os-crit.is-ko { --os-crit-accent: var(--color-rose); background: rgba(212, 82, 122, 0.07); }
+
+.os-crit.is-selected {
+  border-color: var(--color-current);
+}
+
+html[data-pointer='fine'] .os-crit:not(.is-selected):hover,
+.os-crit:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.5);
+  outline: none;
+}
+
+.os-crit-text strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.os-crit-text small {
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.os-crit-mark {
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.is-ok .os-crit-mark { color: var(--color-emerald); }
+.is-ko .os-crit-mark { color: var(--color-rose); }
+
+.os-check-detail {
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #fbfaf7;
+}
+
+.os-check-detail h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.os-check-detail p {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.os-misslist,
+.os-plainlist {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 0.8rem;
+}
+
+.os-misslist li,
+.os-plainlist li {
+  padding-left: 12px;
+  border-left: 3px solid var(--color-rose);
+  text-align: left;
+}
+
+.os-plainlist li {
+  border-left-color: rgba(var(--color-current-rgb), 0.6);
+}
+
+/* Glace et eau liquide : leurs particules */
+.os-particles {
+  width: 250px;
+  margin-bottom: 8px;
+}
+
+.os-particles-svg {
+  display: block;
+  width: 250px;
+  height: 100px;
+}
+
+.os-particle-names {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+/* ===== Écrans plus étroits ===== */
+@media (max-width: 980px) {
+  .os-predict,
+  .os-conclude { grid-template-columns: 1fr; height: auto; }
+  .os-check { grid-template-columns: 280px minmax(0, 1fr); }
+}
+
+/* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */
+.lab-doc .os-report-table {
+  width: auto;
+  min-width: 80mm;
+  margin: 0 0 6px;
+  font-size: 8.5pt;
+}
+
+.lab-doc .os-report-table caption {
+  padding-bottom: 2px;
+  font-size: 8.5pt;
+  font-weight: 700;
+  color: #5d728f;
+  text-align: left;
+}
+
+.lab-doc .os-report-table th,
+.lab-doc .os-report-table td {
+  padding: 2px 6px;
+}
+
+.lab-doc .os-report-corr {
+  width: auto;
+  min-width: 70mm;
+}
+
+.lab-doc .os-report-corr th {
+  text-align: left;
+}

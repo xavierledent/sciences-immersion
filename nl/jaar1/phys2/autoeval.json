@@ -580,6 +580,9 @@
               "level": "level3",
               "id": 8
             }
+          ],
+          "labs": [
+            "statechange"
           ]
         },
         {
@@ -614,6 +617,9 @@
               "level": "level3",
               "id": 14
             }
+          ],
+          "labs": [
+            "ostend"
           ]
         },
         {
@@ -698,6 +704,9 @@
               "level": "level3",
               "id": 19
             }
+          ],
+          "labs": [
+            "statechange"
           ]
         },
         {
@@ -729,6 +738,9 @@
               "level": "level3",
               "id": 20
             }
+          ],
+          "labs": [
+            "statechange"
           ]
         },
         {
@@ -762,6 +774,9 @@
               "level": "level3",
               "id": 15
             }
+          ],
+          "labs": [
+            "ostend"
           ]
         },
         {
@@ -822,6 +837,9 @@
               "level": "level3",
               "id": 20
             }
+          ],
+          "labs": [
+            "ostend"
           ]
         }
       ]
@@ -860,6 +878,10 @@
               "level": "level3",
               "id": 15
             }
+          ],
+          "labs": [
+            "statechange",
+            "ostend"
           ]
         }
       ]

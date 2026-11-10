@@ -70,7 +70,20 @@ chaque chose, journée en accéléré, grille à racler, prélèvements au gobel
 analyse de l'eau de la rivière, journal de l'opérateur ; tester au moins deux
 améliorations parmi six, dont la campagne auprès des habitants et le bassin
 d'évaporation hors budget ; la bonne réponse peut être « aucune » ;
-expérience sur un modèle) ; `phys1` n'a pas de labo
+expérience sur un modèle) ; `phys2` « Watch it change » (labo fait en classe :
+palier et masse ; une situation tirée parmi cinq : glace qui fond, eau qui
+gèle, eau qui bout, acide stéarique qui fond ou se solidifie ; esquisser la
+courbe et parier sur la masse ; fermer ou non le récipient, peser, relever
+la température et l'état chaque minute, graphique FO5c tracé à partir du
+tableau, repeser ; la manipulation se recommence une fois) et « Ostend 2100 »
+(labo fait en classe, élargi : pourquoi la mer monte et ce que cela change à
+Ostende ; trois postes : les deux verres, glaçons flottants ou sur grille ;
+l'eau de mer tiédie dans un flacon à tube fin, sur balance ; un modèle de la
+côte, simplifié : forte tempête en 2025 puis en 2100 (sans protection,
+l'eau passe toujours la digue), mire du port et colonnes « d'où vient la
+hausse », protections à essayer : sable, mur ; scénario mondial tiré, dit
+seulement au Check ; placer quatre niveaux, dont la tempête de 2100, sans
+pari chiffré ; expérience sur un modèle) ; `phys1` n'a pas de labo
 réel dans le cours. Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans

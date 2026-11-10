@@ -824,6 +824,16 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   text-align-last: center;
 }
 
+/* Pas l'anneau noir du navigateur : la bordure prend la couleur du chapitre. */
+.lab-select:focus,
+.lab-select:focus-visible {
+  outline: none;
+}
+
+.lab-select:focus-visible {
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.25);
+}
+
 .lab-select:disabled {
   opacity: 0.4;
 }
