@@ -81,7 +81,7 @@ LabEngine.addText('zones', {
     factors: { temp: 'Temperature', lux: 'Light intensity', air: 'Air humidity', soil: 'Soil humidity', species: 'Number of species' },
     units: { temp: '(°C)', lux: '(lux)', air: '(%)', soil: 'dry, moist or wet', species: 'from your count sheet' },
     soilWords: { dry: 'dry', moist: 'moist', wet: 'wet' },
-    choose: 'Choose…',
+    choose: 'choose',
     countTitle: 'Biotic factors: count sheet',
     countSub: 'individuals of each species',
     notFound: 'Nothing found yet',

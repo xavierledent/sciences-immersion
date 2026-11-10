@@ -168,6 +168,8 @@ LabEngine.addText('drain', {
     runInfo: (samples, rows, tests) => `Samples: ${samples} / 5 · Log: ${rows} / 5 · Tests: ${tests}`,
     backToPredict: 'Hypotheses',
     toConclude: 'Next: conclude',
+    // Bouton suivant pendant l'expérience, tant que les améliorations manquent.
+    toTests: 'Next: improvements',
 
     // Étape 3
     resultsTitle: 'Your results',
@@ -208,7 +210,7 @@ LabEngine.addText('drain', {
     notTested: 'not tested',
     checkConclusions: 'Check my conclusions',
     backToLab: 'Back to the station',
-    choose: '— choose —',
+    choose: 'choose',
 
     // Étape 4
     scoreLabel: 'checks passed',

@@ -96,7 +96,7 @@ LabEngine.addText('grid', {
     cardChain: 'Energieketen',
     cardStored: 'Opgeslagen energie (water hoog boven)',
     noTurbine: 'Geen turbine!',
-    choose: '— kies —',
+    choose: 'kies',
     objects: { boiler: 'stoomketel', reactor: 'reactor', turbine: 'turbine', generator: 'generator', panel: 'zonnepaneel' },
     cooNote: 'Coo heeft geen energiebron: het gebruikt de elektriciteit van de andere centrales om water naar een hoog meer te pompen, waar de energie opgeslagen wordt. Later valt het water naar beneden.',
     slotLabel: (what, plant) => `${what}, ${plant}`,

@@ -58,6 +58,9 @@ LabEngine.addText('metals', {
     observations: (n, total) => `${n} / ${total} waarnemingen genoteerd`,
     resultsTable: 'Resultatentabel',
     toConclude: 'Verder: besluiten',
+    // Bouton suivant pendant les tests : l'échantillon suivant, pas encore fini.
+    toSample: id => `Verder: staal ${id}`,
+    lockSampleHere: 'Doe eerst alle testen op dit staal.',
 
     // Descriptions des scènes pour les lecteurs d'écran, textes dessinés.
     scene: {
@@ -80,7 +83,7 @@ LabEngine.addText('metals', {
     colWhich: 'Welk metaal?',
     yes: 'Ja',
     no: 'Nee',
-    choose: 'Kies…',
+    choose: 'kies',
     backToLab: 'Terug naar het labo',
     referenceSheet: 'Referentiefiche metalen',
     checkConclusions: 'Mijn besluiten controleren',

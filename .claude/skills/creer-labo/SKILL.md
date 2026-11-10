@@ -183,6 +183,14 @@ Règles qui font l'harmonie du site :
   s'ouvre que si les précédentes le sont. L'hypothèse se fige dès que
   l'expérience commence (verrou qui explique pourquoi, comme dans les quatre
   labos).
+- **Bouton suivant d'une expérience en plusieurs parties** (postes,
+  préparations, échantillons, vues terrain / graphique…) : le gros bouton du
+  pied mène d'abord à la partie suivante pas encore finie (« Next: warm sea
+  water », « Next: sample B ») et ne dit « Next: conclude » que lorsqu'il ne
+  reste plus que l'étape Conclude. Il s'allume (primaire) quand la partie
+  affichée est finie ; touché trop tôt, il dit ce qui manque (verrou
+  `missing: true`). Libellé mis à jour à chaque changement. Modèles :
+  `lab-ostend.js` (nextStation), `lab-metals.js`, `lab-zoom.js`.
 - **Après le Check** : rien ne change à l'affichage d'une étape, seulement sur
   un geste ; les commandes qui ne font que montrer portent `data-lab-look` ;
   un test « corrigé » s'écrit `lab.isFrozen()`, jamais `lab.state.checked`.
@@ -217,7 +225,7 @@ Règles qui font l'harmonie du site :
 - **Listes déroulantes** : tout `<select>` porte la classe `lab-select` (en
   plus de la sienne) : lab-engine.css habille la liste ouverte aux couleurs
   du site ; la classe du labo ne règle que la case fermée. Première option
-  `<option value="" disabled selected>` pour « — choose — » (cachée dans la
+  `<option value="" disabled selected>` pour « choose », sans tirets (cachée dans la
   liste ouverte). Une liste au milieu d'une phrase est plus haute que la
   ligne : interligne d'au moins 2,6 et `vertical-align: middle`, sinon deux
   listes de lignes voisines se chevauchent. La case fermée prendrait la

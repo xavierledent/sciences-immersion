@@ -914,9 +914,17 @@
   function renderRunFooter() {
     lab.setFooter(`<button type="button" class="lab-btn lab-btn-ghost" data-back>← ${LABELS.backToPredict}</button>` +
       lab.footerInfo('') + `<div class="lab-footer-actions">` +
-      `<button type="button" class="lab-btn lab-btn-primary" data-next>${LABELS.toConclude} →</button></div>`);
+      `<button type="button" class="lab-btn lab-btn-primary" data-next></button></div>`);
     $('[data-back]').addEventListener('click', () => lab.goToStep(1));
-    $('[data-next]').addEventListener('click', () => lab.goToStep(3));
+    // Le bouton suivant mène d'abord aux améliorations (tant qu'il en manque), puis à Conclude.
+    const toTests = state.view !== 'tests' && state.tests.length < MIN_TESTS;
+    $('[data-next]').textContent = `${toTests ? LABELS.toTests : LABELS.toConclude} →`;
+    $('[data-next]').addEventListener('click', () => {
+      if (!toTests) { lab.goToStep(3); return; }
+      state.view = 'tests';
+      justTested = null;
+      renderExperiment();
+    });
     const complete = stepComplete(2);
     const warn = lab.state.showMissing && !complete;
     const info = $('.lab-footer .lab-footer-info');
@@ -924,7 +932,10 @@
       info.textContent = warn ? runMissing() : LABELS.runInfo(PLACES.filter(p => state.sampled[p]).length, PLACES.filter(rowDone).length, state.tests.length);
       info.classList.toggle('is-warning', warn);
     }
-    lab.setLock($('[data-next]'), complete ? null : runMissing(), { missing: true, key: 'next' });
+    const reason = toTests
+      ? (logDone() && state.analysed ? null : state.day.done ? LABELS.lockTests : LABELS.lockDay)
+      : (complete ? null : runMissing());
+    lab.setLock($('[data-next]'), reason, { missing: true, key: 'next' });
     if (complete !== stepperDone) { stepperDone = complete; lab.renderStepper(); }
   }
 

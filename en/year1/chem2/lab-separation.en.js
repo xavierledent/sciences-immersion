@@ -70,7 +70,7 @@ LabEngine.addText('separation', {
     bets: { gone: 'It has disappeared', still: 'It is still in the water' },
     because: 'Why do you think so? (optional)',
     becausePlaceholder: 'Because…',
-    choose: '— choose —',
+    choose: 'choose',
     lockPredict: 'Observe the mixture and complete your plan first.',
     lockPredictFixed: 'Your observation and your plan are fixed: the separation has started. A scientist does not change the hypothesis after seeing the results!',
     predictReady: 'Your plan is ready.',

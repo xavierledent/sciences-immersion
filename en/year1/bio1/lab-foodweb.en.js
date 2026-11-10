@@ -190,7 +190,7 @@ LabEngine.addText('foodweb', {
     recapRow: (short, chain) => (chain ? `${short} (single chain)` : short),
     zoom: title => `${title}: show the graphs big`,
     zoomOne: title => `${title}: show this graph big`,
-    choose: '— choose —',
+    choose: 'choose',
     conclA: (num, trend, cause) => `${num} ${trend} because ${cause}.`,
     trendAria: many => `How the number of ${many} changes`,
     causeAria: many => `Why the number of ${many} changes`,

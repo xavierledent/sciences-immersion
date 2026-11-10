@@ -1194,10 +1194,9 @@
     setCaption(defaultCaption());
 
     lab.setFooter(lab.footerInfo('') + `<div class="lab-footer-actions">` +
-      `<button type="button" class="lab-btn lab-btn-primary" data-to-graph hidden>${LABELS.toGraph} →</button>` +
-      `<button type="button" class="lab-btn lab-btn-ghost" data-conclude>${LABELS.toConclude} →</button></div>`);
-    $('[data-to-graph]').addEventListener('click', () => setView('graph'));
+      `<button type="button" class="lab-btn lab-btn-ghost" data-conclude></button></div>`);
     $('[data-conclude]').addEventListener('click', () => {
+      if (toGraphNext()) { setView('graph'); return; }
       state.tool = null;
       lab.goToStep(3);
     });
@@ -1808,19 +1807,23 @@
   /* --- Pied de page --- */
   let stepperDone = null;
 
+  // Le bouton suivant mène d'abord à l'histogramme (tant qu'il n'est pas tracé), puis à Conclude.
+  const toGraphNext = () => state.view !== 'graph' && !graphDone();
+
   function renderFooter() {
     const info = $('.lab-footer .lab-footer-info');
     if (info) info.textContent = LABELS.infoField(valuesWritten(), squaresDone());
     const reason = missingReason();
     const done = !reason;
     if (done && lab.state.showMissing) lab.state.showMissing = false;
-    const toGraph = $('[data-to-graph]');
-    if (toGraph) toGraph.hidden = !(fieldDone() && state.view !== 'graph');
     const btn = $('[data-conclude]');
     if (btn) {
-      btn.classList.toggle('lab-btn-primary', done);
-      btn.classList.toggle('lab-btn-ghost', !done);
-      lab.setLock(btn, reason, { missing: true, key: 'conclude' });
+      const toGraph = toGraphNext();
+      const ready = toGraph ? fieldDone() : done;
+      btn.textContent = `${toGraph ? LABELS.toGraph : LABELS.toConclude} →`;
+      btn.classList.toggle('lab-btn-primary', ready);
+      btn.classList.toggle('lab-btn-ghost', !ready);
+      lab.setLock(btn, ready ? null : reason, { missing: true, key: 'conclude' });
     }
     // La barre d'étapes ne change que quand l'expérience devient complète.
     if (done !== stepperDone) { stepperDone = done; lab.renderStepper(); }

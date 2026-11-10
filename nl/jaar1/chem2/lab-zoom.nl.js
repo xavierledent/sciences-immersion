@@ -150,6 +150,9 @@ LabEngine.addText('zoom', {
     },
     runInfo: (models, notes) => `Modellen vergeleken: ${models} / 2 · Schrift: ${notes} / 2`,
     toConclude: 'Volgende: besluiten',
+    // Bouton suivant pendant l'expérience : l'autre préparation, pas encore finie.
+    toPrep: k => `Volgende: bereiding ${k}`,
+    lockPrepHere: 'Werk eerst deze bereiding af.',
 
     notebookTitle: 'Je schrift',
     typesHead: 'Aantal soorten deeltjes',
@@ -160,7 +163,7 @@ LabEngine.addText('zoom', {
     noSolute: 'er is niets opgelost',
     noteKinds: { pure: 'zuivere stof', mixture: 'mengsel' },
     mixWords: { homo: 'homogeen', hetero: 'heterogeen' },
-    choose: '— kies —',
+    choose: 'kies',
 
     // Étape 3
     resultsTitle: 'Jouw resultaten',

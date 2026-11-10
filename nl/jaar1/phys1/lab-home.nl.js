@@ -134,7 +134,7 @@ LabEngine.addText('home', {
 
     // Étape 3
     resultsTitle: 'Jouw resultaten',
-    choose: '— kies —',
+    choose: 'kies',
     forms: { C: 'chemisch (C)', M: 'mechanisch (M)', T: 'thermisch (T)', no: 'geen opslag' },
     storedHead: 'Opgeslagen energie',
     concl1: (n, store) => `In dit huis is er energie opgeslagen in ${n} voorwerpen. De toestellen die werken, ${store} energie op.`,

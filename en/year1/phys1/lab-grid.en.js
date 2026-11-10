@@ -99,7 +99,7 @@ LabEngine.addText('grid', {
     cardChain: 'Energy chain',
     cardStored: 'Energy stored (water high up)',
     noTurbine: 'No turbine!',
-    choose: '— choose —',
+    choose: 'choose',
     // La chaîne d'énergie : les objets (ovales du diagramme de flux).
     objects: { boiler: 'boiler', reactor: 'reactor', turbine: 'turbine', generator: 'generator', panel: 'solar panel' },
     cooNote: 'Coo has no energy resource: it uses the electricity of the other power plants to pump water up to a high lake, where the energy is stored. Later, the water falls down.',

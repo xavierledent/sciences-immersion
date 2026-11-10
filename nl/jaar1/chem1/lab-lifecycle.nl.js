@@ -226,7 +226,7 @@ LabEngine.addText('lifecycle', {
     avoidAria: 'Welke stappen vermijdt ze?',
     conclStep: step => `Als de voorwerpen weggegooid worden, is ${step} de stap die de meeste energie verbruikt.`,
     stepAria: 'Welke stap verbruikt de meeste energie?',
-    choose: '— kies —',
+    choose: 'kies',
     verdictLine: n => `Dus mijn hypothese ${n} is`,
     confirmed: 'bevestigd',
     rejected: 'verworpen',

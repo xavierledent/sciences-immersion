@@ -458,15 +458,28 @@
     renderTestFooter();
   }
 
+  /* Le bouton suivant : l'échantillon suivant pas encore fini (une fois un
+     échantillon sur la paillasse), puis Conclude. Touché trop tôt, il dit
+     ce qui manque. */
+  const sampleDone = id => TESTS.every(t => state.notes[id][t.id]);
+  function nextSample() {
+    if (!state.current) return null;
+    const ids = SAMPLES.map(s => s.id);
+    const todo = ids.filter(id => id !== state.current && !sampleDone(id));
+    return todo.find(id => ids.indexOf(id) > ids.indexOf(state.current)) || todo[0] || null;
+  }
+
   function renderTestFooter() {
+    const target = nextSample();
     lab.footer.innerHTML = lab.footerInfo(LABELS.observations(countNotes(), SAMPLES.length * TESTS.length)) +
       `<div class="lab-footer-actions">` +
       `<button type="button" class="lab-btn lab-btn-ghost" id="lab-table-btn">${LABELS.resultsTable}</button>` +
-      `<button type="button" class="lab-btn lab-btn-primary" id="lab-next">${LABELS.toConclude} →</button></div>`;
+      `<button type="button" class="lab-btn lab-btn-primary" id="lab-next">${target ? LABELS.toSample(target) : LABELS.toConclude} →</button></div>`;
     $('#lab-table-btn').addEventListener('click', () => openSheet('table'));
     const next = $('#lab-next');
-    next.addEventListener('click', () => lab.goToStep(3));
-    lab.setLock(next, stepComplete(2) ? null : lockReason(2), { missing: true, key: 'next' });
+    next.addEventListener('click', () => { if (target) placeSample(target); else lab.goToStep(3); });
+    const reason = target ? (sampleDone(state.current) ? null : LABELS.lockSampleHere) : (stepComplete(2) ? null : lockReason(2));
+    lab.setLock(next, reason, { missing: true, key: 'next' });
     lab.renderStepper();
   }
 
@@ -549,6 +562,7 @@
     renderTools();
     renderNotebook();
     showScene('base');
+    renderTestFooter();
   }
 
   function setCaption(html) {

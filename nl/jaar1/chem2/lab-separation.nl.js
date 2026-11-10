@@ -70,7 +70,7 @@ LabEngine.addText('separation', {
     bets: { gone: 'Verdwenen', still: 'Nog altijd in het water' },
     because: 'Waarom denk je dat? (niet verplicht)',
     becausePlaceholder: 'Omdat…',
-    choose: '— kies —',
+    choose: 'kies',
     lockPredict: 'Bekijk eerst het mengsel en maak je plan af.',
     lockPredictFixed: 'Je waarneming en je plan liggen vast: de scheiding is begonnen. Een wetenschapper verandert de hypothese niet na het zien van de resultaten!',
     predictReady: 'Je plan is klaar.',

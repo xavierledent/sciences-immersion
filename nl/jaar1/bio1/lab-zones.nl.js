@@ -81,7 +81,7 @@ LabEngine.addText('zones', {
     factors: { temp: 'Temperatuur', lux: 'Lichtsterkte', air: 'Luchtvochtigheid', soil: 'Bodemvochtigheid', species: 'Aantal soorten' },
     units: { temp: '(°C)', lux: '(lux)', air: '(%)', soil: 'droog, vochtig of nat', species: 'uit je telblad' },
     soilWords: { dry: 'droog', moist: 'vochtig', wet: 'nat' },
-    choose: 'Kies…',
+    choose: 'kies',
     countTitle: 'Biotische factoren: telblad',
     countSub: 'individuen van elke soort',
     notFound: 'Nog niets gevonden',

@@ -131,7 +131,7 @@ LabEngine.addText('home', {
 
     // Étape 3
     resultsTitle: 'Your results',
-    choose: '— choose —',
+    choose: 'choose',
     forms: { C: 'chemical (C)', M: 'mechanical (M)', T: 'thermal (T)', no: 'no storage' },
     storedHead: 'Energy stored',
     concl1: (n, store) => `Energy is stored in ${n} objects of the house. The working devices ${store} energy.`,

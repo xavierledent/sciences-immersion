@@ -148,6 +148,9 @@ LabEngine.addText('zoom', {
     },
     runInfo: (models, notes) => `Models compared: ${models} / 2 · Notebook: ${notes} / 2`,
     toConclude: 'Next: conclude',
+    // Bouton suivant pendant l'expérience : l'autre préparation, pas encore finie.
+    toPrep: k => `Next: preparation ${k}`,
+    lockPrepHere: 'Finish this preparation first.',
 
     notebookTitle: 'Your notebook',
     typesHead: 'Number of types of particles',
@@ -158,7 +161,7 @@ LabEngine.addText('zoom', {
     noSolute: 'nothing is dissolved',
     noteKinds: { pure: 'pure substance', mixture: 'mixture' },
     mixWords: { homo: 'homogeneous', hetero: 'heterogeneous' },
-    choose: '— choose —',
+    choose: 'choose',
 
     // Étape 3
     resultsTitle: 'Your results',

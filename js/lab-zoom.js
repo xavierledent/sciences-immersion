@@ -739,10 +739,22 @@
     });
   }
 
+  /* Le bouton suivant : l'autre préparation tant qu'elle n'est pas finie,
+     puis Conclude. Touché trop tôt, il dit ce qui manque. */
+  const prepDone = i => state.compared[i] && noteDone(i);
+  const otherPrep = () => IDX.find(i => i !== state.tab && !prepDone(i));
+
   function renderRunFooter() {
     lab.setFooter(lab.footerInfo('') + `<div class="lab-footer-actions">` +
-      `<button type="button" class="lab-btn lab-btn-primary" data-next>${LABELS.toConclude} →</button></div>`);
-    $('[data-next]').addEventListener('click', () => lab.goToStep(3));
+      `<button type="button" class="lab-btn lab-btn-primary" data-next></button></div>`);
+    $('[data-next]').addEventListener('click', () => {
+      const other = otherPrep();
+      if (other == null) { lab.goToStep(3); return; }
+      state.tab = other;
+      captionKey = null;
+      lab.state.showMissing = false;
+      renderExperiment();
+    });
     updateRunFooter();
   }
 
@@ -755,7 +767,12 @@
       info.classList.toggle('is-warning', warn);
     }
     const next = $('[data-next]');
-    if (next) lab.setLock(next, complete ? null : lockReason(2), { missing: true, key: 'next' });
+    if (next) {
+      const other = otherPrep();
+      next.textContent = `${other == null ? LABELS.toConclude : LABELS.toPrep(other + 1)} →`;
+      const reason = other == null ? (complete ? null : lockReason(2)) : prepDone(state.tab) ? null : LABELS.lockPrepHere;
+      lab.setLock(next, reason, { missing: true, key: 'next' });
+    }
     if (complete !== stepperDone) { stepperDone = complete; lab.renderStepper(); }
   }
 

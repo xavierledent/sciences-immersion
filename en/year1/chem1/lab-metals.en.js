@@ -56,6 +56,9 @@ LabEngine.addText('metals', {
     observations: (n, total) => `${n} / ${total} observations written`,
     resultsTable: 'Results table',
     toConclude: 'Next: conclude',
+    // Bouton suivant pendant les tests : l'échantillon suivant, pas encore fini.
+    toSample: id => `Next: sample ${id}`,
+    lockSampleHere: 'Finish the tests on this sample first.',
 
     // Descriptions des scènes pour les lecteurs d'écran, textes dessinés.
     scene: {
@@ -78,7 +81,7 @@ LabEngine.addText('metals', {
     colWhich: 'Which metal?',
     yes: 'Yes',
     no: 'No',
-    choose: 'Choose…',
+    choose: 'choose',
     backToLab: 'Back to the lab',
     referenceSheet: 'Metal reference sheet',
     checkConclusions: 'Check my conclusions',
