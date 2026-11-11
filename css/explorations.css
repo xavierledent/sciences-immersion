@@ -95,11 +95,15 @@ html[data-pointer='fine'] .explorations-side:hover {
 }
 
 /* Une tuile : titre en gras et bouton court sur la même ligne, la
-   description dessous ; le contenu centré dans la hauteur de la tuile. */
+   description dessous ; le contenu calé en haut de la tuile. Le moteur
+   donne à toutes les têtes de tuile la hauteur de la plus haute
+   (--exp-head-height) : titres, boutons et débuts de description sont
+   ainsi à la même hauteur d'une tuile à l'autre, quelle que soit la
+   longueur des textes. */
 .exp-tile {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 6px;
   padding: 10px 14px;
   border-radius: 16px;
@@ -109,13 +113,19 @@ html[data-pointer='fine'] .explorations-side:hover {
 
 .exp-tile-head {
   display: flex;
-  align-items: center;
+  /* Calés en haut : la première ligne du titre reste en face du bouton
+     (voir le padding du titre), même quand un autre titre de la rangée
+     passe sur deux lignes. */
+  align-items: flex-start;
   gap: 12px;
+  min-height: var(--exp-head-height, 0px);
 }
 
 .exp-tile-head strong {
   flex: 1;
   min-width: 0;
+  /* Première ligne centrée sur le bouton (34 px de haut). */
+  padding-top: calc((34px - 1.3em) / 2);
   font-size: 0.95rem;
   line-height: 1.3;
 }

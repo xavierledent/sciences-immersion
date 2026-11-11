@@ -31,7 +31,18 @@
     `;
   }
 
+  // Toutes les têtes de tuile (titre et bouton) prennent la hauteur de la
+  // plus haute, dans les deux cartes : un titre sur deux lignes ne décale
+  // plus son bouton ni sa description par rapport aux tuiles voisines.
+  function alignHeads(grid) {
+    grid.style.removeProperty('--exp-head-height');
+    const heads = [...grid.querySelectorAll('.exp-tile-head')];
+    const tallest = Math.max(0, ...heads.map(head => head.offsetHeight));
+    if (tallest) grid.style.setProperty('--exp-head-height', tallest + 'px');
+  }
+
   function fitDescriptions(grid) {
+    alignHeads(grid);
     const cards = [...grid.querySelectorAll('.explorations-card')];
     const sizes = new Map(cards.map(card => [card, DESC_MAX]));
     const apply = card => card.style.setProperty('--exp-desc-size', sizes.get(card) + 'rem');
