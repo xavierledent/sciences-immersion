@@ -153,6 +153,13 @@ html[data-pointer='fine'] .video-tab:not(.is-active):hover,
 }
 
 /* ----- Fiches outils : deux colonnes de pastilles ----- */
+/* --fo-scale (1 par défaut) : posé par le moteur quand la liste ne tient
+   pas dans la carte (écran moins haut que le Chromebook prévu) ; boutons,
+   espaces et textes se resserrent d'autant, la marge de la carte reste. */
+.fiches-card {
+  --fo-scale: 1;
+}
+
 .resource-list {
   flex: 1;
   margin: 0;
@@ -161,7 +168,7 @@ html[data-pointer='fine'] .video-tab:not(.is-active):hover,
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-content: center;
-  gap: 10px;
+  gap: calc(10px * var(--fo-scale));
 }
 
 .resource-list li {
@@ -170,15 +177,21 @@ html[data-pointer='fine'] .video-tab:not(.is-active):hover,
   gap: 4px;
 }
 
-.resource-list li a {
+.resources-layout .resource-list li a {
   flex: 1;
-  font-size: 0.9rem;
+  min-height: calc(46px * var(--fo-scale));
+  padding: calc(6px * var(--fo-scale)) 12px;
+  font-size: calc(0.9rem * (0.5 + var(--fo-scale) / 2));
 }
 
 .resource-list li p {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: calc(0.78rem * (0.5 + var(--fo-scale) / 2));
   text-align: center;
+}
+
+.fiches-card .resource-desc {
+  font-size: calc(0.82rem * (0.5 + var(--fo-scale) / 2));
 }
 
 /* ----- Autoévaluation et mindmaps : une carte en deux parties ----- */

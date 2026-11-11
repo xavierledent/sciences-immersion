@@ -120,6 +120,27 @@
   // Même classe et même message que dans practice-engine.js et
   // vocabulary-engine.js : une panne de chargement doit se reconnaître
   // partout sur le site, pas seulement dans les exercices.
+  // La liste des fiches outils ne tient pas dans sa carte (écran moins haut
+  // que le Chromebook prévu, beaucoup de fiches, libellés sur deux lignes) :
+  // elle se resserre pas à pas jusqu'à laisser la marge du bas de la carte.
+  // Mesuré, pas supposé : la place dépend de l'écran et des libellés.
+  const FO_SCALE_MIN = 0.6;
+
+  function fitFiches(card) {
+    const list = card && card.querySelector('.resource-list');
+    if (!list) return;
+    let scale = 1;
+    card.style.setProperty('--fo-scale', scale);
+    const overflowing = () => {
+      const limit = card.getBoundingClientRect().bottom - parseFloat(getComputedStyle(card).paddingBottom);
+      return list.getBoundingClientRect().bottom > limit + 0.5;
+    };
+    while (overflowing() && scale > FO_SCALE_MIN) {
+      scale = Math.round((scale - 0.04) * 100) / 100;
+      card.style.setProperty('--fo-scale', scale);
+    }
+  }
+
   function showError() {
     grid.innerHTML = '<div class="load-error">Erreur de chargement. Recharge la page, et préviens ton professeur si cela se reproduit.</div>';
   }
@@ -204,6 +225,16 @@
 
       grid.innerHTML = '';
       grid.append(videosSection, fichesOutilsSection, sideCard);
+
+      fitFiches(fichesOutilsSection);
+      // La police Poppins change les largeurs : on remesure à son arrivée,
+      // et quand la fenêtre change de taille.
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fitFiches(fichesOutilsSection));
+      let resizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => fitFiches(fichesOutilsSection), 150);
+      });
 
     } catch (error) {
       console.error(error);
