@@ -31,14 +31,24 @@
     `;
   }
 
-  // Toutes les têtes de tuile (titre et bouton) prennent la hauteur de la
-  // plus haute, dans les deux cartes : un titre sur deux lignes ne décale
-  // plus son bouton ni sa description par rapport aux tuiles voisines.
+  // Dans une rangée, les têtes de tuile (titre et bouton) prennent la
+  // hauteur de la plus haute : un titre sur deux lignes ne décale plus les
+  // descriptions de ses voisines. Rangée par rangée seulement, pour ne pas
+  // perdre de place ailleurs (la page est juste sur le Chromebook).
   function alignHeads(grid) {
-    grid.style.removeProperty('--exp-head-height');
-    const heads = [...grid.querySelectorAll('.exp-tile-head')];
-    const tallest = Math.max(0, ...heads.map(head => head.offsetHeight));
-    if (tallest) grid.style.setProperty('--exp-head-height', tallest + 'px');
+    const tiles = [...grid.querySelectorAll('.exp-tile')];
+    tiles.forEach(tile => tile.style.removeProperty('--exp-head-height'));
+    const rows = new Map();
+    tiles.forEach(tile => {
+      const top = Math.round(tile.offsetTop);
+      const id = tile.closest('.explorations-card').className + '|' + top;
+      if (!rows.has(id)) rows.set(id, []);
+      rows.get(id).push(tile);
+    });
+    rows.forEach(row => {
+      const tallest = Math.max(...row.map(tile => tile.querySelector('.exp-tile-head').offsetHeight));
+      row.forEach(tile => tile.style.setProperty('--exp-head-height', tallest + 'px'));
+    });
   }
 
   function fitDescriptions(grid) {
@@ -47,7 +57,13 @@
     const sizes = new Map(cards.map(card => [card, DESC_MAX]));
     const apply = card => card.style.setProperty('--exp-desc-size', sizes.get(card) + 'rem');
     cards.forEach(apply);
-    const overflowing = () => cards.filter(card => card.scrollHeight > card.clientHeight + 1 && sizes.get(card) > DESC_MIN);
+    // On mesure la grille des tuiles, pas la carte : des tuiles qui
+    // débordent dans la marge du bas de la carte ne la font pas déborder,
+    // elles colleraient au bord sans être réduites.
+    const overflowing = () => cards.filter(card => {
+      const tiles = card.querySelector('.exp-grid');
+      return tiles && tiles.scrollHeight > tiles.clientHeight + 1 && sizes.get(card) > DESC_MIN;
+    });
     for (let guard = 0; guard < 20; guard++) {
       const over = overflowing();
       if (!over.length) break;
