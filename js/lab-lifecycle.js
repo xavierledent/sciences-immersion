@@ -1196,8 +1196,23 @@
 
   const plainText = text => String(text).replace(/\[([^\]|]+)(?:\|[^\]]+)?\]/g, '$1');
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js), onglet
+     des trois façons : lancer la façon affichée, noter ses totaux ; les
+     façons pas encore lancées (dans l'ordre voulu). Jamais l'ordre des
+     cartes du voyage ni les colonnes des graphiques (à trouver). */
+  function todoEls() {
+    if (state.view !== 'ways' || running) return [];
+    const w = state.way;
+    if (!state.ran[w]) return [$('[data-run]')];
+    const empty = WAYS.flatMap(x => (state.ran[x] ? COUNTERS.filter(c => state.notes[x][c] == null).map(c => $(`[data-num="${x}|${c}"]`)) : []));
+    if (empty.length) return empty;
+    return WAYS.filter(x => !state.ran[x]).map(x => $(`[data-way="${x}"]`));
+  }
+
   lab = LabEngine.create({
     id: 'lifecycle',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

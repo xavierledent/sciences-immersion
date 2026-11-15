@@ -909,20 +909,6 @@ html[data-pointer='fine'] .os-flask:not(.lab-is-locked):hover,
   background: #fff1f0;
 }
 
-/* Case à remplir maintenant */
-.os-cell-input.is-todo,
-.os-select.is-todo {
-  border-style: solid;
-  border-color: var(--color-current);
-  background: rgba(var(--color-current-rgb), 0.14);
-  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
-}
-
-.os-cell-input.lab-is-missing,
-.os-select.is-todo.lab-is-missing {
-  border-color: #d64545;
-}
-
 /* flex, comme le moteur : en block, la flèche passerait sous le texte */
 .os-table .os-select {
   display: flex;

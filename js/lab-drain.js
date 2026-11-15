@@ -670,7 +670,7 @@
     const rows = PLACES.map(p => {
       const r = state.log[p];
       const miss = show && !rowDone(p);
-      return `<tr class="${miss ? 'is-missing' : ''}"><th scope="row">${gloss(LABELS.places[p])}</th>` +
+      return `<tr class="lab-todo-field ${miss ? 'is-missing' : ''}" data-row="${p}"><th scope="row">${gloss(LABELS.places[p])}</th>` +
         ids().map(id => `<td>${chipHTML(`data-log="${p}" data-item="${id}" aria-label="${escapeHtml(LABELS.tickAria(LABELS.places[p], shortOf(id)))}"`, r.found.includes(id) ? '✓' : '', r.found.includes(id), 'dr-tick')}</td>`).join('') +
         `<td>${chipHTML(`data-log="${p}" data-item="none"`, LABELS.nothingShort, r.none, 'dr-tick is-none')}</td>` +
         `<td>${p === 'river' ? `<span class="dr-muted">—</span>` : selectHTML(`data-tech="${p}"`, r.tech, TECHS, x => LABELS.techs[x], LABELS.techHead, miss)}</td></tr>`;
@@ -1278,8 +1278,28 @@
     };
   }
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js) : ouvrir
+     la vanne, racler la grille bouchée, puis prélever partout (dans l'ordre
+     voulu : le gobelet et les postes pas encore prélevés), analyser l'eau de
+     la rivière, et les lignes du journal des postes déjà prélevés. Jamais
+     une amélioration (le choix de l'élève). */
+  function todoEls() {
+    const d = state.day;
+    if (state.view === 'tests') return [];
+    if (!d.done) {
+      if (!dayRunning) return [$('[data-valve]')];
+      return isClogged() ? [$('[data-rake]')] : [];
+    }
+    const out = PLACES.filter(p => state.sampled[p] && !rowDone(p)).map(p => $(`.dr-logtable tr[data-row="${p}"]`));
+    if (!sampledAll()) return out.concat($('[data-cup]'), PLACES.filter(p => !state.sampled[p]).map(p => $(`.dr-zone[data-place="${p}"]`)));
+    if (!state.analysed) out.push($('[data-analyse]'));
+    return out;
+  }
+
   lab = LabEngine.create({
     id: 'drain',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     title: LABELS.title,
     glossary: GLOSSARY,
     reset,

@@ -1428,8 +1428,27 @@
     };
   }
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js), dans
+     l'ordre de defaultCaption : la lampe à visser, la manivelle, les points
+     à mesurer, les cases à remplir, puis l'onglet du diagramme. Jamais
+     l'instrument (le bon instrument pour chaque point est à trouver) ni les
+     formes d'énergie du diagramme. */
+  function todoEls() {
+    if (state.view === 'diagram') return [];
+    const k = state.socket;
+    if (!k) return run.pair.map(l => $(`[data-lamp="${l}"]`));
+    if (!tested(k)) return [$('.eb-handle')];
+    const toMeasure = SPOTS.filter(s => !state.measured[k][s]);
+    const toWrite = SPOTS.filter(s => state.measured[k][s] && !written(k, s)).map(s => $(`[data-cell="${k}|${s}"]`));
+    if (toMeasure.length || toWrite.length) return toWrite.concat(toMeasure.map(s => $(`[data-spot="${s}"]`)));
+    const o = other(k);
+    return SPOTS.every(s => written(o, s)) ? [$('[data-view="diagram"]')] : [$(`[data-lamp="${o}"]`)];
+  }
+
   lab = LabEngine.create({
     id: 'energy',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

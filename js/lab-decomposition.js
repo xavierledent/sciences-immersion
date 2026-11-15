@@ -1215,8 +1215,24 @@
     };
   }
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js), une fois
+     les bocaux préparés : faire passer le temps, peser les sachets de la
+     semaine (dans l'ordre voulu), noter la masse lue. Jamais pendant la
+     préparation des bocaux : le test équitable est à concevoir. */
+  function todoEls() {
+    if (!state.started) return [];
+    const wait = $('[data-wait]');
+    if (state.wi === 0) return [wait];
+    const j = state.active;
+    if (j != null && state.points[j][state.wi] == null) return [$(`[data-cell="${j}"]`)];
+    if (weekComplete()) return state.wi === WEEKS.length - 1 ? [] : [wait];
+    return state.jars.map((cfg, k) => (state.points[k][state.wi] == null ? $(`.dc-jar[data-jar="${k}"]`) : null));
+  }
+
   lab = LabEngine.create({
     id: 'decomposition',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

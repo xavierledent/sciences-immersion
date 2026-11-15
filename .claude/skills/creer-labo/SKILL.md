@@ -179,6 +179,18 @@ Règles qui font l'harmonie du site :
   blocage caché dans la simulation (le bouton « Verrous » des enseignants ne
   lève que ceux-là). Raison en texte simple, sans mot souligné. Le bouton
   suivant reste actif ; touché trop tôt, il dit ce qui manque.
+- **Ce qu'il faut faire maintenant** : `todo(step)` dans `LabEngine.create`
+  rend les éléments à mettre en couleur (en général à l'étape 2 : la case à
+  remplir, le geste suivant, souvent dans l'ordre de `defaultCaption`). Le
+  moteur pose et retire la couleur (`lab-todo` : case teintée, objet ou
+  bouton qui pulse, halo dans un SVG ; `lab-todo-field` donne le style
+  d'une case à un autre élément, une ligne de carnet), jamais sur un
+  verrouillé ni après le Check. Jamais ce qui désigne la réponse (l'outil
+  ou l'instrument à choisir, la coupelle, la carte, l'étiquette, la
+  flèche, le choix de l'élève) ; dans un labo où l'ordre est libre,
+  seulement les cases vides déjà lisibles, ou tout ce qui reste sans ordre
+  imposé. Modèles : `lab-melting.js`, `lab-ostend.js` (gestes et cases),
+  `lab-home.js` (ordre libre), `lab-separation.js` (journal seulement).
 - **Étapes** : `stepComplete(n)` dit si l'étape est complète ; une étape ne
   s'ouvre que si les précédentes le sont. L'hypothèse se fige dès que
   l'expérience commence (verrou qui explique pourquoi, comme dans les quatre

@@ -1519,8 +1519,32 @@
 
   const plainText = text => String(text).replace(/\[([^\]|]+)(?:\|[^\]]+)?\]/g, '$1');
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js), dans la
+     salle de contrôle : lancer le test 1 (imposé), noter les heures de
+     panne de chaque journée jouée, le carnet du test 1, puis, après une
+     journée sans panne, les cases vides du test 2 ; la journée suivante se
+     lance une fois l'installation choisie. Jamais une carte d'identité (les
+     mots sont à trouver) ni l'installation à ajouter (le choix de l'élève). */
+  function todoEls() {
+    if (state.view !== 'room' || running) return [];
+    if (!state.ran1) return [$('[data-run]')];
+    const n = state.notes;
+    const out = [];
+    for (let d = 0; d < daysPlayed(); d++) if (n.hours[d] == null) out.push($(`[data-hours="${d}"]`));
+    if (!n.nothing.length) out.push($('.gr-nb-q'));
+    if (success()) {
+      PLANTS.forEach(p => ['dark', 'same'].forEach(k => {
+        const chip = !n.plants[p][k] && $(`[data-note="${p}|${k}"]`);
+        if (chip) out.push(chip.closest('td'));
+      }));
+    } else if (!out.length && state.shown === 'next' && state.next) out.push($('[data-run]'));
+    return out;
+  }
+
   lab = LabEngine.create({
     id: 'grid',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

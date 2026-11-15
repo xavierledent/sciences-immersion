@@ -720,7 +720,7 @@
      carnet (une colonne par eau). Les blocs de glace se prennent en main
      (makeDraggable, hold) ; « Pour » verse une eau sur son bloc ; « Start
      the race » fait passer les 40 minutes d'un coup. Ce qu'il faut faire
-     maintenant est en couleur (is-todo, comme dans « Ostend 2100 »). */
+     maintenant est en couleur (todo, voir lab-engine.js). */
   const RACE_ICON = `<svg class="mr-race-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
     `<circle cx="12" cy="13.5" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/>` +
     `<path d="M12,13.5 V9 M9.5,2.5 h5 M12,2.5 V6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
@@ -817,7 +817,6 @@
     renderRunFooter();
     updateLocks();
     updateMarks();
-    markTodo();
     setCaption(caption || defaultCaption());
     startLens();
   }
@@ -1027,7 +1026,6 @@
     if (lab.state.showMissing && benchDone()) lab.state.showMissing = false;
     updateLocks();
     updateMarks();
-    markTodo();
     setCaption(defaultCaption());
     updateRunFooter();
   }
@@ -1135,12 +1133,6 @@
       case 'melted': return empty('melted', SIDES);
       default: return [];
     }
-  }
-
-  function markTodo() {
-    $$('.is-todo').forEach(el => el.classList.remove('is-todo'));
-    if (lab.isFrozen()) return;
-    todoEls().forEach(el => { if (el && !el.classList.contains('lab-is-locked')) el.classList.add('is-todo'); });
   }
 
   const defaultCaption = () => LABELS.captions[nextTask()];
@@ -1470,6 +1462,8 @@
 
   lab = LabEngine.create({
     id: 'melting',
+    // Ce qu'il faut toucher ou remplir maintenant (voir nextTask).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

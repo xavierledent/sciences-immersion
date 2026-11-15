@@ -467,33 +467,10 @@ html[data-pointer='fine'] .mr-ice.lab-holdable:hover,
   filter: drop-shadow(0 8px 14px rgba(17, 36, 72, 0.28));
 }
 
-/* Ce qu'il faut faire maintenant : en couleur (comme dans « Ostend 2100 ») */
-.mr-ice.is-todo {
+/* Ce qu'il faut faire maintenant (lab-todo, style du moteur) : le bloc de
+   glace garde des coins arrondis. */
+.mr-ice.lab-todo {
   border-radius: 10px;
-  box-shadow: 0 0 0 3px var(--color-current), 0 0 0 8px rgba(var(--color-current-rgb), 0.18);
-  animation: mr-todo 1.8s ease-in-out infinite;
-}
-
-@keyframes mr-todo {
-  0%, 100% { box-shadow: 0 0 0 3px var(--color-current), 0 0 0 6px rgba(var(--color-current-rgb), 0.25); }
-  50% { box-shadow: 0 0 0 3px var(--color-current), 0 0 0 11px rgba(var(--color-current-rgb), 0); }
-}
-
-.mr-pour.is-todo {
-  animation: mr-pulse 1.8s ease-in-out infinite;
-}
-
-.mr-cell.is-todo,
-.mr-select.is-todo {
-  border-style: solid;
-  border-color: var(--color-current);
-  background: rgba(var(--color-current-rgb), 0.14);
-  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
-}
-
-.mr-cell.is-todo.lab-is-missing,
-.mr-select.is-todo.lab-is-missing {
-  border-color: #d64545;
 }
 
 /* Minuterie : le temps depuis le versement et « Start the race » */
@@ -611,8 +588,6 @@ button.mr-race.is-ready {
 
 @media (prefers-reduced-motion: reduce) {
   button.mr-race.is-ready,
-  .mr-pour.is-todo,
-  .mr-ice.is-todo,
   .mr-steam { animation: none; }
   .mr-steam { opacity: 0.7; }
 }

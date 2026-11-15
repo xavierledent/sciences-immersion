@@ -1361,8 +1361,32 @@
     };
   }
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js), dans
+     l'ordre de defaultCaption : le récipient à déplacer, la case à remplir,
+     le bouton suivant. Fermer ou non le récipient est un choix de l'élève :
+     jamais en couleur. */
+  function todoEls() {
+    const b = state.bench;
+    if (benchDone()) return [];
+    const empty = (el, on) => (on ? el : null);
+    if (timeUp()) {
+      if (b.probe) return [$('[data-probe]')];
+      return b.pos === 'balance' ? [empty($('[data-mass="end"]'), b.mass.end == null)] : [$('[data-vessel]')];
+    }
+    if (b.minute >= 0) {
+      if (rowDone(b.minute)) return [$('[data-tick]')];
+      return [empty($('[data-temp-cell]'), b.temps[b.minute] == null), empty($('[data-state-cell]'), !b.states[b.minute])];
+    }
+    if (b.pos === 'bench') return [$('[data-vessel]')];
+    if (b.pos === 'balance') return [b.mass.start == null ? $('[data-mass="start"]') : $('[data-vessel]')];
+    if (!b.measuring) return [$('[data-start]')];
+    return [$('[data-probe]')];
+  }
+
   lab = LabEngine.create({
     id: 'statechange',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

@@ -891,8 +891,22 @@
 
   const plainText = text => String(text).replace(/\[([^\]|]+)(?:\|[^\]]+)?\]/g, '$1');
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js). Les
+     missions se font dans l'ordre que l'élève veut : seules les cases du
+     carnet déjà lisibles (pièce filmée, compteur lu) et encore vides sont
+     en couleur. Jamais une étiquette ni un objet (C, M, T : à trouver). */
+  function todoEls() {
+    const n = state.notes;
+    return run.devices.flatMap(id => [
+      state.measured.temp[id] && n.temp[id] == null ? $(`[data-temp="${id}"]`) : null,
+      state.measured.watt[id] && n.watt[id] == null ? $(`[data-watt="${id}"]`) : null
+    ]);
+  }
+
   lab = LabEngine.create({
     id: 'home',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

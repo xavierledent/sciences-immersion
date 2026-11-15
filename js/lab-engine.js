@@ -44,7 +44,10 @@
                   une animation) ; lever une erreur si data ne convient pas,
      summary()  : { score, total, criteria: { clé: bool }, labels: { clé:
                   libellé }, details } pour le suivi (événement lab_checked,
-                  résultat labResult lu par le tableau de bord)
+                  résultat labResult lu par le tableau de bord),
+     todo(step) : facultatif, les éléments à mettre en couleur maintenant
+                  (case à remplir, geste à faire) ; voir « Ce qu'il faut
+                  faire maintenant »
    }
 
    Reprise : le travail est enregistré (SiteStorage, famille labProgress) à
@@ -778,6 +781,38 @@
     card.addEventListener('click', queueSave);
     card.addEventListener('change', queueSave);
     card.addEventListener('input', queueSave);
+
+    /* ===== Ce qu'il faut faire maintenant =====
+       def.todo(step) rend les éléments à mettre en avant (un tableau, des
+       null permis) : une case à remplir (input, select, textarea, ou tout
+       élément marqué lab-todo-field) prend la couleur du chapitre ; un objet
+       à prendre ou un bouton à toucher pulse doucement. Le moteur le
+       recalcule après chaque dessin d'étape, chaque geste et chaque
+       changement du corps du labo (une fois par image au plus) : le labo n'a
+       rien d'autre à appeler. Jamais sur un élément verrouillé (ni dans un
+       verrouillé), rien après le Check (mode figé), rien sur la page
+       Mission. La couleur guide le geste, jamais la réponse : rien qui
+       désigne le bon choix (l'outil à prendre quand l'élève le choisit, la
+       case où poser une étiquette…) ; dans un labo où l'ordre est libre,
+       seulement les cases vides de la partie ouverte. */
+    let todoFrame = 0;
+    function refreshTodo() {
+      cancelAnimationFrame(todoFrame);
+      todoFrame = 0;
+      const want = new Set();
+      if (def.todo && !isFrozen() && lab.state.step < 4 && !card.classList.contains('lab-is-briefing')) {
+        [].concat(def.todo(lab.state.step) || []).flat(Infinity).forEach(el => {
+          if (el && el.nodeType === 1 && card.contains(el) && !el.closest('.lab-is-locked')) want.add(el);
+        });
+      }
+      card.querySelectorAll('.lab-todo').forEach(el => { if (!want.has(el)) el.classList.remove('lab-todo'); });
+      want.forEach(el => el.classList.add('lab-todo'));
+    }
+    function queueTodo() {
+      if (def.todo && !todoFrame) todoFrame = requestAnimationFrame(refreshTodo);
+    }
+    ['click', 'change', 'input'].forEach(t => card.addEventListener(t, queueTodo));
+    new MutationObserver(queueTodo).observe(card, { childList: true, subtree: true });
     document.addEventListener('visibilitychange', () => {
       if (!overlay.classList.contains('modal-open')) return;
       if (document.visibilityState === 'hidden') { stopClock(); saveProgress(); }
@@ -1443,6 +1478,7 @@
       card.classList.toggle('lab-is-frozen', isFrozen());
       def.render[lab.state.step]();
       if (isFrozen()) frozenFooter();
+      refreshTodo();
       // Étape 4 : lab_checked (lab.finish), plus complet.
       if (lab.state.step > lab.state.reached) {
         lab.state.reached = lab.state.step;

@@ -966,6 +966,48 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
   background: #fff6f5 !important;
 }
 
+/* Ce qu'il faut faire maintenant (def.todo, posé par le moteur) : une case
+   à remplir prend la couleur du chapitre ; un objet à prendre ou un bouton
+   à toucher pulse doucement. Dans un dessin SVG, un halo. */
+input.lab-todo,
+select.lab-todo,
+textarea.lab-todo,
+.lab-todo-field.lab-todo {
+  border-style: solid;
+  border-color: var(--color-current);
+  background-color: rgba(var(--color-current-rgb), 0.14);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+}
+
+.lab-todo:not(input, select, textarea, .lab-todo-field) {
+  animation: lab-todo 1.8s ease-in-out infinite;
+}
+
+@keyframes lab-todo {
+  0%, 100% { box-shadow: 0 0 0 3px var(--color-current), 0 0 0 5px rgba(var(--color-current-rgb), 0.3); }
+  50% { box-shadow: 0 0 0 3px var(--color-current), 0 0 0 11px rgba(var(--color-current-rgb), 0); }
+}
+
+svg .lab-todo:not(svg, .lab-todo-field) {
+  animation-name: lab-todo-svg;
+}
+
+@keyframes lab-todo-svg {
+  0%, 100% { filter: drop-shadow(0 0 2px var(--color-current)) drop-shadow(0 0 3px var(--color-current)); }
+  50% { filter: drop-shadow(0 0 1px var(--color-current)) drop-shadow(0 0 8px rgba(var(--color-current-rgb), 0.5)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-todo:not(input, select, textarea, .lab-todo-field) {
+    animation: none;
+    box-shadow: 0 0 0 3px var(--color-current), 0 0 0 6px rgba(var(--color-current-rgb), 0.25);
+  }
+  svg .lab-todo:not(svg, .lab-todo-field) {
+    box-shadow: none;
+    filter: drop-shadow(0 0 2px var(--color-current)) drop-shadow(0 0 3px var(--color-current));
+  }
+}
+
 /* ===== Mots soulignés et leur traduction ===== */
 .lab-gloss {
   text-decoration: underline dotted var(--color-current);

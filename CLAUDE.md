@@ -244,6 +244,10 @@ scripts chargés.
   - tout ce qui n'est pas accessible passe par `lab.setLock` (cadenas et
     bulle qui explique), jamais `disabled` ni un blocage caché ; une étape
     s'ouvre quand les précédentes sont complètes (`stepComplete`) ;
+  - ce qu'il faut faire maintenant est en couleur : `todo(step)` rend les
+    éléments (case à remplir, geste suivant), le moteur pose la couleur ;
+    jamais ce qui désigne la réponse, et dans un labo à ordre libre
+    seulement les cases vides déjà lisibles (détail dans le skill) ;
   - après le Check, les étapes 1 à 3 sont figées par le moteur : rien ne
     change à l'affichage d'une étape, seulement sur un geste ; ce qui ne fait
     que montrer porte `data-lab-look` ; tester `lab.isFrozen()`, jamais

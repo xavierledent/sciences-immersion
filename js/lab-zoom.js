@@ -1054,8 +1054,33 @@
   const validPoints = pts => Array.isArray(pts) && pts.every(p => p && PARTICLES[p.t] && typeof p.x === 'number' && typeof p.y === 'number');
   const two = a => Array.isArray(a) && a.length === 2;
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js), pour la
+     préparation affichée : verser, mélanger, dire ce qu'on voit, zoomer ;
+     après la comparaison, les cases vides du carnet ; puis l'autre
+     préparation. Jamais le modèle (couleurs, particules, moment de
+     comparer : c'est le travail de l'élève). */
+  function todoEls() {
+    const i = state.tab;
+    if (!state.mixed[i]) {
+      const left = prepOf(i).ing.filter(g => !state.poured[i].includes(g));
+      return left.length ? left.map(g => $(`[data-pour="${g}"]`)) : [$('[data-mix]')];
+    }
+    if (!state.seen[i]) return [$('.zm-seen')];
+    if (!state.zoomed[i]) return [$('[data-zoom]')];
+    if (!state.compared[i]) return [];
+    if (!noteDone(i)) {
+      const n = state.notes[i];
+      const need = ['n', 'kind'].concat(n.kind === 'mixture' ? ['mix'] : [], solutionOpen(i) ? ['solvent', 'solute'] : []);
+      return need.filter(k => !n[k]).map(k => $(`select[data-note="${k}"][data-of="${i}"]`));
+    }
+    const other = otherPrep();
+    return other == null ? [] : [$(`[data-tab="${other}"]`)];
+  }
+
   lab = LabEngine.create({
     id: 'zoom',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

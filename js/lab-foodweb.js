@@ -1357,8 +1357,35 @@
 
   const plainText = text => String(text).replace(/\[([^\]|]+)(?:\|[^\]]+)?\]/g, '$1');
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js). Le
+     modèle est à construire par l'élève : jamais une carte, une rangée ni
+     une flèche ; seulement « vérifier les rangées » quand tout est posé,
+     puis le passage aux flèches. La maladie : lancer chaque test, puis les
+     cases vides du carnet (années 0 et 10, allure de la courbe). */
+  function todoEls() {
+    if (state.view === 'model') {
+      const m = state.model;
+      if (m.done || state.mode !== 'place') return [];
+      if (m.rowsOk) return [$('[data-mode="arrows"]')];
+      return allPlaced() ? [$('[data-compare]')] : [];
+    }
+    if (running) return [];
+    const ran = state.test === 1 ? state.ran1 : state.ran2;
+    if (!ran) return [$('[data-run]')];
+    const out = [];
+    (state.test === 1 ? ROLES : ['chain']).forEach(r => {
+      const n = state.notes[r];
+      ['y0', 'y10'].forEach(k => { if (n[k] == null) out.push($(`[data-num="${r}|${k}"]`)); });
+      if (!n.trend) { const b = $(`[data-trend="${r}"]`); if (b) out.push(b.closest('.fw-nb-trends')); }
+    });
+    if (!out.length && state.test === 1 && !state.ran2) out.push($('[data-test="2"]'));
+    return out;
+  }
+
   lab = LabEngine.create({
     id: 'foodweb',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

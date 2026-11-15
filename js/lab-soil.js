@@ -1346,8 +1346,27 @@
     };
   }
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js). L'ordre
+     des outils est libre : d'abord les gants, puis chaque outil qui a encore
+     du travail ; un outil en main, les bacs où il en a. Jamais une coupelle
+     (le tri est à trouver) ; « Wet or dry? » est déjà mis en avant
+     (is-asking). */
+  function todoEls() {
+    if (!state.gloves) return [$('[data-tool="gloves"]')];
+    const work = {
+      spatula: s => !s.spread,
+      magnifier: s => s.spread && !s.lensUsed,
+      touch: s => s.spread && !s.touched
+    };
+    const t = state.tool;
+    if (t && work[t]) return samples().filter(work[t]).map(s => $(`[data-frame="${s.S}"]`));
+    return Object.keys(work).filter(k => samples().some(work[k])).map(k => $(`[data-tool="${k}"]`));
+  }
+
   lab = LabEngine.create({
     id: 'soil',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

@@ -536,7 +536,7 @@
       const done = state.done[id][t.id];
       const val = state.notes[id][t.id];
       const opts = t.options.map(o => `<button type="button" class="lab-note-opt ${val === o ? 'is-selected' : ''}" data-test="${t.id}" data-val="${o}" aria-pressed="${val === o}">${LABELS.options[o]}</button>`).join('');
-      return `<div class="lab-note-row ${done ? '' : 'is-locked'} ${done && !val ? 'is-pending' : ''} ${t.options.length > 2 ? 'is-four' : ''}" data-row="${t.id}">` +
+      return `<div class="lab-note-row lab-todo-field ${done ? '' : 'is-locked'} ${done && !val ? 'is-pending' : ''} ${t.options.length > 2 ? 'is-four' : ''}" data-row="${t.id}">` +
         `<div class="lab-note-head"><span class="lab-note-icon">${toolImg(t.id)}</span><span class="lab-note-name">${LABELS.tests[t.id].name}</span>` +
         `${done ? '' : `<span class="lab-note-lock" title="${LABELS.notebookLocked}" aria-label="${LABELS.notebookLocked}">${lab.lockIcon}</span>`}</div>` +
         `<p class="lab-note-q">${gloss(LABELS.tests[t.id].question)}</p>` +
@@ -1354,8 +1354,24 @@
     };
   }
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js). L'ordre
+     des échantillons et des tests est libre : tout ce qui reste est en
+     couleur (les échantillons pas finis, les tests pas faits sur celui de
+     la paillasse), et la ligne du carnet à remplir après un test. */
+  function todoEls() {
+    const id = state.current;
+    const unfinished = SAMPLES.filter(s => !sampleDone(s.id) && s.id !== id).map(s => $(`.lab-tray-item[data-sample="${s.id}"]`));
+    if (!id) return unfinished;
+    const pending = TESTS.filter(t => state.done[id][t.id] && !state.notes[id][t.id]);
+    if (pending.length) return pending.map(t => $(`.lab-note-row[data-row="${t.id}"]`));
+    const tools = TESTS.filter(t => !state.done[id][t.id]).map(t => $(`.lab-tool[data-test="${t.id}"]`));
+    return tools.length ? tools : unfinished;
+  }
+
   lab = LabEngine.create({
     id: 'metals',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

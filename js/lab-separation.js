@@ -1715,8 +1715,29 @@
     };
   }
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js). L'ordre
+     des séparations et les outils sont à trouver par l'élève : jamais un
+     outil ni un récipient en couleur. Seulement ce qui reste vide dans le
+     journal (ce qu'on retire, l'outil, ce qui reste) et, quand plus rien
+     ne peut se séparer, « nouvel échantillon ». */
+  function todoEls() {
+    const out = [];
+    $$('.sp-log .sp-row').forEach((row, i) => {
+      const r = logRows()[i];
+      if (!r) return;
+      const groups = row.querySelectorAll('.sp-chips');
+      if (!r.ans.removed.length) out.push(groups[0]);
+      if (!r.ans.tool) out.push(row.querySelector('select[data-c]'));
+      if (!r.ans.left.length) out.push(groups[1]);
+    });
+    if (deadEnd() && !separated()) out.push($('[data-new]'));
+    return out;
+  }
+
   lab = LabEngine.create({
     id: 'separation',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

@@ -702,18 +702,40 @@
     updateRunFooter();
   }
 
-  /* Cases à remplir maintenant : en couleur (is-todo), pour suivre l'ordre
-     des gestes ; en rouge si le bouton suivant a été touché trop tôt. */
+  /* Ce qu'il faut faire maintenant, poste par poste (def.todo, voir
+     lab-engine.js) : les cases à remplir, et le geste suivant du poste
+     affiché. Les protections à essayer restent un choix libre : jamais en
+     couleur. Une case attendue passe au rouge si le bouton suivant a été
+     touché trop tôt. */
+  function todoFields() {
+    const out = fields.filter(f => f.open() && f.get() == null).map(f => $(`[data-field="${f.id}"]`));
+    if (state.tab === 2) CONFIGS.forEach(key => { if (testOpen(key) && !state.s3.tests[key].over) out.push($(`[data-over="${key}"]`)); });
+    return out.filter(Boolean);
+  }
+
+  function todoEls() {
+    const { s1, s2, s3 } = state;
+    const out = todoFields();
+    if (state.tab === 0) {
+      if (!(s1.iceA && s1.iceB)) out.push($('[data-ice]'));
+      else if (!s1.melted && s1.notes.a0 != null && s1.notes.b0 != null) out.push($('[data-melt]'));
+    } else if (state.tab === 1) {
+      if (!s2.back && s2.pos === 'balance' && s2.mass.start != null) out.push($('[data-flask]'));
+      else if (!s2.back && s2.pos === 'bath' && s2.levels[s2.step] != null) out.push(s2.step < 3 ? $('[data-heat]') : $('[data-flask]'));
+    } else if (!s3.storm) {
+      if (s3.year === 0) out.push(testDone('2025-00') ? $('[data-year="1"]') : $('[data-storm]'));
+      else if (s3.rise != null && Object.values(s3.parts).every(v => v != null)) {
+        if (!testDone('2100-00')) { if (currentKey() === '2100-00') out.push($('[data-storm]')); }
+        else if (!testDone('2025-00')) out.push($('[data-year="0"]'));
+      }
+    }
+    return out;
+  }
+
   function updateMarks() {
     const show = lab.state.showMissing;
-    const mark = (el, todo) => {
-      if (!el) return;
-      el.classList.toggle('is-todo', todo && !lab.isFrozen());
-      el.classList.toggle('lab-is-missing', show && todo);
-    };
-    fields.forEach(f => mark($(`[data-field="${f.id}"]`), f.open() && f.get() == null));
-    if (state.tab !== 2) return;
-    CONFIGS.forEach(key => mark($(`[data-over="${key}"]`), testOpen(key) && !state.s3.tests[key].over));
+    const todo = new Set(todoFields());
+    $$('[data-field], [data-over]').forEach(el => el.classList.toggle('lab-is-missing', show && todo.has(el)));
   }
 
   const testOpen = key => state.s3.storm && currentKey() === key;
@@ -1410,6 +1432,8 @@
 
   lab = LabEngine.create({
     id: 'ostend',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,

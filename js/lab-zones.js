@@ -2303,8 +2303,36 @@
     };
   }
 
+  /* Ce qu'il faut faire maintenant (def.todo, voir lab-engine.js). Le
+     terrain se fait dans l'ordre que l'élève veut : seules les cases déjà
+     lisibles et encore vides sont en couleur (mesure prise, espèce nommée,
+     interaction notée : signes et nom de la relation). Jamais un outil, un
+     être vivant ni un bâton de l'histogramme. */
+  function todoEls() {
+    if (state.view === 'graph') return [];
+    const out = [];
+    ZONES.forEach(Z => {
+      Object.keys(state.measured[Z]).forEach(f => {
+        if (!state.measured[Z][f]) return;
+        const v = state.table[Z][f];
+        if (f === 'soil' ? !v : v == null) out.push($(f === 'soil' ? `[data-soil="${Z}"]` : `[data-cell="${Z}:${f}"]`));
+      });
+      state.found[Z].forEach(t => { if (state.counts[Z][t] == null) out.push($(`[data-count="${Z}:${t}"]`)); });
+    });
+    state.inter.forEach(x => {
+      ['sa', 'sb'].forEach(key => {
+        const chip = !x[key] && $(`[data-sign^="${x.clue}|${key}:"]`);
+        if (chip) out.push(chip.closest('.zn-sign-row'));
+      });
+      if (!x.rel) out.push($(`[data-rel="${x.clue}"]`));
+    });
+    return out;
+  }
+
   lab = LabEngine.create({
     id: 'zones',
+    // Ce qu'il faut toucher ou remplir maintenant (voir todoEls).
+    todo: step => (step === 2 ? todoEls() : []),
     // Page d'accueil (Mission, voir lab-engine.js) : toujours la même, rien du tirage.
     briefing: () => ({
       heading: LABELS.briefTitle,
