@@ -1,11 +1,11 @@
 // PreToolUse hook (Edit|Write): refuses direct edits to the generated chapter
-// pages and points to the template instead. These 60 files are rewritten by
+// pages and points to the template instead. These 72 files are rewritten by
 // tools/generate-all.js, so a hand edit would be lost at the next generation.
 // index.html is not covered: only a few marked lines of it are generated.
 //
 // Reads the hook payload on stdin; prints a "deny" decision or nothing.
 
-const GENERATED = /(?:^|\/)(en\/year\d+|nl\/jaar\d+)\/[^/]+\/(vocabulary|practice|resources|explorations|assessment)\.html$/i;
+const GENERATED = /(?:^|\/)(en\/year\d+|nl\/jaar\d+)\/[^/]+\/(vocabulary|practice|resources|explorations|laboratory|assessment)\.html$/i;
 
 let raw = '';
 process.stdin.setEncoding('utf8');
