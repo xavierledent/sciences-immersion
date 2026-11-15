@@ -172,16 +172,19 @@ précise est retrouvée.
 Chaleur et température par le modèle moléculaire : une tasse d'eau très
 chaude ou une cruche d'un litre plus tiède, qui fait fondre le plus de
 glace ? Une paire tirée parmi cinq (masse fondue ≈ volume × température /
-80, arrondie à 5 g) : la tasse gagne, la cruche gagne, ou égalité ; masse
-des deux blocs tirée (800 g, 1 kg ou 1,2 kg). Deux paris à Predict (le
-gagnant ; l'eau la plus chaude quand la glace ne fond plus). Peser chaque
-bloc, un thermomètre dans chaque eau, noter volumes et températures,
-verser sur les blocs dans deux boîtes isolantes ; loupe à particules sur
-chaque boîte (tout le contenu, un point = beaucoup de particules : peu de
-rapides contre beaucoup de lentes, chocs contre la glace ; outil voisin du
-microscope imaginaire de « Zoom in », voulu ainsi) ; attendre par pas de
-10 minutes jusqu'à 0 °C des deux côtés ; loupe de nouveau ; sortir et
-repeser les blocs, soustraction. Conclude : le gagnant et si c'était l'eau
+80, arrondie à 5 g) : la tasse gagne, la cruche gagne, ou égalité . Deux
+blocs de 600 g (revu le 2026-11-15 après test : il doit rester de la glace
+des deux côtés, sinon la course ne compare plus rien, mais une grande part
+fond). Deux paris à Predict (le gagnant ; l'eau la plus chaude quand la
+glace ne fond plus). Volumes et températures de départ donnés (déjà dans
+le carnet), thermomètres déjà dans les eaux ; peser chaque bloc, le poser
+dans une boîte isolante, verser ; la loupe à particules montre les deux
+boîtes côte à côte (tout le contenu, un point = beaucoup de particules :
+peu de rapides contre beaucoup de lentes, chocs contre la glace, glace qui
+se détache en particules d'eau ; outil voisin du microscope imaginaire de
+« Zoom in », voulu ainsi) ; une seule course de 40 minutes jusqu'à 0 °C
+des deux côtés (voulu : même vitesse des particules à la fin) ; sortir et
+repeser les blocs, soustraction. Ce qu'il faut faire est en couleur. Conclude : le gagnant et si c'était l'eau
 la plus chaude ; température, énergie thermique, chaleur (la glace ne
 « donne pas de froid »), fin de la fonte à la même température. Modèle
 simplifié (boîtes parfaitement isolées, glace à 0 °C), dit au Check.

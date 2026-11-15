@@ -79,9 +79,10 @@ tableau, repeser ; la manipulation se recommence une fois), « The great
 melting race » (chaleur et température : une tasse d'eau très chaude et une
 cruche d'un litre plus tiède, paire tirée parmi cinq, gagnant variable,
 égalité possible ; deux paris : le gagnant, l'eau la plus chaude à la fin ;
-peser les blocs, thermomètres, verser, loupe à particules sur chaque boîte
-(tout le contenu, un point = beaucoup de particules), attendre par pas de
-10 minutes, repeser, soustraction ; expérience sur un modèle) et « Ostend 2100 »
+blocs de 600 g pesés, volumes et températures de départ donnés, verser,
+loupe à particules sur les deux boîtes côte à côte (tout le contenu, un
+point = beaucoup de particules), une seule course de 40 minutes, repeser,
+soustraction ; ce qu'il faut faire est en couleur ; expérience sur un modèle) et « Ostend 2100 »
 (labo fait en classe, élargi : pourquoi la mer monte et ce que cela change à
 Ostende ; trois postes : les deux verres, glaçons flottants ou sur grille ;
 l'eau de mer tiédie dans un flacon à tube fin, sur balance ; un modèle de la

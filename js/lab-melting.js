@@ -12,23 +12,26 @@
    l'élève au Check).
 
    Tiré au sort à chaque nouveau labo : une paire d'eaux parmi cinq (une
-   tasse d'eau très chaude, une cruche d'un litre d'eau tiède) et la masse
-   des deux blocs de glace (800 g, 1 kg ou 1,2 kg, la même pour les deux).
-   Masse fondue ≈ volume × température / 80, arrondie à 5 g : selon la
-   paire, la tasse gagne, la cruche gagne, ou égalité.
+   tasse d'eau très chaude, une cruche d'un litre plus tiède). Masse fondue
+   = volume × température / 80, arrondie à 5 g (valeurs réelles : 334 J
+   pour fondre 1 g de glace, 4,18 J par gramme d'eau et par degré) : selon
+   la paire, la tasse gagne, la cruche gagne, ou égalité. Les deux blocs
+   pèsent toujours 600 g : il en reste dans chaque boîte (sinon la course
+   ne compare plus rien), mais une grande part fond et cela se voit.
 
    Déroulé :
      1. Predict    — deux paris par boutons : quelle eau fait fondre le plus
                      de glace ; quand la glace ne fond plus, quelle eau est la
                      plus chaude. « Why do you think so? » facultatif
-     2. Experiment — peser chaque bloc ; un thermomètre dans chaque eau ;
-                     noter températures et volumes ; un bloc par boîte ;
-                     verser ; loupe à particules sur chaque boîte (tout le
-                     contenu, un point = beaucoup de particules) et noter ;
-                     attendre par pas de 10 minutes jusqu'à ce que les
-                     thermomètres ne bougent plus ; loupe de nouveau ; noter
-                     les températures finales ; sortir et repeser chaque
-                     bloc ; calculer la masse fondue
+     2. Experiment — volumes et températures de départ donnés (déjà dans le
+                     carnet), thermomètres déjà dans les eaux ; peser chaque
+                     bloc, un bloc par boîte ; verser ; la loupe à particules
+                     montre les deux boîtes côte à côte (tout le contenu, un
+                     point = beaucoup de particules) : noter ; « Start the
+                     race » : 40 minutes d'un seul tenant, thermomètres,
+                     glace et particules ensemble ; noter les températures
+                     finales et ce que montre la loupe ; sortir et repeser
+                     chaque bloc ; calculer la masse fondue
      3. Conclude   — le gagnant, et si c'était l'eau la plus chaude ;
                      température, énergie thermique, chaleur, fin de la
                      fonte ; jugement des deux paris
@@ -59,11 +62,10 @@
 
   /* ===== Modèle =====
      mug : la tasse (petit volume, très chaude) ; jug : la cruche (1 L,
-     tiède). Masse fondue finale : volume × température / 80, arrondie à
-     5 g (la chaleur cédée par l'eau qui refroidit jusqu'à 0 °C fait fondre
-     la glace). L'eau refroidit vers 0 °C en exp(−t/τ), τ plus long pour
+     plus tiède). L'eau refroidit vers 0 °C en exp(−t/τ), τ plus long pour
      plus d'eau ; la glace fond au même rythme que l'eau perd sa
-     température. */
+     température. Au bout de 40 minutes, les deux thermomètres sont à 0 °C
+     depuis un moment, quelle que soit la paire. */
   const PAIRS = [
     { mug: { v: 200, t: 90 }, jug: { v: 1000, t: 25 } },   // cruche
     { mug: { v: 250, t: 80 }, jug: { v: 1000, t: 40 } },   // cruche
@@ -71,35 +73,33 @@
     { mug: { v: 400, t: 90 }, jug: { v: 1000, t: 20 } },   // tasse
     { mug: { v: 250, t: 80 }, jug: { v: 1000, t: 20 } }    // égalité
   ];
-  const ICE_MASSES = [800, 1000, 1200];
+  const ICE = 600;          // g : chaque bloc (plus que la plus grande masse fondue, 500 g)
   const SIDES = ['mug', 'jug'];
   const CHOICES = ['mug', 'jug', 'same'];
   const FIELDS = ['vol', 't0', 'ice0', 't1', 'ice1', 'melted'];
+  const GIVEN = ['vol', 't0'];                        // données, déjà dans le carnet
+  const NOTED = ['ice0', 't1', 'ice1', 'melted'];     // à écrire par l'élève
   const SEEN = ['fastStart', 'moreStart', 'fastEnd'];
   const CRITERIA = ['measure', 'particles', 'winner', 'heat', 'verdict'];
-  const STEP = 10;          // minutes à chaque « Wait »
-  const ROOM = 21;          // °C : thermomètre posé sur son support
+  const RACE_MIN = 40;      // minutes de la course
+  const RACE_MS = 14000;    // sa durée à l'écran
   const DOT = 25;           // g d'eau (liquide ou solide) par point de la loupe
   const DASH = '—';
 
   let run;      // tirage
   let state;    // travail de l'élève
-  let kStable;  // pas de temps où les deux thermomètres ne bougent plus
   let pouring = null;   // { side, p } pendant qu'une eau se verse
+  let racing = false;   // pendant l'animation de la course
 
   const randInt = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
   const round5 = v => Math.round(v / 5) * 5;
   const clamp01 = v => Math.max(0, Math.min(1, v));
 
-  const freshNotes = () => ({ vol: null, t0: null, ice0: null, t1: null, ice1: null, melted: null });
   const freshConcl = () => ({ most: null, hottest: null, temp: null, energy: null, heat: null, stop: null, vWinner: null, vFinal: null });
 
   function reset() {
-    run = {
-      pair: randInt(0, PAIRS.length - 1),
-      ice: ICE_MASSES[randInt(0, ICE_MASSES.length - 1)],
-      seed: String(Math.random())
-    };
+    run = { pair: randInt(0, PAIRS.length - 1), ice: ICE, seed: String(Math.random()) };
+    const notes = side => ({ vol: water0(side).v, t0: water0(side).t, ice0: null, t1: null, ice1: null, melted: null });
     state = {
       bets: { winner: null, final: null },
       because: '',
@@ -107,17 +107,14 @@
       // pos : 'tray' | 'balance' | 'mug' | 'jug' (dans la boîte de ce côté) ;
       // side : la boîte où l'eau l'a recouvert ; out : ressorti à la fin.
       blocks: [0, 1].map(() => ({ pos: 'tray', weighed: false, side: null, out: false })),
-      probes: [null, null],               // dans l'eau de 'mug' ou de 'jug'
-      lens: null,                         // la loupe posée sur une boîte
       poured: { mug: false, jug: false },
-      k: 0,                               // pas de temps écoulés depuis le versement
-      looked: { start: { mug: false, jug: false }, end: { mug: false, jug: false } },
-      notes: { mug: freshNotes(), jug: freshNotes() },
+      raced: false,
+      notes: { mug: notes('mug'), jug: notes('jug') },
       seen: { fastStart: null, moreStart: null, fastEnd: null },
       concl: freshConcl(),
       selected: CRITERIA[0]
     };
-    kStable = stableStep();
+    lensSims = {};
   }
 
   const water0 = side => PAIRS[run.pair][side];
@@ -129,15 +126,8 @@
   const meltAt = (side, min) => (readingAt(side, min) === 0 ? finalMelt(side)
     : Math.round(finalMelt(side) * (1 - exactTemp(side, min) / water0(side).t)));
 
-  function stableStep() {
-    for (let k = 1; k < 30; k++) {
-      if (SIDES.every(s => readingAt(s, k * STEP) === 0 && readingAt(s, (k - 1) * STEP) === 0)) return k;
-    }
-    return 30;
-  }
-
-  const now = () => state.k * STEP;
-  const stable = () => state.k >= kStable;
+  const now = () => (state.raced ? RACE_MIN : 0);
+  const finished = () => state.raced && !racing;
   const blockIn = side => state.blocks.find(b => b.pos === side) || null;
   const onBalance = () => state.blocks.find(b => b.pos === 'balance') || null;
   const sideOut = side => state.blocks.some(b => b.out && b.side === side);
@@ -196,22 +186,26 @@
   }
 
   /* ===== Dessins =====
-     Paillasse de 560 × 400 (dessus à y = 364) : en haut, les deux
-     thermomètres, la tasse et la cruche, la loupe ; en bas, la balance, les
-     deux boîtes isolantes (en coupe : on voit l'eau et la glace) et le
-     plateau des blocs de glace. Tout ce qui change est en SVG. */
+     Paillasse de 470 × 400 (dessus à y = 364) : à gauche, le plateau des
+     blocs (en haut) et la balance (en bas), chacun dans une grande zone où
+     poser ; puis la tasse et la cruche, chacune au-dessus de sa boîte
+     isolante (en coupe : on voit l'eau et la glace). Tout ce qui change est
+     en SVG. */
   let svgUid = 0;
   const svg = (w, h, inner, cls, extra) => `<svg class="${cls || ''}" viewBox="0 0 ${w} ${h}" ${extra || ''} aria-hidden="true" focusable="false">${inner}</svg>`;
 
   const GLASS = '#8ea6b6';
   const WATER = '#9ccbea';
-  const STAGE = { W: 560, H: 400, floor: 364 };
-  const X = { mug: 132, jug: 284 };     // colonne de chaque côté (tasse au-dessus de sa boîte)
+  const STAGE = { W: 470, H: 400, floor: 364 };
+  const X = { mug: 152, jug: 314 };     // colonne de chaque côté (récipient au-dessus de sa boîte)
   const BOX_TOP = 222;                  // haut de la boîte (couvercle compris)
   const BOX = { W: 112, left: 14, floor: 130 };
+  // Blocs hors des boîtes : centre et bas du dessin, dans la scène.
+  const TRAY_SLOTS = [{ x: 42, y: 158 }, { x: 108, y: 158 }];
+  const BALANCE_SLOT = { x: 75, y: 286 };
 
   // Taille d'un bloc de glace (px), selon sa masse.
-  const iceSize = m => Math.round(44 * Math.cbrt(Math.max(m, 0) / 1000));
+  const iceSize = m => Math.round(60 * Math.cbrt(Math.max(m, 0) / ICE));
 
   /* Eau et glace dans la boîte (repère de la boîte, 140 × 142) : la glace
      repose au fond tant qu'il y a peu d'eau, flotte sinon (un dixième
@@ -234,8 +228,9 @@
     `<rect x="1.5" y="1.5" width="37" height="37" rx="6" fill="#eaf5fc" stroke="#86b6d6" stroke-width="1.6"/>` +
     `<path d="M8,10 L8,20 M10,8 L19,8" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>` +
     `<path d="M26,32 L32,32 L32,26" fill="none" stroke="#c4def0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`, 'mr-ice-svg');
+  const ICE_INNER = ICE_SVG.replace(/^<svg[^>]*>|<\/svg>$/g, '');
 
-  // Thermomètre numérique en stylo : afficheur en haut, tige.
+  // Thermomètre numérique en stylo : afficheur en haut, tige (page Mission).
   const PROBE_ICON = svg(20, 52, `<rect x="3" y="2" width="14" height="17" rx="3" fill="#3b4652"/>` +
     `<rect x="5.5" y="5" width="9" height="6" rx="1" fill="#a6f5b8"/>` +
     `<line x1="10" y1="19" x2="10" y2="49" stroke="#aab4be" stroke-width="3.2" stroke-linecap="round"/>`, 'mr-probe-icon');
@@ -299,8 +294,8 @@
 
   /* La boîte isolante en coupe, 140 × 142 : parois épaisses (isolant
      hachuré), intérieur de x = 14 à 126, fond à y = 130. Derrière : les
-     parois et l'intérieur ; devant (ne se touche pas) : l'eau, le
-     couvercle, la tige du thermomètre. */
+     parois et l'intérieur ; devant (ne se touche pas) : l'eau et le
+     couvercle. */
   function boxBackInner() {
     const uid = `mrh${++svgUid}`;
     return `<defs><pattern id="${uid}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">` +
@@ -336,11 +331,13 @@
       `<text class="mr-lcd" x="90" y="50" text-anchor="end" data-mass-display>${LABELS.mass(mass)}</text>`;
   }
 
-  const TRAY = `<path d="M3,8 L111,8 L104,24 L10,24 Z" fill="#dfe5ea" stroke="#9aa6b2" stroke-width="1.5" stroke-linejoin="round"/>` +
-    `<line x1="10" x2="104" y1="12" y2="12" stroke="#ffffff" stroke-width="2"/>`;
+  // Plateau des blocs, w de large (dessus à y = 8).
+  const trayInner = w => `<path d="M3,8 L${w - 3},8 L${w - 10},24 L10,24 Z" fill="#dfe5ea" stroke="#9aa6b2" stroke-width="1.5" stroke-linejoin="round"/>` +
+    `<line x1="10" x2="${w - 10}" y1="12" y2="12" stroke="#ffffff" stroke-width="2"/>`;
 
-  /* Thermomètre plongé : afficheur au-dessus de l'eau, tige jusqu'au fond.
-     Dans le récipient avant de verser, dans la boîte ensuite. */
+  /* Thermomètre plongé dans chaque eau, d'office : afficheur au-dessus de
+     l'eau, tige jusqu'au fond. Dans le récipient avant de verser, dans la
+     boîte ensuite. */
   function probeSpot(side) {
     const inBox = state.poured[side] && !(pouring && pouring.side === side);
     if (inBox) return { lcd: [X[side] + 78, 184], stick: [X[side] + 116, 208, BOX_TOP + 122] };
@@ -351,8 +348,7 @@
 
   function overlayInner() {
     let out = '';
-    state.probes.forEach(side => {
-      if (!side) return;
+    SIDES.forEach(side => {
       const s = probeSpot(side).stick;
       out += `<line x1="${s[0]}" y1="${s[1]}" x2="${s[0]}" y2="${s[2]}" stroke="#aab4be" stroke-width="3.4" stroke-linecap="round"/>` +
         `<line x1="${s[0]}" y1="${s[1]}" x2="${s[0]}" y2="${s[1] + 8}" stroke="#3b4652" stroke-width="5" stroke-linecap="round"/>`;
@@ -375,79 +371,122 @@
   function sceneArt() {
     const label = side => `<text class="mr-art-label" x="70" y="166" text-anchor="middle">${LABELS.vol(water0(side).v)} · ${tempText(water0(side).t)}</text>`;
     const s = iceSize(run.ice);
-    const blocks = [0, 1].map(i => `<svg x="${18 + i * (s + 10)}" y="${44 - s}" width="${s}" height="${s}" viewBox="0 0 40 40">${ICE_SVG.replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>`).join('');
-    return svg(420, 176, `<svg x="0" y="0" width="140" height="176" viewBox="0 0 140 176">${contInner('mug', 1, 0)}${label('mug')}</svg>` +
+    const blocks = [0, 1].map(i => `<svg x="${8 + i * (s + 8)}" y="${62 - s}" width="${s}" height="${s}" viewBox="0 0 40 40">${ICE_INNER}</svg>`).join('');
+    return svg(430, 176, `<svg x="0" y="0" width="140" height="176" viewBox="0 0 140 176">${contInner('mug', 1, 0)}${label('mug')}</svg>` +
       `<svg x="140" y="0" width="140" height="176" viewBox="0 0 140 176">${contInner('jug', 1, 0)}${label('jug')}</svg>` +
-      `<svg x="290" y="96" width="130" height="60" viewBox="0 0 130 60">${blocks}<svg x="8" y="36" width="114" height="28" viewBox="0 0 114 28">${TRAY}</svg></svg>`, 'mr-art-svg');
+      `<svg x="286" y="78" width="144" height="90" viewBox="0 0 144 90">${blocks}<svg x="0" y="54" width="144" height="28" viewBox="0 0 144 28">${trayInner(144)}</svg></svg>`, 'mr-art-svg');
   }
 
   /* ===== La loupe à particules =====
-     Elle montre tout le contenu d'une boîte, en modèle : un point = beaucoup
-     de particules d'eau (DOT grammes), les mêmes dans la glace et dans
-     l'eau liquide (même substance). La glace : points rangés, qui vibrent
-     sur place ; l'eau : points qui bougent en tous sens, d'autant plus vite
-     que l'eau est chaude (vitesse exagérée pour se voir : 10 + 1,5 × T px/s,
-     traînée proportionnelle). Contre la glace, les chocs : un éclair, la
-     particule d'eau repart plus lentement un instant, la particule de glace
-     touchée vibre plus fort. Repère : 240 × 244, intérieur de 8 à 232 ; seul
-     le bas de la boîte (y ≥ 60) est dessiné : l'eau et la glace n'en
-     montent jamais plus haut, et l'échelle reste la même pour les deux
-     boîtes. */
-  const LV = { x0: 8, x1: 232, top: 68, floor: 236, sp: 15, R: 4.5 };
+     Elle montre tout le contenu de chaque boîte, les deux côte à côte, en
+     modèle : un point = beaucoup de particules d'eau (DOT grammes), les
+     mêmes dans la glace et dans l'eau liquide (même substance). La glace :
+     points rangés, qui vibrent sur place ; l'eau : points qui bougent en
+     tous sens, d'autant plus vite que l'eau est chaude (vitesse exagérée
+     pour se voir : 10 + 1,5 × T px/s, traînée proportionnelle). Contre la
+     glace, les chocs : un éclair, la particule d'eau repart plus lentement
+     un instant, la particule de glace touchée vibre plus fort. Quand la
+     glace fond, ses points du haut se détachent et deviennent des points
+     d'eau. Repère : 240 × 244, intérieur de 8 à 232 ; seul le bas de la
+     boîte (y ≥ 30) est dessiné : l'eau et la glace n'en montent jamais plus
+     haut, et l'échelle reste la même pour les deux boîtes. Particules
+     grosses (rayon 6,5) : la vue est étroite (deux côte à côte). */
+  const LV = { x0: 8, x1: 232, top: 40, floor: 236, sp: 22, R: 6.5, cell: 600 };
   const speedOf = temp => 10 + 1.5 * Math.max(0, temp);
+  const lensCols = () => Math.ceil(Math.sqrt(run.ice / DOT));
+
+  /* Place du bloc et niveau de l'eau, d'après les nombres de points. Comme
+     dans la boîte : la glace flotte, un dixième au-dessus de l'eau, dès que
+     l'eau est assez profonde ; sinon elle repose au fond (peu d'eau). */
+  const FLOAT = 0.9;
+  function lensGeom(nIce, nW) {
+    const cols = lensCols();
+    const rows = Math.ceil(nIce / cols);
+    const W = LV.x1 - LV.x0;
+    const iceW = nIce ? cols * LV.sp : 0;
+    const iceH = rows * LV.sp;
+    const area = nW * LV.cell;
+    let h = area / W;
+    let iceBottom = LV.floor;
+    if (nIce) {
+      const rest = area / (W - iceW);
+      if (rest <= FLOAT * iceH) h = rest;
+      else { h = (area + FLOAT * iceW * iceH) / W; iceBottom = LV.floor - h + FLOAT * iceH; }
+    }
+    const top = Math.max(LV.top, LV.floor - h);
+    return { cols, ice: { x: (LV.x0 + LV.x1 - iceW) / 2, y: iceBottom - iceH, w: iceW, h: iceH }, waterTop: top };
+  }
+
+  // Place d'une particule de glace : rangées depuis le bas, la dernière centrée.
+  function icePos(g, nIce, i) {
+    const r = Math.floor(i / g.cols);
+    const inRow = Math.min(g.cols, nIce - r * g.cols);
+    const shift = (g.cols - inRow) * LV.sp / 2;
+    return { x: g.ice.x + shift + (i % g.cols) * LV.sp + LV.sp / 2, y: g.ice.y + g.ice.h - r * LV.sp - LV.sp / 2 };
+  }
+
+  function waterDot(m, rnd) {
+    const R = LV.R;
+    const ice = m.ice;
+    const h = LV.floor - m.waterTop;
+    let x = 0, y = 0;
+    for (let tries = 0; tries < 300; tries++) {
+      x = LV.x0 + R + rnd() * (LV.x1 - LV.x0 - 2 * R);
+      y = m.waterTop + R + rnd() * Math.max(0, h - 2 * R);
+      if (!(ice.w && x > ice.x - R - 1 && x < ice.x + ice.w + R + 1 && y > ice.y - R - 1 && y < ice.y + ice.h + R + 1)) break;
+    }
+    const a = rnd() * Math.PI * 2;
+    return { x, y, dx: Math.cos(a), dy: Math.sin(a), hit: 0 };
+  }
 
   // content : { water, ice, temp } ; rnd : générateur (dessin figé : à graine).
   function lensModel(content, rnd) {
     const nIce = Math.round(content.ice / DOT);
     const nW = Math.round(content.water / DOT);
-    const cols = Math.ceil(Math.sqrt(run.ice / DOT));
-    const rows = Math.ceil(nIce / cols);
-    const W = LV.x1 - LV.x0;
-    const iceW = nIce ? cols * LV.sp : 0;
-    const iceH = rows * LV.sp;
-    const area = nW * 330;
-    let h = !nIce ? area / W : area / (W - iceW) <= iceH ? area / (W - iceW) : (area + iceW * iceH) / W;
-    h = Math.min(h, LV.floor - LV.top - 4);
-    const ice = { x: (LV.x0 + LV.x1 - iceW) / 2, y: LV.floor - iceH, w: iceW, h: iceH };
-    const iceDots = [];
-    for (let i = 0; i < nIce; i++) {
-      const r = Math.floor(i / cols);
-      const inRow = Math.min(cols, nIce - r * cols);
-      const shift = (cols - inRow) * LV.sp / 2;
-      iceDots.push({ x: ice.x + shift + (i % cols) * LV.sp + LV.sp / 2, y: LV.floor - r * LV.sp - LV.sp / 2, ph: rnd() * 6.28, boost: 0 });
+    const m = Object.assign(lensGeom(nIce, nW), { iceDots: [], dots: [], temp: content.temp, flashes: [] });
+    for (let i = 0; i < nIce; i++) m.iceDots.push(Object.assign(icePos(m, nIce, i), { ph: rnd() * 6.28, boost: 0 }));
+    for (let i = 0; i < nW; i++) m.dots.push(waterDot(m, rnd));
+    return m;
+  }
+
+  /* Le contenu de la boîte change (versement, fonte) : les particules de
+     glace du haut se détachent et deviennent des particules d'eau, là où
+     elles étaient ; l'eau versée arrive n'importe où dans l'eau. */
+  function syncLens(m, nIce, nW) {
+    let changed = false;
+    while (m.iceDots.length > nIce) {
+      const p = m.iceDots.pop();
+      const a = Math.random() * Math.PI * 2;
+      m.dots.push({ x: p.x, y: p.y, dx: Math.cos(a), dy: Math.sin(a), hit: 0.6 });
+      changed = true;
     }
-    const waterTop = LV.floor - h;
-    const R = LV.R;
-    const inIce = (x, y) => ice.w && x > ice.x - R - 1 && x < ice.x + ice.w + R + 1 && y > ice.y - R - 1;
-    const dots = [];
-    for (let i = 0; i < nW; i++) {
-      let x = 0, y = 0;
-      for (let tries = 0; tries < 300; tries++) {
-        x = LV.x0 + R + rnd() * (W - 2 * R);
-        y = waterTop + R + rnd() * Math.max(0, h - 2 * R);
-        if (!inIce(x, y)) break;
-      }
-      const a = rnd() * Math.PI * 2;
-      dots.push({ x, y, dx: Math.cos(a), dy: Math.sin(a), hit: 0 });
+    while (m.iceDots.length < nIce) {
+      m.iceDots.push({ x: 0, y: 0, ph: Math.random() * 6.28, boost: 0 });
+      changed = true;
     }
-    return { ice, iceDots, dots, waterTop, temp: content.temp, nIce, nW, flashes: [] };
+    if (!changed && m.dots.length === nW) return;
+    Object.assign(m, lensGeom(nIce, nW));
+    m.iceDots.forEach((p, i) => Object.assign(p, icePos(m, nIce, i)));
+    while (m.dots.length < nW) m.dots.push(waterDot(m, Math.random));
+    while (m.dots.length > nW) m.dots.pop();
+    m.dirty = true;
   }
 
   // Les particules à leur place, traînée vers l'arrière (longueur : vitesse).
   function lensInner(m, live) {
     const R = LV.R;
     const tail = speedOf(m.temp) * 0.09;
-    let out = `<rect x="1" y="61" width="238" height="182" rx="16" fill="#fbfcfd" stroke="#9aa6b2" stroke-width="2"/>`;
-    if (m.nW) out += `<rect x="${LV.x0}" y="${m.waterTop.toFixed(1)}" width="${LV.x1 - LV.x0}" height="${(LV.floor - m.waterTop).toFixed(1)}" rx="4" fill="#dcedf9"/>`;
+    let out = `<rect x="1" y="31" width="238" height="212" rx="16" fill="#fbfcfd" stroke="#9aa6b2" stroke-width="2"/>`;
+    if (m.dots.length) out += `<rect x="${LV.x0}" y="${m.waterTop.toFixed(1)}" width="${LV.x1 - LV.x0}" height="${(LV.floor - m.waterTop).toFixed(1)}" rx="4" fill="#dcedf9"/>`;
     if (m.ice.w) out += `<rect x="${(m.ice.x - 2).toFixed(1)}" y="${(m.ice.y - 2).toFixed(1)}" width="${m.ice.w + 4}" height="${m.ice.h + 2}" rx="5" fill="#f2f9fd" stroke="#a9cbe2" stroke-width="1.4" stroke-dasharray="4 3"/>`;
     out += `<g data-tails>${m.dots.map(d => `<line x1="${d.x.toFixed(1)}" y1="${d.y.toFixed(1)}" x2="${(d.x - d.dx * tail).toFixed(1)}" y2="${(d.y - d.dy * tail).toFixed(1)}" stroke="#2a78d6" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round"/>`).join('')}</g>` +
       `<g data-dots>${m.dots.map(d => `<circle cx="${d.x.toFixed(1)}" cy="${d.y.toFixed(1)}" r="${R}" fill="#2a78d6"/>`).join('')}</g>` +
       `<g data-ice>${m.iceDots.map(d => `<circle cx="${d.x.toFixed(1)}" cy="${d.y.toFixed(1)}" r="${R}" fill="#2a78d6"/>`).join('')}</g>`;
-    if (live) out += `<g data-flashes>${[0, 1, 2, 3, 4, 5].map(() => `<circle r="7" fill="none" stroke="#f0a020" stroke-width="2.4" opacity="0"/>`).join('')}</g>`;
+    if (live) out += `<g data-flashes>${[0, 1, 2, 3, 4, 5].map(() => `<circle r="9" fill="none" stroke="#f0a020" stroke-width="2.4" opacity="0"/>`).join('')}</g>`;
     return out;
   }
 
-  const lensSVG = (m, live, extra) => `<svg class="mr-lens-svg" viewBox="0 60 240 184" ${extra || ''} aria-hidden="true" focusable="false">${lensInner(m, live)}</svg>`;
+  const lensSVG = (m, live, extra) => `<svg class="mr-lens-svg" viewBox="0 30 240 214" ${extra || ''} aria-hidden="true" focusable="false">${lensInner(m, live)}</svg>`;
 
   // Un pas de l'animation (dt en secondes).
   function stepLens(m, dt) {
@@ -463,11 +502,14 @@
       if (d.x > LV.x1 - R) { d.x = LV.x1 - R; d.dx = -Math.abs(d.dx); }
       if (d.y > LV.floor - R) { d.y = LV.floor - R; d.dy = -Math.abs(d.dy); }
       if (d.y < m.waterTop + R) { d.y = m.waterTop + R; d.dy = Math.abs(d.dy); }
-      if (ice.w && d.x > ice.x - R && d.x < ice.x + ice.w + R && d.y > ice.y - R) {
-        const pl = d.x - (ice.x - R), pr = ice.x + ice.w + R - d.x, pt = d.y - (ice.y - R);
-        const least = Math.min(pl, pr, pt);
+      if (ice.w && d.x > ice.x - R && d.x < ice.x + ice.w + R && d.y > ice.y - R && d.y < ice.y + ice.h + R) {
+        const pl = d.x - (ice.x - R), pr = ice.x + ice.w + R - d.x, pt = d.y - (ice.y - R), pb = ice.y + ice.h + R - d.y;
+        // La glace dépasse de l'eau : pas de place au-dessus, on repart par le côté ou par dessous.
+        const roomAbove = ice.y - R >= m.waterTop + R;
+        const least = Math.min(pl, pr, pb, roomAbove ? pt : Infinity);
         let cx = d.x, cy = d.y;
         if (least === pt) { d.y = ice.y - R; d.dy = -Math.abs(d.dy); cy = ice.y; }
+        else if (least === pb) { d.y = ice.y + ice.h + R; d.dy = Math.abs(d.dy); cy = ice.y + ice.h; }
         else if (least === pl) { d.x = ice.x - R; d.dx = -Math.abs(d.dx); cx = ice.x; }
         else { d.x = ice.x + ice.w + R; d.dx = Math.abs(d.dx); cx = ice.x + ice.w; }
         // Un choc ne compte que s'il est assez espacé du précédent pour se voir.
@@ -487,7 +529,9 @@
   }
 
   function drawLens(el, m, t) {
-    if (!m.els) {
+    if (m.dirty || !m.els) {
+      el.innerHTML = lensInner(m, true);
+      m.dirty = false;
       m.els = {
         tails: [...el.querySelectorAll('[data-tails] line')],
         dots: [...el.querySelectorAll('[data-dots] circle')],
@@ -519,47 +563,66 @@
       if (!f) { c.setAttribute('opacity', '0'); return; }
       c.setAttribute('cx', f.x.toFixed(1));
       c.setAttribute('cy', f.y.toFixed(1));
-      c.setAttribute('r', (4 + (0.35 - f.t) * 20).toFixed(1));
+      c.setAttribute('r', (6 + (0.35 - f.t) * 26).toFixed(1));
       c.setAttribute('opacity', (f.t / 0.35).toFixed(2));
     });
   }
 
-  /* L'animation de la loupe affichée : une seule à la fois, arrêtée dès que
-     son dessin quitte la page. Le modèle est gardé d'un affichage à l'autre
-     tant que la boîte et le nombre de points ne changent pas (pas de saut
-     quand l'élève écrit ou pose un objet). */
-  let lensSim = null;
-  let lensRaf = 0;
+  /* Les deux loupes de l'étape Experiment : un modèle par boîte, gardé d'un
+     affichage à l'autre (pas de saut quand l'élève écrit ou pose un
+     objet), une seule boucle d'animation pour les deux, arrêtée dès que
+     leurs dessins quittent la page. Mouvement réduit : dessin figé, refait
+     à chaque changement. */
+  let lensSims = {};
+  let lensLoop = 0;
 
-  function lensFor(side, min) {
+  function lensContent(side, min) {
     const v = sideView(side, min);
-    const c = { water: v.water, ice: v.ice, temp: v.temp };
-    const nIce = Math.round(c.ice / DOT), nW = Math.round(c.water / DOT);
-    if (!lensSim || lensSim.side !== side || lensSim.nIce !== nIce || lensSim.nW !== nW) {
-      lensSim = lensModel(c, Math.random);
-      lensSim.side = side;
-    }
-    lensSim.temp = c.temp;
-    lensSim.els = null;
-    return lensSim;
+    return { water: v.water, ice: v.ice, temp: v.temp };
+  }
+
+  // Le modèle de chaque boîte suit ce qu'elle contient à l'instant min.
+  function syncLenses(min) {
+    SIDES.forEach(side => {
+      const c = lensContent(side, min);
+      const m = lensSims[side];
+      if (!m) { lensSims[side] = lensModel(c, Math.random); return; }
+      m.temp = c.temp;
+      syncLens(m, Math.round(c.ice / DOT), Math.round(c.water / DOT));
+    });
+  }
+
+  function drawLensesStill() {
+    SIDES.forEach(side => {
+      const el = $(`[data-lens-svg="${side}"]`);
+      const m = lensSims[side];
+      if (!el || !m) return;
+      el.innerHTML = lensInner(m, false);
+      m.els = null;
+      m.dirty = false;
+    });
   }
 
   function startLens() {
-    cancelAnimationFrame(lensRaf);
-    const el = $('[data-lens-svg]');
-    if (!el || !lensSim || reduceMotion) return;
-    const m = lensSim;
+    const id = ++lensLoop;
+    const els = SIDES.map(side => $(`[data-lens-svg="${side}"]`));
+    SIDES.forEach(side => { if (lensSims[side]) lensSims[side].els = null; });
+    if (reduceMotion || !els.some(Boolean)) { drawLensesStill(); return; }
     let last = performance.now();
     const t0 = last;
     const frame = time => {
-      if (!el.isConnected || lensSim !== m) return;
+      if (id !== lensLoop || !els.some(el => el && el.isConnected)) return;
       const dt = Math.min(0.05, Math.max(0, time - last) / 1000);
       last = time;
-      stepLens(m, dt);
-      drawLens(el, m, (time - t0) / 1000);
-      lensRaf = requestAnimationFrame(frame);
+      SIDES.forEach((side, i) => {
+        const m = lensSims[side];
+        if (!m || !els[i] || !els[i].isConnected) return;
+        stepLens(m, dt);
+        drawLens(els[i], m, (time - t0) / 1000);
+      });
+      requestAnimationFrame(frame);
     };
-    lensRaf = requestAnimationFrame(frame);
+    requestAnimationFrame(frame);
   }
 
   // Dessin figé (correction) : la boîte au départ ou à la fin.
@@ -574,10 +637,10 @@
   const dotKey = `<svg class="mr-key-dot" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><circle cx="6" cy="6" r="4.5" fill="#2a78d6"/></svg>`;
 
   /* ===== Étapes complètes (progression stricte, voir lab-engine.js) =====
-     1 : les deux paris ; 2 : les douze cases du carnet et les trois notes
-     de la loupe ; 3 : toutes les réponses de la conclusion. */
+     1 : les deux paris ; 2 : les huit cases à écrire du carnet et les trois
+     notes de la loupe ; 3 : toutes les réponses de la conclusion. */
   const hypDone = () => !!state.bets.winner && !!state.bets.final;
-  const notesDone = () => SIDES.every(s => FIELDS.every(f => state.notes[s][f] != null));
+  const notesDone = () => SIDES.every(s => NOTED.every(f => state.notes[s][f] != null));
   const seenDone = () => SEEN.every(k => !!state.seen[k]);
   const benchDone = () => notesDone() && seenDone();
 
@@ -652,36 +715,26 @@
   }
 
   /* ===== Étape 2 : l'expérience =====
-     Trois colonnes : la paillasse (scène, minuterie, légende), la loupe à
-     particules (ce qu'elle montre et les notes de l'élève) et le carnet
-     (une colonne par eau). Blocs de glace, thermomètres et loupe se
-     prennent en main (makeDraggable, hold) ; « Pour » verse une eau sur
-     son bloc ; « Wait » fait passer 10 minutes. */
-  const CLOCK_ICON = `<svg class="mr-wait-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
+     Trois colonnes : la paillasse (scène, course, légende), la loupe à
+     particules (les deux boîtes côte à côte, et les notes de l'élève) et le
+     carnet (une colonne par eau). Les blocs de glace se prennent en main
+     (makeDraggable, hold) ; « Pour » verse une eau sur son bloc ; « Start
+     the race » fait passer les 40 minutes d'un coup. Ce qu'il faut faire
+     maintenant est en couleur (is-todo, comme dans « Ostend 2100 »). */
+  const RACE_ICON = `<svg class="mr-race-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">` +
     `<circle cx="12" cy="13.5" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/>` +
     `<path d="M12,13.5 V9 M9.5,2.5 h5 M12,2.5 V6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
 
-  // Places des blocs hors des boîtes : leur plateau (une place chacun), la balance.
   function iceSpot(i, b) {
     const s = iceSize(blockMass(b));
-    const cx = b.pos === 'balance' ? 65 : 436 + (i ? 84 : 30);
-    const bottom = b.pos === 'balance' ? 288 : 344;
-    return `left:${cx - s / 2}px;top:${bottom - s}px;width:${s}px;height:${s}px`;
+    const at = b.pos === 'balance' ? BALANCE_SLOT : TRAY_SLOTS[i];
+    return `left:${at.x - s / 2}px;top:${at.y - s}px;width:${s}px;height:${s}px`;
   }
 
   const iceButton = (i, style) => `<button type="button" class="mr-ice" data-ice="${i}"${style ? ` style="${style}"` : ''}>${ICE_SVG}<span class="mr-sr">${LABELS.tools.ice}</span></button>`;
 
   function stageHTML() {
-    const rack = state.probes.map((side, i) => {
-      const top = 10 + i * 64;
-      return side
-        ? `<div class="mr-slot" style="top:${top}px"></div>`
-        : `<button type="button" class="mr-tool mr-probe" data-probe="${i}" style="top:${top}px">${PROBE_ICON}` +
-          `<span class="mr-tool-body"><span class="mr-lcd-box">${deg(ROOM)}<small>${LABELS.units.c}</small></span>` +
-          `<span class="mr-tool-name">${LABELS.tools.probe}</span></span></button>`;
-    }).join('');
-    const lensTool = `<button type="button" class="mr-tool mr-lens" data-lens>${LENS_ICON}<span class="mr-tool-name">${LABELS.tools.lens}</span></button>`;
-    const lensOnBox = `<button type="button" class="mr-lens-on" data-lens>${LENS_ICON}<span class="mr-sr">${LABELS.tools.lens}</span></button>`;
+    const bal = onBalance();
     const side = s => {
       const b = blockIn(s);
       return `<div class="mr-cont" data-cont="${s}" style="left:${X[s]}px">${svg(140, 150, '', '', 'overflow="visible"')}` +
@@ -690,18 +743,14 @@
         `<div class="mr-box" data-box="${s}" style="left:${X[s]}px">${svg(140, 142, boxBackInner(), 'mr-box-back')}` +
           (b ? iceButton(state.blocks.indexOf(b)) : '') +
           svg(140, 142, '', 'mr-box-front', 'overflow="visible"') +
-          (state.lens === s ? lensOnBox : '') +
           `<span class="mr-spot-name">${LABELS.tools.box}</span></div>`;
     };
     const free = state.blocks.map((b, i) => (b.pos === 'tray' || b.pos === 'balance' ? iceButton(i, iceSpot(i, b)) : '')).join('');
-    const bal = onBalance();
-    const lcds = state.probes.map(s => (s ? `<div class="mr-lcd-float" data-lcd="${s}"><span data-lcd-val></span><small>${LABELS.units.c}</small></div>` : '')).join('');
+    const lcds = SIDES.map(s => `<div class="mr-lcd-float" data-lcd="${s}"><span data-lcd-val></span><small>${LABELS.units.c}</small></div>`).join('');
     return `<div class="mr-stage">` +
-      rack +
-      `<div class="mr-lens-slot">${state.lens ? '' : lensTool}</div>` +
-      SIDES.map(side).join('') +
+      `<div class="mr-spot mr-tray" data-place="tray">${svg(130, 28, trayInner(130))}<span class="mr-spot-name">${LABELS.tools.tray}</span></div>` +
       `<div class="mr-spot mr-balance" data-place="balance">${svg(110, 84, balanceInner(bal ? blockMass(bal) : 0))}<span class="mr-spot-name">${LABELS.tools.balance}</span></div>` +
-      `<div class="mr-spot mr-tray" data-place="tray">${svg(114, 28, TRAY)}<span class="mr-spot-name">${LABELS.tools.tray}</span></div>` +
+      SIDES.map(side).join('') +
       free +
       svg(STAGE.W, STAGE.H, '', 'mr-overlay') +
       lcds +
@@ -709,33 +758,35 @@
   }
 
   function timerHTML(t) {
-    const action = stable()
-      ? `<div class="mr-wait is-final"><span class="mr-wait-text"><strong>${LABELS.waitDone}</strong><small>${LABELS.waitDoneSub}</small></span></div>`
-      : `<button type="button" class="mr-wait" data-wait>${CLOCK_ICON}<span class="mr-wait-text"><strong>${LABELS.wait(STEP)}</strong><small data-wait-sub></small></span></button>`;
+    const status = (title, sub, cls) => `<div class="mr-race ${cls}"><span class="mr-race-text"><strong>${title}</strong><small>${sub}</small></span></div>`;
+    const action = racing ? status(LABELS.racing, LABELS.racingSub, 'is-running')
+      : state.raced ? status(LABELS.raceDone, LABELS.raceDoneSub, 'is-final')
+      : `<button type="button" class="mr-race" data-race>${RACE_ICON}<span class="mr-race-text"><strong>${LABELS.race}</strong><small data-race-sub></small></span></button>`;
     return `<div class="mr-timer"><span class="mr-clock" data-clock>${LABELS.minutes(Math.round(t))}</span>` +
       `<span class="mr-timer-info">${LABELS.timerInfo}</span>${action}</div>`;
   }
 
-  function lensPanelHTML(t) {
-    const side = state.lens;
-    if (!side) lensSim = null;
-    const view = side ? lensSVG(lensFor(side, t), true, 'data-lens-svg')
-      : `<div class="mr-lens-empty">${LENS_ICON}<p>${gloss(LABELS.lensEmpty)}</p></div>`;
+  function lensPanelHTML() {
+    const view = s => `<figure class="mr-lens-fig"><svg class="mr-lens-svg" viewBox="0 30 240 214" data-lens-svg="${s}" aria-hidden="true" focusable="false"></svg>` +
+      `<figcaption>${gloss(LABELS.sides[s].box)}</figcaption></figure>`;
     const row = k => `<div class="mr-seen-row"><span class="mr-seen-label">${gloss(LABELS.seenLabels[k])}</span>` +
       selectHTML(`data-seen="${k}"`, state.seen[k], CHOICES, c => LABELS.seenChoices[c], LABELS.seenLabels[k]) + `</div>`;
     return `<section class="mr-lens-panel"><h3 class="lab-panel-title">${LABELS.lensTitle}</h3>` +
-      `<p class="mr-lens-head">${side ? gloss(LABELS.lensOn(LABELS.sides[side].box)) : '&nbsp;'}</p>` +
-      `<div class="mr-lens-view">${view}</div>` +
+      `<div class="mr-lens-pair">${SIDES.map(view).join('')}</div>` +
       `<p class="mr-key">${dotKey}<span>${gloss(LABELS.keyDot)}</span></p>` +
       `<div class="mr-seen"><p class="mr-seen-title">${LABELS.seenStart}</p>${row('fastStart')}${row('moreStart')}` +
       `<p class="mr-seen-title">${LABELS.seenEnd}</p>${row('fastEnd')}</div></section>`;
   }
 
+  // Carnet : volumes et températures de départ donnés, le reste à écrire.
   function notesHTML() {
-    const cell = (s, f) => `<td><input type="text" inputmode="numeric" class="mr-cell" data-f="${f}" data-s="${s}" ` +
-      `value="${state.notes[s][f] == null ? '' : fmt(f, state.notes[s][f])}" maxlength="6" autocomplete="off" spellcheck="false" ` +
-      `aria-label="${escapeHtml(LABELS.cellAria(plain(LABELS.fields[f]), LABELS.sides[s].name))}"></td>`;
-    const row = f => `<tr><th scope="row">${gloss(LABELS.fields[f])} <small>(${LABELS.fieldUnits[f]})</small></th>${SIDES.map(s => cell(s, f)).join('')}</tr>`;
+    const cell = (s, f) => (GIVEN.includes(f)
+      ? `<td class="mr-given">${fmt(f, state.notes[s][f])}</td>`
+      : `<td><input type="text" inputmode="numeric" class="mr-cell" data-f="${f}" data-s="${s}" ` +
+        `value="${state.notes[s][f] == null ? '' : fmt(f, state.notes[s][f])}" maxlength="6" autocomplete="off" spellcheck="false" ` +
+        `aria-label="${escapeHtml(LABELS.cellAria(plain(LABELS.fields[f]), LABELS.sides[s].name))}"></td>`);
+    const row = f => `<tr><th scope="row">${gloss(LABELS.fields[f])} <small>(${LABELS.fieldUnits[f]})</small>` +
+      (GIVEN.includes(f) ? ` <span class="mr-given-tag">${LABELS.given}</span>` : '') + `</th>${SIDES.map(s => cell(s, f)).join('')}</tr>`;
     const group = name => `<tr class="mr-group"><th colspan="3">${name}</th></tr>`;
     return `<section class="mr-notes"><h3 class="lab-panel-title">${LABELS.notesTitle}</h3>` +
       `<table class="mr-table"><thead><tr><th></th>${SIDES.map(s => `<th scope="col">${LABELS.sides[s].col}</th>`).join('')}</tr></thead><tbody>` +
@@ -745,10 +796,9 @@
       `</tbody></table><p class="mr-notes-hint">${gloss(LABELS.meltedHint)}</p></section>`;
   }
 
-  // at : instant dessiné (pendant que le temps passe) ; sinon maintenant.
+  // at : instant dessiné (pendant la course) ; sinon maintenant.
   function renderExperiment(caption, at) {
     const t = at != null ? at : now();
-    cancelAnimationFrame(lensRaf);
     lab.body.innerHTML = `<div class="mr-run">` +
       `<section class="mr-bench">` +
         `<p class="mr-reminder">${gloss(LABELS.bigQuestion)}</p>` +
@@ -756,23 +806,24 @@
         timerHTML(t) +
         `<p class="lab-caption" data-caption aria-live="polite"></p>` +
       `</section>` +
-      lensPanelHTML(t) +
+      lensPanelHTML() +
       notesHTML() +
     `</div>`;
     paint(t);
     bindStage();
     bindNotes();
-    const wait = $('[data-wait]');
-    if (wait) wait.addEventListener('click', waitStep);
+    const race = $('[data-race]');
+    if (race) race.addEventListener('click', startRace);
     renderRunFooter();
     updateLocks();
     updateMarks();
+    markTodo();
     setCaption(caption || defaultCaption());
     startLens();
   }
 
   /* Ce qui change avec le temps (ou pendant un versement) : récipients,
-     boîtes, glace, thermomètres, horloge, vitesse dans la loupe. */
+     boîtes, glace, thermomètres, horloge, et les deux loupes. */
   function paint(t) {
     SIDES.forEach(side => {
       const v = sideView(side, t);
@@ -797,24 +848,23 @@
     const clock = $('[data-clock]');
     const text = LABELS.minutes(Math.round(t));
     if (clock && clock.textContent !== text) clock.textContent = text;
-    if (lensSim && state.lens) lensSim.temp = sideView(state.lens, t).temp;
+    syncLenses(t);
+    if (reduceMotion) drawLensesStill();
   }
 
   function bindStage() {
-    const st = stable();
     const balance = $('[data-place="balance"]');
     const tray = $('[data-place="tray"]');
     const boxEl = s => $(`[data-box="${s}"]`);
-    const contEl = s => $(`[data-cont="${s}"]`);
 
     // Blocs de glace : du plateau à la balance, puis dans une boîte vide ;
     // à la fin, de la boîte à la balance. Recouvert d'eau, il y reste
-    // jusqu'à ce que les thermomètres ne bougent plus.
+    // jusqu'à la fin de la course.
     $$('[data-ice]').forEach(el => {
       const i = Number(el.dataset.ice);
       const b = state.blocks[i];
       const inWater = SIDES.includes(b.pos) && state.poured[b.pos];
-      if (inWater && !st) {
+      if (inWater && !finished()) {
         el.addEventListener('click', () => setCaption(LABELS.captionIceStays, true));
         return;
       }
@@ -823,8 +873,7 @@
         ghost: () => { const s = iceSize(blockMass(b)); return `<div class="mr-ghost" style="width:${s}px;height:${s}px">${ICE_SVG}</div>`; },
         targets: () => {
           const list = [];
-          const other = onBalance();
-          if (!other && b.pos !== 'balance') list.push(balance);
+          if (!onBalance() && b.pos !== 'balance') list.push(balance);
           if (b.pos !== 'tray') list.push(tray);
           if (!b.out && !inWater) SIDES.forEach(s => { if (!state.poured[s] && !blockIn(s)) list.push(boxEl(s)); });
           return list;
@@ -834,36 +883,14 @@
       });
     });
 
-    $$('[data-probe]').forEach(el => {
-      const i = Number(el.dataset.probe);
-      lab.makeDraggable(el, {
-        hold: true,
-        ghost: () => `<div class="mr-ghost mr-ghost-probe">${PROBE_ICON}</div>`,
-        targets: () => SIDES.filter(s => !state.probes.includes(s)).map(s => (state.poured[s] ? boxEl(s) : contEl(s))),
-        onDrop: target => placeProbe(i, target.dataset.cont || target.dataset.box),
-        onHold: on => setCaption(on ? LABELS.captionHoldProbe : defaultCaption())
-      });
-    });
-
-    const lensBtn = $('[data-lens]');
-    if (lensBtn) {
-      lab.makeDraggable(lensBtn, {
-        hold: true,
-        ghost: () => `<div class="mr-ghost mr-ghost-lens">${LENS_ICON}</div>`,
-        targets: () => SIDES.filter(s => state.poured[s] && state.lens !== s).map(boxEl),
-        onDrop: target => placeLens(target.dataset.box),
-        onHold: on => setCaption(on ? LABELS.captionHoldLens : defaultCaption())
-      });
-    }
-
     $$('[data-pour]').forEach(btn => btn.addEventListener('click', () => pour(btn.dataset.pour)));
 
     // Un endroit touché sans rien en main (sinon le moteur y a posé l'objet).
     SIDES.forEach(s => {
-      contEl(s).addEventListener('click', () => setCaption(state.probes.includes(s) ? LABELS.captionUsePour : LABELS.captionContProbe, true));
+      $(`[data-cont="${s}"]`).addEventListener('click', () => { if (!state.poured[s]) setCaption(LABELS.captionUsePour, true); });
       boxEl(s).addEventListener('click', e => {
-        if (e.target.closest('[data-ice], [data-lens]')) return;
-        const hint = state.poured[s] && !st && blockIn(s) ? LABELS.captionIceStays
+        if (e.target.closest('[data-ice]')) return;
+        const hint = state.poured[s] && !finished() && blockIn(s) ? LABELS.captionIceStays
           : !state.poured[s] && !blockIn(s) ? LABELS.captionBoxEmpty : LABELS.captionTakeFirst;
         setCaption(hint, true);
       });
@@ -872,16 +899,7 @@
   }
 
   function markStarted() {
-    if (state.started) return;
-    state.started = true;
-  }
-
-  // La loupe posée sur une boîte au départ ou une fois le temps fini : vu.
-  function markLooks() {
-    const s = state.lens;
-    if (!s || !state.poured[s]) return;
-    if (state.k === 0) state.looked.start[s] = true;
-    if (stable()) state.looked.end[s] = true;
+    if (!state.started) state.started = true;
   }
 
   function focusField(f, side) {
@@ -912,23 +930,6 @@
     }
   }
 
-  function placeProbe(i, side) {
-    lab.release();
-    markStarted();
-    state.probes[i] = side;
-    renderExperiment();
-    lab.renderStepper();
-    if (state.k === 0) focusField('t0', side);
-  }
-
-  function placeLens(side) {
-    lab.release();
-    state.lens = side;
-    markLooks();
-    renderExperiment();
-    lab.renderStepper();
-  }
-
   // Pendant une animation, la paillasse ne répond pas.
   function setBusy() {
     const runEl = $('.mr-run');
@@ -953,24 +954,25 @@
     lab.tween(token, 1600, (k, raw) => { if (pouring) { pouring.p = Math.max(0, raw); paint(0); } }, ease.linear).then(ok => {
       pouring = null;
       if (!ok) return;
-      markLooks();
       renderExperiment();
       lab.renderStepper();
     });
   }
 
-  // Dix minutes passent : l'eau refroidit, la glace fond.
-  function waitStep() {
-    if (stable()) return;
-    const from = now();
+  /* La course : les 40 minutes d'un seul tenant, les deux boîtes ensemble.
+     Le temps à l'écran avance régulièrement : l'essentiel change au début,
+     puis plus rien ne bouge (les thermomètres restent à 0 °C). */
+  function startRace() {
+    if (state.raced) return;
     lab.release();
-    state.k++;
-    markLooks();
+    state.raced = true;
+    racing = true;
     lab.state.showMissing = false;
-    renderExperiment(LABELS.captionWaiting, from);
+    renderExperiment(LABELS.captionRacing, 0);
     setBusy();
     const token = lab.newScene();
-    lab.tween(token, 1500, (k, raw) => paint(from + STEP * Math.max(0, raw)), ease.linear).then(ok => {
+    lab.tween(token, RACE_MS, (k, raw) => paint(RACE_MIN * Math.max(0, raw)), ease.linear).then(ok => {
+      racing = false;
       if (!ok) return;
       renderExperiment();
       lab.renderStepper();
@@ -985,7 +987,7 @@
     if (s === '') return null;
     if (!/^-?\d{1,5}$/.test(s)) return NaN;
     const v = Number(s) + 0;
-    if (f === 't0' || f === 't1') return v >= -50 && v <= 150 ? v : NaN;
+    if (f === 't1') return v >= -50 && v <= 150 ? v : NaN;
     if (f === 'melted') return v;
     return v >= 0 ? v : NaN;
   }
@@ -1025,6 +1027,7 @@
     if (lab.state.showMissing && benchDone()) lab.state.showMissing = false;
     updateLocks();
     updateMarks();
+    markTodo();
     setCaption(defaultCaption());
     updateRunFooter();
   }
@@ -1033,20 +1036,17 @@
      après chaque changement) : chaque geste attend le précédent, et dit
      lequel. */
   function updateLocks() {
-    const st = stable();
+    const done = finished();
     const bal = onBalance();
     SIDES.forEach(side => {
       const n = state.notes[side];
-      const poured = state.poured[side];
       const reason = {
-        vol: poured ? LABELS.lockVolPoured : null,
-        t0: state.k > 0 ? LABELS.lockT0Late : !state.probes.includes(side) ? LABELS.lockT0Probe : null,
-        ice0: poured ? LABELS.lockIce0Fixed : !(bal && !bal.out) ? LABELS.lockIce0Balance : null,
-        t1: !st ? LABELS.lockEndWait : null,
-        ice1: !st ? LABELS.lockEndWait : !(bal && bal.out && bal.side === side) ? LABELS.lockIce1(LABELS.sides[side].box) : null,
+        ice0: state.poured[side] ? LABELS.lockIce0Fixed : !(bal && !bal.out) ? LABELS.lockIce0Balance : null,
+        t1: !done ? LABELS.lockEndRace : null,
+        ice1: !done ? LABELS.lockEndRace : !(bal && bal.out && bal.side === side) ? LABELS.lockIce1(LABELS.sides[side].box) : null,
         melted: n.ice0 == null || n.ice1 == null ? LABELS.lockMelted : null
       };
-      FIELDS.forEach(f => {
+      NOTED.forEach(f => {
         const input = $(`[data-f="${f}"][data-s="${side}"]`);
         if (!input) return;
         input.readOnly = !!reason[f];
@@ -1054,36 +1054,25 @@
       });
       const pourBtn = $(`[data-pour="${side}"]`);
       if (pourBtn) {
-        const why = !blockIn(side) ? LABELS.lockPourIce
-          : n.ice0 == null ? LABELS.lockPourIce0
-          : !state.probes.includes(side) ? LABELS.lockPourProbe
-          : n.t0 == null ? LABELS.lockPourT0
-          : n.vol == null ? LABELS.lockPourVol : null;
+        const why = !blockIn(side) ? LABELS.lockPourIce : n.ice0 == null ? LABELS.lockPourIce0 : null;
         lab.setLock(pourBtn, why);
         pourBtn.classList.toggle('lab-btn-primary', !why);
       }
     });
 
-    const lookedStart = SIDES.every(s => state.looked.start[s]);
-    const seenReason = {
-      fastStart: state.k > 0 ? LABELS.lockSeenFixed : !lookedStart ? LABELS.lockSeenStart : null,
-      moreStart: state.k > 0 ? LABELS.lockSeenFixed : !lookedStart ? LABELS.lockSeenStart : null,
-      fastEnd: !SIDES.every(s => state.looked.end[s]) ? (st ? LABELS.lockSeenEnd : LABELS.lockEndWait) : null
-    };
+    const startReason = state.raced ? LABELS.lockSeenFixed : !bothPoured() ? LABELS.lockSeenPour : null;
+    const seenReason = { fastStart: startReason, moreStart: startReason, fastEnd: !done ? LABELS.lockEndRace : null };
     SEEN.forEach(k => lab.setLock($(`select[data-seen="${k}"]`), seenReason[k]));
 
-    const wait = $('[data-wait]');
-    if (wait) {
-      const why = !bothPoured() ? LABELS.lockWaitPour
-        : !lookedStart ? LABELS.lockWaitLook
-        : !state.seen.fastStart || !state.seen.moreStart ? LABELS.lockWaitSeen : null;
-      lab.setLock(wait, why, { missing: true, key: 'wait' });
-      wait.classList.toggle('is-ready', !why);
-      const sub = $('[data-wait-sub]');
-      if (sub) sub.textContent = why ? LABELS.waitLocked : LABELS.waitReady;
+    const race = $('[data-race]');
+    if (race) {
+      const why = !bothPoured() ? LABELS.lockRacePour
+        : !state.seen.fastStart || !state.seen.moreStart ? LABELS.lockRaceSeen : null;
+      lab.setLock(race, why, { missing: true, key: 'race' });
+      race.classList.toggle('is-ready', !why);
+      const sub = $('[data-race-sub]');
+      if (sub) sub.textContent = why ? LABELS.raceLocked : LABELS.raceReady;
     }
-    const lensBtn = $('[data-lens]');
-    if (lensBtn) lab.setLock(lensBtn, SIDES.some(s => state.poured[s]) ? null : LABELS.lockLens);
   }
 
   // Cases encore vides (et ouvertes) à signaler : bouton suivant touché trop tôt.
@@ -1099,7 +1088,7 @@
   }
 
   /* La prochaine chose à faire, dans l'ordre de la manipulation : la
-     légende la dit. */
+     légende la dit, et ce qu'il faut toucher ou remplir est en couleur. */
   function nextTask() {
     const B = state.blocks;
     const bal = onBalance();
@@ -1110,22 +1099,48 @@
       if (B.some(b => !b.weighed)) return bal ? 'toBox' : 'weigh';
       if (B.some(b => b.pos === 'tray' || b.pos === 'balance')) return 'toBox';
       if (SIDES.some(s => n[s].ice0 == null)) return bal ? 'readMass' : 'reweigh';
-      if (SIDES.some(s => !state.probes.includes(s))) return 'probe';
-      if (SIDES.some(s => n[s].t0 == null)) return 't0';
-      if (SIDES.some(s => n[s].vol == null)) return 'vol';
       return 'pour';
     }
-    if (state.k === 0 && !SIDES.every(s => state.looked.start[s])) return 'look';
-    if (state.k === 0 && (!state.seen.fastStart || !state.seen.moreStart)) return 'seen';
-    if (!stable()) return 'wait';
+    if (!state.raced && (!state.seen.fastStart || !state.seen.moreStart)) return 'seen';
+    if (!state.raced) return 'race';
+    if (racing) return 'racing';
     if (SIDES.some(s => n[s].t1 == null)) return 't1';
-    if (!SIDES.every(s => state.looked.end[s])) return 'lookEnd';
     if (!state.seen.fastEnd) return 'seenEnd';
     if (bal && bal.out && n[bal.side].ice1 == null) return 'readMassEnd';
     if (B.some(b => SIDES.includes(b.pos))) return bal ? 'freeBalance' : 'takeOut';
     if (SIDES.some(s => n[s].ice1 == null)) return 'reweighEnd';
     if (SIDES.some(s => n[s].melted == null)) return 'melted';
     return 'done';
+  }
+
+  function todoEls() {
+    const B = state.blocks;
+    const bal = onBalance();
+    const iceEl = b => (b ? $(`[data-ice="${B.indexOf(b)}"]`) : null);
+    const empty = (f, sides) => sides.filter(s => state.notes[s][f] == null).map(s => $(`[data-f="${f}"][data-s="${s}"]`));
+    switch (nextTask()) {
+      case 'weigh': return [iceEl(B.find(b => !b.weighed))];
+      case 'readMass': return empty('ice0', SIDES).slice(0, 1);
+      case 'toBox': return [iceEl(bal || B.find(b => b.pos === 'tray' && b.weighed))];
+      case 'reweigh': return [iceEl(B.find(b => SIDES.includes(b.pos)))];
+      case 'pour': return SIDES.filter(s => !state.poured[s]).map(s => $(`[data-pour="${s}"]`));
+      case 'seen': return ['fastStart', 'moreStart'].filter(k => !state.seen[k]).map(k => $(`select[data-seen="${k}"]`));
+      case 'race': return [$('[data-race]')];
+      case 't1': return empty('t1', SIDES);
+      case 'seenEnd': return [$('select[data-seen="fastEnd"]')];
+      case 'readMassEnd': return empty('ice1', [bal.side]);
+      case 'freeBalance': return [iceEl(bal)];
+      case 'takeOut': return [iceEl(B.find(b => SIDES.includes(b.pos)))];
+      case 'reweighEnd': return [iceEl(B.find(b => b.out && state.notes[b.side].ice1 == null))];
+      case 'melted': return empty('melted', SIDES);
+      default: return [];
+    }
+  }
+
+  function markTodo() {
+    $$('.is-todo').forEach(el => el.classList.remove('is-todo'));
+    if (lab.isFrozen()) return;
+    todoEls().forEach(el => { if (el && !el.classList.contains('lab-is-locked')) el.classList.add('is-todo'); });
   }
 
   const defaultCaption = () => LABELS.captions[nextTask()];
@@ -1153,7 +1168,7 @@
     const missing = lab.state.showMissing && !done;
     const info = $('.lab-footer .lab-footer-info');
     if (info && !info.hasAttribute('data-lab-frozen')) {
-      info.textContent = missing ? LABELS.missingRun : bothPoured() ? LABELS.runInfo(LABELS.minutes(now())) : LABELS.runSetup;
+      info.textContent = missing ? LABELS.missingRun : finished() ? LABELS.runDone : LABELS.runSetup;
       info.classList.toggle('is-warning', missing);
     }
     const concl = $('[data-conclude]');
@@ -1263,9 +1278,9 @@
   }
 
   /* ===== Étape 4 : correction =====
-     Mesures : chaque case comparée à ce que montraient le récipient, le
+     Mesures : chaque case écrite comparée à ce que montraient le
      thermomètre et la balance ; la masse fondue, à la soustraction des
-     masses notées. Particules : ce que montrait la loupe (la tasse, plus
+     masses notées (volumes et températures de départ : donnés). Particules : ce que montrait la loupe (la tasse, plus
      chaude, a les particules les plus rapides ; la cruche, plus d'eau, en
      a le plus ; à la fin, même vitesse). Gagnant : d'après les masses
      fondues notées. Jugement : le pari sur le gagnant comparé à la
@@ -1276,13 +1291,13 @@
   function evaluate() {
     const misses = [];
     let good = 0;
-    SIDES.forEach(side => FIELDS.forEach(f => {
+    SIDES.forEach(side => NOTED.forEach(f => {
       const v = state.notes[side][f];
       const r = f === 'melted' ? meltedTruth(side) : truth(side, f);
       if (v != null && v === r) good++;
       else misses.push({ side, f, v, r });
     }));
-    const total = SIDES.length * FIELDS.length;
+    const total = SIDES.length * NOTED.length;
     const seenOk = {};
     SEEN.forEach(k => { seenOk[k] = state.seen[k] === SEEN_RIGHT[k]; });
     const c = state.concl;
@@ -1335,7 +1350,7 @@
       const wrong = new Set(ev.misses.map(x => `${x.side}-${x.f}`));
       const rows = FIELDS.map(f => `<tr><th scope="row">${gloss(LABELS.fields[f])}</th>${SIDES.map(s => {
         const x = ev.misses.find(m => m.side === s && m.f === f);
-        return wrong.has(`${s}-${f}`)
+        return wrong.has(`${s}-${f}`) && x
           ? `<td class="is-ko"><span>${noteText(s, f)}</span><small>${fmtUnit(f, x.r)}</small></td>`
           : `<td class="is-ok">${noteText(s, f)}</td>`;
       }).join('')}</tr>`).join('');
@@ -1480,22 +1495,21 @@
     isStarted: () => !!state.bets.winner || !!state.bets.final || state.started,
     render: { 1: renderPredict, 2: () => renderExperiment(), 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 1,
+    version: 2,
     save: () => ({ run, state }),
-    // Un versement ou dix minutes interrompus en cours d'animation sont déjà
+    // Un versement ou une course interrompus en cours d'animation sont déjà
     // comptés : la paillasse se redessine dans l'état atteint.
     load(data) {
       const r = data.run, s = data.state;
-      if (!r || !PAIRS[r.pair] || !ICE_MASSES.includes(r.ice) || typeof r.seed !== 'string' ||
-        !s || !s.bets || !Array.isArray(s.blocks) || s.blocks.length !== 2 || !Array.isArray(s.probes) ||
-        !s.poured || !s.looked || !s.looked.start || !s.looked.end || !s.notes || !s.notes.mug || !s.notes.jug ||
-        !s.seen || !s.concl || typeof s.k !== 'number') throw new Error('labProgress');
+      if (!r || !PAIRS[r.pair] || r.ice !== ICE || typeof r.seed !== 'string' ||
+        !s || !s.bets || !Array.isArray(s.blocks) || s.blocks.length !== 2 || !s.poured ||
+        !s.notes || !s.notes.mug || !s.notes.jug || !s.seen || !s.concl || typeof s.raced !== 'boolean') throw new Error('labProgress');
       run = r;
       state = s;
       if (!CRITERIA.includes(state.selected)) state.selected = CRITERIA[0];
-      kStable = stableStep();
       pouring = null;
-      lensSim = null;
+      racing = false;
+      lensSims = {};
       stepperDone = null;
       conclReady = null;
     },
