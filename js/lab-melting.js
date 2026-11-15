@@ -731,7 +731,7 @@
     return `left:${at.x - s / 2}px;top:${at.y - s}px;width:${s}px;height:${s}px`;
   }
 
-  const iceButton = (i, style) => `<button type="button" class="mr-ice" data-ice="${i}"${style ? ` style="${style}"` : ''}>${ICE_SVG}<span class="mr-sr">${LABELS.tools.ice}</span></button>`;
+  const iceButton = (i, style) => `<button type="button" class="mr-ice lab-todo-out" data-ice="${i}"${style ? ` style="${style}"` : ''}>${ICE_SVG}<span class="mr-sr">${LABELS.tools.ice}</span></button>`;
 
   function stageHTML() {
     const bal = onBalance();

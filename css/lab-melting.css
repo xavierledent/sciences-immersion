@@ -467,12 +467,6 @@ html[data-pointer='fine'] .mr-ice.lab-holdable:hover,
   filter: drop-shadow(0 8px 14px rgba(17, 36, 72, 0.28));
 }
 
-/* Ce qu'il faut faire maintenant (lab-todo, style du moteur) : le bloc de
-   glace garde des coins arrondis. */
-.mr-ice.lab-todo {
-  border-radius: 10px;
-}
-
 /* Minuterie : le temps depuis le versement et « Start the race » */
 .mr-timer {
   display: flex;

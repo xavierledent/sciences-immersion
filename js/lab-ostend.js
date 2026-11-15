@@ -869,7 +869,7 @@
       `<div class="os-row2">` +
         `<div class="os-stage2">` +
           `<div class="os-stage2-back" data-bench2>${svg(440, 366, bench2Back(s.pos === 'balance' ? run.mass : 0, false))}</div>` +
-          `<button type="button" class="os-flask is-at-${s.pos}" data-flask aria-label="${escapeHtml(LABELS.s2.flask)}">${svg(100, 275, flaskInner(mm), '', ' data-flask-art')}</button>` +
+          `<button type="button" class="os-flask lab-todo-out is-at-${s.pos}" data-flask aria-label="${escapeHtml(LABELS.s2.flask)}">${svg(100, 275, flaskInner(mm), '', ' data-flask-art')}</button>` +
           `<div class="os-stage2-front">${svg(440, 366, BENCH2_FRONT)}</div>` +
           `<span class="os-spot-name os-spot-balance">${LABELS.s2.balance}</span><span class="os-spot-name os-spot-bath">${LABELS.s2.bath}</span>` +
           `<div class="os-thermo"><span class="os-lcd-box"><span data-temp>${seaTemp(s.step)}</span><small>${LABELS.units.c}</small></span>` +

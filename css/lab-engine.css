@@ -968,7 +968,10 @@ html[data-pointer='fine'] .lab-choice:not(.is-selected):hover,
 
 /* Ce qu'il faut faire maintenant (def.todo, posé par le moteur) : une case
    à remplir prend la couleur du chapitre ; un objet à prendre ou un bouton
-   à toucher pulse doucement. Dans un dessin SVG, un halo. */
+   à toucher a un bord de couleur et une lueur qui pulse, dessinés à
+   l'intérieur (rien ne déborde ni n'est coupé par sa colonne). Un objet
+   sans fond posé sur une scène (récipient, bloc de glace : lab-todo-out)
+   a un anneau autour de lui. Dans un dessin SVG, un halo. */
 input.lab-todo,
 select.lab-todo,
 textarea.lab-todo,
@@ -976,19 +979,32 @@ textarea.lab-todo,
   border-style: solid;
   border-color: var(--color-current);
   background-color: rgba(var(--color-current-rgb), 0.14);
-  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+  box-shadow: inset 0 0 0 1px var(--color-current);
 }
 
 .lab-todo:not(input, select, textarea, .lab-todo-field) {
+  outline: 3px solid var(--color-current);
+  outline-offset: -3px;
   animation: lab-todo 1.8s ease-in-out infinite;
 }
 
 @keyframes lab-todo {
+  0%, 100% { box-shadow: inset 0 0 0 3px rgba(var(--color-current-rgb), 0.15), inset 0 0 6px 3px rgba(var(--color-current-rgb), 0.1); }
+  50% { box-shadow: inset 0 0 0 3px rgba(var(--color-current-rgb), 0.15), inset 0 0 14px 6px rgba(var(--color-current-rgb), 0.32); }
+}
+
+.lab-todo-out.lab-todo {
+  outline: none;
+  animation-name: lab-todo-out;
+}
+
+@keyframes lab-todo-out {
   0%, 100% { box-shadow: 0 0 0 3px var(--color-current), 0 0 0 5px rgba(var(--color-current-rgb), 0.3); }
   50% { box-shadow: 0 0 0 3px var(--color-current), 0 0 0 11px rgba(var(--color-current-rgb), 0); }
 }
 
 svg .lab-todo:not(svg, .lab-todo-field) {
+  outline: none;
   animation-name: lab-todo-svg;
 }
 
@@ -1000,6 +1016,9 @@ svg .lab-todo:not(svg, .lab-todo-field) {
 @media (prefers-reduced-motion: reduce) {
   .lab-todo:not(input, select, textarea, .lab-todo-field) {
     animation: none;
+    box-shadow: inset 0 0 0 3px rgba(var(--color-current-rgb), 0.15), inset 0 0 10px 4px rgba(var(--color-current-rgb), 0.2);
+  }
+  .lab-todo-out.lab-todo {
     box-shadow: 0 0 0 3px var(--color-current), 0 0 0 6px rgba(var(--color-current-rgb), 0.25);
   }
   svg .lab-todo:not(svg, .lab-todo-field) {

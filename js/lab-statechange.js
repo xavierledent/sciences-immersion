@@ -687,7 +687,7 @@
     return `<div class="sc-stage">` +
       `<div class="sc-spot sc-balance" data-target="balance">${svg(140, 300, balanceInner(b.pos === 'balance' ? massAt(t) : 0))}<span class="sc-spot-name">${LABELS.tools.balance}</span></div>` +
       `<div class="sc-spot sc-device" data-target="device">${svg(160, 300, deviceBack(on))}<span class="sc-spot-name">${deviceName().name}</span></div>` +
-      `<button type="button" class="sc-vessel" data-vessel style="left: ${spot.x - 50}px; top: ${spot.base - 165}px" aria-label="${escapeHtml(vesselName().name)}">${svg(100, 170, vesselInner(t, b.covered))}</button>` +
+      `<button type="button" class="sc-vessel lab-todo-out" data-vessel style="left: ${spot.x - 50}px; top: ${spot.base - 165}px" aria-label="${escapeHtml(vesselName().name)}">${svg(100, 170, vesselInner(t, b.covered))}</button>` +
       `<div class="sc-front">${svg(160, 300, deviceFront())}</div>` +
       (b.probe ? `<div class="sc-wire">${wireSVG()}</div>` : '') +
       `<button type="button" class="sc-tool sc-probe ${b.probe ? 'is-in' : ''}" data-probe>${b.probe ? '' : PROBE_ICON}` +
