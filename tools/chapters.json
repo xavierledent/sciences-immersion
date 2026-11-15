@@ -133,6 +133,13 @@
             "text": "A substance changes state on your bench. Sketch the temperature curve, weigh, read the thermometer every minute and weigh again: what do the thermometer and the balance tell you?"
           },
           {
+            "id": "melting",
+            "file": "lab-melting",
+            "title": "The great melting race",
+            "question": "Does the hottest water always melt the most ice?",
+            "text": "A small mug of very hot water, a big jug of cooler water and two identical ice blocks. Weigh, measure, pour and look at the particles: which water melts more ice, and why?"
+          },
+          {
             "id": "ostend",
             "file": "lab-ostend",
             "title": "Ostend 2100",
@@ -147,6 +154,13 @@
             "title": "Kijk hoe het verandert",
             "question": "Wat gebeurt er met een stof tijdens een toestandsverandering?",
             "text": "Op je labotafel verandert een stof van toestand. Schets de temperatuurcurve, weeg, lees elke minuut de thermometer af en weeg opnieuw: wat vertellen de thermometer en de balans je?"
+          },
+          {
+            "id": "melting",
+            "file": "lab-melting",
+            "title": "De grote smeltrace",
+            "question": "Smelt het warmste water altijd het meeste ijs?",
+            "text": "Een kleine tas met heel heet water, een grote maatbeker met koeler water en twee gelijke ijsblokken. Weeg, meet, giet en bekijk de deeltjes: welk water smelt meer ijs, en waarom?"
           },
           {
             "id": "ostend",

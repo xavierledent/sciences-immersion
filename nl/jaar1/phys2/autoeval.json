@@ -706,7 +706,8 @@
             }
           ],
           "labs": [
-            "statechange"
+            "statechange",
+            "melting"
           ]
         },
         {
@@ -881,6 +882,7 @@
           ],
           "labs": [
             "statechange",
+            "melting",
             "ostend"
           ]
         }

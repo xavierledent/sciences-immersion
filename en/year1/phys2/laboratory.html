@@ -16,6 +16,7 @@
   <link rel='stylesheet' href='../../../css/style.css'>
   <link rel='stylesheet' href='../../../css/lab-engine.css'>
   <link rel='stylesheet' href='../../../css/lab-statechange.css'>
+  <link rel='stylesheet' href='../../../css/lab-melting.css'>
   <link rel='stylesheet' href='../../../css/lab-ostend.css'>
 </head>
 
@@ -57,6 +58,16 @@
         </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='statechange'>Enter the lab</button>
       </article>
+      <article class='lab-tile' data-lab-tile='melting'>
+        <h2 class='lab-tile-title'>The great melting race</h2>
+        <p class='lab-tile-question'>Does the hottest water always melt the most ice?</p>
+        <p class='lab-tile-text'>A small mug of very hot water, a big jug of cooler water and two identical ice blocks. Weigh, measure, pour and look at the particles: which water melts more ice, and why?</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Your progress</span>
+          <div class='lab-tile-steps' role='group' aria-label='Not started yet'><button type='button' class='lab-tile-step' data-lab-open='melting' data-lab-step='1' data-tooltip='1. Predict' aria-label='1. Predict'></button><button type='button' class='lab-tile-step' data-lab-open='melting' data-lab-step='2' data-tooltip='2. Experiment' aria-label='2. Experiment'></button><button type='button' class='lab-tile-step' data-lab-open='melting' data-lab-step='3' data-tooltip='3. Conclude' aria-label='3. Conclude'></button><button type='button' class='lab-tile-step' data-lab-open='melting' data-lab-step='4' data-tooltip='4. Check' aria-label='4. Check'></button></div>
+        </div>
+        <button type='button' class='resource-button lab-tile-btn' data-lab-open='melting'>Enter the lab</button>
+      </article>
       <article class='lab-tile' data-lab-tile='ostend'>
         <h2 class='lab-tile-title'>Ostend 2100</h2>
         <p class='lab-tile-question'>Why is the sea rising, and what will it change at Ostend by 2100?</p>
@@ -66,10 +77,6 @@
           <div class='lab-tile-steps' role='group' aria-label='Not started yet'><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='1' data-tooltip='1. Predict' aria-label='1. Predict'></button><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='2' data-tooltip='2. Experiment' aria-label='2. Experiment'></button><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='3' data-tooltip='3. Conclude' aria-label='3. Conclude'></button><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='4' data-tooltip='4. Check' aria-label='4. Check'></button></div>
         </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='ostend'>Enter the lab</button>
-      </article>
-      <article class='lab-tile lab-tile-soon'>
-        <h2 class='lab-tile-title'>Lab is still in development.</h2>
-        <p class='lab-tile-text'>A new virtual lab will appear here later.</p>
       </article>
       </section>
     </section>
@@ -100,6 +107,8 @@
   <script src='../../../js/lab-engine.js'></script>
   <script src='lab-statechange.en.js'></script>
   <script src='../../../js/lab-statechange.js'></script>
+  <script src='lab-melting.en.js'></script>
+  <script src='../../../js/lab-melting.js'></script>
   <script src='lab-ostend.en.js'></script>
   <script src='../../../js/lab-ostend.js'></script>
   <script src='../../../js/chapter-nav.js'></script>

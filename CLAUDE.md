@@ -75,7 +75,13 @@ palier et masse ; une situation tirée parmi cinq : glace qui fond, eau qui
 gèle, eau qui bout, acide stéarique qui fond ou se solidifie ; esquisser la
 courbe et parier sur la masse ; fermer ou non le récipient, peser, relever
 la température et l'état chaque minute, graphique FO5c tracé à partir du
-tableau, repeser ; la manipulation se recommence une fois) et « Ostend 2100 »
+tableau, repeser ; la manipulation se recommence une fois), « The great
+melting race » (chaleur et température : une tasse d'eau très chaude et une
+cruche d'un litre plus tiède, paire tirée parmi cinq, gagnant variable,
+égalité possible ; deux paris : le gagnant, l'eau la plus chaude à la fin ;
+peser les blocs, thermomètres, verser, loupe à particules sur chaque boîte
+(tout le contenu, un point = beaucoup de particules), attendre par pas de
+10 minutes, repeser, soustraction ; expérience sur un modèle) et « Ostend 2100 »
 (labo fait en classe, élargi : pourquoi la mer monte et ce que cela change à
 Ostende ; trois postes : les deux verres, glaçons flottants ou sur grille ;
 l'eau de mer tiédie dans un flacon à tube fin, sur balance ; un modèle de la

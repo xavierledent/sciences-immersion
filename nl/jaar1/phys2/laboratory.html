@@ -16,6 +16,7 @@
   <link rel='stylesheet' href='../../../css/style.css'>
   <link rel='stylesheet' href='../../../css/lab-engine.css'>
   <link rel='stylesheet' href='../../../css/lab-statechange.css'>
+  <link rel='stylesheet' href='../../../css/lab-melting.css'>
   <link rel='stylesheet' href='../../../css/lab-ostend.css'>
 </head>
 
@@ -57,6 +58,16 @@
         </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='statechange'>Naar het labo</button>
       </article>
+      <article class='lab-tile' data-lab-tile='melting'>
+        <h2 class='lab-tile-title'>De grote smeltrace</h2>
+        <p class='lab-tile-question'>Smelt het warmste water altijd het meeste ijs?</p>
+        <p class='lab-tile-text'>Een kleine tas met heel heet water, een grote maatbeker met koeler water en twee gelijke ijsblokken. Weeg, meet, giet en bekijk de deeltjes: welk water smelt meer ijs, en waarom?</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Jouw voortgang</span>
+          <div class='lab-tile-steps' role='group' aria-label='Nog niet begonnen'><button type='button' class='lab-tile-step' data-lab-open='melting' data-lab-step='1' data-tooltip='1. Voorspellen' aria-label='1. Voorspellen'></button><button type='button' class='lab-tile-step' data-lab-open='melting' data-lab-step='2' data-tooltip='2. Experimenteren' aria-label='2. Experimenteren'></button><button type='button' class='lab-tile-step' data-lab-open='melting' data-lab-step='3' data-tooltip='3. Besluiten' aria-label='3. Besluiten'></button><button type='button' class='lab-tile-step' data-lab-open='melting' data-lab-step='4' data-tooltip='4. Controleren' aria-label='4. Controleren'></button></div>
+        </div>
+        <button type='button' class='resource-button lab-tile-btn' data-lab-open='melting'>Naar het labo</button>
+      </article>
       <article class='lab-tile' data-lab-tile='ostend'>
         <h2 class='lab-tile-title'>Oostende 2100</h2>
         <p class='lab-tile-question'>Waarom stijgt de zee, en wat verandert dat tegen 2100 in Oostende?</p>
@@ -66,10 +77,6 @@
           <div class='lab-tile-steps' role='group' aria-label='Nog niet begonnen'><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='1' data-tooltip='1. Voorspellen' aria-label='1. Voorspellen'></button><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='2' data-tooltip='2. Experimenteren' aria-label='2. Experimenteren'></button><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='3' data-tooltip='3. Besluiten' aria-label='3. Besluiten'></button><button type='button' class='lab-tile-step' data-lab-open='ostend' data-lab-step='4' data-tooltip='4. Controleren' aria-label='4. Controleren'></button></div>
         </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='ostend'>Naar het labo</button>
-      </article>
-      <article class='lab-tile lab-tile-soon'>
-        <h2 class='lab-tile-title'>Labo is nog in ontwikkeling.</h2>
-        <p class='lab-tile-text'>Hier komt later een nieuw virtueel labo.</p>
       </article>
       </section>
     </section>
@@ -100,6 +107,8 @@
   <script src='../../../js/lab-engine.js'></script>
   <script src='lab-statechange.nl.js'></script>
   <script src='../../../js/lab-statechange.js'></script>
+  <script src='lab-melting.nl.js'></script>
+  <script src='../../../js/lab-melting.js'></script>
   <script src='lab-ostend.nl.js'></script>
   <script src='../../../js/lab-ostend.js'></script>
   <script src='../../../js/chapter-nav.js'></script>

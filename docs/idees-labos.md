@@ -129,7 +129,9 @@ bougie). Attendu mineur (proportions, S-F 22), manipulation pauvre.
 Labos réels du chapitre : la fonte de la glace (Mission 8) et la glace de
 mer ou sur terre (Mission 13, démonstration de l'enseignant). Trois labos
 retenus le 2026-11-05 ; les attendus sf1, sf4, sf5 et c1 renvoient au
-premier, sf2, sf6, sf8 et c1 au deuxième (champ `labs` d'autoeval.json).
+premier, sf4 et c1 au troisième, sf2, sf6, sf8 et c1 au deuxième (champ
+`labs` d'autoeval.json). Sur la page Lab, le troisième vient en deuxième
+place (le labo « citoyen » en dernier).
 
 ### 1. Palier et masse (Mission 8) — construit (2026-11-10) : « Watch it change »
 
@@ -165,14 +167,25 @@ la glace terrestre et celle de la dilatation, la hauteur des vagues, le
 gain du sable et du mur sont des valeurs du modèle, à revoir si une source
 précise est retrouvée.
 
-### 3. « The great melting race » — à construire
+### 3. « The great melting race » — construit (2026-11-15)
 
-Chaleur et température par le modèle moléculaire : tasse brûlante ou seau
-tiède, qui fait fondre le plus de glace ? Le gagnant dépend du tirage. Pari
-à Predict sur les volumes et les températures ; blocs de glace,
-thermomètres, eau fondue pesée ; loupe à particules (outil voisin du
-microscope imaginaire de « Zoom in », voulu ainsi : les mêmes outils
-servent d'un domaine à l'autre). Attendus s4 à s8, sf4, c1, s14.
+Chaleur et température par le modèle moléculaire : une tasse d'eau très
+chaude ou une cruche d'un litre plus tiède, qui fait fondre le plus de
+glace ? Une paire tirée parmi cinq (masse fondue ≈ volume × température /
+80, arrondie à 5 g) : la tasse gagne, la cruche gagne, ou égalité ; masse
+des deux blocs tirée (800 g, 1 kg ou 1,2 kg). Deux paris à Predict (le
+gagnant ; l'eau la plus chaude quand la glace ne fond plus). Peser chaque
+bloc, un thermomètre dans chaque eau, noter volumes et températures,
+verser sur les blocs dans deux boîtes isolantes ; loupe à particules sur
+chaque boîte (tout le contenu, un point = beaucoup de particules : peu de
+rapides contre beaucoup de lentes, chocs contre la glace ; outil voisin du
+microscope imaginaire de « Zoom in », voulu ainsi) ; attendre par pas de
+10 minutes jusqu'à 0 °C des deux côtés ; loupe de nouveau ; sortir et
+repeser les blocs, soustraction. Conclude : le gagnant et si c'était l'eau
+la plus chaude ; température, énergie thermique, chaleur (la glace ne
+« donne pas de froid »), fin de la fonte à la même température. Modèle
+simplifié (boîtes parfaitement isolées, glace à 0 °C), dit au Check.
+Attendus s4 à s8, sf4, c1, s14 (seuls sf4 et c1 se relient au labo).
 
 Autres idées du même jour, au second plan : joint de dilatation d'un pont,
 mélange d'eau chaude et d'eau froide, évaporation (test équitable),
