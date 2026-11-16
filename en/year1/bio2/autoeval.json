@@ -578,6 +578,9 @@
               "level": "level3",
               "id": 16
             }
+          ],
+          "labs": [
+            "spread"
           ]
         }
       ]
@@ -614,6 +617,9 @@
               "level": "level3",
               "id": 19
             }
+          ],
+          "labs": [
+            "spread"
           ]
         }
       ]

@@ -342,6 +342,9 @@ faire valider par l'enseignant au premier test :
 - dessins : tout en SVG (tubes, plaque, bouchons, étiquettes changent à
   l'écran) ; pas de planche Gemini prévue.
 
+Les attendus sf3 et c1 renvoient au labo (champ `labs` d'autoeval.json,
+EN et NL), à la demande de l'enseignant (2026-11-16).
+
 ### B. « Cycle detectives » : des cycles, pas un seul cycle — retenu, fiche à faire
 
 Enquête sur des données. Attendus : sf1, s5, c1 (mythe des « jours sans
