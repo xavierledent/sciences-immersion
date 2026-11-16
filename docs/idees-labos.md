@@ -213,7 +213,7 @@ intercourse » ou « sexual contact », « STI test » ou « screening »…) et
 pas refaire une activité du cours (simulation de l'app Flo en Partie 4,
 French challenge en Partie 6).
 
-### A. « Invisible spread » : une IST invisible se propage — validé (fiche ci-dessous)
+### A. « Invisible spread » : une IST invisible se propage — validé, prêt à construire
 
 Expérience sur un modèle : l'échange de liquides fait en classe (soude et
 phénolphtaléine, ici sans nom). Attendus : sf3, c1, s10.
@@ -221,8 +221,8 @@ phénolphtaléine, ici sans nom). Attendus : sf3, c1, s10.
 Première idée avec des verres écartée par l'enseignant : un verre évoque
 « boire », l'élève retiendrait qu'une IST passe en partageant une boisson.
 Donc **tubes à essai et pipette**, et une **légende du modèle** affichée du
-début à la fin : 1 tube = 1 personne ; mélanger deux tubes = un rapport
-sexuel sans protection (échange de liquides du corps) ; rose après le test
+début à la fin : 1 tube = 1 personne ; mélanger deux tubes = un contact
+sexuel sans préservatif (« sexual contact without a condom ») ; rose après le test
 = la personne a l'IST ; bouchon = préservatif ; étiquette bleue = vacciné
 contre le HPV ; « In real life, an STI is not passed on by sharing a glass,
 a tube or a towel. » Jamais « partager », « boire », « toucher ».
@@ -234,46 +234,65 @@ passe quand même (contact peau à peau) ; le vaccin protège du HPV, rien
 contre la chlamydia. Message de la brochure HPV du cours : les deux
 ensemble.
 
-Fiche de conception :
+Fiche de conception (version du 2026-11-16, après lecture du cours) :
 - Page Mission : « Mission: follow an infection you cannot see » ; dans un
   groupe, une personne a une IST sans le savoir (souvent aucun signe) ;
   question générale « How does an STI spread in a group, and what can slow
   it down? » ; étapes : **Mix** les tubes tournée après tournée (pipette,
-  carnet des échanges) ; **Test** chaque tube et **count** (indicateur,
-  cocher les roses) ; **Replay** avec préservatifs et vaccin, puis
-  **compare** (graphique).
-- Questions : 1) combien de personnes ont l'IST après 3 tournées ?
-  2) que changent préservatif et vaccin ? 3) le modèle ressemble-t-il à la
-  vie réelle ? (sans hypothèse, réponse à Conclude).
-- Predict : réglette 1 à 12 pour Q1 ; pour préservatif, vaccin, les deux :
-  *fewer infections / the same / it depends on the STI* (l'IST n'est pas
-  encore connue : pour le vaccin, la bonne réponse dépend du tirage) ;
-  « Why do you think so? » facultatif. Figé dès le premier échange.
+  carnet des échanges) ; **Test** et **count** (plaque à 12 creux,
+  indicateur) ; **Replay** avec préservatifs puis vaccin, et **compare**
+  (graphique). Rien du tirage (ni l'IST).
+- Questions : 1) comment le nombre de personnes qui ont l'IST change-t-il,
+  tournée après tournée ? 2) la moitié du groupe est protégée : qu'arrive-t-il
+  à ceux qui ne le sont pas ? 3) le modèle ressemble-t-il à la vie réelle ?
+  (sans hypothèse, réponse à Conclude).
+- Predict (**pas de pari** : l'enseignant les juge sans base tangible) :
+  en tête, la carte « Today's STI » tirée (HPV ou chlamydia), trois faits
+  repris de la Mission 14 (chlamydia : bacterium ; passes during sexual
+  intercourse, often no signs ; a condom protects, no vaccine. HPV : virus ;
+  skin contact, often no signs ; vaccine exists, a condom reduces the risk
+  but does not protect completely). Q1 : choisir un de trois petits
+  histogrammes (tournées 1 à 3) : reste à peu près pareil / une personne de
+  plus par tournée / peut doubler à chaque tournée (on peut raisonner :
+  chaque personne qui a l'IST peut la passer à son partenaire). Q2 : deux
+  phrases, « Half of the group uses condoms / has the HPV vaccine. Among
+  the people without …, there will be [more / as many / fewer] infections
+  than without any protection. » « Why do you think so? » facultatif. Figé
+  dès le premier échange.
 - Experiment, partie 1 : 12 tubes numérotés, tous clairs, un porteur caché ;
   3 tournées de 4 à 6 paires tirées ; l'élève touche une paire, la pipette
   mélange (animation), le carnet note l'échange (relevé du geste, pas une
   observation) ; tournée suivante verrouillée tant que la précédente n'est
-  pas finie. Test : une goutte d'indicateur par tube, les infectés
-  rosissent ; l'élève coche lui-même et écrit le nombre. Puis une carte du
-  labo d'analyse dit l'IST (HPV ou chlamydia).
+  pas finie. **Test après chaque tournée** : une goutte de chaque tube dans
+  une plaque à 12 creux, puis l'indicateur (Get tested regularly) ; l'élève
+  touche les creux roses et écrit le nombre.
 - Experiment, partie 2 : mêmes échanges rejoués (test équitable, visible
-  dans le carnet), trois scénarios automatiques : la moitié du groupe avec
-  bouchon, la moitié vaccinée, la moitié avec les deux ; test et comptage
-  après chacun. Histogramme FO5b tracé par l'élève (4 colonnes). Bouton du
-  pied : Next: test the tubes → Next: replay with condoms → … → Next:
-  conclude.
-- Conclude : Q1 (nombre lu dans ses résultats + phrase sur la propagation) ;
-  Q2 (chaque protection, avec SON IST) ; Q3 cocher les phrases vraies dans
-  la vie réelle (dont une fausse : « If only one partner uses a condom,
-  only that partner is protected ») ; jugement de l'hypothèse.
-- Check (5) : Counts (4 tests), Graph (FO5b), Spread (Q1), Protection (Q2,
+  dans le carnet), **deux scénarios** automatiques (« les deux ensemble »
+  retiré le 2026-11-16 : redite des préservatifs pour la chlamydia ; pour
+  le HPV, une phrase à la correction) : la moitié du groupe avec bouchon,
+  puis la moitié vaccinée ; un test après chacun. L'élève compare les
+  mêmes tubes non protégés entre partie 1 et partie 2. Histogramme FO5b
+  tracé par l'élève. 5 tests en tout. Bouton du pied : Next: test the
+  tubes → … → Next: replay with condoms → Next: replay with the vaccine →
+  Next: conclude.
+- Règles du modèle : un seul des deux tubes bouché suffit à protéger
+  l'échange ; pour le HPV, environ un échange protégé sur dix passe quand
+  même ; le vaccin protège du HPV, rien contre la chlamydia. Attendu en
+  Q2 : préservatifs → moins d'infections chez les non protégés (les deux
+  IST) ; vaccin → moins chez les non vaccinés pour le HPV, autant pour la
+  chlamydia.
+- Conclude : Q1 (la forme lue dans ses résultats) ; Q2 (les non protégés,
+  avec SON IST) ; Q3 cocher les phrases vraies dans la vie réelle (dont une
+  fausse : « If only one partner uses a condom, only that partner is
+  protected ») ; jugement de l'hypothèse.
+- Check (5) : Counts (5 tests), Graph (FO5b), Spread (Q1), Protection (Q2,
   selon l'IST tirée), Model and reality (Q3 + hypothèse).
-- Rapport FO3 : tableau des tests et graphique ; erreurs marquées à leur
-  place (tube oublié, colonne fausse, conclusion contraire aux résultats,
-  phrase fausse cochée).
-- Tirage : le porteur ; les paires (sans protection, 5 à 9 infectés sur
-  12) ; l'IST ; les 6 protégés de chaque scénario ; les fuites du
-  préservatif pour le HPV (au moins une si HPV).
+- Rapport FO3 : tableau des tests, carnet des échanges et graphique ;
+  erreurs marquées à leur place (creux oublié, colonne fausse, conclusion
+  contraire aux résultats, phrase fausse cochée).
+- Tirage : l'IST ; le porteur ; les paires (sans protection, 5 à 9
+  infectés sur 12 après 3 tournées) ; les 6 protégés de chaque scénario ;
+  les fuites du préservatif pour le HPV (au moins une si HPV).
 
 Décisions tranchées le 2026-11-16 : **12 tubes** ; **pas** de recherche
 du porteur de départ dans le labo ; personnes protégées **tirées au sort** ;
@@ -283,14 +302,14 @@ Après lecture du chapitre de cours (2026-11-16) :
 - légende : « mixing two tubes = **sexual contact without a condom** »
   (mots du cours ; pas de « body fluids » : le HPV passe par contact de la
   peau, Mission 14) ; « test » (Golden Rules : Get tested regularly) ;
-- choix *yes / no / partly* repris de l'Exercise 5b ;
+- *partly* (Exercise 5b) : à reprendre là où le labo parle de la
+  protection d'une personne (correction, Q3), Q2 portant sur le groupe ;
 - Mission 14 et Exercises 5-6 traitent déjà la protection personne par
   personne : la question 2 porte sur **l'effet sur le groupe** (les non
   protégés le sont-ils un peu aussi ?), que le cours ne dit pas.
 
-Predict en cours de reprise : l'enseignant n'aime pas les paris (« ça ne
-repose sur rien de tangible ») ; il veut que l'IST soit connue dès Predict
-(hypothèse plus éclairée).
+Predict validé le 2026-11-16 (voir la fiche ci-dessus) : trois
+graphiques pour Q1, IST connue dès Predict, effet de groupe en Q2.
 
 ### B. « Cycle detectives » : des cycles, pas un seul cycle — retenu, fiche à faire
 
