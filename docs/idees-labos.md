@@ -193,3 +193,130 @@ Attendus s4 à s8, sf4, c1, s14 (seuls sf4 et c1 se relient au labo).
 Autres idées du même jour, au second plan : joint de dilatation d'un pont,
 mélange d'eau chaude et d'eau froide, évaporation (test équitable),
 ébullition en altitude (recoupe EXPLO 4), substances mystère par leur palier.
+
+## bio2 — Human reproduction and prevention
+
+Pas de labo réel dans ce chapitre (confirmé par l'enseignant le
+2026-11-16) : tout est à concevoir. Attendus à viser en priorité : les
+savoir-faire (sf1, sf2, sf3) et la compétence (c1) ; un labo qui ne les
+touche pas reste possible s'il est cohérent et sympa. Limites : dessins
+anatomiques oui ; activité « échange de liquides » oui.
+**Aucun labo ne fait lire de longs documents** (voulu) : en immersion, il
+faudrait soit les mettre en français (le labo n'est plus en anglais), soit
+souligner presque tous les mots ; même effet. D'où le choix du C ci-dessous.
+
+Trois labos retenus le 2026-11-16 : A, B, C (variante visuelle). Ordre sur
+la page Lab à décider. Avant la fiche du B et du C, et avant de coder le A :
+demander le chapitre de cours (le dossier `PDF/` du site n'a que la carte
+mentale et la fiche d'autoévaluation), pour reprendre ses mots (« sexual
+intercourse » ou « sexual contact », « STI test » ou « screening »…) et ne
+pas refaire une activité du cours (simulation de l'app Flo en Partie 4,
+French challenge en Partie 6).
+
+### A. « Invisible spread » : une IST invisible se propage — validé (fiche ci-dessous)
+
+Expérience sur un modèle : l'échange de liquides fait en classe (soude et
+phénolphtaléine, ici sans nom). Attendus : sf3, c1, s10.
+
+Première idée avec des verres écartée par l'enseignant : un verre évoque
+« boire », l'élève retiendrait qu'une IST passe en partageant une boisson.
+Donc **tubes à essai et pipette**, et une **légende du modèle** affichée du
+début à la fin : 1 tube = 1 personne ; mélanger deux tubes = un rapport
+sexuel sans protection (échange de liquides du corps) ; rose après le test
+= la personne a l'IST ; bouchon = préservatif ; étiquette bleue = vacciné
+contre le HPV ; « In real life, an STI is not passed on by sharing a glass,
+a tube or a towel. » Jamais « partager », « boire », « toucher ».
+
+Préservatif et HPV : **option 1** retenue. Un seul des deux tubes bouchés
+suffit à protéger l'échange (responsabilité partagée : le préservatif de
+l'un protège les deux) ; pour le HPV, environ un échange protégé sur dix
+passe quand même (contact peau à peau) ; le vaccin protège du HPV, rien
+contre la chlamydia. Message de la brochure HPV du cours : les deux
+ensemble.
+
+Fiche de conception :
+- Page Mission : « Mission: follow an infection you cannot see » ; dans un
+  groupe, une personne a une IST sans le savoir (souvent aucun signe) ;
+  question générale « How does an STI spread in a group, and what can slow
+  it down? » ; étapes : **Mix** les tubes tournée après tournée (pipette,
+  carnet des échanges) ; **Test** chaque tube et **count** (indicateur,
+  cocher les roses) ; **Replay** avec préservatifs et vaccin, puis
+  **compare** (graphique).
+- Questions : 1) combien de personnes ont l'IST après 3 tournées ?
+  2) que changent préservatif et vaccin ? 3) le modèle ressemble-t-il à la
+  vie réelle ? (sans hypothèse, réponse à Conclude).
+- Predict : réglette 1 à 12 pour Q1 ; pour préservatif, vaccin, les deux :
+  *fewer infections / the same / it depends on the STI* (l'IST n'est pas
+  encore connue : pour le vaccin, la bonne réponse dépend du tirage) ;
+  « Why do you think so? » facultatif. Figé dès le premier échange.
+- Experiment, partie 1 : 12 tubes numérotés, tous clairs, un porteur caché ;
+  3 tournées de 4 à 6 paires tirées ; l'élève touche une paire, la pipette
+  mélange (animation), le carnet note l'échange (relevé du geste, pas une
+  observation) ; tournée suivante verrouillée tant que la précédente n'est
+  pas finie. Test : une goutte d'indicateur par tube, les infectés
+  rosissent ; l'élève coche lui-même et écrit le nombre. Puis une carte du
+  labo d'analyse dit l'IST (HPV ou chlamydia).
+- Experiment, partie 2 : mêmes échanges rejoués (test équitable, visible
+  dans le carnet), trois scénarios automatiques : la moitié du groupe avec
+  bouchon, la moitié vaccinée, la moitié avec les deux ; test et comptage
+  après chacun. Histogramme FO5b tracé par l'élève (4 colonnes). Bouton du
+  pied : Next: test the tubes → Next: replay with condoms → … → Next:
+  conclude.
+- Conclude : Q1 (nombre lu dans ses résultats + phrase sur la propagation) ;
+  Q2 (chaque protection, avec SON IST) ; Q3 cocher les phrases vraies dans
+  la vie réelle (dont une fausse : « If only one partner uses a condom,
+  only that partner is protected ») ; jugement de l'hypothèse.
+- Check (5) : Counts (4 tests), Graph (FO5b), Spread (Q1), Protection (Q2,
+  selon l'IST tirée), Model and reality (Q3 + hypothèse).
+- Rapport FO3 : tableau des tests et graphique ; erreurs marquées à leur
+  place (tube oublié, colonne fausse, conclusion contraire aux résultats,
+  phrase fausse cochée).
+- Tirage : le porteur ; les paires (sans protection, 5 à 9 infectés sur
+  12) ; l'IST ; les 6 protégés de chaque scénario ; les fuites du
+  préservatif pour le HPV (au moins une si HPV).
+
+Décisions encore ouvertes (recommandation entre parenthèses) :
+1. 12 tubes ou 20 (12 : tout tient à l'écran, environ 15 échanges) ;
+2. retrouver le porteur de départ avec le carnet (non dans le labo ; bonne
+   activité en classe à partir du carnet imprimé dans le rapport) ;
+3. protégés tirés ou choisis par l'élève (tirés : sinon il protège exprès
+   les infectés et la comparaison ne vaut plus rien) ;
+4. numéros ou prénoms sur les tubes (numéros : aucun prénom qui rappelle un
+   élève de la classe).
+
+### B. « Cycle detectives » : des cycles, pas un seul cycle — retenu, fiche à faire
+
+Enquête sur des données. Attendus : sf1, s5, c1 (mythe des « jours sans
+risque »). Question : un cycle dure-t-il toujours 28 jours, l'ovulation
+tombe-t-elle toujours au 14e jour ? Hypothèse : oui / non pour chaque
+partie, pari sur la femme au cycle le plus long. L'élève lit le calendrier
+des règles de 3 ou 4 jeunes femmes sur six mois, repère le premier jour des
+règles, calcule chaque longueur de cycle, trace l'histogramme FO5b, lit une
+courbe de température pour situer l'ovulation (comme l'exercice de Woman E).
+Tirage : les profils (régulière, irrégulière, cycles longs, première année
+après les premières règles). Check : longueurs, graphique, comparaison entre
+femmes et chez une même femme, réponse au mythe du 14e jour. FO3, FO5b,
+FO5c éventuellement.
+
+### C. « Where does it act? » : les méthodes sur le trajet des cellules — retenu, fiche à faire
+
+Variante visuelle de « The advice desk » (enquête dans des fiches par
+méthode et par IST, grille à remplir), écartée par l'enseignant : trop de
+lecture (voir plus haut). L'élève place des méthodes sur le schéma de
+l'appareil reproducteur, puis lance le trajet des spermatozoïdes, de
+l'ovocyte et des microbes d'une IST : où est-il arrêté ? Fécondation ou non,
+IST transmise ou non ; relevé dans un tableau. Attendus : sf2 (s'informer
+sur les moyens contraceptifs, ici par l'observation du modèle), c1 (double
+protection, responsabilité partagée), s9, s10, et révision de s2, s4, s7.
+Idées à garder de la version « desk » : une personne ou un couple tiré avec
+ses besoins, conclure sur « ce qui répond aux besoins », jamais « la
+meilleure méthode » (fait / jugement de valeur, FO2).
+
+### Non retenus pour l'instant
+
+- D. « The placenta filter » : sac à membrane (sang du fœtus) dans un
+  bécher (sang de la mère) ; ce qui passe : oxygène, nutriments, déchets,
+  alcool, pas les globules rouges, certains virus. Attendu s8, aucun S-F.
+  Réserve si l'un des trois déçoit.
+- E. « Under the microscope » : spermatozoïde et ovocyte au microscope
+  virtuel, mesure à l'échelle, comparaison. s2, s4, s7, aucun S-F.

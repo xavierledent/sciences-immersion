@@ -81,6 +81,11 @@ scientifique, présentées de la même façon :
 - **Ce qui ne passe pas à l'écran** (odeur, danger, durée) et comment c'est
   rendu (description, temps accéléré), ou pourquoi on y renonce.
 
+Aucun labo ne fait lire de longs documents (voulu par l'enseignant) : en
+immersion, il faudrait les mettre en français ou souligner presque tous les
+mots. L'information passe par ce que l'élève voit et manipule ; un texte à
+lire reste court (une carte, une légende).
+
 Terminer par un bilan : les attendus couverts par l'ensemble des propositions,
 et ceux qu'aucun labo ne touche. L'enseignant choisit. Quand le chapitre a
 des labos réels, ne jamais inventer un labo qui n'est pas dans sa liste ; une
