@@ -15,6 +15,7 @@
   <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' rel='stylesheet'>
   <link rel='stylesheet' href='../../../css/style.css'>
   <link rel='stylesheet' href='../../../css/lab-engine.css'>
+  <link rel='stylesheet' href='../../../css/lab-spread.css'>
 </head>
 
 <body class='subject-bio'>
@@ -45,9 +46,15 @@
         </ol>
       </aside>
       <section class='lab-slots' aria-label='Investigations'>
-      <article class='lab-tile lab-tile-soon'>
-        <h2 class='lab-tile-title'>Lab is still in development.</h2>
-        <p class='lab-tile-text'>A new virtual lab will appear here later.</p>
+      <article class='lab-tile' data-lab-tile='spread'>
+        <h2 class='lab-tile-title'>Invisible spread</h2>
+        <p class='lab-tile-question'>How does an STI spread in a group, and what can slow it down?</p>
+        <p class='lab-tile-text'>Twelve test tubes, twelve people, and one of them has an STI that nobody can see. Mix the tubes round after round and test them. Then replay with condoms and with the HPV vaccine.</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Your progress</span>
+          <div class='lab-tile-steps' role='group' aria-label='Not started yet'><button type='button' class='lab-tile-step' data-lab-open='spread' data-lab-step='1' data-tooltip='1. Predict' aria-label='1. Predict'></button><button type='button' class='lab-tile-step' data-lab-open='spread' data-lab-step='2' data-tooltip='2. Experiment' aria-label='2. Experiment'></button><button type='button' class='lab-tile-step' data-lab-open='spread' data-lab-step='3' data-tooltip='3. Conclude' aria-label='3. Conclude'></button><button type='button' class='lab-tile-step' data-lab-open='spread' data-lab-step='4' data-tooltip='4. Check' aria-label='4. Check'></button></div>
+        </div>
+        <button type='button' class='resource-button lab-tile-btn' data-lab-open='spread'>Enter the lab</button>
       </article>
       <article class='lab-tile lab-tile-soon'>
         <h2 class='lab-tile-title'>Lab is still in development.</h2>
@@ -83,6 +90,9 @@
   </div>
 
   <script src='../../../js/rich-text.js'></script>
+  <script src='../../../js/lab-engine.js'></script>
+  <script src='lab-spread.en.js'></script>
+  <script src='../../../js/lab-spread.js'></script>
   <script src='../../../js/chapter-nav.js'></script>
   <script src='../../../js/lab-page.js'></script>
 </body>

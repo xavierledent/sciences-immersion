@@ -15,6 +15,7 @@
   <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap' rel='stylesheet'>
   <link rel='stylesheet' href='../../../css/style.css'>
   <link rel='stylesheet' href='../../../css/lab-engine.css'>
+  <link rel='stylesheet' href='../../../css/lab-spread.css'>
 </head>
 
 <body class='subject-bio'>
@@ -45,9 +46,15 @@
         </ol>
       </aside>
       <section class='lab-slots' aria-label='Onderzoeken'>
-      <article class='lab-tile lab-tile-soon'>
-        <h2 class='lab-tile-title'>Labo is nog in ontwikkeling.</h2>
-        <p class='lab-tile-text'>Hier komt later een nieuw virtueel labo.</p>
+      <article class='lab-tile' data-lab-tile='spread'>
+        <h2 class='lab-tile-title'>Onzichtbare verspreiding</h2>
+        <p class='lab-tile-question'>Hoe verspreidt een soa zich in een groep, en wat kan dat afremmen?</p>
+        <p class='lab-tile-text'>Twaalf reageerbuizen, twaalf personen, en één van hen heeft een soa die niemand kan zien. Meng de buizen ronde na ronde en test ze. Speel daarna alles opnieuw met condooms en met het HPV-vaccin.</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Jouw voortgang</span>
+          <div class='lab-tile-steps' role='group' aria-label='Nog niet begonnen'><button type='button' class='lab-tile-step' data-lab-open='spread' data-lab-step='1' data-tooltip='1. Voorspellen' aria-label='1. Voorspellen'></button><button type='button' class='lab-tile-step' data-lab-open='spread' data-lab-step='2' data-tooltip='2. Experimenteren' aria-label='2. Experimenteren'></button><button type='button' class='lab-tile-step' data-lab-open='spread' data-lab-step='3' data-tooltip='3. Besluiten' aria-label='3. Besluiten'></button><button type='button' class='lab-tile-step' data-lab-open='spread' data-lab-step='4' data-tooltip='4. Controleren' aria-label='4. Controleren'></button></div>
+        </div>
+        <button type='button' class='resource-button lab-tile-btn' data-lab-open='spread'>Naar het labo</button>
       </article>
       <article class='lab-tile lab-tile-soon'>
         <h2 class='lab-tile-title'>Labo is nog in ontwikkeling.</h2>
@@ -83,6 +90,9 @@
   </div>
 
   <script src='../../../js/rich-text.js'></script>
+  <script src='../../../js/lab-engine.js'></script>
+  <script src='lab-spread.nl.js'></script>
+  <script src='../../../js/lab-spread.js'></script>
   <script src='../../../js/chapter-nav.js'></script>
   <script src='../../../js/lab-page.js'></script>
 </body>

@@ -1,0 +1,1257 @@
+/* ===== Labo virtuel « Invisible spread » (bio2) =====
+   Ce qui est propre à ce labo : légende du modèle, carte de l'IST du jour,
+   petits graphiques de l'hypothèse, paillasse (portoir de 12 tubes, plaque
+   de test), contacts des trois tournées, carnet, histogramme, conclusion,
+   correction. Le cadre commun (modale, étapes, boutons, verrous, panneau,
+   rapport) est dans lab-engine.css. Classes préfixées sp- (spread).
+   Dessiné pour le corps du labo sur Chromebook à 100 % (1204 × 594), sans
+   défilement ; le moteur agrandit le tout sur un plus grand écran. */
+
+/* Couleurs du modèle (les mêmes que dans les dessins SVG de lab-spread.js). */
+.sp-predict,
+.sp-run,
+.sp-conclude,
+.sp-check,
+.lab-brief .sp-legend {
+  --sp-cap: #8a63d2;
+  --sp-sticker: #2f80d1;
+  --sp-pink: #e0479e;
+  --sp-prot: rgba(138, 99, 210, 0.13);
+}
+
+/* ===== Commun aux étapes ===== */
+.sp-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+  text-align: left;
+}
+
+.sp-big-q {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.sp-reminder {
+  margin: auto 0 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--color-current);
+  border-radius: 0 10px 10px 0;
+  background: rgba(var(--color-current-rgb), 0.08);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.sp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.sp-chip {
+  height: 34px;
+  padding: 0 14px;
+  font-size: 0.84rem;
+}
+
+.sp-ok { color: var(--color-emerald); font-weight: 600; }
+.sp-ko { color: var(--color-rose); font-weight: 600; }
+.sp-muted { color: var(--color-muted); }
+
+.sp-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Liste dans une phrase : en attente (pointillé), puis remplie. */
+.sp-select {
+  height: 30px;
+  max-width: 100%;
+  margin: 2px;
+  vertical-align: middle;
+  border-style: dashed;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.sp-select.is-filled {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+  color: var(--color-current-darkest);
+}
+
+.sp-select.lab-is-missing {
+  border-color: #d64545;
+}
+
+/* La légende du modèle (toujours visible) */
+.sp-legend {
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1.5px dashed rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  text-align: left;
+}
+
+.sp-legend ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.sp-legend li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.sp-legend-icon {
+  display: block;
+  width: 30px;
+  height: 28px;
+}
+
+.sp-legend-real {
+  margin: 6px 0 0;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: #fff4e5;
+  color: #7a4a00;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.sp-legend.is-compact {
+  padding: 6px 10px;
+}
+
+.sp-legend.is-compact li {
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 6px;
+  font-size: 0.74rem;
+  line-height: 1.2;
+}
+
+.sp-legend.is-compact .sp-legend-icon {
+  width: 22px;
+  height: 20px;
+}
+
+.sp-legend.is-compact .sp-legend-real {
+  margin-top: 4px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+}
+
+/* Sur la page Mission, la légende en bandeau. */
+.lab-brief .sp-legend {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 4px 16px;
+  max-width: 1080px;
+}
+
+.lab-brief .sp-legend .sp-kicker {
+  grid-row: 1 / 3;
+  margin: 0;
+}
+
+.lab-brief .sp-legend ul {
+  grid-template-columns: repeat(5, auto);
+  gap: 4px 16px;
+}
+
+.lab-brief .sp-legend .sp-legend-real {
+  margin: 0;
+  justify-self: start;
+}
+
+/* La carte de l'IST du jour */
+.sp-sti {
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(var(--color-current-rgb), 0.1);
+  text-align: left;
+}
+
+.sp-sti-name {
+  margin: 0 0 4px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-current-darkest);
+}
+
+.sp-sti ul {
+  margin: 0;
+  padding-left: 1.1em;
+  display: grid;
+  gap: 2px;
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.sp-sti.is-compact {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 10px;
+}
+
+.sp-sti.is-compact .sp-kicker,
+.sp-sti.is-compact .sp-sti-name {
+  margin: 0;
+}
+
+.sp-sti.is-compact .sp-sti-name {
+  font-size: 1rem;
+}
+
+/* ===== Étape 1 : hypothèse ===== */
+.sp-predict {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 430px minmax(0, 1fr);
+  align-content: center;
+  gap: 14px;
+}
+
+.sp-predict-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sp-question-card,
+.sp-hyp-card {
+  padding: 12px 16px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.3);
+  background: #ffffff;
+}
+
+.sp-question-card {
+  background: rgba(var(--color-current-rgb), 0.08);
+  border-color: transparent;
+}
+
+.sp-hyp-card {
+  align-self: center;
+}
+
+.sp-hyp-list {
+  margin: 0;
+  padding-left: 1.4em;
+  display: grid;
+  gap: 10px;
+}
+
+.sp-hyp-list > li::marker {
+  color: var(--color-current-darker);
+  font-weight: 700;
+}
+
+.sp-hyp-part {
+  padding: 8px 12px 10px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+}
+
+.sp-hyp-q {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.sp-shapes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sp-shape.lab-choice {
+  height: auto;
+  padding: 6px 6px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  white-space: normal;
+  border-radius: 14px;
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.sp-shape-svg {
+  display: block;
+  width: 150px;
+  height: 92px;
+}
+
+.sp-mini-tick {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #6b7570;
+}
+
+.sp-shape.is-selected .sp-shape-svg path { stroke: #ffffff; }
+.sp-shape.is-selected .sp-shape-svg rect { fill: #ffffff; }
+.sp-shape.is-selected .sp-mini-tick { fill: #ffffff; }
+
+.sp-hyp-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 12px;
+  padding: 4px 0;
+}
+
+.sp-hyp-line + .sp-hyp-line {
+  border-top: 1px solid #eceee9;
+}
+
+.sp-hyp-line p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.sp-because {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+
+.sp-because span {
+  flex: 0 0 auto;
+}
+
+.sp-because .lab-input {
+  flex: 1;
+  width: auto;
+  height: 38px;
+}
+
+/* ===== Étape 2 : paillasse, carnet ; légende, contacts, test ===== */
+.sp-run {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 12px;
+}
+
+.sp-run.is-busy {
+  pointer-events: none;
+}
+
+.sp-run-left,
+.sp-run-right {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sp-bench,
+.sp-notes,
+.sp-side-card,
+.sp-results {
+  min-width: 0;
+  padding: 8px 12px;
+  border-radius: 16px;
+  background: rgba(var(--color-current-rgb), 0.07);
+}
+
+.sp-bench .lab-panel-title,
+.sp-notes .lab-panel-title,
+.sp-side-card .lab-panel-title,
+.sp-results .lab-panel-title {
+  margin: 0 0 4px;
+}
+
+.sp-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.sp-card-head .lab-panel-title {
+  margin: 0;
+}
+
+.sp-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.sp-tab {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.45);
+  background: #ffffff;
+  color: var(--color-current-darker);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.sp-tab.is-on {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: var(--color-current-text);
+}
+
+/* La paillasse à gauche, le test (goutte, indicateur) à droite de la plaque. */
+.sp-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 156px;
+  align-items: end;
+  gap: 8px;
+  padding-right: 8px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f6f3ec 100%);
+}
+
+.sp-bench-svg {
+  display: block;
+  height: 246px;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: var(--font-family);
+}
+
+.sp-tube-num {
+  font-size: 15px;
+  font-weight: 700;
+  fill: #3e4a44;
+}
+
+.sp-well-num {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #7d8892;
+}
+
+.sp-tube {
+  transition: transform 0.2s ease;
+}
+
+.sp-tube.is-active {
+  transform: translateY(-4px);
+  filter: drop-shadow(0 0 3px rgba(var(--color-current-rgb), 0.9));
+}
+
+.sp-well-fill {
+  transition: fill 0.25s ease;
+}
+
+/* Le graphique, à la place de la paillasse */
+.sp-graph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 0 2px;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.sp-chart-title {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.sp-chart-wrap {
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+}
+
+.sp-chart {
+  display: block;
+  font-family: var(--font-family);
+}
+
+.sp-chart.is-edit {
+  width: 560px;
+  height: 206px;
+}
+
+.sp-graph-how {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.sp-tick,
+.sp-scale-note {
+  font-size: 11px;
+  fill: #6b7570;
+}
+
+.sp-scale-note {
+  font-weight: 700;
+}
+
+.sp-axis-name {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #3e4a44;
+}
+
+.sp-cat {
+  font-size: 13px;
+  font-weight: 700;
+  fill: #3e4a44;
+}
+
+.sp-bar-val {
+  font-size: 13px;
+  font-weight: 700;
+  fill: var(--color-current-darkest);
+}
+
+.sp-slot {
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+.sp-slot-guide {
+  stroke: var(--color-current);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+}
+
+.sp-slot:focus-visible {
+  outline: none;
+}
+
+.sp-slot:focus-visible .sp-slot-guide {
+  stroke-width: 2.4;
+}
+
+/* Le carnet : une ligne par test */
+.sp-notes {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-table th,
+.sp-table td {
+  padding: 1px 2px;
+  border-bottom: 1px solid #eef0ec;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.sp-table thead th {
+  height: 28px;
+  font-size: 0.72rem;
+  color: var(--color-current-darkest);
+}
+
+.sp-table .sp-row-head {
+  width: 116px;
+  text-align: left;
+  padding-left: 8px;
+}
+
+.sp-table .sp-num-head {
+  width: 76px;
+  font-size: 0.66rem;
+  line-height: 1.1;
+}
+
+.sp-table tbody th {
+  padding-left: 8px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.sp-table .is-prot {
+  background: repeating-linear-gradient(135deg, var(--sp-prot) 0 4px, transparent 4px 8px);
+}
+
+.sp-row-name {
+  border-radius: 8px;
+}
+
+.sp-cell {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 2px auto;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid #c3ccd3;
+  background: #ffffff;
+  position: relative;
+}
+
+.sp-cell.is-on {
+  border-color: var(--sp-pink);
+  background: var(--sp-pink);
+}
+
+.sp-cell.is-on::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.sp-cell.lab-is-locked:not(.is-on) {
+  border-style: dashed;
+}
+
+.sp-num-cell {
+  padding: 2px 6px !important;
+}
+
+.sp-num-in {
+  display: block;
+  width: 42px;
+  height: 26px;
+  margin: 0 auto;
+  padding: 0;
+  border-radius: 8px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.sp-num-in:focus {
+  outline: none;
+  border-color: var(--color-current);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+}
+
+.sp-num-in.is-invalid {
+  border-color: #d64545;
+  background: #fff1f0;
+}
+
+.sp-notes-hint {
+  margin: 4px 0 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.lab-caption.is-warning {
+  background: #fff1f0;
+  color: #9f2c2c;
+  font-weight: 600;
+}
+
+.sp-run-left .lab-caption {
+  flex: 0 0 auto;
+  min-height: 2.6em;
+  padding: 4px 12px;
+  font-size: 0.84rem;
+}
+
+/* Colonne de droite : légende, contacts, test */
+.sp-side-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+}
+
+.sp-exchanges {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sp-round {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  align-items: start;
+  gap: 6px;
+  padding: 3px 0;
+}
+
+.sp-round + .sp-round {
+  border-top: 1px solid rgba(var(--color-current-rgb), 0.18);
+}
+
+.sp-round-name {
+  padding-top: 5px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--color-current-darkest);
+  text-align: left;
+}
+
+.sp-pairs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.sp-pair {
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.6);
+  background: #ffffff;
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-pair.is-done {
+  border-color: transparent;
+  background: rgba(var(--color-current-rgb), 0.18);
+  color: var(--color-current-darkest);
+}
+
+.sp-pair.is-now {
+  border-color: var(--color-current-dark);
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+.sp-pair.lab-is-locked {
+  border-style: dashed;
+}
+
+.sp-n {
+  display: inline-block;
+  min-width: 1.2em;
+  padding: 0 2px;
+  border-radius: 4px;
+}
+
+.sp-n.is-cap {
+  background: #ece5f9;
+  color: #5b3fa0;
+  box-shadow: inset 0 -2px 0 var(--sp-cap);
+}
+
+.sp-n.is-sticker {
+  background: #e1edfa;
+  color: #1f5fa3;
+  box-shadow: inset 0 -2px 0 var(--sp-sticker);
+}
+
+.sp-pair.is-now .sp-n {
+  background: transparent;
+  color: inherit;
+}
+
+.sp-replay {
+  height: 36px;
+  margin-top: auto;
+  font-size: 0.82rem;
+}
+
+.sp-test {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 10px;
+}
+
+.sp-test-title {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+  text-align: left;
+}
+
+.sp-test-btn {
+  height: auto;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 0.76rem;
+  line-height: 1.2;
+  text-align: left;
+  background: #ffffff;
+  color: var(--color-current-darker);
+}
+
+.sp-test-btn .sp-icon {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+}
+
+.sp-test-btn.lab-btn-primary {
+  background: var(--color-current);
+  color: var(--color-current-text);
+}
+
+/* ===== Étape 3 : conclusion ===== */
+.sp-conclude {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.sp-results {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+table.sp-mini {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+table.sp-mini th,
+table.sp-mini td {
+  padding: 3px 6px;
+  border-bottom: 1px solid #eef0ec;
+  text-align: center;
+  line-height: 1.2;
+}
+
+table.sp-mini thead th {
+  font-size: 0.68rem;
+  color: var(--color-current-darkest);
+}
+
+table.sp-mini thead th:first-child {
+  width: 44%;
+}
+
+table.sp-mini tbody th {
+  font-weight: 600;
+  text-align: left;
+}
+
+.sp-mini-chart {
+  padding: 2px 4px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.sp-mini-chart .sp-chart {
+  width: 100%;
+  height: auto;
+}
+
+.sp-hyps {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.sp-hyps p {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.sp-hyps p.sp-kicker {
+  margin-bottom: 2px;
+  font-size: 0.66rem;
+}
+
+.sp-form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.sp-form > .sp-big-q {
+  font-size: 0.98rem;
+}
+
+.sp-qs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  counter-reset: sp-q;
+}
+
+.sp-q {
+  padding: 4px 12px 6px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+  counter-increment: sp-q;
+}
+
+.sp-q-title {
+  margin: 0 0 2px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.sp-q > .sp-q-title::before {
+  content: counter(sp-q);
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--color-current);
+  color: var(--color-current-text);
+  font-size: 0.74rem;
+}
+
+/* Listes au milieu des phrases : interligne large, sinon deux listes de
+   lignes voisines se chevauchent. */
+.sp-line {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 2.4;
+  text-align: left;
+}
+
+.sp-verdict {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.sp-verdict-text {
+  margin-right: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.sp-verdict .sp-chip,
+.sp-real .sp-chip {
+  height: 28px;
+  padding: 0 12px;
+  font-size: 0.78rem;
+}
+
+.sp-real {
+  display: grid;
+  gap: 3px;
+}
+
+.sp-real-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  text-align: left;
+}
+
+/* ===== Étape 4 : correction ===== */
+.sp-check {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.sp-check-left {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sp-crit-list {
+  display: grid;
+  gap: 6px;
+}
+
+.sp-crit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 5px 14px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #ffffff;
+  color: var(--color-text);
+  text-align: left;
+  box-shadow: inset 4px 0 0 var(--sp-crit-accent, transparent);
+}
+
+.sp-crit.is-ok { --sp-crit-accent: var(--color-emerald); background: rgba(12, 163, 127, 0.06); }
+.sp-crit.is-ko { --sp-crit-accent: var(--color-rose); background: rgba(212, 82, 122, 0.07); }
+
+.sp-crit.is-selected {
+  border-color: var(--color-current);
+}
+
+html[data-pointer='fine'] .sp-crit:not(.is-selected):hover,
+.sp-crit:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.5);
+  outline: none;
+}
+
+.sp-crit-text strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.sp-crit-text small {
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.sp-crit-mark {
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.is-ok .sp-crit-mark { color: var(--color-emerald); }
+.is-ko .sp-crit-mark { color: var(--color-rose); }
+
+.sp-check-detail {
+  min-height: 0;
+  overflow: auto;
+  padding: 12px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #fbfaf7;
+}
+
+.sp-check-detail h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.sp-check-detail p {
+  margin: 0 0 6px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.sp-check-table {
+  width: 100%;
+  margin-bottom: 6px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-check-table th,
+.sp-check-table td {
+  height: 24px;
+  padding: 1px 2px;
+  border-bottom: 1px solid #eef0ec;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.sp-check-table thead th:first-child {
+  width: 104px;
+}
+
+.sp-check-table thead th:nth-last-child(-n + 2) {
+  width: 62px;
+  font-size: 0.62rem;
+}
+
+.sp-check-table tbody th {
+  font-weight: 600;
+  text-align: left;
+}
+
+.sp-check-table .is-prot {
+  background: repeating-linear-gradient(135deg, var(--sp-prot) 0 4px, transparent 4px 8px);
+}
+
+.sp-check-table td {
+  position: relative;
+}
+
+.sp-check-table td.is-ko {
+  box-shadow: inset 0 0 0 2px var(--color-rose);
+}
+
+.sp-check-table td b {
+  position: relative;
+  color: #26332d;
+  font-size: 0.78rem;
+}
+
+.sp-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: var(--sp-pink);
+  opacity: 0.55;
+}
+
+.sp-check-table td.is-ko span {
+  display: block;
+  color: var(--color-rose);
+  font-weight: 700;
+  text-decoration: line-through;
+}
+
+.sp-check-table td.is-ko small {
+  color: var(--color-emerald);
+  font-weight: 700;
+}
+
+.sp-check-chart {
+  padding: 4px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.sp-check-chart .sp-chart {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.sp-checklist {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.sp-checklist li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.sp-checklist .sp-mark {
+  font-weight: 700;
+}
+
+.sp-checklist .is-ok .sp-mark { color: var(--color-emerald); }
+.sp-checklist .is-ko .sp-mark { color: var(--color-rose); }
+
+.sp-check-detail .sp-legend {
+  margin: 4px 0 8px;
+}
+
+/* ===== Écrans plus étroits ===== */
+@media (max-width: 980px) {
+  .sp-predict,
+  .sp-conclude { grid-template-columns: 1fr; height: auto; }
+  .sp-check { grid-template-columns: 280px minmax(0, 1fr); }
+}
+
+/* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */
+.lab-doc .sp-report-table {
+  width: auto;
+  min-width: 120mm;
+  font-size: 9pt;
+}
+
+.lab-doc .sp-report-table th,
+.lab-doc .sp-report-table td {
+  padding: 2px 8px;
+}
+
+.lab-doc .sp-report-table th:first-child {
+  text-align: left;
+}
+
+.lab-doc .sp-report-chart .sp-chart {
+  display: block;
+  width: 110mm;
+  height: auto;
+  margin: 2mm 0;
+}
+
+.lab-doc .sp-report-corr {
+  width: auto;
+  min-width: 70mm;
+}
+
+.lab-doc .sp-report-corr th {
+  text-align: left;
+}

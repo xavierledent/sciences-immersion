@@ -213,7 +213,7 @@ intercourse » ou « sexual contact », « STI test » ou « screening »…) et
 pas refaire une activité du cours (simulation de l'app Flo en Partie 4,
 French challenge en Partie 6).
 
-### A. « Invisible spread » : une IST invisible se propage — validé, prêt à construire
+### A. « Invisible spread » : une IST invisible se propage — construit (2026-11-16)
 
 Expérience sur un modèle : l'échange de liquides fait en classe (soude et
 phénolphtaléine, ici sans nom). Attendus : sf3, c1, s10.
@@ -310,6 +310,37 @@ Après lecture du chapitre de cours (2026-11-16) :
 
 Predict validé le 2026-11-16 (voir la fiche ci-dessus) : trois
 graphiques pour Q1, IST connue dès Predict, effet de groupe en Q2.
+
+**Construit le 2026-11-16** (`js/lab-spread.js`, `css/lab-spread.css`,
+`lab-spread.<en|nl>.js`, id `spread`). Choix faits à la construction, à
+faire valider par l'enseignant au premier test :
+- les 6 personnes protégées sont **les mêmes** dans les parties 2 et 3
+  (bouchon, puis étiquette bleue), jamais la personne de départ : les
+  mêmes colonnes rayées dans le carnet, la comparaison reste simple ;
+- carnet : une ligne par test, l'élève coche les creux roses (12 cases),
+  écrit le total, et pour « After round 3 », « With condoms » et « With
+  the vaccine » le nombre de personnes non protégées qui ont l'IST
+  (colonnes non rayées) ; le nombre de la tournée 3 se compte au début de
+  la partie 2 (avant, on ne sait pas qui sera protégé) ;
+- l'histogramme FO5b n'a que **les trois tournées sans protection** (il
+  répond à Q1 et se compare aux trois petits graphiques de Predict) ;
+  Q2 se lit dans la colonne « Without protection » ;
+- Q2 en hypothèse : « Compared with no protection at all, how many people
+  without a condom will have the STI? » [more / as many / fewer] ; en
+  conclusion, une 3e phrase : « So, during sexual contact, a condom
+  protects [only the person who uses it / both partners] » (c1) ;
+- Q3 : quatre phrases juste / faux (contact sexuel et pas un verre ;
+  toujours des signes ; un seul partenaire protégé ; seul un test le
+  montre) ; les jugements : Q1 confirmé / rejeté, Q2 confirmé /
+  partiellement / rejeté (deux prédictions) ;
+- critères : Your notes, The graph, The spread (Q1 + jugement),
+  Protection (Q2 + jugement), Real life (Q3) ;
+- tirage recommencé jusqu'à : 2 personnes après la tournée 1, 3 ou 4 après
+  la tournée 2, 6 à 9 après la tournée 3 (au moins 3 de plus) ; avec les
+  préservatifs, moins de non protégés touchés ; avec le HPV, le vaccin
+  aussi, et un seul contact protégé qui passe quand même ;
+- dessins : tout en SVG (tubes, plaque, bouchons, étiquettes changent à
+  l'écran) ; pas de planche Gemini prévue.
 
 ### B. « Cycle detectives » : des cycles, pas un seul cycle — retenu, fiche à faire
 

@@ -178,7 +178,15 @@
       "titleSuffix": "Bio 2",
       "hasAssessment": true,
       "h1": { "en": "Bio 2 : Human reproduction and prevention", "nl": "Bio 2 : Voortplanting en preventie" },
-      "vocabTopic": { "en": "human reproduction and prevention", "nl": "menselijke voortplanting en preventie" }
+      "vocabTopic": { "en": "human reproduction and prevention", "nl": "menselijke voortplanting en preventie" },
+      "labs": {
+        "en": [
+          { "id": "spread", "file": "lab-spread", "title": "Invisible spread", "question": "How does an STI spread in a group, and what can slow it down?", "text": "Twelve test tubes, twelve people, and one of them has an STI that nobody can see. Mix the tubes round after round and test them. Then replay with condoms and with the HPV vaccine." }
+        ],
+        "nl": [
+          { "id": "spread", "file": "lab-spread", "title": "Onzichtbare verspreiding", "question": "Hoe verspreidt een soa zich in een groep, en wat kan dat afremmen?", "text": "Twaalf reageerbuizen, twaalf personen, en één van hen heeft een soa die niemand kan zien. Meng de buizen ronde na ronde en test ze. Speel daarna alles opnieuw met condooms en met het HPV-vaccin." }
+        ]
+      }
     }
   ]
 }
