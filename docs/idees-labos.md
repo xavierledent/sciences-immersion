@@ -275,14 +275,22 @@ Fiche de conception :
   12) ; l'IST ; les 6 protégés de chaque scénario ; les fuites du
   préservatif pour le HPV (au moins une si HPV).
 
-Décisions encore ouvertes (recommandation entre parenthèses) :
-1. 12 tubes ou 20 (12 : tout tient à l'écran, environ 15 échanges) ;
-2. retrouver le porteur de départ avec le carnet (non dans le labo ; bonne
-   activité en classe à partir du carnet imprimé dans le rapport) ;
-3. protégés tirés ou choisis par l'élève (tirés : sinon il protège exprès
-   les infectés et la comparaison ne vaut plus rien) ;
-4. numéros ou prénoms sur les tubes (numéros : aucun prénom qui rappelle un
-   élève de la classe).
+Décisions tranchées le 2026-11-16 : **12 tubes** ; **pas** de recherche
+du porteur de départ dans le labo ; personnes protégées **tirées au sort** ;
+**numéros** sur les tubes.
+
+Après lecture du chapitre de cours (2026-11-16) :
+- légende : « mixing two tubes = **sexual contact without a condom** »
+  (mots du cours ; pas de « body fluids » : le HPV passe par contact de la
+  peau, Mission 14) ; « test » (Golden Rules : Get tested regularly) ;
+- choix *yes / no / partly* repris de l'Exercise 5b ;
+- Mission 14 et Exercises 5-6 traitent déjà la protection personne par
+  personne : la question 2 porte sur **l'effet sur le groupe** (les non
+  protégés le sont-ils un peu aussi ?), que le cours ne dit pas.
+
+Predict en cours de reprise : l'enseignant n'aime pas les paris (« ça ne
+repose sur rien de tangible ») ; il veut que l'IST soit connue dès Predict
+(hypothèse plus éclairée).
 
 ### B. « Cycle detectives » : des cycles, pas un seul cycle — retenu, fiche à faire
 
