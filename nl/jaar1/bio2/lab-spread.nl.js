@@ -28,7 +28,7 @@ LabEngine.addText('spread', {
     // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
     briefDetails: [
       'Lees de kaart van de soa van vandaag. Kies een grafiek en vul twee zinnen aan.',
-      'Tik op elk paar buizen om ze te mengen. Vink na elke test de roze putjes aan in je notities.',
+      'Meng de buizen ronde per ronde met de pipet. Vink na elke test de roze putjes aan in je notities.',
       'Gebruik je notities en je grafiek. Vergelijk daarna het model met het echte leven.'
     ],
     tools: { tubes: 'reageerbuizen', pipette: 'pipet', plate: 'testplaat', indicator: 'indicator' },
@@ -114,6 +114,7 @@ LabEngine.addText('spread', {
     round: n => `Ronde ${n}`,
     // Deux numéros de tubes (déjà mis en forme).
     pair: (a, b) => `${a} + ${b}`,
+    mixRound: n => `Ronde ${n} mengen`,
     replay: {
       condoms: 'De 3 rondes opnieuw, met condooms',
       vaccine: 'De 3 rondes opnieuw, met het vaccin'
@@ -125,7 +126,9 @@ LabEngine.addText('spread', {
     notesTitle: 'Jouw notities',
     notesHead: 'Test',
     totalHead: 'Totaal',
-    unprotHead: 'Zonder bescherming',
+    // Tableau des résultats (Conclude), correction, rapport.
+    allHead: 'Alle personen met de soa',
+    unprotHead: 'Personen zonder bescherming met de soa',
     rows: {
       r1: 'Na ronde 1',
       r2: 'Na ronde 2',
@@ -139,17 +142,24 @@ LabEngine.addText('spread', {
       unprot: row => `${row}, zonder bescherming`
     },
     notesHint: 'Tik op een vakje om een roze putje aan te vinken. Schrijf daarna hoeveel putjes roze zijn.',
-    notesHintProt: 'Gestreepte kolommen: de 6 beschermde personen (deel 2 en 3). “Zonder bescherming”: tel de roze putjes in de andere kolommen.',
+    notesHintProt: 'Gestreepte vakjes: de beschermde personen (een condoom in deel 2, het vaccin in deel 3).',
+    // À côté du carnet : les personnes non protégées (numéros déjà mis en liste).
+    count: {
+      title: 'Personen zonder bescherming',
+      later: 'In deel 2 wordt de helft van de groep beschermd. Hier tel je dan de andere personen.',
+      who: list => `Buizen ${list}: geen condoom in deel 2, geen vaccin in deel 3.`,
+      question: 'Hoeveel van hen hebben de soa?'
+    },
     choose: 'kies',
 
     // La légende : la prochaine chose à faire (voir phase dans la simulation).
     captions: {
-      mix: n => `Ronde ${n}: tik op elk paar buizen om ze te mengen. De volgorde maakt niet uit.`,
+      mix: n => `Ronde ${n}: druk op “Ronde ${n} mengen” en kijk naar de pipet.`,
       sample: 'Test de buizen: doe een druppel van elke buis in de testplaat.',
       dye: 'Voeg nu de indicator toe aan de putjes. Kijk naar de kleuren.',
       note: row => `Kijk naar de plaat. In je notities, lijn “${row}”: vink de roze putjes aan en schrijf dan het totaal.`,
-      unprotFirst: 'Deel 2: de gestreepte kolommen zijn de beschermde personen. Tel in de lijn “Na ronde 3” de roze putjes van de personen zonder bescherming.',
-      unprot: 'Tel de roze putjes van de personen zonder bescherming (niet gestreept) en schrijf het aantal.',
+      unprotFirst: 'Deel 2 begint. Rechts van je notities: hoeveel personen zonder bescherming hadden de soa na ronde 3? Kijk naar hun buizen in de lijn “Na ronde 3”.',
+      unprot: 'Rechts van je notities: hoeveel personen zonder bescherming hebben nu de soa?',
       replay: {
         condoms: 'De paarse dopjes zijn de condooms. Speel dezelfde contacten opnieuw, met condooms.',
         vaccine: 'De blauwe stickers zijn het HPV-vaccin. Speel dezelfde contacten opnieuw, met het vaccin.'
@@ -163,9 +173,7 @@ LabEngine.addText('spread', {
         conclude: 'Het experiment is voorbij. Bekijk je notities en je grafiek en ga dan verder naar de besluiten.'
       }
     },
-    captionMixing: (a, b) => `Je mengt buis ${a} en buis ${b} met de pipet.`,
-    captionMixedAlready: 'Deze twee buizen zijn al gemengd. Meng een ander paar.',
-    captionReplayUse: 'In dit deel worden de contacten opnieuw gespeeld: gebruik de knop onder de contacten.',
+    captionMixingRound: n => `Ronde ${n}: de pipet mengt elk paar buizen…`,
     captionReplayed: 'De contacten zijn al opnieuw gespeeld. Test nu de buizen.',
     captionReplaying: {
       condoms: 'Dezelfde contacten, met condooms…',
@@ -175,7 +183,6 @@ LabEngine.addText('spread', {
     captionDyeing: 'De indicator gaat in elk putje…',
     captionBadNumber: max => `Schrijf een geheel getal van 0 tot ${max}.`,
 
-    lockRoundMix: n => `Meng eerst alle paren van ronde ${n}.`,
     lockRoundTest: n => `Test eerst de buizen na ronde ${n}.`,
     lockRoundNote: n => `Noteer eerst de test na ronde ${n} in je notities (ook het totaal).`,
     lockSampleMix: n => `Meng eerst alle paren van ronde ${n}.`,
@@ -187,7 +194,7 @@ LabEngine.addText('spread', {
     lockRowTest: 'Test eerst de buizen: deze lijn is voor een latere test.',
     lockRowClosed: 'Deze test is voorbij: de plaat toont nu een andere test.',
     lockUnprotLater: 'In deel 2 weet je wie beschermd is.',
-    lockReplayUnprot: 'Tel eerst de personen zonder bescherming in de lijn “Na ronde 3”.',
+    lockReplayUnprot: 'Tel eerst de personen zonder bescherming na ronde 3 (rechts van je notities).',
     lockGraph: 'Werk eerst de drie delen af.',
     // Ce qui manque encore (bouton du pied touché trop tôt).
     missing: {
@@ -196,7 +203,7 @@ LabEngine.addText('spread', {
       sample: 'Doe een druppel van elke buis in de plaat.',
       dye: 'Voeg de indicator toe.',
       note: 'Vink de roze putjes aan en schrijf het totaal in je notities.',
-      unprot: 'Schrijf hoeveel personen zonder bescherming de soa hebben.',
+      unprot: 'Schrijf hoeveel personen zonder bescherming de soa hebben (rechts van je notities).',
       graph: 'Teken de drie staven van je grafiek.',
       next: label => `Druk onderaan op “${label}”.`
     },
@@ -209,11 +216,11 @@ LabEngine.addText('spread', {
 
     // Histogramme (fiche outil FO5b).
     chart: {
-      title: 'Personen met de soa na elke ronde (geen bescherming)',
+      title: 'Personen met de soa na elke test',
       scale: '1 vakje = 1 persoon',
       yName: 'Personen met de soa',
-      xName: 'Ronde',
-      cats: ['Ronde 1', 'Ronde 2', 'Ronde 3'],
+      xName: 'Test',
+      groups: { none: 'Geen bescherming', half: 'De helft van de groep beschermd' },
       how: 'Schuif elke staaf omhoog tot het totaal in je notities, of tik op de juiste hoogte.'
     },
 
@@ -264,7 +271,7 @@ LabEngine.addText('spread', {
     criteria: { counts: 'Je notities', graph: 'De grafiek', spread: 'De verspreiding', protection: 'Bescherming', reality: 'Het echte leven' },
     criteriaSub: {
       counts: 'De roze putjes en de totalen',
-      graph: 'Je drie staven',
+      graph: 'Je vijf staven',
       spread: 'Je antwoord op vraag 1',
       protection: 'Je antwoord op vraag 2',
       reality: 'Juist of fout?'
@@ -289,7 +296,7 @@ LabEngine.addText('spread', {
         'Doe na elke ronde een druppel van elke buis in de testplaat en voeg de indicator toe. Vink de roze putjes aan en tel ze.',
         'Speel dezelfde contacten opnieuw: de helft van de groep gebruikt een condoom. Test opnieuw.',
         'Speel dezelfde contacten opnieuw: dezelfde helft van de groep heeft het HPV-vaccin. Test opnieuw.',
-        'Tel de personen zonder bescherming die de soa hebben. Teken de grafiek van de drie rondes.'
+        'Tel de personen zonder bescherming die de soa hebben. Teken de grafiek van de vijf testen.'
       ],
       score: (n, total) => `Score: ${n} / ${total} controles geslaagd.`
     }
@@ -334,7 +341,7 @@ LabEngine.addText('spread', {
   check: {
     noExperiment: 'Je hebt het experiment niet uitgevoerd: er zijn geen notities.',
     countsScore: (good, total) => `${good} / ${total} notities komen overeen met de testplaat.`,
-    countsKey: 'Roze bolletje: roze putje op de plaat. ✓: jouw vinkje. Een rood vakje is een fout. Gestreept: de beschermde personen.',
+    countsKey: 'Roze bolletje: roze putje op de plaat. ✓: jouw vinkje. Een rood vakje is een fout. Gestreept: beschermd tijdens die test.',
     countsAllGood: 'Al je notities komen overeen met de testplaat. Knap gedaan!',
     countsHow: 'Kijk goed naar elk putje van de plaat, vink alleen de roze aan en tel dan je vinkjes.',
     barLine: (cat, yours, expected) => `${cat}: je staaf toont ${yours}, je notities zeggen ${expected}.`,
@@ -354,7 +361,7 @@ LabEngine.addText('spread', {
     },
     pinkNote: list => `De plaat toonde roze putjes voor: ${list}.`,
     totalNote: n => `Er waren ${n} roze putjes.`,
-    unprotNote: n => `${n} van de personen zonder bescherming (niet gestreept) hadden de soa.`,
+    unprotNote: n => `${n} van de personen zonder bescherming hadden de soa.`,
     graphNote: list => `Je staven moeten overeenkomen met je totalen: ${list}.`,
     rightIs: sentence => `Het juiste antwoord, volgens je notities: ${sentence}`
   }

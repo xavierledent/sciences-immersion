@@ -93,12 +93,13 @@ seulement au Check ; placer quatre niveaux, dont la tempête de 2100, sans
 pari chiffré ; expérience sur un modèle) ; `bio2` « Invisible spread »
 (pas de labo réel dans le chapitre ; expérience sur un modèle : 12 tubes à
 essai = 12 personnes, une IST tirée, HPV ou chlamydia, dite dès Predict,
-que personne ne voit ; mélanger les paires de trois tournées, tester après
-chaque tournée (plaque à 12 creux, indicateur), cocher les creux roses et
-compter ; rejouer les mêmes contacts avec des bouchons (préservatifs) puis
-des étiquettes bleues (vaccin HPV) sur la même moitié du groupe ; compter
-les non protégés touchés ; histogramme FO5b des trois tournées ; légende
-du modèle toujours affichée, jamais de verres) ; `phys1` n'a pas de labo
+que personne ne voit ; trois tournées jouées chacune d'un coup, un test
+après chaque tournée (plaque à 12 creux, indicateur), cocher les creux
+roses et compter ; rejouer les mêmes contacts avec des bouchons
+(préservatifs) puis des étiquettes bleues (vaccin HPV) sur la même moitié
+du groupe (cases rayées seulement sur ces deux lignes) ; à côté du carnet,
+compter les non protégés touchés ; histogramme FO5b des cinq tests ;
+légende du modèle toujours affichée, jamais de verres) ; `phys1` n'a pas de labo
 réel dans le cours. Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans

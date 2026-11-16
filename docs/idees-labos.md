@@ -345,6 +345,25 @@ faire valider par l'enseignant au premier test :
 Les attendus sf3 et c1 renvoient au labo (champ `labs` d'autoeval.json,
 EN et NL), à la demande de l'enseignant (2026-11-16).
 
+Revu le 2026-11-16 après le premier essai de l'enseignant (version de
+`save()` passée à 2 : un travail commencé avec la première version
+recommence) :
+- l'histogramme a **cinq colonnes** (les trois tournées, puis avec
+  préservatifs et avec vaccin, aux couleurs des bouchons et des
+  étiquettes, une accolade sous chaque groupe) : « c'est parlant, même si
+  ça allonge » ;
+- les cases rayées ne couvrent plus toute la colonne : seulement les
+  lignes « With condoms » (dès la partie 2) et « With the vaccine » (dès
+  la partie 3), puisque pendant les trois tournées personne n'est protégé ;
+- la colonne « Without protection » se comprenait mal : remplacée par un
+  encadré à côté du carnet, « People without protection » : leurs numéros
+  de tubes (en partie 1 : on le saura en partie 2), « How many of them
+  have the STI? », puis trois cases (après la tournée 3, avec
+  préservatifs, avec vaccin) ; écrire dans une case entoure, dans la ligne
+  correspondante du carnet, les tubes à compter ;
+- partie 1 : plus de clic sur chaque paire ; un bouton « Mix round n »
+  joue toute la tournée (la pipette mélange les paires une à une).
+
 ### B. « Cycle detectives » : des cycles, pas un seul cycle — retenu, fiche à faire
 
 Enquête sur des données. Attendus : sf1, s5, c1 (mythe des « jours sans

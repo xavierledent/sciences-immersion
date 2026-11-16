@@ -34,7 +34,7 @@ LabEngine.addText('spread', {
     // Sous chaque phrase courte : le comment, en une phrase (jamais le résultat).
     briefDetails: [
       'Read the card of today’s STI. Choose a graph and complete two sentences.',
-      'Tap each pair of tubes to mix them. After each test, tick the pink wells in your notebook.',
+      'Mix the tubes round by round with the pipette. After each test, tick the pink wells in your notebook.',
       'Use your notebook and your graph. Then compare the model with real life.'
     ],
     tools: { tubes: 'test tubes', pipette: 'pipette', plate: 'test plate', indicator: 'indicator' },
@@ -120,6 +120,7 @@ LabEngine.addText('spread', {
     round: n => `Round ${n}`,
     // Deux numéros de tubes (déjà mis en forme).
     pair: (a, b) => `${a} + ${b}`,
+    mixRound: n => `Mix round ${n}`,
     replay: {
       condoms: 'Replay the 3 rounds with condoms',
       vaccine: 'Replay the 3 rounds with the vaccine'
@@ -131,7 +132,9 @@ LabEngine.addText('spread', {
     notesTitle: 'Your notebook',
     notesHead: 'Test',
     totalHead: 'Total',
-    unprotHead: 'Without protection',
+    // Tableau des résultats (Conclude), correction, rapport.
+    allHead: 'All people with the STI',
+    unprotHead: 'People without protection with the STI',
     rows: {
       r1: 'After round 1',
       r2: 'After round 2',
@@ -145,17 +148,24 @@ LabEngine.addText('spread', {
       unprot: row => `${row}, without protection`
     },
     notesHint: 'Tap a box to tick a pink well. Then write how many wells are pink.',
-    notesHintProt: 'Striped columns: the 6 protected people (parts 2 and 3). “Without protection”: count the pink wells in the other columns.',
+    notesHintProt: 'Striped boxes: the protected people (a condom in part 2, the vaccine in part 3).',
+    // À côté du carnet : les personnes non protégées (numéros déjà mis en liste).
+    count: {
+      title: 'People without protection',
+      later: 'In part 2, half of the group will be protected. Here, you will count the other people.',
+      who: list => `Tubes ${list}: no condom in part 2, no vaccine in part 3.`,
+      question: 'How many of them have the STI?'
+    },
     choose: 'choose',
 
     // La légende : la prochaine chose à faire (voir phase dans la simulation).
     captions: {
-      mix: n => `Round ${n}: tap each pair of tubes to mix them. The order does not matter.`,
+      mix: n => `Round ${n}: press “Mix round ${n}” and watch the pipette.`,
       sample: 'Test the tubes: put a drop of each tube in the test plate.',
       dye: 'Now add the indicator to the wells. Watch the colours.',
       note: row => `Look at the plate. In your notebook, line “${row}”: tick the pink wells, then write the total.`,
-      unprotFirst: 'Part 2: the striped columns are the protected people. In the line “After round 3”, count the pink wells of the people without protection.',
-      unprot: 'Count the pink wells of the people without protection (not striped) and write the number.',
+      unprotFirst: 'Part 2 starts. On the right of your notebook: how many people without protection had the STI after round 3? Look at their tubes in the line “After round 3”.',
+      unprot: 'On the right of your notebook: how many people without protection have the STI now?',
       replay: {
         condoms: 'The purple caps are the condoms. Replay the same contacts with condoms.',
         vaccine: 'The blue stickers are the HPV vaccine. Replay the same contacts with the vaccine.'
@@ -169,9 +179,7 @@ LabEngine.addText('spread', {
         conclude: 'The experiment is over. Look at your notebook and your graph, then go on to conclude.'
       }
     },
-    captionMixing: (a, b) => `You mix tube ${a} and tube ${b} with the pipette.`,
-    captionMixedAlready: 'These two tubes are already mixed. Mix another pair.',
-    captionReplayUse: 'In this part, the contacts are replayed: use the button below the contacts.',
+    captionMixingRound: n => `Round ${n}: the pipette mixes each pair of tubes…`,
     captionReplayed: 'The contacts have already been replayed. Now test the tubes.',
     captionReplaying: {
       condoms: 'The same contacts, with condoms…',
@@ -181,7 +189,6 @@ LabEngine.addText('spread', {
     captionDyeing: 'The indicator goes into each well…',
     captionBadNumber: max => `Write a whole number from 0 to ${max}.`,
 
-    lockRoundMix: n => `First mix all the pairs of round ${n}.`,
     lockRoundTest: n => `First test the tubes after round ${n}.`,
     lockRoundNote: n => `First note the test after round ${n} in your notebook (the total too).`,
     lockSampleMix: n => `First mix all the pairs of round ${n}.`,
@@ -193,7 +200,7 @@ LabEngine.addText('spread', {
     lockRowTest: 'Test the tubes first: this line is for a later test.',
     lockRowClosed: 'This test is over: the plate now shows another test.',
     lockUnprotLater: 'In part 2, you will know who is protected.',
-    lockReplayUnprot: 'First count the people without protection in the line “After round 3”.',
+    lockReplayUnprot: 'First count the people without protection after round 3 (on the right of your notebook).',
     lockGraph: 'First finish the three parts.',
     // Ce qui manque encore (bouton du pied touché trop tôt).
     missing: {
@@ -202,7 +209,7 @@ LabEngine.addText('spread', {
       sample: 'Put a drop of each tube in the plate.',
       dye: 'Add the indicator.',
       note: 'Tick the pink wells and write the total in your notebook.',
-      unprot: 'Write how many people without protection have the STI.',
+      unprot: 'Write how many people without protection have the STI (on the right of your notebook).',
       graph: 'Draw the three bars of your graph.',
       next: label => `Press “${label}” at the bottom.`
     },
@@ -215,11 +222,11 @@ LabEngine.addText('spread', {
 
     // Histogramme (fiche outil FO5b).
     chart: {
-      title: 'People with the STI after each round (no protection)',
+      title: 'People with the STI after each test',
       scale: '1 square = 1 person',
       yName: 'People with the STI',
-      xName: 'Round',
-      cats: ['Round 1', 'Round 2', 'Round 3'],
+      xName: 'Test',
+      groups: { none: 'No protection', half: 'Half of the group protected' },
       how: 'Slide each bar up to the total in your notebook, or tap at the right height.'
     },
 
@@ -270,7 +277,7 @@ LabEngine.addText('spread', {
     criteria: { counts: 'Your notes', graph: 'The graph', spread: 'The spread', protection: 'Protection', reality: 'Real life' },
     criteriaSub: {
       counts: 'The pink wells and the totals',
-      graph: 'Your three bars',
+      graph: 'Your five bars',
       spread: 'Your answer to question 1',
       protection: 'Your answer to question 2',
       reality: 'True or false?'
@@ -295,7 +302,7 @@ LabEngine.addText('spread', {
         'After each round, put a drop of each tube in the test plate and add the indicator. Tick the pink wells and count them.',
         'Replay the same contacts: half of the group uses condoms. Test again.',
         'Replay the same contacts: the same half of the group has the HPV vaccine. Test again.',
-        'Count the people without protection who have the STI. Draw the graph of the three rounds.'
+        'Count the people without protection who have the STI. Draw the graph of the five tests.'
       ],
       score: (n, total) => `Score: ${n} / ${total} checks passed.`
     }
@@ -339,7 +346,7 @@ LabEngine.addText('spread', {
   check: {
     noExperiment: 'You did not carry out the experiment: there are no notes.',
     countsScore: (good, total) => `${good} / ${total} notes match the test plate.`,
-    countsKey: 'Pink dot: pink well on the plate. ✓: your tick. A red box is a mistake. Striped: the protected people.',
+    countsKey: 'Pink dot: pink well on the plate. ✓: your tick. A red box is a mistake. Striped: protected during that test.',
     countsAllGood: 'All your notes match the test plate. Great work!',
     countsHow: 'Look at each well of the plate carefully, tick only the pink ones, then count your ticks.',
     barLine: (cat, yours, expected) => `${cat}: your bar shows ${yours}, your notebook says ${expected}.`,
@@ -359,7 +366,7 @@ LabEngine.addText('spread', {
     },
     pinkNote: list => `The plate showed pink wells for: ${list}.`,
     totalNote: n => `There were ${n} pink wells.`,
-    unprotNote: n => `${n} of the people without protection (not striped) had the STI.`,
+    unprotNote: n => `${n} of the people without protection had the STI.`,
     graphNote: list => `Your bars must match your totals: ${list}.`,
     rightIs: sentence => `The correct answer, from your notes: ${sentence}`
   }

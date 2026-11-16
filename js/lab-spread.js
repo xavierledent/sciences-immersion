@@ -37,14 +37,16 @@
                      phrases (préservatifs, vaccin : chez les non protégés,
                      plus / autant / moins de personnes avec l'IST) ;
                      « Why do you think so? » facultatif
-     2. Experiment — partie 1 : mélanger les paires de chaque tournée,
-                     tester après chaque tournée (une goutte de chaque tube
-                     dans la plaque, puis l'indicateur), cocher les creux
-                     roses dans le carnet et écrire le total ; partie 2 : les
-                     mêmes contacts rejoués avec les bouchons, test ; partie
-                     3 : rejoués avec les étiquettes, test ; compter les
-                     personnes non protégées qui ont l'IST ; histogramme
-                     (FO5b) des trois tournées sans protection
+     2. Experiment — partie 1 : chaque tournée se joue d'un coup (la
+                     pipette mélange ses paires une à une), puis le test (une
+                     goutte de chaque tube dans la plaque, puis
+                     l'indicateur) ; cocher les creux roses dans le carnet et
+                     écrire le total ; partie 2 : les mêmes contacts rejoués
+                     avec les bouchons, test ; partie 3 : rejoués avec les
+                     étiquettes, test ; à côté du carnet, compter les
+                     personnes non protégées qui ont l'IST (après la tournée
+                     3, avec préservatifs, avec vaccin) ; histogramme (FO5b)
+                     des cinq tests
      3. Conclude   — Q1, Q2 (et « un préservatif protège les deux
                      partenaires »), Q3 : quatre phrases vraies ou fausses
                      dans la vie réelle ; jugement des deux hypothèses
@@ -204,7 +206,7 @@
       marks: ROWS.map(() => []),      // tubes cochés roses (indices)
       totals: ROWS.map(() => null),
       unprot: ROWS.map(() => null),
-      bars: [0, 0, 0],
+      bars: ROWS.map(() => 0),
       concl: freshConcl(),
       selected: CRITERIA[0]
     };
@@ -376,18 +378,23 @@
     return svg(W, H, `<path d="M24 ${y0} H${W - 8} M24 ${y0} V8" stroke="#6b7570" stroke-width="1.4"/>${bars}`, 'sp-shape-svg');
   }
 
-  /* L'histogramme (fiche outil FO5b) : trois colonnes, les personnes qui
-     ont l'IST après chaque tournée, sans protection. Titre, noms des axes
-     et échelle (1 carreau = 1 personne) donnés : l'élève monte chaque
-     colonne (glisser, ou toucher à la bonne hauteur ; flèches au clavier). */
-  const C_EDIT = { W: 640, H: 236, L: 64, R: 24, T: 22, B: 48 };
-  const C_READ = { W: 640, H: 236, L: 64, R: 24, T: 22, B: 48 };
+  /* L'histogramme (fiche outil FO5b) : cinq colonnes, les personnes qui
+     ont l'IST à chaque test (trois tournées sans protection, puis avec
+     préservatifs et avec vaccin, aux couleurs des bouchons et des
+     étiquettes ; une accolade sous chaque groupe). Titre, noms des axes et
+     échelle (1 carreau = 1 personne) donnés : l'élève monte chaque colonne
+     (glisser, ou toucher à la bonne hauteur ; flèches au clavier). */
+  const C_EDIT = { W: 760, H: 262, L: 64, R: 24, T: 22, B: 72 };
+  const C_READ = C_EDIT;
   const C_TOP = N;
+  const BARS = ROWS.length;
+  const BAR_FILL = ['var(--color-current)', 'var(--color-current)', 'var(--color-current)', '#8a63d2', '#2f80d1'];
+  const BAR_LINE = ['var(--color-current-dark)', 'var(--color-current-dark)', 'var(--color-current-dark)', '#6a46b0', '#1f63a8'];
 
   function chartSVG(mode, bars) {
     const C = mode === 'edit' ? C_EDIT : C_READ;
     const ph = C.H - C.T - C.B, sq = ph / C_TOP, y0 = C.H - C.B;
-    const gw = (C.W - C.L - C.R) / 3, bw = Math.min(70, gw * 0.45);
+    const gw = (C.W - C.L - C.R) / BARS, bw = Math.min(56, gw * 0.42);
     let out = `<svg class="sp-chart is-${mode}" ${mode === 'edit' ? 'data-chart' : ''} viewBox="0 0 ${C.W} ${C.H}" role="${mode === 'edit' ? 'group' : 'img'}" aria-label="${escapeHtml(LABELS.chart.title)}">`;
     for (let k = 0; k <= C_TOP; k++) {
       const y = y0 - k * sq;
@@ -397,15 +404,22 @@
     out += `<path d="M${C.L} ${y0} V${C.T - 8}" stroke="#4d5650" stroke-width="1.4"/><path d="M${C.L - 4} ${C.T - 4} L${C.L} ${C.T - 11} L${C.L + 4} ${C.T - 4} Z" fill="#4d5650"/>` +
       `<text class="sp-scale-note" x="${C.W - C.R}" y="${C.T - 6}" text-anchor="end">${escapeHtml(LABELS.chart.scale)}</text>` +
       `<text class="sp-axis-name" transform="translate(18 ${((C.T + y0) / 2).toFixed(1)}) rotate(-90)" text-anchor="middle">${escapeHtml(LABELS.chart.yName)}</text>` +
-      `<text class="sp-axis-name" x="${(C.L + C.W - C.R) / 2}" y="${C.H - 6}" text-anchor="middle">${escapeHtml(LABELS.chart.xName)}</text>`;
-    [0, 1, 2].forEach(i => {
+      `<text class="sp-axis-name" x="${(C.L + C.W - C.R) / 2}" y="${C.H - 4}" text-anchor="middle">${escapeHtml(LABELS.chart.xName)}</text>`;
+    // Les deux groupes : sans protection (3 tests), la moitié protégée (2 tests).
+    [[0, 3, LABELS.chart.groups.none], [3, 5, LABELS.chart.groups.half]].forEach(([a, b, name]) => {
+      const x1 = C.L + gw * a + 10, x2 = C.L + gw * b - 10, y = y0 + 28;
+      out += `<path d="M${x1} ${y - 4} V${y} H${x2} V${y - 4}" fill="none" stroke="#9aa39d" stroke-width="1.2"/>` +
+        `<text class="sp-group" x="${((x1 + x2) / 2).toFixed(1)}" y="${y + 14}" text-anchor="middle">${escapeHtml(name)}</text>`;
+    });
+    range(BARS).forEach(i => {
       const cx = C.L + gw * (i + 0.5), x = cx - bw / 2;
       const v = bars[i] || 0, h = Math.min(C_TOP, v) * sq;
-      const bar = `<rect class="sp-bar" x="${x.toFixed(1)}" y="${(y0 - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="var(--color-current)" stroke="var(--color-current-dark)" stroke-width="1"/>` +
+      const name = plain(LABELS.rows[ROWS[i]]);
+      const bar = `<rect class="sp-bar" x="${x.toFixed(1)}" y="${(y0 - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${BAR_FILL[i]}" stroke="${BAR_LINE[i]}" stroke-width="1"/>` +
         `<text class="sp-bar-val" x="${cx.toFixed(1)}" y="${(y0 - h - 6).toFixed(1)}" text-anchor="middle">${v || ''}</text>`;
-      out += `<text class="sp-cat" x="${cx.toFixed(1)}" y="${y0 + 18}" text-anchor="middle">${escapeHtml(LABELS.chart.cats[i])}</text>`;
+      out += `<text class="sp-cat" x="${cx.toFixed(1)}" y="${y0 + 16}" text-anchor="middle">${escapeHtml(name)}</text>`;
       if (mode === 'edit') {
-        out += `<g class="sp-slot" data-slot="${i}" tabindex="0" role="slider" aria-label="${escapeHtml(LABELS.chart.cats[i])}" aria-valuemin="0" aria-valuemax="${C_TOP}" aria-valuenow="${v}">` +
+        out += `<g class="sp-slot" data-slot="${i}" tabindex="0" role="slider" aria-label="${escapeHtml(name)}" aria-valuemin="0" aria-valuemax="${C_TOP}" aria-valuenow="${v}">` +
           `<rect class="sp-slot-hit" x="${(cx - gw / 2).toFixed(1)}" y="${C.T}" width="${gw.toFixed(1)}" height="${ph.toFixed(1)}" fill="transparent"/>` +
           `<rect class="sp-slot-guide" x="${x.toFixed(1)}" y="${C.T}" width="${bw.toFixed(1)}" height="${ph.toFixed(1)}" fill="none"/>${bar}</g>`;
       } else out += bar;
@@ -491,9 +505,11 @@
   }
 
   /* ===== Étape 2 : l'expérience =====
-     À gauche, la paillasse (ou le graphique) et le carnet ; à droite, la
-     légende du modèle, les contacts des trois tournées (paires à toucher,
-     reprise) et le test (goutte, indicateur). Le bouton du pied mène à la
+     À gauche, la paillasse (ou le graphique), avec le test à côté de la
+     plaque (goutte, indicateur), puis le carnet et, à côté, le compte des
+     personnes non protégées ; à droite, la légende du modèle et les
+     contacts des trois tournées (un bouton joue toute la tournée, ou les
+     rejoue avec la protection de la partie). Le bouton du pied mène à la
      partie suivante. */
   const PART_SCEN = { 2: 'condoms', 3: 'vaccine' };
 
@@ -521,15 +537,17 @@
       const chips = pairs.map((p, i) => {
         const done = state.mixed[r].includes(i);
         const now = replaying && replaying.round === r && replaying.pair === i;
-        return `<button type="button" class="sp-pair ${done ? 'is-done' : ''} ${now ? 'is-now' : ''}" data-pair="${r}:${i}">${pairLabel(p[0], p[1])}</button>`;
+        return `<span class="sp-pair ${done ? 'is-done' : ''} ${now ? 'is-now' : ''}" data-pair="${r}:${i}">${pairLabel(p[0], p[1])}</span>`;
       }).join('');
       return `<div class="sp-round" data-round="${r}"><span class="sp-round-name">${LABELS.round(r + 1)}</span><div class="sp-pairs">${chips}</div></div>`;
     }).join('');
+    // Partie 1 : la prochaine tournée à jouer ; parties 2 et 3 : la reprise.
     const scen = PART_SCEN[state.part];
-    const replay = scen
+    const next = state.part === 1 ? [0, 1, 2].find(r => !roundMixed(r)) : undefined;
+    const action = scen
       ? `<button type="button" class="lab-btn sp-replay ${state.replayed[scen] ? '' : 'lab-btn-primary'}" data-replay="${scen}">${LABELS.replay[scen]}</button>`
-      : '';
-    return `<section class="sp-side-card sp-exchanges"><h3 class="lab-panel-title">${LABELS.exchangesTitle}</h3>${rounds}${replay}</section>`;
+      : next != null ? `<button type="button" class="lab-btn sp-replay lab-btn-primary" data-mix-round="${next}">${LABELS.mixRound(next + 1)}</button>` : '';
+    return `<section class="sp-side-card sp-exchanges"><h3 class="lab-panel-title">${LABELS.exchangesTitle}</h3>${rounds}${action}</section>`;
   }
 
   // Le test, à côté de la plaque : la goutte de chaque tube, puis l'indicateur.
@@ -540,25 +558,45 @@
       `</div>`;
   }
 
-  // Le carnet : une ligne par test ; cocher les creux roses, écrire les nombres.
+  /* Une case du carnet est rayée quand cette personne est protégée pendant
+     ce test : préservatif (ligne 4, dès la partie 2), vaccin (ligne 5, dès
+     la partie 3). Les trois tournées sans protection ne sont jamais
+     rayées. */
+  const protAt = (row, i) => isProt(run, i) && ((row === 3 && state.part >= 2) || (row === 4 && state.part >= 3));
+  const numInput = (kind, row, v, max, aria) => `<input type="text" inputmode="numeric" class="sp-num-in" data-${kind}="${row}" value="${v == null ? '' : v}" maxlength="2" autocomplete="off" spellcheck="false" aria-label="${escapeHtml(aria)}" data-max="${max}">`;
+
+  // Le carnet : une ligne par test ; cocher les creux roses, écrire le total.
   function notesHTML() {
-    const shown = state.part > 1;
-    const head = range(N).map(i => `<th scope="col" class="${shown && isProt(run, i) ? 'is-prot' : ''}">${i + 1}</th>`).join('');
+    const head = range(N).map(i => `<th scope="col">${i + 1}</th>`).join('');
     const rows = ROWS.map((key, row) => {
       const cells = range(N).map(i => {
         const on = state.marks[row].includes(i);
-        return `<td class="${shown && isProt(run, i) ? 'is-prot' : ''}"><button type="button" class="sp-cell ${on ? 'is-on' : ''}" data-cell="${row}:${i}" aria-pressed="${on}" aria-label="${escapeHtml(LABELS.cellAria(plain(LABELS.rows[key]), i + 1))}"></button></td>`;
+        return `<td class="${protAt(row, i) ? 'is-prot' : ''}" data-td="${row}:${i}"><button type="button" class="sp-cell ${on ? 'is-on' : ''}" data-cell="${row}:${i}" aria-pressed="${on}" aria-label="${escapeHtml(LABELS.cellAria(plain(LABELS.rows[key]), i + 1))}"></button></td>`;
       }).join('');
-      const num = (kind, v, max) => `<input type="text" inputmode="numeric" class="sp-num-in" data-${kind}="${row}" value="${v == null ? '' : v}" maxlength="2" autocomplete="off" spellcheck="false" aria-label="${escapeHtml(LABELS.numAria[kind](plain(LABELS.rows[key])))}" data-max="${max}">`;
       return `<tr data-row="${row}"><th scope="row" class="sp-row-name lab-todo-field" data-row-name="${row}">${gloss(LABELS.rows[key])}</th>${cells}` +
-        `<td class="sp-num-cell">${num('total', state.totals[row], N)}</td>` +
-        `<td class="sp-num-cell">${UNPROT_ROWS.includes(row) ? num('unprot', state.unprot[row], N - PROTECTED) : ''}</td></tr>`;
+        `<td class="sp-num-cell">${numInput('total', row, state.totals[row], N, LABELS.numAria.total(plain(LABELS.rows[key])))}</td></tr>`;
     }).join('');
     return `<section class="sp-notes"><h3 class="lab-panel-title">${LABELS.notesTitle}</h3>` +
-      `<table class="sp-table"><thead><tr><th scope="col" class="sp-row-head">${LABELS.notesHead}</th>${head}` +
-        `<th scope="col" class="sp-num-head">${LABELS.totalHead}</th><th scope="col" class="sp-num-head">${gloss(LABELS.unprotHead)}</th></tr></thead>` +
-      `<tbody>${rows}</tbody></table>` +
-      `<p class="sp-notes-hint">${gloss(shown ? LABELS.notesHintProt : LABELS.notesHint)}</p></section>`;
+      `<div class="sp-notes-body"><div>` +
+        `<table class="sp-table"><thead><tr><th scope="col" class="sp-row-head">${LABELS.notesHead}</th>${head}` +
+          `<th scope="col" class="sp-num-head">${LABELS.totalHead}</th></tr></thead>` +
+        `<tbody>${rows}</tbody></table>` +
+        `<p class="sp-notes-hint">${gloss(state.part > 1 ? LABELS.notesHintProt : LABELS.notesHint)}</p></div>` +
+        countHTML() +
+      `</div></section>`;
+  }
+
+  /* À côté du carnet : les personnes non protégées (toujours les mêmes, dites
+     par leurs numéros) et combien d'entre elles ont l'IST, après la
+     tournée 3, avec préservatifs, avec vaccin. Partie 1 : on ne sait pas
+     encore qui sera protégé. */
+  function countHTML() {
+    const C = LABELS.count;
+    const who = state.part > 1 ? C.who(LABELS.list(unprotected(run).map(i => String(i + 1)))) : C.later;
+    const rows = UNPROT_ROWS.map(row => `<label class="sp-count-row"><span>${gloss(LABELS.rows[ROWS[row]])}</span>` +
+      numInput('unprot', row, state.unprot[row], N - PROTECTED, LABELS.numAria.unprot(plain(LABELS.rows[ROWS[row]]))) + `</label>`).join('');
+    return `<div class="sp-count"><p class="sp-kicker">${C.title}</p><p class="sp-count-who">${gloss(who)}</p>` +
+      `<p class="sp-count-q">${gloss(C.question)}</p>${rows}</div>`;
   }
 
   function renderExperiment(caption) {
@@ -584,12 +622,8 @@
       state.view = btn.dataset.view;
       renderExperiment();
     }));
-    $$('[data-pair]').forEach(btn => btn.addEventListener('click', () => {
-      const [r, i] = btn.dataset.pair.split(':').map(Number);
-      if (busy) return;
-      if (state.mixed[r].includes(i)) { setCaption(state.part === 1 ? LABELS.captionMixedAlready : LABELS.captionReplayUse, true); return; }
-      mixPair(r, i);
-    }));
+    const mix = $('[data-mix-round]');
+    if (mix) mix.addEventListener('click', () => { if (!busy) mixRound(Number(mix.dataset.mixRound)); });
     const replay = $('[data-replay]');
     if (replay) replay.addEventListener('click', () => {
       if (state.replayed[replay.dataset.replay]) { setCaption(LABELS.captionReplayed, true); return; }
@@ -637,6 +671,12 @@
         lab.save();
       });
       input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } });
+      // Compter les non protégés : leurs cases de cette ligne sont entourées.
+      if (kind === 'unprot') {
+        const cells = () => unprotected(run).map(i => $(`[data-td="${row}:${i}"]`)).filter(Boolean);
+        input.addEventListener('focus', () => { if (state.part > 1) cells().forEach(td => td.classList.add('is-count')); });
+        input.addEventListener('blur', () => cells().forEach(td => td.classList.remove('is-count')));
+      }
     });
     bindChart();
   }
@@ -682,45 +722,43 @@
     });
   }
 
-  // Mélanger une paire de la tournée en cours (partie 1).
-  function mixPair(r, i) {
-    markStarted();
-    state.mixed[r].push(i);
-    state.mixed[r].sort((x, y) => x - y);
-    lab.save();
-    const [a, b] = run.rounds[r][i];
-    renderExperiment(LABELS.captionMixing(a + 1, b + 1));
+  /* Jouer des tournées : la pipette mélange chaque paire, l'une après
+     l'autre, sa paire mise en avant dans les contacts. L'état change avant
+     l'animation (interrompue, elle reste juste). */
+  async function playRounds(rounds, ms, caption) {
+    renderExperiment(caption);
     setBusy(true);
     const token = lab.newScene();
-    arcAnim(token, a, b, 900).then(ok => {
-      setBusy(false);
-      if (!ok) return;
-      renderExperiment();
-      lab.renderStepper();
-    });
-  }
-
-  // Rejouer les trois tournées avec la protection de la partie (automatique).
-  async function startReplay(scen) {
-    state.replayed[scen] = true;
-    lab.save();
-    renderExperiment(LABELS.captionReplaying[scen]);
-    setBusy(true);
-    const token = lab.newScene();
-    for (let r = 0; r < 3; r++) {
+    for (const r of rounds) {
       for (let i = 0; i < run.rounds[r].length; i++) {
         replaying = { round: r, pair: i };
         $$('.sp-pair.is-now').forEach(el => el.classList.remove('is-now'));
         const chip = $(`[data-pair="${r}:${i}"]`);
         if (chip) chip.classList.add('is-now');
         const [a, b] = run.rounds[r][i];
-        if (!(await arcAnim(token, a, b, 420))) { replaying = null; setBusy(false); return; }
+        if (!(await arcAnim(token, a, b, ms))) { replaying = null; setBusy(false); return; }
       }
     }
     replaying = null;
     setBusy(false);
     renderExperiment();
     lab.renderStepper();
+  }
+
+  // Partie 1 : toute une tournée d'un coup.
+  function mixRound(r) {
+    if (phase().kind !== 'mix' || phase().round !== r) return;
+    markStarted();
+    state.mixed[r] = range(run.rounds[r].length);
+    lab.save();
+    playRounds([r], 650, LABELS.captionMixingRound(r + 1));
+  }
+
+  // Parties 2 et 3 : les trois tournées rejouées avec la protection.
+  function startReplay(scen) {
+    state.replayed[scen] = true;
+    lab.save();
+    playRounds([0, 1, 2], 420, LABELS.captionReplaying[scen]);
   }
 
   // Une goutte de chaque tube dans son creux de la plaque.
@@ -787,19 +825,18 @@
   function updateLocks() {
     const p = phase();
     const T = state.tests;
-    // Contacts : la tournée en cours seulement (partie 1).
-    $$('[data-pair]').forEach(btn => {
-      const [r, i] = btn.dataset.pair.split(':').map(Number);
+    // Partie 1 : la tournée suivante attend le test de la précédente, noté.
+    const mixBtn = $('[data-mix-round]');
+    if (mixBtn) {
+      const r = Number(mixBtn.dataset.mixRound);
       let why = null;
-      if (state.part === 1 && !state.mixed[r].includes(i)) {
-        for (let k = 0; k < r && !why; k++) {
-          if (!roundMixed(k)) why = LABELS.lockRoundMix(k + 1);
-          else if (!T[k].dyed) why = LABELS.lockRoundTest(k + 1);
-          else if (state.totals[k] == null) why = LABELS.lockRoundNote(k + 1);
-        }
+      for (let k = 0; k < r && !why; k++) {
+        if (!T[k].dyed) why = LABELS.lockRoundTest(k + 1);
+        else if (state.totals[k] == null) why = LABELS.lockRoundNote(k + 1);
       }
-      lab.setLock(btn, why, { icon: false });
-    });
+      lab.setLock(mixBtn, why);
+      mixBtn.classList.toggle('lab-btn-primary', !why);
+    }
     const sampleBtn = $('[data-sample]');
     const dyeBtn = $('[data-dye]');
     // Le test se fait après les contacts : la goutte, puis l'indicateur.
@@ -851,7 +888,7 @@
     if (busy) return [];
     const p = phase();
     switch (p.kind) {
-      case 'mix': return $$(`[data-pair^="${p.round}:"]`).filter(el => !el.classList.contains('is-done'));
+      case 'mix': return [$('[data-mix-round]')];
       case 'sample': return [$('[data-sample]')];
       case 'dye': return [$('[data-dye]')];
       case 'note': return [$(`[data-row-name="${p.row}"]`), $(`[data-total="${p.row}"]`)];
@@ -1023,7 +1060,7 @@
   const numText = v => (v == null ? DASH : String(v));
 
   function resultsTable() {
-    return `<table class="sp-mini"><thead><tr><th></th><th scope="col">${LABELS.totalHead}</th><th scope="col">${gloss(LABELS.unprotHead)}</th></tr></thead><tbody>` +
+    return `<table class="sp-mini"><thead><tr><th></th><th scope="col">${LABELS.allHead}</th><th scope="col">${gloss(LABELS.unprotHead)}</th></tr></thead><tbody>` +
       ROWS.map((key, row) => `<tr><th scope="row">${gloss(LABELS.rows[key])}</th><td>${numText(state.totals[row])}</td>` +
         `<td>${UNPROT_ROWS.includes(row) ? numText(state.unprot[row]) : ''}</td></tr>`).join('') +
       `</tbody></table>`;
@@ -1125,7 +1162,7 @@
     });
     const total = ROWS.length * 2 + UNPROT_ROWS.length;
     const good = rows.reduce((n, r, row) => n + (r.marksOk ? 1 : 0) + (r.totalOk ? 1 : 0) + (UNPROT_ROWS.includes(row) && r.unprotOk ? 1 : 0), 0);
-    const barsOk = [0, 1, 2].map(i => state.bars[i] === notedTotal(i));
+    const barsOk = range(BARS).map(i => state.bars[i] === notedTotal(i));
     const c = state.concl;
     const shape = shapeOf(notedTotal(0), notedTotal(1), notedTotal(2));
     const condoms = compareOf(notedUnprot(3), notedUnprot(2));
@@ -1159,12 +1196,12 @@
 
     if (key === 'counts') {
       if (!state.started) return `<p>${CHECK.noExperiment}</p>`;
-      const head = range(N).map(i => `<th scope="col" class="${isProt(run, i) ? 'is-prot' : ''}">${i + 1}</th>`).join('');
+      const head = range(N).map(i => `<th scope="col">${i + 1}</th>`).join('');
       const rows = ROWS.map((k, row) => {
         const r = ev.rows[row];
         const cells = range(N).map(i => {
           const pink = r.pink.includes(i), on = state.marks[row].includes(i);
-          return `<td class="${isProt(run, i) ? 'is-prot' : ''} ${pink === on ? '' : 'is-ko'}">${pink ? '<i class="sp-dot"></i>' : ''}${on ? '<b>✓</b>' : ''}</td>`;
+          return `<td class="${row >= 3 && isProt(run, i) ? 'is-prot' : ''} ${pink === on ? '' : 'is-ko'}">${pink ? '<i class="sp-dot"></i>' : ''}${on ? '<b>✓</b>' : ''}</td>`;
         }).join('');
         const num = (good, yours, right) => (good ? `<td class="is-ok">${numText(yours)}</td>` : `<td class="is-ko"><span>${numText(yours)}</span><small>${right}</small></td>`);
         return `<tr><th scope="row">${gloss(LABELS.rows[k])}</th>${cells}${num(r.totalOk, state.totals[row], r.pink.length)}` +
@@ -1176,9 +1213,9 @@
         (ev.counts ? `<p class="sp-ok">${CHECK.countsAllGood}</p>` : `<p class="sp-muted">${gloss(CHECK.countsHow)}</p>`);
     }
     if (key === 'graph') {
-      const expected = [0, 1, 2].map(notedTotal);
+      const expected = range(BARS).map(notedTotal);
       return `<div class="sp-check-chart">${chartSVG('read', state.bars)}</div>` +
-        `<ul class="sp-checklist">${[0, 1, 2].map(i => line(ev.barsOk[i], CHECK.barLine(LABELS.chart.cats[i], state.bars[i], expected[i]))).join('')}</ul>` +
+        `<ul class="sp-checklist">${range(BARS).map(i => line(ev.barsOk[i], CHECK.barLine(plain(LABELS.rows[ROWS[i]]), state.bars[i], expected[i]))).join('')}</ul>` +
         `<p class="sp-muted">${gloss(CHECK.graphHow)}</p>`;
     }
     if (key === 'spread') {
@@ -1256,7 +1293,7 @@
       return `<tr><th>${plain(LABELS.rows[key])}</th><td>${cellPink}</td><td>${cellTotal}</td><td>${cellUn}</td></tr>`;
     }).join('');
     const table = `<table class="sp-report-table"><tr><th></th><th>${R.pinkHead}</th><th>${LABELS.totalHead}</th><th>${plain(LABELS.unprotHead)}</th></tr>${rowsHTML}</table>`;
-    const graphNote = ev.graph ? '' : `<p>${mark(R.graphMark, CHECK.graphNote([0, 1, 2].map(notedTotal).join(', ')))}</p>`;
+    const graphNote = ev.graph ? '' : `<p>${mark(R.graphMark, CHECK.graphNote(range(BARS).map(notedTotal).join(', ')))}</p>`;
     const observations = log + prot + table + `<div class="sp-report-chart">${chartSVG('read', state.bars)}</div>` + graphNote;
 
     const pickWord = (key, good, note) => LABELS.concl[key](c[key] ? word(LABELS.words[key][c[key]], good, note) : DASH);
@@ -1319,7 +1356,7 @@
     isStarted: () => !!(state.hyp.shape || state.hyp.condoms || state.hyp.vaccine) || state.started,
     render: { 1: renderPredict, 2: () => renderExperiment(), 3: renderConclude, 4: renderCheck },
     report: buildReport,
-    version: 1,
+    version: 2,
     save: () => ({ run, state }),
     // Une animation interrompue est déjà comptée : la paillasse se
     // redessine dans l'état atteint.
@@ -1329,7 +1366,7 @@
       if (!r || !STIS.includes(r.sti) || !Number.isInteger(r.carrier) || !Array.isArray(r.rounds) || r.rounds.length !== 3 ||
         !r.rounds.every(ps => Array.isArray(ps) && ps.every(okPair)) || !Array.isArray(r.prot) || r.prot.length !== PROTECTED ||
         !s || !s.hyp || !Array.isArray(s.mixed) || s.mixed.length !== 3 || !Array.isArray(s.tests) || s.tests.length !== ROWS.length ||
-        !Array.isArray(s.marks) || !Array.isArray(s.totals) || !Array.isArray(s.unprot) || !Array.isArray(s.bars) ||
+        !Array.isArray(s.marks) || !Array.isArray(s.totals) || !Array.isArray(s.unprot) || !Array.isArray(s.bars) || s.bars.length !== BARS ||
         !s.replayed || !s.concl || !s.concl.real || ![1, 2, 3].includes(s.part)) throw new Error('labProgress');
       run = r;
       state = s;
