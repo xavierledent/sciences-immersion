@@ -206,7 +206,7 @@ faudrait soit les mettre en français (le labo n'est plus en anglais), soit
 souligner presque tous les mots ; même effet. D'où le choix du C ci-dessous.
 
 Trois labos retenus le 2026-11-16 : A, B, C (variante visuelle). Ordre sur
-la page Lab à décider. Avant la fiche du B et du C, et avant de coder le A :
+la page Lab : A, puis B (décidé le 2026-11-17). Avant la fiche du B et du C, et avant de coder le A :
 demander le chapitre de cours (le dossier `PDF/` du site n'a que la carte
 mentale et la fiche d'autoévaluation), pour reprendre ses mots (« sexual
 intercourse » ou « sexual contact », « STI test » ou « screening »…) et ne
@@ -364,7 +364,57 @@ recommence) :
 - partie 1 : plus de clic sur chaque paire ; un bouton « Mix round n »
   joue toute la tournée (la pipette mélange les paires une à une).
 
-### B. « Cycle detectives » : des cycles, pas un seul cycle — retenu, fiche à faire
+### B. « Cycle detectives » : des cycles, pas un seul cycle — construit (2026-11-17)
+
+Fiche validée le 2026-11-17 (décisions de l'enseignant) : **3 femmes** × 4
+mois (4 × 4 faisait trop de calculs) ; **rappel** du nombre de jours sous
+chaque mois ; graphique en **barres groupées par femme** (l'exercice 8 du
+niveau 3 fait déjà l'histogramme par classes) ; courbe de température
+**donnée** ; profil « première année après les premières règles » possible
+(il rassure) ; titre « Cycle detectives » ; **2e** sur la page Lab.
+
+Construit le 2026-11-17 (`js/lab-cycles.js`, `css/lab-cycles.css`,
+`lab-cycles.<en|nl>.js`, id `cycles`), sans relire le chapitre de cours
+(mots repris des exercices de la page Practice : à vérifier quand
+l'enseignant l'envoie). Choix faits à la construction, à faire valider au
+premier test :
+- **la 4e affirmation est vraie** : « Ovulation comes about 14 days before
+  the end of the cycle » (la fiche avait « If you know the first day of her
+  period, you can say on which day she will ovulate next time », fausse) :
+  avec quatre affirmations fausses, « tout est faux » se devinait, et la
+  partie 3 (températures) ne répondait à aucune question de départ ; le
+  mythe des jours sans risque (c1) passe par la correction (« There is no
+  safe day », spermatozoïdes jusqu'à 5 jours) ;
+- tirage : les mêmes quatre mois pour les trois (janvier-avril à
+  septembre-décembre 2026) ; une femme par famille : a (vers 28, ou 27-30),
+  b (irrégulière 24-36, écart ≥ 7 ; ou première année 30-45, écart ≥ 8,
+  13 ans, « Her first period was last year »), c (vers 26, vers 31, ou
+  34-37) ; règles de 4 à 6 jours ; exactement quatre premiers jours dans
+  les quatre mois (aucune règle d'avant visible, pas de 5e) ; phase après
+  l'ovulation 13 à 15 jours ; au moins une ovulation ailleurs qu'au jour 14 ;
+- Predict : quatre cartes à poser dans « I think it is true / false » (prises
+  en main ou glissées), « Why » facultatif ; figé au premier jour marqué ;
+- partie 1 : onglets par femme ; toucher un jour le marque (4 au plus,
+  retoucher l'enlève) ; un jour faux se pose quand même (relevé au Check) ;
+  les longueurs se déverrouillent quand les 4 premiers jours de la femme sont
+  marqués ; une longueur est juste si elle suit ses premiers jours **ou** le
+  vrai calendrier (une erreur de jour ne compte pas deux fois) ;
+- partie 2 : neuf barres, échelle 0-48 jours, repère pointillé « 28 days » ;
+  glisser ou toucher, puis boutons −1 / +1 de la barre choisie (l'échelle
+  est fine au doigt) ;
+- partie 3 : la courbe du 3e cycle, un jour par colonne ; toucher un jour
+  l'inscrit dans le carnet (« day 17 »), puis l'élève écrit les jours
+  jusqu'à la fin (dernier jour écrit au bout de l'axe) ;
+- Conclude : pour chaque affirmation, vrai / faux et une preuve dans une
+  liste (« Lina: cycles of 28, 28 and 29 days », « Lina: ovulation on day
+  15, then 14 days to the end ») ; réponse attendue lue dans les nombres
+  notés par l'élève ; « about 14 » accepte 12 à 16 ; jugement : confirmée
+  (4 accords), partiellement, rejetée (aucun) ;
+- critères : First days, Cycle lengths, The graph, Ovulation, The claims ;
+- dessins : tout en SVG ou HTML (calendrier, graphique, courbe) ; pas de
+  planche Gemini prévue.
+
+Idée de départ :
 
 Enquête sur des données. Attendus : sf1, s5, c1 (mythe des « jours sans
 risque »). Question : un cycle dure-t-il toujours 28 jours, l'ovulation

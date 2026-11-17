@@ -99,7 +99,15 @@ roses et compter ; rejouer les mêmes contacts avec des bouchons
 (préservatifs) puis des étiquettes bleues (vaccin HPV) sur la même moitié
 du groupe (cases rayées seulement sur ces deux lignes) ; à côté du carnet,
 compter les non protégés touchés ; histogramme FO5b des cinq tests ;
-légende du modèle toujours affichée, jamais de verres) ; `phys1` n'a pas de labo
+légende du modèle toujours affichée, jamais de verres) et « Cycle detectives »
+(enquête sur des données : trois jeunes femmes, une par famille de profils
+(régulière vers 28 jours, irrégulière ou première année, plus courte ou plus
+longue), quatre mois de calendrier ; quatre affirmations classées vrai / faux
+à Predict (cartes), reclassées avec une preuve à Conclude ; marquer les
+premiers jours de règles, calculer neuf longueurs (rappel des jours du mois),
+barres FO5b groupées par femme avec repère 28 jours, courbe de température du
+dernier cycle donnée : toucher le jour de l'ovulation, compter les jours
+jusqu'à la fin) ; `phys1` n'a pas de labo
 réel dans le cours. Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans

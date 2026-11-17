@@ -1,0 +1,1152 @@
+/* ===== Labo virtuel « Cycle detectives » (bio2) =====
+   Ce qui est propre à ce labo : cartes des affirmations (Predict),
+   calendriers, graphique des longueurs, courbes de température, carnet,
+   conclusion avec preuves, correction. Le cadre commun (modale, étapes,
+   boutons, verrous, panneau, rapport) est dans lab-engine.css. Classes
+   préfixées cy- (cycles).
+   Dessiné pour le corps du labo sur Chromebook à 100 % (1204 × 594), sans
+   défilement ; le moteur agrandit le tout sur un plus grand écran. */
+
+.cy-predict,
+.cy-run,
+.cy-conclude,
+.cy-check,
+.lab-doc .cy-report-chart {
+  --cy-period: #d4527a;
+  --cy-period-soft: #fbe3ea;
+}
+
+/* ===== Commun aux étapes ===== */
+.cy-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-current-darker);
+  text-align: left;
+}
+
+.cy-big-q {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.cy-reminder {
+  margin: auto 0 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--color-current);
+  border-radius: 0 10px 10px 0;
+  background: rgba(var(--color-current-rgb), 0.08);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.cy-chip {
+  height: 32px;
+  padding: 0 14px;
+  font-size: 0.84rem;
+}
+
+.cy-ok { color: var(--color-emerald); font-weight: 600; }
+.cy-ko { color: var(--color-rose); font-weight: 600; }
+.cy-muted { color: var(--color-muted); }
+
+.cy-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Étape 1 : hypothèse (cartes à classer) ===== */
+.cy-predict {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  align-content: center;
+  gap: 14px;
+}
+
+.cy-predict-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cy-question-card,
+.cy-context,
+.cy-hyp-card {
+  padding: 12px 16px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.3);
+  background: #ffffff;
+  text-align: left;
+}
+
+.cy-question-card {
+  background: rgba(var(--color-current-rgb), 0.08);
+  border-color: transparent;
+}
+
+.cy-context p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.cy-context-pics {
+  display: flex;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.cy-context-pics span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 64px;
+}
+
+.cy-context-pics .cy-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.cy-context-pics small {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.cy-hyp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cy-hyp-card .cy-kicker {
+  margin: 0;
+}
+
+.cy-hyp-how {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+
+.cy-pile {
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(var(--color-current-rgb), 0.4);
+  background: #fbfaf7;
+}
+
+.cy-pile > .cy-col-empty {
+  grid-column: 1 / -1;
+}
+
+.cy-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cy-col {
+  min-height: 228px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.3);
+  background: rgba(var(--color-current-rgb), 0.05);
+}
+
+.cy-col-title {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--color-current-darkest);
+}
+
+.cy-col-true .cy-col-title { color: #08745b; }
+.cy-col-false .cy-col-title { color: #a33658; }
+
+.cy-col-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cy-col-empty {
+  margin: 6px 0;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.cy-pile.is-drop-ready,
+.cy-col.is-drop-ready {
+  border-style: dashed;
+  border-color: var(--color-current);
+}
+
+.cy-claim {
+  min-height: 46px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
+  cursor: grab;
+  touch-action: none;
+  box-shadow: 0 2px 4px rgba(17, 36, 72, 0.08);
+}
+
+.cy-claim.is-placed {
+  border-color: rgba(var(--color-current-rgb), 0.35);
+  box-shadow: none;
+}
+
+.cy-claim.is-dragging {
+  opacity: 0.4;
+}
+
+.cy-ghost {
+  width: 300px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 8px 18px rgba(17, 36, 72, 0.2);
+}
+
+.cy-because {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+
+.cy-because span {
+  flex: 0 0 auto;
+}
+
+.cy-because .lab-input {
+  flex: 1;
+  width: auto;
+  height: 38px;
+}
+
+/* ===== Étape 2 : partie affichée, aide, légende, carnet ===== */
+.cy-run {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 262px;
+  grid-template-rows: 292px auto minmax(0, 1fr);
+  gap: 8px 12px;
+}
+
+.cy-stage,
+.cy-help,
+.cy-notes,
+.cy-results {
+  min-width: 0;
+  padding: 8px 12px;
+  border-radius: 16px;
+  background: rgba(var(--color-current-rgb), 0.07);
+}
+
+.cy-stage {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cy-stage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cy-tabs,
+.cy-women {
+  display: flex;
+  gap: 4px;
+}
+
+.cy-tab,
+.cy-woman-tab {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.45);
+  background: #ffffff;
+  color: var(--color-current-darker);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cy-woman-tab {
+  border-radius: 999px;
+  min-width: 72px;
+}
+
+.cy-tab.is-on,
+.cy-woman-tab.is-on {
+  background: var(--color-current);
+  border-color: var(--color-current);
+  color: var(--color-current-text);
+}
+
+/* Le calendrier : quatre mois côte à côte */
+.cy-cal {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cy-who {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.cy-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.cy-key i {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.cy-key i + * {
+  margin-right: 6px;
+}
+
+.cy-key-period {
+  background: var(--cy-period-soft);
+  box-shadow: inset 0 -3px 0 var(--cy-period);
+}
+
+.cy-key-mark {
+  border-radius: 50% !important;
+  box-shadow: inset 0 0 0 2px var(--color-current-dark);
+}
+
+.cy-months {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cy-month {
+  min-width: 0;
+  padding: 4px 6px 2px;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.cy-month-name {
+  margin: 0 0 2px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--color-current-darkest);
+}
+
+.cy-month-days {
+  margin: 2px 0 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  text-align: right;
+}
+
+.cy-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+}
+
+.cy-wd {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.cy-blank,
+.cy-day {
+  height: 23px;
+}
+
+.cy-day {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+html[data-pointer='fine'] .cy-day:hover {
+  background: rgba(var(--color-current-rgb), 0.12);
+}
+
+.cy-day.is-period {
+  background: var(--cy-period-soft);
+  box-shadow: inset 0 -3px 0 var(--cy-period);
+  color: #8c2747;
+}
+
+.cy-day.is-marked {
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px var(--color-current-dark);
+  font-weight: 800;
+}
+
+.cy-day.is-period.is-marked {
+  box-shadow: inset 0 0 0 2px var(--color-current-dark), inset 0 -3px 0 var(--cy-period);
+}
+
+/* Le graphique et la courbe, à la place du calendrier */
+.cy-graph,
+.cy-temp {
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 0;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.cy-chart-title {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.cy-chart-wrap,
+.cy-curve-wrap {
+  min-height: 0;
+  flex: 1 1 auto;
+  width: 100%;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+}
+
+.cy-chart,
+.cy-curve {
+  display: block;
+  font-family: var(--font-family);
+}
+
+.cy-chart.is-edit,
+.cy-curve.is-edit {
+  width: 100%;
+  height: 100%;
+}
+
+.cy-tick,
+.cy-dnum {
+  font-size: 11px;
+  fill: #6b7570;
+}
+
+.cy-dnum.is-last {
+  font-weight: 800;
+  fill: #3e4a44;
+}
+
+.cy-axis-name {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #3e4a44;
+}
+
+.cy-cat {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #6b7570;
+}
+
+.cy-group {
+  font-size: 12px;
+  font-weight: 700;
+  fill: #3e4a44;
+}
+
+.cy-ref {
+  font-size: 11px;
+  font-weight: 700;
+  fill: #3e4a44;
+}
+
+.cy-end-note,
+.cy-chosen {
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--color-current-darkest);
+}
+
+.cy-bar {
+  fill: var(--color-current);
+  stroke: var(--color-current-dark);
+  stroke-width: 1;
+}
+
+.cy-bar.is-sel {
+  stroke: var(--color-current-darkest);
+  stroke-width: 2.5;
+}
+
+.cy-bar-val {
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--color-current-darkest);
+}
+
+.cy-slot {
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+.cy-slot-guide {
+  stroke: var(--color-current);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+}
+
+.cy-slot:focus-visible {
+  outline: none;
+}
+
+.cy-slot:focus-visible .cy-slot-guide {
+  stroke-width: 2.4;
+}
+
+.cy-curve.is-edit {
+  cursor: pointer;
+}
+
+.cy-curve:focus-visible {
+  outline: 2px solid var(--color-current);
+  outline-offset: -2px;
+  border-radius: 10px;
+}
+
+html[data-pointer='fine'] .cy-day-hit:hover {
+  fill: rgba(var(--color-current-rgb), 0.08);
+}
+
+/* À droite : l'aide de la partie */
+.cy-help {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.cy-help .cy-kicker {
+  margin: 0;
+}
+
+.cy-help p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.cy-help .cy-example {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.78rem;
+}
+
+.cy-adjust {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.cy-adjust p {
+  font-weight: 600;
+}
+
+.cy-adjust-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.cy-adjust-btn {
+  flex: 1;
+  height: 38px;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.cy-run > .lab-caption {
+  grid-column: 1 / -1;
+  min-height: 2.6em;
+  padding: 4px 12px;
+  font-size: 0.84rem;
+}
+
+.lab-caption.is-warning {
+  background: #fff1f0;
+  color: #9f2c2c;
+  font-weight: 600;
+}
+
+/* Le carnet : une ligne par femme */
+.cy-notes {
+  grid-column: 1 / -1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cy-notes .lab-panel-title,
+.cy-results .lab-panel-title {
+  margin: 0 0 4px;
+}
+
+.cy-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.cy-table th,
+.cy-table td {
+  padding: 2px 4px;
+  border-bottom: 1px solid #eef0ec;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.cy-table thead th {
+  height: 22px;
+  font-size: 0.72rem;
+  color: var(--color-current-darkest);
+}
+
+.cy-table .cy-name-head {
+  width: 110px;
+}
+
+.cy-table .cy-sep {
+  border-left: 2px solid rgba(var(--color-current-rgb), 0.25);
+}
+
+.cy-table tbody td:nth-child(6),
+.cy-table tbody td:nth-child(9) {
+  border-left: 2px solid rgba(var(--color-current-rgb), 0.25);
+}
+
+.cy-table tbody th {
+  padding-left: 10px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.cy-table tr.is-current {
+  background: rgba(var(--color-current-rgb), 0.08);
+}
+
+.cy-date {
+  display: block;
+  box-sizing: border-box;
+  height: 28px;
+  margin: 2px auto;
+  max-width: 76px;
+  padding: 0 4px;
+  line-height: 25px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.35);
+  background: #ffffff;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cy-date.is-empty {
+  border-style: dashed;
+}
+
+.cy-num-in {
+  display: block;
+  width: 46px;
+  height: 28px;
+  margin: 2px auto;
+  padding: 0;
+  border-radius: 8px;
+  border: 1.5px solid rgba(var(--color-current-rgb), 0.55);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.cy-num-in:focus {
+  outline: none;
+  border-color: var(--color-current);
+  box-shadow: 0 0 0 3px rgba(var(--color-current-rgb), 0.2);
+}
+
+.cy-num-in.is-invalid {
+  border-color: #d64545;
+  background: #fff1f0;
+}
+
+/* ===== Étape 3 : conclusion ===== */
+.cy-conclude {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.cy-results {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+table.cy-mini {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+table.cy-mini th,
+table.cy-mini td {
+  padding: 3px 4px;
+  border-bottom: 1px solid #eef0ec;
+  text-align: center;
+  line-height: 1.2;
+}
+
+table.cy-mini thead th {
+  font-size: 0.64rem;
+  color: var(--color-current-darkest);
+}
+
+table.cy-mini thead th:first-child {
+  width: 22%;
+}
+
+table.cy-mini thead th:nth-child(2) {
+  width: 36%;
+}
+
+table.cy-mini tbody th {
+  font-weight: 700;
+  text-align: left;
+}
+
+.cy-mini-chart {
+  padding: 2px 4px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.cy-mini-chart .cy-chart {
+  width: 100%;
+  height: auto;
+}
+
+.cy-hyps {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.cy-hyps p {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.cy-hyps p.cy-kicker {
+  margin-bottom: 2px;
+  font-size: 0.66rem;
+}
+
+.cy-form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.cy-form > .cy-big-q {
+  font-size: 1rem;
+}
+
+.cy-form-how {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.cy-cls {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  counter-reset: cy-cl;
+}
+
+.cy-cl {
+  padding: 6px 12px 8px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+  counter-increment: cy-cl;
+}
+
+.cy-cl-text {
+  margin: 0 0 4px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.cy-cl-text::before {
+  content: counter(cy-cl);
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--color-current);
+  color: var(--color-current-text);
+  font-size: 0.74rem;
+}
+
+.cy-cl-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.cy-proof-label {
+  margin-left: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.cy-select {
+  height: 30px;
+  max-width: 100%;
+  vertical-align: middle;
+  border-style: dashed;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.cy-select.is-filled {
+  border-style: solid;
+  border-color: var(--color-current);
+  background: rgba(var(--color-current-rgb), 0.08);
+  color: var(--color-current-darkest);
+}
+
+.cy-select.lab-is-missing {
+  border-color: #d64545;
+}
+
+.cy-verdict {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background: #fbfaf7;
+}
+
+.cy-verdict-text {
+  margin-right: 4px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+/* ===== Étape 4 : correction ===== */
+.cy-check {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.cy-check-left {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cy-crit-list {
+  display: grid;
+  gap: 6px;
+}
+
+.cy-crit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 5px 14px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #ffffff;
+  color: var(--color-text);
+  text-align: left;
+  box-shadow: inset 4px 0 0 var(--cy-crit-accent, transparent);
+}
+
+.cy-crit.is-ok { --cy-crit-accent: var(--color-emerald); background: rgba(12, 163, 127, 0.06); }
+.cy-crit.is-ko { --cy-crit-accent: var(--color-rose); background: rgba(212, 82, 122, 0.07); }
+
+.cy-crit.is-selected {
+  border-color: var(--color-current);
+}
+
+html[data-pointer='fine'] .cy-crit:not(.is-selected):hover,
+.cy-crit:focus-visible {
+  border-color: rgba(var(--color-current-rgb), 0.5);
+  outline: none;
+}
+
+.cy-crit-text strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.cy-crit-text small {
+  font-size: 0.74rem;
+  color: var(--color-muted);
+}
+
+.cy-crit-mark {
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.is-ok .cy-crit-mark { color: var(--color-emerald); }
+.is-ko .cy-crit-mark { color: var(--color-rose); }
+
+.cy-check-detail {
+  min-height: 0;
+  overflow: auto;
+  padding: 12px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 36, 72, 0.08);
+  background: #fbfaf7;
+}
+
+.cy-check-detail h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.cy-check-detail p {
+  margin: 0 0 6px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.cy-check-table {
+  width: 100%;
+  margin-bottom: 6px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.cy-check-table th,
+.cy-check-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #eef0ec;
+  text-align: center;
+}
+
+.cy-check-table thead th:first-child {
+  width: 110px;
+}
+
+.cy-check-table tbody th {
+  font-weight: 700;
+  text-align: left;
+}
+
+.cy-check-table td.is-ko {
+  box-shadow: inset 0 0 0 2px var(--color-rose);
+}
+
+.cy-check-table td.is-ko span {
+  display: block;
+  color: var(--color-rose);
+  font-weight: 700;
+  text-decoration: line-through;
+}
+
+.cy-check-table td.is-ko small {
+  color: var(--color-emerald);
+  font-weight: 700;
+}
+
+.cy-check-chart {
+  padding: 4px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.cy-check-chart .cy-chart {
+  width: 100%;
+  max-width: 620px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.cy-checklist {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.cy-checklist li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.cy-claims-check li {
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.cy-checklist .cy-mark {
+  font-weight: 700;
+}
+
+.cy-checklist .is-ok .cy-mark { color: var(--color-emerald); }
+.cy-checklist .is-ko .cy-mark { color: var(--color-rose); }
+
+/* ===== Écrans plus étroits ===== */
+@media (max-width: 980px) {
+  .cy-predict,
+  .cy-conclude { grid-template-columns: 1fr; height: auto; }
+  .cy-check { grid-template-columns: 280px minmax(0, 1fr); }
+}
+
+/* ===== Rapport (à l'écran et sur papier, voir .lab-doc dans lab-engine.css) ===== */
+.lab-doc .cy-report-table {
+  width: auto;
+  min-width: 140mm;
+  font-size: 8.5pt;
+}
+
+.lab-doc .cy-report-table th,
+.lab-doc .cy-report-table td {
+  padding: 2px 6px;
+}
+
+.lab-doc .cy-report-table th:first-child {
+  text-align: left;
+}
+
+.lab-doc .cy-report-chart .cy-chart {
+  display: block;
+  width: 130mm;
+  height: auto;
+  margin: 2mm 0;
+}
+
+.lab-doc .cy-report-corr {
+  width: auto;
+  min-width: 70mm;
+}
+
+.lab-doc .cy-report-corr th {
+  text-align: left;
+}
