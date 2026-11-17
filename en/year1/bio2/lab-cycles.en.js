@@ -8,11 +8,15 @@
    (traduction française au survol ou au toucher) ; [mot|clé] seulement pour
    une forme dont la clé diffère.
 
-   Mots du cours (chapitre bio2, PART 3, exercices de la page Practice) :
-   menstruation (a period), menstrual cycle, ovulation, « about 14 days
-   before the end of the cycle », temperature rises after ovulation, egg
-   cell, sperm cells (live up to 5 days). Une longueur de cycle se compte
-   du premier jour d'une règle au premier jour de la suivante.
+   Mots du cours (chapitre bio2, PART 3, relu le 2026-11-17) : « Day 1 of the
+   cycle is the first day of menstruation (the period) » ; Mission 7 :
+   « Length of the cycle (days) », « Day of ovulation », « Days between
+   ovulation and the end » ; Mission 8 : « measure their body temperature
+   every morning » ; Summary : « about 28 days on average, but it is
+   different from one woman to another », « about 14 days before the end of
+   the cycle » ; Exercise 2 : sperm cells live up to 5 days, an egg cell
+   about 24 hours. Une longueur de cycle se compte du premier jour d'une
+   règle au premier jour de la suivante.
 
    Les prénoms (names) sont tirés au sort : même nombre dans les deux
    langues (la sauvegarde garde leur rang). */
@@ -97,7 +101,7 @@ LabEngine.addText('cycles', {
       1: {
         title: 'How to count',
         lines: [
-          'A cycle starts on the first day of a period. It ends the day before the next period.',
+          'Day 1 of the cycle is the first day of menstruation (the period). The cycle ends the day before the next period.',
           'Cycle length = the number of days from one first day to the next first day.'
         ],
         example: 'Example: from 25 March to 22 April: 31 − 25 + 22 = <strong>28 days</strong> (March has 31 days).'
@@ -113,7 +117,7 @@ LabEngine.addText('cycles', {
       3: {
         title: 'Read the curve',
         lines: [
-          'The temperature was taken every morning, before getting up.',
+          'She measured her body temperature every morning, before getting up.',
           'After ovulation, the temperature goes up and stays high. Tap the day of ovulation: the last low day before the rise.',
           'Then count the days from ovulation to the end of the cycle.'
         ],
@@ -124,7 +128,7 @@ LabEngine.addText('cycles', {
     // Graphique (fiche outil FO5b).
     chart: {
       title: 'Length of each cycle',
-      yName: 'Cycle length (days)',
+      yName: 'Length of the cycle (days)',
       xName: 'Cycle',
       ref: '28 days',
       barAria: (name, k) => `${name}, cycle ${k}`,
@@ -147,14 +151,14 @@ LabEngine.addText('cycles', {
     notes: {
       woman: 'Diary',
       firstDays: 'First day of each period',
-      lengths: 'Cycle length (days)',
+      lengths: 'Length of the cycle (days)',
       temp: 'Last cycle: temperature',
       period: k => `${k}`,
       cycle: k => `Cycle ${k}`,
-      ov: 'Ovulation',
-      toEnd: 'Days to the end',
+      ov: 'Day of ovulation',
+      toEnd: 'Days between ovulation and the end',
       lenAria: (name, k) => `${name}, length of cycle ${k}`,
-      toEndAria: name => `${name}, days from ovulation to the end of the cycle`
+      toEndAria: name => `${name}, days between ovulation and the end of the cycle`
     },
 
     // La légende : la prochaine chose à faire (voir phase dans la simulation).
@@ -166,7 +170,7 @@ LabEngine.addText('cycles', {
         : `${name}’s calendar: tap the first day of each period (${n} of 4 done). Tap a day again to remove it.`),
       length: (name, k) => `Calculate the length of ${name}’s cycle ${k}: from one first day to the next. Write it in your notebook.`,
       ov: name => `${name}’s curve: tap the day of ovulation.`,
-      toEnd: (name, n) => `How many days from ovulation to the end of the cycle (day ${n})? Write it in your notebook.`,
+      toEnd: (name, n) => `How many days between ovulation and the end of the cycle (day ${n})? Write it in your notebook.`,
       graph: 'Draw one bar for each cycle: slide it up to the length in your notebook.',
       next: {
         graph: 'Part 1 is finished. Go on with the button at the bottom.',
@@ -267,7 +271,7 @@ LabEngine.addText('cycles', {
   explanations: {
     ovulation: 'After ovulation, the temperature goes up by about 0.5 °C and stays high until the end of the cycle. So ovulation is the last low day before the rise. In a longer cycle, it comes later.',
     claims: {
-      every28: '28 days is only an average. Cycles can be shorter or longer, and that is normal.',
+      every28: 'The menstrual cycle lasts about 28 days on average, but it is different from one woman to another: shorter or longer cycles are normal.',
       sameLength: 'Some women have very regular cycles, others do not. In the first years after the first period, cycles are often irregular: that is normal.',
       day14: 'Ovulation is on day 14 only in a 28-day cycle. In a 35-day cycle, it is around day 21.',
       before14: 'Ovulation comes about 14 days before the end of the cycle. The days before ovulation are the ones that change.'

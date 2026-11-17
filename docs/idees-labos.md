@@ -374,10 +374,15 @@ niveau 3 fait déjà l'histogramme par classes) ; courbe de température
 (il rassure) ; titre « Cycle detectives » ; **2e** sur la page Lab.
 
 Construit le 2026-11-17 (`js/lab-cycles.js`, `css/lab-cycles.css`,
-`lab-cycles.<en|nl>.js`, id `cycles`), sans relire le chapitre de cours
-(mots repris des exercices de la page Practice : à vérifier quand
-l'enseignant l'envoie). Choix faits à la construction, à faire valider au
-premier test :
+`lab-cycles.<en|nl>.js`, id `cycles`). Chapitre de cours relu ensuite le
+même jour : libellés alignés sur PART 3 (« Day 1 of the cycle is the first
+day of menstruation (the period) » ; Mission 7 : « Length of the cycle »,
+« Day of ovulation », « Days between ovulation and the end » ; Summary :
+« about 28 days on average, but it is different from one woman to
+another », « about 14 days before the end of the cycle »). L'attendu sf1
+renvoie au labo (champ `labs` d'autoeval.json, EN et NL), à la demande de
+l'enseignant. Choix faits à la construction, à faire valider au premier
+test :
 - **la 4e affirmation est vraie** : « Ovulation comes about 14 days before
   the end of the cycle » (la fiche avait « If you know the first day of her
   period, you can say on which day she will ovulate next time », fausse) :

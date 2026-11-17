@@ -90,7 +90,7 @@ LabEngine.addText('cycles', {
       1: {
         title: 'Zo tel je',
         lines: [
-          'Een cyclus begint op de eerste dag van een menstruatie. Hij eindigt de dag voor de volgende menstruatie.',
+          'Dag 1 van de cyclus is de eerste dag van de menstruatie. De cyclus eindigt de dag voor de volgende menstruatie.',
           'Lengte van een cyclus = het aantal dagen van de ene eerste dag tot de volgende eerste dag.'
         ],
         example: 'Voorbeeld: van 25 maart tot 22 april: 31 − 25 + 22 = <strong>28 dagen</strong> (maart heeft 31 dagen).'
@@ -106,7 +106,7 @@ LabEngine.addText('cycles', {
       3: {
         title: 'Lees de curve af',
         lines: [
-          'De temperatuur werd elke ochtend gemeten, voor het opstaan.',
+          'Ze mat elke ochtend haar lichaamstemperatuur, voor het opstaan.',
           'Na de eisprong stijgt de temperatuur en blijft ze hoog. Tik op de dag van de eisprong: de laatste lage dag voor de stijging.',
           'Tel dan de dagen van de eisprong tot het einde van de cyclus.'
         ],
@@ -144,10 +144,10 @@ LabEngine.addText('cycles', {
       temp: 'Laatste cyclus: temperatuur',
       period: k => `${k}`,
       cycle: k => `Cyclus ${k}`,
-      ov: 'Eisprong',
-      toEnd: 'Dagen tot het einde',
+      ov: 'Dag van de eisprong',
+      toEnd: 'Dagen tussen de eisprong en het einde',
       lenAria: (name, k) => `${name}, lengte van cyclus ${k}`,
-      toEndAria: name => `${name}, dagen van de eisprong tot het einde van de cyclus`
+      toEndAria: name => `${name}, dagen tussen de eisprong en het einde van de cyclus`
     },
 
     // La légende : la prochaine chose à faire (voir phase dans la simulation).
@@ -159,7 +159,7 @@ LabEngine.addText('cycles', {
         : `Kalender van ${name}: tik op de eerste dag van elke menstruatie (${n} van de 4 klaar). Tik nog eens op een dag om hem weg te halen.`),
       length: (name, k) => `Bereken de lengte van cyclus ${k} van ${name}: van de ene eerste dag tot de volgende. Schrijf ze in je notities.`,
       ov: name => `Curve van ${name}: tik op de dag van de eisprong.`,
-      toEnd: (name, n) => `Hoeveel dagen van de eisprong tot het einde van de cyclus (dag ${n})? Schrijf het in je notities.`,
+      toEnd: (name, n) => `Hoeveel dagen tussen de eisprong en het einde van de cyclus (dag ${n})? Schrijf het in je notities.`,
       graph: 'Teken één staaf voor elke cyclus: schuif ze omhoog tot de lengte in je notities.',
       next: {
         graph: 'Deel 1 is klaar. Ga verder met de knop onderaan.',
@@ -250,7 +250,7 @@ LabEngine.addText('cycles', {
     duurt: 'dure', duren: 'durent', 'even lang': 'de même durée', dagboek: 'journal (carnet)', dagboeken: 'journaux (carnets)',
     'jonge vrouwen': 'jeunes femmes', bewering: 'affirmation', beweringen: 'affirmations', bewijs: 'preuve',
     bewijzen: 'preuves', bewijst: 'prouve', sorteer: 'trie (classe)', 'elke ochtend': 'chaque matin',
-    ochtendtemperatuur: 'température du matin', opstaan: 'se lever', stijging: 'montée', stijgt: 'monte',
+    ochtendtemperatuur: 'température du matin', lichaamstemperatuur: 'température du corps', opstaan: 'se lever', stijging: 'montée', stijgt: 'monte',
     'blijft ze hoog': 'elle reste élevée', lage: 'basse', 'einde van de cyclus': 'fin du cycle',
     ongeveer: 'environ', altijd: 'toujours', staaf: 'barre (colonne)', staven: 'barres (colonnes)',
     schuif: 'fais glisser', eicel: 'ovocyte', zaadcellen: 'spermatozoïdes', 'veilige dag': 'jour sans risque',
@@ -262,7 +262,7 @@ LabEngine.addText('cycles', {
   explanations: {
     ovulation: 'Na de eisprong stijgt de temperatuur met ongeveer 0,5 °C en blijft ze hoog tot het einde van de cyclus. De eisprong is dus de laatste lage dag voor de stijging. In een langere cyclus komt hij later.',
     claims: {
-      every28: '28 dagen is maar een gemiddelde. Cycli kunnen korter of langer zijn, en dat is normaal.',
+      every28: 'De menstruatiecyclus duurt gemiddeld ongeveer 28 dagen, maar hij verschilt van vrouw tot vrouw: kortere of langere cycli zijn normaal.',
       sameLength: 'Sommige vrouwen hebben heel regelmatige cycli, andere niet. In de eerste jaren na de eerste menstruatie zijn de cycli vaak onregelmatig: dat is normaal.',
       day14: 'De eisprong is alleen op dag 14 in een cyclus van 28 dagen. In een cyclus van 35 dagen is hij rond dag 21.',
       before14: 'De eisprong komt ongeveer 14 dagen voor het einde van de cyclus. Het zijn de dagen voor de eisprong die veranderen.'
