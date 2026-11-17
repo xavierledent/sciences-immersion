@@ -182,11 +182,13 @@
       "labs": {
         "en": [
           { "id": "spread", "file": "lab-spread", "title": "Invisible spread", "question": "How does an STI spread in a group, and what can slow it down?", "text": "Twelve test tubes, twelve people, and one of them has an STI that nobody can see. Mix the tubes round after round and test them. Then replay with condoms and with the HPV vaccine." },
-          { "id": "cycles", "file": "lab-cycles", "title": "Cycle detectives", "question": "Does every woman have a 28-day cycle, with ovulation on day 14?", "text": "Three young women noted their periods for four months. Find the first days, calculate each cycle, draw the graph and read the temperature curves: four claims to test." }
+          { "id": "cycles", "file": "lab-cycles", "title": "Cycle detectives", "question": "Does every woman have a 28-day cycle, with ovulation on day 14?", "text": "Three young women noted their periods for four months. Find the first days, calculate each cycle, draw the graph and read the temperature curves: four claims to test." },
+          { "id": "journey", "file": "lab-journey", "title": "Stop the journey", "question": "Where does each method act, and what does it stop?", "text": "On a model of the two reproductive systems, test seven methods: watch the sperm cells, the egg cell and two STIs. Then advise a couple and prove your advice." }
         ],
         "nl": [
           { "id": "spread", "file": "lab-spread", "title": "Onzichtbare verspreiding", "question": "Hoe verspreidt een soa zich in een groep, en wat kan dat afremmen?", "text": "Twaalf reageerbuizen, twaalf personen, en één van hen heeft een soa die niemand kan zien. Meng de buizen ronde na ronde en test ze. Speel daarna alles opnieuw met condooms en met het HPV-vaccin." },
-          { "id": "cycles", "file": "lab-cycles", "title": "Cyclusdetectives", "question": "Heeft elke vrouw een cyclus van 28 dagen, met de eisprong op dag 14?", "text": "Drie jonge vrouwen noteerden vier maanden lang hun menstruatie. Zoek de eerste dagen, bereken elke cyclus, teken de grafiek en lees de temperatuurcurves af: vier beweringen om te testen." }
+          { "id": "cycles", "file": "lab-cycles", "title": "Cyclusdetectives", "question": "Heeft elke vrouw een cyclus van 28 dagen, met de eisprong op dag 14?", "text": "Drie jonge vrouwen noteerden vier maanden lang hun menstruatie. Zoek de eerste dagen, bereken elke cyclus, teken de grafiek en lees de temperatuurcurves af: vier beweringen om te testen." },
+          { "id": "journey", "file": "lab-journey", "title": "Stop de reis", "question": "Waar werkt elk middel, en wat stopt het?", "text": "Test zeven middelen op een model van de twee voortplantingsstelsels: bekijk de zaadcellen, de eicel en twee soa’s. Geef dan een koppel advies en bewijs je advies." }
         ]
       }
     }

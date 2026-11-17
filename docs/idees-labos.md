@@ -433,7 +433,64 @@ après les premières règles). Check : longueurs, graphique, comparaison entre
 femmes et chez une même femme, réponse au mythe du 14e jour. FO3, FO5b,
 FO5c éventuellement.
 
-### C. « Where does it act? » : les méthodes sur le trajet des cellules — retenu, fiche à faire
+### C. « Stop the journey » : les méthodes sur le trajet des cellules — construit (2026-11-17)
+
+Fiche (version visuelle) validée le 2026-11-17. Décisions de l'enseignant :
+la redite avec la Mission 13, le jeu de tri « Stop the journey » et
+l'Exercise 5 est acceptée (le labo ajoute le *où*, les IST et le conseil à un
+couple) ; retrait « en partie » (quelques spermatozoïdes sortent avant) ;
+pilule du lendemain laissée de côté (elle agit après le rapport) ; deux
+schémas séparés comme dans le cours, reliés par la flèche du contact ;
+images des cartes : planche Gemini (les images Bedsider du document de
+cours, droits incertains, ne sont pas reprises) ; les huit essais gardés
+(témoin + 7 méthodes) ; à Conclude, l'élève corrige son dessin de Predict ;
+titre « Stop the journey » (NL « Stop de reis », comme le jeu de tri). FO2
+(faits / jugements) retiré : trop de lecture, déjà travaillé ailleurs.
+
+Construit le 2026-11-17 (`js/lab-journey.js`, `css/lab-journey.css`,
+`lab-journey.<en|nl>.js`, id `journey`, images `assets/lab-jr-*.png` dans
+les deux filières, planche Gemini en deux fois : l'implant refait avec un
+bras entier, coude et main). Essayé dans un navigateur sans tête (page de
+test locale, 1366 × 768, EN et NL) : parcours complet, 5/5, rapport.
+Choix faits à la construction, à faire valider au premier test :
+- modèle : appareil masculin de profil (vessie, vésicule séminale,
+  prostate, canal déférent dessiné derrière le pénis, urètre, testicule),
+  appareil féminin de face (ovaires, trompes, utérus, col, vagin), cadre
+  « the whole body » relié aux ovaires par deux vaisseaux sanguins ; zones :
+  the whole body, testes, penis, vagina, uterus, Fallopian tubes, ovaries ;
+- une méthode se pose d'elle-même là où on l'utilise (pilule, implant et
+  vaccin dans « the whole body ») ; l'élève note où elle **agit** d'après
+  l'animation (les hormones vont aux ovaires) ;
+- règles : pilule, implant (ovocyte ✗, rencontre ✗) ; préservatif sur le
+  pénis, préservatif interne dans le vagin (rencontre ✗, chlamydia ✗, HPV
+  en partie : un virus passe par la peau autour) ; stérilet au cuivre
+  (rencontre ✗, les spermatozoïdes s'arrêtent dans l'utérus) ; retrait
+  (rencontre en partie : un spermatozoïde sur six passe) ; vaccin HPV (HPV
+  ✗, il s'efface dans le vagin) ; plusieurs méthodes : la plus forte
+  l'emporte ;
+- carnet : cases ✓ / ✗ / ◐ à toucher (cycle), « où » en touchant la zone du
+  dessin ; une autre méthode attend que la ligne en cours soit remplie ; le
+  témoin d'abord ;
+- couple tiré parmi six : toujours « no pregnancy », plus un ou deux besoins
+  parmi STIs (nouveau couple, jamais testé), no hormones, nothing to
+  remember every day, protection against HPV ; chaque carte porte son usage
+  (every day / each time / for years) ; partie 2 : le conseil de Predict
+  rejoué, besoins cochés ✓ / ✗, un 2e conseil possible (un 2e essai ouvert
+  puis laissé vide ne compte pas) ;
+- Conclude en deux onglets : Q1 (dessin corrigé, cadres « Way 1: no egg
+  cell » / « Way 2: no meeting » / « Does not stop a pregnancy », boucliers
+  « also stops an STI »), Q2 (conseil, preuve de chaque besoin observable
+  par une case ✗ du carnet sur une ligne du conseil — pas de preuve pour
+  « no hormones » et « nothing to remember every day », qui se lisent sur
+  les cartes —, « Who is responsible? » : la fille / le garçon / both
+  partners) ; jugements : hypothèse 1 d'après les cartes restées en place,
+  hypothèse 2 d'après les besoins cochés au 1er essai ;
+- pendant qu'une carte est en main, les autres cartes déjà posées laissent
+  passer le toucher (sinon il les prendrait en main au lieu de poser) ;
+- critères : Your notes, Where it acts, What it stops, Your advice, Both
+  partners.
+
+Idée de départ :
 
 Variante visuelle de « The advice desk » (enquête dans des fiches par
 méthode et par IST, grille à remplir), écartée par l'enseignant : trop de

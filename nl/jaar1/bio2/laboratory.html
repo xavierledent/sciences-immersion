@@ -17,6 +17,7 @@
   <link rel='stylesheet' href='../../../css/lab-engine.css'>
   <link rel='stylesheet' href='../../../css/lab-spread.css'>
   <link rel='stylesheet' href='../../../css/lab-cycles.css'>
+  <link rel='stylesheet' href='../../../css/lab-journey.css'>
 </head>
 
 <body class='subject-bio'>
@@ -67,9 +68,15 @@
         </div>
         <button type='button' class='resource-button lab-tile-btn' data-lab-open='cycles'>Naar het labo</button>
       </article>
-      <article class='lab-tile lab-tile-soon'>
-        <h2 class='lab-tile-title'>Labo is nog in ontwikkeling.</h2>
-        <p class='lab-tile-text'>Hier komt later een nieuw virtueel labo.</p>
+      <article class='lab-tile' data-lab-tile='journey'>
+        <h2 class='lab-tile-title'>Stop de reis</h2>
+        <p class='lab-tile-question'>Waar werkt elk middel, en wat stopt het?</p>
+        <p class='lab-tile-text'>Test zeven middelen op een model van de twee voortplantingsstelsels: bekijk de zaadcellen, de eicel en twee soa’s. Geef dan een koppel advies en bewijs je advies.</p>
+        <div class='lab-tile-progress'>
+          <span class='lab-tile-progress-label'>Jouw voortgang</span>
+          <div class='lab-tile-steps' role='group' aria-label='Nog niet begonnen'><button type='button' class='lab-tile-step' data-lab-open='journey' data-lab-step='1' data-tooltip='1. Voorspellen' aria-label='1. Voorspellen'></button><button type='button' class='lab-tile-step' data-lab-open='journey' data-lab-step='2' data-tooltip='2. Experimenteren' aria-label='2. Experimenteren'></button><button type='button' class='lab-tile-step' data-lab-open='journey' data-lab-step='3' data-tooltip='3. Besluiten' aria-label='3. Besluiten'></button><button type='button' class='lab-tile-step' data-lab-open='journey' data-lab-step='4' data-tooltip='4. Controleren' aria-label='4. Controleren'></button></div>
+        </div>
+        <button type='button' class='resource-button lab-tile-btn' data-lab-open='journey'>Naar het labo</button>
       </article>
       </section>
     </section>
@@ -102,6 +109,8 @@
   <script src='../../../js/lab-spread.js'></script>
   <script src='lab-cycles.nl.js'></script>
   <script src='../../../js/lab-cycles.js'></script>
+  <script src='lab-journey.nl.js'></script>
+  <script src='../../../js/lab-journey.js'></script>
   <script src='../../../js/chapter-nav.js'></script>
   <script src='../../../js/lab-page.js'></script>
 </body>

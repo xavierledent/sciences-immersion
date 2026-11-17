@@ -107,7 +107,15 @@ longue), quatre mois de calendrier ; quatre affirmations classées vrai / faux
 premiers jours de règles, calculer neuf longueurs (rappel des jours du mois),
 barres FO5b groupées par femme avec repère 28 jours, courbe de température du
 dernier cycle donnée : toucher le jour de l'ovulation, compter les jours
-jusqu'à la fin) ; `phys1` n'a pas de labo
+jusqu'à la fin) et « Stop the journey » (expérience sur un modèle : schémas
+des deux appareils reproducteurs reliés par la flèche du contact ; 7 cartes,
+images de la planche Gemini `lab-jr-*` : pilule, implant, préservatif,
+préservatif interne, stérilet au cuivre, retrait, vaccin HPV ; poser les
+cartes là où elles agissent, conseil pour un couple tiré, besoins en
+badges ; témoin puis chaque méthode : spermatozoïdes, ovocyte, hormones,
+chlamydia et HPV animés, carnet à pictogrammes ✓ ✗ ◐ et zone touchée ;
+Conclude : dessin corrigé, cadres Way 1 / Way 2, boucliers IST, chaque
+besoin prouvé par une case du carnet, responsabilité partagée) ; `phys1` n'a pas de labo
 réel dans le cours. Chaque chapitre a sa page Lab
 (`laboratory.html`, générée), accessible depuis la fenêtre de l'accueil et la
 barre de navigation ; ses labos sont déclarés par langue dans
