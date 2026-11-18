@@ -17,11 +17,25 @@ function git(args, timeout) {
   return execFileSync('git', args, { cwd, env, timeout: timeout || 10000, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 }
 
+// Rappels pour l'enseignant (docs/rappels.md, lignes « - … ») : ajoutés au
+// message, et Claude les présente en début de session.
+function reminders() {
+  try {
+    const text = require('fs').readFileSync(require('path').join(cwd, 'docs', 'rappels.md'), 'utf8');
+    return text.split('\n').filter(l => /^- /.test(l));
+  } catch (e) {
+    return [];
+  }
+}
+
 function done(text, warn) {
   const msg = `${warn ? '⚠ ' : ''}Dépôt : ${text}`;
+  const notes = reminders();
+  const shown = notes.length ? `${msg}\n\nRappels (docs/rappels.md) :\n${notes.join('\n')}` : msg;
+  const forClaude = notes.length ? `${shown}\n\nPrésente ces rappels à l'enseignant au début de ta première réponse, avant tout le reste.` : msg;
   process.stdout.write(JSON.stringify({
-    systemMessage: msg,
-    hookSpecificOutput: { hookEventName: 'SessionStart', additionalContext: msg }
+    systemMessage: shown,
+    hookSpecificOutput: { hookEventName: 'SessionStart', additionalContext: forClaude }
   }));
   process.exit(0);
 }

@@ -160,6 +160,7 @@ réécrirait l'ancien format à la sauvegarde suivante.
 | Page Lab : trois places par chapitre, progression de l'élève sur chaque carte | [generate-laboratory.js](tools/generate-laboratory.js) (cartes), [lab-page.js](js/lab-page.js) (barre d'étapes, état, bouton, taille des textes), [lab-engine.css](css/lab-engine.css) (début du fichier) |
 | Créer un labo (démarche, conventions) | skill `creer-labo` |
 | Idées de labos à venir, avec l'avis de l'enseignant | [docs/idees-labos.md](docs/idees-labos.md) |
+| Rappels à présenter à l'enseignant en début de session | [docs/rappels.md](docs/rappels.md) (lu par le hook de début de session) |
 | Ajouter un labo à un chapitre | sa ligne dans `labs.en` et `labs.nl` de [tools/chapters.json](tools/chapters.json) (même `id`), sa simulation `lab-<nom>.{js,css}` dans `js/` et `css/`, ses textes `lab-<nom>.<langue>.js` dans chaque filière, puis régénérer |
 | Barre de navigation entre sections | [chapter-nav.js](js/chapter-nav.js) |
 | Données enregistrées des élèves | [storage.js](js/storage.js), seul fichier qui touche à `localStorage` ; compteurs d'activité : `SiteStorage.activity` |
