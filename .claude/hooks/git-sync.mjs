@@ -1,7 +1,12 @@
 // Hook Claude Code : garder un dossier synchronisé avec GitHub, d'un PC à l'autre.
 //
-//   node git-sync.mjs start [--no-pull]                 hook SessionStart (startup|resume)
-//   node git-sync.mjs end   [--no-push] [--pas-sur-main] hook SessionEnd
+//   node git-sync.mjs start [--no-pull] [--aussi <dossier>]…  hook SessionStart (startup|resume)
+//   node git-sync.mjs end   [--no-push] [--pas-sur-main]      hook SessionEnd
+//
+// --aussi <dossier> (répétable, chemin relatif au projet) : un autre dépôt à mettre à jour
+// au début de la session, avec les mêmes règles (ex. les sites publiés par publier.mjs dans
+// ../_sites/). Seulement au début : jamais de commit ni de push automatique pour lui.
+// Dossier absent (session cloud) : ignoré sans message.
 //
 // Début de session : git fetch, puis
 //   - en retard sur GitHub, sans modification ni commit local : git pull --ff-only
@@ -28,23 +33,24 @@
 import { execFileSync, spawn } from 'node:child_process';
 import { readFileSync, writeFileSync, unlinkSync, existsSync } from 'node:fs';
 import { hostname } from 'node:os';
-import { basename, join } from 'node:path';
+import { basename, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const [mode = 'start', ...flags] = process.argv.slice(2);
 const opt = f => flags.includes(f);
 const cwd = process.env.CLAUDE_PROJECT_DIR || process.cwd();
+const aussi = flags.flatMap((f, i) => (f === '--aussi' && flags[i + 1] ? [resolve(cwd, flags[i + 1])] : []));
 const env = { ...process.env, GIT_TERMINAL_PROMPT: '0', GCM_INTERACTIVE: 'never' };
 const machine = process.env.CLAUDE_CODE_REMOTE === 'true' ? 'session cloud' : hostname();
 
-function git(args, timeout = 10000) {
+function git(args, timeout = 10000, dir = cwd) {
   return execFileSync('git', args, {
-    cwd, env, timeout, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe']
+    cwd: dir, env, timeout, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe']
   }).trim();
 }
 // Renvoie null au lieu de lever une erreur (y compris code de sortie non nul).
-function essai(args, timeout) {
-  try { return git(args, timeout); } catch { return null; }
+function essai(args, timeout, dir) {
+  try { return git(args, timeout, dir); } catch { return null; }
 }
 // Première ligne utile d'une erreur git (sans les « hint: »).
 function erreur(e) {
@@ -57,6 +63,57 @@ const lignesDe = s => (s || '').split('\n').filter(Boolean);
 const journal = () => join(git(['rev-parse', '--absolute-git-dir']), 'claude-sync.json');
 
 // ---------------------------------------------------------------- début de session
+
+// Compare un dossier avec GitHub et le met à jour (pull --ff-only) s'il est simplement en
+// retard et sans modification. pre : préfixe des messages (nom du dossier annexe, ou '').
+// Renvoie { branche, amont, enLigne } pour la suite des vérifications.
+function suivre(dir, pre, info, warn, sansPull) {
+  const g = (a, t) => git(a, t, dir);
+  const e = (a, t) => essai(a, t, dir);
+  const branche = g(['rev-parse', '--abbrev-ref', 'HEAD']);
+  const modifs = lignesDe(g(['status', '--porcelain'])).length;
+  const res = { branche, amont: null, enLigne: false };
+
+  if (!lignesDe(e(['remote'])).includes('origin')) {
+    warn(pre + 'ce dossier n\'est relié à aucun dépôt GitHub (pas de remote « origin »).');
+  } else {
+    try { g(['fetch', '--quiet', '--prune', 'origin'], 20000); res.enLigne = true; } catch {
+      warn(pre + `GitHub injoignable (hors ligne ?) : l'état par rapport à GitHub n'est pas vérifié (${branche}).`);
+    }
+    if (res.enLigne) {
+      const amont = res.amont = e(['rev-parse', '--abbrev-ref', '@{u}']);
+      if (!amont) {
+        warn(pre + `la branche ${branche} ne suit aucune branche de GitHub : rien n'est comparé.`);
+      } else {
+        const [avance, retard] = g(['rev-list', '--left-right', '--count', `HEAD...${amont}`]).split(/\s+/).map(Number);
+        if (!avance && !retard) {
+          info(pre + `à jour avec GitHub (${branche}).`);
+        } else if (avance && retard) {
+          warn(pre + `${branche} et GitHub ont divergé (${avance} commit(s) ici, ${retard} sur GitHub). Rien n'a été touché : à régler avant de travailler.`);
+        } else if (avance) {
+          warn(pre + `${plural(avance, 'commit local pas encore poussé', 'commits locaux pas encore poussés')} sur GitHub (${branche}).`);
+        } else if (modifs || sansPull) {
+          warn(pre + `GitHub a ${plural(retard, 'commit', 'commits')} de plus que ce dossier (${branche}). Pas de mise à jour automatique (${modifs ? 'des fichiers sont modifiés ici' : 'désactivée pour ce projet'}) : à mettre à jour avant de travailler.`);
+        } else {
+          const avant = g(['rev-parse', 'HEAD']);
+          try {
+            g(['pull', '--ff-only', '--quiet'], 60000);
+            const sujets = lignesDe(g(['log', '--format=  - %s', `${avant}..HEAD`])).slice(0, 5);
+            const plus = retard > 5 ? `\n  - … et ${retard - 5} de plus` : '';
+            info(pre + `mis à jour depuis GitHub (${plural(retard, 'commit récupéré', 'commits récupérés')}, ${branche}) :\n${sujets.join('\n')}${plus}`);
+          } catch (err) {
+            warn(pre + `GitHub a ${plural(retard, 'commit', 'commits')} de plus, mais la mise à jour a échoué (${erreur(err)}). Rien n'a été changé.`);
+          }
+        }
+      }
+    }
+  }
+  if (modifs) {
+    warn(pre + `${plural(modifs, 'fichier modifié ou nouveau', 'fichiers modifiés ou nouveaux')} pas encore commité${modifs > 1 ? 's' : ''} (reste d'une session précédente ?).`);
+  }
+  return res;
+}
+
 function demarrer() {
   const lignes = [];
   let alerte = false;
@@ -73,67 +130,34 @@ function demarrer() {
     }
   } catch { /* journal illisible : on l'ignore */ }
 
-  const branche = git(['rev-parse', '--abbrev-ref', 'HEAD']);
-  const modifs = lignesDe(git(['status', '--porcelain'])).length;
-
-  if (!lignesDe(essai(['remote'])).includes('origin')) {
-    warn('ce dossier n\'est relié à aucun dépôt GitHub (pas de remote « origin »).');
-  } else {
-    let enLigne = true;
-    try { git(['fetch', '--quiet', '--prune', 'origin'], 20000); } catch {
-      enLigne = false;
-      warn(`GitHub injoignable (hors ligne ?) : l'état par rapport à GitHub n'est pas vérifié (${branche}).`);
+  const { branche, amont, enLigne } = suivre(cwd, '', info, warn, opt('--no-pull'));
+  if (enLigne) {
+    // Branche principale de GitHub, quand on travaille sur une autre branche.
+    const principale = essai(['symbolic-ref', '--short', 'refs/remotes/origin/HEAD']);
+    if (principale && principale !== amont) {
+      const n = Number(essai(['rev-list', '--count', `HEAD..${principale}`]) || 0);
+      if (n) info(`${principale} a ${plural(n, 'commit', 'commits')} que ${branche} n'a pas encore.`);
     }
-    if (enLigne) {
-      const amont = essai(['rev-parse', '--abbrev-ref', '@{u}']);
-      if (!amont) {
-        warn(`la branche ${branche} ne suit aucune branche de GitHub : rien n'est comparé.`);
-      } else {
-        const [avance, retard] = git(['rev-list', '--left-right', '--count', `HEAD...${amont}`]).split(/\s+/).map(Number);
-        if (!avance && !retard) {
-          info(`à jour avec GitHub (${branche}).`);
-        } else if (avance && retard) {
-          warn(`${branche} et GitHub ont divergé (${avance} commit(s) ici, ${retard} sur GitHub). Rien n'a été touché : à régler avant de travailler.`);
-        } else if (avance) {
-          warn(`${plural(avance, 'commit local pas encore poussé', 'commits locaux pas encore poussés')} sur GitHub (${branche}).`);
-        } else if (modifs || opt('--no-pull')) {
-          warn(`GitHub a ${plural(retard, 'commit', 'commits')} de plus que ce dossier (${branche}). Pas de mise à jour automatique (${modifs ? 'des fichiers sont modifiés ici' : 'désactivée pour ce projet'}) : à mettre à jour avant de travailler.`);
-        } else {
-          const avant = git(['rev-parse', 'HEAD']);
-          try {
-            git(['pull', '--ff-only', '--quiet'], 60000);
-            const sujets = lignesDe(git(['log', '--format=  - %s', `${avant}..HEAD`])).slice(0, 5);
-            const plus = retard > 5 ? `\n  - … et ${retard - 5} de plus` : '';
-            info(`mis à jour depuis GitHub (${plural(retard, 'commit récupéré', 'commits récupérés')}, ${branche}) :\n${sujets.join('\n')}${plus}`);
-          } catch (e) {
-            warn(`GitHub a ${plural(retard, 'commit', 'commits')} de plus, mais la mise à jour a échoué (${erreur(e)}). Rien n'a été changé.`);
-          }
-        }
-      }
 
-      // Branche principale de GitHub, quand on travaille sur une autre branche.
-      const principale = essai(['symbolic-ref', '--short', 'refs/remotes/origin/HEAD']);
-      if (principale && principale !== amont) {
-        const n = Number(essai(['rev-list', '--count', `HEAD..${principale}`]) || 0);
-        if (n) info(`${principale} a ${plural(n, 'commit', 'commits')} que ${branche} n'a pas encore.`);
-      }
-
-      // Branches laissées par des sessions cloud (claude/…) et pas encore fusionnées ici.
-      const cloud = [];
-      for (const ref of lignesDe(essai(['for-each-ref', '--format=%(refname:short)', 'refs/remotes/origin/claude/']))) {
-        if (ref === amont) continue;
-        // Déjà dans ce dossier ou déjà dans la branche suivie sur GitHub : rien à signaler.
-        const n = Number(essai(['rev-list', '--count', ref, '--not', 'HEAD', ...(amont ? [amont] : [])]) || 0);
-        if (n) cloud.push(`${ref.replace(/^origin\//, '')} (${plural(n, 'commit', 'commits')}, ${essai(['log', '-1', '--format=%cd', '--date=format:%d/%m', ref])})`);
-      }
-      if (cloud.length) {
-        warn(`travail de session(s) cloud pas encore fusionné dans ${branche} : ${cloud.join(' ; ')}. À fusionner, ou à supprimer sur GitHub si c'est déjà fait.`);
-      }
+    // Branches laissées par des sessions cloud (claude/…) et pas encore fusionnées ici.
+    const cloud = [];
+    for (const ref of lignesDe(essai(['for-each-ref', '--format=%(refname:short)', 'refs/remotes/origin/claude/']))) {
+      if (ref === amont) continue;
+      // Déjà dans ce dossier ou déjà dans la branche suivie sur GitHub : rien à signaler.
+      const n = Number(essai(['rev-list', '--count', ref, '--not', 'HEAD', ...(amont ? [amont] : [])]) || 0);
+      if (n) cloud.push(`${ref.replace(/^origin\//, '')} (${plural(n, 'commit', 'commits')}, ${essai(['log', '-1', '--format=%cd', '--date=format:%d/%m', ref])})`);
+    }
+    if (cloud.length) {
+      warn(`travail de session(s) cloud pas encore fusionné dans ${branche} : ${cloud.join(' ; ')}. À fusionner, ou à supprimer sur GitHub si c'est déjà fait.`);
     }
   }
 
-  if (modifs) {
-    warn(`${plural(modifs, 'fichier modifié ou nouveau', 'fichiers modifiés ou nouveaux')} pas encore commité${modifs > 1 ? 's' : ''} (reste d'une session précédente ?).`);
+  // Dépôts annexes (--aussi) : mise à jour seulement ; absents (session cloud) : ignorés.
+  for (const dir of aussi) {
+    if (!existsSync(dir) || essai(['rev-parse', '--is-inside-work-tree'], undefined, dir) !== 'true') continue;
+    try { suivre(dir, `${basename(dir)} : `, info, warn, false); } catch (e) {
+      warn(`${basename(dir)} : vérification impossible (${erreur(e)}).`);
+    }
   }
 
   const nom = basename(cwd);
