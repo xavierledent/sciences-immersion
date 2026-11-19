@@ -6,8 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/sync-start.js\"",
-            "timeout": 60,
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/git-sync.mjs\" start",
+            "timeout": 90,
             "statusMessage": "Vérification du dépôt avec GitHub…"
           }
         ]
@@ -20,6 +20,17 @@
           {
             "type": "command",
             "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-generated.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/git-sync.mjs\" end",
             "timeout": 10
           }
         ]
