@@ -643,21 +643,18 @@ function renderSummary(classId) {
     return i < 0 ? classOrder.length : i;
   };
   const rows = emails.map(email => {
-    const c = { received: 0, done: 0, late: 0, partial: 0, missing: 0, upcoming: 0, minutes: 0, doneMinutes: 0 };
+    const c = { received: 0, done: 0, late: 0, partial: 0, missing: 0, upcoming: 0 };
     assignments.forEach(a => {
       if (!a.sentAt || !(a.recipients || []).includes(email)) return;
       c.received++;
       const st = studentState(a, email);
       if (st.upcoming) { c.upcoming++; return; }
       c[st.status]++;
-      c.minutes += st.minutes;
-      c.doneMinutes += st.doneMinutes;
     });
     const counted = c.done + c.late + c.partial + c.missing;
     c.counted = counted;
     c.pcts = counted ? roundedShares(STATUS_ORDER.map(k => c[k]), counted) : null;
     c.rate = counted ? c.pcts[0] : null;
-    c.completion = c.minutes ? Math.round(100 * c.doneMinutes / c.minutes) : null;
     return { email, c };
   // Par classe (dans l'ordre des menus, sans classe à la fin), puis par
   // ordre alphabétique du nom : on y cherche un élève précis.
@@ -669,17 +666,14 @@ function renderSummary(classId) {
     <h2>Assiduité${classId === ALL ? ' — toutes les classes' : ` — ${esc(classId)}`}</h2>
     <p class="t-help">Tous les devoirs reçus par chaque élève depuis le début. Un devoir pas fini dont la date limite
       n'est pas passée est compté « à venir ». % à temps = devoirs faits à temps parmi ceux dont la date limite est
-      passée (ou déjà faits). Travail fait = minutes de travail faites parmi celles demandées dans ces mêmes
-      devoirs (exercice 3 min pour la première sous-question et 1 min pour les suivantes, jeu 5, QCM 8, labo 20). Le détail devoir par devoir est dans la
-      fiche de l'élève.</p>
+      passée (ou déjà faits). Le détail devoir par devoir est dans la fiche de l'élève.</p>
     ${rows.length ? `<div class="t-scroll"><table class="t-table h-table">
       <thead><tr><th>Élève</th><th>Classe</th><th class="d-num">Reçus</th><th class="d-num">Faits à temps</th>
         <th class="d-num">En retard</th><th class="d-num">Partiels</th><th class="d-num">Non faits</th><th class="d-num">À venir</th>
-        <th class="d-num">Travail fait</th><th class="h-col-bar">À temps</th></tr></thead>
+        <th class="h-col-bar">À temps</th></tr></thead>
       <tbody>${rows.map(({ email, c }) => `<tr><td>${esc(displayName(email))}</td><td>${esc(ctx.students[email].classe || '')}</td>
         <td class="d-num">${num(c.received)}</td><td class="d-num">${num(c.done)}</td><td class="d-num">${num(c.late)}</td>
         <td class="d-num">${num(c.partial)}</td><td class="d-num">${num(c.missing)}</td><td class="d-num">${num(c.upcoming)}</td>
-        <td class="d-num">${c.completion === null ? '<span class="d-zero">—</span>' : `${c.completion} %`}</td>
         <td class="h-col-bar">${c.rate === null ? '<span class="d-zero">—</span>' : `${stackBar(STATUS_ORDER.map(k => ({ value: c[k], color: STATUS[k].color })), c.counted,
           countsText(c), `${c.rate} % à temps`)}<span class="d-cell-note h-shares">${sharesHtml(c)}</span>`}</td></tr>`).join('')}</tbody>
     </table></div>` : '<p class="d-empty">Aucun élève dans cette classe.</p>'}`;
@@ -1134,19 +1128,14 @@ function entriesFor(hw, folder) {
 
 function tally(entries) {
   const c = { done: 0, late: 0, partial: 0, missing: 0, upcoming: 0 };
-  let minutes = 0;
-  let doneMinutes = 0;
   entries.forEach(({ st }) => {
     if (st.upcoming) { c.upcoming++; return; }
     c[st.status]++;
-    minutes += st.minutes;
-    doneMinutes += st.doneMinutes;
   });
   const counted = c.done + c.late + c.partial + c.missing;
-  const completion = minutes ? Math.round(100 * doneMinutes / minutes) : null;
   const text = STATUS_ORDER.filter(k => c[k]).map(k => `${c[k]} ${STATUS[k].label.toLowerCase()}`)
     .concat(c.upcoming ? [`${c.upcoming} à venir`] : []).join(' · ');
-  return { c, counted, rate: counted ? Math.round(100 * c.done / counted) : null, completion, text, received: entries.length };
+  return { c, counted, rate: counted ? Math.round(100 * c.done / counted) : null, text, received: entries.length };
 }
 
 /* Résumé d'une carte : { received, rate, parts, total, tip } ; parts =
@@ -1162,7 +1151,7 @@ export function homeworkSummary(hw, folder) {
   const tip = `<strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong>` +
     STATUS_ORDER.filter(k => t.c[k]).map(k => `<br><span class="d-swatch" style="background:${STATUS[k].color}"></span>${t.c[k]} ${esc(STATUS[k].label.toLowerCase())}`).join('') +
     (t.c.upcoming ? `<br><span class="d-swatch" style="background:${TRACK}"></span>${t.c.upcoming} à venir (date limite pas passée)` : '') +
-    (t.rate === null ? '' : `<br><strong>${t.rate} % à temps</strong> · ${t.completion} % du travail fait`);
+    (t.rate === null ? '' : `<br><strong>${t.rate} % à temps</strong>`);
   return {
     received: t.received,
     rate: t.rate,
@@ -1182,7 +1171,7 @@ export function homeworkOverviewHtml(hw) {
   const t = tally(entries);
   const s = homeworkSummary(hw, null);
   return `<div class="h-head"><h2>Devoirs</h2>
-      <span class="s-hw-rate">${t.rate === null ? '' : `<strong>${t.rate} %</strong> à temps · <strong>${t.completion} %</strong> du travail fait`}</span></div>
+      <span class="s-hw-rate">${t.rate === null ? '' : `<strong>${t.rate} %</strong> à temps`}</span></div>
     <p class="s-hw-summary"><strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong> · ${esc(t.text)}</p>
     <div class="s-hw-bar s-hw-bar-wide">${stackBar(s.parts, s.total, s.tip, `${t.received} devoirs : ${t.text}`)}</div>
     ${legend(STATUS_ORDER.map(k => STATUS[k]).concat([{ label: 'À venir (date limite pas passée)', color: TRACK }]))}
@@ -1213,7 +1202,7 @@ export function homeworkDetailHtml(hw, folder) {
       <td class="h-col-cells">${cellsBar(cells, `${st.pct} % du travail fait, ${st.done} sur ${st.total} éléments finis`)}<span class="d-cell-note">${pctNote(st)}</span></td>
     </tr>`;
   }).join('');
-  return `<p class="s-hw-summary"><strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong> · ${esc(t.text)}${t.rate === null ? '' : ` · <strong>${t.rate} % à temps</strong> · ${t.completion} % du travail fait`}</p>
+  return `<p class="s-hw-summary"><strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong> · ${esc(t.text)}${t.rate === null ? '' : ` · <strong>${t.rate} % à temps</strong>`}</p>
     ${t.counted ? `<div class="s-hw-bar">${stackBar(STATUS_ORDER.map(k => ({ value: t.c[k], color: STATUS[k].color })), t.counted, esc(t.text), `${t.rate} % à temps`)}</div>` : ''}
     <div class="t-scroll"><table class="t-table h-table s-hw-table">
       <thead><tr><th class="h-col-num">N°</th><th>Devoir</th><th>Date limite</th><th>État</th><th>Éléments</th></tr></thead>
