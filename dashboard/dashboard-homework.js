@@ -616,6 +616,24 @@ function detailHtml(a, emails) {
 
 /* ===== Assiduité : résumé par élève ===== */
 
+// Libellés courts de la répartition sous la jauge « À temps ».
+const SHARE_LABEL = { done: 'à temps', late: 'en retard', partial: 'partiels', missing: 'non faits' };
+
+/* Pourcentages entiers dont la somme fait 100 (plus grands restes) : la
+   répartition sous la jauge se relit sans écart d'arrondi. */
+function roundedShares(values, total) {
+  const raw = values.map(v => 100 * v / total);
+  const out = raw.map(Math.floor);
+  let left = 100 - out.reduce((a, b) => a + b, 0);
+  raw.map((r, i) => ({ i, rest: r - out[i] })).sort((a, b) => b.rest - a.rest)
+    .forEach(({ i }) => { if (left > 0 && values[i]) { out[i]++; left--; } });
+  return out;
+}
+
+// « 60 % à temps · 20 % en retard · 20 % non faits » : les parts à 0 % sont omises.
+const sharesHtml = c => STATUS_ORDER.map((k, i) => ({ k, pct: c.pcts[i] })).filter(s => s.pct > 0)
+  .map(s => `<span>${s.pct} % ${SHARE_LABEL[s.k]}</span>`).join(' · ');
+
 function renderSummary(classId) {
   const box = root.querySelector('#h-summary');
   const emails = Object.keys(ctx.students).filter(e => classId === ALL || inClass(e, classId));
@@ -637,7 +655,8 @@ function renderSummary(classId) {
     });
     const counted = c.done + c.late + c.partial + c.missing;
     c.counted = counted;
-    c.rate = counted ? Math.round(100 * c.done / counted) : null;
+    c.pcts = counted ? roundedShares(STATUS_ORDER.map(k => c[k]), counted) : null;
+    c.rate = counted ? c.pcts[0] : null;
     c.completion = c.minutes ? Math.round(100 * c.doneMinutes / c.minutes) : null;
     return { email, c };
   // Par classe (dans l'ordre des menus, sans classe à la fin), puis par
@@ -662,7 +681,7 @@ function renderSummary(classId) {
         <td class="d-num">${num(c.partial)}</td><td class="d-num">${num(c.missing)}</td><td class="d-num">${num(c.upcoming)}</td>
         <td class="d-num">${c.completion === null ? '<span class="d-zero">—</span>' : `${c.completion} %`}</td>
         <td class="h-col-bar">${c.rate === null ? '<span class="d-zero">—</span>' : `${stackBar(STATUS_ORDER.map(k => ({ value: c[k], color: STATUS[k].color })), c.counted,
-          countsText(c), `${c.rate} % à temps`)}<span class="d-cell-note">${c.rate} % à temps</span>`}</td></tr>`).join('')}</tbody>
+          countsText(c), `${c.rate} % à temps`)}<span class="d-cell-note h-shares">${sharesHtml(c)}</span>`}</td></tr>`).join('')}</tbody>
     </table></div>` : '<p class="d-empty">Aucun élève dans cette classe.</p>'}`;
 }
 /* ===== Composition ===== */

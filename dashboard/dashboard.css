@@ -1787,6 +1787,15 @@
   display: block;
 }
 
+/* Assiduité : répartition sous la jauge, coupée entre deux parts seulement. */
+.h-table .h-shares {
+  white-space: normal;
+}
+
+.h-table .h-shares span {
+  white-space: nowrap;
+}
+
 .h-col-bar {
   min-width: 200px;
   width: 24%;
