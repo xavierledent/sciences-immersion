@@ -240,7 +240,7 @@ function itemState(track, email, item) {
   if (item.k === 'ex') {
     const ex = (s.levels[item.lv] || []).find(e => String(e.id) === String(item.id));
     // Fini quand toutes les sous-questions sont répondues : le nombre
-    // d'éléments finis concorde ainsi avec le % du travail fait.
+    // d'éléments finis concorde ainsi avec la part du travail faite.
     const answered = ex ? ex.subs.filter(x => x.length > 0).length : 0;
     done = !!ex && ex.subs.length > 0 && answered === ex.subs.length;
     credit = ex && ex.subs.length ? exMinutes(answered) / exMinutes(ex.subs.length) : 0;
@@ -262,7 +262,7 @@ function itemState(track, email, item) {
 }
 
 /* { status, done, total, pct, minutes, doneMinutes, items, upcoming } ;
-   pct = % du travail fait (minutes faites / minutes demandées) ; upcoming =
+   pct = part du travail faite (minutes faites / minutes demandées) ; upcoming =
    pas fait et date limite pas encore passée. */
 function studentState(a, email) {
   const deadline = deadlineOf(a);
@@ -296,7 +296,8 @@ function itemCell(track, i, deadline) {
   };
 }
 
-const pctNote = st => `${st.pct} % · ${st.done}/${st.total}`;
+// « 2/3 éléments finis » : pas de % (un devoir est fait ou pas).
+const pctNote = st => `${st.done}/${st.total} éléments finis`;
 
 /* ===== Numéros ===== */
 
@@ -595,7 +596,7 @@ function detailHtml(a, emails) {
     const status = STATUS[st.status];
     return `<tr><td>${esc(displayName(email))}</td><td>${esc(person ? person.classe : 'Non classé·e')}</td>
       <td><span class="d-swatch" style="background:${status.color}"></span>${esc(status.label)}${st.upcoming ? ' <span class="d-cell-note">(date limite pas passée)</span>' : ''}</td>
-      <td class="h-col-cells">${cellsBar(cells, `${st.pct} % du travail fait, ${st.done} sur ${st.total} éléments finis`)}<span class="d-cell-note">${pctNote(st)}</span></td></tr>`;
+      <td class="h-col-cells">${cellsBar(cells, `${st.done} sur ${st.total} éléments finis`)}<span class="d-cell-note">${pctNote(st)}</span></td></tr>`;
   }).join('');
   // Regroupé comme dans le mail : les exercices qui se suivent sur une ligne.
   const items = groupedItems(a.track, a.items || []).map(run => {
@@ -1199,7 +1200,7 @@ export function homeworkDetailHtml(hw, folder) {
       <td><strong>${esc(a.title || 'Sans titre')}</strong><span class="d-cell-note">${esc(content)}</span></td>
       <td>${esc(formatDue(a.due))}</td>
       <td><span class="d-swatch" style="background:${status.color}"></span>${esc(status.label)}${st.upcoming ? ' <span class="d-cell-note">date limite pas passée</span>' : ''}</td>
-      <td class="h-col-cells">${cellsBar(cells, `${st.pct} % du travail fait, ${st.done} sur ${st.total} éléments finis`)}<span class="d-cell-note">${pctNote(st)}</span></td>
+      <td class="h-col-cells">${cellsBar(cells, `${st.done} sur ${st.total} éléments finis`)}<span class="d-cell-note">${pctNote(st)}</span></td>
     </tr>`;
   }).join('');
   return `<p class="s-hw-summary"><strong>${t.received} devoir${t.received > 1 ? 's' : ''} reçu${t.received > 1 ? 's' : ''}</strong> · ${esc(t.text)}${t.rate === null ? '' : ` · <strong>${t.rate} % à temps</strong>`}</p>
