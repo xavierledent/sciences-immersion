@@ -40,7 +40,16 @@ Pistes (à valider) :
 
 ## Vocabulaire néerlandais : ajouter de / het
 
-Relevé le 2026-11-21, à faire. Aucun mot des `vocabulary.json` de `nl/`
+**Fait le 2026-11-21** : champ `withArticle` (le mot entier avec son
+article, voir docs/formats-donnees.md), les 175 cartes NL complétées, mis en
+ligne avant relecture. À faire relire par la collègue de néerlandais ;
+points les moins sûrs : « de molecule » (usage belge ; « het molecuul » aux
+Pays-Bas), « de stroompanne », « de recyclage », « het organische
+materiaal », « de toestand van materie », et les cartes laissées sans
+article (« - ») : adjectifs et verbes de phys2 (« Stromen », « Stijgen »…),
+« Biologisch afbreekbaar ».
+
+Relevé le 2026-11-21. Aucun mot des `vocabulary.json` de `nl/`
 (175 mots dans les six chapitres) n'a son article (« Mengsel »,
 « Oplossing », « Bodem »…). Pour un élève francophone, de / het est une vraie
 difficulté du néerlandais, et les cartes sont le bon endroit pour l'apprendre.

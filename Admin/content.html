@@ -127,7 +127,7 @@
     .tab-card-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
     .tab-card-header { padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); display: flex; align-items: center; gap: 10px; }
     .voc-editor-grid { display: flex; flex-direction: column; gap: 5px; }
-    .voc-grid-header, .voc-row { display: grid; grid-template-columns: 130px 130px 1fr 1fr 68px 34px; gap: 6px; }
+    .voc-grid-header, .voc-row { display: grid; grid-template-columns: 130px 130px 1fr 1fr 150px 68px 34px; gap: 6px; }
     .voc-grid-header { padding: 0 2px 4px; }
     .voc-grid-header span { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
     .voc-row { align-items: center; }
@@ -377,7 +377,7 @@
           <button class="fmt-btn" type="button" data-tag="u"><u>S</u></button><button class="fmt-btn" type="button" data-tag="br" title="Retour à la ligne">↵</button>
         </div>
         <div class="voc-editor-grid" id="voc-grid">
-          <div class="voc-grid-header"><span>Mot EN</span><span>Mot FR</span><span>D&eacute;finition EN</span><span>D&eacute;finition FR</span><span></span><span></span></div>
+          <div class="voc-grid-header"><span>Mot EN</span><span>Mot FR</span><span>D&eacute;finition EN</span><span>D&eacute;finition FR</span><span title="Fili&egrave;re NL : le mot avec son article, comme sur la carte (het wetenschappelijke model) ; - si le mot n'a pas d'article">Avec article (NL)</span><span></span><span></span></div>
         </div>
         <button class="btn-add-row" id="voc-btn-add-row" disabled>+ Ajouter un mot</button>
         <div class="divider"></div>
@@ -385,7 +385,7 @@
         <div>
           <textarea id="voc-editor" placeholder="Les donn&eacute;es apparaîtront ici apr&egrave;s &laquo;&nbsp;Afficher les donn&eacute;es&nbsp;&raquo;..." spellcheck="false"></textarea>
           <div class="editor-footer">
-            <span class="format-hint">Format&nbsp;: <code>english | french | definitionEnglish | definitionFrench</code></span>
+            <span class="format-hint">Format&nbsp;: <code>english | french | definitionEnglish | definitionFrench | withArticle</code> (withArticle : fili&egrave;re NL seulement)</span>
             <span class="word-count" id="voc-word-count">0 entr&eacute;e</span>
           </div>
         </div>
@@ -726,17 +726,17 @@ async function vocLoad(){
   }catch(e){showAlert(vocAlertBox,'error','Erreur : '+e.message);}
 }
 
-function vocAddRow(en='',fr='',dEn='',dFr=''){
+function vocAddRow(en='',fr='',dEn='',dFr='',art=''){
   const row=document.createElement('div');row.className='voc-row';
-  row.innerHTML='<input type="text" placeholder="Mot EN" value="'+escAttr(en)+'"><input type="text" placeholder="Mot FR" value="'+escAttr(fr)+'"><input type="text" placeholder="Définition EN" value="'+escAttr(dEn)+'"><input type="text" placeholder="Définition FR" value="'+escAttr(dFr)+'"><button class="btn-validate">Valider</button><button class="btn-delete-row" title="Supprimer">✕</button>';
+  row.innerHTML='<input type="text" placeholder="Mot EN" value="'+escAttr(en)+'"><input type="text" placeholder="Mot FR" value="'+escAttr(fr)+'"><input type="text" placeholder="Définition EN" value="'+escAttr(dEn)+'"><input type="text" placeholder="Définition FR" value="'+escAttr(dFr)+'"><input type="text" placeholder="'+(selectedLang==='nl'?'het mengsel':'(NL)')+'" value="'+escAttr(art)+'"><button class="btn-validate">Valider</button><button class="btn-delete-row" title="Supprimer">✕</button>';
   row.querySelectorAll('input').forEach(i=>i.addEventListener('focus',()=>{voc_lastFocused=i;}));
   row.querySelector('.btn-validate').addEventListener('click',()=>{vocGridToText();flashValidate(row.querySelector('.btn-validate'));});
   row.querySelector('.btn-delete-row').addEventListener('click',()=>{row.remove();vocGridToText();});
   vocGrid.appendChild(row);
 }
 
-function vocPopulateGrid(data){vocGrid.querySelectorAll('.voc-row').forEach(r=>r.remove());data.forEach(e=>vocAddRow(e.english,e.french,e.definitionEnglish,e.definitionFrench));}
-function vocGridToText(){const lines=[];vocGrid.querySelectorAll('.voc-row').forEach(row=>{const v=Array.from(row.querySelectorAll('input')).map(i=>i.value.trim());if(v.some(x=>x))lines.push(v.join(' | '));});vocEditor.value=lines.join('\n');vocRefreshWC();voc_verifiedOk=false;vocBtnSave.disabled=true;}
+function vocPopulateGrid(data){vocGrid.querySelectorAll('.voc-row').forEach(r=>r.remove());data.forEach(e=>vocAddRow(e.english,e.french,e.definitionEnglish,e.definitionFrench,e.withArticle||''));}
+function vocGridToText(){const lines=[];vocGrid.querySelectorAll('.voc-row').forEach(row=>{const v=Array.from(row.querySelectorAll('input')).map(i=>i.value.trim());if(!v[4])v.pop();if(v.some(x=>x))lines.push(v.join(' | '));});vocEditor.value=lines.join('\n');vocRefreshWC();voc_verifiedOk=false;vocBtnSave.disabled=true;}
 vocBtnAddRow.addEventListener('click',()=>{vocAddRow();const l=vocGrid.querySelector('.voc-row:last-child');if(l)l.querySelector('input').focus();});
 vocEditor.addEventListener('input',()=>{vocRefreshWC();voc_verifiedOk=false;vocBtnSave.disabled=true;});
 function vocRefreshWC(){const n=vocNEL().length;vocWordCount.textContent=n+' entrée'+(n!==1?'s':'');}
@@ -748,7 +748,12 @@ vocBtnVerify.addEventListener('click',()=>{
   // sans devoir y laisser une entrée factice.
   if(!lines.length){voc_verifiedOk=true;vocBtnSave.disabled=false;showAlert(vocAlertBox,'info','Contenu vide – la sauvegarde écrira une liste vide ([]).');return;}
   const errs=[];
-  lines.forEach((l,i)=>{const p=l.split('|').map(x=>x.trim());if(p.length!==4){errs.push('Ligne '+(i+1)+' : '+(p.length<4?'champ(s) manquant(s)':'trop de |'));return;}p.forEach((x,j)=>{if(!x)errs.push('Ligne '+(i+1)+' : champ '+(j+1)+' vide');});});
+  // 5e champ (withArticle) : le mot avec son article, obligatoire en NL
+  // (« - » pour un mot sans article), absent en EN.
+  lines.forEach((l,i)=>{const p=l.split('|').map(x=>x.trim());if(p.length<4||p.length>5){errs.push('Ligne '+(i+1)+' : '+(p.length<4?'champ(s) manquant(s)':'trop de |'));return;}p.forEach((x,j)=>{if(!x)errs.push('Ligne '+(i+1)+' : champ '+(j+1)+' vide');});
+    if(selectedLang==='nl'&&p.length===4)errs.push('Ligne '+(i+1)+' : mot avec article manquant (5e champ, « het mengsel » ; « - » si pas d\'article)');
+    else if(selectedLang==='nl'&&p[4]&&p[4]!=='-'&&!/^(de|het) /.test(p[4]))errs.push('Ligne '+(i+1)+' : le 5e champ doit commencer par « de » ou « het » (ou être « - »)');
+    else if(selectedLang!=='nl'&&p.length===5)errs.push('Ligne '+(i+1)+' : 5e champ (article) réservé à la filière NL');});
   if(errs.length){voc_verifiedOk=false;vocBtnSave.disabled=true;showAlert(vocAlertBox,'error',errs.length+' erreur(s) :\n\n'+errs.join('\n'));}
   else{voc_verifiedOk=true;vocBtnSave.disabled=false;showAlert(vocAlertBox,'success','Format valide – '+lines.length+' mot'+(lines.length!==1?'s':'')+'. Prêt à sauvegarder.');}
 });
@@ -756,7 +761,7 @@ vocBtnVerify.addEventListener('click',()=>{
 vocBtnSave.addEventListener('click',async()=>{
   if(!voc_verifiedOk)return;
   try{
-    const data=vocNEL().map(l=>{const[english,french,definitionEnglish,definitionFrench]=l.split('|').map(p=>p.trim());return{english,french,definitionEnglish,definitionFrench};});
+    const data=vocNEL().map(l=>{const[english,french,definitionEnglish,definitionFrench,withArticle]=l.split('|').map(p=>p.trim());return withArticle?{english,withArticle,french,definitionEnglish,definitionFrench}:{english,french,definitionEnglish,definitionFrench};});
     const fh=await vocGetFH(),w=await fh.createWritable();await w.write(JSON.stringify(data,null,2));await w.close();
     showAlert(vocAlertBox,'success','Sauvegardé – '+data.length+' entrée'+(data.length!==1?'s':''));
     vocBtnSave.disabled=true;voc_verifiedOk=false;

@@ -183,6 +183,16 @@ function getCardSides(item, mode) {
   return { frontLanguage: randomFront, backLanguage: randomFront === 'english' ? 'french' : 'english' };
 }
 
+/* Mot avec son article (filière néerlandaise : « het mengsel », « het
+   wetenschappelijke model ») : champ à part, withArticle, écrit en entier
+   (l'adjectif s'accorde après « het »), pour que le mot (english) reste la
+   clé des mots sus. Affiché et lu à la place du mot ; « - » ou absent : le
+   mot tel quel (adjectif, verbe). */
+function wordWithArticle(item) {
+  const full = String(item.withArticle || '').trim();
+  return full && full !== '-' ? full : String(item.english || '');
+}
+
 function initializeCards(mode) {
   // Shuffle a list of indices into vocabularyData, rather than the items
   // themselves: vocabId then always identifies the same word, even after a
@@ -199,6 +209,7 @@ function initializeCards(mode) {
     return {
       vocabId,
       english: item.english,
+      shownWord: wordWithArticle(item),
       french: item.french,
       definitionEnglish: item.definitionEnglish || item.definition || '',
       definitionFrench: item.definitionFrench || item.definition || '',
@@ -345,7 +356,7 @@ function faceHtml(card, lang, definition, isKnown) {
       ${isTarget ? `<button type="button" class="flashcard-listen-btn" aria-label="${L.pronounceAria}">${ICONS.listen}<span>${L.listen}</span></button>` : ''}
     </div>
     <div class="flashcard-body">
-      <h2 class="flashcard-title">${richText(card[lang])}</h2>
+      <h2 class="flashcard-title">${richText(isTarget ? card.shownWord : card[lang])}</h2>
       ${definition ? `<p class="flashcard-definition">${richText(definition)}</p>` : ''}
     </div>
     <div class="flashcard-foot">
@@ -511,7 +522,7 @@ function renderCurrentCard() {
     button.addEventListener('click', event => {
       event.stopPropagation();
       listenCount++;
-      speakWord(card.english);
+      speakWord(card.shownWord);
     });
   });
 

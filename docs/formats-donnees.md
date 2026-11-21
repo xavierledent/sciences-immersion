@@ -152,6 +152,16 @@ Lu par [vocabulary-engine.js](../js/vocabulary-engine.js). Un tableau à la raci
 Le mot (`english`) sert aussi de clé aux mots sus des élèves : deux cartes
 ne doivent pas porter le même mot (le validateur le signale).
 
+Filière néerlandaise seulement : `withArticle`, le mot avec son article,
+tel qu'il s'affiche sur la carte et qu'il est lu à voix haute
+(`"english": "Wetenschappelijk model"`, `"withArticle": "het
+wetenschappelijke model"`). Écrit en entier, parce que l'adjectif s'accorde
+après « het ». Un article par mot sur une carte à deux mots (« de kolf / de
+fles ») ; `"-"` pour un mot sans article (adjectif, verbe). Le mot
+`english` ne change pas : les élèves gardent leurs mots sus. Le validateur
+signale une carte NL sans `withArticle`. Dans l'éditeur (`content.html`),
+5e champ de la ligne, colonne « Avec article (NL) ».
+
 ## resources.json
 
 Lu par [resources-engine.js](../js/resources-engine.js). Quatre blocs, chacun avec

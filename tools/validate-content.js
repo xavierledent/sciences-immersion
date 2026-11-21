@@ -293,6 +293,21 @@ function checkVocabulary(file, data) {
     });
   });
   duplicates(data.map(card => card.english)).forEach(word => warn(file, `le mot « ${word} » apparaît deux fois`));
+  // withArticle : le mot avec son article (« het mengsel »), affiché sur la
+  // carte à la place du mot ; filière NL seulement, « - » pour un mot sans
+  // article.
+  const isNl = /(^|[\\/])nl[\\/]/.test(file);
+  data.forEach((card, i) => {
+    const name = `carte n°${i + 1}${card.english ? ` « ${card.english} »` : ''}`;
+    const full = card.withArticle;
+    if (!isNl) {
+      if (full !== undefined) warn(file, `${name} : withArticle sert seulement à la filière NL`);
+    } else if (isBlank(full)) {
+      warn(file, `${name} : withArticle manquant (le mot avec « de » ou « het » ; « - » si pas d'article)`);
+    } else if (full !== '-' && !/^(de|het) /.test(full)) {
+      warn(file, `${name} : withArticle doit commencer par « de » ou « het » (ou être « - »)`);
+    }
+  });
 }
 
 function checkResources(file, chapterDir, data) {
