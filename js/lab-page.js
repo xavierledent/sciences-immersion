@@ -93,8 +93,18 @@
     slots.style.setProperty('--lab-fit', fit);
     // Les cartes partagent leurs rangées (sous-grille) : un débordement se
     // voit sur la grille entière, ou dans une carte « en développement ».
+    // La présentation, elle, est dans une rangée minmax(0, 1fr) : trop
+    // longue, elle déborde de sa rangée sans agrandir la carte et passe sous
+    // « Your progress ». On mesure donc la fin réelle de ses lignes.
+    const textOverflows = tile => {
+      const text = tile.querySelector('.lab-tile-text');
+      if (!text) return false;
+      const range = document.createRange();
+      range.selectNodeContents(text);
+      return range.getBoundingClientRect().bottom > text.getBoundingClientRect().bottom + 1;
+    };
     const overflows = () => slots.scrollHeight > slots.clientHeight + 1
-      || tiles.some(tile => tile.scrollHeight > tile.clientHeight + 1);
+      || tiles.some(tile => tile.scrollHeight > tile.clientHeight + 1 || textOverflows(tile));
     while (fit > FIT_MIN && overflows()) {
       fit = Math.round((fit - 0.03) * 100) / 100;
       slots.style.setProperty('--lab-fit', fit);
