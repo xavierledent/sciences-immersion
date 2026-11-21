@@ -38,14 +38,17 @@ Pistes (à valider) :
   (FO5b proposée) dans les six chapitres pour vérifier que la même
   structure tient partout, puis étendre.
 
-## Le chapitre de cours sur le site
+## Le chapitre de cours sur le site, sans correctif
 
-Discuté le 2026-11-20, rien de décidé.
+Discuté le 2026-11-20. Décision de l'enseignant (2026-11-21) : **ajouter le
+chapitre de cours, sans son correctif.**
 
 - Le chapitre seul (PDF dans `PDF/` du chapitre, comme les autres
-  documents) : oui. Vérifier d'abord les droits des images (dépôt public),
-  crédits Wikimedia dans credits.html.
-- Le correctif : tout fichier du site est lisible par qui a le lien, même
-  derrière l'écran d'accès. Pistes : ne pas le mettre en ligne, le mettre
-  seulement quand le chapitre est fini en classe, ou le garder dans
-  Firebase avec un accès ouvert par l'enseignant.
+  documents), dans chaque chapitre et dans les deux filières. Vérifier
+  d'abord les droits des images (dépôt public), crédits Wikimedia dans
+  credits.html.
+- Pas de correctif en ligne : tout fichier du site est lisible par qui a le
+  lien, même derrière l'écran d'accès, et les élèves auraient les réponses
+  avant d'avoir cherché. Le correctif reste donné en classe. Si un jour il
+  faut le mettre en ligne : seulement quand le chapitre est fini en classe,
+  ou dans Firebase avec un accès ouvert par l'enseignant.
