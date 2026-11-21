@@ -38,6 +38,28 @@ Pistes (à valider) :
   (FO5b proposée) dans les six chapitres pour vérifier que la même
   structure tient partout, puis étendre.
 
+## Vocabulaire néerlandais : ajouter de / het
+
+Relevé le 2026-11-21, à faire. Aucun mot des `vocabulary.json` de `nl/`
+(175 mots dans les six chapitres) n'a son article (« Mengsel »,
+« Oplossing », « Bodem »…). Pour un élève francophone, de / het est une vraie
+difficulté du néerlandais, et les cartes sont le bon endroit pour l'apprendre.
+
+Piste : écrire l'article dans le mot lui-même (« het mengsel », « de
+oplossing ») ; rien à changer au moteur, la lecture à voix haute le dit
+aussi. Pluriel ou nom composé (« Kolf / Fles ») : l'article de chaque mot.
+Vérifier ensuite que les jeux et exercices qui reprennent ces mots restent
+cohérents (memory, tri).
+
+## Vidéos de la filière néerlandaise
+
+Relevé le 2026-11-21, à chercher avec l'enseignant (`resources.json`) :
+- bio2 NL : la seule vidéo est la vidéo anglaise de la filière EN ;
+- chem2 NL : une vidéo contre deux en EN (manque l'équivalent de
+  « Separation techniques ») ;
+- phys2 NL : une vidéo contre deux en EN (manque l'équivalent de « Thermal
+  expansion and contraction »).
+
 ## Le chapitre de cours sur le site, sans correctif
 
 Discuté le 2026-11-20. Décision de l'enseignant (2026-11-21) : **ajouter le
